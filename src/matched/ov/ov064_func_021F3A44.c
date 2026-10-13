@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK64_ShowArcModelAt
+ * function: FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt
  * address:  0x021F3A44
  * packet:   pkt_ov064_021F3A44
  * region:   ov064
@@ -42,7 +42,7 @@ extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(int a, int b, int c, u16 d, int e);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, u16 d, int e);
 
-void GIMMICK64_ShowArcModelAt(int a, V3 *v)
+void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(int a, V3 *v)
 {
     int i;
     int s;

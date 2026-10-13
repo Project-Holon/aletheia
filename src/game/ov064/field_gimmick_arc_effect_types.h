@@ -11,12 +11,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-#define GIMMICK64_WORK_ID           1       /* field map common work slot */
-#define GIMMICK64_PLAYER_MODEL      0
-#define GIMMICK64_PLAYER_ANIME_COUNT 4
-#define GIMMICK64_ARC_MODEL         1
-#define GIMMICK64_ARC_ANIME_COUNT   3
-#define GIMMICK64_SPECIAL_POWER_ID  0x14    /* selects the second resource table */
+#define FIELD_GIMMICK_ARC_EFFECT_WORK_ID           1       /* field map common work slot */
+#define FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL      0
+#define FIELD_GIMMICK_ARC_EFFECT_PLAYER_ANIME_COUNT 4
+#define FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL         1
+#define FIELD_GIMMICK_ARC_EFFECT_ARC_ANIME_COUNT   3
+#define FIELD_GIMMICK_ARC_EFFECT_SPECIAL_POWER_ID  0x14    /* selects the second resource table */
 
 typedef struct VecFx32 {
     int x;

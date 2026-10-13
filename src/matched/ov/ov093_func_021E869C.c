@@ -13,7 +13,7 @@
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
- *   func_021E8638  0x021E8638  thumb  ov093
+ *   HAND_COMMON_IsItemBoundToSpecies  0x021E8638  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
-extern int func_021E8638(int a, int b);
+extern int HAND_COMMON_IsItemBoundToSpecies(int a, int b);
 
 int BTLV_CORE_CheckPartySlotPair(void *a, int b)
 {
@@ -36,7 +36,7 @@ int BTLV_CORE_CheckPartySlotPair(void *a, int b)
     r = BTL_SERVER_FLOW_GetPokeParam(a, b);
     t = BTL_POKEPARAM_GetSpecies(r);
     s = (int)BTL_POKEPARAM_GetItem(r);
-    if (func_021E8638(t, s) != 0)
+    if (HAND_COMMON_IsItemBoundToSpecies(t, s) != 0)
         return 1;
     return 0;
 }

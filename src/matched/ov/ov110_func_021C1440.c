@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B64D0 0x021B64D0 thumb ov067
+ *   TOUCHBAR_SetAllButtonsVisible 0x021B64D0 thumb ov067
  */
 #include "../include/Obj22413.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021B64D0(u8 *,u32);
-int func_021C1440(void *a, u8 *p) { func_021B64D0(*(u8 * *)&((struct Obj22413 *)p)->f54,0); return 1; }
+extern void TOUCHBAR_SetAllButtonsVisible(u8 *,u32);
+int func_021C1440(void *a, u8 *p) { TOUCHBAR_SetAllButtonsVisible(*(u8 * *)&((struct Obj22413 *)p)->f54,0); return 1; }

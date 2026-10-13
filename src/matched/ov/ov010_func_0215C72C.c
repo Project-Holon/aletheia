@@ -13,7 +13,7 @@
  * (0 -> 4, 1 -> 5, else 0), then opens overlay 0x46 over a work built
  * from BAG_PARAM_Create with an 8-byte hand-off record.
  *
- * 2026-10-05 (wave D9): EXACT. The ov070 token on the d_021BB96C data line
+ * 2026-10-05 (wave D9): EXACT. The ov070 token on the gItemMenuProcData data line
  * (the proc table lives in ov070, the overlay this function opens) gave the
  * witness; ov070_id then resolved through the overlay_id walk (SCRCMD_PROC_StartOverlayProc
  * is a registered consumer). Source unchanged.
@@ -30,7 +30,7 @@
  *   SCRCMD_PROC_OnBagClosed  0x0215C700  thumb  ov010
  *   sAllocSiteScrcmdProc     0x021728F0  data  a1
  *   ov070_id       0x00000046  data
- *   d_021BB96C     0x021BB96C  data  ov070 a4
+ *   gItemMenuProcData     0x021BB96C  data  ov070 a4
  */
 
 typedef unsigned char u8;
@@ -49,7 +49,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void SCRCMD_PROC_StartOverlayProc(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern void SCRCMD_PROC_OnBagClosed(struct Pair *p);
 extern const char sAllocSiteScrcmdProc[];
-extern const u8 d_021BB96C[];
+extern const u8 gItemMenuProcData[];
 extern u8 ov070_id[];
 
 int SCRCMD_PROC_CallBagScreen(void *c, void *vm)
@@ -76,6 +76,6 @@ int SCRCMD_PROC_CallBagScreen(void *c, void *vm)
     h = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x118);
     h[0] = a;
     h[1] = b;
-    SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov070_id, d_021BB96C, work, (u32)SCRCMD_PROC_OnBagClosed, (u32)h);
+    SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov070_id, gItemMenuProcData, work, (u32)SCRCMD_PROC_OnBagClosed, (u32)h);
     return 1;
 }

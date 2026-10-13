@@ -1,7 +1,7 @@
 /*
  * file:     pdc.c
  * unit:     yes
- * function: func_021B6100, func_021B613C, func_021B6140, func_021B6144, func_021B6148, func_021B614C, func_021B6150, func_021B6154, func_021B6158, func_021B615C, func_021B61A4, func_021B61C4, func_021B61E8, func_021B6308, func_021B632C, func_021B6364, func_021B636C, func_021B6438, func_021B644C, func_021B6504, func_021B6578, func_021B6750, func_021B67A4, func_021B67D4, func_021B68DC, func_021B6910, func_021B694C, func_021B6988, IRC_COMPATIBLE_ProcExit, func_021B6A00, func_021B6A3C, func_021B6B5C, func_021B6B68, func_021B6B74, func_021B6B8C, func_021B6C34, func_021B6C60, func_021B6C90
+ * function: func_021B6100, func_021B613C, func_021B6140, func_021B6144, func_021B6148, func_021B614C, func_021B6150, func_021B6154, func_021B6158, func_021B615C, func_021B61A4, func_021B61C4, func_021B61E8, func_021B6308, func_021B632C, func_021B6364, func_021B636C, func_021B6438, func_021B644C, func_021B6504, func_021B6578, func_021B6750, func_021B67A4, func_021B67D4, func_021B68DC, func_021B6910, func_021B694C, func_021B6988, PDC_MSG_PrintMessageA, func_021B6A00, func_021B6A3C, func_021B6B5C, func_021B6B68, func_021B6B74, func_021B6B8C, func_021B6C34, func_021B6C60, func_021B6C90
  * address:  0x021B6100
  * region:   ov098
  * compiler: dsi/1.1p1
@@ -341,7 +341,7 @@ void func_021B68DC(u8 *p);
 void func_021B6910(struct PdcWork *p, void *q);
 void func_021B694C(struct PdcWork *p, u8 *q);
 void func_021B6988(struct PdcWork *p, void *q);
-void IRC_COMPATIBLE_ProcExit(struct PdcWork *p, void *q);
+void PDC_MSG_PrintMessageA(struct PdcWork *p, void *q);
 void func_021B6A00(u8 *p,u8 *q);
 int func_021B6A3C(u8 *p);
 void func_021B6B5C(char *p);
@@ -719,7 +719,7 @@ int func_021B6578(struct P_021B61C4 *p)
         break;
     case 6:
         if (!func_021F7EB4()) {
-            IRC_COMPATIBLE_ProcExit((struct PdcWork *)((int)p->object), (void *)((int)p->parent));
+            PDC_MSG_PrintMessageA((struct PdcWork *)((int)p->object), (void *)((int)p->parent));
             (p->state)++;
         }
         break;
@@ -875,7 +875,7 @@ void func_021B6988(struct PdcWork *p, void *q) {
 
 
 
-void IRC_COMPATIBLE_ProcExit(struct PdcWork *p, void *q) {
+void PDC_MSG_PrintMessageA(struct PdcWork *p, void *q) {
     void *r;
     int t;
     r = func_02045EC0(p->f20, 2);

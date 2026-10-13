@@ -1,5 +1,5 @@
 /*
- * function: func_021E9E80
+ * function: BTLV_CORE_PollBagMenu
  * address: 0x021E9E80
  * packet: pkt_ov093_021E9E80
  * region: ov093
@@ -43,7 +43,7 @@ extern void func_0220C834(u8 *arg);
 extern void func_0220F3E8(u8 *p);
 extern u8 ov196_id[], ov197_id[], ov198_id[];
 
-int func_021E9E80(u8 *p)
+int BTLV_CORE_PollBagMenu(u8 *p)
 {
     switch (p[0x174]) {
     case 0: break;

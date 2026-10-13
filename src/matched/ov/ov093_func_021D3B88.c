@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT* (two bytes alignment padding)
  * symbols:
- *   func_021EFAD8 0x021EFAD8 thumb ov093
+ *   BTL_FIELD_AddSlotHolder 0x021EFAD8 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 v; } Slot;
-extern int func_021EFAD8(char *a, u32 b, u32 c);
+extern int BTL_FIELD_AddSlotHolder(char *a, u32 b, u32 c);
 int func_021D3B88(u32 *a, int *b, u32 *c)
 {
-    func_021EFAD8((char *)a[13], c[0], (u8)c[1]);
+    BTL_FIELD_AddSlotHolder((char *)a[13], c[0], (u8)c[1]);
     return 1;
 }

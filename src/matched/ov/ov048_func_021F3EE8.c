@@ -34,7 +34,7 @@
  *   GIMMICK_OBJ_ELBOARD_CountHighlights  0x021F4488  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
  *   gElboardLabelMsgId     0x021F5124  data  a4
- *   d_021F50C0     0x021F50C0  data  a4
+ *   gElboardLayout     0x021F50C0  data  a4
  */
 #include "../include/Obj02413.h"
 #include "../include/G_T.h"
@@ -69,7 +69,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern int GIMMICK_OBJ_ELBOARD_CountHighlights(unsigned char *p);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
 extern u32 gElboardLabelMsgId[];
-extern struct T d_021F50C0;
+extern struct T gElboardLayout;
 
 void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
 {
@@ -130,9 +130,9 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
         f = 0xc4;
         break;
     }
-    m.a = *(u16 *)(((u8 *)&d_021F50C0) + 6);
-    m.b = *(int *)(((u8 *)&d_021F50C0) + 0x30);
-    m.c = *(int *)(((u8 *)&d_021F50C0) + 0x4c);
+    m.a = *(u16 *)(((u8 *)&gElboardLayout) + 6);
+    m.b = *(int *)(((u8 *)&gElboardLayout) + 0x30);
+    m.c = *(int *)(((u8 *)&gElboardLayout) + 0x4c);
     m.d = 2;
     m.e = 0x26;
     m.f = f;

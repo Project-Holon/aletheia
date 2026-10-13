@@ -1,5 +1,5 @@
 /*
- * function: func_021E7974
+ * function: HAND_WAZA_ChipAwayIgnoreEvasionStages
  * address:  0x021E7974
  * packet:   pkt_021E795C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E7974   0x021E7974  thumb
+ *   HAND_WAZA_ChipAwayIgnoreEvasionStages   0x021E7974  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E798A; movs r0, #0x4b; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021E7974  shape F1: gate on BTL_EVENT_GetVar(3) */
-void func_021E7974(int a, int b, int c)
+void HAND_WAZA_ChipAwayIgnoreEvasionStages(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(3))
         BTL_EVENT_OverwriteVar(0x4b, 1);

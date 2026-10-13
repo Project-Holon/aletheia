@@ -1,5 +1,5 @@
 /*
- * function: func_021E7D48
+ * function: HAND_WAZA_AddRound
  * address: 0x021E7D48
  * packet: pkt_ov093_021E7D48
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F28C8 0x021F28C8 data ov093 a4
  */
 
-int *func_021E7D48(int *p);
+int *HAND_WAZA_AddRound(int *p);
 extern int d_021F28C8[];
 
-int *func_021E7D48(int *p)
+int *HAND_WAZA_AddRound(int *p)
 {
     *p = 2;
     return d_021F28C8;

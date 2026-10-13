@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK60_Exit
+ * function: FIELD_GIMMICK_GAUGE_EFFECT_Exit
  * address:  0x021F3724
  * packet:   pkt_ov060_021F3724
  * region:   ov060
@@ -27,7 +27,7 @@ extern int FIELDMAP_GetExpObj(int *p);
 extern void FLD_EXP_OBJ_RemoveUnit(unsigned char *p, unsigned short i);
 extern void FIELDMAP_FreeCommonWork(unsigned char *p, int id);
 
-void GIMMICK60_Exit(unsigned char *p)
+void FIELD_GIMMICK_GAUGE_EFFECT_Exit(unsigned char *p)
 {
     GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(p)));
     FLD_EXP_OBJ_RemoveUnit((unsigned char *)FIELDMAP_GetExpObj((int *)p), 0);

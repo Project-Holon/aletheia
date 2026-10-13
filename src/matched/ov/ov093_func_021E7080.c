@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E7080, func_021E70D8
+ * function: HAND_WAZA_StoredPowerAddPowerPerStage, HAND_WAZA_AddHeavySlam
  * address:  0x021E7080
  * packet:   pkt_ov093_021E7080
  * region:   ov093
@@ -14,9 +14,9 @@
  *           into r1 and multiplies by 0x14 held in r0 like the image; every
  *           single-expression spelling (`t + sum * 0x14`, an inline helper,
  *           a narrow or enum multiplier local) multiplies in the constant's
- *           register and is 4 bytes short.  func_021E70D8 is the unlabelled
+ *           register and is 4 bytes short.  HAND_WAZA_AddHeavySlam is the unlabelled
  *           12-byte store-and-return leaf after the pool (twin of
- *           ov093_func_021E7164.c's func_021E71D8).
+ *           ov093_func_021E7164.c's HAND_WAZA_AddEchoedVoice).
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
@@ -38,7 +38,7 @@ extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern const u8 d_021F2404[7];
 extern int d_021F2654[];
 
-void func_021E7080(int x, int a, int c)
+void HAND_WAZA_StoredPowerAddPowerPerStage(int x, int a, int c)
 {
     void *m;
     int sum;
@@ -63,7 +63,7 @@ void func_021E7080(int x, int a, int c)
     }
 }
 
-int *func_021E70D8(int *p)
+int *HAND_WAZA_AddHeavySlam(int *p)
 {
     *p = 1;
     return d_021F2654;

@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Witness leaf for ov093 func_021ED4E4: tail call (obj, v) to func_0220893C.
+ * Witness leaf for ov093 BTLV_SCU_HideMonPair: tail call (obj, v) to BTLV_GAUGE_SetLowHpBgmSuppressed.
  *
  * symbols:
  *   d_0220AF20     0x0220AF20  data   ov094
- *   func_0220893C  0x0220893C  thumb  ov094
+ *   BTLV_GAUGE_SetLowHpBgmSuppressed  0x0220893C  thumb  ov094
  */
 typedef unsigned int u32;
 
@@ -24,9 +24,9 @@ typedef struct {
 
 extern Work *d_0220AF20;
 
-extern void func_0220893C(void *o, u32 v);
+extern void BTLV_GAUGE_SetLowHpBgmSuppressed(void *o, u32 v);
 
 void func_021F87D4(u32 v)
 {
-    func_0220893C(d_0220AF20->obj, v);
+    BTLV_GAUGE_SetLowHpBgmSuppressed(d_0220AF20->obj, v);
 }

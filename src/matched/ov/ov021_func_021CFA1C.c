@@ -1,5 +1,5 @@
 /*
- * function: func_021CFA1C
+ * function: SCRCMD_AddUniqueOtId
  * address:  0x021CFA1C
  * packet:   pkt_ov021_021CFA1C
  * region:   ov021
@@ -19,7 +19,7 @@ typedef struct IdList021CFA1C {
     int ids[50];
 } IdList021CFA1C;
 
-int func_021CFA1C(int v, IdList021CFA1C *l)
+int SCRCMD_AddUniqueOtId(int v, IdList021CFA1C *l)
 {
     int i;
 

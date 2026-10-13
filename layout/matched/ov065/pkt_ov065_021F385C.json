@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK65_StartEffect",
+   "name": "FIELD_GIMMICK_TIME_EFFECT_StartEffect",
    "address": "0x021F385C",
    "kind": "game",
    "region": "ov065",

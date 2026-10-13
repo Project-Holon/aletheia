@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK51_Init
+ * function: FIELD_GIMMICK_D06_FindStoneTableRow
  * address: 0x021F36C0
  * packet: pkt_ov051_021F36C0
  * region: ov051
@@ -14,4 +14,4 @@
 
 typedef struct { int id; int n; int *ptr; } Entry;
 extern const Entry gGimmickD06StoneTable[];
-const Entry *GIMMICK51_Init(int id) { unsigned int i; const Entry *p=gGimmickD06StoneTable; for(i=0;i<3;i++,p++) if(p->id==id) return p; return gGimmickD06StoneTable; }
+const Entry *FIELD_GIMMICK_D06_FindStoneTableRow(int id) { unsigned int i; const Entry *p=gGimmickD06StoneTable; for(i=0;i<3;i++,p++) if(p->id==id) return p; return gGimmickD06StoneTable; }

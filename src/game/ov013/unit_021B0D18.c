@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021B42C0  0x021B42C0  data  ov013  a4
+ *   gVctSendBuffer  0x021B42C0  data  ov013  a4
  *   gVctSendState  0x021B3C84  data  ov013  a4
- *   d_021B3C24  0x021B3C24  data  ov013  a4
+ *   gVctSendEnabled  0x021B3C24  data  ov013  a4
  *   gVctAudioStateAdpcm  0x021B3C94  data  ov013  a4
  *   gVctSession  0x021B60D8  data  ov013  a1
  *   VCT_DSP_HighPassFilter  0x021B3278  arm  ov013
@@ -25,8 +25,8 @@
  *   VCT_AUDIO_EncodeMuLaw  0x021B1588  arm  ov013
  *   VCT_AUDIO_ConvertPcm16ToPcm8  0x021B1688  arm  ov013
  *   func_02080D24  0x02080D24  arm
- *   d_021B3CBC  0x021B3CBC  data  ov013  a4
- *   d_021B3AD0  0x021B3AD0  data  ov013  a1
+ *   gVctReceiveSources  0x021B3CBC  data  ov013  a4
+ *   gVctFrameSpecs  0x021B3AD0  data  ov013  a1
  *   VCT_POOL_AllocFrame  0x021B2FB0  arm  ov013
  *   VCT_AUDIO_FlushReadyQueue  0x021B1720  arm  ov013
  *   VCT_AUDIO_FlushAllReadyQueues  0x021B1790  arm  ov013
@@ -157,16 +157,16 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
     u32 pending;
 
     mode = gVctSendState.codecMode;
-    pending = d_021B42C0.writeCount - d_021B42C0.readCount;
+    pending = gVctSendBuffer.writeCount - gVctSendBuffer.readCount;
     if (pending > 1) {
-        d_021B42C0.readCount = d_021B42C0.writeCount - 1;
+        gVctSendBuffer.readCount = gVctSendBuffer.writeCount - 1;
         pending = 1;
     }
     if (pending == 0)
         return 0;
 
     /* byte offset form kept: frames[idx] indexing changes the code (DIFF). */
-    frame = (VctAudioFrame *)((u8 *)&d_021B42C0 + ((d_021B42C0.readCount & 1) ? 0 : sizeof(VctAudioFrame)));
+    frame = (VctAudioFrame *)((u8 *)&gVctSendBuffer + ((gVctSendBuffer.readCount & 1) ? 0 : sizeof(VctAudioFrame)));
     samples = frame->data;
     if (mode >= 2)
         samples += 4;
@@ -182,10 +182,10 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
         VCT_DSP_SuppressEchoWithReference((short *)samples, gVctSendState.frameBytes, rms);
 
     frame->flags = mode;
-    if (d_021B3C24 != 0) {
+    if (gVctSendEnabled != 0) {
         switch (gVctSendState.lastGateResult = VCT_DSP_UpdateVoiceGate(energy, rms, 0)) {
         case 0:
-            d_021B42C0.readCount++;
+            gVctSendBuffer.readCount++;
             return 0;
         case 1:
             frame->flags |= 0x80;
@@ -195,7 +195,7 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
             break;
         }
     }
-    if (d_021B3C24 == 0 && gVctSendState.markerRequestNoVad != 0) {
+    if (gVctSendEnabled == 0 && gVctSendState.markerRequestNoVad != 0) {
         frame->flags |= 0x80;
         gVctSendState.markerRequestNoVad = 0;
     }
@@ -216,12 +216,12 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
         VCT_AUDIO_ConvertPcm16ToPcm8(samples, (short *)samples, gVctSendState.frameBytes >> 1);
     }
 
-    d_021B42C0.pendingMask = gVctSendState.memberMask;
-    d_021B42C0.pendingMask = gVctSendState.memberMask & ~(1 << gVctSession.localId);
-    d_021B42C0.scheduleRow = func_02080D24(d_021B42C0.pendingMask) - 1;
-    if (d_021B42C0.scheduleRow > 7)
+    gVctSendBuffer.pendingMask = gVctSendState.memberMask;
+    gVctSendBuffer.pendingMask = gVctSendState.memberMask & ~(1 << gVctSession.localId);
+    gVctSendBuffer.scheduleRow = func_02080D24(gVctSendBuffer.pendingMask) - 1;
+    if (gVctSendBuffer.scheduleRow > 7)
         return 0;
-    d_021B42C0.scheduleStep = 0;
+    gVctSendBuffer.scheduleStep = 0;
     return frame;
 }
 
@@ -246,8 +246,8 @@ int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 ar
         return 0;
 
     for (i = 0; i < 3; i++) {
-        if (senderAid == d_021B3CBC[i].peerAid) {
-            source = &d_021B3CBC[i];
+        if (senderAid == gVctReceiveSources[i].peerAid) {
+            source = &gVctReceiveSources[i];
             break;
         }
     }
@@ -267,7 +267,7 @@ int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 ar
     source->codecMode = mode;
     if (mode >= 5)
         return 0;
-    if (size != d_021B3AD0[mode].blocks * 0x44 + d_021B3AD0[mode].extraBytes + 0xc)
+    if (size != gVctFrameSpecs[mode].blocks * 0x44 + gVctFrameSpecs[mode].extraBytes + 0xc)
         return 0;
     if ((gVctSendState.memberMask & (senderAid != 0 ? 1 << senderAid : 1)) == 0)
         return 0;
@@ -369,28 +369,28 @@ int VCT_AUDIO_SendFrameStep(void)
     if (gVctSendState.memberCount == 0)
         return 1;
 
-    if (d_021B42C0.sendFrame == 0) {
-        d_021B42C0.sendFrame = VCT_AUDIO_EncodeSendFrame();
-        if (d_021B42C0.sendFrame != 0 && gVctSendState.echoSuppressEnabled != 0)
+    if (gVctSendBuffer.sendFrame == 0) {
+        gVctSendBuffer.sendFrame = VCT_AUDIO_EncodeSendFrame();
+        if (gVctSendBuffer.sendFrame != 0 && gVctSendState.echoSuppressEnabled != 0)
             return 0;
         return 1;
     }
 
     count = 1;
     if (gVctSession.mode == 2)
-        count = gVctSendSchedule[d_021B42C0.scheduleRow][d_021B42C0.scheduleStep++];
+        count = gVctSendSchedule[gVctSendBuffer.scheduleRow][gVctSendBuffer.scheduleStep++];
 
     for (i = 0; i < count; i++) {
-        mask = d_021B42C0.pendingMask;
+        mask = gVctSendBuffer.pendingMask;
         zeros = countLeadingZeros(mask);
         if (zeros == 32)
             break;
-        d_021B42C0.pendingMask = mask & ~(0x80000000 >> zeros);
-        func_02177044((u8)(31 - zeros), d_021B42C0.sendFrame, gVctSendState.packetBytes);
-        if (d_021B42C0.pendingMask == 0) {
-            d_021B42C0.readCount++;
-            d_021B42C0.sendFrame = 0;
-            d_021B42C0.pendingMask = 0;
+        gVctSendBuffer.pendingMask = mask & ~(0x80000000 >> zeros);
+        func_02177044((u8)(31 - zeros), gVctSendBuffer.sendFrame, gVctSendState.packetBytes);
+        if (gVctSendBuffer.pendingMask == 0) {
+            gVctSendBuffer.readCount++;
+            gVctSendBuffer.sendFrame = 0;
+            gVctSendBuffer.pendingMask = 0;
             break;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_CreateSwitchEvent
+ * function: FIELD_GIMMICK_CART_LANES_CreateSwitchEvent
  * address:  0x021F3E24
  * packet:   pkt_ov039_021F3E24
  * region:   ov039
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK39_CreateSwitchEvent  0x021F3E24  thumb
- *   GIMMICK39_SwitchEventMain  0x021F3E70  thumb
+ *   FIELD_GIMMICK_CART_LANES_CreateSwitchEvent  0x021F3E24  thumb
+ *   FIELD_GIMMICK_CART_LANES_SwitchEventMain  0x021F3E70  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -38,9 +38,9 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK39_SwitchEventMain(int a0, int *a1);
+extern int FIELD_GIMMICK_CART_LANES_SwitchEventMain(int a0, int *a1);
 
-int GIMMICK39_CreateSwitchEvent(void *a, u32 b)
+int FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(void *a, u32 b)
 {
     void *s;
     u8 *p;
@@ -53,7 +53,7 @@ int GIMMICK39_CreateSwitchEvent(void *a, u32 b)
     if (b >= 4) {
         return 0;
     }
-    r = (int)func_020122C0(a, 0, GIMMICK39_SwitchEventMain, 0);
+    r = (int)func_020122C0(a, 0, FIELD_GIMMICK_CART_LANES_SwitchEventMain, 0);
     p[5] = b;
     return r;
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021ED318, func_021ED374
+ * function: BTLV_SCU_StartMonWithdraw, BTLV_SCU_IsMonWithdrawDone
  * address:  0x021ED318
  * packet:   pkt_ov093_021ED318
  * region:   ov093
@@ -15,7 +15,7 @@
  *   func_021F7F04  0x021F7F04  thumb  ov094
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
- *   func_021ED384  0x021ED384  thumb  ov093
+ *   BTLV_SCU_TaskMonWithdraw  0x021ED384  thumb  ov093
  */
 #include "../include/Obj05231.h"
 #include "../include/Obj12172.h"
@@ -28,9 +28,9 @@ struct S02030FB4;
 extern void func_021F7F04(int a);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_021ED384(u32 a, u8 *t);
+extern void BTLV_SCU_TaskMonWithdraw(u32 a, u8 *t);
 
-void func_021ED318(char *p, u16 k, u16 a, int flag)
+void BTLV_SCU_StartMonWithdraw(char *p, u16 k, u16 a, int flag)
 {
     u8 *t;
 
@@ -39,7 +39,7 @@ void func_021ED318(char *p, u16 k, u16 a, int flag)
         func_021F7F04(k);
         return;
     }
-    t = TCBL_GetWork(TCBL_AddTask(((struct Obj21591 *)p)->f2C, (void *)func_021ED384, 0x10, 1));
+    t = TCBL_GetWork(TCBL_AddTask(((struct Obj21591 *)p)->f2C, (void *)BTLV_SCU_TaskMonWithdraw, 0x10, 1));
     ((struct Obj05231 *)t)->f6 = k;
     *(char * *)&((struct Obj05231 *)t)->f0 = p + 0x48 + k * 0xc;
     *(char * *)&((struct Obj05231 *)t)->fC = p + 0x42;
@@ -50,7 +50,7 @@ void func_021ED318(char *p, u16 k, u16 a, int flag)
     (**(u8 * *)&((struct Obj05231 *)t)->fC)++;
 }
 
-int func_021ED374(char *p)
+int BTLV_SCU_IsMonWithdrawDone(char *p)
 {
     if (((struct Obj12172 *)p)->f42 == 0)
         return 1;

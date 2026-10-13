@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK39_GetActiveCart",
+   "name": "FIELD_GIMMICK_CART_LANES_GetActiveCart",
    "address": "0x021F36F0",
    "kind": "game",
    "region": "ov039",

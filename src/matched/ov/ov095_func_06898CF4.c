@@ -1,5 +1,5 @@
 /*
- * function: func_06898CF4
+ * function: HAND_SIDE_IsActive
  * address:  0x06898CF4
  * packet:   pkt_06898CF4
  * region:   ov095
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * Indexed presence test: element (a,b) of a 0xe0-stride record array with a
- * 16-byte element stride starting at g_0689E7E0.  Returns 1 when the word is
+ * 16-byte element stride starting at gHandSideEffectSlots.  Returns 1 when the word is
  * non-zero, 0 otherwise.
  *
  * symbols:
- *   g_0689E7E0     0x0689E7E0  data
+ *   gHandSideEffectSlots     0x0689E7E0  data
  */
 
 #include "../include/G_Row.h"
@@ -23,9 +23,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern struct Row g_0689E7E0;
+extern struct Row gHandSideEffectSlots;
 
-int func_06898CF4(int a, int b)
+int HAND_SIDE_IsActive(int a, int b)
 {
-    return *(u32 *)(((u8 *)&g_0689E7E0) + a * 0xe0 + b * 16) != 0;
+    return *(u32 *)(((u8 *)&gHandSideEffectSlots) + a * 0xe0 + b * 16) != 0;
 }

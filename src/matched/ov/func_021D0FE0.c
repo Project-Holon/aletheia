@@ -1,5 +1,5 @@
 /*
- * function: func_021D0FE0
+ * function: TRIAL_HOUSE_GetDeliveryState
  * address:  0x021D0FE0
  * packet:   pkt_021D0FE0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D0FE0   0x021D0FE0  thumb ov021
+ *   TRIAL_HOUSE_GetDeliveryState   0x021D0FE0  thumb ov021
  *
  * Unlabelled ov021 leaf hidden in a word run: returns the word at +0x150 of
  * its pointer argument (the second argument register).  Matched to supply the
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj18371.h"
 
-int func_021D0FE0(int x, int *p)
+int TRIAL_HOUSE_GetDeliveryState(int x, int *p)
 {
     return ((struct Obj18371 *)p)->f150;
 }

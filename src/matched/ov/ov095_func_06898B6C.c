@@ -1,5 +1,5 @@
 /*
- * function: func_06898B6C
+ * function: HAND_POS_PendingOnEnter
  * address: 0x06898B6C
  * packet: pkt_ov095_06898B6C
  * region: ov095
@@ -25,7 +25,7 @@ extern int func_06898BBC(int b, int c);
 extern u8 *func_06898BCC(int b, int k, int n);
 extern void func_06898BDC(int b, void *p);
 extern void func_06898BEC(int a);
-void func_06898B6C(int a, int b, int c, u32 *d)
+void HAND_POS_PendingOnEnter(int a, int b, int c, u32 *d)
 {
     u8 t = func_06898BAC(2);
     u8 *p;

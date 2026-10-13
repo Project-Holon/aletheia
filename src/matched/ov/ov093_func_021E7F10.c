@@ -1,5 +1,5 @@
 /*
- * function: func_021E7F10
+ * function: HAND_WAZA_GetTelekinesisHandlers
  * address: 0x021E7F10
  * packet: pkt_ov093_021E7F10
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E7E58.c and filed here.
  *
  * symbols:
- *   d_021F29A8 0x021F29A8 data ov093 a4
+ *   gTelekinesisHandlers 0x021F29A8 data ov093 a4
  */
 
-int *func_021E7F10(int *p);
-extern int d_021F29A8[];
+int *HAND_WAZA_GetTelekinesisHandlers(int *p);
+extern int gTelekinesisHandlers[];
 
-int *func_021E7F10(int *p)
+int *HAND_WAZA_GetTelekinesisHandlers(int *p)
 {
     *p = 2;
-    return d_021F29A8;
+    return gTelekinesisHandlers;
 }

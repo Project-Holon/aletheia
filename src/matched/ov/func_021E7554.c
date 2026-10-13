@@ -1,5 +1,5 @@
 /*
- * function: func_021E7554
+ * function: HAND_WAZA_IncinerateBurnBerry
  * address:  0x021E7554
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E7554   0x021E7554  thumb ov093
+ *   HAND_WAZA_IncinerateBurnBerry   0x021E7554  thumb ov093
  *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam   0x021C7CF4  thumb ov093
  *   BTL_POKEPARAM_GetItem   0x021D5B40  thumb ov093
@@ -45,7 +45,7 @@ struct S;
 void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, unsigned int a);
 void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E7554(void *a, int b, int c)
+void HAND_WAZA_IncinerateBurnBerry(void *a, int b, int c)
 {
     u8 k;
     u16 v;

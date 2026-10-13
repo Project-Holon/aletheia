@@ -1,5 +1,5 @@
 /*
- * function: func_021E85F8
+ * function: HAND_COMMON_IsMoveTarget
  * address:  0x021E85F8
  * packet:   pkt_ov093_021E85F8
  * region:   ov093
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern int BTL_EVENT_GetVar(int key);
 
-int func_021E85F8(int v)
+int HAND_COMMON_IsMoveTarget(int v)
 {
     u32 i;
     u32 n;

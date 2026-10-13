@@ -11,7 +11,7 @@
  *
  * Four-state proc that pushes the tutorial capture task (EVENT_BATTLE_ProcBattleTask)
  * for the opponent's first Pokemon and then the result screens.
- * Byte-correct first draft (func_021CF5D8's species is a u32 here: no
+ * Byte-correct first draft (ENCEFF_SelectEffectAndBgm's species is a u32 here: no
  * truncation at the call).
  * Blocker (MATCH): two arm9 Thumb callees have no func_ label and no
  * matched file: 0x0201313C (`return bs->party[side]`, 8 bytes) and
@@ -28,7 +28,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_021CF5D8  0x021CF5D8  thumb
+ *   ENCEFF_SelectEffectAndBgm  0x021CF5D8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
@@ -88,7 +88,7 @@ extern void *BTL_SETUP_GetParty(void *p, int i);
 extern void *POKEPARTY_GetMember(void *party, u32 i);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern void func_021CF5D8(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
+extern void ENCEFF_SelectEffectAndBgm(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int GAME_DATA_GetPmsWork(int p0);
 extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
@@ -123,7 +123,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *evt, u32 *state, Work *w)
 
             if (w->bs->f04 != 1)
                 flag = 0;
-            func_021CF5D8(species, w->f0c, flag, proc, &t->f24, t->f08->f18);
+            ENCEFF_SelectEffectAndBgm(species, w->f0c, flag, proc, &t->f24, t->f08->f18);
         }
         GAME_EVENT_CallEvent(evt, task);
         (*state)++;

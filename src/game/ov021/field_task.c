@@ -19,11 +19,11 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  *   d_021DE4E4     0x021DE4E4  data  ov021  a4
- *   func_021C6E74  0x021C6E74  thumb  ov021
- *   func_021C6E94  0x021C6E94  thumb  ov021
- *   func_021C6EA8  0x021C6EA8  thumb  ov021
- *   func_021C6EDC  0x021C6EDC  thumb  ov021
- *   func_021C6E5C  0x021C6E5C  thumb  ov021
+ *   FIELD_TASK_MANAGER_FreeSlot  0x021C6E74  thumb  ov021
+ *   FIELD_TASK_MANAGER_UpdateSlot  0x021C6E94  thumb  ov021
+ *   FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone  0x021C6EA8  thumb  ov021
+ *   FIELD_TASK_MANAGER_FreeSlotIfFinished  0x021C6EDC  thumb  ov021
+ *   FIELD_TASK_MANAGER_SetSlot  0x021C6E5C  thumb  ov021
  *   FIELD_TASK_MANAGER_CountUsedSlots  0x021C6E20  thumb  ov021
  */
 #include "field_task_types.h"
@@ -36,11 +36,11 @@ enum {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_021C6E5C(FieldTaskManager *manager, u8 slot, FieldTask *task, FieldTask *prerequisite);
-extern void func_021C6E74(FieldTaskManager *manager, u8 slot);
-extern void func_021C6E94(FieldTaskManager *manager, u8 slot);
-extern void func_021C6EA8(FieldTaskManager *manager, u8 slot);
-extern void func_021C6EDC(FieldTaskManager *manager, u8 slot);
+extern void FIELD_TASK_MANAGER_SetSlot(FieldTaskManager *manager, u8 slot, FieldTask *task, FieldTask *prerequisite);
+extern void FIELD_TASK_MANAGER_FreeSlot(FieldTaskManager *manager, u8 slot);
+extern void FIELD_TASK_MANAGER_UpdateSlot(FieldTaskManager *manager, u8 slot);
+extern void FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(FieldTaskManager *manager, u8 slot);
+extern void FIELD_TASK_MANAGER_FreeSlotIfFinished(FieldTaskManager *manager, u8 slot);
 extern char d_021DE4D4[];
 extern int d_021DE4E4;
 
@@ -149,7 +149,7 @@ void FIELD_TASK_MANAGER_Delete(FieldTaskManager *manager)
 {
     int slot;
     for (slot = 0; slot < manager->count; slot++)
-        func_021C6E74(manager, slot);
+        FIELD_TASK_MANAGER_FreeSlot(manager, slot);
     func_020307B0(manager->tasks);
     func_020307B0(manager->prerequisites);
     func_020307B0(manager);
@@ -161,11 +161,11 @@ void FIELD_TASK_MANAGER_Update(FieldTaskManager *manager)
     int slot;
 
     for (slot = 0; slot < manager->count; slot++)
-        func_021C6E94(manager, slot);
+        FIELD_TASK_MANAGER_UpdateSlot(manager, slot);
     for (slot = 0; slot < manager->count; slot++)
-        func_021C6EA8(manager, slot);
+        FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(manager, slot);
     for (slot = 0; slot < manager->count; slot++)
-        func_021C6EDC(manager, slot);
+        FIELD_TASK_MANAGER_FreeSlotIfFinished(manager, slot);
 }
 
 /* Puts a task in the first free slot; starts it now unless it has a prerequisite.
@@ -176,7 +176,7 @@ void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, Fiel
 
     for (slot = 0; slot < manager->count; slot++) {
         if (manager->tasks[slot] == 0) {
-            func_021C6E5C(manager, slot, task, prerequisite);
+            FIELD_TASK_MANAGER_SetSlot(manager, slot, task, prerequisite);
             if (prerequisite == 0)
                 FIELD_TASK_Start(task);
             return;

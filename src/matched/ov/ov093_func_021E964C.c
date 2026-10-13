@@ -1,5 +1,5 @@
 /*
- * function: func_021E964C
+ * function: BTLV_CORE_StepActionMenu
  * address:  0x021E964C
  * packet:   pkt_ov093_021E964C
  * region:   ov093
@@ -20,7 +20,7 @@ extern u8 func_021D3D90(u8 *p);
 extern void func_021E96A4(void *a, int b, int c, int d, int e);
 extern int func_021E96B4(void *a);
 
-int func_021E964C(char *p, int *st)
+int BTLV_CORE_StepActionMenu(char *p, int *st)
 {
     switch (*st) {
     case 0:

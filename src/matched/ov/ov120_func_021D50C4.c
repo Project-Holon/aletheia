@@ -12,7 +12,7 @@
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   func_021D8418 0x021D8418 thumb ov120
  *   func_021D6988 0x021D6988 thumb ov120
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   func_021D79F4 0x021D79F4 thumb ov120
  *   func_021D7550 0x021D7550 thumb ov120
  *   func_021D8520 0x021D8520 thumb ov120
@@ -34,7 +34,7 @@ extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void func_021D8418(int);
 extern u32 func_021D6988(u8 *p);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D79F4(u8 *p, u16 n);
 extern void func_021D7550(u8 *p);
 extern void func_021D8520(char *p, u16 n);
@@ -54,7 +54,7 @@ void func_021D50C4(u8 *p)
         func_021D8418(*(int *)&((struct Obj01151 *)p)->f38);
         zero = 0;
         *(int *)&((struct Obj01151 *)p)->f38 = zero;
-        func_021B6558((unsigned char *)func_021D6988(((struct Obj01151 *)p)->f3C), 1, 1);
+        TOUCHBAR_SetButtonVisible((unsigned char *)func_021D6988(((struct Obj01151 *)p)->f3C), 1, 1);
         switch (state) {
         case 0:
             func_021D79F4(((struct Obj01151 *)p)->f40, 0xe);

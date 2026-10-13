@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_06898D54",
+   "name": "HAND_SIDE_TickTurns",
    "address": "0x06898D54",
    "kind": "game",
    "region": "ov095",

@@ -31,9 +31,9 @@
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
  *   BTLV_CORE_IsSlotKind1Index15 0x021E8A78 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
- *   func_02208814 0x02208814 thumb ov094
- *   func_022079C0 0x022079C0 thumb ov094
- *   func_02208D50 0x02208D50 thumb ov094
+ *   BTLV_GAUGE_SetStatusIcon 0x02208814 thumb ov094
+ *   BTLV_GAUGE_PlaceSlot 0x022079C0 thumb ov094
+ *   BTLV_GAUGE_SetSlotBarsVisible 0x02208D50 thumb ov094
  *   func_0220793C 0x0220793C thumb ov094
  *   func_0220785C 0x0220785C thumb ov094
  */
@@ -59,9 +59,9 @@ typedef struct { u32 v; } Word;
 extern Word BTL_POKEPARAM_GetSickContRaw(void *, int);
 extern int BTLV_CORE_IsSlotKind1Index15(Word);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
-extern void func_02208814(struct O *obj, int k, int idx);
-extern void func_022079C0(char *, int, Pt *);
-extern void func_02208D50(W *, int, int);
+extern void BTLV_GAUGE_SetStatusIcon(struct O *obj, int k, int idx);
+extern void BTLV_GAUGE_PlaceSlot(char *, int, Pt *);
+extern void BTLV_GAUGE_SetSlotBarsVisible(W *, int, int);
 extern void func_0220793C(char *p);
 extern void func_0220785C(struct O *o, int unused, int idx, void *data);
 
@@ -101,9 +101,9 @@ void func_022070C0(W *p, void *a, void *q, int mode, int i)
         item = 6;
     else
         item = BTL_POKEPARAM_GetMajorStatusIndex(q);
-    func_02208814((O *)p, item, i);
-    func_022079C0((char *)p, i, 0);
-    func_02208D50(p, i, 1);
+    BTLV_GAUGE_SetStatusIcon((O *)p, item, i);
+    BTLV_GAUGE_PlaceSlot((char *)p, i, 0);
+    BTLV_GAUGE_SetSlotBarsVisible(p, i, 1);
     func_0220793C((char *)((S *)&p->rows[i]));
     func_0220785C((struct O *)p, mode, i, BTL_POKEPARAM_GetDisplayMon(q));
 }

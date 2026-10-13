@@ -1,5 +1,5 @@
 /*
- * function: func_021E7FE4
+ * function: HAND_WAZA_SkyDropStartCharge
  * address:  0x021E7FE4
  * packet:   pkt_ov093_021E7FE4
  * region:   ov093
@@ -29,7 +29,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *l, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E7FE4(int a, u8 *b, int c)
+void HAND_WAZA_SkyDropStartCharge(int a, u8 *b, int c)
 {
     u8 k;
     int x;

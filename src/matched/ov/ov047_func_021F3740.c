@@ -25,7 +25,7 @@
  *   _ffix          0x0209C494  arm
  *   _ll_mul        0x0209C054  arm
  *   _s32_div_f     0x0209C0A4  arm
- *   d_021F3840     0x021F3840  data  ov047  a1
+ *   gBridgeSwayAmplitudes     0x021F3840  data  ov047  a1
  */
 
 typedef unsigned char u8;
@@ -41,7 +41,7 @@ typedef struct Obj {
     Rec12 r;
 } Obj;
 
-extern u8 d_021F3840[];
+extern u8 gBridgeSwayAmplitudes[];
 
 struct Big;
 struct Ctx;
@@ -78,7 +78,7 @@ void FIELD_GIMMICK_BRIDGE_Update(int a)
         return;
     }
     if (p[0] == 0) {
-        p[1] = d_021F3840[func_02005728(4)];
+        p[1] = gBridgeSwayAmplitudes[func_02005728(4)];
     }
     v = p[1];
     if (v > 0) {

@@ -11,12 +11,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-#define GIMMICK61_MARKER_MAX        8       /* models 1..8 */
-#define GIMMICK61_MODEL_COUNT       9
-#define GIMMICK61_EFFECT_MODEL      0
-#define GIMMICK61_MARKER_EXIT_TYPE  6       /* connection exit type that gets a marker model */
-#define GIMMICK61_LOWERED_ZONE_ID   0x12E   /* markers of this zone sit 0x2000 lower */
-#define GIMMICK61_STEP_PHASE_READY  3
+#define FIELD_GIMMICK_CONNECT_MARKERS_MARKER_MAX        8       /* models 1..8 */
+#define FIELD_GIMMICK_CONNECT_MARKERS_MODEL_COUNT       9
+#define FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL      0
+#define FIELD_GIMMICK_CONNECT_MARKERS_MARKER_EXIT_TYPE  6       /* connection exit type that gets a marker model */
+#define FIELD_GIMMICK_CONNECT_MARKERS_LOWERED_ZONE_ID   0x12E   /* markers of this zone sit 0x2000 lower */
+#define FIELD_GIMMICK_CONNECT_MARKERS_STEP_PHASE_READY  3
 
 typedef struct VecFx32 {
     int x;

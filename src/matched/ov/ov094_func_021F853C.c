@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Tail call to func_021FF348 with the handle at 0x190 of the global work block.
- * Unlabelled; filed as a witness for the caller ov093 func_021EA354 (wave B3 lane 17).
+ * Unlabelled; filed as a witness for the caller ov093 BTLV_CORE_SetMonShown (wave B3 lane 17).
  *
  * symbols:
  *   d_0220AF20  0x0220AF20  data  ov094

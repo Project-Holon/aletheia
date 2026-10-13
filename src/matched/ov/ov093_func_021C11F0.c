@@ -11,7 +11,7 @@
  * 2026-10-05 Q10/Q10b/Q10c/G7L9 (pengy share, user-approved): body from the listing, 47 of 704 bytes off (spill
  *   slot order m/k*4 around the third count, and the 5798/5840/59C4 argument order). Facts kept: v28 is u8,
  *   021C4104 takes sa/sb as separate stack args, 021C1198 takes an int, a7 is a one-bit field struct, the last
- *   loop's byte argument is d_021F3B20[k], 021C5798 has 8 parameters (two unused).
+ *   loop's byte argument is sDamageCriticalFlags[k], 021C5798 has 8 parameters (two unused).
  * pass 2 2026-10-06 P2L45: EXACT (was 47 bytes off). Closing form: variables reused as a person would. The third
  *   count reuses `cnt` (no separate cnt3), the m loop reuses `j` from the cnt2 loop, and the later loops reuse
  *   `i` (neutral). A reused variable gets a second web numbered after the declared locals, which puts the m index
@@ -46,11 +46,11 @@
  *   BTL_SERVER_FLOW_PushMoveEffectiveness  0x021C5798  thumb  ov093
  *   BTL_SERVER_FLOW_PushEffectivenessMessageList  0x021C5840  thumb  ov093
  *   BTL_SERVER_FLOW_PushCriticalHitMessage  0x021C59C4  thumb  ov093
- *   d_021F3B2C  0x021F3B2C  data  ov093  a4
- *   d_021F3B20  0x021F3B20  data  ov093  a4
- *   d_021F3B38  0x021F3B38  data  a4
- *   d_021F3B26  0x021F3B26  data  ov093  a4
- *   d_021F3B23  0x021F3B23  data  ov093  a4
+ *   sDamageEffectiveness  0x021F3B2C  data  ov093  a4
+ *   sDamageCriticalFlags  0x021F3B20  data  ov093  a4
+ *   sDamageTargets  0x021F3B38  data  a4
+ *   sDamageValues  0x021F3B26  data  ov093  a4
+ *   sDamageAftereffects  0x021F3B23  data  ov093  a4
  *   d_021F3B20b 0x021F3B20  data  ov093  a4
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -58,11 +58,11 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Fl { u32 f : 1; };
 
-extern u32 d_021F3B2C[];
-extern u8 d_021F3B20[];
-extern u8 *d_021F3B38[];
-extern u16 d_021F3B26[];
-extern u8 d_021F3B23[];
+extern u32 sDamageEffectiveness[];
+extern u8 sDamageCriticalFlags[];
+extern u8 *sDamageTargets[];
+extern u16 sDamageValues[];
+extern u8 sDamageAftereffects[];
 extern u32 d_021F3B20b[];
 
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
@@ -108,48 +108,48 @@ int BTL_SERVER_FLOW_ApplyDamageRecord(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u
 
     v28 = func_021C14B0(p + 0x1AB8, BTL_POKEPARAM_GetPokeId(x));
     sum = BTL_SERVER_FLOW_SumHitRecordDamage(y);
-    cnt = BTL_SERVER_FLOW_UnpackDamageEntries(p, y, d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20);
+    cnt = BTL_SERVER_FLOW_UnpackDamageEntries(p, y, sDamageTargets, sDamageValues, sDamageEffectiveness, sDamageCriticalFlags);
     for (i = 0; i < cnt; i++) {
-        if (BTL_POKEPARAM_HasSubstitute(d_021F3B38[i])) {
-            h = BTL_SERVER_FLOW_ProcSubstituteDamage(p, x, d_021F3B38[i], d_021F3B26[i], d_021F3B2C[i], d_021F3B20[i], e);
-            func_021C14C0(*(void **)(p + 0x860), d_021F3B38[i], h, 1);
-            sum -= d_021F3B26[i] - h;
+        if (BTL_POKEPARAM_HasSubstitute(sDamageTargets[i])) {
+            h = BTL_SERVER_FLOW_ProcSubstituteDamage(p, x, sDamageTargets[i], sDamageValues[i], sDamageEffectiveness[i], sDamageCriticalFlags[i], e);
+            func_021C14C0(*(void **)(p + 0x860), sDamageTargets[i], h, 1);
+            sum -= sDamageValues[i] - h;
         }
     }
     if (BTL_SERVER_FLOW_IsFirstHit(st)) {
-        cnt2 = BTL_SERVER_FLOW_UnpackEntryPokes(p, (const struct Q *)y, (u32 *)d_021F3B38);
+        cnt2 = BTL_SERVER_FLOW_UnpackEntryPokes(p, (const struct Q *)y, (u32 *)sDamageTargets);
         for (j = 0; j < cnt2; j++)
-            BTL_SERVER_FLOW_RunMoveHitEventLocked(p, x, d_021F3B38[j], e);
+            BTL_SERVER_FLOW_RunMoveHitEventLocked(p, x, sDamageTargets[j], e);
     }
     st[1] = st[1] + 1;
-    cnt = BTL_SERVER_FLOW_UnpackHitEntries(p, (const struct Q *)y, (u32 *)d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20, d_021F3B23);
+    cnt = BTL_SERVER_FLOW_UnpackHitEntries(p, (const struct Q *)y, (u32 *)sDamageTargets, sDamageValues, sDamageEffectiveness, sDamageCriticalFlags, sDamageAftereffects);
     if (cnt == 0)
         return sum;
-    BTL_SERVER_FLOW_RunTargetsDamagedEventLocked(p, (u32)e, x, cnt, (u32 *)d_021F3B38);
+    BTL_SERVER_FLOW_RunTargetsDamagedEventLocked(p, (u32)e, x, cnt, (u32 *)sDamageTargets);
     flag = a7.f;
-    BTL_SERVER_FLOW_PushMoveEffectiveness(p, e, cnt, (int *)d_021F3B2C, d_021F3B38, d_021F3B26, d_021F3B20, flag);
+    BTL_SERVER_FLOW_PushMoveEffectiveness(p, e, cnt, (int *)sDamageEffectiveness, sDamageTargets, sDamageValues, sDamageCriticalFlags, flag);
     if (BTL_SERVER_FLOW_GetHitFlagsMultiHit(st) == 0)
-        BTL_SERVER_FLOW_PushEffectivenessMessageList(p, cnt, (int *)d_021F3B2C, d_021F3B38, flag);
+        BTL_SERVER_FLOW_PushEffectivenessMessageList(p, cnt, (int *)sDamageEffectiveness, sDamageTargets, flag);
     else
         BTL_SERVER_FLOW_SetHitFlagsResultIf3(st, d_021F3B20b[3]);
-    BTL_SERVER_FLOW_PushCriticalHitMessage(p, cnt, d_021F3B38, d_021F3B20, flag);
+    BTL_SERVER_FLOW_PushCriticalHitMessage(p, cnt, sDamageTargets, sDamageCriticalFlags, flag);
     for (j = 0; j < cnt; j++) {
-        func_021C14D0(*(void **)(p + 0x860), d_021F3B38[j], d_021F3B26[j], 0);
-        BTL_SERVER_FLOW_RecordDamageHit(p, v28, x, d_021F3B38[j], (u8 *)e, d_021F3B26[j]);
-        BTL_POKEPARAM_SetTurnFlag((struct UtilWork *)d_021F3B38[j], 2);
+        func_021C14D0(*(void **)(p + 0x860), sDamageTargets[j], sDamageValues[j], 0);
+        BTL_SERVER_FLOW_RecordDamageHit(p, v28, x, sDamageTargets[j], (u8 *)e, sDamageValues[j]);
+        BTL_POKEPARAM_SetTurnFlag((struct UtilWork *)sDamageTargets[j], 2);
     }
     for (i = 0; i < cnt; i++) {
-        if (d_021F3B23[i])
-            BTL_SERVER_FLOW_ProcDamageAftereffect(p, d_021F3B38[i], d_021F3B23[i]);
+        if (sDamageAftereffects[i])
+            BTL_SERVER_FLOW_ProcDamageAftereffect(p, sDamageTargets[i], sDamageAftereffects[i]);
     }
     for (i = 0; i < cnt; i++) {
-        BTL_SERVER_FLOW_ProcFlinchChance(p, e, x, d_021F3B38[i]);
-        BTL_SERVER_FLOW_ProcDrainHeal(p, (u8 *)e, (u32)x, d_021F3B38[i], d_021F3B26[i]);
-        BTL_SERVER_FLOW_ProcMoveCategoryEffect(p, (u8 *)e, (u32)x, (u32)d_021F3B38[i], d_021F3B26[i], 0);
-        BTL_SERVER_FLOW_ProcDamageEndEvents(p, x, d_021F3B38[i], (u8 *)e, d_021F3B2C[i], d_021F3B26[i], d_021F3B20[i], 0);
+        BTL_SERVER_FLOW_ProcFlinchChance(p, e, x, sDamageTargets[i]);
+        BTL_SERVER_FLOW_ProcDrainHeal(p, (u8 *)e, (u32)x, sDamageTargets[i], sDamageValues[i]);
+        BTL_SERVER_FLOW_ProcMoveCategoryEffect(p, (u8 *)e, (u32)x, (u32)sDamageTargets[i], sDamageValues[i], 0);
+        BTL_SERVER_FLOW_ProcDamageEndEvents(p, x, sDamageTargets[i], (u8 *)e, sDamageEffectiveness[i], sDamageValues[i], sDamageCriticalFlags[i], 0);
     }
     for (i = 0; i < cnt; i++)
-        BTL_SERVER_FLOW_ProcFaintedPoke(p, d_021F3B38[i]);
+        BTL_SERVER_FLOW_ProcFaintedPoke(p, sDamageTargets[i]);
     BTL_SERVER_FLOW_ProcFaintedPoke(p, x);
     return sum;
 }

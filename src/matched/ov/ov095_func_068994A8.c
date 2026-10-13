@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_068994A8
+ * function: HAND_SIDE_GetHandlersQuickGuard
  * address: 0x068994A8
  * packet: pkt_ov095_068994A8
  * region: ov095
@@ -10,8 +10,8 @@
  * status: EXACT
  * Unlabelled store-and-return follower after veneer 0x06899498.
  * symbols:
- *   data_0689D718 0x0689D718 data a4
+ *   gHandSideQuickGuardHandlers 0x0689D718 data a4
  */
 typedef unsigned int u32;
-extern u32 data_0689D718;
-void *func_068994A8(u32 *p) { *p = 1; return &data_0689D718; }
+extern u32 gHandSideQuickGuardHandlers;
+void *HAND_SIDE_GetHandlersQuickGuard(u32 *p) { *p = 1; return &gHandSideQuickGuardHandlers; }

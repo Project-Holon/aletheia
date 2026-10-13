@@ -1,5 +1,5 @@
 /*
- * function: func_021D0C58
+ * function: TRIAL_HOUSE_DeliveryTaskMain
  * address:  0x021D0C58
  * packet:   pkt_ov021_021D0C58
  * region:   ov021
@@ -23,12 +23,12 @@
  *   func_0200E8F8  0x0200E8F8  thumb
  *   func_0200E5E4  0x0200E5E4  thumb
  *   func_0200E5A0  0x0200E5A0  thumb
- *   func_021D1058  0x021D1058  thumb  ov021
- *   func_021D1080  0x021D1080  thumb  ov021
+ *   TRIAL_HOUSE_IsDeliveryIdReceived  0x021D1058  thumb  ov021
+ *   TRIAL_HOUSE_MarkDeliveryIdReceived  0x021D1080  thumb  ov021
  *   func_0200E608  0x0200E608  thumb
  *   DELIVERY_BEACON_Delete  0x02157938  thumb  ov010
  *   GFL_NET_IsIdle  0x0203D210  arm
- *   func_021D09D0  0x021D09D0  thumb  ov021
+ *   TRIAL_HOUSE_LoadDeliveryState  0x021D09D0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj20300.h"
@@ -62,14 +62,14 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E8F8(void *sys);
 extern u16 func_0200E5E4(void *p);
 extern int func_0200E5A0(void *a0);
-extern u8 func_021D1058(struct Flags *p, u32 n);
-extern void func_021D1080(struct Flags *p, u32 n);
+extern u8 TRIAL_HOUSE_IsDeliveryIdReceived(struct Flags *p, u32 n);
+extern void TRIAL_HOUSE_MarkDeliveryIdReceived(struct Flags *p, u32 n);
 extern void func_0200E608(void *sys, void *dst, u32 heap);
 extern int DELIVERY_BEACON_Delete(void *a0);
 extern u32 GFL_NET_IsIdle(void);
-extern void func_021D09D0(int a, char *out);
+extern void TRIAL_HOUSE_LoadDeliveryState(int a, char *out);
 
-int func_021D0C58(u32 unused, u32 *state, W *w)
+int TRIAL_HOUSE_DeliveryTaskMain(u32 unused, u32 *state, W *w)
 {
     u32 x;
     u32 h, sv;
@@ -127,9 +127,9 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
         sv = ((struct Obj20300 *)(w->f84))->f14C;
         n = func_0200E5E4((void *)sv);
         ok = func_0200E5A0((void *)sv);
-        r = func_021D1058((struct Flags *)rec, n);
+        r = TRIAL_HOUSE_IsDeliveryIdReceived((struct Flags *)rec, n);
         if (ok != 0 && (r == 0 || n == 0)) {
-            func_021D1080((struct Flags *)rec, n);
+            TRIAL_HOUSE_MarkDeliveryIdReceived((struct Flags *)rec, n);
             func_0200E608((void *)h, (void *)(((struct Obj20301 *)(w->f84))->f14C), 0x8004);
             *w->f88 = 1;
         } else if (r != 0) {
@@ -149,7 +149,7 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
         }
         break;
     case 6:
-        func_021D09D0(x, (char *)w->f84);
+        TRIAL_HOUSE_LoadDeliveryState(x, (char *)w->f84);
         return 1;
     }
     return 0;

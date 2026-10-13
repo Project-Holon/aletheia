@@ -100,7 +100,7 @@
  *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
  *   GAME_BEACON_SEARCH_SetSimpleEventB  0x0216570C  thumb  ov010
  *   GAMESYSTEM_IsCommBlocked  0x02012144  thumb
- *   d_021BFB3C     0x021BFB3C  data  ov203
+ *   gDemo3dProcData     0x021BFB3C  data  ov203
  *   ov203_id       0x000000CB  data
  *   func_02008550  0x02008550  thumb
  *   func_0203F4CC 0x0203F4CC arm
@@ -482,7 +482,7 @@ extern const char d_021713FC[];
 extern const char d_021713F4[];
 extern const char d_021713EC[];
 extern const fx32 d_0217140C[];
-extern u8 d_021BFB3C[];
+extern u8 gDemo3dProcData[];
 extern u8 ov203_id[];
 
 
@@ -1679,7 +1679,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommPro
             *state = *state + 1;
         break;
     case 2:
-        GAMESYSTEM_CallProc(work->gameSystem, (u32)ov203_id, d_021BFB3C, &work->procParam);
+        GAMESYSTEM_CallProc(work->gameSystem, (u32)ov203_id, gDemo3dProcData, &work->procParam);
         *state = *state + 1;
         break;
     case 3:

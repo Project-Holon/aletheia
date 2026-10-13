@@ -1,5 +1,5 @@
 /*
- * function: func_021ED250
+ * function: BTLV_SCU_IsMonDamageAnimDone
  * address:  0x021ED250
  * packet:   pkt_ov093_021ED250
  * region:   ov093
@@ -15,7 +15,7 @@
  */
 extern int func_021F7EB4(void);
 extern int func_021F8180(void);
-int func_021ED250(void)
+int BTLV_SCU_IsMonDamageAnimDone(void)
 {
     int a = func_021F7EB4();
     if ((func_021F8180() | a) == 0)

@@ -11,9 +11,9 @@
  *
  * symbols:
  *   d_0220A598     0x0220A598  data   a4
- *   func_02209A7C  0x02209A7C  thumb  ov094
- *   func_02209B60  0x02209B60  thumb  ov094
- *   func_02209C2C  0x02209C2C  thumb  ov094
+ *   BTLV_FINGER_CURSOR_Create  0x02209A7C  thumb  ov094
+ *   BTLV_FINGER_CURSOR_Start  0x02209B60  thumb  ov094
+ *   BTLV_FINGER_CURSOR_IsActive  0x02209C2C  thumb  ov094
  *   func_02206B30  0x02206B30  thumb  ov094
  */
 typedef unsigned short u16;
@@ -44,9 +44,9 @@ typedef struct Tbl {
 } Tbl;
 
 extern const Tbl d_0220A598;
-extern int func_02209A7C(int a, int b, int c);
-extern int func_02209B60(int h, int x, int y, int k, int m, int n);
-extern int func_02209C2C(int h);
+extern int BTLV_FINGER_CURSOR_Create(int a, int b, int c);
+extern int BTLV_FINGER_CURSOR_Start(int h, int x, int y, int k, int m, int n);
+extern int BTLV_FINGER_CURSOR_IsActive(int h);
 extern void func_02206B30(char *p);
 
 int func_02203040(Main *m)
@@ -58,14 +58,14 @@ int func_02203040(Main *m)
     case 0:
         t = d_0220A598;
         if (m->f60 == 0)
-            m->f60 = func_02209A7C(m->f64, 0xb, m->h240);
-        if (func_02209B60(m->f60, t.p[m->b].x, t.p[m->b].y, 2, 7, 0x10) != 0) {
+            m->f60 = BTLV_FINGER_CURSOR_Create(m->f64, 0xb, m->h240);
+        if (BTLV_FINGER_CURSOR_Start(m->f60, t.p[m->b].x, t.p[m->b].y, 2, 7, 0x10) != 0) {
             m->a = m->a + 1;
             m->b = m->b + 1;
         }
         break;
     case 1:
-        r = func_02209C2C(m->f60);
+        r = BTLV_FINGER_CURSOR_IsActive(m->f60);
         if (r == 1)
             func_02206B30((char *)m);
         break;

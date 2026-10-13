@@ -1,5 +1,5 @@
 /*
- * function: func_06898D54
+ * function: HAND_SIDE_TickTurns
  * address:  0x06898D54
  * packet:   pkt_ov095_06898D54
  * region:   ov095
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_0689E7E0     0x0689E7E0  data
+ *   gHandSideEffectSlots     0x0689E7E0  data
  *   func_06898DD0  0x06898DD0  thumb  ov095
  */
 
@@ -33,10 +33,10 @@ typedef struct {
     E e[14];
 } Row;
 
-extern struct Row g_0689E7E0[2];
+extern struct Row gHandSideEffectSlots[2];
 extern void func_06898DD0(void *p);
 
-void func_06898D54(void (*cb)(u8, u32, u32), u32 arg)
+void HAND_SIDE_TickTurns(void (*cb)(u8, u32, u32), u32 arg)
 {
     u32 j;
     u32 i;
@@ -45,7 +45,7 @@ void func_06898D54(void (*cb)(u8, u32, u32), u32 arg)
         Row *row;
 
         i = 0;
-        row = &((Row *)g_0689E7E0)[j];
+        row = &((Row *)gHandSideEffectSlots)[j];
 
         for (; i < 14; i++) {
             E *e = &row->e[i];

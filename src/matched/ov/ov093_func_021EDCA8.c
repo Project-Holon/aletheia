@@ -1,5 +1,5 @@
 /*
- * function: func_021EDCA8
+ * function: BTLV_SCU_ProcNamePlate
  * address: 0x021EDCA8
  * packet: pkt_ov093_021EDCA8
  * region: ov093
@@ -35,7 +35,7 @@ extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
 extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
-int func_021EDCA8(u8 *p)
+int BTLV_SCU_ProcNamePlate(u8 *p)
 {
     u32 i;
     u8 *src;

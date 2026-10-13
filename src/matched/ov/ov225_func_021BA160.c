@@ -13,7 +13,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021B9A08 0x021B9A08 thumb ov225
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  */
 #include "../include/Obj08468.h"
 #include "../include/Obj26147.h"
@@ -27,7 +27,7 @@ extern const struct Block d_021BBF4C;
 extern void MI_CpuFill8(void *,u8,u32);
 extern u32 func_021B9A08(const u8 *p);
 extern R *TOUCHBAR_Create(A *,int);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 void func_021BA160(char *p)
 {
     A args;
@@ -37,5 +37,5 @@ void func_021BA160(char *p)
     args.f8=(int)func_021B9A08(((struct Obj26147 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f8);
     args.fC=6;args.f10=3;args.f14=1;args.f18=0;
     *(R * *)&((struct Obj08468 *)p)->f4=TOUCHBAR_Create(&args,((struct Obj26148 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f4);
-    func_021B6558(((struct Obj08468 *)p)->f4,0,0);
+    TOUCHBAR_SetButtonVisible(((struct Obj08468 *)p)->f4,0,0);
 }

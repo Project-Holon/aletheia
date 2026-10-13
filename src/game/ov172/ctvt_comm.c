@@ -40,7 +40,7 @@
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   GFL_NET_StartByNetType 0x0203D01C arm
- *   func_02179328 0x02179328 thumb ov014
+ *   WIH_SetJudgeAcceptFunc 0x02179328 thumb ov014
  *   GFL_NET_ConnectMacAddressParent 0x0203CFF0 arm
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -398,7 +398,7 @@ extern void GFL_NET_SetWaitMode(int a);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_BeaconScanStart(void);
 extern void GFL_NET_StartByNetType(void);
-extern void func_02179328(void *v);
+extern void WIH_SetJudgeAcceptFunc(void *v);
 extern void GFL_NET_ConnectMacAddressParent(void *p);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -1089,7 +1089,7 @@ void func_021B7E34(void *p, char *q)
             break;
         case 3:
             GFL_NET_StartByNetType();
-            func_02179328(func_021B8130);
+            WIH_SetJudgeAcceptFunc(func_021B8130);
             ((struct Obj00289 *)q)->f8 = 3;
             break;
         case 4:

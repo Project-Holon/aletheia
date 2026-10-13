@@ -13,16 +13,16 @@
  *
  * symbols:
  *   d_0220AF20     0x0220AF20  data   ov094
- *   func_02208814  0x02208814  thumb  ov094
+ *   BTLV_GAUGE_SetStatusIcon  0x02208814  thumb  ov094
  */
 
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
 struct O;
-extern void func_02208814(struct O *obj, int k, int idx);
+extern void BTLV_GAUGE_SetStatusIcon(struct O *obj, int k, int idx);
 
 void func_021F81D0(u32 a, u32 b)
 {
-    func_02208814((struct O *)(*(u32 *)(d_0220AF20 + 0x1A4)), a, b);
+    BTLV_GAUGE_SetStatusIcon((struct O *)(*(u32 *)(d_0220AF20 + 0x1A4)), a, b);
 }

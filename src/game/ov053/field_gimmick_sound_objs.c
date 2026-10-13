@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_sound_objs.c
  * unit:     yes
- * function: GIMMICK53_Init, GIMMICK53_Exit, GIMMICK53_Update, GIMMICK53_CreateSoundObjs, GIMMICK53_LoadWaitLimits, GIMMICK53_LoadBgmFade, GIMMICK53_SaveAnimeFrames, GIMMICK53_RestoreAnimeFrames, GIMMICK53_StartWait, GIMMICK53_RestartAnime, GIMMICK53_ApplyBgmVolume, GIMMICK53_UpdateBgmFade, GIMMICK53_GetBgmTargetVolume, GIMMICK53_RaiseBgmVolume, GIMMICK53_LowerBgmVolume, GIMMICK53_ClearSlideSe, GIMMICK53_UpdateSlideSe
+ * function: FIELD_GIMMICK_SOUND_OBJS_Init, FIELD_GIMMICK_SOUND_OBJS_Exit, FIELD_GIMMICK_SOUND_OBJS_Update, FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs, FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits, FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade, FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames, FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames, FIELD_GIMMICK_SOUND_OBJS_StartWait, FIELD_GIMMICK_SOUND_OBJS_RestartAnime, FIELD_GIMMICK_SOUND_OBJS_ApplyBgmVolume, FIELD_GIMMICK_SOUND_OBJS_UpdateBgmFade, FIELD_GIMMICK_SOUND_OBJS_GetBgmTargetVolume, FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume, FIELD_GIMMICK_SOUND_OBJS_LowerBgmVolume, FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe, FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe
  * address:  0x021F36C0
  * region:   ov053
  * compiler: dsi/1.1p1
@@ -34,7 +34,7 @@
  *   SOUND_OBJ_AdvanceAnime  0x021C4DE4  thumb  ov021
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   GIMMICK53_UpdateSlideSe  0x021F3B40  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe  0x021F3B40  thumb  ov053
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   func_0202B57C  0x0202B57C  thumb
@@ -70,22 +70,22 @@
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_sound_objs_types.h"
 
-void GIMMICK53_Init(struct FieldMap *fieldMap);
-void GIMMICK53_Exit(struct FieldMap *fieldMap);
-void GIMMICK53_Update(struct FieldMap *fieldMap);
-void GIMMICK53_CreateSoundObjs(Gimmick53Work *work, struct FieldMap *fieldMap);
-void GIMMICK53_LoadWaitLimits(Gimmick53Work *work);
-void GIMMICK53_LoadBgmFade(Gimmick53Work *work);
-void GIMMICK53_SaveAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap);
-void GIMMICK53_RestoreAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap);
-void GIMMICK53_StartWait(Gimmick53Work *work, int index);
-void GIMMICK53_RestartAnime(Gimmick53Work *work, int index);
-void GIMMICK53_ApplyBgmVolume(Gimmick53Work *work);
-void GIMMICK53_UpdateBgmFade(Gimmick53Work *work, struct FieldMap *fieldMap);
-int GIMMICK53_GetBgmTargetVolume(Gimmick53Work *work, struct FieldMap *fieldMap);
-void GIMMICK53_RaiseBgmVolume(Gimmick53Work *work, int target);
-void GIMMICK53_LowerBgmVolume(Gimmick53Work *work, int target);
-void GIMMICK53_ClearSlideSe(Gimmick53SlideSe *slideSe);
+void FIELD_GIMMICK_SOUND_OBJS_Init(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_Exit(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_Update(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(Gimmick53Work *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits(Gimmick53Work *work);
+void FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade(Gimmick53Work *work);
+void FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_StartWait(Gimmick53Work *work, int index);
+void FIELD_GIMMICK_SOUND_OBJS_RestartAnime(Gimmick53Work *work, int index);
+void FIELD_GIMMICK_SOUND_OBJS_ApplyBgmVolume(Gimmick53Work *work);
+void FIELD_GIMMICK_SOUND_OBJS_UpdateBgmFade(Gimmick53Work *work, struct FieldMap *fieldMap);
+int FIELD_GIMMICK_SOUND_OBJS_GetBgmTargetVolume(Gimmick53Work *work, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume(Gimmick53Work *work, int target);
+void FIELD_GIMMICK_SOUND_OBJS_LowerBgmVolume(Gimmick53Work *work, int target);
+void FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe(Gimmick53SlideSe *slideSe);
 
 extern G3dUtilSetup sGimmick53UnitSetup;
 extern Gimmick53WaitMembers sGimmick53WaitMembers;
@@ -100,7 +100,7 @@ extern void FIELD_CAMERA_GetEyeRaw(struct FieldCamera *camera, VecFx32 *eye);
 extern int FIELD_PLAYER_GetFormSlot(struct FieldPlayer *fieldPlayer);
 
 /* Gimmick init: adds the expansion unit, creates the sound objects and starts them at the saved frames. */
-void GIMMICK53_Init(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_Init(struct FieldMap *fieldMap)
 {
     u32 heapId;
     FldExpObjCnt *expObj;
@@ -115,27 +115,27 @@ void GIMMICK53_Init(struct FieldMap *fieldMap)
     FLD_EXP_OBJ_SetAnimePaused(anime, 0);
     FLD_EXP_OBJ_SetAnimeLoop(anime, 1);
     work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, sizeof(Gimmick53Work));
-    GIMMICK53_CreateSoundObjs(work, fieldMap);
-    GIMMICK53_RestoreAnimeFrames(work, fieldMap);
-    ISS_3DS_SYS_SetVolume(work->iss3ds, GIMMICK53_BGM_VOLUME_MAX);
+    FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(work, fieldMap);
+    FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames(work, fieldMap);
+    ISS_3DS_SYS_SetVolume(work->iss3ds, FIELD_GIMMICK_SOUND_OBJS_BGM_VOLUME_MAX);
 }
 
 /* Gimmick exit: silences the sound system, saves the frames and deletes the sound objects. */
-void GIMMICK53_Exit(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_Exit(struct FieldMap *fieldMap)
 {
     int i;
     Gimmick53Work *work = FIELDMAP_GetCommonWork(fieldMap, 0);
 
     ISS_3DS_SYS_SetVolume(work->iss3ds, 0);
     GFL_USE_SetBgmTrackVolume(work->bgmFade.track, 0);
-    GIMMICK53_SaveAnimeFrames(work, fieldMap);
-    for (i = 0; i < GIMMICK53_SOUND_OBJ_COUNT; i++)
+    FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames(work, fieldMap);
+    for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++)
         SOUND_OBJ_Delete(work->soundObj[i]);
     FIELDMAP_FreeCommonWork(fieldMap, 0);
 }
 
 /* Gimmick update: moves the listener to the camera, runs the sound objects, the music fade and the sliding sound. */
-void GIMMICK53_Update(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_Update(struct FieldMap *fieldMap)
 {
     int i;
     struct FieldCamera *camera;
@@ -148,10 +148,10 @@ void GIMMICK53_Update(struct FieldMap *fieldMap)
     FIELD_CAMERA_GetEyeRaw(camera, &eye);
     FIELD_CAMERA_GetTargetRaw(camera, &target);
     ISS_3DS_SYS_SetCamera(work->iss3ds, &eye, &target);
-    for (i = 0; i < GIMMICK53_SOUND_OBJ_COUNT; i++) {
+    for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++) {
         if (work->waitFrames[i] > 0) {
             if (--work->waitFrames[i] <= 0) {
-                GIMMICK53_RestartAnime(work, i);
+                FIELD_GIMMICK_SOUND_OBJS_RestartAnime(work, i);
                 switch (i) {
                 case 0:
                     work->waitFrames[1] = 1;
@@ -162,17 +162,17 @@ void GIMMICK53_Update(struct FieldMap *fieldMap)
                 }
             }
         } else if (SOUND_OBJ_AdvanceAnime(work->soundObj[i], 0x1000)) {
-            GIMMICK53_StartWait(work, i);
+            FIELD_GIMMICK_SOUND_OBJS_StartWait(work, i);
         }
     }
-    GIMMICK53_UpdateBgmFade(work, fieldMap);
-    GIMMICK53_ApplyBgmVolume(work);
+    FIELD_GIMMICK_SOUND_OBJS_UpdateBgmFade(work, fieldMap);
+    FIELD_GIMMICK_SOUND_OBJS_ApplyBgmVolume(work);
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
-    GIMMICK53_UpdateSlideSe(&work->slideSe, camera, FIELDMAP_GetFieldPlayer(fieldMap));
+    FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe(&work->slideSe, camera, FIELDMAP_GetFieldPlayer(fieldMap));
 }
 
 /* Creates the five sound objects on the models of the unit; their parameters come from the sound archive. */
-void GIMMICK53_CreateSoundObjs(Gimmick53Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(Gimmick53Work *work, struct FieldMap *fieldMap)
 {
     int i;
     int heapId;
@@ -185,42 +185,42 @@ void GIMMICK53_CreateSoundObjs(Gimmick53Work *work, struct FieldMap *fieldMap)
     work->heapId = heapId;
     work->bgmVolume = 0;
     work->iss3ds = func_0202B57C(GAMESYSTEM_GetIssSystem(FIELDMAP_GetGameSystem(fieldMap)));
-    params = ARC_TOOL_LoadMember(GIMMICK53_ARC_ID, 1, heapId);
+    params = ARC_TOOL_LoadMember(FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 1, heapId);
     soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->trans, 8, params[0] << 12, params[1]);
-    SOUND_OBJ_SetAnime(soundObj, GIMMICK53_ARC_ID, 3, 10);
+    SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 3, 10);
     work->soundObj[0] = soundObj;
     func_020307B0(params);
     soundObj = SOUND_OBJ_CreateNoSource(fieldMap, FLD_EXP_OBJ_GetModelStatus(expObj, 0, 1));
-    SOUND_OBJ_SetAnime(soundObj, GIMMICK53_ARC_ID, 5, 10);
+    SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 5, 10);
     work->soundObj[1] = soundObj;
-    params = ARC_TOOL_LoadMember(GIMMICK53_ARC_ID, 6, heapId);
+    params = ARC_TOOL_LoadMember(FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 6, heapId);
     soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 2)->trans, 9, params[0] << 12, params[1]);
-    SOUND_OBJ_SetAnime(soundObj, GIMMICK53_ARC_ID, 8, 10);
+    SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 8, 10);
     work->soundObj[2] = soundObj;
     func_020307B0(params);
     soundObj = SOUND_OBJ_CreateNoSource(fieldMap, FLD_EXP_OBJ_GetModelStatus(expObj, 0, 3));
-    SOUND_OBJ_SetAnime(soundObj, GIMMICK53_ARC_ID, 10, 10);
+    SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 10, 10);
     work->soundObj[3] = soundObj;
-    params = ARC_TOOL_LoadMember(GIMMICK53_ARC_ID, 12, heapId);
+    params = ARC_TOOL_LoadMember(FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 12, heapId);
     soundObj = func_021C4D14(fieldMap, &FLD_EXP_OBJ_GetModelStatus(expObj, 0, 4)->trans, 7, params[0] << 12, params[1]);
-    SOUND_OBJ_SetAnime(soundObj, GIMMICK53_ARC_ID, 11, 10);
+    SOUND_OBJ_SetAnime(soundObj, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 11, 10);
     work->soundObj[4] = soundObj;
     func_020307B0(params);
-    for (i = 0; i < GIMMICK53_SOUND_OBJ_COUNT; i++)
+    for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++)
         work->waitFrames[i] = 0;
-    GIMMICK53_LoadWaitLimits(work);
-    GIMMICK53_LoadBgmFade(work);
-    GIMMICK53_ClearSlideSe(&work->slideSe);
+    FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits(work);
+    FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade(work);
+    FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe(&work->slideSe);
 }
 
 /* Reads the wait limits of each object from the sound archive. */
-void GIMMICK53_LoadWaitLimits(Gimmick53Work *work)
+void FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits(Gimmick53Work *work)
 {
     Gimmick53WaitMembers members = sGimmick53WaitMembers;
     int i;
 
-    for (i = 0; i < GIMMICK53_SOUND_OBJ_COUNT; i++) {
-        int *limits = ARC_TOOL_LoadMember(GIMMICK53_ARC_ID, members.member[i], work->heapId);
+    for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++) {
+        int *limits = ARC_TOOL_LoadMember(FIELD_GIMMICK_SOUND_OBJS_ARC_ID, members.member[i], work->heapId);
         work->minWait[i] = limits[0];
         work->maxWait[i] = limits[1];
         func_020307B0(limits);
@@ -228,28 +228,28 @@ void GIMMICK53_LoadWaitLimits(Gimmick53Work *work)
 }
 
 /* Reads the music track and the camera heights of its fade from the sound archive. */
-void GIMMICK53_LoadBgmFade(Gimmick53Work *work)
+void FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade(Gimmick53Work *work)
 {
-    ARC_TOOL_ReadMemberRange(&work->bgmFade, GIMMICK53_ARC_ID, 0, 0, sizeof(Gimmick53BgmFade));
+    ARC_TOOL_ReadMemberRange(&work->bgmFade, FIELD_GIMMICK_SOUND_OBJS_ARC_ID, 0, 0, sizeof(Gimmick53BgmFade));
 }
 
 /* Saves the animation frame of each sound object in the gimmick work. */
-void GIMMICK53_SaveAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap)
 {
     int i;
-    Gimmick53Save *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK53_SAVE_SLOT);
+    Gimmick53Save *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_SAVE_SLOT);
 
-    for (i = 0; i < GIMMICK53_SOUND_OBJ_COUNT; i++)
+    for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++)
         save->animeFrame[i] = (int)SOUND_OBJ_GetAnimeFrame(work->soundObj[i]) >> 12;
 }
 
 /* Sets the animation of each sound object to the saved frame. */
-void GIMMICK53_RestoreAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap)
 {
     int i;
-    Gimmick53Save *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK53_SAVE_SLOT);
+    Gimmick53Save *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_SAVE_SLOT);
 
-    for (i = 0; i < GIMMICK53_SOUND_OBJ_COUNT; i++)
+    for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++)
         SOUND_OBJ_SetAnimeFrame(work->soundObj[i], (int)((unsigned)save->animeFrame[i] << 12));
 }
 
@@ -259,37 +259,37 @@ void GIMMICK53_RestoreAnimeFrames(Gimmick53Work *work, struct FieldMap *fieldMap
  * note: Inline random call keeps the returned value on the right of the add.
  *       The final two bytes of the handed extent are alignment padding.
  */
-void GIMMICK53_StartWait(Gimmick53Work *work, int index)
+void FIELD_GIMMICK_SOUND_OBJS_StartWait(Gimmick53Work *work, int index)
 {
     work->waitFrames[index] = work->minWait[index] +
         func_02005728(work->maxWait[index] - work->minWait[index] + 1);
 }
 
 /* Restarts the animation of one sound object at its first frame. */
-void GIMMICK53_RestartAnime(Gimmick53Work *work, int index)
+void FIELD_GIMMICK_SOUND_OBJS_RestartAnime(Gimmick53Work *work, int index)
 {
     SOUND_OBJ_SetAnimeFrame(work->soundObj[index], 0);
 }
 
 /* Applies the music volume to the fading track. */
-void GIMMICK53_ApplyBgmVolume(Gimmick53Work *work)
+void FIELD_GIMMICK_SOUND_OBJS_ApplyBgmVolume(Gimmick53Work *work)
 {
     GFL_USE_SetBgmTrackVolume(work->bgmFade.track, work->bgmVolume);
 }
 
 /* Moves the music volume one step towards the volume of the camera height. */
-void GIMMICK53_UpdateBgmFade(Gimmick53Work *work, struct FieldMap *fieldMap)
+void FIELD_GIMMICK_SOUND_OBJS_UpdateBgmFade(Gimmick53Work *work, struct FieldMap *fieldMap)
 {
-    int target = GIMMICK53_GetBgmTargetVolume(work, fieldMap);
+    int target = FIELD_GIMMICK_SOUND_OBJS_GetBgmTargetVolume(work, fieldMap);
 
     if (work->bgmVolume < target)
-        GIMMICK53_RaiseBgmVolume(work, target);
+        FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume(work, target);
     else if (target < work->bgmVolume)
-        GIMMICK53_LowerBgmVolume(work, target);
+        FIELD_GIMMICK_SOUND_OBJS_LowerBgmVolume(work, target);
 }
 
 /* Music volume of the camera height: 0 below the low height, the maximum above the high height, linear between. */
-int GIMMICK53_GetBgmTargetVolume(Gimmick53Work *work, struct FieldMap *fieldMap)
+int FIELD_GIMMICK_SOUND_OBJS_GetBgmTargetVolume(Gimmick53Work *work, struct FieldMap *fieldMap)
 {
     VecFx32 eye;
     float height;
@@ -300,29 +300,29 @@ int GIMMICK53_GetBgmTargetVolume(Gimmick53Work *work, struct FieldMap *fieldMap)
     if (height <= work->bgmFade.heightLow)
         return 0;
     if (work->bgmFade.heightHigh < height)
-        return GIMMICK53_BGM_VOLUME_MAX;
+        return FIELD_GIMMICK_SOUND_OBJS_BGM_VOLUME_MAX;
     range = work->bgmFade.heightHigh - work->bgmFade.heightLow;
     return (int)(127.0f * (height - work->bgmFade.heightLow) / range);
 }
 
 /* Raises the music volume by one step, up to the target. */
-void GIMMICK53_RaiseBgmVolume(Gimmick53Work *work, int target)
+void FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume(Gimmick53Work *work, int target)
 {
-    work->bgmVolume += GIMMICK53_BGM_VOLUME_STEP;
+    work->bgmVolume += FIELD_GIMMICK_SOUND_OBJS_BGM_VOLUME_STEP;
     if (target < work->bgmVolume)
         work->bgmVolume = target;
 }
 
 /* Lowers the music volume by one step, down to the target. */
-void GIMMICK53_LowerBgmVolume(Gimmick53Work *work, int target)
+void FIELD_GIMMICK_SOUND_OBJS_LowerBgmVolume(Gimmick53Work *work, int target)
 {
-    work->bgmVolume -= GIMMICK53_BGM_VOLUME_STEP;
+    work->bgmVolume -= FIELD_GIMMICK_SOUND_OBJS_BGM_VOLUME_STEP;
     if (work->bgmVolume < target)
         work->bgmVolume = target;
 }
 
 /* Clears the state of the sliding sound. */
-void GIMMICK53_ClearSlideSe(Gimmick53SlideSe *slideSe)
+void FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe(Gimmick53SlideSe *slideSe)
 {
     func_02082A7C(0, slideSe, sizeof(Gimmick53SlideSe));
 }
@@ -333,7 +333,7 @@ void GIMMICK53_ClearSlideSe(Gimmick53SlideSe *slideSe)
  * by 0x64000 over the last frames; which line and effect depends on the
  * player (FIELD_PLAYER_GetFormSlot). It fades out when the camera stops past 0x718000.
  */
-void GIMMICK53_UpdateSlideSe(Gimmick53SlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer)
+void FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe(Gimmick53SlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer)
 {
     VecFx32 eye;
     int zDelta;
@@ -344,14 +344,14 @@ void GIMMICK53_UpdateSlideSe(Gimmick53SlideSe *slideSe, struct FieldCamera *came
 
     if ((u16)(slideSe->state + 0xffff) <= 1) {
         if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x7eb)) == 0) {
-            slideSe->state = GIMMICK53_SLIDE_IDLE;
+            slideSe->state = FIELD_GIMMICK_SOUND_OBJS_SLIDE_IDLE;
         }
-        if (slideSe->state == GIMMICK53_SLIDE_FADING) {
+        if (slideSe->state == FIELD_GIMMICK_SOUND_OBJS_SLIDE_FADING) {
             slideSe->volume -= 16;
             volume = slideSe->volume;
             if (volume < 0) {
                 GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(slideSe->seId));
-                slideSe->state = GIMMICK53_SLIDE_IDLE;
+                slideSe->state = FIELD_GIMMICK_SOUND_OBJS_SLIDE_IDLE;
             } else {
                 GFL_USE_SetSeSlotVolume(GFL_USE_GetSeSlot(slideSe->seId), volume);
             }
@@ -365,19 +365,19 @@ void GIMMICK53_UpdateSlideSe(Gimmick53SlideSe *slideSe, struct FieldCamera *came
     }
     if (zDelta > 0) {
         volume = slideSe->count;
-        if (volume < GIMMICK53_SLIDE_HISTORY) {
-            i = (slideSe->head + volume) % GIMMICK53_SLIDE_HISTORY;
+        if (volume < FIELD_GIMMICK_SOUND_OBJS_SLIDE_HISTORY) {
+            i = (slideSe->head + volume) % FIELD_GIMMICK_SOUND_OBJS_SLIDE_HISTORY;
             slideSe->count = volume + 1;
         } else {
             i = slideSe->head;
-            slideSe->head = (i + 1) % GIMMICK53_SLIDE_HISTORY;
+            slideSe->head = (i + 1) % FIELD_GIMMICK_SOUND_OBJS_SLIDE_HISTORY;
         }
         slideSe->cameraY[i] = eye.y;
     } else {
         slideSe->count = 0;
         slideSe->head = 0;
-        if (slideSe->state == GIMMICK53_SLIDE_PLAYING && eye.z > 0x718000) {
-            slideSe->state = GIMMICK53_SLIDE_FADING;
+        if (slideSe->state == FIELD_GIMMICK_SOUND_OBJS_SLIDE_PLAYING && eye.z > 0x718000) {
+            slideSe->state = FIELD_GIMMICK_SOUND_OBJS_SLIDE_FADING;
             slideSe->volume = 0x7f;
         }
     }
@@ -392,7 +392,7 @@ void GIMMICK53_UpdateSlideSe(Gimmick53SlideSe *slideSe, struct FieldCamera *came
         if ((eye.z < lineZ && slideSe->prevZ > lineZ) || (eye.z > lineZ && slideSe->prevZ < lineZ)) {
             if (slideSe->cameraY[slideSe->head] - eye.y >= 0x64000) {
                 GFL_USE_PlaySeDefaultVolume(seId);
-                slideSe->state = GIMMICK53_SLIDE_PLAYING;
+                slideSe->state = FIELD_GIMMICK_SOUND_OBJS_SLIDE_PLAYING;
                 slideSe->seId = seId;
             }
         }

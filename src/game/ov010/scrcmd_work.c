@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_work.c
  * unit:     yes
- * function: SCRCMD_WORK_CreateCommon, SCRCMD_WORK_DeleteCommon, SCRCMD_WORK_Create, SCRCMD_WORK_Delete, SCRCMD_WORK_GetHeapId, SCRCMD_WORK_GetScriptId, SCRCMD_WORK_GetCallMode, SCRCMD_WORK_GetCallParam, SCRCMD_WORK_GetGameSystem, SCRCMD_WORK_GetGameData, SCRCMD_WORK_GetOccupyInfo, SCRCMD_WORK_GetScriptWork, SCRCMD_WORK_GetMenuHeap, SCRCMD_WORK_GetMsgData, SCRCMD_WORK_GetMsgDataId, SCRCMD_WORK_SetMsgWindow, SCRCMD_WORK_GetMsgWindow, func_0215A624, func_0215A630, SCRCMD_WORK_GetWordSetWork, SCRCMD_WORK_SetTargetObject, SCRCMD_WORK_GetTargetObject, SCRCMD_WORK_GetWindowState, SCRCMD_WORK_SetWindowState, SCRCMD_WORK_GetWindowKind, SCRCMD_WORK_SetWindowKind, SCRCMD_WORK_SetWaitCount, SCRCMD_WORK_CheckAnimeTasks, SCRCMD_WORK_DeleteAnimeTasks, SCRCMD_WORK_LoadMsgData, SCRCMD_WORK_InitMenu, SCRCMD_WORK_AddMenuItem, SCRCMD_WORK_StartMenu, SCRCMD_WORK_DeleteMenu, SCRCMD_WORK_WaitMenu, SCRCMD_WORK_WaitMenuOrCancel, SCRCMD_WORK_MenuCursorCallback, SCRCMD_WORK_SaveScriptState, SCRCMD_WORK_RestoreScriptState, SCRCMD_WORK_SetChildScriptIndex, SCRCMD_WORK_GetChildScriptIndex, SCRCMD_WORK_CmdGetRomVersion, SCRCMD_WORK_CmdToggleConfigFlag, SCRCMD_WORK_CmdGetConfigFlag, SCRCMD_WORK_CmdGetRandom, SCRCMD_WORK_CmdGetMsgDataId, SCRCMD_WORK_CmdGetSaveRecord, SCRCMD_WORK_CmdGetFieldRecordA, SCRCMD_WORK_CmdGetFieldRecordB, SCRCMD_WORK_CmdGetFieldRecordPair, SCRCMD_WORK_CmdGetFieldRecordPairB, SCRCMD_WORK_CmdGetSeason, SCRCMD_WORK_CmdGetBirthday, SCRCMD_WORK_CmdGetPlayerRomCode, SCRCMD_WORK_CmdCheckMiscFlag, SCRCMD_WORK_CmdSetMiscFlag, SCRCMD_WORK_CmdGetMiscCount, SCRCMD_WORK_CmdGetSaveStatus, SCRCMD_WORK_CmdGetScriptId, SCRCMD_WORK_CmdSetWarpDestination, SCRCMD_WORK_CmdSetSpecialLocationHere, SCRCMD_WORK_CmdSetSpecialLocation, SCRCMD_WORK_CmdSetMapReplaceFlag, SCRCMD_WORK_CmdCheckMapReplaceFlag, SCRCMD_WORK_CmdRegisterZukanSeen, SCRCMD_WORK_CmdGetZukanSeenCount, SCRCMD_WORK_CmdGetZukanGetCount, SCRCMD_WORK_CmdSetZukanFlagA, SCRCMD_WORK_CmdGetZukanNationalFlag, SCRCMD_WORK_CmdSetZukanFlagB, SCRCMD_WORK_CmdGetButtonMode, SCRCMD_WORK_CmdSetFixedEventFlag, SCRCMD_WORK_CmdSetBoxFlags, SCRCMD_WORK_CmdGetPlayerSaveValue, SCRCMD_WORK_CmdGetMiscByte, SCRCMD_WORK_CmdSetMiscByte, SCRCMD_WORK_CmdCheckMiscByte, SCRCMD_WORK_CmdCheckExtraSaveData, SCRCMD_WORK_CmdEventDataSetA, SCRCMD_WORK_CmdEventDataSetB, SCRCMD_WORK_CmdEventDataSetC, SCRCMD_WORK_CmdSetEventFlagOffset, SCRCMD_WORK_CmdResetEventFlagOffset, SCRCMD_WORK_CmdCheckEventFlagOffset, SCRCMD_WORK_CmdEndFieldCommandA, SCRCMD_WORK_CmdCheckFieldModeA, SCRCMD_WORK_CmdEndFieldCommandB, SCRCMD_WORK_CmdCheckFieldModeB, SCRCMD_WORK_CmdLookupTable
+ * function: SCRCMD_WORK_CreateCommon, SCRCMD_WORK_DeleteCommon, SCRCMD_WORK_Create, SCRCMD_WORK_Delete, SCRCMD_WORK_GetHeapId, SCRCMD_WORK_GetScriptId, SCRCMD_WORK_GetCallMode, SCRCMD_WORK_GetCallParam, SCRCMD_WORK_GetGameSystem, SCRCMD_WORK_GetGameData, SCRCMD_WORK_GetOccupyInfo, SCRCMD_WORK_GetScriptWork, SCRCMD_WORK_GetMenuHeap, SCRCMD_WORK_GetMsgData, SCRCMD_WORK_GetMsgDataId, SCRCMD_WORK_SetMsgWindow, SCRCMD_WORK_GetMsgWindow, SCRCMD_WORK_SetTimeIcon, SCRCMD_WORK_GetTimeIcon, SCRCMD_WORK_GetWordSetWork, SCRCMD_WORK_SetTargetObject, SCRCMD_WORK_GetTargetObject, SCRCMD_WORK_GetWindowState, SCRCMD_WORK_SetWindowState, SCRCMD_WORK_GetWindowKind, SCRCMD_WORK_SetWindowKind, SCRCMD_WORK_SetWaitCount, SCRCMD_WORK_CheckAnimeTasks, SCRCMD_WORK_DeleteAnimeTasks, SCRCMD_WORK_LoadMsgData, SCRCMD_WORK_InitMenu, SCRCMD_WORK_AddMenuItem, SCRCMD_WORK_StartMenu, SCRCMD_WORK_DeleteMenu, SCRCMD_WORK_WaitMenu, SCRCMD_WORK_WaitMenuOrCancel, SCRCMD_WORK_MenuCursorCallback, SCRCMD_WORK_SaveScriptState, SCRCMD_WORK_RestoreScriptState, SCRCMD_WORK_SetChildScriptIndex, SCRCMD_WORK_GetChildScriptIndex, SCRCMD_WORK_CmdGetRomVersion, SCRCMD_WORK_CmdToggleConfigFlag, SCRCMD_WORK_CmdGetConfigFlag, SCRCMD_WORK_CmdGetRandom, SCRCMD_WORK_CmdGetMsgDataId, SCRCMD_WORK_CmdGetSaveRecord, SCRCMD_WORK_CmdGetFieldRecordA, SCRCMD_WORK_CmdGetFieldRecordB, SCRCMD_WORK_CmdGetFieldRecordPair, SCRCMD_WORK_CmdGetFieldRecordPairB, SCRCMD_WORK_CmdGetSeason, SCRCMD_WORK_CmdGetBirthday, SCRCMD_WORK_CmdGetPlayerRomCode, SCRCMD_WORK_CmdCheckMiscFlag, SCRCMD_WORK_CmdSetMiscFlag, SCRCMD_WORK_CmdGetMiscCount, SCRCMD_WORK_CmdGetSaveStatus, SCRCMD_WORK_CmdGetScriptId, SCRCMD_WORK_CmdSetWarpDestination, SCRCMD_WORK_CmdSetSpecialLocationHere, SCRCMD_WORK_CmdSetSpecialLocation, SCRCMD_WORK_CmdSetMapReplaceFlag, SCRCMD_WORK_CmdCheckMapReplaceFlag, SCRCMD_WORK_CmdRegisterZukanSeen, SCRCMD_WORK_CmdGetZukanSeenCount, SCRCMD_WORK_CmdGetZukanGetCount, SCRCMD_WORK_CmdSetZukanFlagA, SCRCMD_WORK_CmdGetZukanNationalFlag, SCRCMD_WORK_CmdSetZukanFlagB, SCRCMD_WORK_CmdGetButtonMode, SCRCMD_WORK_CmdSetFixedEventFlag, SCRCMD_WORK_CmdSetBoxFlags, SCRCMD_WORK_CmdGetPlayerSaveValue, SCRCMD_WORK_CmdGetMiscByte, SCRCMD_WORK_CmdSetMiscByte, SCRCMD_WORK_CmdCheckMiscByte, SCRCMD_WORK_CmdCheckExtraSaveData, SCRCMD_WORK_CmdEventDataSetA, SCRCMD_WORK_CmdEventDataSetB, SCRCMD_WORK_CmdEventDataSetC, SCRCMD_WORK_CmdSetEventFlagOffset, SCRCMD_WORK_CmdResetEventFlagOffset, SCRCMD_WORK_CmdCheckEventFlagOffset, SCRCMD_WORK_CmdEndFieldCommandA, SCRCMD_WORK_CmdCheckFieldModeA, SCRCMD_WORK_CmdEndFieldCommandB, SCRCMD_WORK_CmdCheckFieldModeB, SCRCMD_WORK_CmdLookupTable
  * address:  0x0215A514
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -208,7 +208,7 @@ typedef struct ScrcmdCommonWork {
     ScrcmdMenu menu;                /* 0x034 */
     u8 wordSetWork[0x28];           /* 0x0D4 */
     struct FieldMsgWindow *msgWindow; /* 0x0FC */
-    void *talkWindow;               /* 0x100 */
+    void *timeIcon;                 /* 0x100 */
     u8 windowState;                 /* 0x104 */
     u8 windowKind;                  /* 0x105 */
     u16 waitCount;                  /* 0x106 */
@@ -507,14 +507,14 @@ struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(ScrcmdWork *work)
     return work->common->msgWindow;
 }
 
-void func_0215A624(ScrcmdWork *work, void *window)
+void SCRCMD_WORK_SetTimeIcon(ScrcmdWork *work, void *window)
 {
-    work->common->talkWindow = window;
+    work->common->timeIcon = window;
 }
 
-void *func_0215A630(ScrcmdWork *work)
+void *SCRCMD_WORK_GetTimeIcon(ScrcmdWork *work)
 {
-    return work->common->talkWindow;
+    return work->common->timeIcon;
 }
 
 u8 *SCRCMD_WORK_GetWordSetWork(ScrcmdWork *work)

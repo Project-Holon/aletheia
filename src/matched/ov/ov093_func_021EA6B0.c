@@ -1,5 +1,5 @@
 /*
- * function: func_021EA6B0
+ * function: BTLV_CORE_PrintTrainerMessage
  * address:  0x021EA6B0
  * packet:   pkt_ov093_021EA6B0
  * region:   ov093
@@ -12,7 +12,7 @@
  * symbols:
  *   func_0202A298  0x0202A298  thumb
  *   func_0202A310  0x0202A310  thumb
- *   func_021EA730  0x021EA730  thumb  ov093
+ *   BTLV_CORE_StartPrintMessage  0x021EA730  thumb  ov093
  */
 #include "../include/Obj07846.h"
 
@@ -22,13 +22,13 @@ typedef unsigned int u32;
 
 extern u32 func_0202A298(u32 key, u32 want, u32 heap);
 extern void func_0202A310(int key, int want, void *dest, u32 heap);
-extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
+extern void BTLV_CORE_StartPrintMessage(char *p, u32 a, u16 b, u32 c);
 
-int func_021EA6B0(char *p, u16 a, u16 b)
+int BTLV_CORE_PrintTrainerMessage(char *p, u16 a, u16 b)
 {
     if (func_0202A298(a, b, ((struct Obj07846 *)p)->f184) != 0) {
         func_0202A310(a, b, ((struct Obj07846 *)p)->fAC, ((struct Obj07846 *)p)->f184);
-        func_021EA730(p, *(int *)&((struct Obj07846 *)p)->fAC, 0x50, 0);
+        BTLV_CORE_StartPrintMessage(p, *(int *)&((struct Obj07846 *)p)->fAC, 0x50, 0);
     } else {
         return 0;
     }

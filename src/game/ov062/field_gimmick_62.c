@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_62.c
  * unit:     yes
- * function: func_021F36C0, GIMMICK62_Exit, GIMMICK62_Update
+ * function: FIELD_GIMMICK_62_Init, FIELD_GIMMICK_62_Exit, FIELD_GIMMICK_62_Update
  * address:  0x021F36C0
  * region:   ov062
  * compiler: dsi/1.1p1
@@ -45,18 +45,18 @@ extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int 
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, int model, int animeIdx, int enabled);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
 extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
-void func_021F36C0(void *fieldMap);
-void GIMMICK62_Exit(void *fieldMap);
+void FIELD_GIMMICK_62_Init(void *fieldMap);
+void FIELD_GIMMICK_62_Exit(void *fieldMap);
 extern VecFx32 d_021F3768;
 extern VecFx32 d_021F3790;
 extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
 
-void func_021F36C0(void *fieldMap)
+void FIELD_GIMMICK_62_Init(void *fieldMap)
 {
     s32 *hideFlag;
     void *expObj;
 
-    hideFlag = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK62_WORK_SLOT);
+    hideFlag = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_62_WORK_SLOT);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &d_021F3768, 0);
     *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = d_021F3790;
@@ -66,13 +66,13 @@ void func_021F36C0(void *fieldMap)
         FLD_EXP_OBJ_SetModelHidden(expObj, 0, 0, 1);
 }
 
-void GIMMICK62_Exit(void *fieldMap)
+void FIELD_GIMMICK_62_Exit(void *fieldMap)
 {
     FLD_EXP_OBJ_RemoveUnit(FIELDMAP_GetExpObj(fieldMap), 0);
 }
 
 /* Per-frame update: advances the model animes. */
-void GIMMICK62_Update(void *fieldMap)
+void FIELD_GIMMICK_62_Update(void *fieldMap)
 {
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
 }

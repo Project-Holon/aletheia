@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_068987A8"
+    "HAND_POS_GetHandlersHealingWish"
+   ],
+   "addresses": [
+    "0x068987A8"
    ],
    "evidence": {
     "sole-ref": [

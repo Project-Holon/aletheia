@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_UpdateSlideSe
+ * function: FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe
  * address:  0x021F3B40
  * packet:   pkt_ov053_021F3B40
  * region:   ov053
@@ -53,7 +53,7 @@ extern void FIELD_CAMERA_GetEyeRaw(int, int *);
 typedef unsigned char  u8;
 extern int FIELD_PLAYER_GetFormSlot(u8 *p);
 
-void GIMMICK53_UpdateSlideSe(Obj *o, int h, u8 *a2)
+void FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe(Obj *o, int h, u8 *a2)
 {
     int v[3];
     int d;

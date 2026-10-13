@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK53_UpdateSlideSe",
+   "name": "FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe",
    "address": "0x021F3B40",
    "kind": "game",
    "region": "ov053",

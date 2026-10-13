@@ -1,5 +1,5 @@
 /*
- * function: func_021ECF68
+ * function: BTLV_SCU_UpdateMessage
  * address:  0x021ECF68
  * packet:   pkt_ov093_021ECF68
  * region:   ov093
@@ -14,8 +14,8 @@
  * h14a without a decrement.
  *
  * symbols:
- *   func_021ED7C8  0x021ED7C8  thumb  ov093
- *   func_021ED814  0x021ED814  thumb  ov093
+ *   BTLV_SCU_StartMsgWinFadeIn  0x021ED7C8  thumb  ov093
+ *   BTLV_SCU_UpdateMsgWinFade  0x021ED814  thumb  ov093
  *   BTL_MAIN_GetCommPos  0x021B86C0  thumb  ov093
  *   PRINTSYS_PrintStreamRun  0x0201CE20  thumb  arm9
  *   PRINTSYS_PrintStreamIsOverrideSpeed  0x0201CED4  thumb  arm9
@@ -55,8 +55,8 @@ struct T {
     u8 pad14e[6];
     u8 s154[1];
 };
-extern void func_021ED7C8(struct S *, int);
-extern int func_021ED814(struct S *);
+extern void BTLV_SCU_StartMsgWinFadeIn(struct S *, int);
+extern int BTLV_SCU_UpdateMsgWinFade(struct S *);
 extern u8 BTL_MAIN_GetCommPos(u8 **);
 extern void PRINTSYS_PrintStreamRun(void *);
 typedef signed int     s32;
@@ -76,14 +76,14 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-int func_021ECF68(struct T *p)
+int BTLV_SCU_UpdateMessage(struct T *p)
 {
     switch (p->b13f) {
     case 0:
-        func_021ED7C8((struct S *)p->s154, p->b13e);
+        BTLV_SCU_StartMsgWinFadeIn((struct S *)p->s154, p->b13e);
         p->b13f = p->b13f + 1;
     case 1:
-        if (func_021ED814((struct S *)p->s154) == 0)
+        if (BTLV_SCU_UpdateMsgWinFade((struct S *)p->s154) == 0)
             break;
         if (p->b13e != 0) {
             p->b13f = 6;

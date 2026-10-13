@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_StartRotateEvent
+ * function: FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent
  * address:  0x021F3B18
  * packet:   pkt_ov046_021F3B18
  * region:   ov046
@@ -17,7 +17,7 @@
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   GIMMICK46_RotateEventProc  0x021F3D40  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc  0x021F3D40  thumb  ov046
  */
 
 typedef unsigned int u32;
@@ -34,9 +34,9 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern int *FIELDMAP_GetCommonWork(char *, int);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK46_RotateEventProc(u32 a, int *b);
+extern int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(u32 a, int *b);
 
-void GIMMICK46_StartRotateEvent(void *a, int b)
+void FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(void *a, int b)
 {
     void *x = GAMESYSTEM_GetFieldMap(a);
     int p;
@@ -46,5 +46,5 @@ void GIMMICK46_StartRotateEvent(void *a, int b)
     q = FIELDMAP_GetCommonWork(x, 1);
     q[0] = b;
     q[2] = p + b * 12;
-    func_020122C0(a, 0, GIMMICK46_RotateEventProc, 0);
+    func_020122C0(a, 0, FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc, 0);
 }

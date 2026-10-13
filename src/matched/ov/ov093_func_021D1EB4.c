@@ -11,9 +11,9 @@
  *
  * symbols:
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021EA678  0x021EA678  thumb  ov093
- *   func_021EA710  0x021EA710  thumb  ov093
- *   func_021EA720  0x021EA720  thumb  ov093
+ *   BTLV_CORE_PrintSideMessage  0x021EA678  thumb  ov093
+ *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
+ *   BTLV_CORE_ConsumeMessageFlag  0x021EA720  thumb  ov093
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
 
@@ -27,9 +27,9 @@ typedef struct {
 } Seq;
 
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern void func_021EA678(char *p, u16 k, int *c);
-extern int func_021EA710(u32 *p);
-extern int func_021EA720(u32 *p);
+extern void BTLV_CORE_PrintSideMessage(char *p, u16 k, int *c);
+extern int BTLV_CORE_WaitMessage(u32 *p);
+extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int arg);
 
 int BTL_CLIENT_StepShowSideMessageWithSound(Seq *s, int *state, u32 *a)
@@ -39,14 +39,14 @@ int BTL_CLIENT_StepShowSideMessageWithSound(Seq *s, int *state, u32 *a)
         if (BTL_CLIENT_IsMainStepActive((u8 *)s)) {
             return 1;
         }
-        func_021EA678(s->win, a[0], (int *)(a + 2));
+        BTLV_CORE_PrintSideMessage(s->win, a[0], (int *)(a + 2));
         *state = *state + 1;
         break;
     case 1:
-        if (func_021EA720(s->win)) {
+        if (BTLV_CORE_ConsumeMessageFlag(s->win)) {
             GFL_USE_PlaySeDefaultVolume(a[1]);
         }
-        if (func_021EA710(s->win)) {
+        if (BTLV_CORE_WaitMessage(s->win)) {
             return 1;
         }
         break;

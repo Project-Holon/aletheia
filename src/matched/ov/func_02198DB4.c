@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_02198C08(its own argument 1, 0x2, 0x7, 0x8) and returns 0x1.
+ * Calls FLDMMDL_ACMD_WalkTableInit(its own argument 1, 0x2, 0x7, 0x8) and returns 0x1.
  *
  * symbols:
- *   func_02198C08  0x02198C08  thumb
+ *   FLDMMDL_ACMD_WalkTableInit  0x02198C08  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_02198C08(u32 a1, u32 a2, u32 a3, u32 a4);
+extern void FLDMMDL_ACMD_WalkTableInit(u32 a1, u32 a2, u32 a3, u32 a4);
 
 u32 FLDMMDL_ACMD_WalkLeft7F(u32 a1)
 {
-    func_02198C08(a1, 0x2, 0x7, 0x8);
+    FLDMMDL_ACMD_WalkTableInit(a1, 0x2, 0x7, 0x8);
 
     return 0x1;
 }

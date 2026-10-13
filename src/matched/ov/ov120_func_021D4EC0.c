@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021D6988 0x021D6988 thumb ov120
- *   func_021B64D0 0x021B64D0 thumb ov067
+ *   TOUCHBAR_SetAllButtonsVisible 0x021B64D0 thumb ov067
  *   func_021D7D3C 0x021D7D3C thumb ov120
  *   func_021D6814 0x021D6814 thumb ov120
  *   func_021D444C 0x021D444C thumb ov120
@@ -28,7 +28,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021D6988(u8 *p);
-extern void func_021B64D0(u8 *, u32);
+extern void TOUCHBAR_SetAllButtonsVisible(u8 *, u32);
 typedef unsigned short u16;
 struct Obj;
 extern void func_021D7D3C(char *p);
@@ -47,7 +47,7 @@ extern void func_021D4D28(u8 *p);
 void func_021D4EC0(u8 *p)
 {
     ((struct Obj01253 *)p)->f138 = 0;
-    func_021B64D0((u8 *)func_021D6988(((struct Obj01253 *)p)->f3C), 1);
+    TOUCHBAR_SetAllButtonsVisible((u8 *)func_021D6988(((struct Obj01253 *)p)->f3C), 1);
     func_021D7D3C(((struct Obj01253 *)p)->f40);
     func_021D6814(((struct Obj01253 *)p)->f3C);
     *(void (**)(int))(p + 4) = (void (*)(int))func_021D444C;

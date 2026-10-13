@@ -31,8 +31,8 @@
  *   func_02030DA8 0x02030DA8 arm
  *   func_021F8710 0x021F8710 thumb ov094
  *   func_02207430 0x02207430 thumb ov094
- *   func_022079C0 0x022079C0 thumb ov094
- *   func_02208BFC 0x02208BFC thumb ov094
+ *   BTLV_GAUGE_PlaceSlot 0x022079C0 thumb ov094
+ *   BTLV_GAUGE_TaskFlashPalettes 0x02208BFC thumb ov094
  *   d_0220AEC0 0x0220AEC0 data a1
  *   d_0220AABC 0x0220AABC data a2
  */
@@ -98,8 +98,8 @@ extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern int func_021F8710(void);
 extern void func_02207430(Obj *, int, int);
-extern void func_022079C0(Obj *, int, Pt *);
-extern void func_02208BFC(void *, void *);
+extern void BTLV_GAUGE_PlaceSlot(Obj *, int, Pt *);
+extern void BTLV_GAUGE_TaskFlashPalettes(void *, void *);
 
 Obj *func_02206BC8(int a, u16 heap)
 {
@@ -135,7 +135,7 @@ Obj *func_02206BC8(int a, u16 heap)
     s->f444 = GFL_USE_GetBgmNo();
     t = func_02030734(heap, sizeof(Task), 1, d_0220AEC0, 0x185);
     t->obj = s;
-    s->f0c = func_02030DA8(func_021F86D4(), func_02208BFC, t, 0);
+    s->f0c = func_02030DA8(func_021F86D4(), BTLV_GAUGE_TaskFlashPalettes, t, 0);
     switch (func_021F8710()) {
     case 0:
         lo = 0;
@@ -166,7 +166,7 @@ Obj *func_02206BC8(int a, u16 heap)
             pos.x *= -1;
         func_02207430(s, kind, i);
         s->slot[i].kind = kind;
-        func_022079C0(s, i, &pos);
+        BTLV_GAUGE_PlaceSlot(s, i, &pos);
     }
     return s;
 }

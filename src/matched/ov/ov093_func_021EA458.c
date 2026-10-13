@@ -1,5 +1,5 @@
 /*
- * function: func_021EA458
+ * function: BTLV_CORE_StartMonEffectTask
  * address:  0x021EA458
  * packet:   pkt_ov093_021EA458
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021ED318  0x021ED318  thumb  ov093
+ *   BTLV_SCU_StartMonWithdraw  0x021ED318  thumb  ov093
  */
 #include "../include/Obj13560.h"
 typedef unsigned char u8;
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern void func_021ED318(char *p, u16 k, u16 a, int flag);
+extern void BTLV_SCU_StartMonWithdraw(char *p, u16 k, u16 a, int flag);
 
-void func_021EA458(char *ctx, u16 a, u16 b)
+void BTLV_CORE_StartMonEffectTask(char *ctx, u16 a, u16 b)
 {
-    func_021ED318(*(char * *)&((struct Obj13560 *)ctx)->f17C, a, b, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj13560 *)ctx)->f4));
+    BTLV_SCU_StartMonWithdraw(*(char * *)&((struct Obj13560 *)ctx)->f17C, a, b, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj13560 *)ctx)->f4));
 }

@@ -17,9 +17,9 @@
  * MATCH, bytes exact. Blockers: the three overlay ids (ABS32 0xDD, 0xDE,
  * 0xE0) have no witness: `overlay_id` would carry them, but SCRCMD_PROC_StartOverlayProc
  * (which forwards its r2 to GAMESYSTEM_CallProc's r1) is not in match.py's
- * OVERLAY_ID_CONSUMERS. d_021BA250 (ov222) and d_021B9BF8 (ov224) are
+ * OVERLAY_ID_CONSUMERS. gZenkokuZukanAwardProcData (ov222) and gSubwayMapProcData (ov224) are
  * contested hints that resolve once the function loads those overlays
- * through an overlay_id site. d_021BA1A4 (ov221) already resolves.
+ * through an overlay_id site. gChihouZukanAwardProcData (ov221) already resolves.
  *
  * 2026-10-05 (wave D9): re-tried overlay tokens on the contested hints; they stay contested because the id sites do not attest. Residue is the three id words (ov221_id, ov222_id, ov224_id) reaching SCRCMD_PROC_StartOverlayProc, which is not in OVERLAY_ID_CONSUMERS; add that consumer (r2 -> GAMESYSTEM_CallProc r1) and the hints resolve. Not fixable in C.
  *
@@ -35,9 +35,9 @@
  *   ov221_id       0x000000DD  data
  *   ov222_id       0x000000DE  data
  *   ov224_id       0x000000E0  data
- *   d_021BA1A4     0x021BA1A4  data  ov221  a4
- *   d_021BA250     0x021BA250  data  ov222  a4
- *   d_021B9BF8     0x021B9BF8  data  ov224  a4
+ *   gChihouZukanAwardProcData     0x021BA1A4  data  ov221  a4
+ *   gZenkokuZukanAwardProcData     0x021BA250  data  ov222  a4
+ *   gSubwayMapProcData     0x021B9BF8  data  ov224  a4
  */
 
 typedef unsigned char u8;
@@ -58,9 +58,9 @@ extern void GAME_BEACON_SEARCH_SetScriptEvent(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void SCRCMD_PROC_StartOverlayProc(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char sAllocSiteScrcmdProc[];
-extern const u8 d_021BA1A4[];
-extern const u8 d_021BA250[];
-extern const u8 d_021B9BF8[];
+extern const u8 gChihouZukanAwardProcData[];
+extern const u8 gZenkokuZukanAwardProcData[];
+extern const u8 gSubwayMapProcData[];
 extern u8 ov221_id[];
 extern u8 ov222_id[];
 extern u8 ov224_id[];
@@ -86,18 +86,18 @@ int SCRCMD_PROC_CallModeScreen(void *c, void *vm)
         b = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x22B);
         b->sys = sys;
         b->v = v;
-        SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov221_id, d_021BA1A4, b, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov221_id, gChihouZukanAwardProcData, b, 0, 0);
         break;
     case 1:
         b = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x233);
         b->sys = sys;
         b->v = v;
-        SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov222_id, d_021BA250, b, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov222_id, gZenkokuZukanAwardProcData, b, 0, 0);
         break;
     case 2:
         w = func_02030734(4, 4, 1, sAllocSiteScrcmdProc, 0x23C);
         *w = sub;
-        SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov224_id, d_021B9BF8, w, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov224_id, gSubwayMapProcData, w, 0, 0);
         break;
     }
     return 1;

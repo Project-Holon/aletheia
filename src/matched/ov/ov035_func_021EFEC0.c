@@ -1,5 +1,5 @@
 /*
- * function: REPORT_Create
+ * function: C_GEAR_POWER_ONOFF_Create
  * address:  0x021EFEC0
  * packet:   pkt_ov035_021EFEC0
  * region:   ov035
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   REPORT_Create 0x021EFEC0 thumb
+ *   C_GEAR_POWER_ONOFF_Create 0x021EFEC0 thumb
  *   func_02030734 0x02030734 arm
- *   d_021F0678    0x021F0678 data ov035 a1
+ *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   C_GEAR_POWER_ONOFF_InitScreen 0x021EFF78 thumb ov035
  *   func_0202EB44 0x0202EB44 thumb
@@ -24,7 +24,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char d_021F0678[];
+extern char sCGearPowerOnOffFileName[];
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
 extern void C_GEAR_POWER_ONOFF_InitScreen(char *p, void *a1);
@@ -32,9 +32,9 @@ extern int func_0202EB44(void);
 extern u32 GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *);
 extern void C_GEAR_POWER_ONOFF_Update(char *p, int a1);
 
-void *REPORT_Create(int a0, int a1, void *a2)
+void *C_GEAR_POWER_ONOFF_Create(int a0, int a1, void *a2)
 {
-    char *p = (char *)func_02030734((u32)a2, 0x50, 1, d_021F0678, 0x12D);
+    char *p = (char *)func_02030734((u32)a2, 0x50, 1, sCGearPowerOnOffFileName, 0x12D);
     ((struct Obj02409 *)p)->f4 = a1;
     ((struct Obj02409 *)p)->f8 = GAMESYSTEM_GetGameComm((const struct Ctx *)a1);
     *(int *)&((struct Obj02409 *)p)->fC = a0;

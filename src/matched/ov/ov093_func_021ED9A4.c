@@ -1,5 +1,5 @@
 /*
- * function: func_021ED9A4
+ * function: BTLV_SCU_InitMonSlot
  * address:  0x021ED9A4
  * packet:   pkt_ov093_021ED9A4
  * region:   ov093
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 struct E { int a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
 typedef unsigned int   u32;
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
-void func_021ED9A4(struct E *e, u8 *o, u8 k)
+void BTLV_SCU_InitMonSlot(struct E *e, u8 *o, u8 k)
 {
     e->k8 = k;
     e->v9 = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj10122 *)o)->f134, k);

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E74E4, func_021E7548
+ * function: HAND_WAZA_ClearSmogResetTargetRanks, HAND_WAZA_AddIncinerate
  * address:  0x021E74E4
  * packet:   pkt_ov093_021E74E4
  * region:   ov093
@@ -29,7 +29,7 @@ extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F279C[];
 
-void func_021E74E4(int a, int b, int c)
+void HAND_WAZA_ClearSmogResetTargetRanks(int a, int b, int c)
 {
     u8 k;
     u8 *p;
@@ -49,7 +49,7 @@ void func_021E74E4(int a, int b, int c)
     }
 }
 
-int *func_021E7548(int *p)
+int *HAND_WAZA_AddIncinerate(int *p)
 {
     *p = 1;
     return d_021F279C;

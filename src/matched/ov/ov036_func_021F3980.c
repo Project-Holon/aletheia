@@ -24,7 +24,7 @@
  *   gDailyLayoutAnchorCells     0x021F3A7C  data  a1
  *   gDailyLayoutCompanionCellsA     0x021F3A82  data  a1
  *   gDailyLayoutCompanionCellsB     0x021F3A90  data  a1
- *   d_021F3AD4     0x021F3AD4  data  a4
+ *   gDailyLayoutCellFlags     0x021F3AD4  data  a4
  */
 
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ typedef struct {
 extern u8 gDailyLayoutAnchorCells[];
 extern u8 gDailyLayoutCompanionCellsA[];
 extern u8 gDailyLayoutCompanionCellsB[];
-extern P8 d_021F3AD4[];
+extern P8 gDailyLayoutCellFlags[];
 
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
@@ -68,7 +68,7 @@ int DAILY_LAYOUT_DealCells(u8 *p)
     p[0x1e]++;
     n = 15;
     cnt = n - 1;
-    if (d_021F3AD4[idx].a == 0)
+    if (gDailyLayoutCellFlags[idx].a == 0)
         a = 1;
     else
         b = 1;

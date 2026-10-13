@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021EFCF4  0x021EFCF4  data  ov093  a1
- *   d_021EFCFA  0x021EFCFA  data  ov093  a1
+ *   gViewPosOfSlotDouble  0x021EFCF4  data  ov093  a1
+ *   gViewPosOfSlotTriple  0x021EFCFA  data  ov093  a1
  */
 #include "../include/Obj13271.h"
 
@@ -19,8 +19,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 d_021EFCF4[2][3];
-extern u8 d_021EFCFA[2][3];
+extern u8 gViewPosOfSlotDouble[2][3];
+extern u8 gViewPosOfSlotTriple[2][3];
 
 u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k)
 {
@@ -41,7 +41,7 @@ u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k)
         return r;
     }
     if (mode == 1) {
-        return d_021EFCF4[s][(u8)(k >> 1)];
+        return gViewPosOfSlotDouble[s][(u8)(k >> 1)];
     }
-    return d_021EFCFA[s][(u8)(k >> 1)];
+    return gViewPosOfSlotTriple[s][(u8)(k >> 1)];
 }

@@ -21,20 +21,20 @@
  *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
  *   BTL_MAIN_GetSlotClientAndNth 0x021B8E28 thumb ov093
  *   BTL_CLIENT_BuildSlotChoices 0x021D0B10 thumb ov093
- *   func_021E9A78 0x021E9A78 thumb ov093
+ *   BTLV_CORE_StartPartyMenu 0x021E9A78 thumb ov093
  *   BTL_CLIENT_StartTimeLimit 0x021CE068 thumb ov093
  *   BTL_CLIENT_TrySetRotateAction 0x021D1058 thumb ov093
  *   BTL_ACTION_SetChangeDepleted 0x021D83C4 thumb ov093
  *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
  *   BTL_CLIENT_PollTimeLimitReady 0x021CE08C thumb ov093
- *   func_021E9B14 0x021E9B14 thumb ov093
- *   func_021E9B20 0x021E9B20 thumb ov093
+ *   BTLV_CORE_LockPartyChoice 0x021E9B14 thumb ov093
+ *   BTLV_CORE_PollPartyMenu 0x021E9B20 thumb ov093
  *   BTL_CLIENT_SetChangeActionsFromChoice 0x021D0B6C thumb ov093
  *   BTL_CLIENT_SetChangeActionsFirstAble 0x021D0BB0 thumb ov093
  *   BTL_CLIENT_StopTimeLimit 0x021CE0E0 thumb ov093
  *   BTL_MAIN_GetCommPos 0x021B86C0 thumb ov093
- *   func_021EA7FC 0x021EA7FC thumb ov093
- *   func_021EA814 0x021EA814 thumb ov093
+ *   BTLV_CORE_StartWaitMessage 0x021EA7FC thumb ov093
+ *   BTLV_CORE_UpdateWaitMessage 0x021EA814 thumb ov093
  */
 #include "../include/Obj00819.h"
 typedef unsigned char u8;
@@ -49,20 +49,20 @@ extern int BTL_POKEPARAM_IsFainted(void *);
 extern void BTL_ACTION_SetChange(void *, u8, u8);
 extern void BTL_MAIN_GetSlotClientAndNth(u8 *, u8, u8 *, u8 *);
 extern void BTL_CLIENT_BuildSlotChoices(u8 *p, u32 a, u32 b, void *q, void *out);
-extern void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r);
+extern void BTLV_CORE_StartPartyMenu(char *p, const u8 *q, int x, int y, u8 *r);
 extern void BTL_CLIENT_StartTimeLimit(u8 *);
 extern int BTL_CLIENT_TrySetRotateAction(u8 *, void *);
 extern void BTL_ACTION_SetChangeDepleted(u32 *p);
 extern void BTL_CALC_ActionSetNone(u32 *p);
 extern int BTL_CLIENT_PollTimeLimitReady(u8 *);
-extern void func_021E9B14(unsigned int *p);
-extern int func_021E9B20(u8 *p);
+extern void BTLV_CORE_LockPartyChoice(unsigned int *p);
+extern int BTLV_CORE_PollPartyMenu(u8 *p);
 extern void BTL_CLIENT_SetChangeActionsFromChoice(u8 *g, u8 *s);
 extern void BTL_CLIENT_SetChangeActionsFirstAble(u8 *p);
 extern void BTL_CLIENT_StopTimeLimit(u8 *p);
 extern u8 BTL_MAIN_GetCommPos(u8 **p);
-extern void func_021EA7FC(char *p);
-extern int func_021EA814(u32 *p);
+extern void BTLV_CORE_StartWaitMessage(char *p);
+extern int BTLV_CORE_UpdateWaitMessage(u32 *p);
 int BTL_CLIENT_StepChooseReplacement(u8 *p, int *state, u8 param)
 {
     u8 order[6];
@@ -91,7 +91,7 @@ int BTL_CLIENT_StepChooseReplacement(u8 *p, int *state, u8 param)
                 }
                 BTL_MAIN_GetSlotClientAndNth(*(u8 * *)&((struct Obj00819 *)p)->f0, p[0x1B5], &pair[1], &pair[0]);
                 BTL_CLIENT_BuildSlotChoices(p, param, count, p + 0x184, p + 0x190);
-                func_021E9A78(((struct Obj00819 *)p)->f54, p + 0x184, pair[0], 0, p + 0x190);
+                BTLV_CORE_StartPartyMenu(((struct Obj00819 *)p)->f54, p + 0x184, pair[0], 0, p + 0x190);
                 BTL_CLIENT_StartTimeLimit(p);
                 *state = 1;
             } else {
@@ -115,15 +115,15 @@ int BTL_CLIENT_StepChooseReplacement(u8 *p, int *state, u8 param)
         break;
     case 1:
         if (BTL_CLIENT_PollTimeLimitReady(p) != 0) {
-            func_021E9B14(((struct Obj00819 *)p)->f54);
+            BTLV_CORE_LockPartyChoice(((struct Obj00819 *)p)->f54);
             *state = 2;
-        } else if (func_021E9B20(((struct Obj00819 *)p)->f54) != 0) {
+        } else if (BTLV_CORE_PollPartyMenu(((struct Obj00819 *)p)->f54) != 0) {
             BTL_CLIENT_SetChangeActionsFromChoice(p, p + 0x190);
             *state = 3;
         }
         break;
     case 2:
-        if (func_021E9B20(((struct Obj00819 *)p)->f54) != 0) {
+        if (BTLV_CORE_PollPartyMenu(((struct Obj00819 *)p)->f54) != 0) {
             BTL_CLIENT_SetChangeActionsFirstAble(p);
             *state = 3;
         }
@@ -135,14 +135,14 @@ int BTL_CLIENT_StepChooseReplacement(u8 *p, int *state, u8 param)
     case 4:
         if (BTL_MAIN_GetCommPos(((struct Obj00819 *)p)->f0) != 0) {
             p[0x1A9] = 1;
-            func_021EA7FC(((struct Obj00819 *)p)->f54);
+            BTLV_CORE_StartWaitMessage(((struct Obj00819 *)p)->f54);
             *state = 5;
         } else {
             *state = 6;
         }
         break;
     case 5:
-        if (func_021EA814(((struct Obj00819 *)p)->f54) != 0) {
+        if (BTLV_CORE_UpdateWaitMessage(((struct Obj00819 *)p)->f54) != 0) {
             *state = 6;
         }
         break;

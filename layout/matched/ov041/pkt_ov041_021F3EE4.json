@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK41_FindCannonAt",
+   "name": "FIELD_GIMMICK_CANNONS_FindCannonAt",
    "address": "0x021F3EE4",
    "kind": "game",
    "region": "ov041",

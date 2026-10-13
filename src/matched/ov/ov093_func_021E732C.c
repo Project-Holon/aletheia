@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E732C, func_021E737C
+ * function: HAND_WAZA_SoakSetWaterType, HAND_WAZA_AddSimpleBeam
  * address:  0x021E732C
  * packet:   pkt_ov093_021E732C
  * region:   ov093
@@ -27,7 +27,7 @@ extern int BTLV_CORE_PackByteTwice(int a);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F27F4[];
 
-void func_021E732C(int a, int b, int c)
+void HAND_WAZA_SoakSetWaterType(int a, int b, int c)
 {
     u32 i;
     u32 n;
@@ -44,7 +44,7 @@ void func_021E732C(int a, int b, int c)
     }
 }
 
-int *func_021E737C(int *p)
+int *HAND_WAZA_AddSimpleBeam(int *p)
 {
     *p = 1;
     return d_021F27F4;

@@ -1,5 +1,5 @@
 /*
- * function: func_06898328
+ * function: HAND_POS_WishHealOnTurn
  * address:  0x06898328
  * packet:   pkt_ov095_06898328
  * region:   ov095
@@ -60,7 +60,7 @@ extern void func_0689848C(void *p, int k);
 extern void func_0689849C(int b, void *p);
 extern void func_068984AC(int a);
 
-void func_06898328(int a, int b, int c, D *d)
+void HAND_POS_WishHealOnTurn(int a, int b, int c, D *d)
 {
     if (func_068983DC(2) == 0x1f && func_068983EC(b) == 0) {
         if (d->w0 == 0) {

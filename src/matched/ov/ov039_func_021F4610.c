@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_RideRefusedEventMain
+ * function: FIELD_GIMMICK_CART_LANES_RideRefusedEventMain
  * address:  0x021F4610
  * packet:   pkt_ov039_021F4610
  * region:   ov039
@@ -21,8 +21,8 @@
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
  *   SCRIPT_SYS_CallScriptEvent 0x02158780 thumb ov010
  *   SCRIPT_SYS_ChangeScriptEvent 0x021587B0 thumb ov010
- *   GIMMICK39_SetAnimeFrame 0x021F3E04 thumb ov039
- *   GIMMICK39_GetAnimeFrame 0x021F3DE4 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_SetAnimeFrame 0x021F3E04 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_GetAnimeFrame 0x021F3DE4 thumb ov039
  *   FLD_EXP_OBJ_SetAnimePaused 0x021BE6B0 thumb ov021
  *   FLD_EXP_OBJ_IsAnimeStopped 0x021BE6BC thumb ov021
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -58,13 +58,13 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 extern int SCRIPT_SYS_ChangeScriptEvent(int a0, int a1, int a2, int a3);
-extern void GIMMICK39_SetAnimeFrame(void *p, u8 delta, u16 i, int frame);
-extern int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i);
+extern void FIELD_GIMMICK_CART_LANES_SetAnimeFrame(void *p, u8 delta, u16 i, int frame);
+extern int FIELD_GIMMICK_CART_LANES_GetAnimeFrame(void *p, u16 delta, u16 i);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-int GIMMICK39_RideRefusedEventMain(void *a0, int *a1)
+int FIELD_GIMMICK_CART_LANES_RideRefusedEventMain(void *a0, int *a1)
 {
     void *sys;
     int h;
@@ -86,13 +86,13 @@ int GIMMICK39_RideRefusedEventMain(void *a0, int *a1)
         *a1 = *a1 + 1;
         break;
     case 1:
-        GIMMICK39_SetAnimeFrame((void *)h, j, 0, 0);
+        FIELD_GIMMICK_CART_LANES_SetAnimeFrame((void *)h, j, 0, 0);
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
         GFL_USE_PlaySeDefaultVolume(0x687);
         *a1 = *a1 + 1;
         break;
     case 2:
-        if (GIMMICK39_GetAnimeFrame((void *)h, j, 0) < 0xF000) {
+        if (FIELD_GIMMICK_CART_LANES_GetAnimeFrame((void *)h, j, 0) < 0xF000) {
             break;
         }
         FLD_EXP_OBJ_SetAnimePaused(o, 1);

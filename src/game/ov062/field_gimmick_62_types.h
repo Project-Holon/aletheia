@@ -8,7 +8,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-#define GIMMICK62_WORK_SLOT    0x34   /* gimmick work slot that holds the hide flag */
+#define FIELD_GIMMICK_62_WORK_SLOT    0x34   /* gimmick work slot that holds the hide flag */
 
 typedef struct VecFx32 {
     int x;

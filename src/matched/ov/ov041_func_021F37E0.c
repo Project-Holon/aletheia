@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_CreateLaunchEvent
+ * function: FIELD_GIMMICK_CANNONS_CreateLaunchEvent
  * address:  0x021F37E0
  * packet:   pkt_ov041_021F37E0
  * region:   ov041
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK41_CreateLaunchEvent  0x021F37E0  thumb
- *   GIMMICK41_EventLaunch  0x021F3884  thumb
- *   GIMMICK41_FindCannonAt  0x021F3EE4  thumb
+ *   FIELD_GIMMICK_CANNONS_CreateLaunchEvent  0x021F37E0  thumb
+ *   FIELD_GIMMICK_CANNONS_EventLaunch  0x021F3884  thumb
+ *   FIELD_GIMMICK_CANNONS_FindCannonAt  0x021F3EE4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -46,10 +46,10 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern u8 GIMMICK41_FindCannonAt(int x, int y);
-extern int GIMMICK41_EventLaunch(void *a0, int *state);
+extern u8 FIELD_GIMMICK_CANNONS_FindCannonAt(int x, int y);
+extern int FIELD_GIMMICK_CANNONS_EventLaunch(void *a0, int *state);
 
-int GIMMICK41_CreateLaunchEvent(void *a)
+int FIELD_GIMMICK_CANNONS_CreateLaunchEvent(void *a)
 {
     void *s;
     void *t;
@@ -83,11 +83,11 @@ int GIMMICK41_CreateLaunchEvent(void *a)
         x += 2;
         break;
     }
-    idx = GIMMICK41_FindCannonAt(x, y);
+    idx = FIELD_GIMMICK_CANNONS_FindCannonAt(x, y);
     if (idx >= 10) {
         return 0;
     }
-    r = (int)func_020122C0(a, 0, GIMMICK41_EventLaunch, 0);
+    r = (int)func_020122C0(a, 0, FIELD_GIMMICK_CANNONS_EventLaunch, 0);
     p[0] = idx;
     p[1] = d;
     return r;

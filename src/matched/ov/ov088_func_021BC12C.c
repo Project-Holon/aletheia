@@ -28,10 +28,10 @@
  *   PM_VOICE_Prepare  0x020069D4  thumb
  *   ov194_id       0x000000C2  data
  *   ov204_id       0x000000CC  data
- *   d_021F557C     0x021F557C  data  ov194  a4
- *   d_021F558C     0x021F558C  data  ov194  a4
- *   d_021BFD20     0x021BFD20  data  ov204  a4
- *   d_021BFD30     0x021BFD30  data  ov204  a4
+ *   gNameInWaveArcCount     0x021F557C  data  ov194  a4
+ *   gNameInWaveArcIds     0x021F558C  data  ov194  a4
+ *   gIntroWaveArcCount     0x021BFD20  data  ov204  a4
+ *   gIntroWaveArcIds     0x021BFD30  data  ov204  a4
  */
 #include "../include/Obj00964.h"
 
@@ -56,10 +56,10 @@ extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *a0, u32 a1);
 extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
 extern u8 ov194_id[];
 extern u8 ov204_id[];
-extern u32 d_021F557C;
-extern u32 d_021F558C[];
-extern u32 d_021BFD20;
-extern u32 d_021BFD30[];
+extern u32 gNameInWaveArcCount;
+extern u32 gNameInWaveArcIds[];
+extern u32 gIntroWaveArcCount;
+extern u32 gIntroWaveArcIds[];
 
 int STARTMENU_NewGameIntroInit(struct Obj0203159C *a0)
 {
@@ -84,15 +84,15 @@ int STARTMENU_NewGameIntroInit(struct Obj0203159C *a0)
 
     id = ov194_id;
     func_02034AC4((int)id);
-    n1 = d_021F557C;
+    n1 = gNameInWaveArcCount;
     for (i = 0; i < n1; i++)
-        buf[i] = d_021F558C[i];
+        buf[i] = gNameInWaveArcIds[i];
     func_02034A5C((int)id);
 
     func_02034AC4((int)ov204_id);
-    n2 = d_021BFD20;
+    n2 = gIntroWaveArcCount;
     for (i = 0; i < n2; i++)
-        buf[n1 + i] = d_021BFD30[i];
+        buf[n1 + i] = gIntroWaveArcIds[i];
     func_02034A5C((int)ov204_id);
 
     ((struct Obj00964 *)w)->f34 = (u32)GFL_USE_LoadWaveArcSet(buf, n1 + n2);

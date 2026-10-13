@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_068993A4"
+    "HAND_SIDE_GetHandlersWideGuard"
+   ],
+   "addresses": [
+    "0x068993A4"
    ],
    "evidence": {
     "sole-ref": [

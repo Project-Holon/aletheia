@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   data_021F040C  0x021F040C  data  ov093
+ *   gSemiInvulnerableContFlags  0x021F040C  data  ov093
  *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  */
 
@@ -49,14 +49,14 @@ struct UtilWork {
     u8 f157[5];
 };
 
-extern const u32 data_021F040C[4];
+extern const u32 gSemiInvulnerableContFlags[4];
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 
 u32 BTL_POKEPARAM_GetSemiInvulnerableFlag(struct UtilWork *p)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        if (BTL_POKEPARAM_TestContFlag(p, data_021F040C[i])) return data_021F040C[i];
+        if (BTL_POKEPARAM_TestContFlag(p, gSemiInvulnerableContFlags[i])) return gSemiInvulnerableContFlags[i];
     }
     return 0x10;
 }

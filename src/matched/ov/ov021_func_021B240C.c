@@ -14,7 +14,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   GIMMICK40_GetFlag  0x021F37C8  thumb  ov040
+ *   FIELD_GIMMICK_FLAG_ANIME_GetFlag  0x021F37C8  thumb  ov040
  */
 
 typedef unsigned short u16;
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern int GIMMICK40_GetFlag(u8 *p);
+extern int FIELD_GIMMICK_FLAG_ANIME_GetFlag(u8 *p);
 
 int SCRCMD_GIMMICK40_GetFlag(u32 a, u32 b)
 {
@@ -36,7 +36,7 @@ int SCRCMD_GIMMICK40_GetFlag(u32 a, u32 b)
     SCRCMD_WORK_GetScriptWork((void *)b);
     w = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b));
     o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
-    if (GIMMICK40_GetFlag(w) != 0) {
+    if (FIELD_GIMMICK_FLAG_ANIME_GetFlag(w) != 0) {
         *o = 1;
     } else {
         *o = 0;

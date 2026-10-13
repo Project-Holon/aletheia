@@ -1,5 +1,5 @@
 /*
- * function: func_02179328
+ * function: WIH_SetJudgeAcceptFunc
  * address: 0x02179328
  * packet: pkt_ov014_02179328
  * region: ov014
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data a4
+ *   gWihWork 0x021797A8 data a4
  */
 
 #include "../include/G_S.h"
 
 typedef unsigned char u8;
-extern struct S *g_021797A8;
-void func_02179328(void *v) { *(void **)(((u8 *)g_021797A8) + 0x1E7C) = v; }
+extern struct S *gWihWork;
+void WIH_SetJudgeAcceptFunc(void *v) { *(void **)(((u8 *)gWihWork) + 0x1E7C) = v; }

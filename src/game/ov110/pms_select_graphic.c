@@ -65,7 +65,7 @@
  *   FX_SinCosTable_ 0x020A1B38 data
  *   data_021C39E0 0x021C39E0 data a4
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
- *   func_021B6588 0x021B6588 thumb ov067
+ *   TOUCHBAR_SetButtonBgPriority 0x021B6588 thumb ov067
  *   data_021C39F8 0x021C39F8 data a4
  *   TOUCHBAR_Delete  0x021B639C  thumb  ov067
  *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
@@ -91,7 +91,7 @@
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
  *   PMS_DRAW_Print 0x0202DC48 thumb
  *   _u32_div_f 0x0209C2B0 arm
- *   func_021B64D0 0x021B64D0 thumb ov067
+ *   TOUCHBAR_SetAllButtonsVisible 0x021B64D0 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   BRIGHTNESS_Set 0x02023F60 thumb
@@ -100,7 +100,7 @@
  *   PMSI_PARAM_Create 0x02024044 thumb
  *   PMSI_PARAM_SetSentence 0x02024108 thumb
  *   PROCSYS_Push 0x02031348 arm
- *   d_021C39B8 0x021C39B8 data a4
+ *   gPmsSelectProcData 0x021C39B8 data a4
  *   PMSI_PARAM_CheckModified 0x02024120 thumb
  *   PMSI_PARAM_GetSentence 0x02024134 thumb
  *   PMS_WORD_SetSaveEntry 0x02024918 thumb
@@ -272,7 +272,7 @@ extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern u32 func_020307B0(void *p);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void *TOUCHBAR_Create(Descriptor *,int);
-extern void func_021B6588(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonBgPriority(unsigned char *p, unsigned int id, unsigned int v);
 extern void TOUCHBAR_Delete(u8 *p);
 extern void TOUCHBAR_Update(struct S *p);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
@@ -298,7 +298,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
-extern void func_021B64D0(u8 *,u32);
+extern void TOUCHBAR_SetAllButtonsVisible(u8 *,u32);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern void BRIGHTNESS_Set(u32,u32,u32);
@@ -401,7 +401,7 @@ extern short FX_SinCosTable_[];
 extern unsigned short data_021C39E0[];
 extern const Table data_021C39F8;
 extern const u8 d_021C3C94[];
-extern const unsigned d_021C39B8[];
+extern const unsigned gPmsSelectProcData[];
 extern const char d_021C3C98[];
 extern const unsigned d_021C3A44[];
 extern const unsigned d_021C3A18[];
@@ -719,7 +719,7 @@ void *func_021C0A54(int unused,void *p,int heap) {
     desc.table=&table;
     desc.p=p;
     out=TOUCHBAR_Create(&desc,heap);
-    func_021B6588(out,1,1);
+    TOUCHBAR_SetButtonBgPriority(out,1,1);
     return out;
 }
 
@@ -1086,7 +1086,7 @@ int func_021C12F8(void) { u32 x,y; u32 result; if(TOUCHPANEL_GetPointTrg(&x,&y) 
 
 
 
-int func_021C132C(void *unused,u8 *p) { func_021B64D0(*(u8 * *)&((struct Obj22412 *)p)->f54,1); return 1; }
+int func_021C132C(void *unused,u8 *p) { TOUCHBAR_SetAllButtonsVisible(*(u8 * *)&((struct Obj22412 *)p)->f54,1); return 1; }
 
 
 
@@ -1145,7 +1145,7 @@ int func_021C133C(void *unused,u8 *p)
 
 
 
-int func_021C1440(void *a, u8 *p) { func_021B64D0(*(u8 * *)&((struct Obj22413 *)p)->f54,0); return 1; }
+int func_021C1440(void *a, u8 *p) { TOUCHBAR_SetAllButtonsVisible(*(u8 * *)&((struct Obj22413 *)p)->f54,0); return 1; }
 
 
 
@@ -1217,7 +1217,7 @@ int func_021C154C(int *state, u8 *p) {
     case 1:
         q=PMSI_PARAM_Create(2,0,0,1,*(void **)(p+0x1c),*(u16 *)(p+4));
         PMSI_PARAM_SetSentence(q,PMS_WORD_GetSaveEntry(*(void **)(p+0x20),p[0x95]));
-        PROCSYS_Push(*(void **)(p+0xac),-1,(void *)d_021C39B8,q);
+        PROCSYS_Push(*(void **)(p+0xac),-1,(void *)gPmsSelectProcData,q);
         *(void **)(p+0x90)=q;
         return 1;
     }

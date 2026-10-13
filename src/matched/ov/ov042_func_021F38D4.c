@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK42_EventSetState
+ * function: FIELD_GIMMICK_BUTTON_STATES_EventSetState
  * address:  0x021F38D4
  * packet:   pkt_ov042_021F38D4
  * region:   ov042
@@ -14,7 +14,7 @@
  * store ahead of the register setup; with int parameters it lands last.
  *
  * symbols:
- *   GIMMICK42_EventSetState  0x021F38D4  thumb
+ *   FIELD_GIMMICK_BUTTON_STATES_EventSetState  0x021F38D4  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
@@ -55,7 +55,7 @@ extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
 
-int GIMMICK42_EventSetState(void *a, int *st)
+int FIELD_GIMMICK_BUTTON_STATES_EventSetState(void *a, int *st)
 {
     void *s;
     u32 t;

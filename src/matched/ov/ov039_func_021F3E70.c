@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_SwitchEventMain
+ * function: FIELD_GIMMICK_CART_LANES_SwitchEventMain
  * address:  0x021F3E70
  * packet:   pkt_ov039_021F3E70
  * region:   ov039
@@ -26,7 +26,7 @@
  *   FLD_EXP_OBJ_SetAnimeFrame 0x021BE6CC thumb ov021
  *   FLD_EXP_OBJ_IsAnimeStopped 0x021BE6BC thumb ov021
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   GIMMICK39_ApplySwitch 0x021F4740 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_ApplySwitch 0x021F4740 thumb ov039
  */
 
 typedef signed char s8;
@@ -64,9 +64,9 @@ extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void GIMMICK39_ApplySwitch(u32 a, void *b);
+extern void FIELD_GIMMICK_CART_LANES_ApplySwitch(u32 a, void *b);
 
-int GIMMICK39_SwitchEventMain(int a0, int *a1)
+int FIELD_GIMMICK_CART_LANES_SwitchEventMain(int a0, int *a1)
 {
     void *sys;
     int h;
@@ -116,7 +116,7 @@ int GIMMICK39_SwitchEventMain(int a0, int *a1)
         o = FLD_EXP_OBJ_GetAnime((char *)h, 0, (u8)(i + 4), (u16)s->mode);
         o2 = FLD_EXP_OBJ_GetAnime((char *)h, 0, (u8)(i + 8), (u16)s->mode);
         if (FLD_EXP_OBJ_IsAnimeStopped(o) && FLD_EXP_OBJ_IsAnimeStopped(o2)) {
-            GIMMICK39_ApplySwitch((u32)sys, (void *)h);
+            FIELD_GIMMICK_CART_LANES_ApplySwitch((u32)sys, (void *)h);
             s->idx = -1;
             return 1;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E9B14
+ * function: BTLV_CORE_LockPartyChoice
  * address:  0x021E9B14
  * packet:   pkt_ov093_021E9B14
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-void func_021E9B14(unsigned int *p)
+void BTLV_CORE_LockPartyChoice(unsigned int *p)
 {
     p[0x4F] = 1;
 }

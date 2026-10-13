@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK43_IsInLiftZone",
+   "name": "FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone",
    "address": "0x021F3EEC",
    "kind": "game",
    "region": "ov043",

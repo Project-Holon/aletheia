@@ -1,5 +1,5 @@
 /*
- * function: func_021CF5D8
+ * function: ENCEFF_SelectEffectAndBgm
  * address:  0x021CF5D8
  * packet:   pkt_ov021_021CF5D8
  * region:   ov021
@@ -42,7 +42,7 @@ extern BOOL MAP_ATTR_IsAnyGrass(u16 id);
 extern BOOL MAP_ATTR_IsSplashWaterB(u16 id);
 extern int MAP_ATTR_IsSandVariant(u32 id);
 
-void func_021CF5D8(int id, int kind, int flag, struct Obj00020 *pos, u32 *outType, u16 *outMsg)
+void ENCEFF_SelectEffectAndBgm(int id, int kind, int flag, struct Obj00020 *pos, u32 *outType, u16 *outMsg)
 {
     u32 attr;
     u16 m;

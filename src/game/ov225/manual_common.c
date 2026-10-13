@@ -54,7 +54,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   d_021BBF2C 0x021BBF2C data a4
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_021BBF4C 0x021BBF4C data a4
  *   MI_CpuFill8 0x02082BCC arm
@@ -445,7 +445,7 @@ extern void func_02034A5C(int);
 extern void TOUCHBAR_Update(struct S *p);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned);
 extern void MI_CpuFill8(void *,u8,u32);
 extern u32 func_021B9A08(const u8 *p);
@@ -857,13 +857,13 @@ void func_021BA068(char *p,unsigned state)
 {
     if(((struct Obj03964 *)p)->f8==state)return;
     switch(((struct Obj03964 *)p)->f8) {
-    case 0:func_021B6558(((struct Obj03964 *)p)->f4,0,0);break;
+    case 0:TOUCHBAR_SetButtonVisible(((struct Obj03964 *)p)->f4,0,0);break;
     case 3:CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj03964 *)p)->f38,0);CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct Obj03964 *)p)->f3C,0);break;
     case 1:case 2:case 4:break;
     }
     ((struct Obj03964 *)p)->f8=state;func_021BA644(p);
     switch(((struct Obj03964 *)p)->f8) {
-    case 0:func_021B6558(((struct Obj03964 *)p)->f4,0,1);func_021BA28C(p);break;
+    case 0:TOUCHBAR_SetButtonVisible(((struct Obj03964 *)p)->f4,0,1);func_021BA28C(p);break;
     case 1:func_021BA2B0(p);break;
     case 2:func_021BA30C(p);break;
     case 3:case 4:break;
@@ -921,7 +921,7 @@ void func_021BA160(char *p)
     args.f8=(int)func_021B9A08(((struct Obj26147 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f8);
     args.fC=6;args.f10=3;args.f14=1;args.f18=0;
     *(R * *)&((struct Obj08468 *)p)->f4=TOUCHBAR_Create(&args,((struct Obj26148 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f4);
-    func_021B6558(((struct Obj08468 *)p)->f4,0,0);
+    TOUCHBAR_SetButtonVisible(((struct Obj08468 *)p)->f4,0,0);
 }
 
 

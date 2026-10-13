@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_BSUBWAY_Init
  * address:  0x021F36C0
  * packet:   pkt_ov052_021F36C0
  * region:   ov052
@@ -38,7 +38,7 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct G_021F3A2C sFieldGimmickBsubwayZoneHandlers[];
 
-void func_021F36C0(void *a)
+void FIELD_GIMMICK_BSUBWAY_Init(void *a)
 {
     int s1;
     int s0;

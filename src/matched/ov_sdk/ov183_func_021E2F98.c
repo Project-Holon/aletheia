@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   SOCLi_Resource  0x021E3910  data  ov183
+ *   gBrCodeinDefaultPair  0x021E3910  data  ov183
  */
 
 typedef struct SOCLResource
@@ -19,9 +19,9 @@ typedef struct SOCLResource
     int numDescUdp;
 } SOCLResource;
 
-extern SOCLResource SOCLi_Resource;
+extern SOCLResource gBrCodeinDefaultPair;
 
 void func_021E2F98(SOCLResource *resource)
 {
-    *resource = SOCLi_Resource;
+    *resource = gBrCodeinDefaultPair;
 }

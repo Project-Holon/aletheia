@@ -1,5 +1,5 @@
 /*
- * function: func_021EC88C
+ * function: BTLV_SCU_PhaseOwnSendOutDouble
  * address:  0x021EC88C
  * packet:   pkt_ov093_021EC88C
  * region:   ov093
@@ -12,21 +12,21 @@
  * symbols:
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   BTL_MAIN_GetOwnPartnerClient  0x021B9000  thumb  ov093
- *   func_021EC8C4  0x021EC8C4  thumb  ov093
- *   func_021ECA60  0x021ECA60  thumb  ov093
+ *   BTLV_SCU_RunOwnSendOutDoubleSolo  0x021EC8C4  thumb  ov093
+ *   BTLV_SCU_RunOwnSendOutDoublePartner  0x021ECA60  thumb  ov093
  */
 #include "../include/Obj00027.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 BTL_MAIN_GetOwnClientId(u8 *);
 extern u8 BTL_MAIN_GetOwnPartnerClient(u8 *);
-extern int func_021EC8C4(u8 *, int *, u8);
-extern int func_021ECA60(u8 *, int *, u32, u8);
-int func_021EC88C(u8 *p, int *state)
+extern int BTLV_SCU_RunOwnSendOutDoubleSolo(u8 *, int *, u8);
+extern int BTLV_SCU_RunOwnSendOutDoublePartner(u8 *, int *, u32, u8);
+int BTLV_SCU_PhaseOwnSendOutDouble(u8 *p, int *state)
 {
     u8 a = BTL_MAIN_GetOwnClientId(*(u8 * *)&((struct Obj00027 *)p)->f134);
     u8 b = BTL_MAIN_GetOwnPartnerClient(*(u8 * *)&((struct Obj00027 *)p)->f134);
     if (b == 4)
-        return func_021EC8C4(p, state, a);
-    return func_021ECA60(p, state, a, b);
+        return BTLV_SCU_RunOwnSendOutDoubleSolo(p, state, a);
+    return BTLV_SCU_RunOwnSendOutDoublePartner(p, state, a, b);
 }

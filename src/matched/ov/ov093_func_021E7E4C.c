@@ -1,5 +1,5 @@
 /*
- * function: func_021E7E4C
+ * function: HAND_WAZA_GetAllySwitchHandlers
  * address: 0x021E7E4C
  * packet: pkt_ov093_021E7E4C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E7DB0_p02.c and filed here.
  *
  * symbols:
- *   d_021F26CC 0x021F26CC data a4
+ *   gAllySwitchHandlers 0x021F26CC data a4
  */
 
-extern int d_021F26CC[];
-int *func_021E7E4C(int *p);
+extern int gAllySwitchHandlers[];
+int *HAND_WAZA_GetAllySwitchHandlers(int *p);
 
-int *func_021E7E4C(int *p)
+int *HAND_WAZA_GetAllySwitchHandlers(int *p)
 {
     *p = 1;
-    return d_021F26CC;
+    return gAllySwitchHandlers;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E8070
+ * function: HAND_WAZA_SkyDropReleaseTarget
  * address:  0x021E8070
  * packet:   pkt_ov093_021E8070
  * region:   ov093
@@ -26,7 +26,7 @@ extern int BTL_SERVER_FLOW_GetFrontPosOfPoke(u8 *p, int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void BTL_SERVER_FLOW_ReleaseBindingTargetById(u8 *p, int i);
 
-void func_021E8070(int a, void *b, int c)
+void HAND_WAZA_SkyDropReleaseTarget(int a, void *b, int c)
 {
     u8 v, t;
     if (c == BTL_EVENT_GetVar(3)) {

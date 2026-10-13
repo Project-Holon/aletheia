@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK45_StartSwitchToggleEvent",
+   "name": "FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent",
    "address": "0x021F3888",
    "kind": "game",
    "region": "ov045",

@@ -14,11 +14,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-#define GIMMICK60_GAUGE_MODEL_COUNT  0x14   /* models 0..0x13 */
-#define GIMMICK60_GAUGE_STEP_COUNT   10     /* steps per gauge row */
-#define GIMMICK60_EFFECT_MODEL       0x14
-#define GIMMICK60_MODEL_COUNT        0x15
-#define GIMMICK60_EFFECT_ANIME_COUNT 3
+#define FIELD_GIMMICK_GAUGE_EFFECT_GAUGE_MODEL_COUNT  0x14   /* models 0..0x13 */
+#define FIELD_GIMMICK_GAUGE_EFFECT_GAUGE_STEP_COUNT   10     /* steps per gauge row */
+#define FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_MODEL       0x14
+#define FIELD_GIMMICK_GAUGE_EFFECT_MODEL_COUNT        0x15
+#define FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_ANIME_COUNT 3
 
 typedef struct VecFx32 {
     int x;

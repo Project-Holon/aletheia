@@ -1,5 +1,5 @@
 /*
- * function: func_02208DAC
+ * function: BTLV_B_GAUGE_CreatePartyBallBar
  * address: 0x02208DAC
  * packet: pkt_ov094_02208DAC
  * region: ov094
@@ -30,11 +30,11 @@
  *   func_021F896C 0x021F896C thumb ov094
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_022090B4 0x022090B4 thumb ov094
- *   func_02209214 0x02209214 thumb ov094
- *   d_0220AED0 0x0220AED0 data a4
- *   d_0220AB6C 0x0220AB6C data a4
- *   d_0220AB7C 0x0220AB7C data a4
+ *   BTLV_B_GAUGE_TaskPartyBallBar 0x022090B4 thumb ov094
+ *   BTLV_B_GAUGE_PartyBallBarTaskDeleted 0x02209214 thumb ov094
+ *   sBtlvBGaugeFileName 0x0220AED0 data a4
+ *   sPartyBallBarOrigins 0x0220AB6C data a4
+ *   sPartyBallBarAnimSeq 0x0220AB7C data a4
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -50,9 +50,9 @@ typedef struct {
 } Work;
 typedef struct { int side; int idx[6]; } Arg;
 typedef struct { s16 x0, y0, x1, y1; } Origin;
-extern const char d_0220AED0[];
-extern const Origin d_0220AB6C[];
-extern const u32 d_0220AB7C[][5];
+extern const char sBtlvBGaugeFileName[];
+extern const Origin sPartyBallBarOrigins[];
+extern const u32 sPartyBallBarAnimSeq[][5];
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef unsigned char  u8;
@@ -78,9 +78,9 @@ extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_022090B4(void *, void *);
-extern void func_02209214(void *);
-Work *func_02208DAC(const Arg *arg, u32 heapId)
+extern void BTLV_B_GAUGE_TaskPartyBallBar(void *, void *);
+extern void BTLV_B_GAUGE_PartyBallBarTaskDeleted(void *);
+Work *BTLV_B_GAUGE_CreatePartyBallBar(const Arg *arg, u32 heapId)
 {
     void *arc;
     int heap;
@@ -90,7 +90,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     int i;
 
     heap = (heapId & 0x7fff) | 0x8000;
-    w = func_02030734(heap, 0xe4, 1, d_0220AED0, 0x7a);
+    w = func_02030734(heap, 0xe4, 1, sBtlvBGaugeFileName, 0x7a);
     arc = func_020490F4(0xb, (u16)heap);
     w->heap = heap;
     w->h0 = (u32)CLACT_CreateUnit(7, 0, w->heap);
@@ -101,34 +101,34 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     {
     Pos pos = {0, 0, 0, 0};
     int side = arg->side;
-    base = d_0220AB6C[side].x0;
+    base = sPartyBallBarOrigins[side].x0;
     pos.x = base + (side == 0 ? 0x80 : -0x80);
-    pos.y = d_0220AB6C[arg->side].y0;
+    pos.y = sPartyBallBarOrigins[arg->side].y0;
     for (i = 0; i < 6; i++) {
         w->e[i].h = CLACT_CreateActor((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
         CLACT_GetActorSurfacePos(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
         CLACT_SetActorAutoAnim(w->e[i].h, 1);
-        CLACT_SetActorAnimSeq(w->e[i].h, d_0220AB7C[arg->side][arg->idx[i]]);
-        w->e[i].frame = d_0220AB7C[2][arg->idx[i]];
+        CLACT_SetActorAnimSeq(w->e[i].h, sPartyBallBarAnimSeq[arg->side][arg->idx[i]]);
+        w->e[i].frame = sPartyBallBarAnimSeq[2][arg->idx[i]];
         w->e[i].wait = (i + 1) * 6;
         w->e[i].home = base;
         w->e[i].goal = base + (i + 1) * (arg->side == 0 ? -2 : 2);
         w->e[i].step = arg->side == 0 ? -12 : 12;
         base += arg->side == 0 ? 15 : -15;
     }
-    pos.x = d_0220AB6C[arg->side].x1 + (arg->side == 0 ? 0x80 : -0x80);
-    pos.y = d_0220AB6C[arg->side].y1;
+    pos.x = sPartyBallBarOrigins[arg->side].x1 + (arg->side == 0 ? 0x80 : -0x80);
+    pos.y = sPartyBallBarOrigins[arg->side].y1;
     w->e[i].h = CLACT_CreateActor((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
     CLACT_GetActorSurfacePos(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
     CLACT_SetActorAutoAnim(w->e[i].h, 1);
-    CLACT_SetActorAnimSeq(w->e[i].h, d_0220AB7C[arg->side][4]);
-    w->e[i].frame = d_0220AB7C[arg->side][4];
+    CLACT_SetActorAnimSeq(w->e[i].h, sPartyBallBarAnimSeq[arg->side][4]);
+    w->e[i].frame = sPartyBallBarAnimSeq[arg->side][4];
     w->e[i].wait = 0;
-    w->e[i].home = w->e[i].goal = d_0220AB6C[arg->side].x1;
+    w->e[i].home = w->e[i].goal = sPartyBallBarOrigins[arg->side].x1;
     w->e[i].step = arg->side == 0 ? -0x10 : 0x10;
-    ctx = func_02030734(heap, 4, 0, d_0220AED0, 0xec);
+    ctx = func_02030734(heap, 4, 0, sBtlvBGaugeFileName, 0xec);
     *ctx = w;
-    func_021F896C(func_02030DA8(func_021F86D4(), func_022090B4, ctx, 0), func_02209214, 0);
+    func_021F896C(func_02030DA8(func_021F86D4(), BTLV_B_GAUGE_TaskPartyBallBar, ctx, 0), BTLV_B_GAUGE_PartyBallBarTaskDeleted, 0);
     w->active = 1;
     ARC_TOOL_DeleteHandle(arc);
     GFL_USE_PlaySeDefaultVolume(0x570);

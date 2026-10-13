@@ -70,12 +70,12 @@
  *   gAdpcmIndexTable3     0x021B3A04  data ov013 a1
  *   gAdpcmIndexTable2     0x021B3A00  data ov013 a1
  *   gVctSendState     0x021B3C84  data ov013 a4
- *   d_021B3C24     0x021B3C24  data ov013 a4
+ *   gVctSendEnabled     0x021B3C24  data ov013 a4
  *   gVctSession     0x021B60D8  data ov013 a4
- *   d_021B3AD0     0x021B3AD0  data ov013 a1
- *   d_021B42C0     0x021B42C0  data ov013 a4
+ *   gVctFrameSpecs     0x021B3AD0  data ov013 a1
+ *   gVctSendBuffer     0x021B42C0  data ov013 a4
  *   gVctMembers     0x021B3CB0  data ov013 a4
- *   d_021B3CBC     0x021B3CBC  data ov013 a4
+ *   gVctReceiveSources     0x021B3CBC  data ov013 a4
  *   func_02087170  0x02087170  arm
  *   VCT_DSP_InitVoiceGateDefaults  0x021B3250  arm ov013
  *   VCT_AUDIO_ClearReadyQueue  0x021B16E4  arm ov013
@@ -1149,8 +1149,8 @@ static inline u32 GetPacketBytes(u32 codecMode)
 {
     const VctFrameSpec *spec;
     u32 blocks;
-    blocks = d_021B3AD0[codecMode].blocks;
-    spec = &d_021B3AD0[codecMode];
+    blocks = gVctFrameSpecs[codecMode].blocks;
+    spec = &gVctFrameSpecs[codecMode];
     return blocks * 0x44 + spec->extraBytes + 0xC;
 }
 
@@ -1171,7 +1171,7 @@ int VCT_SESSION_Init(void)
     u32 codecMode;
 
     gVctSendState.sequence = func_02087170();
-    d_021B3C24 = 1;
+    gVctSendEnabled = 1;
     gVctSendState.memberCount = 0;
     gVctSendState.memberMask = 0;
     codecMode = 0;
@@ -1183,17 +1183,17 @@ int VCT_SESSION_Init(void)
     }
     gVctSendState.frameBytes = VCT_FRAME_BYTES;
     gVctSendState.packetBytes = GetPacketBytes(codecMode);
-    d_021B42C0.readCount = 0;
-    d_021B42C0.writeCount = 0;
-    d_021B42C0.pendingMask = 0;
-    d_021B42C0.sendFrame = 0;
-    d_021B42C0.scheduleStep = 0;
-    d_021B42C0.scheduleRow = 0;
+    gVctSendBuffer.readCount = 0;
+    gVctSendBuffer.writeCount = 0;
+    gVctSendBuffer.pendingMask = 0;
+    gVctSendBuffer.sendFrame = 0;
+    gVctSendBuffer.scheduleStep = 0;
+    gVctSendBuffer.scheduleRow = 0;
     VCT_DSP_InitVoiceGateDefaults();
     for (i = 0; (i < VCT_MAX_MEMBERS) ? 1 : 0; i++) {
         gVctMembers[i] = 0;
         VCT_AUDIO_ClearReadyQueue(i);
-        VCT_AUDIO_InitReceiveSource(&d_021B3CBC[i], i, -1);
+        VCT_AUDIO_InitReceiveSource(&gVctReceiveSources[i], i, -1);
     }
     VCT_AUDIO_ResetPendingList();
     VCT_DSP_InitEchoState();
@@ -1237,7 +1237,7 @@ int VCT_SESSION_AddMember(VctPeer *peer)
     }
     gVctSendState.memberCount++;
     gVctSendState.memberMask |= peer->memberMask;
-    VCT_AUDIO_InitReceiveSource(&d_021B3CBC[slotIndex], slotIndex, peer->floorHolderId);
+    VCT_AUDIO_InitReceiveSource(&gVctReceiveSources[slotIndex], slotIndex, peer->floorHolderId);
     VCT_AUDIO_ClearReadyQueue(slotIndex);
     if (peer->phase != 2) {
         return 1;
@@ -1248,12 +1248,12 @@ int VCT_SESSION_AddMember(VctPeer *peer)
         gVctSendState.adpcmPredictor = 0;
         gVctSendState.adpcmStepIndex = 0;
         gVctSendState.markerRequest = 1;
-        d_021B42C0.readCount = 0;
-        d_021B42C0.writeCount = 0;
-        d_021B42C0.pendingMask = 0;
-        d_021B42C0.sendFrame = 0;
-        d_021B42C0.scheduleStep = 0;
-        d_021B42C0.scheduleRow = 0;
+        gVctSendBuffer.readCount = 0;
+        gVctSendBuffer.writeCount = 0;
+        gVctSendBuffer.pendingMask = 0;
+        gVctSendBuffer.sendFrame = 0;
+        gVctSendBuffer.scheduleStep = 0;
+        gVctSendBuffer.scheduleRow = 0;
     }
     return 1;
 }
@@ -1274,7 +1274,7 @@ void VCT_SESSION_RemoveMember(VctPeer *peer)
             oldCount = gVctSendState.memberCount;
             gVctMembers[slotIndex]=nullPeer;
             gVctSendState.memberCount = oldCount - 1;
-            VCT_AUDIO_DetachReceiveSource(&d_021B3CBC[slotIndex]);
+            VCT_AUDIO_DetachReceiveSource(&gVctReceiveSources[slotIndex]);
             VCT_AUDIO_FlushReadyQueue(slotIndex);
             VCT_AUDIO_FlushPendingSlot(slotIndex);
             gVctSendState.memberMask &= ~peer->memberMask;
@@ -1338,8 +1338,8 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 length)
   {
     return 0;
   }
-  slotOffset = (d_021B42C0.writeCount & 1) ? 0 : VCT_PACKET_SLOT_BYTES;
-  header = (VctAudioFrame *) ((u8 *) &d_021B42C0 + slotOffset);
+  slotOffset = (gVctSendBuffer.writeCount & 1) ? 0 : VCT_PACKET_SLOT_BYTES;
+  header = (VctAudioFrame *) ((u8 *) &gVctSendBuffer + slotOffset);
   magic = VCT_PACKET_MAGIC;
   header->magic = magic;
   sendState = &gVctSendState;
@@ -1357,7 +1357,7 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 length)
   gVctSendState.sequence = gVctSendState.sequence + 1;
   header->seq = sequence;
   header->timestamp = (u32) (func_020870D0() / (u32)frameType);
-  d_021B42C0.writeCount++;
+  gVctSendBuffer.writeCount++;
   return 1;
 }
 
@@ -1387,7 +1387,7 @@ int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMa
     u32 delay;
     u32 delayDelta;
 
-    channel = &d_021B3CBC[channelIndex];
+    channel = &gVctReceiveSources[channelIndex];
     isFirstTry = 1;
     queuedCount = VCT_AUDIO_GetReadyCount(channelIndex);
     while (queuedCount != 0) {
@@ -1515,7 +1515,7 @@ int VCT_SESSION_SetCodecMode(int codecMode)
     if (gVctSession.mode != 1 && (unsigned)codecMode <= 1) {
         return 0;
     }
-    gVctSendState.packetBytes = d_021B3AD0[codecMode].blocks * 0x44 + d_021B3AD0[codecMode].extraBytes + 0xC;
+    gVctSendState.packetBytes = gVctFrameSpecs[codecMode].blocks * 0x44 + gVctFrameSpecs[codecMode].extraBytes + 0xC;
     gVctSendState.codecMode = codecMode;
     gVctSendState.adpcmPredictor = 0;
     gVctSendState.adpcmStepIndex = 0;
@@ -1525,7 +1525,7 @@ int VCT_SESSION_SetCodecMode(int codecMode)
 /* Enable or disable sending; the gate is reset and a disable asks the sender to mute. */
 void VCT_SESSION_SetSendEnabled(int enabled)
 {
-    d_021B3C24 = enabled;
+    gVctSendEnabled = enabled;
     VCT_DSP_ResetVoiceGate();
     if (enabled == 0) gVctSendState.markerRequestNoVad = 1;
 }

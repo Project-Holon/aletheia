@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK57_DeleteModelScene
+ * function: FIELD_GIMMICK_MODEL_SCENE_DeleteModelScene
  * address:  0x021F37BC
  * packet:   pkt_ov057_021F37BC
  * region:   ov057
@@ -28,7 +28,7 @@ extern u32 G3D_SYSTEM_CheckResourceType(struct Tagged *p, u32 sel);
 extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
 extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
-void GIMMICK57_DeleteModelScene(int a, int b, char *p)
+void FIELD_GIMMICK_MODEL_SCENE_DeleteModelScene(int a, int b, char *p)
 {
     int i;
     for (i = 0; i < 3; i++)

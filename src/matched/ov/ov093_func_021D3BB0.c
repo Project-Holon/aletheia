@@ -11,12 +11,12 @@
  * extent: compiled 14 bytes followed by 2-byte alignment padding.
  * ABI: narrow extern arguments follow explicit caller truncation.
  * symbols:
- *   func_021EFA94 0x021EFA94 thumb ov093
+ *   BTL_FIELD_RemoveSlot 0x021EFA94 thumb ov093
  */
 #include "../include/Obj21195.h"
-extern int func_021EFA94(void *, int);
+extern int BTL_FIELD_RemoveSlot(void *, int);
 int func_021D3BB0(char *p, int unused, unsigned int *a)
 {
-    func_021EFA94(((struct Obj21195 *)p)->f34, a[0]);
+    BTL_FIELD_RemoveSlot(((struct Obj21195 *)p)->f34, a[0]);
     return 1;
 }

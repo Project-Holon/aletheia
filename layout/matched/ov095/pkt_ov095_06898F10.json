@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_06898F10",
+   "name": "HAND_SIDE_SafeguardBlockSick",
    "address": "0x06898F10",
    "kind": "game",
    "region": "ov095",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EC0DC",
+   "name": "BTLV_SCU_RunTrainerIntroTwo",
    "address": "0x021EC0DC",
    "kind": "game",
    "region": "ov093",

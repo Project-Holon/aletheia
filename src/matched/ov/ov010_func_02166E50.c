@@ -18,7 +18,7 @@
  *   - ov110_id 0x6E: overlay_id refuses, GAME_EVENT_CallProc is not in
  *     OVERLAY_ID_CONSUMERS (it stores a1 in a descriptor for the state
  *     machine GAME_EVENT_CallProcSeq rather than passing it straight to a loader).
- *   - d_021C39B8: with the ov110 token the hint is "contested" and no
+ *   - gPmsSelectProcData: with the ov110 token the hint is "contested" and no
  *     overlay_id site loads ov110; without it, "no witness".  Resolves once
  *     ov110_id does.
  *   - arm9 unlabelled leaves 0x0202411C, 0x02024124, 0x02024128,
@@ -41,7 +41,7 @@
  *   func_0200E714  0x0200E714  thumb
  *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
- *   d_021C39B8     0x021C39B8  data   ov110  a4
+ *   gPmsSelectProcData     0x021C39B8  data   ov110  a4
  
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
@@ -88,7 +88,7 @@ extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *
 extern void  PMSI_PARAM_Delete(void *t);
 
 extern char ov110_id[];
-extern char d_021C39B8[];
+extern char gPmsSelectProcData[];
 
 u32 SYMBOL_MAP_PmsInputTaskMain(void *obj, u32 *mode)
 {
@@ -104,7 +104,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *obj, u32 *mode)
         if (t == 0) {
             return 1;
         }
-        GAME_EVENT_CallProc(obj, (u32)ov110_id, (u32)d_021C39B8, (u32)t);
+        GAME_EVENT_CallProc(obj, (u32)ov110_id, (u32)gPmsSelectProcData, (u32)t);
         (*mode)++;
         break;
     case 1:

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E72F4",
+   "name": "HAND_WAZA_AddFoulPlay",
    "address": "0x021E72F4",
    "kind": "game",
    "region": "ov093",

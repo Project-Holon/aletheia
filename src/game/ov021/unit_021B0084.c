@@ -58,9 +58,9 @@
  *   SCRCMD_WORK_SetWindowState  0x0215A660  thumb  ov010
  *   SCRCMD_WORK_SetMsgWindow  0x0215A614  thumb  ov010
  *   FIELD_MSGBG_DeleteInfoSysWin  0x02191008  thumb  ov021
- *   func_0215A630  0x0215A630  thumb  ov010
+ *   SCRCMD_WORK_GetTimeIcon  0x0215A630  thumb  ov010
  *   TIME_ICON_Delete  0x0202F038  thumb
- *   func_0215A624  0x0215A624  thumb  ov010
+ *   SCRCMD_WORK_SetTimeIcon  0x0215A624  thumb  ov010
  *   FIELD_MSGBG_InfoSysWinMain  0x021910C0  thumb  ov021
  *   FIELD_MSGBG_InfoSysWinPrintStr  0x02191084  thumb  ov021
  *   VM_SetWait  0x020113D0  thumb
@@ -294,9 +294,9 @@ extern FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, struct MsgDa
 extern void SCRCMD_WORK_SetWindowState(ScrcmdWork *cmdWork, u32 windowState);
 extern u32 SCRCMD_WORK_SetMsgWindow(ScrcmdWork *cmdWork, void *msgWin);
 extern int FIELD_MSGBG_DeleteInfoSysWin(FieldSysWin *sysWin);
-extern struct TimeIcon *func_0215A630(ScrcmdWork *cmdWork);
+extern struct TimeIcon *SCRCMD_WORK_GetTimeIcon(ScrcmdWork *cmdWork);
 extern void TIME_ICON_Delete(struct TimeIcon *timeIcon);
-extern void func_0215A624(ScrcmdWork *cmdWork, struct TimeIcon *timeIcon);
+extern void SCRCMD_WORK_SetTimeIcon(ScrcmdWork *cmdWork, struct TimeIcon *timeIcon);
 extern u32 FIELD_MSGBG_InfoSysWinMain(FieldSysWin *sysWin);
 extern void FIELD_MSGBG_InfoSysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
 extern void func_02045CAC(struct MsgData *msgData, u32 msgId, struct Strbuf *dest);
@@ -721,10 +721,10 @@ void SCRCMD_MSGWIN_CloseInfoSysWin(ScrcmdWork *cmdWork)
 
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_INFO_SYS_WIN)) {
         FIELD_MSGBG_DeleteInfoSysWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
-        timeIcon = func_0215A630(cmdWork);
+        timeIcon = SCRCMD_WORK_GetTimeIcon(cmdWork);
         if (timeIcon) {
             TIME_ICON_Delete(timeIcon);
-            func_0215A624(cmdWork, 0);
+            SCRCMD_WORK_SetTimeIcon(cmdWork, 0);
         }
         SCRCMD_WORK_SetMsgWindow(cmdWork, 0);
         SCRIPT_WORK_ResetCheckFlag(SCRIPT_FLAG_INFO_SYS_WIN);
@@ -793,14 +793,14 @@ int SCRCMD_MSGWIN_CmdSetTimeIcon(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (!SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_INFO_SYS_WIN)) {
         return 0;
     }
-    timeIcon = func_0215A630(cmdWork);
+    timeIcon = SCRCMD_WORK_GetTimeIcon(cmdWork);
     if (timeIcon) {
         TIME_ICON_Delete(timeIcon);
-        func_0215A624(cmdWork, 0);
+        SCRCMD_WORK_SetTimeIcon(cmdWork, 0);
     }
     if (noTimeIcon == 0) {
         struct BmpWin *bmpWin = FIELD_MSGBG_GetInfoSysWinBmpWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
-        func_0215A624(cmdWork, TIME_ICON_Create(func_020056BC(), bmpWin, 0xf, 0x10, heapId));
+        SCRCMD_WORK_SetTimeIcon(cmdWork, TIME_ICON_Create(func_020056BC(), bmpWin, 0xf, 0x10, heapId));
     }
     return 0;
 }

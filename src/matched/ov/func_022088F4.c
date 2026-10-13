@@ -1,5 +1,5 @@
 /*
- * function: func_022088F4
+ * function: BTLV_GAUGE_IsLowHpBgmPlaying
  * address:  0x022088F4
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022088F4   0x022088F4  thumb
+ *   BTLV_GAUGE_IsLowHpBgmPlaying   0x022088F4  thumb
  *
  * lane O10 candidate
  */
@@ -21,7 +21,7 @@ typedef struct {
     unsigned int f : 1;
 } S88F4;
 
-unsigned int func_022088F4(S88F4 *p)
+unsigned int BTLV_GAUGE_IsLowHpBgmPlaying(S88F4 *p)
 {
     return p->f;
 }

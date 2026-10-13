@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK58_PlaceTrains
+ * function: FIELD_GIMMICK_LANE_TRAINS_PlaceTrains
  * address:  0x021F38F4
  * packet:   pkt_ov058_021F38F4
  * region:   ov058
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   GIMMICK58_PlaceLaneTrains  0x021F391C  thumb  ov058
+ *   FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains  0x021F391C  thumb  ov058
  */
 
-extern void GIMMICK58_PlaceLaneTrains(void *unused, void *a, int i, int j);
+extern void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(void *unused, void *a, int i, int j);
 
-void GIMMICK58_PlaceTrains(void *unused, void *a)
+void FIELD_GIMMICK_LANE_TRAINS_PlaceTrains(void *unused, void *a)
 {
-    GIMMICK58_PlaceLaneTrains(unused, a, 0, 1);
-    GIMMICK58_PlaceLaneTrains(unused, a, 4, 5);
-    GIMMICK58_PlaceLaneTrains(unused, a, 8, 9);
+    FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(unused, a, 0, 1);
+    FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(unused, a, 4, 5);
+    FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(unused, a, 8, 9);
 }

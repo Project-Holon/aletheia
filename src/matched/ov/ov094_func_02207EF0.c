@@ -1,5 +1,5 @@
 /*
- * function: func_02207EF0
+ * function: BTLV_GAUGE_UpdateExpAnim
  * address:  0x02207EF0
  * packet:   pkt_ov094_02207EF0
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_022080B0  0x022080B0  thumb  ov094
- *   func_02207F6C  0x02207F6C  thumb  ov094
- *   func_022082FC  0x022082FC  thumb  ov094
+ *   BTLV_GAUGE_CalcPixelChange  0x022080B0  thumb  ov094
+ *   BTLV_GAUGE_StepValue  0x02207F6C  thumb  ov094
+ *   BTLV_GAUGE_DrawBar  0x022082FC  thumb  ov094
  */
 
 typedef unsigned int u32;
@@ -37,12 +37,12 @@ typedef struct O {
     E e[8];
 } O;
 
-extern int func_022080B0(int a, int b, int c, unsigned int d);
+extern int BTLV_GAUGE_CalcPixelChange(int a, int b, int c, unsigned int d);
 typedef unsigned char  u8;
-extern int func_02207F6C(int n, int target, int delta, int *cur, u8 x, int speed);
-extern void func_022082FC(O *obj, int idx, int k);
+extern int BTLV_GAUGE_StepValue(int n, int target, int delta, int *cur, u8 x, int speed);
+extern void BTLV_GAUGE_DrawBar(O *obj, int idx, int k);
 
-void func_02207EF0(O *obj, int idx)
+void BTLV_GAUGE_UpdateExpAnim(O *obj, int idx)
 {
     E *e;
     int k;
@@ -50,7 +50,7 @@ void func_02207EF0(O *obj, int idx)
     int r;
 
     e = &obj->e[idx];
-    k = func_022080B0(e->f54, e->f60, e->f58, 10);
+    k = BTLV_GAUGE_CalcPixelChange(e->f54, e->f60, e->f58, 10);
     if (k == 0) {
         k = 1;
     }
@@ -61,8 +61,8 @@ void func_02207EF0(O *obj, int idx)
     if (q == 0) {
         q = 1;
     }
-    r = func_02207F6C(e->f58, e->f54, e->f60, &e->f64, (int)10, (u16)q);
-    func_022082FC(obj, idx, 1);
+    r = BTLV_GAUGE_StepValue(e->f58, e->f54, e->f60, &e->f64, (int)10, (u16)q);
+    BTLV_GAUGE_DrawBar(obj, idx, 1);
     if (r == -1) {
         e->f54 = e->f54 - e->f60;
         e->b1 = 0;

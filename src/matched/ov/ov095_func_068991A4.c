@@ -1,5 +1,5 @@
 /*
- * function: func_068991A4
+ * function: HAND_SIDE_GetHandlersTailwind
  * address: 0x068991A4
  * packet: pkt_ov095_068991A4
  * region: ov095
@@ -10,11 +10,11 @@
  * status: EXACT
  * follower: store-return leaf after non-C veneer 0x06899194.
  * symbols:
- *   d_0689D738 0x0689D738 data a4
+ *   gHandSideTailwindHandlers 0x0689D738 data a4
  */
-extern unsigned int d_0689D738;
-unsigned int *func_068991A4(unsigned int *out)
+extern unsigned int gHandSideTailwindHandlers;
+unsigned int *HAND_SIDE_GetHandlersTailwind(unsigned int *out)
 {
     *out = 1;
-    return &d_0689D738;
+    return &gHandSideTailwindHandlers;
 }

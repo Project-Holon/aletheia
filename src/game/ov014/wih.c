@@ -1,7 +1,7 @@
 /*
  * file:     wih.c
  * unit:     yes
- * function: func_02178138, func_0217814C, func_02178168, func_02178198, func_021781BC, func_02178204, func_02178304, func_021783FC, func_021784AC, func_021784D0, func_021784F0, func_0217850C, DWCi_MOV_WH_ChildConnectAuto, DWCi_MOV_WH_StartScan, DWCi_MOV_WH_StateInStartScan, WIH_SetScanTarget, WIH_IsMatchingParent, DWCi_MOV_WH_StateOutStartScan, DWCi_MOV_WH_EndScan, func_02178964, DWCi_MOV_WH_StateOutEndScan, DWCi_MOV_WH_StateInStartChild, DWCi_MOV_WH_StateOutStartChild, DWCi_MOV_WH_StateInStartChildMP, DWCi_MOV_WH_StateOutStartChildMP, func_02178C50, func_02178C74, func_02178C98, func_02178CC4, func_02178CDC, func_02178D00, DWCi_MOV_WH_StateInSetMPData, func_02178D74, DWCi_MOV_WH_PortReceiveCallback, func_02178DE0, func_02178E1C, func_02178E28, func_02178E38, WIH_GetSysState, DWCi_MOV_WH_GetLastError, func_02178E84, func_02178F1C, func_02178F8C, func_02179010, func_02179024, WIH_PickRandomChannel, func_021790E4, WIH_FreeWork, func_02179188, func_021791A0, DWCi_MOV_WH_StateOutSetLifeTime, func_021791F8, func_02179288, func_02179328, DWCi_MOV_WH_SetReceiver, DWCi_MOV_WH_SendData, func_02179394, func_021793B8, WIH_UpdateScanTimer, DWCi_MOV_WH_StateInEndKeyShare, func_02179498, func_02179570, WIH_GetOwnAid, WIH_SetJudgeScanFunc, WIH_SetBeaconGameInfo, WIH_GetBeaconSendCount, WIH_SetConnectCallback, WIH_SetBeaconFoundCallback, WIH_SetScanWaitFrames
+ * function: WIH_ChangeSysState, WIH_SetError, WIH_StateInSetParentParam, WIH_StateOutSetParentParam, WIH_StateInStartParent, WIH_StateOutStartParent, WIH_StateInStartParentMP, WIH_StateOutStartParentMP, WIH_StateInEndParentMP, WIH_StateOutEndParentMP, func_021784F0, func_0217850C, DWCi_MOV_WH_ChildConnectAuto, DWCi_MOV_WH_StartScan, DWCi_MOV_WH_StateInStartScan, WIH_SetScanTarget, WIH_IsMatchingParent, DWCi_MOV_WH_StateOutStartScan, DWCi_MOV_WH_EndScan, func_02178964, DWCi_MOV_WH_StateOutEndScan, DWCi_MOV_WH_StateInStartChild, DWCi_MOV_WH_StateOutStartChild, DWCi_MOV_WH_StateInStartChildMP, DWCi_MOV_WH_StateOutStartChildMP, WIH_StateInEndChildMP, WIH_StateOutEndChildMP, WIH_StateInEndChild, func_02178CC4, WIH_StateInReset, WIH_StateOutReset, DWCi_MOV_WH_StateInSetMPData, WIH_StateOutSetMPData, DWCi_MOV_WH_PortReceiveCallback, WIH_StateOutEnd, WIH_SetGgid, func_02178E28, WIH_GetBitmap, WIH_GetSysState, DWCi_MOV_WH_GetLastError, WIH_StartMeasureChannel, WIH_StateInMeasureChannel, WIH_StateOutMeasureChannel, func_02179010, WIH_GetMeasureChannel, WIH_PickRandomChannel, WIH_Initialize, WIH_FreeWork, WIH_IndicateHandler, WIH_StateInInitialize, DWCi_MOV_WH_StateOutSetLifeTime, WIH_StateOutInitialize, WIH_ParentConnect, WIH_SetJudgeAcceptFunc, DWCi_MOV_WH_SetReceiver, DWCi_MOV_WH_SendData, WIH_GetSharedDataAdr, WIH_StepDS, WIH_UpdateScanTimer, DWCi_MOV_WH_StateInEndKeyShare, WIH_Finalize, WIH_End, WIH_GetOwnAid, WIH_SetJudgeScanFunc, WIH_SetBeaconGameInfo, WIH_GetBeaconSendCount, WIH_SetConnectCallback, WIH_SetBeaconFoundCallback, WIH_SetScanWaitFrames
  * address:  0x02178138
  * region:   ov014
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  * symbols:
  *   func_020862F0  0x020862F0  arm
  *   func_02082D44  0x02082D44  arm
- *   g_021797A8 0x021797A8 data ov014 a4
+ *   gWihWork 0x021797A8 data ov014 a4
  *   WM_SetParentParameter 0x0208F480 arm
  *   WM_StartParent  0x0208F644  arm
  *   GFL_NET_GetUserArg  0x0203D650  arm
@@ -238,7 +238,7 @@ typedef struct WihScanParam {
  * The work block of the wireless handler (the DWC copy of the NitroSDK demo
  * wh.c work area).  One block of 0x1F00 bytes, allocated by
  * DWCi_MOV_WH_Initialize, zero filled up to 0x1EE0, pointed to by
- * g_021797A8.
+ * gWihWork.
  */
 typedef struct WihWork {
     WihParentParam parentParam;         /* +0x00, the WM_SetParentParameter argument */
@@ -338,22 +338,22 @@ extern void WM_SetGameInfo(int callback, int userGameInfo, u16 size, int ggid, u
 
 /* functions of this file (and its ov014 neighbours) */
 void NET_WHPIPE_OnChildDisconnected(void);
-void func_02178138(int state);
-void func_0217814C(int error);
-int func_02178168(void);
-void func_02178198(WMCallback *arg);
-int func_021781BC(void);
-void func_02178204(WMStartParentCallback *arg);
+void WIH_ChangeSysState(int state);
+void WIH_SetError(int error);
+int WIH_StateInSetParentParam(void);
+void WIH_StateOutSetParentParam(WMCallback *arg);
+int WIH_StateInStartParent(void);
+void WIH_StateOutStartParent(WMStartParentCallback *arg);
 /*
  * Twin of DWCi_MOV_WH_StateInStartChildMP (the DWC copy of the NitroSDK wh.c MP start), with a
  * state guard in front: states 4 and 5 (sysState) already run MP, else the
- * state setter func_02178138(4) runs first, and the callback is
- * func_021783FC.
+ * state setter WIH_ChangeSysState(4) runs first, and the callback is
+ * WIH_StateOutStartParentMP.
  */
-BOOL func_02178304(void);
-void func_021783FC(WMStartMPCallback *arg);
-int func_021784AC(void);
-void func_021784D0(WMCallback *arg);
+BOOL WIH_StateInStartParentMP(void);
+void WIH_StateOutStartParentMP(WMStartMPCallback *arg);
+int WIH_StateInEndParentMP(void);
+void WIH_StateOutEndParentMP(WMCallback *arg);
 int DWCi_MOV_WH_StateInEndParent(void);
 static void DWCi_MOV_WH_StateOutEndParent(void *arg);
 /*
@@ -368,7 +368,7 @@ int DWCi_MOV_WH_StartScan(u32 judgeScanFunc, u16 *macAddr, u32 channel);
  * allowed channel after the one in the scan parameter's channel list (or the
  * fixed channel), fills the WMScanExParam (buffer, 0x400 bytes, scan type 1,
  * no SSID) and calls WM_StartScanEx with callback DWCi_MOV_WH_StateOutStartScan; anything but
- * WM_ERRCODE_OPERATING (2) goes to the error setter func_0217814C.
+ * WM_ERRCODE_OPERATING (2) goes to the error setter WIH_SetError.
  */
 BOOL DWCi_MOV_WH_StateInStartScan(void);
 void WIH_SetScanTarget(u16 channel, void *macAddr);
@@ -381,77 +381,77 @@ int DWCi_MOV_WH_StateInStartChild(void);
 void DWCi_MOV_WH_StateOutStartChild(WMStartConnectCallback *arg);
 BOOL DWCi_MOV_WH_StateInStartChildMP(void);
 void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg);
-int func_02178C50(void);
-void func_02178C74(WMCallback *arg);
-int func_02178C98(void);
+int WIH_StateInEndChildMP(void);
+void WIH_StateOutEndChildMP(WMCallback *arg);
+int WIH_StateInEndChild(void);
 static void DWCi_MOV_WH_StateOutEndChild(void *arg);
-int func_02178CDC(void);
-void func_02178D00(WMCallback *arg);
+int WIH_StateInReset(void);
+void WIH_StateOutReset(WMCallback *arg);
 int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback);
 /* extent: two zero alignment bytes at 02178D9A precede labelled 02178D9C. */
-void func_02178D74(WMPortSendCallback *arg);
+void WIH_StateOutSetMPData(WMPortSendCallback *arg);
 void DWCi_MOV_WH_PortReceiveCallback(WMPortRecvCallback *arg);
-void func_02178DE0(WMCallback *arg);
-void func_02178E1C(u32 ggid);
+void WIH_StateOutEnd(WMCallback *arg);
+void WIH_SetGgid(u32 ggid);
 void DWCi_MOV_WH_SetUserGameInfo(void *userGameInfo, unsigned short length);
-u16 func_02178E38(void);
+u16 WIH_GetBitmap(void);
 int WIH_GetSysState(void);
 int DWCi_MOV_WH_GetLastError(void);
-int func_02178E84(void);
-int func_02178F1C(u16 channel);
+int WIH_StartMeasureChannel(void);
+int WIH_StateInMeasureChannel(u16 channel);
 /*
  * note: 2026-10-05 wave P16 lane E8: older draft was DIFF 101 B / 136 B because the
  * two arms kept separate copies of the u16 store. Per-function pragma
  * opt_dead_assignments off gives 132 B EXACT (also with plain literal offsets).
  * Without the pragma the same source stays 136 B. Callee types from matched
- * definitions: func_0217814C and func_02178138 void(int), func_02178F1C int(u16).
+ * definitions: WIH_SetError and WIH_ChangeSysState void(int), WIH_StateInMeasureChannel int(u16).
  */
-void func_02178F8C(const WMMeasureChannelCallback *arg);
+void WIH_StateOutMeasureChannel(const WMMeasureChannelCallback *arg);
 int WHi_MeasureChannel(void *callback, unsigned short channel);
-u16 func_02179024(void);
+u16 WIH_GetMeasureChannel(void);
 int WIH_PickRandomChannel(u16 channelBitmap);
-BOOL func_021790E4(u32 heapId, int unused, int listening);
+BOOL WIH_Initialize(u32 heapId, int unused, int listening);
 void WIH_FreeWork(void);
 /* extent: two zero alignment bytes at 0217919E precede labelled 021791A0. */
-void func_02179188(WMCallback *arg);
+void WIH_IndicateHandler(WMCallback *arg);
 /*
  * The DWC copy of WH_Initialize's WM start: WM_Initialize (0208F370) or, when
  * listening is set, WM_InitializeForListening (0208F380), on the WM system
- * buffer of the work block with completion callback func_021791F8.  Anything
+ * buffer of the work block with completion callback WIH_StateOutInitialize.  Anything
  * but WM_ERRCODE_OPERATING goes to the error setter.  The unlabelled
- * follower at 021791EC (`movs r0,#1; bx` tail call to func_02178138) is why
+ * follower at 021791EC (`movs r0,#1; bx` tail call to WIH_ChangeSysState) is why
  * the extent runs long.
  */
-BOOL func_021791A0(int unused, int listening);
+BOOL WIH_StateInInitialize(int unused, int listening);
 /*
- * Unlabelled leaf: sets state 1 by tail-calling func_02178138.  Used as the
- * callback of func_021791F8's call to WM_SetLifeTime.
+ * Unlabelled leaf: sets state 1 by tail-calling WIH_ChangeSysState.  Used as the
+ * callback of WIH_StateOutInitialize's call to WM_SetLifeTime.
  */
 void DWCi_MOV_WH_StateOutSetLifeTime(void);
-void func_021791F8(WMCallback *arg);
-BOOL func_02179288(int mode, u16 tgid, int channel, u16 maxEntry);
-void func_02179328(void *judgeAcceptFunc);
+void WIH_StateOutInitialize(WMCallback *arg);
+BOOL WIH_ParentConnect(int mode, u16 tgid, int channel, u16 maxEntry);
+void WIH_SetJudgeAcceptFunc(void *judgeAcceptFunc);
 void DWCi_MOV_WH_SetReceiver(void *recvCallback);
 /*
  * Guard wrapper: forwards to DWCi_MOV_WH_StateInSetMPData when WIH_GetOwnAid is nonzero or
- * one of bits 1-7 of func_02178E38 is set, else returns 0.  The unlabelled
+ * one of bits 1-7 of WIH_GetBitmap is set, else returns 0.  The unlabelled
  * follower at 02179394 (adds the block's dataSet / dataSharingInfo offsets to
- * g_021797A8, tail calls a thumb function) is why the extent runs long.
+ * gWihWork, tail calls a thumb function) is why the extent runs long.
  */
 BOOL DWCi_MOV_WH_SendData(int data, u16 size, int userCallback);
 /* extent: existing matched 021793B8 follows the 36-byte leaf. */
-int func_02179394(u16 aid);
+int WIH_GetSharedDataAdr(u16 aid);
 /*
  * Calls the arm9 function at 0x020902D8 with the data-sharing info and the
- * data set of the work block behind g_021797A8; result 7 or 5 counts as
- * failure without the error setter, other nonzero results call func_0217814C
+ * data set of the work block behind gWihWork; result 7 or 5 counts as
+ * failure without the error setter, other nonzero results call WIH_SetError
  * and fail, zero succeeds.
  */
-BOOL func_021793B8(int sendData);
+BOOL WIH_StepDS(int sendData);
 /*
  * lever: final counter store uses unsigned address arithmetic rather than
  * pointer arithmetic, so its offset is reloaded independently of the flag.
- * stand-in: scanWait is read and written as (u8 *)g_021797A8 + 0x1EBE here; the
+ * stand-in: scanWait is read and written as (u8 *)gWihWork + 0x1EBE here; the
  * field form folds the address into one value and the function shrinks by 4 bytes.
  */
 void WIH_UpdateScanTimer(void);
@@ -460,15 +460,15 @@ void DWCi_MOV_WH_StateInEndKeyShare(void);
 /*
  * The DWC copy of the NitroSDK demo wh.c's WH_Finalize (DWCi_MOV_WH_*),
  * returning BOOL and reading its state from the work block behind
- * g_021797A8: sysState, connectMode, the data-sharing info, the lastError
+ * gWihWork: sysState, connectMode, the data-sharing info, the lastError
  * latch and the endScanPending flag.
  */
-BOOL func_02179498(void);
-int func_02179570(void (*callback)(int));
+BOOL WIH_Finalize(void);
+int WIH_End(void (*callback)(int));
 unsigned short WIH_GetOwnAid(void);
 void WIH_SetJudgeScanFunc(unsigned judgeScanFunc);
 /*
- * When the state word (sysState) of the work block behind g_021797A8 is 4 or
+ * When the state word (sysState) of the work block behind gWihWork is 4 or
  * 5, forwards the arguments to the arm9 function at 0x02090CD4 with
  * (0, userGameInfo, size, ggid, tgid, 1) and the halfword arguments truncated.
  */
@@ -478,67 +478,67 @@ void WIH_SetConnectCallback(unsigned connectCallback);
 /*
  * Recursive MATCH unblocker: the unlabelled ov014 setter that WIH_DWC_Delete
  * (+001A) and WIH_DWC_Create (+0056) call: store the callback into
- * beaconFoundCallback of the object behind the pointer at g_021797A8.
+ * beaconFoundCallback of the object behind the pointer at gWihWork.
  */
 void WIH_SetBeaconFoundCallback(u32 beaconFoundCallback);
 void WIH_SetScanWaitFrames(u16 scanWaitFrames);
-extern WihWork *g_021797A8;
+extern WihWork *gWihWork;
 extern char sWihFileName[];
 extern char sWihAssertText[];
 
-void func_02178138(int state)
+void WIH_ChangeSysState(int state)
 {
-    g_021797A8->sysState = state;
+    gWihWork->sysState = state;
 }
 
-void func_0217814C(int error)
+void WIH_SetError(int error)
 {
-    if ((unsigned)(g_021797A8->sysState - 9) > 1)
-        g_021797A8->lastError = error;
+    if ((unsigned)(gWihWork->sysState - 9) > 1)
+        gWihWork->lastError = error;
 }
 
-int func_02178168(void)
+int WIH_StateInSetParentParam(void)
 {
     int result;
-    func_02178138(3);
-    result = WM_SetParentParameter(func_02178198, g_021797A8);
+    WIH_ChangeSysState(3);
+    result = WM_SetParentParameter(WIH_StateOutSetParentParam, gWihWork);
     if (result != 2) {
-        func_0217814C(result);
-        func_02178138(9);
+        WIH_SetError(result);
+        WIH_ChangeSysState(9);
         return 0;
     }
     return 1;
 }
 
-void func_02178198(WMCallback *arg)
+void WIH_StateOutSetParentParam(WMCallback *arg)
 {
     int result = arg->errcode;
     if (result != 0) {
-        func_0217814C(result);
-        func_02178138(9);
+        WIH_SetError(result);
+        WIH_ChangeSysState(9);
         return;
     }
-    if (func_021781BC() == 0)
-        func_02178138(9);
+    if (WIH_StateInStartParent() == 0)
+        WIH_ChangeSysState(9);
 }
 
-int func_021781BC(void)
+int WIH_StateInStartParent(void)
 {
     int result;
 
-    if ((u32)(g_021797A8->sysState - 4) <= 1)
+    if ((u32)(gWihWork->sysState - 4) <= 1)
         return 1;
-    result = WM_StartParent(func_02178204);
+    result = WM_StartParent(WIH_StateOutStartParent);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
-    g_021797A8->ownAid = 0;
-    g_021797A8->aidBitmap = 1;
+    gWihWork->ownAid = 0;
+    gWihWork->aidBitmap = 1;
     return 1;
 }
 
-void func_02178204(WMStartParentCallback *arg)
+void WIH_StateOutStartParent(WMStartParentCallback *arg)
 {
     int accepted = 1;
     u16 aidMask = 1 << arg->aid;
@@ -546,35 +546,35 @@ void func_02178204(WMStartParentCallback *arg)
     int result;
 
     if (arg->errcode != 0) {
-        func_0217814C(arg->errcode);
-        func_02178138(9);
+        WIH_SetError(arg->errcode);
+        WIH_ChangeSysState(9);
         return;
     }
     switch (arg->state) {
     case 2:
-        g_021797A8->beaconSendCount += 1;
+        gWihWork->beaconSendCount += 1;
         break;
     case 7:
-        if (g_021797A8->judgeAcceptFunc != 0)
-            accepted = g_021797A8->judgeAcceptFunc(arg, GFL_NET_GetUserArg());
+        if (gWihWork->judgeAcceptFunc != 0)
+            accepted = gWihWork->judgeAcceptFunc(arg, GFL_NET_GetUserArg());
         if (accepted == 0) {
             result = WM_Disconnect(0, arg->aid);
             if (result != 2) {
-                func_0217814C(result);
-                func_02178138(9);
+                WIH_SetError(result);
+                WIH_ChangeSysState(9);
             }
         } else {
-            g_021797A8->aidBitmap |= aidMask;
-            slotCallback = g_021797A8->connectCallback;
+            gWihWork->aidBitmap |= aidMask;
+            slotCallback = gWihWork->connectCallback;
             if (slotCallback != 0)
                 slotCallback(arg->aid);
         }
         break;
     case 9:
     case 0x1A:
-        if (g_021797A8->aidBitmap & (1 << arg->aid)) {
-            g_021797A8->aidBitmap &= ~aidMask;
-            slotCallback = g_021797A8->disconnectCallback;
+        if (gWihWork->aidBitmap & (1 << arg->aid)) {
+            gWihWork->aidBitmap &= ~aidMask;
+            slotCallback = gWihWork->disconnectCallback;
             if (slotCallback != 0)
                 slotCallback(arg->aid);
             NET_WHPIPE_OnChildDisconnected();
@@ -583,54 +583,54 @@ void func_02178204(WMStartParentCallback *arg)
         }
         break;
     case 0:
-        if (func_02178304() == 0)
-            func_02178138(9);
+        if (WIH_StateInStartParentMP() == 0)
+            WIH_ChangeSysState(9);
         break;
     }
 }
 
-BOOL func_02178304(void)
+BOOL WIH_StateInStartParentMP(void)
 {
     int result;
     u16 mpFreq;
 
-    if (g_021797A8->sysState == 4 || g_021797A8->sysState == 5)
+    if (gWihWork->sysState == 4 || gWihWork->sysState == 5)
         return 1;
 
-    func_02178138(4);
+    WIH_ChangeSysState(4);
 
     WM_GetMPReceiveBufferSize();
     WM_GetMPSendBufferSize();
 
-    if (g_021797A8->recvBuf != 0) {
-        GFL_NET_FreeAligned(g_021797A8->recvBuf);
-        GFL_NET_FreeAligned(g_021797A8->sendBuf);
+    if (gWihWork->recvBuf != 0) {
+        GFL_NET_FreeAligned(gWihWork->recvBuf);
+        GFL_NET_FreeAligned(gWihWork->sendBuf);
     }
 
-    g_021797A8->recvBufSize = WM_GetMPReceiveBufferSize();
-    g_021797A8->sendBufSize = WM_GetMPSendBufferSize();
+    gWihWork->recvBufSize = WM_GetMPReceiveBufferSize();
+    gWihWork->sendBufSize = WM_GetMPSendBufferSize();
 
-    g_021797A8->recvBuf =
-        GFL_NET_AllocAligned(g_021797A8->heapId, g_021797A8->recvBufSize + 0x20, sWihFileName, 0x4A7);
-    g_021797A8->sendBuf =
-        GFL_NET_AllocAligned(g_021797A8->heapId, g_021797A8->sendBufSize + 0x20, sWihFileName, 0x4A8);
+    gWihWork->recvBuf =
+        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->recvBufSize + 0x20, sWihFileName, 0x4A7);
+    gWihWork->sendBuf =
+        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->sendBufSize + 0x20, sWihFileName, 0x4A8);
 
     mpFreq = (GFL_NET_GetGameKind() == 2) ? 1 : 2;
 
-    result = WM_StartMP((void (*)(void *))func_021783FC,
-                        g_021797A8->recvBuf,
-                        (u16)g_021797A8->recvBufSize,
-                        g_021797A8->sendBuf,
-                        (u16)g_021797A8->sendBufSize,
+    result = WM_StartMP((void (*)(void *))WIH_StateOutStartParentMP,
+                        gWihWork->recvBuf,
+                        (u16)gWihWork->recvBufSize,
+                        gWihWork->sendBuf,
+                        (u16)gWihWork->sendBufSize,
                         mpFreq);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
 }
 
-void func_021783FC(WMStartMPCallback *arg)
+void WIH_StateOutStartParentMP(WMStartMPCallback *arg)
 {
     u16 errcode = arg->errcode;
     u16 aidBitmap;
@@ -639,29 +639,29 @@ void func_021783FC(WMStartMPCallback *arg)
     u32 aidCount;
     int result;
     if (errcode != 0) {
-        func_0217814C(errcode);
-        func_02178138(9);
+        WIH_SetError(errcode);
+        WIH_ChangeSysState(9);
         return;
     }
     switch (arg->state) {
     case 10:
-        if (g_021797A8->connectMode == 4) {
+        if (gWihWork->connectMode == 4) {
             myAid = GFL_NET_GetChildSendSize();
             aidCount = GFL_NET_GetMaxConnectNum() - 1;
             aidBitmap = (1 << (aidCount + 1)) - 1;
             isParent = 1;
             if (GFL_NET_GetGameKind() == 2)
                 isParent = 0;
-            result = WM_StartDataSharing(g_021797A8->dataSharingInfo, 13, aidBitmap, myAid, isParent);
+            result = WM_StartDataSharing(gWihWork->dataSharingInfo, 13, aidBitmap, myAid, isParent);
             if (result != 0) {
-                func_0217814C(result);
-                func_02178138(9);
+                WIH_SetError(result);
+                WIH_ChangeSysState(9);
                 return;
             }
-            func_02178138(5);
+            WIH_ChangeSysState(5);
             return;
         }
-        func_02178138(4);
+        WIH_ChangeSysState(4);
         break;
     case 11:
     case 12:
@@ -670,23 +670,23 @@ void func_021783FC(WMStartMPCallback *arg)
     }
 }
 
-int func_021784AC(void)
+int WIH_StateInEndParentMP(void)
 {
     int result;
-    func_02178138(3);
-    result = WM_EndMP(func_021784D0);
+    WIH_ChangeSysState(3);
+    result = WM_EndMP(WIH_StateOutEndParentMP);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
 }
 
-void func_021784D0(WMCallback *arg)
+void WIH_StateOutEndParentMP(WMCallback *arg)
 {
     int result = arg->errcode;
     if (result != 0) {
-        func_0217814C(result);
+        WIH_SetError(result);
         DWCi_MOV_WH_StateInEndKeyShare();
         return;
     }
@@ -698,7 +698,7 @@ int DWCi_MOV_WH_StateInEndParent(void)
 {
     int result = WM_EndParent((void *)DWCi_MOV_WH_StateOutEndParent);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
@@ -709,29 +709,29 @@ static void DWCi_MOV_WH_StateOutEndParent(void *arg)
     WMCallback *cb = (WMCallback *)arg;
 
     if (cb->errcode != 0) {
-        func_0217814C(cb->errcode);
+        WIH_SetError(cb->errcode);
         return;
     }
-    func_02178138(1);
+    WIH_ChangeSysState(1);
 }
 
 int DWCi_MOV_WH_ChildConnectAuto(u32 mode, const u16 *macAddr, u32 channel)
 {
-    func_02178138(2);
+    WIH_ChangeSysState(2);
     if (macAddr != 0) {
-        g_021797A8->scanParam.bssid[2] = macAddr[2];
-        g_021797A8->scanParam.bssid[1] = macAddr[1];
-        g_021797A8->scanParam.bssid[0] = macAddr[0];
+        gWihWork->scanParam.bssid[2] = macAddr[2];
+        gWihWork->scanParam.bssid[1] = macAddr[1];
+        gWihWork->scanParam.bssid[0] = macAddr[0];
     } else {
-        MI_CpuFill8(g_021797A8->scanParam.bssid, 0xff, 6);
+        MI_CpuFill8(gWihWork->scanParam.bssid, 0xff, 6);
     }
-    g_021797A8->connectMode = mode;
-    g_021797A8->judgeScanFunc = 0;
-    g_021797A8->fixedScanChannel = channel;
-    g_021797A8->scanParam.channelList = 1;
-    g_021797A8->autoConnect = 1;
+    gWihWork->connectMode = mode;
+    gWihWork->judgeScanFunc = 0;
+    gWihWork->fixedScanChannel = channel;
+    gWihWork->scanParam.channelList = 1;
+    gWihWork->autoConnect = 1;
     if (DWCi_MOV_WH_StateInStartScan() == 0) {
-        func_02178138(9);
+        WIH_ChangeSysState(9);
         return 0;
     }
     return 1;
@@ -739,21 +739,21 @@ int DWCi_MOV_WH_ChildConnectAuto(u32 mode, const u16 *macAddr, u32 channel)
 
 int DWCi_MOV_WH_StartScan(u32 judgeScanFunc, u16 *macAddr, u32 channel)
 {
-    func_02178138(2);
-    g_021797A8->judgeScanFunc = (WihJudgeScanFunc)judgeScanFunc;
-    g_021797A8->fixedScanChannel = channel;
-    g_021797A8->scanParam.channelList = 1;
-    g_021797A8->autoConnect = 0;
-    g_021797A8->scanCount = 0;
+    WIH_ChangeSysState(2);
+    gWihWork->judgeScanFunc = (WihJudgeScanFunc)judgeScanFunc;
+    gWihWork->fixedScanChannel = channel;
+    gWihWork->scanParam.channelList = 1;
+    gWihWork->autoConnect = 0;
+    gWihWork->scanCount = 0;
     if (macAddr != 0) {
-        g_021797A8->scanParam.bssid[2] = macAddr[2];
-        g_021797A8->scanParam.bssid[1] = macAddr[1];
-        g_021797A8->scanParam.bssid[0] = macAddr[0];
+        gWihWork->scanParam.bssid[2] = macAddr[2];
+        gWihWork->scanParam.bssid[1] = macAddr[1];
+        gWihWork->scanParam.bssid[0] = macAddr[0];
     } else {
-        MI_CpuFill8(g_021797A8->scanParam.bssid, 0xff, 6);
+        MI_CpuFill8(gWihWork->scanParam.bssid, 0xff, 6);
     }
     if (DWCi_MOV_WH_StateInStartScan() == 0) {
-        func_02178138(9);
+        WIH_ChangeSysState(9);
         return 0;
     }
     return 1;
@@ -767,14 +767,14 @@ BOOL DWCi_MOV_WH_StateInStartScan(void)
 
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0x8000) {
-        func_0217814C(3);
+        WIH_SetError(3);
         return 0;
     }
     if (allowedChannels == 0) {
-        func_0217814C(0x16);
+        WIH_SetError(0x16);
         return 0;
     }
-    work = g_021797A8;
+    work = gWihWork;
     if (work->fixedScanChannel == 0) {
         int bit;
         u32 channel = work->scanParam.channelList;
@@ -795,14 +795,14 @@ BOOL DWCi_MOV_WH_StateInStartScan(void)
     } else {
         work->scanParam.channelList = (u16)(1 << (work->fixedScanChannel - 1));
     }
-    g_021797A8->scanParam.maxChannelTime = WM_GetDispersionScanPeriod();
-    g_021797A8->scanParam.scanBuf = g_021797A8->scanBuf;
-    g_021797A8->scanParam.scanBufSize = 0x400;
-    g_021797A8->scanParam.scanType = 1;
-    g_021797A8->scanParam.ssidLength = 0;
-    result = WM_StartScanEx(DWCi_MOV_WH_StateOutStartScan, &g_021797A8->scanParam);
+    gWihWork->scanParam.maxChannelTime = WM_GetDispersionScanPeriod();
+    gWihWork->scanParam.scanBuf = gWihWork->scanBuf;
+    gWihWork->scanParam.scanBufSize = 0x400;
+    gWihWork->scanParam.scanType = 1;
+    gWihWork->scanParam.ssidLength = 0;
+    result = WM_StartScanEx(DWCi_MOV_WH_StateOutStartScan, &gWihWork->scanParam);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
@@ -810,8 +810,8 @@ BOOL DWCi_MOV_WH_StateInStartScan(void)
 
 void WIH_SetScanTarget(u16 channel, void *macAddr)
 {
-    g_021797A8->fixedScanChannel = channel;
-    func_02082D44(macAddr, g_021797A8->scanParam.bssid, 6);
+    gWihWork->fixedScanChannel = channel;
+    func_02082D44(macAddr, gWihWork->scanParam.bssid, 6);
 }
 
 int WIH_IsMatchingParent(WMBssDesc *bssDesc)
@@ -820,7 +820,7 @@ int WIH_IsMatchingParent(WMBssDesc *bssDesc)
     if (gameInfoLength < 0x10 || gameInfoLength > 0x80
         || gameInfoLength != (u32)bssDesc->userGameInfoLength + 0x10
         || bssDesc->gameInfoMagic != 1 || gameInfoLength < 8
-        || bssDesc->ggid != g_021797A8->parentParam.ggid)
+        || bssDesc->ggid != gWihWork->parentParam.ggid)
         return 0;
     if ((bssDesc->attribute & 3) == 1)
         return 1;
@@ -841,46 +841,46 @@ void DWCi_MOV_WH_StateOutStartScan(void *arg)
     int i;
     WihWork *work;
 
-    g_021797A8->scanCount += 1;
-    g_021797A8->scanWait = 0;
+    gWihWork->scanCount += 1;
+    gWihWork->scanWait = 0;
     if (cb->errcode != 0) {
-        func_0217814C(cb->errcode);
-        func_02178138(9);
+        WIH_SetError(cb->errcode);
+        WIH_ChangeSysState(9);
         return;
     }
-    if (g_021797A8->sysState != 2) {
-        g_021797A8->autoConnect = 0;
+    if (gWihWork->sysState != 2) {
+        gWihWork->autoConnect = 0;
         if (DWCi_MOV_WH_StateInEndScan() == 0)
-            func_02178138(9);
+            WIH_ChangeSysState(9);
         return;
     }
-    g_021797A8->scanWait = g_021797A8->scanWaitFrames;
+    gWihWork->scanWait = gWihWork->scanWaitFrames;
     switch (state) {
     case 4:
         WIH_DWC_Dummy();
         return;
     case 5:
         if (cb->bssDescCount != 0)
-            DC_InvalidateRange(g_021797A8->scanBuf, 0x400);
+            DC_InvalidateRange(gWihWork->scanBuf, 0x400);
         found = 0;
         for (i = 0; i < cb->bssDescCount; i++) {
-            work = g_021797A8;
+            work = gWihWork;
             MI_CpuCopy8(cb->bssDesc[i], &work->scanBssDesc, 0xC0);
             WIH_DWC_RequestAlertLevel((u8)cb->linkLevel[i]);
-            if (g_021797A8->beaconFoundCallback != 0)
-                g_021797A8->beaconFoundCallback(&work->scanBssDesc, GFL_NET_GetUserArg(),
+            if (gWihWork->beaconFoundCallback != 0)
+                gWihWork->beaconFoundCallback(&work->scanBssDesc, GFL_NET_GetUserArg(),
                                                 cb->linkLevel[i]);
             if (WIH_IsMatchingParent(&work->scanBssDesc) != 0) {
-                if (g_021797A8->judgeScanFunc == 0)
+                if (gWihWork->judgeScanFunc == 0)
                     func_02034714(sWihAssertText, 0, sWihAssertText);
-                if (g_021797A8->judgeScanFunc(&work->scanBssDesc) != 0)
+                if (gWihWork->judgeScanFunc(&work->scanBssDesc) != 0)
                     found = 1;
             }
         }
-        if (g_021797A8->autoConnect != 0 && found != 0) {
-            g_021797A8->scanWait = 0;
+        if (gWihWork->autoConnect != 0 && found != 0) {
+            gWihWork->scanWait = 0;
             if (DWCi_MOV_WH_StateInEndScan() == 0)
-                func_02178138(9);
+                WIH_ChangeSysState(9);
         }
         break;
     }
@@ -891,16 +891,16 @@ int DWCi_MOV_WH_EndScan(void)
     int irqState;
     int stopped = 0;
     irqState = func_02087988();
-    if (g_021797A8->sysState == 2) {
-        if (g_021797A8->scanWait != 0) {
+    if (gWihWork->sysState == 2) {
+        if (gWihWork->scanWait != 0) {
             if (DWCi_MOV_WH_StateInStartScan() == 0)
-                func_02178138(9);
+                WIH_ChangeSysState(9);
         }
-        g_021797A8->scanWait = -1;
-        g_021797A8->autoConnect = 0;
+        gWihWork->scanWait = -1;
+        gWihWork->autoConnect = 0;
         stopped = 1;
-        g_021797A8->endScanPending = 1;
-        func_02178138(3);
+        gWihWork->endScanPending = 1;
+        WIH_ChangeSysState(3);
     }
     func_0208799C(irqState);
     return stopped;
@@ -911,7 +911,7 @@ static int DWCi_MOV_WH_StateInEndScan(void)
     int result;
     result = WM_EndScan((void *)DWCi_MOV_WH_StateOutEndScan);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
@@ -920,29 +920,29 @@ static int DWCi_MOV_WH_StateInEndScan(void)
 void DWCi_MOV_WH_StateOutEndScan(WMCallback *arg)
 {
     WihWork *work;
-    g_021797A8->endScanPending = 0;
+    gWihWork->endScanPending = 0;
     if (arg->errcode != 0) {
-        func_0217814C(arg->errcode);
+        WIH_SetError(arg->errcode);
         return;
     }
-    func_02178138(1);
-    work = g_021797A8;
+    WIH_ChangeSysState(1);
+    work = gWihWork;
     if (work->autoConnect != 0) {
         work->autoConnect = 0;
         if (DWCi_MOV_WH_StateInStartChild() == 0)
-            func_02178138(9);
+            WIH_ChangeSysState(9);
     }
 }
 
 int DWCi_MOV_WH_StateInStartChild(void)
 {
     int result;
-    if ((u32)(g_021797A8->sysState - 4) <= 1)
+    if ((u32)(gWihWork->sysState - 4) <= 1)
         return 1;
-    func_02178138(3);
-    result = WM_StartConnectEx((void *)DWCi_MOV_WH_StateOutStartChild, &g_021797A8->scanBssDesc, g_021797A8->connectSsid, 1, 0);
+    WIH_ChangeSysState(3);
+    result = WM_StartConnectEx((void *)DWCi_MOV_WH_StateOutStartChild, &gWihWork->scanBssDesc, gWihWork->connectSsid, 1, 0);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
@@ -953,34 +953,34 @@ void DWCi_MOV_WH_StateOutStartChild(WMStartConnectCallback *arg)
     u32 value;
     WihSlotCallback slotCallback;
     if (arg->errcode != 0) {
-        func_0217814C(arg->errcode);
+        WIH_SetError(arg->errcode);
         value = arg->errcode;
         if (value == 0xC) {
-            func_02178138(9);
+            WIH_ChangeSysState(9);
             return;
         }
         if (value == 0xB) {
-            func_02178138(9);
+            WIH_ChangeSysState(9);
             return;
         }
         if (value == 1) {
-            func_02178138(8);
+            WIH_ChangeSysState(8);
             return;
         }
-        func_02178138(9);
+        WIH_ChangeSysState(9);
         return;
     }
     value = arg->state;
     if (value == 8)
         return;
     if (value == 7) {
-        func_02178138(4);
+        WIH_ChangeSysState(4);
         if (DWCi_MOV_WH_StateInStartChildMP() == 0) {
-            func_02178138(3);
+            WIH_ChangeSysState(3);
             return;
         }
-        g_021797A8->ownAid = arg->aid;
-        slotCallback = g_021797A8->connectCallback;
+        gWihWork->ownAid = arg->aid;
+        slotCallback = gWihWork->connectCallback;
         if (slotCallback != 0)
             slotCallback(arg->aid);
         return;
@@ -988,22 +988,22 @@ void DWCi_MOV_WH_StateOutStartChild(WMStartConnectCallback *arg)
     if (value == 6)
         return;
     if (value == 9) {
-        func_0217814C(0x14);
-        func_02178138(9);
+        WIH_SetError(0x14);
+        WIH_ChangeSysState(9);
         return;
     }
     if (value == 0x1A)
         return;
-    func_02178138(9);
+    WIH_ChangeSysState(9);
 }
 
 /*
  * The DWC copy of the NitroSDK demo wh.c's MP start (DWCi_MOV_WH_*): frees
  * and re-allocates the MP receive and send buffers (sizes from
  * WM_GetMP{Receive,Send}BufferSize, kept in recvBufSize and sendBufSize of
- * the work block behind g_021797A8), then calls WM_StartMP with callback
+ * the work block behind gWihWork), then calls WM_StartMP with callback
  * DWCi_MOV_WH_StateOutStartChildMP; anything but WM_ERRCODE_OPERATING (2) goes to the error
- * setter func_0217814C.
+ * setter WIH_SetError.
  */
 BOOL DWCi_MOV_WH_StateInStartChildMP(void)
 {
@@ -1013,29 +1013,29 @@ BOOL DWCi_MOV_WH_StateInStartChildMP(void)
     WM_GetMPReceiveBufferSize();
     WM_GetMPSendBufferSize();
 
-    if (g_021797A8->recvBuf != 0) {
-        GFL_NET_FreeAligned(g_021797A8->recvBuf);
-        GFL_NET_FreeAligned(g_021797A8->sendBuf);
+    if (gWihWork->recvBuf != 0) {
+        GFL_NET_FreeAligned(gWihWork->recvBuf);
+        GFL_NET_FreeAligned(gWihWork->sendBuf);
     }
 
-    g_021797A8->recvBufSize = WM_GetMPReceiveBufferSize();
-    g_021797A8->sendBufSize = WM_GetMPSendBufferSize();
+    gWihWork->recvBufSize = WM_GetMPReceiveBufferSize();
+    gWihWork->sendBufSize = WM_GetMPSendBufferSize();
 
-    g_021797A8->recvBuf =
-        GFL_NET_AllocAligned(g_021797A8->heapId, g_021797A8->recvBufSize + 0x20, sWihFileName, 0x7FA);
-    g_021797A8->sendBuf =
-        GFL_NET_AllocAligned(g_021797A8->heapId, g_021797A8->sendBufSize + 0x20, sWihFileName, 0x7FB);
+    gWihWork->recvBuf =
+        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->recvBufSize + 0x20, sWihFileName, 0x7FA);
+    gWihWork->sendBuf =
+        GFL_NET_AllocAligned(gWihWork->heapId, gWihWork->sendBufSize + 0x20, sWihFileName, 0x7FB);
 
     mpFreq = (GFL_NET_GetGameKind() == 2) ? 1 : 2;
 
     result = WM_StartMP((void (*)(void *))DWCi_MOV_WH_StateOutStartChildMP,
-                        g_021797A8->recvBuf,
-                        (u16)g_021797A8->recvBufSize,
-                        g_021797A8->sendBuf,
-                        (u16)g_021797A8->sendBufSize,
+                        gWihWork->recvBuf,
+                        (u16)gWihWork->recvBufSize,
+                        gWihWork->sendBuf,
+                        (u16)gWihWork->sendBufSize,
                         mpFreq);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
@@ -1051,13 +1051,13 @@ void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg)
     if (errcode != 0) {
         if (errcode == 0xF || errcode == 9 || errcode == 0xD)
             return;
-        func_0217814C(errcode);
-        func_02178138(9);
+        WIH_SetError(errcode);
+        WIH_ChangeSysState(9);
         return;
     }
     switch (arg->state) {
     case 0xA:
-        if (g_021797A8->connectMode == 5) {
+        if (gWihWork->connectMode == 5) {
             int result;
             int aidCount;
             myAid = GFL_NET_GetChildSendSize();
@@ -1066,16 +1066,16 @@ void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg)
             isParent = 1;
             if (GFL_NET_GetGameKind() == 2)
                 isParent = 0;
-            result = WM_StartDataSharing(g_021797A8->dataSharingInfo, 0xD, aidBitmap, (u16)myAid, isParent);
+            result = WM_StartDataSharing(gWihWork->dataSharingInfo, 0xD, aidBitmap, (u16)myAid, isParent);
             if (result != 0) {
-                func_0217814C(result);
-                func_02179498();
+                WIH_SetError(result);
+                WIH_Finalize();
                 return;
             }
-            func_02178138(5);
+            WIH_ChangeSysState(5);
             return;
         }
-        func_02178138(4);
+        WIH_ChangeSysState(4);
         break;
     case 0xB:
     case 0xC:
@@ -1084,38 +1084,38 @@ void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg)
     }
 }
 
-int func_02178C50(void)
+int WIH_StateInEndChildMP(void)
 {
     int result;
-    func_02178138(3);
-    result = WM_EndMP(func_02178C74);
+    WIH_ChangeSysState(3);
+    result = WM_EndMP(WIH_StateOutEndChildMP);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
 }
 
-void func_02178C74(WMCallback *arg)
+void WIH_StateOutEndChildMP(WMCallback *arg)
 {
     int result = arg->errcode;
     if (result != 0) {
-        func_0217814C(result);
-        func_02179498();
+        WIH_SetError(result);
+        WIH_Finalize();
         return;
     }
-    if (func_02178C98() == 0)
-        func_02178138(9);
+    if (WIH_StateInEndChild() == 0)
+        WIH_ChangeSysState(9);
 }
 
-int func_02178C98(void)
+int WIH_StateInEndChild(void)
 {
     int result;
     int failed = 0;
-    func_02178138(3);
+    WIH_ChangeSysState(3);
     result = WM_Disconnect(DWCi_MOV_WH_StateOutEndChild, 0);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         DWCi_MOV_WH_StateInEndKeyShare();
         return failed;
     }
@@ -1126,48 +1126,48 @@ static void DWCi_MOV_WH_StateOutEndChild(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     if (cb->errcode != 0) {
-        func_0217814C(cb->errcode);
+        WIH_SetError(cb->errcode);
         return;
     }
-    func_02178138(1);
+    WIH_ChangeSysState(1);
 }
 
-int func_02178CDC(void)
+int WIH_StateInReset(void)
 {
     int result;
-    func_02178138(3);
-    result = WM_Reset(func_02178D00);
+    WIH_ChangeSysState(3);
+    result = WM_Reset(WIH_StateOutReset);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
 }
 
-void func_02178D00(WMCallback *arg)
+void WIH_StateOutReset(WMCallback *arg)
 {
     if (arg->errcode != 0) {
-        func_02178138(9);
-        func_0217814C(arg->errcode);
+        WIH_ChangeSysState(9);
+        WIH_SetError(arg->errcode);
     } else {
-        func_02178138(1);
+        WIH_ChangeSysState(1);
     }
 }
 
 int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback)
 {
-    func_020862F0(g_021797A8->sendBuf, g_021797A8->sendBufSize);
-    if (WM_SetMPDataToPortEx((void *)func_02178D74, userCallback, data, size, 0xFFFF, 0xE, 2) == 2)
+    func_020862F0(gWihWork->sendBuf, gWihWork->sendBufSize);
+    if (WM_SetMPDataToPortEx((void *)WIH_StateOutSetMPData, userCallback, data, size, 0xFFFF, 0xE, 2) == 2)
         return 1;
     return 0;
 }
 
 /* extent: two zero alignment bytes at 02178D9A precede labelled 02178D9C. */
-void func_02178D74(WMPortSendCallback *arg)
+void WIH_StateOutSetMPData(WMPortSendCallback *arg)
 {
     int errcode = arg->errcode;
     if (errcode != 0 && errcode != 15) {
-        func_0217814C(errcode);
+        WIH_SetError(errcode);
     } else {
         WihResultCallback userCallback = arg->userCallback;
         if (userCallback != 0)
@@ -1179,10 +1179,10 @@ void DWCi_MOV_WH_PortReceiveCallback(WMPortRecvCallback *arg)
 {
     WihRecvCallback recvCallback;
     if (arg->errcode != 0) {
-        func_0217814C(arg->errcode);
+        WIH_SetError(arg->errcode);
         return;
     }
-    recvCallback = g_021797A8->recvCallback;
+    recvCallback = gWihWork->recvCallback;
     if (recvCallback != 0) {
         if (arg->state == 0x15)
             recvCallback(arg->aid, arg->data, arg->length);
@@ -1191,48 +1191,48 @@ void DWCi_MOV_WH_PortReceiveCallback(WMPortRecvCallback *arg)
     }
 }
 
-void func_02178DE0(WMCallback *arg)
+void WIH_StateOutEnd(WMCallback *arg)
 {
-    WihResultCallback callback = g_021797A8->initCallback;
+    WihResultCallback callback = gWihWork->initCallback;
     if (callback != 0)
         callback(arg->errcode == 0 ? 1 : 0);
     if (arg->errcode != 0)
-        func_02178138(10);
+        WIH_ChangeSysState(10);
     else
-        func_02178138(0);
+        WIH_ChangeSysState(0);
 }
 
-void func_02178E1C(u32 ggid)
+void WIH_SetGgid(u32 ggid)
 {
-    g_021797A8->parentParam.ggid = ggid;
+    gWihWork->parentParam.ggid = ggid;
 }
 
 void DWCi_MOV_WH_SetUserGameInfo(void *userGameInfo, unsigned short length)
 {
-    g_021797A8->parentParam.userGameInfo = userGameInfo;
-    g_021797A8->parentParam.userGameInfoLength = length;
+    gWihWork->parentParam.userGameInfo = userGameInfo;
+    gWihWork->parentParam.userGameInfoLength = length;
 }
 
-u16 func_02178E38(void)
+u16 WIH_GetBitmap(void)
 {
-    return g_021797A8->aidBitmap;
+    return gWihWork->aidBitmap;
 }
 
 int WIH_GetSysState(void)
 {
-    if (g_021797A8 == 0)
+    if (gWihWork == 0)
         return 0;
-    return g_021797A8->sysState;
+    return gWihWork->sysState;
 }
 
 int DWCi_MOV_WH_GetLastError(void)
 {
-    if (g_021797A8 != 0)
-        return g_021797A8->lastError;
+    if (gWihWork != 0)
+        return gWihWork->lastError;
     return 0;
 }
 
-int func_02178E84(void)
+int WIH_StartMeasureChannel(void)
 {
     u16 dateTime[3];
     int result;
@@ -1242,37 +1242,37 @@ int func_02178E84(void)
     func_02087C6C(dateTime);
     /* the VBlank counter in the shared main memory area */
     vblankCount = *(volatile u32 *)0x02FFFC3C;
-    g_021797A8->randomSeed = dateTime[2] + (dateTime[1] + (dateTime[0] + vblankCount));
-    g_021797A8->randomSeed = g_021797A8->randomSeed * 0x10DCD + 0x3039;
-    g_021797A8->measuredChannel = 0;
-    g_021797A8->minBusyRatio = 0x65;
-    func_02178138(3);
+    gWihWork->randomSeed = dateTime[2] + (dateTime[1] + (dateTime[0] + vblankCount));
+    gWihWork->randomSeed = gWihWork->randomSeed * 0x10DCD + 0x3039;
+    gWihWork->measuredChannel = 0;
+    gWihWork->minBusyRatio = 0x65;
+    WIH_ChangeSysState(3);
     ok = 1;
-    result = func_02178F1C(1);
+    result = WIH_StateInMeasureChannel(1);
     if (result == 0x18) {
-        func_0217814C(0x18);
-        func_02178138(9);
+        WIH_SetError(0x18);
+        WIH_ChangeSysState(9);
         return 0;
     }
     if (result != 2) {
-        func_0217814C(result);
-        func_02178138(9);
+        WIH_SetError(result);
+        WIH_ChangeSysState(9);
         return 0;
     }
     return ok;
 }
 
-int func_02178F1C(u16 channel)
+int WIH_StateInMeasureChannel(u16 channel)
 {
     u32 allowedChannels = func_0208EE60();
     if (allowedChannels == 0x8000) {
-        func_0217814C(3);
-        func_02178138(9);
+        WIH_SetError(3);
+        WIH_ChangeSysState(9);
         return 3;
     }
     if (allowedChannels == 0) {
-        func_0217814C(0x16);
-        func_02178138(9);
+        WIH_SetError(0x16);
+        WIH_ChangeSysState(9);
         return 0x18;
     }
     if (!((1 << (channel - 1)) & allowedChannels)) {
@@ -1282,39 +1282,39 @@ int func_02178F1C(u16 channel)
                 return 0x18;
         } while (!((1 << (channel - 1)) & allowedChannels));
     }
-    return (u16)WHi_MeasureChannel((void *)func_02178F8C, channel);
+    return (u16)WHi_MeasureChannel((void *)WIH_StateOutMeasureChannel, channel);
 }
 
 #pragma opt_dead_assignments off
-void func_02178F8C(const WMMeasureChannelCallback *arg)
+void WIH_StateOutMeasureChannel(const WMMeasureChannelCallback *arg)
 {
     u32 channel;
     u32 busyRatio;
     u32 value;
     int result;
     if (arg->errcode != 0) {
-        func_0217814C(arg->errcode);
-        func_02178138(9);
+        WIH_SetError(arg->errcode);
+        WIH_ChangeSysState(9);
         return;
     }
     channel = arg->channel;
     busyRatio = arg->ccaBusyRatio;
-    value = g_021797A8->minBusyRatio;
+    value = gWihWork->minBusyRatio;
     if (value > busyRatio) {
-        g_021797A8->minBusyRatio = busyRatio;
+        gWihWork->minBusyRatio = busyRatio;
         value = 1 << (channel - 1);
-        g_021797A8->bestChannelBitmap = value;
+        gWihWork->bestChannelBitmap = value;
     } else if (value == busyRatio) {
-        value = (u16)(1 << (channel - 1)) | g_021797A8->bestChannelBitmap;
-        g_021797A8->bestChannelBitmap = value;
+        value = (u16)(1 << (channel - 1)) | gWihWork->bestChannelBitmap;
+        gWihWork->bestChannelBitmap = value;
     }
-    result = func_02178F1C(channel + 1);
-    if (result == 0x18 && g_021797A8->sysState != 9) {
-        func_02178138(7);
+    result = WIH_StateInMeasureChannel(channel + 1);
+    if (result == 0x18 && gWihWork->sysState != 9) {
+        WIH_ChangeSysState(7);
         return;
     }
     if (result != 2)
-        func_02178138(9);
+        WIH_ChangeSysState(9);
 }
 #pragma opt_dead_assignments reset
 
@@ -1323,11 +1323,11 @@ int WHi_MeasureChannel(void *callback, unsigned short channel)
     return WM_MeasureChannel(callback, 3, 0x11, channel, 0x1E);
 }
 
-u16 func_02179024(void)
+u16 WIH_GetMeasureChannel(void)
 {
-    func_02178138(1);
-    g_021797A8->measuredChannel = WIH_PickRandomChannel(g_021797A8->bestChannelBitmap);
-    return g_021797A8->measuredChannel;
+    WIH_ChangeSysState(1);
+    gWihWork->measuredChannel = WIH_PickRandomChannel(gWihWork->bestChannelBitmap);
+    return gWihWork->measuredChannel;
 }
 
 int WIH_PickRandomChannel(u16 channelBitmap)
@@ -1344,8 +1344,8 @@ int WIH_PickRandomChannel(u16 channelBitmap)
     }
     if (count > 1) {
         s16 j;
-        g_021797A8->randomSeed = g_021797A8->randomSeed * 0x10DCD + 0x3039;
-        pick = (u32)(count * (u8)g_021797A8->randomSeed) << 8 >> 16;
+        gWihWork->randomSeed = gWihWork->randomSeed * 0x10DCD + 0x3039;
+        pick = (u32)(count * (u8)gWihWork->randomSeed) << 8 >> 16;
         for (j = 0; j < 16; j++) {
             if (channelBitmap & 1) {
                 if (pick == 0)
@@ -1359,52 +1359,52 @@ int WIH_PickRandomChannel(u16 channelBitmap)
     return lastChannel;
 }
 
-BOOL func_021790E4(u32 heapId, int unused, int listening)
+BOOL WIH_Initialize(u32 heapId, int unused, int listening)
 {
     BOOL ok;
-    if (g_021797A8 != 0)
+    if (gWihWork != 0)
         return 0;
-    g_021797A8 = GFL_NET_AllocAligned(heapId, 0x1F00, sWihFileName, 0xC33);
-    MI_CpuFill8(g_021797A8, 0, 0x1EE0);
-    g_021797A8->scanWaitFrames = 1;
-    g_021797A8->aidBitmap = 1;
-    g_021797A8->lastError = 0;
-    g_021797A8->heapId = heapId;
+    gWihWork = GFL_NET_AllocAligned(heapId, 0x1F00, sWihFileName, 0xC33);
+    MI_CpuFill8(gWihWork, 0, 0x1EE0);
+    gWihWork->scanWaitFrames = 1;
+    gWihWork->aidBitmap = 1;
+    gWihWork->lastError = 0;
+    gWihWork->heapId = heapId;
     ok = 1;
-    if (!func_021791A0(unused, listening))
+    if (!WIH_StateInInitialize(unused, listening))
         ok = 0;
     return ok;
 }
 
 void WIH_FreeWork(void)
 {
-    if (g_021797A8 != 0) {
-        GFL_NET_FreeAligned(g_021797A8->recvBuf);
-        GFL_NET_FreeAligned(g_021797A8->sendBuf);
-        GFL_NET_FreeAligned(g_021797A8);
-        g_021797A8 = 0;
+    if (gWihWork != 0) {
+        GFL_NET_FreeAligned(gWihWork->recvBuf);
+        GFL_NET_FreeAligned(gWihWork->sendBuf);
+        GFL_NET_FreeAligned(gWihWork);
+        gWihWork = 0;
     }
 }
 
-void func_02179188(WMCallback *arg)
+void WIH_IndicateHandler(WMCallback *arg)
 {
     if (arg->errcode == 8) {
-        func_02178138(9);
-        func_0217814C(25);
+        WIH_ChangeSysState(9);
+        WIH_SetError(25);
     }
 }
 
-BOOL func_021791A0(int unused, int listening)
+BOOL WIH_StateInInitialize(int unused, int listening)
 {
     int result;
-    func_02178138(3);
+    WIH_ChangeSysState(3);
     if (listening == 0)
-        result = WM_Initialize(g_021797A8->wmSystemBuf, (void (*)(void *))func_021791F8, 2);
+        result = WM_Initialize(gWihWork->wmSystemBuf, (void (*)(void *))WIH_StateOutInitialize, 2);
     else
-        result = WM_InitializeForListening(g_021797A8->wmSystemBuf, (void (*)(void *))func_021791F8, 2, 0);
+        result = WM_InitializeForListening(gWihWork->wmSystemBuf, (void (*)(void *))WIH_StateOutInitialize, 2, 0);
     if (result != 2) {
-        func_0217814C(result);
-        func_02178138(10);
+        WIH_SetError(result);
+        WIH_ChangeSysState(10);
         return 0;
     }
     return 1;
@@ -1412,102 +1412,102 @@ BOOL func_021791A0(int unused, int listening)
 
 void DWCi_MOV_WH_StateOutSetLifeTime(void)
 {
-    func_02178138(1);
+    WIH_ChangeSysState(1);
 }
 
 /*
  * WM_Initialize completion callback of the DWC WH copy: on an error result,
- * or when func_02179188 cannot be installed as the indication callback, it
+ * or when WIH_IndicateHandler cannot be installed as the indication callback, it
  * sets the error state (10) and calls the user callback at initCallback with
  * 0; otherwise it sets state 1, calls WM_SetLifeTime with the unlabelled leaf
  * DWCi_MOV_WH_StateOutSetLifeTime and calls the user callback with 1.
  */
-void func_021791F8(WMCallback *arg)
+void WIH_StateOutInitialize(WMCallback *arg)
 {
     WihResultCallback callback;
     int result;
     if (arg->errcode != 0) {
-        func_0217814C(arg->errcode);
-        func_02178138(10);
-        callback = g_021797A8->initCallback;
+        WIH_SetError(arg->errcode);
+        WIH_ChangeSysState(10);
+        callback = gWihWork->initCallback;
         if (callback != 0)
             callback(0);
         return;
     }
-    result = WM_SetIndCallback((void (*)(void))func_02179188);
+    result = WM_SetIndCallback((void (*)(void))WIH_IndicateHandler);
     if (result != 0) {
-        func_0217814C(result);
-        func_02178138(10);
-        callback = g_021797A8->initCallback;
+        WIH_SetError(result);
+        WIH_ChangeSysState(10);
+        callback = gWihWork->initCallback;
         if (callback != 0)
             callback(0);
         return;
     }
-    func_02178138(1);
+    WIH_ChangeSysState(1);
     WM_SetLifeTime(DWCi_MOV_WH_StateOutSetLifeTime, 0xFFFF, 0x28, 5, 0x28);
-    callback = g_021797A8->initCallback;
+    callback = gWihWork->initCallback;
     if (callback != 0)
         callback(1);
 }
 
-BOOL func_02179288(int mode, u16 tgid, int channel, u16 maxEntry)
+BOOL WIH_ParentConnect(int mode, u16 tgid, int channel, u16 maxEntry)
 {
-    g_021797A8->beaconSendCount = 0;
-    g_021797A8->connectMode = mode;
-    func_02178138(3);
-    g_021797A8->parentParam.tgid = tgid;
-    g_021797A8->parentParam.channel = channel;
-    g_021797A8->parentParam.beaconPeriod = WM_GetDispersionBeaconPeriod();
+    gWihWork->beaconSendCount = 0;
+    gWihWork->connectMode = mode;
+    WIH_ChangeSysState(3);
+    gWihWork->parentParam.tgid = tgid;
+    gWihWork->parentParam.channel = channel;
+    gWihWork->parentParam.beaconPeriod = WM_GetDispersionBeaconPeriod();
     if (GFL_NET_GetParentSendSize() != 0) {
-        g_021797A8->parentParam.parentMaxSize = GFL_NET_GetParentSendSize();
+        gWihWork->parentParam.parentMaxSize = GFL_NET_GetParentSendSize();
     } else {
-        g_021797A8->parentParam.parentMaxSize = GFL_NET_GetChildSendSize() * GFL_NET_GetMaxConnectNum() + 4;
+        gWihWork->parentParam.parentMaxSize = GFL_NET_GetChildSendSize() * GFL_NET_GetMaxConnectNum() + 4;
     }
-    g_021797A8->parentParam.childMaxSize = GFL_NET_GetChildSendSize();
-    g_021797A8->parentParam.maxEntry = maxEntry;
-    g_021797A8->parentParam.cswitch = 0;
-    g_021797A8->parentParam.multiBootFlag = 0;
-    g_021797A8->parentParam.entryFlag = 1;
-    g_021797A8->parentParam.keySharing = (mode == 2);
+    gWihWork->parentParam.childMaxSize = GFL_NET_GetChildSendSize();
+    gWihWork->parentParam.maxEntry = maxEntry;
+    gWihWork->parentParam.cswitch = 0;
+    gWihWork->parentParam.multiBootFlag = 0;
+    gWihWork->parentParam.entryFlag = 1;
+    gWihWork->parentParam.keySharing = (mode == 2);
     if (mode == 0 || mode == 2 || mode == 4)
-        return func_02178168();
+        return WIH_StateInSetParentParam();
     return 0;
 }
 
-void func_02179328(void *judgeAcceptFunc)
+void WIH_SetJudgeAcceptFunc(void *judgeAcceptFunc)
 {
-    g_021797A8->judgeAcceptFunc = (WihJudgeAcceptFunc)judgeAcceptFunc;
+    gWihWork->judgeAcceptFunc = (WihJudgeAcceptFunc)judgeAcceptFunc;
 }
 
 void DWCi_MOV_WH_SetReceiver(void *recvCallback)
 {
-    g_021797A8->recvCallback = (WihRecvCallback)recvCallback;
+    gWihWork->recvCallback = (WihRecvCallback)recvCallback;
     if (WM_SetPortCallback(14, DWCi_MOV_WH_PortReceiveCallback, 0) != 0)
-        func_02178138(9);
+        WIH_ChangeSysState(9);
 }
 
 BOOL DWCi_MOV_WH_SendData(int data, u16 size, int userCallback)
 {
-    if (WIH_GetOwnAid() == 0 && (func_02178E38() & 0xFE) == 0)
+    if (WIH_GetOwnAid() == 0 && (WIH_GetBitmap() & 0xFE) == 0)
         return 0;
     return DWCi_MOV_WH_StateInSetMPData(data, size, userCallback);
 }
 
-int func_02179394(u16 aid)
+int WIH_GetSharedDataAdr(u16 aid)
 {
-    return WM_GetSharedDataAddress(g_021797A8->dataSharingInfo, g_021797A8->dataSet, aid);
+    return WM_GetSharedDataAddress(gWihWork->dataSharingInfo, gWihWork->dataSet, aid);
 }
 
-BOOL func_021793B8(int sendData)
+BOOL WIH_StepDS(int sendData)
 {
     int result;
-    result = WM_StepDataSharing((struct WMDataSharingInfo *)g_021797A8->dataSharingInfo, (const u16 *)sendData, (struct WMDataSet *)g_021797A8->dataSet);
+    result = WM_StepDataSharing((struct WMDataSharingInfo *)gWihWork->dataSharingInfo, (const u16 *)sendData, (struct WMDataSet *)gWihWork->dataSet);
     if (result == 7)
         return 0;
     if (result == 5)
         return 0;
     if (result != 0) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;
@@ -1515,15 +1515,15 @@ BOOL func_021793B8(int sendData)
 
 void WIH_UpdateScanTimer(void)
 {
-    if (g_021797A8 != 0 && *(s16 *)((u8 *)g_021797A8 + 0x1EBE) > 0) {
-        *(s16 *)((u8 *)g_021797A8 + 0x1EBE) =
-            (g_021797A8->sysState != 2) ? 0 : *(s16 *)((u8 *)g_021797A8 + 0x1EBE) - 1;
-        if (*(s16 *)((u8 *)g_021797A8 + 0x1EBE) == 0) {
-            if (g_021797A8->sysState == 2 && g_021797A8->scanPaused == 0) {
+    if (gWihWork != 0 && *(s16 *)((u8 *)gWihWork + 0x1EBE) > 0) {
+        *(s16 *)((u8 *)gWihWork + 0x1EBE) =
+            (gWihWork->sysState != 2) ? 0 : *(s16 *)((u8 *)gWihWork + 0x1EBE) - 1;
+        if (*(s16 *)((u8 *)gWihWork + 0x1EBE) == 0) {
+            if (gWihWork->sysState == 2 && gWihWork->scanPaused == 0) {
                 if (DWCi_MOV_WH_StateInStartScan() == 0)
-                    func_02178138(9);
+                    WIH_ChangeSysState(9);
             } else {
-                *(s16 *)((unsigned int)g_021797A8 + 0x1EBE) = 1;
+                *(s16 *)((unsigned int)gWihWork + 0x1EBE) = 1;
             }
         }
     }
@@ -1532,21 +1532,21 @@ void WIH_UpdateScanTimer(void)
 void DWCi_MOV_WH_StateInEndKeyShare(void)
 {
     int error;
-    if (g_021797A8->sysState == 5) {
-        error = WM_EndDataSharing(g_021797A8->dataSharingInfo);
+    if (gWihWork->sysState == 5) {
+        error = WM_EndDataSharing(gWihWork->dataSharingInfo);
         if (error != 0)
-            func_0217814C(error);
+            WIH_SetError(error);
     }
-    if (func_02178CDC() == 0)
-        func_02178138(10);
+    if (WIH_StateInReset() == 0)
+        WIH_ChangeSysState(10);
 }
 
-BOOL func_02179498(void)
+BOOL WIH_Finalize(void)
 {
     int state;
-    if (g_021797A8 == 0 || (state = g_021797A8->sysState) == 1)
+    if (gWihWork == 0 || (state = gWihWork->sysState) == 1)
         return 1;
-    if (g_021797A8->lastError != 0) {
+    if (gWihWork->lastError != 0) {
         DWCi_MOV_WH_StateInEndKeyShare();
         return 1;
     }
@@ -1557,46 +1557,46 @@ BOOL func_02179498(void)
             DWCi_MOV_WH_StateInEndKeyShare();
         return 1;
     }
-    if (g_021797A8->endScanPending != 0)
+    if (gWihWork->endScanPending != 0)
         return 1;
     if (state != 5 && state != 4) {
-        func_02178138(3);
+        WIH_ChangeSysState(3);
         DWCi_MOV_WH_StateInEndKeyShare();
         return 1;
     }
-    func_02178138(3);
-    switch (g_021797A8->connectMode) {
+    WIH_ChangeSysState(3);
+    switch (gWihWork->connectMode) {
     case 5:
-        if (WM_EndDataSharing(g_021797A8->dataSharingInfo) != 0) {
+        if (WM_EndDataSharing(gWihWork->dataSharingInfo) != 0) {
             DWCi_MOV_WH_StateInEndKeyShare();
             break;
         }
     case 1:
-        if (!func_02178C50())
+        if (!WIH_StateInEndChildMP())
             DWCi_MOV_WH_StateInEndKeyShare();
         break;
     case 2:
     case 3:
         break;
     case 4:
-        if (WM_EndDataSharing(g_021797A8->dataSharingInfo) != 0) {
+        if (WM_EndDataSharing(gWihWork->dataSharingInfo) != 0) {
             DWCi_MOV_WH_StateInEndKeyShare();
             break;
         }
     case 0:
-        if (!func_021784AC())
+        if (!WIH_StateInEndParentMP())
             DWCi_MOV_WH_StateInEndKeyShare();
         break;
     }
     return 1;
 }
 
-int func_02179570(void (*callback)(int))
+int WIH_End(void (*callback)(int))
 {
-    g_021797A8->initCallback = callback;
-    func_02178138(3);
-    if (WM_End(func_02178DE0) != 2) {
-        func_02178138(9);
+    gWihWork->initCallback = callback;
+    WIH_ChangeSysState(3);
+    if (WM_End(WIH_StateOutEnd) != 2) {
+        WIH_ChangeSysState(9);
         return 0;
     }
     return 1;
@@ -1604,38 +1604,38 @@ int func_02179570(void (*callback)(int))
 
 unsigned short WIH_GetOwnAid(void)
 {
-    if (g_021797A8 != 0)
-        return g_021797A8->ownAid;
+    if (gWihWork != 0)
+        return gWihWork->ownAid;
     return 0;
 }
 
 void WIH_SetJudgeScanFunc(unsigned judgeScanFunc)
 {
-    g_021797A8->judgeScanFunc = (WihJudgeScanFunc)judgeScanFunc;
+    gWihWork->judgeScanFunc = (WihJudgeScanFunc)judgeScanFunc;
 }
 
 void WIH_SetBeaconGameInfo(int userGameInfo, int size, int ggid, int tgid)
 {
-    if (g_021797A8 != 0 && (unsigned)(g_021797A8->sysState - 4) <= 1)
+    if (gWihWork != 0 && (unsigned)(gWihWork->sysState - 4) <= 1)
         WM_SetGameInfo(0, userGameInfo, (u16)size, ggid, (u16)tgid, 1);
 }
 
 unsigned short WIH_GetBeaconSendCount(void)
 {
-    return g_021797A8->beaconSendCount;
+    return gWihWork->beaconSendCount;
 }
 
 void WIH_SetConnectCallback(unsigned connectCallback)
 {
-    g_021797A8->connectCallback = (WihSlotCallback)connectCallback;
+    gWihWork->connectCallback = (WihSlotCallback)connectCallback;
 }
 
 void WIH_SetBeaconFoundCallback(u32 beaconFoundCallback)
 {
-    g_021797A8->beaconFoundCallback = (WihBeaconFoundCallback)beaconFoundCallback;
+    gWihWork->beaconFoundCallback = (WihBeaconFoundCallback)beaconFoundCallback;
 }
 
 void WIH_SetScanWaitFrames(u16 scanWaitFrames)
 {
-    g_021797A8->scanWaitFrames = scanWaitFrames;
+    gWihWork->scanWaitFrames = scanWaitFrames;
 }

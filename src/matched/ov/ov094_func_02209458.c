@@ -1,5 +1,5 @@
 /*
- * function: func_02209458
+ * function: BTLV_TIMER_DeleteActors
  * address:  0x02209458
  * packet:   pkt_ov094_02209458
  * region:   ov094
@@ -31,7 +31,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_02209458(W *w)
+void BTLV_TIMER_DeleteActors(W *w)
 {
     int i;
     int j;

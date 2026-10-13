@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_CallElevatorEvent
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent
  * address:  0x021F3A28
  * packet:   pkt_ov043_021F3A28
  * region:   ov043
@@ -19,7 +19,7 @@
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   GIMMICK43_ElevatorEventMain  0x021F3D78  thumb
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain  0x021F3D78  thumb
  */
 
 typedef unsigned int   u32;
@@ -38,9 +38,9 @@ extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 extern int FIELDMAP_GetExpObj(int *p);
 extern void  FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK43_ElevatorEventMain(void *a, int *b);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(void *a, int *b);
 
-void GIMMICK43_CallElevatorEvent(void *a0, int a1)
+void FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(void *a0, int a1)
 {
     void *r6;
     int *r4;
@@ -68,5 +68,5 @@ void GIMMICK43_CallElevatorEvent(void *a0, int a1)
         d = 0x2000;
     }
     r4[3] = d;
-    func_020122C0(a0, 0, GIMMICK43_ElevatorEventMain, 0);
+    func_020122C0(a0, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain, 0);
 }

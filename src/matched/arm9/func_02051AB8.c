@@ -16,7 +16,7 @@
  * bytes higher with its own counter.
  *
  * symbols:
- *   g_020A8148   0x020A8148  data
+ *   NNS_GfdDefaultFuncAllocPlttVram   0x020A8148  data
  *   g_pParticleMan   0x02146A88  data
  */
 #include "../include/Obj11460.h"
@@ -26,12 +26,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 a, u32 b, u32 c);
 extern struct G_02146A88 *g_pParticleMan;
 
 u32 BUTTON_MAN_AppendList1(u32 a, u32 b)
 {
-    u32 v = g_020A8148(a, b, 0);
+    u32 v = NNS_GfdDefaultFuncAllocPlttVram(a, b, 0);
     u8 *base = g_pParticleMan->base;
     u16 n = ((struct Obj11460 *)base)->f25E;
 

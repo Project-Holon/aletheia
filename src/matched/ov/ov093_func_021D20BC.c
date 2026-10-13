@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_MAIN_GetViewPosOfPoke  0x021B8DC0  thumb  ov093
- *   func_021EA354  0x021EA354  thumb  ov093
+ *   BTLV_CORE_SetMonShown  0x021EA354  thumb  ov093
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  */
 
@@ -27,7 +27,7 @@ typedef struct {
 } Seq;
 
 extern unsigned char BTL_MAIN_GetViewPosOfPoke(unsigned char *p, void *a, unsigned int b);
-extern void func_021EA354(void *ctx, int a, int b);
+extern void BTLV_CORE_SetMonShown(void *ctx, int a, int b);
 extern int func_021F7EB4(void);
 
 int BTL_CLIENT_StepSetMonVisibility(Seq *s, int *state, u32 *a)
@@ -37,7 +37,7 @@ int BTL_CLIENT_StepSetMonVisibility(Seq *s, int *state, u32 *a)
     switch (*state) {
     case 0:
         t = (u32)BTL_MAIN_GetViewPosOfPoke((unsigned char *)s->unk00, (void *)s->unk04, (u8)a[0]);
-        func_021EA354(s->win, t, a[1] != 0);
+        BTLV_CORE_SetMonShown(s->win, t, a[1] != 0);
         *state = *state + 1;
         break;
     case 1:

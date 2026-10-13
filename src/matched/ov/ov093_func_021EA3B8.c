@@ -1,5 +1,5 @@
 /*
- * function: func_021EA3B8
+ * function: BTLV_CORE_StartViewEffect
  * address:  0x021EA3B8
  * packet:   pkt_ov093_021EA3B8
  * region:   ov093
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021F7A28(int a, u32 b);
 
-void func_021EA3B8(char *ctx, int a, int b)
+void BTLV_CORE_StartViewEffect(char *ctx, int a, int b)
 {
     if (BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj21561 *)ctx)->f4) == 0) {
         func_021F7A28(a, b);

@@ -1,19 +1,19 @@
 /*
  * file:     btl_field.c
  * unit:     yes
- * function: BTL_FIELD_ResetSlot, BTL_FIELD_ResetStatic, BTL_FIELD_GetCountdownValue, BTL_FIELD_GetCountdownCount, BTL_FIELD_SetCountdown, BTL_FIELD_TickCountdown, BTL_FIELD_RegisterStaticSlot, BTL_FIELD_QueryStaticSlotA, BTL_FIELD_SetStaticSlotValue, BTL_FIELD_QueryStaticSlotB, BTL_FIELD_DrawStaticSlotLine, BTL_FIELD_QueryStaticSlotC, BTL_FIELD_GetStaticSlotObject, BTL_FIELD_Create, BTL_FIELD_Delete, BTL_FIELD_Init, BTL_FIELD_GetCountdownByte, BTL_FIELD_GetCountdownCountIfSet, BTL_FIELD_StoreCountdown, BTL_FIELD_ClearCountdown, BTL_FIELD_StepCountdown, BTL_FIELD_RegisterSlot
+ * function: BTL_FIELD_ResetSlot, BTL_FIELD_ResetStatic, BTL_FIELD_GetCountdownValue, BTL_FIELD_GetCountdownCount, BTL_FIELD_SetCountdown, BTL_FIELD_TickCountdown, BTL_FIELD_RegisterStaticSlot, BTL_FIELD_QueryStaticSlotA, BTL_FIELD_SetStaticSlotValue, BTL_FIELD_QueryStaticSlotB, BTL_FIELD_DrawStaticSlotLine, BTL_FIELD_QueryStaticSlotC, BTL_FIELD_GetStaticSlotObject, BTL_FIELD_Create, BTL_FIELD_Delete, BTL_FIELD_Init, BTL_FIELD_GetCountdownByte, BTL_FIELD_GetCountdownCountIfSet, BTL_FIELD_StoreCountdown, BTL_FIELD_ClearCountdown, BTL_FIELD_StepCountdown, BTL_FIELD_RegisterSlot, BTL_FIELD_RemoveSlot, BTL_FIELD_AddSlotHolder, BTL_FIELD_RemoveHolderFromSlots, BTL_FIELD_IsMoveSealedBySlot, BTL_FIELD_TickSlots, BTL_FIELD_IsSlotInUse
  * address:  0x021EF83C
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT* (extent runs past compiled, trailing padding)
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_06898020  0x06898020  thumb
+ *   HAND_FIELD_AddFactor  0x06898020  thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
@@ -21,8 +21,8 @@
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
- *   func_021ECEB8  0x021ECEB8  thumb  ov093
- *   func_021ECF68   0x021ECF68  thumb  ov093
+ *   BTLV_SCU_StartMessage  0x021ECEB8  thumb  ov093
+ *   BTLV_SCU_UpdateMessage   0x021ECF68  thumb  ov093
  *   FADE_Start  0x0204E720  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -87,7 +87,7 @@
  *   func_0201F134  0x0201F134  thumb
  *   d_021F63C8     0x021F63C8  data  a4
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
- *   d_021F39A0     0x021F39A0  data  a2
+ *   sBtlMsgSidePairIds     0x021F39A0  data  a2
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
@@ -110,78 +110,76 @@
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
  *   gBtlFieldCountdown  0x021F63F4  data  a4
- *   func_021EFA94  0x021EFA94  thumb  ov093
- *   func_021EFAD8  0x021EFAD8  thumb  ov093
- *   func_021EFB34  0x021EFB34  thumb  ov093
- *   func_021EFC1C  0x021EFC1C  thumb  ov093
- *   func_021EFC78  0x021EFC78  thumb  ov093
- *   func_021EFCE4  0x021EFCE4  thumb  ov093
  *   gBtlFieldFileName  0x021F3AF8  data  a4
  *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
+ *   HAND_FIELD_RemoveFactor  0x06898080  thumb
+ *   BTLV_CORE_SetSlotPosition 0x021E8AC8 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
+ *   BTL_POKEPARAM_HasMove  0x021D5750  thumb  ov093
+ *   BTLV_CORE_GetSlotLow  0x021E8AFC  thumb  ov093
  */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
-/* One word passed by value (the caller pushes r0-r3 as a frame). */
-typedef struct { u32 word; } BtlFieldSlotKey;
-
-/* Armed timer: while value is set and count is not 0xff, count steps down;
- * at zero the value is returned and cleared. */
-typedef struct {
-    u32 value;
-    u32 count;
-} BtlFieldCountdown;
-
-/* Eight-slot table: one u32[8] array per property plus a u32[8][6] block,
- * all indexed by the slot number.  Written as member arrays, the load of
- * used[slot] keeps slot*4 in its own register while the other stores
- * recompute base + slot*4 (raw `*(u32 *)(a + K + slot * 4)` casts CSE'd
- * slot*4 and swapped the registers). */
-typedef struct {
-    BtlFieldCountdown countdown;    /* 0x000 */
-    u32 handle[8];                  /* 0x008 */
-    BtlFieldSlotKey key[8];         /* 0x028 */
-    u32 progress[8];                /* 0x048 */
-    u32 stats[8][6];                /* 0x068 */
-    u32 pending[8];                 /* 0x128 */
-    u32 used[8];                    /* 0x148 */
-} BtlFieldState;
+#include "btl_field_types.h"
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern u32 func_06898020(u32 slot, int arg);
+extern u32 HAND_FIELD_AddFactor(u32 slot, int arg);
 extern BtlFieldSlotKey BTLV_CORE_GetZeroMasked(void);
 extern u32 BTLV_CORE_GetSlotPosition(BtlFieldSlotKey key);
-extern int func_021EFA94(BtlFieldState *state, int arg);
-extern int func_021EFAD8(BtlFieldState *state, u32 slot, u32 value);
-extern int func_021EFB34(BtlFieldState *state, int arg);
-extern void func_021EFC1C(BtlFieldState *state, int line, int color, char *text);
-extern int func_021EFC78(BtlFieldState *state, int arg0, int arg1);
-extern void *func_021EFCE4(BtlFieldState *state, int arg);
+extern void HAND_FIELD_RemoveFactor(u32 handle);
+extern void BTLV_CORE_SetSlotPosition(BtlFieldSlotKey *key, u8 position);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern int BTL_MAIN_IsPokeSamePair(u8 a, u8 b);
+extern u8 *BTL_SIDE_GetPokeById(char *p, u8 i);
+extern int BTL_POKEPARAM_HasMove(u8 *p, u16 id);
+extern u8 BTLV_CORE_GetSlotLow(BtlFieldSlotKey key);
+void BTL_FIELD_ResetSlot(BtlFieldState *state, u32 slot);
+void BTL_FIELD_ResetStatic(int value);
+int BTL_FIELD_GetCountdownValue(void);
+int BTL_FIELD_GetCountdownCount(void);
+int BTL_FIELD_SetCountdown(int value, int count);
+u32 BTL_FIELD_TickCountdown(void);
+int BTL_FIELD_RegisterStaticSlot(u32 slot, BtlFieldSlotKey key);
+int BTL_FIELD_QueryStaticSlotA(int arg);
+int BTL_FIELD_SetStaticSlotValue(int slot, int value);
+/* The wrappers below pass their words through unchanged, so they call the slot functions with plain word signatures. */
+int BTL_FIELD_QueryStaticSlotB(int arg);
+void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text);
+int BTL_FIELD_QueryStaticSlotC(int arg0, int arg1);
+int BTL_FIELD_GetStaticSlotObject(int arg);
+BtlFieldState *BTL_FIELD_Create(u32 heapId);
+void BTL_FIELD_Delete(void *state);
 void BTL_FIELD_Init(BtlFieldState *state, u32 value);
 u8 BTL_FIELD_GetCountdownByte(BtlFieldCountdown *countdown);
 int BTL_FIELD_GetCountdownCountIfSet(BtlFieldCountdown *countdown);
 int *BTL_FIELD_StoreCountdown(int *countdown, int value, int count);
+void BTL_FIELD_ClearCountdown(int *countdown);
 u32 BTL_FIELD_StepCountdown(BtlFieldCountdown *countdown);
 int BTL_FIELD_RegisterSlot(BtlFieldState *state, u32 slot, BtlFieldSlotKey key, int allocHandle);
-void BTL_FIELD_ResetSlot(BtlFieldState *state, u32 slot);
+int BTL_FIELD_RemoveSlot(BtlFieldState *state, u32 slot);
+int BTL_FIELD_AddSlotHolder(BtlFieldState *state, u32 slot, u32 pokeId);
+void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId);
+int BTL_FIELD_IsMoveSealedBySlot(BtlFieldState *state, char *side, void *pokeParam, u16 moveId);
+void BTL_FIELD_TickSlots(BtlFieldState *state, void (*onExpire)(u32, u32), u32 arg);
+void *BTL_FIELD_IsSlotInUse(BtlFieldState *state, int slot);
 extern BtlFieldState gBtlFieldCountdown;
 extern char gBtlFieldFileName[];
+
 
 
 void BTL_FIELD_ResetSlot(BtlFieldState *state, u32 slot)
 {
     u32 j;
 
-    state->handle[slot] = 0;
+    state->effectHandle[slot] = 0;
     state->key[slot] = BTLV_CORE_GetZeroMasked();
-    state->progress[slot] = 0;
-    state->pending[slot] = 0;
-    state->used[slot] = 0;
+    state->elapsedTurns[slot] = 0;
+    state->holderCount[slot] = 0;
+    state->inUse[slot] = 0;
     for (j = 0; j < 6; j++)
-        state->stats[slot][j] = 0x1f;
+        state->holderIds[slot][j] = 0x1f;
 }
+
 
 
 void BTL_FIELD_ResetStatic(int value)
@@ -190,10 +188,12 @@ void BTL_FIELD_ResetStatic(int value)
 }
 
 
+
 int BTL_FIELD_GetCountdownValue(void)
 {
     return BTL_FIELD_GetCountdownByte(&gBtlFieldCountdown.countdown);
 }
+
 
 
 int BTL_FIELD_GetCountdownCount(void)
@@ -202,10 +202,12 @@ int BTL_FIELD_GetCountdownCount(void)
 }
 
 
+
 int BTL_FIELD_SetCountdown(int value, int count)
 {
     return (int)BTL_FIELD_StoreCountdown((int *)&gBtlFieldCountdown.countdown, value, count);
 }
+
 
 
 /*
@@ -217,46 +219,54 @@ u32 BTL_FIELD_TickCountdown(void)
 }
 
 
+
 int BTL_FIELD_RegisterStaticSlot(u32 slot, BtlFieldSlotKey key)
 {
     return BTL_FIELD_RegisterSlot(&gBtlFieldCountdown, slot, key, 1);
 }
 
 
+
 int BTL_FIELD_QueryStaticSlotA(int arg)
 {
-    return func_021EFA94(&gBtlFieldCountdown, arg);
+    return BTL_FIELD_RemoveSlot(&gBtlFieldCountdown, arg);
 }
+
 
 
 int BTL_FIELD_SetStaticSlotValue(int slot, int value)
 {
-    return func_021EFAD8(&gBtlFieldCountdown, slot, value);
+    return BTL_FIELD_AddSlotHolder(&gBtlFieldCountdown, slot, value);
 }
+
 
 
 int BTL_FIELD_QueryStaticSlotB(int arg)
 {
-    return func_021EFB34(&gBtlFieldCountdown, arg);
+    return ((int (*)(BtlFieldState *, int))BTL_FIELD_RemoveHolderFromSlots)(&gBtlFieldCountdown, arg);
 }
+
 
 
 void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text)
 {
-    func_021EFC1C(&gBtlFieldCountdown, line, color, text);
+    ((int (*)(BtlFieldState *, int, int, char *))BTL_FIELD_IsMoveSealedBySlot)(&gBtlFieldCountdown, line, color, text);
 }
+
 
 
 int BTL_FIELD_QueryStaticSlotC(int arg0, int arg1)
 {
-    return func_021EFC78(&gBtlFieldCountdown, arg0, arg1);
+    return ((int (*)(BtlFieldState *, int, int))BTL_FIELD_TickSlots)(&gBtlFieldCountdown, arg0, arg1);
 }
+
 
 
 int BTL_FIELD_GetStaticSlotObject(int arg)
 {
-    return (int)func_021EFCE4(&gBtlFieldCountdown, arg);
+    return (int)BTL_FIELD_IsSlotInUse(&gBtlFieldCountdown, arg);
 }
+
 
 
 BtlFieldState *BTL_FIELD_Create(u32 heapId)
@@ -268,7 +278,9 @@ BtlFieldState *BTL_FIELD_Create(u32 heapId)
 }
 
 
+
 void BTL_FIELD_Delete(void *state) { func_020307B0(state); }
+
 
 
 void BTL_FIELD_Init(BtlFieldState *state, u32 value)
@@ -282,7 +294,9 @@ void BTL_FIELD_Init(BtlFieldState *state, u32 value)
 }
 
 
+
 u8 BTL_FIELD_GetCountdownByte(BtlFieldCountdown *countdown) { return (u8)countdown->value; }
+
 
 
 int BTL_FIELD_GetCountdownCountIfSet(BtlFieldCountdown *countdown)
@@ -293,6 +307,7 @@ int BTL_FIELD_GetCountdownCountIfSet(BtlFieldCountdown *countdown)
 }
 
 
+
 int *BTL_FIELD_StoreCountdown(int *countdown, int value, int count)
 {
     countdown[0] = value;
@@ -301,11 +316,13 @@ int *BTL_FIELD_StoreCountdown(int *countdown, int value, int count)
 }
 
 
+
 void BTL_FIELD_ClearCountdown(int *countdown)
 {
     countdown[0] = 0;
     countdown[1] = 0;
 }
+
 
 
 /*
@@ -325,27 +342,161 @@ u32 BTL_FIELD_StepCountdown(BtlFieldCountdown *countdown)
 }
 
 
+
 int BTL_FIELD_RegisterSlot(BtlFieldState *state, u32 slot, BtlFieldSlotKey key, int allocHandle)
 {
     u32 i;
     u32 stat;
 
-    if (state->used[slot] == 0) {
+    if (state->inUse[slot] == 0) {
         if (allocHandle != 0) {
-            state->handle[slot] = func_06898020(slot, 0);
-            if (state->handle[slot] == 0)
+            state->effectHandle[slot] = HAND_FIELD_AddFactor(slot, 0);
+            if (state->effectHandle[slot] == 0)
                 return 0;
         }
-        state->used[slot] = 1;
+        state->inUse[slot] = 1;
         state->key[slot] = key;
-        state->progress[slot] = 0;
-        state->pending[slot] = 0;
+        state->elapsedTurns[slot] = 0;
+        state->holderCount[slot] = 0;
         for (i = 0; i < 6; i++)
-            state->stats[slot][i] = 0x1f;
+            state->holderIds[slot][i] = 0x1f;
         stat = BTLV_CORE_GetSlotPosition(key);
         if (stat != 0x1f)
-            func_021EFAD8(state, slot, stat);
+            BTL_FIELD_AddSlotHolder(state, slot, stat);
         return 1;
     }
     return 0;
+}
+
+
+int BTL_FIELD_RemoveSlot(BtlFieldState *state, u32 slot)
+{
+    if (BTL_FIELD_IsSlotInUse(state, slot) != 0) {
+        if (state->effectHandle[slot] != 0) {
+            HAND_FIELD_RemoveFactor(state->effectHandle[slot]);
+            state->effectHandle[slot] = 0;
+        }
+        BTL_FIELD_ResetSlot(state, slot);
+        return 1;
+    }
+    return 0;
+}
+
+
+/*
+ * Lever: the append store is written through the row base
+ * (`holderIds[slot][count] = pokeId`); a single `!= 0` guard with one trailing
+ * `return 0` shares the exit.
+ */
+int BTL_FIELD_AddSlotHolder(BtlFieldState *state, u32 slot, u32 pokeId)
+{
+    u32 count;
+    u32 i;
+
+    if (BTL_FIELD_IsSlotInUse(state, slot) != 0) {
+        count = state->holderCount[slot];
+        if (count < BTL_FIELD_HOLDER_MAX) {
+            for (i = 0; i < count; i++) {
+                if (pokeId == state->holderIds[slot][i])
+                    return 0;
+            }
+            state->holderIds[slot][count] = pokeId;
+            state->holderCount[slot] = count + 1;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+/*
+ * lever: unsigned long outer index closes register rotation and missing base spill.
+ */
+void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId)
+{
+    unsigned long slot;
+    u32 j;
+    int found;
+    for (slot = 0; slot < BTL_FIELD_SLOT_COUNT; slot++) {
+        if (BTL_FIELD_IsSlotInUse(state, slot) && state->holderCount[slot]) {
+            found = 0;
+            for (j = 0; j < state->holderCount[slot]; j++) {
+                if (pokeId == state->holderIds[slot][j]) { found = 1; break; }
+            }
+            if (found) {
+                for (; j < BTL_FIELD_HOLDER_MAX - 1; j++) state->holderIds[slot][j] = state->holderIds[slot][j + 1];
+                state->holderIds[slot][j] = BTL_FIELD_EMPTY_HOLDER;
+                state->holderCount[slot] = state->holderCount[slot] - 1;
+                if (state->holderCount[slot] == 0) {
+                    if (state->effectHandle[slot]) { HAND_FIELD_RemoveFactor(state->effectHandle[slot]); state->effectHandle[slot] = 0; }
+                    BTL_FIELD_ResetSlot(state, slot);
+                } else {
+                    if (pokeId == BTLV_CORE_GetSlotPosition(state->key[slot])) BTLV_CORE_SetSlotPosition(&state->key[slot], state->holderIds[slot][0]);
+                }
+            }
+        }
+    }
+}
+
+
+/* Effect slot whose holders are checked for sealed moves (Imprison, guess). */
+#define BTL_FIELD_SLOT_MOVE_SEAL 3
+
+
+
+int BTL_FIELD_IsMoveSealedBySlot(BtlFieldState *state, char *side, void *pokeParam, u16 moveId)
+{
+    u8 selfId;
+    u8 holderId;
+    u32 i;
+    u32 count;
+
+    selfId = BTL_POKEPARAM_GetPokeId(pokeParam);
+    count = state->holderCount[BTL_FIELD_SLOT_MOVE_SEAL];
+    for (i = 0; i < count; i++) {
+        holderId = state->holderIds[BTL_FIELD_SLOT_MOVE_SEAL][i];
+        if (BTL_MAIN_IsPokeSamePair(selfId, holderId) == 0) {
+            if (BTL_POKEPARAM_HasMove(BTL_SIDE_GetPokeById(side, holderId), moveId) != 0)
+                return 1;
+        }
+    }
+    return 0;
+}
+
+
+
+/*
+ * Lever: BTLV_CORE_GetSlotLow takes a one-word struct by value (its own file spells
+ * it as a union); the `adds r0,r5,#0 ; adds r0,#0x28 ; ldr r0,[r0]` argument
+ * setup is that struct copy, not a plain u32 load.
+ */
+void BTL_FIELD_TickSlots(BtlFieldState *state, void (*onExpire)(u32, u32), u32 arg)
+{
+    u32 slot;
+
+    for (slot = 1; slot < BTL_FIELD_SLOT_COUNT; slot++) {
+        u32 duration;
+
+        if (BTL_FIELD_IsSlotInUse(state, slot) == 0)
+            continue;
+        duration = BTLV_CORE_GetSlotLow(state->key[slot]);
+        if (duration == 0)
+            continue;
+        state->elapsedTurns[slot] += 1;
+        if (state->elapsedTurns[slot] < duration)
+            continue;
+        if (state->effectHandle[slot] != 0) {
+            HAND_FIELD_RemoveFactor(state->effectHandle[slot]);
+            state->effectHandle[slot] = 0;
+        }
+        BTL_FIELD_ResetSlot(state, slot);
+        if (onExpire != 0)
+            onExpire(slot, arg);
+    }
+}
+
+
+void *BTL_FIELD_IsSlotInUse(BtlFieldState *state, int slot)
+{
+    return (void *)state->inUse[slot];
 }

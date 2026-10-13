@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK60_ShowGauges
+ * function: FIELD_GIMMICK_GAUGE_EFFECT_ShowGauges
  * address:  0x021F3880
  * packet:   pkt_ov060_021F3880
  * region:   ov060
@@ -17,7 +17,7 @@
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
  *   func_0200BDF8  0x0200BDF8  thumb
  *   func_0200BDFC  0x0200BDFC  thumb
- *   GIMMICK60_ToGaugeStep  0x021F3870  thumb  ov060
+ *   FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep  0x021F3870  thumb  ov060
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  */
@@ -42,11 +42,11 @@ struct SaveBlock;
 extern void *GAME_DATA_GetBattleRecSlot(struct SaveBlock *p, u32 idx);
 extern u16 func_0200BDF8(struct Rec1B0 *p);
 extern u16 func_0200BDFC(struct Rec1B0 *p);
-extern int GIMMICK60_ToGaugeStep(int x);
+extern int FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(int x);
 extern V *FLD_EXP_OBJ_GetModelStatus(void *p, int i, u16 j);
 extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 
-u8 GIMMICK60_ShowGauges(void *a, void *b, void *unused)
+u8 FIELD_GIMMICK_GAUGE_EFFECT_ShowGauges(void *a, void *b, void *unused)
 {
     int r6;
     int r4;
@@ -66,8 +66,8 @@ u8 GIMMICK60_ShowGauges(void *a, void *b, void *unused)
         e = (int)GAME_DATA_GetBattleRecSlot(a, r6);
     }
     r7 = e;
-    r5 = GIMMICK60_ToGaugeStep(func_0200BDF8((struct Rec1B0 *)r7));
-    r7 = GIMMICK60_ToGaugeStep(func_0200BDFC((struct Rec1B0 *)r7));
+    r5 = FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(func_0200BDF8((struct Rec1B0 *)r7));
+    r7 = FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(func_0200BDFC((struct Rec1B0 *)r7));
     p = FLD_EXP_OBJ_GetModelStatus(b, 0, r5 + 10);
     r4 = (r4 << 22) + 0x1F8000;
     p->a = r4;

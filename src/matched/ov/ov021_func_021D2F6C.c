@@ -17,7 +17,7 @@
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
- *   GIMMICK64_StartArcEffect  0x021F3970  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_StartArcEffect  0x021F3970  thumb  ov064
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
@@ -34,7 +34,7 @@ extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 struct Actor;
 struct VecFx32;
 extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
-extern void *GIMMICK64_StartArcEffect(void *a, int *v, int *w, int c, int d);
+extern void *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *a, int *v, int *w, int c, int d);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 
 u32 SCRCMD_StartEffectAtPosition(u32 a, u32 b)
@@ -68,7 +68,7 @@ u32 SCRCMD_StartEffectAtPosition(u32 a, u32 b)
     w[0] = (s8 << 16) + 0x8000;
     w[1] = s4 << 15;
     w[2] = (r7 << 16) + 0x8000;
-    r = GIMMICK64_StartArcEffect(sc, v, w, r6 << 15, r4);
+    r = FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(sc, v, w, r6 << 15, r4);
     if (r == 0) {
         return 1;
     }

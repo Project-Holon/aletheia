@@ -1,5 +1,5 @@
 /*
- * function: func_021E7F6C
+ * function: HAND_WAZA_TelekinesisSetStatusMessage
  * address:  0x021E7F6C
  * packet:   pkt_ov093_021E7F6C
  * region:   ov093
@@ -23,7 +23,7 @@ extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *l, int a, int b);
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val);
 
-void func_021E7F6C(int a, int b, int c)
+void HAND_WAZA_TelekinesisSetStatusMessage(int a, int b, int c)
 {
     void *m;
     if (c == BTL_EVENT_GetVar(3)) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021E7924
+ * function: HAND_WAZA_PsyshockSwapDefenseStat
  * address:  0x021E7924
  * packet:   pkt_ov093_021E7924
  * region:   ov093
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E7924(int a, int b, int c)
+void HAND_WAZA_PsyshockSwapDefenseStat(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(3) && BTL_EVENT_GetVar(0x3c) == 0xb)
         BTL_EVENT_OverwriteVar(0x3d, BTL_EVENT_GetVar(0x3d) + 1);

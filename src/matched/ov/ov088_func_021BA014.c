@@ -13,8 +13,8 @@
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   GAME_BEACON_RegisterClearCallback  0x020274C8  thumb
- *   func_021BC114  0x021BC114  thumb  ov088
- *   func_021BC0FC  0x021BC0FC  thumb  ov088
+ *   STARTMENU_ReplaceWithBattleFlagProcNoSave  0x021BC114  thumb  ov088
+ *   STARTMENU_ReplaceWithBattleFlagProcWithSave  0x021BC0FC  thumb  ov088
  *   STARTMENU_ChangeToIntroProc  0x021BC0E4  thumb  ov088
  *   func_02030734  0x02030734  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -44,8 +44,8 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void GAME_BEACON_RegisterClearCallback(void);
-extern void func_021BC114(void);
-extern void func_021BC0FC(void);
+extern void STARTMENU_ReplaceWithBattleFlagProcNoSave(void);
+extern void STARTMENU_ReplaceWithBattleFlagProcWithSave(void);
 extern void STARTMENU_ChangeToIntroProc(void);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -78,9 +78,9 @@ int STARTMENU_MenuExit(int a0, int a1, int a2, char *a3)
     case 0:
         GAME_BEACON_RegisterClearCallback();
         if (flag == 0)
-            func_021BC114();
+            STARTMENU_ReplaceWithBattleFlagProcNoSave();
         else
-            func_021BC0FC();
+            STARTMENU_ReplaceWithBattleFlagProcWithSave();
         break;
     case 1:
         GAME_BEACON_RegisterClearCallback();

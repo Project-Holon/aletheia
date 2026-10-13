@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_06898020  0x06898020  thumb
+ *   HAND_FIELD_AddFactor  0x06898020  thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
@@ -21,8 +21,8 @@
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
- *   func_021ECEB8  0x021ECEB8  thumb  ov093
- *   func_021ECF68   0x021ECF68  thumb  ov093
+ *   BTLV_SCU_StartMessage  0x021ECEB8  thumb  ov093
+ *   BTLV_SCU_UpdateMessage   0x021ECF68  thumb  ov093
  *   FADE_Start  0x0204E720  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -87,7 +87,7 @@
  *   func_0201F134  0x0201F134  thumb
  *   d_021F63C8     0x021F63C8  data  a4
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
- *   d_021F39A0     0x021F39A0  data  a2
+ *   sBtlMsgSidePairIds     0x021F39A0  data  a2
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
@@ -110,12 +110,12 @@
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
  *   gBtlFieldCountdown  0x021F63F4  data  a4
- *   func_021EFA94  0x021EFA94  thumb  ov093
- *   func_021EFAD8  0x021EFAD8  thumb  ov093
- *   func_021EFB34  0x021EFB34  thumb  ov093
- *   func_021EFC1C  0x021EFC1C  thumb  ov093
- *   func_021EFC78  0x021EFC78  thumb  ov093
- *   func_021EFCE4  0x021EFCE4  thumb  ov093
+ *   BTL_FIELD_RemoveSlot  0x021EFA94  thumb  ov093
+ *   BTL_FIELD_AddSlotHolder  0x021EFAD8  thumb  ov093
+ *   BTL_FIELD_RemoveHolderFromSlots  0x021EFB34  thumb  ov093
+ *   BTL_FIELD_IsMoveSealedBySlot  0x021EFC1C  thumb  ov093
+ *   BTL_FIELD_TickSlots  0x021EFC78  thumb  ov093
+ *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
  *   gBtlFieldFileName  0x021F3AF8  data  a4
  *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
  *   BTL_MSG_GetUiString  0x021EF694  thumb
@@ -184,8 +184,8 @@ extern void *BTL_SLOT_GetPokeParam(void *party, u32 index);
 extern int BTL_POKEPARAM_IsFainted(void *mon);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(void *mon);
 extern int BTL_POKEPARAM_IsAbleToBattle(void *mon);
-extern void func_021ECEB8(BtlvScuWork *work, u32 textBuf, u16 arg2, u32 arg3);
-extern int func_021ECF68(void *work);
+extern void BTLV_SCU_StartMessage(BtlvScuWork *work, u32 textBuf, u16 arg2, u32 arg3);
+extern int BTLV_SCU_UpdateMessage(void *work);
 extern void FADE_Start(u32 mode, s32 start, s32 end, s32 wait);
 extern void BMP_Clear(TextCanvas *canvas, u8 color);
 extern void BMP_WIN_TransferChars(BmpWin *window);
@@ -250,14 +250,14 @@ void BTLV_SCU_GetBallStates(BtlvScuWork *work, u32 *outStates, u32 clientA, u32 
 void BTLV_SCU_PrintWaitMessage(BtlvScuWork *work)
 {
     BTL_MSG_GetUiString(work->textBuf, 0xf);
-    func_021ECEB8(work, work->textBuf, 0, 0);
+    BTLV_SCU_StartMessage(work, work->textBuf, 0, 0);
 }
 
 
 /*
- * Untraced mid-stream entry point: a plain tail thunk, `ldr r3,=T; bx r3`, whose pool word names func_021ECF68.
+ * Untraced mid-stream entry point: a plain tail thunk, `ldr r3,=T; bx r3`, whose pool word names BTLV_SCU_UpdateMessage.
  */
-int BTLV_SCU_UpdateWaitMessage(BtlvScuWork *work) { return func_021ECF68(work); }
+int BTLV_SCU_UpdateWaitMessage(BtlvScuWork *work) { return BTLV_SCU_UpdateMessage(work); }
 
 
 void BTLV_SCU_NoOp(char *unused)

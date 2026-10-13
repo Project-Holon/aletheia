@@ -1,5 +1,5 @@
 /*
- * function: func_021E979C
+ * function: BTLV_CORE_AbortActionMenu
  * address: 0x021E979C
  * packet: pkt_ov093_021E979C
  * region: ov093
@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * Tail-call thunk to func_021E9928 (ldr r3 pool, bx r3). Unlabelled leaf filed as the witness for the call in BTL_CLIENT_StepSelectAction.
+ * Tail-call thunk to BTLV_CORE_AbortInput (ldr r3 pool, bx r3). Unlabelled leaf filed as the witness for the call in BTL_CLIENT_StepSelectAction.
  * symbols:
- *   func_021E979C 0x021E979C thumb ov093
- *   func_021E9928 0x021E9928 thumb ov093
+ *   BTLV_CORE_AbortActionMenu 0x021E979C thumb ov093
+ *   BTLV_CORE_AbortInput 0x021E9928 thumb ov093
  */
-extern void func_021E9928(char *p);
-void func_021E979C(char *p) { func_021E9928(p); }
+extern void BTLV_CORE_AbortInput(char *p);
+void BTLV_CORE_AbortActionMenu(char *p) { BTLV_CORE_AbortInput(p); }

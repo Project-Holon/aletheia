@@ -1,7 +1,7 @@
 /*
  * file:     report.c
  * unit:     yes
- * function: func_021EFEC0, REPORT_Delete, REPORT_ShowPartyIcons, REPORT_UpdateWindows, REPORT_IsReady, REPORT_PrepareSave, REPORT_CheckSaveCounter, REPORT_StartSaveAnim, REPORT_IsSaveAnimDone, REPORT_StopSaveAnim, REPORT_InitBgs, REPORT_ExitBgs, REPORT_LoadBgGraphics, REPORT_InitWindows, REPORT_ExitWindows, REPORT_InitActors, REPORT_ExitActors
+ * function: REPORT_Create, REPORT_Delete, REPORT_ShowPartyIcons, REPORT_UpdateWindows, REPORT_IsReady, REPORT_PrepareSave, REPORT_CheckSaveCounter, REPORT_StartSaveAnim, REPORT_IsSaveAnimDone, REPORT_StopSaveAnim, REPORT_InitBgs, REPORT_ExitBgs, REPORT_LoadBgGraphics, REPORT_InitWindows, REPORT_ExitWindows, REPORT_InitActors, REPORT_ExitActors
  * address:  0x021EFEC0
  * region:   ov034
  * compiler: dsi/1.1p1
@@ -42,7 +42,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
  *   func_020409B4 0x020409B4 arm
- *   d_021F0AA0 0x021F0AA0 data ov034 a4
+ *   sReportBgTemplate6 0x021F0AA0 data ov034 a4
  *   sReportBgTemplate5 0x021F0AC0 data ov034 a4
  *   sReportBgTemplate4 0x021F0AE0 data a4
  *   func_020403F4 0x020403F4 arm
@@ -91,7 +91,7 @@
  *   func_02088864 0x02088864 arm
  *   func_0208890C 0x0208890C arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   d_021F0A70 0x021F0A70 data a1
+ *   sReportWindowLayouts 0x021F0A70 data a1
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -274,7 +274,7 @@ extern void CLACT_ReleasePalette(struct PalRes *palRes);
 extern void CLACT_ReleaseCellAnim(struct CellRes *cellRes);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 
-ReportWork *func_021EFEC0(void *gameSystem, int heapId);
+ReportWork *REPORT_Create(void *gameSystem, int heapId);
 void REPORT_Delete(ReportWork *work);
 void REPORT_ShowPartyIcons(ReportWork *work);
 void REPORT_UpdateWindows(ReportWork *work);
@@ -292,14 +292,14 @@ void REPORT_ExitWindows(ReportWork *work);
 void REPORT_InitActors(ReportWork *work);
 void REPORT_ExitActors(ReportWork *work);
 extern char sReportAllocSite[];
-extern struct BgTemplate d_021F0AA0;
+extern struct BgTemplate sReportBgTemplate6;
 extern struct BgTemplate sReportBgTemplate5;
 extern struct BgTemplate sReportBgTemplate4;
-extern const u8 d_021F0A70[];
+extern const u8 sReportWindowLayouts[];
 extern const Rect sReportActorPositions[2];
 
 
-ReportWork *func_021EFEC0(void *gameSystem, int heapId)
+ReportWork *REPORT_Create(void *gameSystem, int heapId)
 {
     ReportWork *work = func_02030734(heapId, 0x130, 0, sReportAllocSite, 0x114);
     work->gameSystem = gameSystem;
@@ -478,7 +478,7 @@ void REPORT_InitBgs(u32 heapId)
     func_02040B94(5, 0x20, 0, heapId);
     func_020409B4(5);
     {
-        struct BgTemplate bgTemplate = d_021F0AA0;
+        struct BgTemplate bgTemplate = sReportBgTemplate6;
 
         func_0203FCA0(6, &bgTemplate, 0);
     }
@@ -528,7 +528,7 @@ void REPORT_InitWindows(ReportWork *work)
     struct RTCTime clock;
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
     for (i = 0; i < REPORT_WINDOW_COUNT; i++) {
-        const u8 *layout = d_021F0A70 + i * 6;
+        const u8 *layout = sReportWindowLayouts + i * 6;
         work->windows[i].bmpWin = BMP_WIN_Create(layout[0], layout[1], layout[2], layout[3], layout[4], layout[5], one);
         BMP_Clear(BMP_WIN_GetBmp(work->windows[i].bmpWin), 0);
     }

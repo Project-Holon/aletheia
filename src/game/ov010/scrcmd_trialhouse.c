@@ -51,15 +51,15 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   TRIAL_HOUSE_LoadTrainer  0x021D0AC0  thumb  ov021
- *   func_021D0BD8  0x021D0BD8  thumb  ov021
- *   func_021D0AB8  0x021D0AB8  thumb
+ *   TRIAL_HOUSE_CreateTrainerMsgEvent  0x021D0BD8  thumb  ov021
+ *   TRIAL_HOUSE_SetUseDeliveredTrainers  0x021D0AB8  thumb
  *   func_02008C58 0x02008C58 thumb
  *   func_02008E68 0x02008E68 thumb
  *   func_02008E78  0x02008E78  thumb
- *   func_021D0BE4  0x021D0BE4  thumb  ov021
+ *   TRIAL_HOUSE_CreateDeliveryTask  0x021D0BE4  thumb  ov021
  *   TRIAL_HOUSE_ComputeScoreAndRank  0x021D0DB0  thumb  ov021
- *   func_021D0FE0  0x021D0FE0  thumb
- *   func_021D0FE8  0x021D0FE8  thumb  ov021
+ *   TRIAL_HOUSE_GetDeliveryState  0x021D0FE0  thumb
+ *   TRIAL_HOUSE_CreateSaveTask  0x021D0FE8  thumb  ov021
  *   TRIAL_HOUSE_GetRecordSlotsState  0x021D1028  thumb
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
@@ -282,13 +282,13 @@ extern void *EVENT_MAPCHANGE_CreateWarpEvent(struct GameSystem *gameSystem, stru
 extern TrialHouseWork *TRIAL_HOUSE_CreateWork(struct GameSystem *gameSystem);
 extern void TRIAL_HOUSE_DeleteWork(struct GameSystem *gameSystem, TrialHouseWork **slot);
 extern void TRIAL_HOUSE_SetBattleMode(TrialHouseWork *work, u32 mode);
-extern void func_021D0AB8(TrialHouseWork *work, int value);
+extern void TRIAL_HOUSE_SetUseDeliveredTrainers(TrialHouseWork *work, int value);
 extern u16 TRIAL_HOUSE_LoadTrainer(struct GameSystem *gameSystem, TrialHouseWork *work, int index);
-extern struct GameEvent *func_021D0BD8(struct GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId);
-extern struct GameEvent *func_021D0BE4(struct GameSystem *gameSystem, TrialHouseWork *work, u16 *outValue);
+extern struct GameEvent *TRIAL_HOUSE_CreateTrainerMsgEvent(struct GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId);
+extern struct GameEvent *TRIAL_HOUSE_CreateDeliveryTask(struct GameSystem *gameSystem, TrialHouseWork *work, u16 *outValue);
 extern void TRIAL_HOUSE_ComputeScoreAndRank(struct GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore);
-extern int func_021D0FE0(struct GameSystem *gameSystem, TrialHouseWork *work);
-extern struct GameEvent *func_021D0FE8(struct GameSystem *gameSystem, TrialHouseWork *work, int param);
+extern int TRIAL_HOUSE_GetDeliveryState(struct GameSystem *gameSystem, TrialHouseWork *work);
+extern struct GameEvent *TRIAL_HOUSE_CreateSaveTask(struct GameSystem *gameSystem, TrialHouseWork *work, int param);
 extern int TRIAL_HOUSE_GetRecordSlotsState(struct GameSystem *gameSystem);
 extern struct RecordBlock *func_02008C58(struct SaveControl *saveControl);
 extern void func_02008E68(struct RecordBlock *record, u8 rank);
@@ -579,7 +579,7 @@ int SCRCMD_TRIALHOUSE_StartTrainerMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     slot = GAME_DATA_GetListCursor(func_020120F4(gameSystem));
     index = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, func_021D0BD8(gameSystem, *slot, index, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
+    SCRIPT_SYS_CallEvent(scriptWork, TRIAL_HOUSE_CreateTrainerMsgEvent(gameSystem, *slot, index, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 1;
 }
 
@@ -604,7 +604,7 @@ int SCRCMD_TRIALHOUSE_SetRecordSource(ScriptVm *vm, ScrcmdWork *cmdWork)
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     slot = GAME_DATA_GetListCursor(func_020120F4(gameSystem));
-    func_021D0AB8(*slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    TRIAL_HOUSE_SetUseDeliveredTrainers(*slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -647,7 +647,7 @@ int SCRCMD_TRIALHOUSE_StartDownload(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     slot = GAME_DATA_GetListCursor(func_020120F4(gameSystem));
-    SCRIPT_SYS_CallEvent(scriptWork, func_021D0BE4(gameSystem, *slot, SCRIPT_WORK_ReadWorkPointer(vm, cmdWork)));
+    SCRIPT_SYS_CallEvent(scriptWork, TRIAL_HOUSE_CreateDeliveryTask(gameSystem, *slot, SCRIPT_WORK_ReadWorkPointer(vm, cmdWork)));
     return 1;
 }
 
@@ -675,7 +675,7 @@ int SCRCMD_TRIALHOUSE_GetSaveState(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     slot = GAME_DATA_GetListCursor(func_020120F4(gameSystem));
     outValue = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *outValue = func_021D0FE0(gameSystem, *slot);
+    *outValue = TRIAL_HOUSE_GetDeliveryState(gameSystem, *slot);
     return 0;
 }
 
@@ -688,7 +688,7 @@ int SCRCMD_TRIALHOUSE_StartSaveEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     slot = GAME_DATA_GetListCursor(func_020120F4(gameSystem));
-    SCRIPT_SYS_CallEvent(scriptWork, func_021D0FE8(gameSystem, *slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
+    SCRIPT_SYS_CallEvent(scriptWork, TRIAL_HOUSE_CreateSaveTask(gameSystem, *slot, SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 1;
 }
 

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021D3D1C   0x021D3D1C  thumb
- *   func_021EFC78   0x021EFC78  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; ldr r0, [r0, #0x34]; movs r1, #0; movs r2, #0; bl func_021EFC78; movs r0, #1; pop {r3, pc}.
+ *   BTL_FIELD_TickSlots   0x021EFC78  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; ldr r0, [r0, #0x34]; movs r1, #0; movs r2, #0; bl BTL_FIELD_TickSlots; movs r0, #1; pop {r3, pc}.
  */
 #include "../include/Obj18395.h"
 
@@ -26,7 +26,7 @@ typedef signed int s32;
 /* 021D3D1C  3-arg call on field 0x34, then returns 1 */
 int func_021D3D1C(u8 *p)
 {
-    func_021EFC78(((struct Obj18395 *)p)->f34, 0, 0);
+    BTL_FIELD_TickSlots(((struct Obj18395 *)p)->f34, 0, 0);
     return 1;
 }
 

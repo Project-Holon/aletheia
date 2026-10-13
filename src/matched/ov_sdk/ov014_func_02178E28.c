@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021797A8                   0x021797A8  data
+ *   gWihWork                   0x021797A8  data
 */
 
 #include "../include/G_S.h"
 
 typedef struct { void *p; unsigned short h; } S;
-extern struct S *g_021797A8;
+extern struct S *gWihWork;
 
 void DWCi_MOV_WH_SetUserGameInfo(void *p, unsigned short h)
 {
-	g_021797A8->p = p;
-	g_021797A8->h = h;
+	gWihWork->p = p;
+	gWihWork->h = h;
 }
 

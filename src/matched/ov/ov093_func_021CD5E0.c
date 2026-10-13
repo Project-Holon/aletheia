@@ -14,7 +14,7 @@
  *   BTL_SERVER_CMD_ReadU8  0x021CCAD4  thumb  ov093
  *   BTL_SERVER_CMD_ReadFixedArgs  0x021CD0F0  thumb  ov093
  *   BTL_SERVER_CMD_ReadVariableArgs  0x021CD6AC  thumb  ov093
- *   data_021EFF14  0x021EFF14  data
+ *   gBtlServerCmdLayouts  0x021EFF14  data
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -24,7 +24,7 @@ typedef struct {
     u32 rpos;
 } Buf;
 
-extern const u8 data_021EFF14[];
+extern const u8 gBtlServerCmdLayouts[];
 extern u16 BTL_SERVER_CMD_ReadU16(void *r);
 extern u8 BTL_SERVER_CMD_ReadU8(u8 *p);
 extern void BTL_SERVER_CMD_ReadFixedArgs(void *r, int cmd, s32 *a);
@@ -43,7 +43,7 @@ int BTL_SERVER_CMD_ReadNext(Buf *r, s32 *a)
         }
         c = BTL_SERVER_CMD_ReadU16(r);
     }
-    k = data_021EFF14[c];
+    k = gBtlServerCmdLayouts[c];
     if (k != 0 && k != 0x10) {
         BTL_SERVER_CMD_ReadFixedArgs(r, k, a);
     } else {

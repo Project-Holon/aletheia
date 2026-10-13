@@ -1,5 +1,5 @@
 /*
- * function: func_021EA5E4
+ * function: BTLV_CORE_CopyMessageBuffer
  * address:  0x021EA5E4
  * packet:   pkt_ov093_021EA5E4
  * region:   ov093
@@ -17,7 +17,7 @@
 struct U16Vec;
 void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 
-void func_021EA5E4(unsigned char *p, void *src)
+void BTLV_CORE_CopyMessageBuffer(unsigned char *p, void *src)
 {
     STRBUF_Copy(((struct Obj21562 *)p)->fAC, src);
 }

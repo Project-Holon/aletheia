@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E78B0, func_021E7918
+ * function: HAND_WAZA_AutotomizeLoseWeight, HAND_WAZA_AddPsyshock
  * address:  0x021E78B0
  * packet:   pkt_ov093_021E78B0
  * region:   ov093
@@ -37,7 +37,7 @@ extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F26D4[];
 
-void func_021E78B0(int a, int b, int c)
+void HAND_WAZA_AutotomizeLoseWeight(int a, int b, int c)
 {
     u32 n, v;
     u8 *p;
@@ -56,7 +56,7 @@ void func_021E78B0(int a, int b, int c)
     }
 }
 
-int *func_021E7918(int *p)
+int *HAND_WAZA_AddPsyshock(int *p)
 {
     *p = 1;
     return d_021F26D4;

@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_bridge.c
  * unit:     yes
- * function: func_021F36C0, FIELD_GIMMICK_BRIDGE_Exit, FIELD_GIMMICK_BRIDGE_Update, FIELD_GIMMICK_BRIDGE_ResetSave, FIELD_GIMMICK_BRIDGE_IsOnSwayTile
+ * function: FIELD_GIMMICK_BRIDGE_Init, FIELD_GIMMICK_BRIDGE_Exit, FIELD_GIMMICK_BRIDGE_Update, FIELD_GIMMICK_BRIDGE_ResetSave, FIELD_GIMMICK_BRIDGE_IsOnSwayTile
  * address:  0x021F36C0
  * region:   ov047
  * compiler: dsi/1.1p1
@@ -33,7 +33,7 @@
  *   _ffix          0x0209C494  arm
  *   _ll_mul        0x0209C054  arm
  *   _s32_div_f     0x0209C0A4  arm
- *   d_021F3840     0x021F3840  data  ov047  a1
+ *   gBridgeSwayAmplitudes     0x021F3840  data  ov047  a1
  *   MI_CpuFill8 0x02082BCC arm
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
  *   MAP_ATTR_IsPresent  0x021AB100  thumb  ov021
@@ -42,7 +42,7 @@
  */
 #include "field_gimmick_bridge_types.h"
 
-extern u8 d_021F3840[];
+extern u8 gBridgeSwayAmplitudes[];
 
 /* Sway amplitudes (in tiles) picked at random at the start of each cycle. */
 #define BRIDGE_SWAY_AMPLITUDE_COUNT 4
@@ -52,7 +52,7 @@ extern u8 d_021F3840[];
 #define FX32_FROM_INT(x) ((fx32)(((x) > 0) ? ((x) * (1 << 12) + .5f) : ((x) * (1 << 12) - .5f)))
 
 /* Gimmick start: allocates the sway work and stores the player and its model in it. */
-void func_021F36C0(FieldMap *fieldMap)
+void FIELD_GIMMICK_BRIDGE_Init(FieldMap *fieldMap)
 {
     BridgeSwayWork *work;
 
@@ -95,7 +95,7 @@ void FIELD_GIMMICK_BRIDGE_Update(FieldMap *fieldMap)
         return;
     }
     if (save->angle == 0) {
-        save->amplitude = d_021F3840[func_02005728(BRIDGE_SWAY_AMPLITUDE_COUNT)];
+        save->amplitude = gBridgeSwayAmplitudes[func_02005728(BRIDGE_SWAY_AMPLITUDE_COUNT)];
     }
     amplitude = save->amplitude;
     height = FX32_FROM_INT(amplitude);

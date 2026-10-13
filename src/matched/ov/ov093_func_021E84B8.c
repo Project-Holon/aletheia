@@ -1,5 +1,5 @@
 /*
- * function: func_021E84B8
+ * function: HAND_WAZA_PledgeSetCombinedMoveId
  * address:  0x021E84B8
  * packet:   pkt_ov093_021E84B8
  * region:   ov093
@@ -18,7 +18,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E84B8(int a, int b, int c, int *d)
+void HAND_WAZA_PledgeSetCombinedMoveId(int a, int b, int c, int *d)
 {
     int k;
 

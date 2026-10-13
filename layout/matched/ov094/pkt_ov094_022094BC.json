@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_022094BC",
+   "name": "BTLV_TIMER_SetVisible",
    "address": "0x022094BC",
    "kind": "game",
    "region": "ov094",

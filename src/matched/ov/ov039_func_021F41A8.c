@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_RideEventMain
+ * function: FIELD_GIMMICK_CART_LANES_RideEventMain
  * address:  0x021F41A8
  * packet:   pkt_ov039_021F41A8
  * region:   ov039
@@ -11,7 +11,7 @@
  * note:     2026-10-05 final push G2L1: closed. Case 5 stored s->hold before movs r1,#1 only when
  *           FLD_EXP_OBJ_GetAnime takes (char *, int, u8 j, u8 k), as the matched caller ov039 021F404C declares
  *           it (earlier drafts used unsigned int j, int k; with u8 parameters the call site is
- *           the same but the pair order in case 5 follows the original). The GIMMICK39_GetAnimeFrame call keeps
+ *           the same but the pair order in case 5 follows the original). The FIELD_GIMMICK_CART_LANES_GetAnimeFrame call keeps
  *           (u8)(s->sel + 1) for its u16 parameter.
  * symbols:
  *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
@@ -29,9 +29,9 @@
  *   FLD_EXP_OBJ_IsAnimeStopped 0x021BE6BC thumb ov021
  *   FLD_EXP_OBJ_GetModelObject 0x021BE4C4 thumb ov021
  *   FLD_EXP_OBJ_GetAnimeLastFrame 0x021BE748 thumb ov021
- *   GIMMICK39_SetAnimeFrame 0x021F3E04 thumb ov039
- *   GIMMICK39_GetAnimeFrame 0x021F3DE4 thumb ov039
- *   GIMMICK39_SampleJointTranslation 0x021F48C0 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_SetAnimeFrame 0x021F3E04 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_GetAnimeFrame 0x021F3DE4 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_SampleJointTranslation 0x021F48C0 thumb ov039
  *   ICA_ANIME_CreateWithFullBuffer 0x02011428 thumb
  *   ICA_ANIME_Delete 0x02011558 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -114,9 +114,9 @@ extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void *FLD_EXP_OBJ_GetModelObject(void *p, u32 i, int delta);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
-extern void GIMMICK39_SetAnimeFrame(void *p, u8 delta, u16 i, int frame);
-extern int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i);
-extern void GIMMICK39_SampleJointTranslation(u8 *a, int idx, int x, int *out);
+extern void FIELD_GIMMICK_CART_LANES_SetAnimeFrame(void *p, u8 delta, u16 i, int frame);
+extern int FIELD_GIMMICK_CART_LANES_GetAnimeFrame(void *p, u16 delta, u16 i);
+extern void FIELD_GIMMICK_CART_LANES_SampleJointTranslation(u8 *a, int idx, int x, int *out);
 extern void *ICA_ANIME_CreateWithFullBuffer(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -144,7 +144,7 @@ extern u32 sRideAnimeIds[];
 extern Cell sDockCells[];
 extern Vec sRideExitPos;
 
-int GIMMICK39_RideEventMain(void *a0, int *a1)
+int FIELD_GIMMICK_CART_LANES_RideEventMain(void *a0, int *a1)
 {
     void *sys;
     int h;
@@ -181,13 +181,13 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
     switch (*a1) {
     case 0:
         s->anim = (u32)ICA_ANIME_CreateWithFullBuffer(0x8015, 0x6b, (u16)sRideAnimeIds[s->sel], (u32)s->f1c, 0x21C0);
-        GIMMICK39_SetAnimeFrame((void *)h, j, 0, 0);
+        FIELD_GIMMICK_CART_LANES_SetAnimeFrame((void *)h, j, 0, 0);
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
         GFL_USE_PlaySeDefaultVolume(0x687);
         *a1 = *a1 + 1;
         break;
     case 1:
-        if (GIMMICK39_GetAnimeFrame((void *)h, j, 0) < 0xF000) {
+        if (FIELD_GIMMICK_CART_LANES_GetAnimeFrame((void *)h, j, 0) < 0xF000) {
             break;
         }
         FLD_EXP_OBJ_SetAnimePaused(o, 1);
@@ -228,7 +228,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         p = FLD_EXP_OBJ_GetAnime((char *)h, 0, j, s->sel + 1);
         s->hold = c;
         FLD_EXP_OBJ_SetAnimePaused(p, 1);
-        GIMMICK39_SetAnimeFrame((void *)h, j, 0, 0);
+        FIELD_GIMMICK_CART_LANES_SetAnimeFrame((void *)h, j, 0, 0);
         FLD_EXP_OBJ_SetAnimePaused(o, 0);
         GFL_USE_PlaySeDefaultVolume(0x687);
         p = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(sys));
@@ -237,7 +237,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         *a1 = *a1 + 1;
         break;
     case 6:
-        if (GIMMICK39_GetAnimeFrame((void *)h, j, 0) < 0xF000) {
+        if (FIELD_GIMMICK_CART_LANES_GetAnimeFrame((void *)h, j, 0) < 0xF000) {
             break;
         }
         FLD_EXP_OBJ_SetAnimePaused(o, 1);
@@ -276,7 +276,7 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
         return 1;
     }
     if ((u8)(s->sel + 0xFE) <= 3) {
-        f = GIMMICK39_GetAnimeFrame((void *)h, j, (u8)(s->sel + 1));
+        f = FIELD_GIMMICK_CART_LANES_GetAnimeFrame((void *)h, j, (u8)(s->sel + 1));
         switch (s->sel) {
         case 2:
             if (f == 0xBF000) {
@@ -321,15 +321,15 @@ int GIMMICK39_RideEventMain(void *a0, int *a1)
     q = FLD_EXP_OBJ_GetModelObject((void *)h, 0, j);
     k = s->sel + 1;
     n = FLD_EXP_OBJ_GetAnimeLastFrame((u32)FLD_EXP_OBJ_GetAnime((char *)h, 0, j, k));
-    f = GIMMICK39_GetAnimeFrame((void *)h, j, k);
+    f = FIELD_GIMMICK_CART_LANES_GetAnimeFrame((void *)h, j, k);
     f2 = f + 0x1000;
     if (f2 >= n) {
         f2 = 0;
     }
     r = (Res *)G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(q, (u16)k));
     vol = 0;
-    GIMMICK39_SampleJointTranslation(r->mdl, 0, f, (int *)(&a));
-    GIMMICK39_SampleJointTranslation(r->mdl, 0, f2, (int *)(&b));
+    FIELD_GIMMICK_CART_LANES_SampleJointTranslation(r->mdl, 0, f, (int *)(&a));
+    FIELD_GIMMICK_CART_LANES_SampleJointTranslation(r->mdl, 0, f2, (int *)(&b));
     func_0207CA00(&a, &b, &e);
     d = func_0207CBD0(&e);
     if (d >= 0x20000) {

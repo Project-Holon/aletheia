@@ -55,9 +55,9 @@
  *   reads. Two volatile accesses keep their source order, so the f8 reset store stays after strb f5.
  *   Volatile on f8/f14 alone (P3L11 a1) or on f5 alone stays 10 B; both sides are needed.
  * symbols:
- *   d_021B42C0  0x021B42C0  data  ov013  a4
+ *   gVctSendBuffer  0x021B42C0  data  ov013  a4
  *   gVctSendState  0x021B3C84  data  ov013  a4
- *   d_021B3C24  0x021B3C24  data  ov013  a4
+ *   gVctSendEnabled  0x021B3C24  data  ov013  a4
  *   gVctAudioStateAdpcm  0x021B3C94  data  ov013  a4
  *   gVctSession  0x021B60D8  data  ov013  a1
  *   VCT_DSP_HighPassFilter  0x021B3278  arm  ov013
@@ -115,9 +115,9 @@ typedef struct {
     int f28;
 } Ctx3C84;
 
-extern struct Ctx42C0 d_021B42C0;
+extern struct Ctx42C0 gVctSendBuffer;
 extern Ctx3C84 gVctSendState;
-extern u32 d_021B3C24;
+extern u32 gVctSendEnabled;
 extern u8 gVctAudioStateAdpcm[];
 extern u8 gVctSession;
 
@@ -141,15 +141,15 @@ Frame *VCT_AUDIO_EncodeSendFrame(void)
     u32 diff;
 
     mode = gVctSendState.f1C;
-    diff = d_021B42C0.f8C4 - d_021B42C0.f8C0;
+    diff = gVctSendBuffer.f8C4 - gVctSendBuffer.f8C0;
     if (diff > 1) {
-        d_021B42C0.f8C0 = d_021B42C0.f8C4 - 1;
+        gVctSendBuffer.f8C0 = gVctSendBuffer.f8C4 - 1;
         diff = 1;
     }
     if (diff == 0)
         return 0;
 
-    f = (Frame *)((u8 *)&d_021B42C0 + ((d_021B42C0.f8C0 & 1) ? 0 : 0x460));
+    f = (Frame *)((u8 *)&gVctSendBuffer + ((gVctSendBuffer.f8C0 & 1) ? 0 : 0x460));
     p = f->data;
     if (mode >= 2)
         p += 4;
@@ -165,10 +165,10 @@ Frame *VCT_AUDIO_EncodeSendFrame(void)
         VCT_DSP_SuppressEchoWithReference((short *)p, gVctSendState.f24, sq);
 
     f->f5 = mode;
-    if (d_021B3C24 != 0) {
+    if (gVctSendEnabled != 0) {
         switch (gVctSendState.f28 = VCT_DSP_UpdateVoiceGate(x, sq, 0)) {
         case 0:
-            d_021B42C0.f8C0++;
+            gVctSendBuffer.f8C0++;
             return 0;
         case 1:
             f->f5 |= 0x80;
@@ -178,7 +178,7 @@ Frame *VCT_AUDIO_EncodeSendFrame(void)
             break;
         }
     }
-    if (d_021B3C24 == 0 && gVctSendState.f8 != 0) {
+    if (gVctSendEnabled == 0 && gVctSendState.f8 != 0) {
         f->f5 |= 0x80;
         gVctSendState.f8 = 0;
     }
@@ -199,11 +199,11 @@ Frame *VCT_AUDIO_EncodeSendFrame(void)
         VCT_AUDIO_ConvertPcm16ToPcm8(p, (short *)p, gVctSendState.f24 >> 1);
     }
 
-    d_021B42C0.f8CC = gVctSendState.f4;
-    d_021B42C0.f8CC = gVctSendState.f4 & ~(1 << gVctSession);
-    d_021B42C0.f8D4 = func_02080D24(d_021B42C0.f8CC) - 1;
-    if (d_021B42C0.f8D4 > 7)
+    gVctSendBuffer.f8CC = gVctSendState.f4;
+    gVctSendBuffer.f8CC = gVctSendState.f4 & ~(1 << gVctSession);
+    gVctSendBuffer.f8D4 = func_02080D24(gVctSendBuffer.f8CC) - 1;
+    if (gVctSendBuffer.f8D4 > 7)
         return 0;
-    d_021B42C0.f8D0 = 0;
+    gVctSendBuffer.f8D0 = 0;
     return f;
 }

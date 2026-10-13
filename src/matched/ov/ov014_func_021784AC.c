@@ -1,5 +1,5 @@
 /*
- * function: func_021784AC
+ * function: WIH_StateInEndParentMP
  * address: 0x021784AC
  * packet: pkt_ov014_021784AC
  * region: ov014
@@ -9,24 +9,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021784D0 0x021784D0 thumb ov014
+ *   WIH_StateOutEndParentMP 0x021784D0 thumb ov014
  *   WM_EndMP 0x0208FDEC arm
- *   func_02178138 0x02178138 thumb ov014
- *   func_0217814C 0x0217814C thumb ov014
+ *   WIH_ChangeSysState 0x02178138 thumb ov014
+ *   WIH_SetError 0x0217814C thumb ov014
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021784D0(void *);
+extern void WIH_StateOutEndParentMP(void *);
 extern int WM_EndMP(void (*)(void *));
-extern void func_02178138(int);
-extern void func_0217814C(int);
-int func_021784AC(void)
+extern void WIH_ChangeSysState(int);
+extern void WIH_SetError(int);
+int WIH_StateInEndParentMP(void)
 {
     int result;
-    func_02178138(3);
-    result = WM_EndMP(func_021784D0);
+    WIH_ChangeSysState(3);
+    result = WM_EndMP(WIH_StateOutEndParentMP);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;

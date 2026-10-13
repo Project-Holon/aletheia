@@ -19,7 +19,7 @@
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   SYMBOL_MAP_StoreResult 0x02166714 thumb ov010
  *   ov203_id 0x000000CB data a1
- *   d_021BFB3C 0x021BFB3C data ov203 a4
+ *   gDemo3dProcData 0x021BFB3C data ov203 a4
  
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
@@ -38,13 +38,13 @@ extern void *func_020124E8(struct Obj *p);
 extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern void SYMBOL_MAP_StoreResult(u8 *p, int n);
 extern u8 ov203_id[];
-extern u8 d_021BFB3C[];
+extern u8 gDemo3dProcData[];
 int SYMBOL_MAP_RecordTaskMain(void *task, u32 *state)
 {
     struct Work *w = func_020124E8(task);
     switch (*state) {
     case 0:
-        GAME_EVENT_CallProc(task, (u32)ov203_id, (u32)d_021BFB3C, (u32)w);
+        GAME_EVENT_CallProc(task, (u32)ov203_id, (u32)gDemo3dProcData, (u32)w);
         *state = *state + 1;
         break;
     case 1:

@@ -1,5 +1,5 @@
 /*
- * function: func_021EA3A0
+ * function: BTLV_CORE_WaitMonSpriteUpdate
  * address:  0x021EA3A0
  * packet:   pkt_021E9884
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EA3A0   0x021EA3A0  thumb  ov093
- *   func_021ED4D0   0x021ED4D0  thumb  ov093
+ *   BTLV_CORE_WaitMonSpriteUpdate   0x021EA3A0  thumb  ov093
+ *   BTLV_SCU_IsHpGaugeIdle   0x021ED4D0  thumb  ov093
  * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
  */
 
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-int func_021EA3A0(u32 *p) { return func_021ED4D0(p[0x5f]) != 0; }
+int BTLV_CORE_WaitMonSpriteUpdate(u32 *p) { return BTLV_SCU_IsHpGaugeIdle(p[0x5f]) != 0; }
 

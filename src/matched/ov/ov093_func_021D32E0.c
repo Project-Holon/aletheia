@@ -21,10 +21,10 @@
  *   BTL_MAIN_IsPokeSamePair 0x021B9A24 thumb ov093
  *   BTL_CLIENT_IsMainStepActive 0x021CD9E0 thumb ov093
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
- *   func_021EA768 0x021EA768 thumb ov093
- *   func_021EA778 0x021EA778 thumb ov093
- *   func_021EA7A8 0x021EA7A8 thumb ov093
- *   func_021EA7B8 0x021EA7B8 thumb ov093
+ *   BTLV_CORE_ShowPortrait 0x021EA768 thumb ov093
+ *   BTLV_CORE_UpdatePortraitSlideIn 0x021EA778 thumb ov093
+ *   BTLV_CORE_ReloadPortrait 0x021EA7A8 thumb ov093
+ *   BTLV_CORE_UpdatePortraitMosaic 0x021EA7B8 thumb ov093
  *   gExpGainWork 0x021F3B64 data a4
  */
 typedef unsigned char u8;
@@ -36,10 +36,10 @@ extern int BTL_MAIN_IsPokeSamePair(u32, u32);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *);
 struct QJ;
 extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
-extern void func_021EA768(u32 *p, u32 a2, u32 a3);
-extern int func_021EA778(u32 *p, u32 a2);
-extern void func_021EA7A8(u32 *p, u32 a2);
-extern int func_021EA7B8(u32 *p, u32 a2);
+extern void BTLV_CORE_ShowPortrait(u32 *p, u32 a2, u32 a3);
+extern int BTLV_CORE_UpdatePortraitSlideIn(u32 *p, u32 a2);
+extern void BTLV_CORE_ReloadPortrait(u32 *p, u32 a2);
+extern int BTLV_CORE_UpdatePortraitMosaic(u32 *p, u32 a2);
 extern u32 gExpGainWork[];
 int BTL_CLIENT_StepSwapAbilitiesWithPopup(u32 *a, int *b, u32 *c)
 {
@@ -67,22 +67,22 @@ int BTL_CLIENT_StepSwapAbilitiesWithPopup(u32 *a, int *b, u32 *c)
             BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
             return 1;
         }
-        func_021EA768((u32 *)((int)a[21]), s, 0);
+        BTLV_CORE_ShowPortrait((u32 *)((int)a[21]), s, 0);
         gExpGainWork[1] = 8;
         (*b)++;
         break;
     case 1:
-        func_021EA778((u32 *)a[21], s);
+        BTLV_CORE_UpdatePortraitSlideIn((u32 *)a[21], s);
         if (gExpGainWork[1]) gExpGainWork[1]--;
         else {
-            func_021EA768((u32 *)a[21], t, 0);
+            BTLV_CORE_ShowPortrait((u32 *)a[21], t, 0);
             (*b)++;
         }
         break;
     case 2: {
         u8 r, z;
-        r = func_021EA778((u32 *)a[21], s);
-        z = func_021EA778((u32 *)a[21], t);
+        r = BTLV_CORE_UpdatePortraitSlideIn((u32 *)a[21], s);
+        z = BTLV_CORE_UpdatePortraitSlideIn((u32 *)a[21], t);
         if (r && z) (*b)++;
         break;
     }
@@ -95,18 +95,18 @@ int BTL_CLIENT_StepSwapAbilitiesWithPopup(u32 *a, int *b, u32 *c)
     case 4:
         gExpGainWork[1]++;
         if (gExpGainWork[1] > 8) {
-            func_021EA7A8((u32 *)a[21], s);
+            BTLV_CORE_ReloadPortrait((u32 *)a[21], s);
             (*b)++;
         }
         break;
     case 5:
-        if (func_021EA7B8((u32 *)a[21], s)) {
-            func_021EA7A8((u32 *)a[21], t);
+        if (BTLV_CORE_UpdatePortraitMosaic((u32 *)a[21], s)) {
+            BTLV_CORE_ReloadPortrait((u32 *)a[21], t);
             (*b)++;
         }
         break;
     case 6:
-        if (func_021EA7B8((u32 *)a[21], t)) (*b)++;
+        if (BTLV_CORE_UpdatePortraitMosaic((u32 *)a[21], t)) (*b)++;
         break;
     default:
         return 1;

@@ -12,7 +12,7 @@
  * Searches the 20 slots (stride 0x14, from +0x10) for one whose table row matches.
  *
  * symbols:
- *   d_021DB834  0x021DB834  data  a4
+ *   gIntrudeOfferTilePositions  0x021DB834  data  a4
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12992.h"
@@ -29,7 +29,7 @@ typedef struct {
     u16 a6;
 } Row;
 
-extern const Row d_021DB834[];
+extern const Row gIntrudeOfferTilePositions[];
 
 int INTRUDE_FindOfferSlotAt(u8 *base, int a, int b, int c, int d)
 {
@@ -41,7 +41,7 @@ int INTRUDE_FindOfferSlotAt(u8 *base, int a, int b, int c, int d)
         if (((struct Obj12992 *)p)->f10 == 0) {
             return 0xff;
         }
-        r = &d_021DB834[p[0x12]];
+        r = &gIntrudeOfferTilePositions[p[0x12]];
         if (r->a6 == a && r->a0 == b && r->a4 == d && r->a2 - 1 <= c && c <= r->a2 + 1) {
             return i;
         }

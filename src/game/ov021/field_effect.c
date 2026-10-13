@@ -1,7 +1,7 @@
 /*
  * file:     field_effect.c
  * unit:     yes
- * function: FIELD_EFFECT_Create, FIELD_EFFECT_Delete, FIELD_EFFECT_Update, FIELD_EFFECT_Draw, FIELD_EFFECT_GetFieldMap, FIELD_EFFECT_GetFieldMapData, FIELD_EFFECT_GetArcHandle, FIELD_EFFECT_GetModelBaseOffset, FIELD_EFFECT_GetModelBaseOffsetAlt, FIELD_EFFECT_LoadResources, FIELD_EFFECT_FreeResource, func_021ABE8C, FIELD_EFFECT_GetResource, FIELD_EFFECT_InitResourceTable, FIELD_EFFECT_FreeResourceTable, FIELD_EFFECT_FindResourceSlot, FIELD_EFFECT_GetResourceDef, FIELD_EFFECT_InitObjectSystem, FIELD_EFFECT_AddObject, FIELD_EFFECT_ExitObjectSystem, FIELD_EFFECT_RunTasks, FIELD_EFFECT_DrawObjects, FIELD_EFFECT_CreateObjectMgr, FIELD_EFFECT_DeleteObjectMgr, FIELD_EFFECT_DrawObjectMgr, FIELD_EFFECT_AddObjectToMgr, FIELD_EFFECT_ObjectTask, FIELD_EFFECT_InitObject, FIELD_EFFECT_DeleteObject, FIELD_EFFECT_UpdateObject, FIELD_EFFECT_DrawObject, FIELD_EFFECT_GetObjectMode, FIELD_EFFECT_GetObjectParam, FIELD_EFFECT_GetObjectPos, FIELD_EFFECT_SetObjectPos, FIELD_EFFECT_GetObjectWork, FIELD_EFFECT_SetPaletteTable, FIELD_EFFECT_ApplyPaletteTable
+ * function: FIELD_EFFECT_Create, FIELD_EFFECT_Delete, FIELD_EFFECT_Update, FIELD_EFFECT_Draw, FIELD_EFFECT_GetFieldMap, FIELD_EFFECT_GetFieldMapData, FIELD_EFFECT_GetArcHandle, FIELD_EFFECT_GetModelBaseOffset, FIELD_EFFECT_GetModelBaseOffsetAlt, FIELD_EFFECT_LoadResources, FIELD_EFFECT_FreeResource, FIELD_EFFECT_IsResourceLoaded, FIELD_EFFECT_GetResource, FIELD_EFFECT_InitResourceTable, FIELD_EFFECT_FreeResourceTable, FIELD_EFFECT_FindResourceSlot, FIELD_EFFECT_GetResourceDef, FIELD_EFFECT_InitObjectSystem, FIELD_EFFECT_AddObject, FIELD_EFFECT_ExitObjectSystem, FIELD_EFFECT_RunTasks, FIELD_EFFECT_DrawObjects, FIELD_EFFECT_CreateObjectMgr, FIELD_EFFECT_DeleteObjectMgr, FIELD_EFFECT_DrawObjectMgr, FIELD_EFFECT_AddObjectToMgr, FIELD_EFFECT_ObjectTask, FIELD_EFFECT_InitObject, FIELD_EFFECT_DeleteObject, FIELD_EFFECT_UpdateObject, FIELD_EFFECT_DrawObject, FIELD_EFFECT_GetObjectMode, FIELD_EFFECT_GetObjectParam, FIELD_EFFECT_GetObjectPos, FIELD_EFFECT_SetObjectPos, FIELD_EFFECT_GetObjectWork, FIELD_EFFECT_SetPaletteTable, FIELD_EFFECT_ApplyPaletteTable
  * address:  0x021ABD50
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -91,7 +91,7 @@ u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *sys);
 u8 FIELD_EFFECT_GetModelBaseOffsetAlt(FieldEffectSys *sys);
 void FIELD_EFFECT_LoadResources(FieldEffectSys *sys, int *ids, int count);
 void FIELD_EFFECT_FreeResource(FieldEffectSys *sys, int id);
-int func_021ABE8C(FieldEffectSys *sys, int id);
+int FIELD_EFFECT_IsResourceLoaded(FieldEffectSys *sys, int id);
 int FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
 void FIELD_EFFECT_InitResourceTable(FieldEffectSys *sys);
 void FIELD_EFFECT_FreeResourceTable(FieldEffectSys *sys);
@@ -217,7 +217,7 @@ void FIELD_EFFECT_FreeResource(FieldEffectSys *sys, int id)
     }
 }
 
-int func_021ABE8C(FieldEffectSys *sys, int id)
+int FIELD_EFFECT_IsResourceLoaded(FieldEffectSys *sys, int id)
 {
     if (FIELD_EFFECT_FindResourceSlot(sys, id) != 0) {
         return 1;

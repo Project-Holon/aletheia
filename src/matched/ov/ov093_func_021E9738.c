@@ -1,5 +1,5 @@
 /*
- * function: func_021E9738
+ * function: BTLV_CORE_RunStep
  * address:  0x021E9738
  * packet:   pkt_ov093_021E9738
  * region:   ov093
@@ -18,7 +18,7 @@ struct S {
     char b[4];
 };
 
-int func_021E9738(struct S *s)
+int BTLV_CORE_RunStep(struct S *s)
 {
     if (s->fn != 0) {
         if (s->fn(s, s->a, s->b) != 0) {

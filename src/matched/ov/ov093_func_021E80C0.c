@@ -1,5 +1,5 @@
 /*
- * function: func_021E80C0
+ * function: HAND_WAZA_SkyDropRedirectToHeldTarget
  * address:  0x021E80C0
  * packet:   pkt_ov093_021E80C0
  * region:   ov093
@@ -22,7 +22,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern unsigned char BTL_POKEPARAM_GetCounter(unsigned char *base, int idx);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E80C0(int a, void *b, int c)
+void HAND_WAZA_SkyDropRedirectToHeldTarget(int a, void *b, int c)
 {
     u8 v, t;
     if (BTL_SERVER_FLOW_GetRule(b) != 0 && BTL_SERVER_FLOW_GetRule(b) != 3) {

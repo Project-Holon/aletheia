@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK65_StartEffect
+ * function: FIELD_GIMMICK_TIME_EFFECT_StartEffect
  * address:  0x021F385C
  * packet:   pkt_ov065_021F385C
  * region:   ov065
@@ -26,7 +26,7 @@ extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void GIMMICK65_StartEffect(int a)
+void FIELD_GIMMICK_TIME_EFFECT_StartEffect(int a)
 {
     int i;
     int s;

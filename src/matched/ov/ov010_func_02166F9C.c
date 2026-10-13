@@ -14,8 +14,8 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
- *   ov_id_D9  0x000000D9  data
- *   d_021C3FE0  0x021C3FE0  data  ov217
+ *   ov217_id  0x000000D9  data
+ *   gResearchTopProcData  0x021C3FE0  data  ov217
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
@@ -32,8 +32,8 @@ extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern u32 func_020307B0(void *p);
-extern char ov_id_D9[];
-extern char d_021C3FE0[];
+extern char ov217_id[];
+extern char gResearchTopProcData[];
 
 int EVENT_RESEARCH_RADAR_TopTaskMain(void *a, int *st, int *p)
 {
@@ -49,7 +49,7 @@ int EVENT_RESEARCH_RADAR_TopTaskMain(void *a, int *st, int *p)
         *st = 2;
         break;
     case 2:
-        GAMESYSTEM_CallProc((struct IcaAnime *)p0, (u32)ov_id_D9, d_021C3FE0, (void *)p[2]);
+        GAMESYSTEM_CallProc((struct IcaAnime *)p0, (u32)ov217_id, gResearchTopProcData, (void *)p[2]);
         *st = 3;
         break;
     case 3:

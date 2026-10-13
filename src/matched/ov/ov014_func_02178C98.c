@@ -1,5 +1,5 @@
 /*
- * function: func_02178C98
+ * function: WIH_StateInEndChild
  * address: 0x02178C98
  * packet: pkt_ov014_02178C98
  * region: ov014
@@ -9,24 +9,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02178138 0x02178138 thumb ov014
- *   func_0217814C 0x0217814C thumb ov014
+ *   WIH_ChangeSysState 0x02178138 thumb ov014
+ *   WIH_SetError 0x0217814C thumb ov014
  *   WM_Disconnect 0x0208F938 arm
  *   func_02178CC4 0x02178CC4 thumb ov014
  *   DWCi_MOV_WH_StateInEndKeyShare 0x0217945C thumb ov014
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02178138(int);
-extern void func_0217814C(int);
+extern void WIH_ChangeSysState(int);
+extern void WIH_SetError(int);
 extern void func_02178CC4(u8 *);
 extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 extern int WM_Disconnect(void (*)(u8 *), u16);
-int func_02178C98(void) {
+int WIH_StateInEndChild(void) {
  int r;
  int result = 0;
- func_02178138(3);
+ WIH_ChangeSysState(3);
  r = WM_Disconnect(func_02178CC4, 0);
- if (r != 2) { func_0217814C(r); DWCi_MOV_WH_StateInEndKeyShare(); return result; }
+ if (r != 2) { WIH_SetError(r); DWCi_MOV_WH_StateInEndKeyShare(); return result; }
  return 1;
 }

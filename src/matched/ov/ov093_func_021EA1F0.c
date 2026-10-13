@@ -1,5 +1,5 @@
 /*
- * function: func_021EA1F0
+ * function: BTLV_CORE_WaitHitAnim
  * address:  0x021EA1F0
  * packet:   pkt_ov093_021EA1F0
  * region:   ov093
@@ -24,7 +24,7 @@ struct S {
     int f28;
 };
 
-int func_021EA1F0(struct S *s)
+int BTLV_CORE_WaitHitAnim(struct S *s)
 {
     if (s->f1c != 0) {
         if (s->f1c((char *)s + 0x28, s->f24) != 0) {

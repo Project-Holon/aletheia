@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02208DAC",
+   "name": "BTLV_B_GAUGE_CreatePartyBallBar",
    "address": "0x02208DAC",
    "kind": "game",
    "region": "ov094",

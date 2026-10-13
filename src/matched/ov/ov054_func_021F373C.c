@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK54_Update
+ * function: FIELD_GIMMICK_SOUND_OBJS_B_Update
  * address:  0x021F373C
  * packet:   pkt_ov054_021F373C
  * region:   ov054
@@ -31,8 +31,8 @@
  *   G3D_CAMERA_GetUp  0x02048B30  arm
  *   ISS_3DS_SYS_SetCamera  0x0202B93C  thumb
  *   SOUND_OBJ_AdvanceAnime  0x021C4DE4  thumb  ov021
- *   GIMMICK54_RestartAnime  0x021F393C  thumb  ov054
- *   GIMMICK54_StartWait  0x021F3918  thumb  ov054
+ *   FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime  0x021F393C  thumb  ov054
+ *   FIELD_GIMMICK_SOUND_OBJS_B_StartWait  0x021F3918  thumb  ov054
  */
 
 extern void *FIELDMAP_GetCommonWork(int, int);
@@ -44,10 +44,10 @@ extern void G3D_CAMERA_GetEye(void *, void *);
 extern void G3D_CAMERA_GetUp(void *, void *);
 extern void ISS_3DS_SYS_SetCamera(int, void *, void *);
 extern int SOUND_OBJ_AdvanceAnime(int, int);
-extern int GIMMICK54_RestartAnime(char *, int);
-extern void GIMMICK54_StartWait(char *, int);
+extern int FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(char *, int);
+extern void FIELD_GIMMICK_SOUND_OBJS_B_StartWait(char *, int);
 
-void GIMMICK54_Update(int a)
+void FIELD_GIMMICK_SOUND_OBJS_B_Update(int a)
 {
     int i;
     char *p;
@@ -65,9 +65,9 @@ void GIMMICK54_Update(int a)
         if (e[4] > 0) {
             e[4]--;
             if (e[4] <= 0)
-                GIMMICK54_RestartAnime(p, i);
+                FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(p, i);
         } else if (SOUND_OBJ_AdvanceAnime(e[2], 0x1000)) {
-            GIMMICK54_StartWait(p, i);
+            FIELD_GIMMICK_SOUND_OBJS_B_StartWait(p, i);
         }
     }
 }

@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_lift.c
  * unit:     yes
- * function: func_021F36C0, GIMMICK44_Exit, GIMMICK44_Update, GIMMICK44_CallEvent, GIMMICK44_LiftEventMain, GIMMICK44_IsLiftArrived, GIMMICK44_ShowIdleAnime, GIMMICK44_SnapLiftToBottom
+ * function: FIELD_GIMMICK_LIFT_Init, FIELD_GIMMICK_LIFT_Exit, FIELD_GIMMICK_LIFT_Update, FIELD_GIMMICK_LIFT_CallEvent, FIELD_GIMMICK_LIFT_LiftEventMain, FIELD_GIMMICK_LIFT_IsLiftArrived, FIELD_GIMMICK_LIFT_ShowIdleAnime, FIELD_GIMMICK_LIFT_SnapLiftToBottom
  * address:  0x021F36C0
  * region:   ov044
  * compiler: dsi/1.1p1
@@ -78,17 +78,17 @@ extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 extern void FIELD_PLAYER_GetPos(unsigned char *player, VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *player, VecFx32 *pos);
 extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unit, int model, int animeIdx, int frame);
-void func_021F36C0(void *fieldMap);
-void GIMMICK44_Exit(u8 *fieldMap);
-void GIMMICK44_Update(void *fieldMap);
-void GIMMICK44_CallEvent(void *gameSystem, int isDescending);
-int GIMMICK44_LiftEventMain(void *event, int *seq);
-int GIMMICK44_IsLiftArrived(Gimmick44Work *work);
-void GIMMICK44_ShowIdleAnime(void *expObj);
+void FIELD_GIMMICK_LIFT_Init(void *fieldMap);
+void FIELD_GIMMICK_LIFT_Exit(u8 *fieldMap);
+void FIELD_GIMMICK_LIFT_Update(void *fieldMap);
+void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending);
+int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq);
+int FIELD_GIMMICK_LIFT_IsLiftArrived(Gimmick44Work *work);
+void FIELD_GIMMICK_LIFT_ShowIdleAnime(void *expObj);
 extern int sGimmick44ExpObjUnitDesc;
 extern VecFx32 sGimmick44LiftStartPos;
 
-void func_021F36C0(void *fieldMap)
+void FIELD_GIMMICK_LIFT_Init(void *fieldMap)
 {
     void *expObj;
     VecFx32 *modelPos;
@@ -106,10 +106,10 @@ void func_021F36C0(void *fieldMap)
         FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
         FLD_EXP_OBJ_SetAnimePaused(anime, 1);
     }
-    GIMMICK44_ShowIdleAnime(expObj);
+    FIELD_GIMMICK_LIFT_ShowIdleAnime(expObj);
 }
 
-void GIMMICK44_Exit(u8 *fieldMap)
+void FIELD_GIMMICK_LIFT_Exit(u8 *fieldMap)
 {
     void *expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
@@ -118,13 +118,13 @@ void GIMMICK44_Exit(u8 *fieldMap)
 }
 
 
-void GIMMICK44_Update(void *fieldMap)
+void FIELD_GIMMICK_LIFT_Update(void *fieldMap)
 {
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
 }
 
 
-void GIMMICK44_CallEvent(void *gameSystem, int isDescending)
+void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending)
 {
     void *fieldMap;
     Gimmick44Work *work;
@@ -151,15 +151,15 @@ void GIMMICK44_CallEvent(void *gameSystem, int isDescending)
         step = 0x2000;
     }
     work->stepY = step;
-    func_020122C0(gameSystem, 0, GIMMICK44_LiftEventMain, 0);
+    func_020122C0(gameSystem, 0, FIELD_GIMMICK_LIFT_LiftEventMain, 0);
 }
 
 
 /*
- * Once filed EXACT* because the extent ran into the unlabelled leaf GIMMICK44_IsLiftArrived
+ * Once filed EXACT* because the extent ran into the unlabelled leaf FIELD_GIMMICK_LIFT_IsLiftArrived
  * (filed as ov044_func_021F390C.c).
  */
-int GIMMICK44_LiftEventMain(void *event, int *seq)
+int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq)
 {
     void *fieldMap;
     void *expObj;
@@ -183,7 +183,7 @@ int GIMMICK44_LiftEventMain(void *event, int *seq)
         break;
     case 1:
         work->curY += work->stepY;
-        if (GIMMICK44_IsLiftArrived(work)) {
+        if (FIELD_GIMMICK_LIFT_IsLiftArrived(work)) {
             work->curY = work->goalY;
             if (work->isDescending == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x6cb);
@@ -208,7 +208,7 @@ int GIMMICK44_LiftEventMain(void *event, int *seq)
         break;
     case 3:
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, 0, 0))) {
-            GIMMICK44_ShowIdleAnime(expObj);
+            FIELD_GIMMICK_LIFT_ShowIdleAnime(expObj);
             return 1;
         }
         break;
@@ -217,9 +217,9 @@ int GIMMICK44_LiftEventMain(void *event, int *seq)
 }
 
 /*
- * Unlabelled leaf called only from GIMMICK44_LiftEventMain.
+ * Unlabelled leaf called only from FIELD_GIMMICK_LIFT_LiftEventMain.
  */
-int GIMMICK44_IsLiftArrived(Gimmick44Work *work)
+int FIELD_GIMMICK_LIFT_IsLiftArrived(Gimmick44Work *work)
 {
     if (work->stepY < 0) {
         if (work->goalY >= work->curY) {
@@ -234,7 +234,7 @@ int GIMMICK44_IsLiftArrived(Gimmick44Work *work)
 }
 
 
-void GIMMICK44_ShowIdleAnime(void *expObj)
+void FIELD_GIMMICK_LIFT_ShowIdleAnime(void *expObj)
 {
     void *anime;
 
@@ -247,7 +247,7 @@ void GIMMICK44_ShowIdleAnime(void *expObj)
 
 /* Puts the lift at its lower end without the ride: the model and the player
  * are set to the bottom height and the camera is detached. */
-void GIMMICK44_SnapLiftToBottom(void *gameSystem)
+void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *gameSystem)
 {
     void *fieldMap;
     void *expObj;

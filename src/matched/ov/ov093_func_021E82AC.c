@@ -1,5 +1,5 @@
 /*
- * function: func_021E82AC
+ * function: HAND_WAZA_FreezeShockIceBurnShowChargeMessage
  * address:  0x021E82AC
  * packet:   pkt_ov093_021E82AC
  * region:   ov093
@@ -28,7 +28,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E82AC(void *a, void *b, int c)
+void HAND_WAZA_FreezeShockIceBurnShowChargeMessage(void *a, void *b, int c)
 {
     u8 *p;
     int v;

@@ -1,5 +1,5 @@
 /*
- * function: func_021EA32C
+ * function: BTLV_CORE_PlayEffectivenessSe
  * address:  0x021EA32C
  * packet:   pkt_ov093_021EA32C
  * region:   ov093
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 
 extern void func_021EAF00(u8 *p, int a);
 
-void func_021EA32C(u8 *p, int k)
+void BTLV_CORE_PlayEffectivenessSe(u8 *p, int k)
 {
     int v;
 

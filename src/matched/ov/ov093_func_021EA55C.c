@@ -1,5 +1,5 @@
 /*
- * function: func_021EA55C
+ * function: BTLV_CORE_BuildMessage
  * address:  0x021EA55C
  * packet:   pkt_ov093_021EA55C
  * region:   ov093
@@ -40,7 +40,7 @@ extern void BTL_MSG_BuildTrainerString(u32 a, u32 b, u32 c);
 extern void BTL_MSG_BuildItemUse(u32 a, u8 b, u16 c);
 extern void BTL_MSG_BuildPlainEntry(int a, u16 b, int c);
 
-void func_021EA55C(struct H *p, int a)
+void BTLV_CORE_BuildMessage(struct H *p, int a)
 {
     switch (p->op) {
     case 1:

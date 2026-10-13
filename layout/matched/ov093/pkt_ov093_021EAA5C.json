@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EAA5C",
+   "name": "BTLV_CORE_CancelWindowModeSelect",
    "address": "0x021EAA5C",
    "kind": "game",
    "region": "ov093",

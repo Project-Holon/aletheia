@@ -1,5 +1,5 @@
 /*
- * function: func_021EADB4
+ * function: BTLV_CORE_UpdateBallWindowOpen
  * address: 0x021EADB4
  * packet: pkt_ov093_021EADB4
  * region: ov093
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct O;
 extern int BTLV_SCU_UpdateBallWindowOpen(struct O *);
-int func_021EADB4(u8 *p)
+int BTLV_CORE_UpdateBallWindowOpen(u8 *p)
 {
     return BTLV_SCU_UpdateBallWindowOpen(*(struct O * *)&((struct Obj21572 *)p)->f17C);
 }

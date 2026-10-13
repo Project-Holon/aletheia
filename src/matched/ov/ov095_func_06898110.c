@@ -1,5 +1,5 @@
 /*
- * function: func_06898110
+ * function: HAND_FIELD_WaterSportWeakenFire
  * address: 0x06898110
  * packet: pkt_ov095_06898110
  * region: ov095
@@ -14,7 +14,7 @@
  */
 extern int func_0689812C(int);
 extern void func_0689813C(int, int);
-void func_06898110(void)
+void HAND_FIELD_WaterSportWeakenFire(void)
 {
     if (func_0689812C(22) == 9)
         func_0689813C(49, 0x548);

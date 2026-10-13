@@ -1,5 +1,5 @@
 /*
- * function: func_021E90A0
+ * function: BTLV_CORE_StartOpening
  * address:  0x021E90A0
  * packet:   pkt_ov093_021E90A0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F3840  0x021F3840  data  a4
+ *   gBtlvOpeningStepTable  0x021F3840  data  a4
  *   d_021F3844  0x021F3844  data  a4
  */
 struct E {
@@ -18,15 +18,15 @@ struct E {
     unsigned int v;
 };
 
-extern const struct E d_021F3840[];
+extern const struct E gBtlvOpeningStepTable[];
 extern const struct E d_021F3844[];
 
-void func_021E90A0(unsigned int *o, unsigned int key)
+void BTLV_CORE_StartOpening(unsigned int *o, unsigned int key)
 {
     unsigned int i;
 
     for (i = 0; i < 2; i++) {
-        if (key == d_021F3840[i].k) {
+        if (key == gBtlvOpeningStepTable[i].k) {
             o[4] = key;
             o[5] = d_021F3844[i].k;
             o[6] = 0;

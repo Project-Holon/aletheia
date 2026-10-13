@@ -99,15 +99,15 @@
  *   SCRIPT_WORK_FreeUserWork  0x02158FBC  thumb  ov010
  *   BAG_PARAM_Create  0x0202E474  thumb
  *   ov070_id       0x00000046  data
- *   d_021BB96C     0x021BB96C  data  ov070 a4
+ *   gItemMenuProcData     0x021BB96C  data  ov070 a4
  *   FIELD_STATUS_CreateSubProcNoFadeCallbackEvent  0x02014840  thumb
  *   ov136_id       0x00000088  data
- *   d_021C78A4     0x021C78A4  data  ov136  a1
+ *   gMbSeqProcData     0x021C78A4  data  ov136  a1
  *   WAZA_OSHIE_Delete  0x0216F940  thumb  ov010
  *   WAZA_OSHIE_Create 0x0216F918 thumb ov010
  *   FIELD_STATUS_CreateSubProcCallbackEvent 0x02014808 thumb
  *   ov173_id 0x000000AD data
- *   d_021B81D0 0x021B81D0 data ov173 a4
+ *   gMoveRelearnProcData 0x021B81D0 data ov173 a4
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_DATA_GetExitMode  0x02012B58  thumb
@@ -117,21 +117,21 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   INTRUDE_COMM_BuildLocalProfile  0x02175648  thumb  ov011
- *   d_021BA758     0x021BA758  data  ov099  a1
+ *   gPlayerProfileProcData     0x021BA758  data  ov099  a1
  *   ov071_id       0x00000047  data
  *   SCRIPT_WORK_GetEvent  0x02158F50  thumb  ov010
  *   EVENT_FIELD_PROCLINK_CreateCommExitEvent  0x02161B90  thumb  ov010
  *   ov174_id       0x000000AE  data
- *   d_021B74A0     0x021B74A0  data  a1 ov174
+ *   gLocalTvtSysProcData     0x021B74A0  data  a1 ov174
  *   GAME_BEACON_SEARCH_SetScriptEvent  0x02165344  thumb  ov010
  *   ov221_id       0x000000DD  data
  *   ov222_id       0x000000DE  data
  *   ov224_id       0x000000E0  data
- *   d_021BA1A4     0x021BA1A4  data  ov221  a4
- *   d_021BA250     0x021BA250  data  ov222  a4
- *   d_021B9BF8     0x021B9BF8  data  ov224  a4
+ *   gChihouZukanAwardProcData     0x021BA1A4  data  ov221  a4
+ *   gZenkokuZukanAwardProcData     0x021BA250  data  ov222  a4
+ *   gSubwayMapProcData     0x021B9BF8  data  ov224  a4
  *   ov223_id       0x000000DF  data
- *   d_021BC8C4     0x021BC8C4  data  ov223
+ *   gPselProcData     0x021BC8C4  data  ov223
  *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   EVENT_WIFIBATTLEMATCH_Entry  0x02154438  thumb  ov002
  *   ov002_id       0x00000002  data
@@ -139,7 +139,7 @@
  *   ov003_id       0x00000003  data
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_021F36C0  0x021F36C0  thumb  ov037
+ *   GIMMICK_INIT_SetGimmick39Flags  0x021F36C0  thumb  ov037
  *   ov037_id       0x00000025  data
  *   GIMMICK_INIT_SetGimmick40Flag 0x021F36E8 thumb ov037
  *   GIMMICK_INIT_SetGimmick42Flags 0x021F3724 thumb ov037
@@ -428,7 +428,7 @@ extern void EVENT_WIFIBATTLEMATCH_Entry(s32, s32 *);
 extern void EVENT_MENUPROC_Entry(void);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern void func_021F36C0(unsigned int, int, int);
+extern void GIMMICK_INIT_SetGimmick39Flags(unsigned int, int, int);
 extern void GIMMICK_INIT_SetGimmick40Flag(void *, int);
 extern void GIMMICK_INIT_SetGimmick42Flags(unsigned int, int);
 extern void GIMMICK_INIT_RestoreGimmick38State(unsigned int, unsigned short **);
@@ -544,23 +544,23 @@ extern struct { u16 paramId; u16 maxValue; } sScrcmdParamLimits[6];
 extern const u8 sScrcmdAllowedParamIds[];
 extern void *gSpeciesNameBank;
 extern const char sAllocSiteScrcmdProc[];
-extern const u8 d_021BB96C[];
+extern const u8 gItemMenuProcData[];
 extern u8 ov070_id[];
-extern const u8 d_021C78A4[];
+extern const u8 gMbSeqProcData[];
 extern u8 ov136_id[];
-extern const u8 d_021B81D0[];
+extern const u8 gMoveRelearnProcData[];
 extern u8 ov173_id[];
-extern const u8 d_021BA758[];
+extern const u8 gPlayerProfileProcData[];
 extern u8 ov071_id[];
-extern const u8 d_021B74A0[];
+extern const u8 gLocalTvtSysProcData[];
 extern u8 ov174_id[];
-extern const u8 d_021BA1A4[];
-extern const u8 d_021BA250[];
-extern const u8 d_021B9BF8[];
+extern const u8 gChihouZukanAwardProcData[];
+extern const u8 gZenkokuZukanAwardProcData[];
+extern const u8 gSubwayMapProcData[];
 extern u8 ov221_id[];
 extern u8 ov222_id[];
 extern u8 ov224_id[];
-extern const u8 d_021BC8C4[];
+extern const u8 gPselProcData[];
 extern u8 ov223_id[];
 extern u8 ov002_id[];
 extern char ov003_id[];
@@ -2087,7 +2087,7 @@ void SCRCMD_PROC_OnBagClosed(BagCloseData *closeData)
  * (0 -> 4, 1 -> 5, else 0), then opens overlay 0x46 over a work built
  * from BAG_PARAM_Create with an 8-byte hand-off record.
  *
- * 2026-10-05 (wave D9): EXACT. The ov070 token on the d_021BB96C data line
+ * 2026-10-05 (wave D9): EXACT. The ov070 token on the gItemMenuProcData data line
  * (the proc table lives in ov070, the overlay this function opens) gave the
  * witness; ov070_id then resolved through the overlay_id walk (SCRCMD_PROC_StartOverlayProc
  * is a registered consumer). Source unchanged.
@@ -2116,7 +2116,7 @@ int SCRCMD_PROC_CallBagScreen(void *vm, void *cmdWork)
     closeData = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x118);
     closeData[0] = selectedVar;
     closeData[1] = itemVar;
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov070_id, d_021BB96C, bagParam, (u32)SCRCMD_PROC_OnBagClosed, (u32)closeData);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov070_id, gItemMenuProcData, bagParam, (u32)SCRCMD_PROC_OnBagClosed, (u32)closeData);
     return 1;
 }
 
@@ -2152,7 +2152,7 @@ void SCRCMD_PROC_OnGtsNegotiationDone(GtsCallbackData *callbackData)
  * launches overlay 0x88 over them with the SCRCMD_PROC_OnGtsNegotiationDone callback and
  * parks the result in the script's slot.
  *
- * 2026-10-05 (wave D9): EXACT. d_021C78A4 resolves once its symbols line carries the ov136 token (the overlay the function loads); SCRCMD_PROC_OnGtsNegotiationDone has its own witness.
+ * 2026-10-05 (wave D9): EXACT. gMbSeqProcData resolves once its symbols line carries the ov136 token (the overlay the function loads); SCRCMD_PROC_OnGtsNegotiationDone has its own witness.
  */
 int SCRCMD_PROC_CallGtsNegotiation(void *vm, void *cmdWork)
 {
@@ -2172,7 +2172,7 @@ int SCRCMD_PROC_CallGtsNegotiation(void *vm, void *cmdWork)
     gtsParam[0] = (u32)gameData;
     callbackData[0] = (u32)gtsParam;
     callbackData[1] = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, (int)fieldMap, (u32)ov136_id, (int)d_021C78A4, (int)gtsParam, (int)((void *)SCRCMD_PROC_OnGtsNegotiationDone), (int)callbackData));
+    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, (int)fieldMap, (u32)ov136_id, (int)gMbSeqProcData, (int)gtsParam, (int)((void *)SCRCMD_PROC_OnGtsNegotiationDone), (int)callbackData));
     return 1;
 }
 
@@ -2264,7 +2264,7 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
     callbackData = func_02030734(4, 8, 0, sAllocSiteScrcmdProc, 0x19B);
     callbackData[0] = (u32)relearnParam;
     callbackData[1] = resultVar;
-    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, (int)fieldMap, (u32)ov173_id, (int)d_021B81D0, (int)relearnParam, (int)((void *)SCRCMD_PROC_OnMoveRelearnDone), (int)callbackData));
+    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, (int)fieldMap, (u32)ov173_id, (int)gMoveRelearnProcData, (int)relearnParam, (int)((void *)SCRCMD_PROC_OnMoveRelearnDone), (int)callbackData));
     return 1;
 }
 
@@ -2289,7 +2289,7 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
  * template) only reach an overlay loader through SCRCMD_PROC_StartOverlayProc, so no
  * class attests them.
  *
- * 2026-10-05 (wave D9): d_021BA758 now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches SCRCMD_PROC_StartOverlayProc, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to GAMESYSTEM_CallProc r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
+ * 2026-10-05 (wave D9): gPlayerProfileProcData now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches SCRCMD_PROC_StartOverlayProc, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to GAMESYSTEM_CallProc r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
  */
 int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
 {
@@ -2321,7 +2321,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
     }
     work->gameSystem = gameSystem;
     work->playerIndex = playerIndex;
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov071_id, d_021BA758, work, 0, 0);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov071_id, gPlayerProfileProcData, work, 0, 0);
     return 1;
 }
 
@@ -2364,7 +2364,7 @@ int SCRCMD_PROC_CallSubEvent(void *vm, void *cmdWork)
  *
  * Bytes exact.
  *
- * 2026-10-05 (wave D9): EXACT. The ov174 token on the d_021B74A0 data line (the
+ * 2026-10-05 (wave D9): EXACT. The ov174 token on the gLocalTvtSysProcData data line (the
  * proc table lives in ov174, which this function loads) gave the witness; the
  * ov174_id word then resolved through the overlay_id walk. Source unchanged.
  */
@@ -2377,7 +2377,7 @@ int SCRCMD_PROC_CallValueScreen(void *vm, void *cmdWork)
     param = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x205);
     param->value = value;
     param->gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov174_id, d_021B74A0, param, 0, 0);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov174_id, gLocalTvtSysProcData, param, 0, 0);
     return 1;
 }
 
@@ -2397,9 +2397,9 @@ int SCRCMD_PROC_CallValueScreen(void *vm, void *cmdWork)
  * MATCH, bytes exact. Blockers: the three overlay ids (ABS32 0xDD, 0xDE,
  * 0xE0) have no witness: `overlay_id` would carry them, but SCRCMD_PROC_StartOverlayProc
  * (which forwards its r2 to GAMESYSTEM_CallProc's r1) is not in match.py's
- * OVERLAY_ID_CONSUMERS. d_021BA250 (ov222) and d_021B9BF8 (ov224) are
+ * OVERLAY_ID_CONSUMERS. gZenkokuZukanAwardProcData (ov222) and gSubwayMapProcData (ov224) are
  * contested hints that resolve once the function loads those overlays
- * through an overlay_id site. d_021BA1A4 (ov221) already resolves.
+ * through an overlay_id site. gChihouZukanAwardProcData (ov221) already resolves.
  *
  * 2026-10-05 (wave D9): re-tried overlay tokens on the contested hints; they stay contested because the id sites do not attest. Residue is the three id words (ov221_id, ov222_id, ov224_id) reaching SCRCMD_PROC_StartOverlayProc, which is not in OVERLAY_ID_CONSUMERS; add that consumer (r2 -> GAMESYSTEM_CallProc r1) and the hints resolve. Not fixable in C.
  */
@@ -2424,18 +2424,18 @@ int SCRCMD_PROC_CallModeScreen(void *vm, void *cmdWork)
         param = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x22B);
         param->gameData = gameData;
         param->value = value;
-        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov221_id, d_021BA1A4, param, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov221_id, gChihouZukanAwardProcData, param, 0, 0);
         break;
     case 1:
         param = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x233);
         param->gameData = gameData;
         param->value = value;
-        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov222_id, d_021BA250, param, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov222_id, gZenkokuZukanAwardProcData, param, 0, 0);
         break;
     case 2:
         myStatusParam = func_02030734(4, 4, 1, sAllocSiteScrcmdProc, 0x23C);
         *myStatusParam = myStatus;
-        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov224_id, d_021B9BF8, myStatusParam, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov224_id, gSubwayMapProcData, myStatusParam, 0, 0);
         break;
     }
     return 1;
@@ -2452,9 +2452,9 @@ int SCRCMD_PROC_CallModeScreen(void *vm, void *cmdWork)
  * Script command: reads one word from the script stream, boxes it in a
  * 4-byte hand-off record and opens overlay 0xDF over it.
  *
- * 2026-10-05 (D9 lane 02): d_021BC8C4 resolves with the ov223 token (the overlay it points into) on its data line; ov223_id resolves as an overlay id word.
+ * 2026-10-05 (D9 lane 02): gPselProcData resolves with the ov223 token (the overlay it points into) on its data line; ov223_id resolves as an overlay id word.
  *
- * 2026-10-05 (wave D8): ov223_id and d_021BC8C4 are data with no witness; not fixable in C. Source re-read against the listing, unchanged.
+ * 2026-10-05 (wave D8): ov223_id and gPselProcData are data with no witness; not fixable in C. Source re-read against the listing, unchanged.
  */
 int SCRCMD_PROC_CallWordScreen(void *vm, void *cmdWork)
 {
@@ -2464,7 +2464,7 @@ int SCRCMD_PROC_CallWordScreen(void *vm, void *cmdWork)
     value = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     param = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x254);
     param[0] = value;
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov223_id, d_021BC8C4, param, 0, 0);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov223_id, gPselProcData, param, 0, 0);
     return 1;
 }
 
@@ -2584,7 +2584,7 @@ int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
     u16 *firstVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u16 *secondVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     func_02034AC4((u32)ov037_id);
-    func_021F36C0((unsigned int)gameSystem, *firstVar, *secondVar);
+    GIMMICK_INIT_SetGimmick39Flags((unsigned int)gameSystem, *firstVar, *secondVar);
     func_02034A5C((u32)ov037_id);
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK50_InitExtra
+ * function: FIELD_GIMMICK_MODELS_B_InitExtra
  * address:  0x021F3890
  * packet:   pkt_ov050_021F3890
  * region:   ov050
@@ -12,6 +12,6 @@
  * Empty function.
  */
 
-void GIMMICK50_InitExtra(void)
+void FIELD_GIMMICK_MODELS_B_InitExtra(void)
 {
 }

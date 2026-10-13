@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_UpdateCartSound
+ * function: FIELD_GIMMICK_CART_LANES_UpdateCartSound
  * address: 0x021F4A18
  * packet: pkt_ov039_021F4A18
  * region: ov039
@@ -16,8 +16,8 @@
  *   FLD_EXP_OBJ_GetModelObject 0x021BE4C4 thumb ov021
  *   FLD_EXP_OBJ_GetAnime 0x021BE674 thumb ov021
  *   FLD_EXP_OBJ_GetAnimeLastFrame 0x021BE748 thumb ov021
- *   GIMMICK39_GetAnimeFrame 0x021F3DE4 thumb ov039
- *   GIMMICK39_SampleJointTranslation 0x021F48C0 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_GetAnimeFrame 0x021F3DE4 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_SampleJointTranslation 0x021F48C0 thumb ov039
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   FIELD_SOUND_SYSTEM_TransferSlot 0x02028B18 thumb
@@ -60,8 +60,8 @@ extern void FIELD_PLAYER_GetPos(u8 *p, struct VecFx32 *out);
 extern int FLD_EXP_OBJ_GetModelObject(void *p, u32 i, u16 j);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
-extern int GIMMICK39_GetAnimeFrame(void *p, u16 j, u16 k);
-extern void GIMMICK39_SampleJointTranslation(u8 *a, int idx, int x, int *out);
+extern int FIELD_GIMMICK_CART_LANES_GetAnimeFrame(void *p, u16 j, u16 k);
+extern void FIELD_GIMMICK_CART_LANES_SampleJointTranslation(u8 *a, int idx, int x, int *out);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who);
@@ -71,7 +71,7 @@ extern void func_0207C9D0(const Vec *a, const Vec *b, Vec *out);
 extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
 extern int func_0207CBD0(const Vec *v);
 
-void GIMMICK39_UpdateCartSound(void *a0, Rec *a1)
+void FIELD_GIMMICK_CART_LANES_UpdateCartSound(void *a0, Rec *a1)
 {
     int pos;
     int h;
@@ -102,8 +102,8 @@ void GIMMICK39_UpdateCartSound(void *a0, Rec *a1)
         
         n = a1->cnt[k] + 1;
         FLD_EXP_OBJ_GetAnime(sys, 0, (u16)kk, (u16)n);
-        pos = GIMMICK39_GetAnimeFrame(sys, kk, n);
-        GIMMICK39_SampleJointTranslation(*(void **)(G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(h, n)) + 8), 0, pos, (int *)(&v6c));
+        pos = FIELD_GIMMICK_CART_LANES_GetAnimeFrame(sys, kk, n);
+        FIELD_GIMMICK_CART_LANES_SampleJointTranslation(*(void **)(G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(h, n)) + 8), 0, pos, (int *)(&v6c));
         func_0207C9D0(&v6c, &sLaneRideOffsets[k], &v6c);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(a0), (struct VecFx32 *)(&v60));
         func_0207CA00(&v6c, &v60, &v54);
@@ -129,14 +129,14 @@ void GIMMICK39_UpdateCartSound(void *a0, Rec *a1)
 
         h2 = FLD_EXP_OBJ_GetModelObject(sys, 0, bestK);
         lim = FLD_EXP_OBJ_GetAnimeLastFrame((u32)FLD_EXP_OBJ_GetAnime(sys, 0, (u16)bestK, (u16)bestN));
-        cur = GIMMICK39_GetAnimeFrame(sys, bestK, bestN);
+        cur = FIELD_GIMMICK_CART_LANES_GetAnimeFrame(sys, bestK, bestN);
         nxt = cur + 0x1000;
         if (nxt >= lim)
             nxt = 0;
         img = (u8 *)G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(h2, bestN));
         vol = 0;
-        GIMMICK39_SampleJointTranslation(*(void **)(img + 8), 0, cur, (int *)(&a48));
-        GIMMICK39_SampleJointTranslation(*(void **)(img + 8), 0, nxt, (int *)(&a3c));
+        FIELD_GIMMICK_CART_LANES_SampleJointTranslation(*(void **)(img + 8), 0, cur, (int *)(&a48));
+        FIELD_GIMMICK_CART_LANES_SampleJointTranslation(*(void **)(img + 8), 0, nxt, (int *)(&a3c));
         func_0207CA00(&a48, &a3c, &a30);
         d = func_0207CBD0(&a30);
         if (d >= 0x20000)

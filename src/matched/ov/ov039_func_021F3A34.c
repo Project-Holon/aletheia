@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_UpdateTask
+ * function: FIELD_GIMMICK_CART_LANES_UpdateTask
  * address:  0x021F3A34
  * packet:   pkt_ov039_021F3A34
  * region:   ov039
@@ -23,8 +23,8 @@
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
- *   GIMMICK39_GetAnimeFrame 0x021F3DE4 thumb ov039
- *   GIMMICK39_SwapCartAnimes 0x021F47D8 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_GetAnimeFrame 0x021F3DE4 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_SwapCartAnimes 0x021F47D8 thumb ov039
  *   ICA_ANIME_Delete 0x02011558 thumb
  *   ICA_ANIME_CreateWithFullBuffer 0x02011428 thumb
  *   FLD_EXP_OBJ_GetAnime 0x021BE674 thumb ov021
@@ -36,13 +36,13 @@
  *   GFL_USE_GetSeHandle 0x02006138 thumb
  *   NNS_SndHandleSetSeqPriority 0x02072F34 arm
  *   FLD_EXP_OBJ_GetAnimeFrame 0x021BE6E8 thumb ov021
- *   GIMMICK39_FindStopAtFrame 0x021F4864 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_FindStopAtFrame 0x021F4864 thumb ov039
  *   FIELD_SOUND_SYSTEM_ReleaseSlot 0x02028B50 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   ICA_ANIME_GetTranslateAt 0x02011688 thumb
  *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb ov021
  *   FIELD_PLAYER_SetPos 0x021A3044 thumb ov021
- *   GIMMICK39_UpdateCartSound 0x021F4A18 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_UpdateCartSound 0x021F4A18 thumb ov039
  *   sRideAnimeIds    0x021F4C38 data a4
  *   sStopDocks    0x021F4C28 data ov039 a1
  *   sRideAnimeOrigin    0x021F4D54 data ov039 a4
@@ -93,8 +93,8 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 struct BigObj;
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *a);
-extern int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i);
-extern void GIMMICK39_SwapCartAnimes(void *a, int f, int i);
+extern int FIELD_GIMMICK_CART_LANES_GetAnimeFrame(void *p, u16 delta, u16 i);
+extern void FIELD_GIMMICK_CART_LANES_SwapCartAnimes(void *a, int f, int i);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern u32 ICA_ANIME_CreateWithFullBuffer(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
@@ -109,21 +109,21 @@ struct Rec;
 struct Rec12;
 extern void NNS_SndHandleSetSeqPriority(struct Obj *o, u8 v);
 extern int FLD_EXP_OBJ_GetAnimeFrame(int p, int i, u8 j, u8 k);
-extern int GIMMICK39_FindStopAtFrame(u32 a, u32 b, u8 *out);
+extern int FIELD_GIMMICK_CART_LANES_FindStopAtFrame(u32 a, u32 b, u8 *out);
 extern void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0);
 extern void GFL_USE_StopAllSe(void);
 extern u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
-extern void GIMMICK39_UpdateCartSound(void *a0, struct Rec *a1);
+extern void FIELD_GIMMICK_CART_LANES_UpdateCartSound(void *a0, struct Rec *a1);
 
 extern u32 sRideAnimeIds[];
 extern s8 sStopDocks[][2];
 extern Vec sRideAnimeOrigin;
 extern struct Vec sLaneRideOffsets[];
 
-void GIMMICK39_UpdateTask(int a0, void *a1)
+void FIELD_GIMMICK_CART_LANES_UpdateTask(int a0, void *a1)
 {
     u8 i;
     int j;
@@ -157,8 +157,8 @@ void GIMMICK39_UpdateTask(int a0, void *a1)
             qr = (u8 *)q + j;
             d = (u8)((qr[0x10] + 1) % 2);
             j2 = j * 2;
-            if (GIMMICK39_GetAnimeFrame((void *)h, (u8)j, (u8)(d + (j2 + 1))) == 0) {
-                GIMMICK39_SwapCartAnimes((void *)h, d, j);
+            if (FIELD_GIMMICK_CART_LANES_GetAnimeFrame((void *)h, (u8)j, (u8)(d + (j2 + 1))) == 0) {
+                FIELD_GIMMICK_CART_LANES_SwapCartAnimes((void *)h, d, j);
                 tmp2 = qr[0x10];
                 s->cur[j] = j2 + tmp2;
                 if (s->sel != 0xff && ((u32)s->sel >> 1) == j && s->sel != s->cur[j]) {
@@ -189,7 +189,7 @@ void GIMMICK39_UpdateTask(int a0, void *a1)
                 }
                 sr[0x21F0] = -1;
             }
-        } else if (GIMMICK39_FindStopAtFrame(v, FLD_EXP_OBJ_GetAnimeFrame(h, 0, a, b), buf)) {
+        } else if (FIELD_GIMMICK_CART_LANES_FindStopAtFrame(v, FLD_EXP_OBJ_GetAnimeFrame(h, 0, a, b), buf)) {
             FLD_EXP_OBJ_SetAnimePaused(o, 1);
             if (s->sel != 0xff && j == ((u32)s->sel >> 1)) {
                 FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)w, 0x68A);
@@ -209,6 +209,6 @@ void GIMMICK39_UpdateTask(int a0, void *a1)
             FIELD_PLAYER_SetPos(FIELDMAP_GetFieldPlayer((void *)a1), &pos);
         }
     } else {
-        GIMMICK39_UpdateCartSound(a1, (struct Rec *)s);
+        FIELD_GIMMICK_CART_LANES_UpdateCartSound(a1, (struct Rec *)s);
     }
 }

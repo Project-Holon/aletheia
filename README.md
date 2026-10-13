@@ -15,8 +15,8 @@ and data runs are not counted as matched or as work. The listings were
 regenerated this phase with the new function starts (hidden functions found
 from pointer tables and call targets), so the byte totals grew.
 
-Fully linked: 98.30% of game code (2,585,796 of 2,630,598 bytes) and 98.64% of
-all code (3,344,396 of 3,390,676 bytes). This is code in whole source files
+Fully linked: 98.30% of game code (2,585,832 of 2,630,598 bytes) and 98.64% of
+all code (3,344,432 of 3,390,676 bytes). This is code in whole source files
 whose functions are all exact, linked by `mwldarm` from our own objects into a
 byte-identical region (`tools/linkstats.py`; `progress/report.json` is the
 decomp.dev report). 181 of 243 regions link byte-identical with every file,
@@ -75,9 +75,9 @@ byte-matching ROM.
   - [ ] Field and battle loop call trees
   - [ ] Overlays: 24,835 game functions are matched (2,183,286 of 2,183,302 game instruction bytes, 99.9993%), plus 3,236 of 3,236 SDK functions (563,602 of 563,602 SDK instruction bytes) matched; regions that do not link from objects yet are still carried as reassembled listings
   - [ ] 100% matching across the whole ROM
-  - [~] One C file per original source file (`src/game/`): 1,820 of 1,824 files whole and byte-exact; the last 4 are split at real compiler or library boundaries (`docs/restructure/REPORT.md`)
+  - [~] One C file per original source file (`src/game/`): 1,673 of 1,677 files whole and byte-exact; the last 4 are split at real compiler or library boundaries (`docs/restructure/REPORT.md`)
   - [~] Build from `src/game`: `tools/build.py --game` rebuilds every region whose files are whole; `tools/gamelink.py` links 181 of 243 regions (ARM9, ITCM, `twl` and 178 overlays) byte-identical with the original `mwldarm` linker; fully linked: 98.30% of game code, 98.64% of all code (data between files still comes from the extracted image: `docs/restructure/BUILD_FROM_GAME.md`)
-  - [~] Source cleanup (`src/game`): per-file structs and shared `_types.h` headers instead of per-function views, merged and split files, descriptive names for functions, types, fields and locals. Finished: ARM9; the field, network and one-file overlays (ov009 to ov065); the tool and menu overlays ov070 (item menu), ov071, ov088 and ov091; the gimmick overlays (merged and renamed); and most of the battle overlay ov093 (btl_main, btl_client, btl_server_flow, the HAND_TOKUSEI_, HAND_ITEM_ and HAND_WAZA_ handler files). The other overlays carry address names except where a function was named from the SDK or from a lane table. Every file stays byte-exact (`tools/gameverify.py`)
+  - [~] Source cleanup (`src/game`): per-file structs and shared `_types.h` headers instead of per-function views, merged and split files, descriptive names for functions, types, fields and locals. Finished: ARM9; the field, network and one-file overlays (ov009 to ov065); the tool and menu overlays ov070 (item menu), ov071, ov088 and ov091; the gimmick overlays (merged and renamed); the battle overlay ov093 (btl_main, btl_client, btl_server_flow, the btlv_core and btlv_scu view files, btl_field, and the hand_tokusei, hand_item, hand_waza and hand_common handler files with their HAND_TOKUSEI_, HAND_ITEM_, HAND_WAZA_ and HAND_COMMON_ prefixes); ov094 (split into its 13 original files); and the ov095 handlers (hand_field, hand_pos, hand_side). The unit file names of ARM9, ov009 and ov016 were replaced by the original or SDK object names (848 files). The other overlays carry address names except where a function was named from the SDK or from a lane table. Every file stays byte-exact (`tools/gameverify.py`)
 
 - [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
 - [ ] **Milestone 5**: Pokémon White support

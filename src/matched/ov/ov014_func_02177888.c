@@ -17,7 +17,7 @@
  *   NET_WHPIPE_GetChildBitmap  0x02177ACC  thumb  ov014
  *   DWCi_MOV_WH_GetLastError  0x02178E68  thumb  ov014
  *   NET_WHPIPE_Destroy  0x02177704  thumb  ov014
- *   func_02179570  0x02179570  thumb  ov014
+ *   WIH_End  0x02179570  thumb  ov014
  *   GFL_NET_CallErrorStateFunc  0x0203D720  arm
  *   GFL_NET_CallStateChangeFunc  0x0203D754  arm
  */
@@ -36,7 +36,7 @@ unsigned short WIH_GetOwnAid(void);
 unsigned int NET_WHPIPE_GetChildBitmap(void);
 int DWCi_MOV_WH_GetLastError(void);
 void NET_WHPIPE_Destroy(void);
-int func_02179570(void (*cb)(int));
+int WIH_End(void (*cb)(int));
 void GFL_NET_CallErrorStateFunc(u32 a);
 void GFL_NET_CallStateChangeFunc(u32 a);
 
@@ -63,9 +63,9 @@ void NET_WHPIPE_UpdateState(u32 arg)
             NET_WHPIPE_Destroy();
         break;
     case 1:
-        if (base[0xCE7] == 1 && func_02179570(0) != 0)
+        if (base[0xCE7] == 1 && WIH_End(0) != 0)
             return;
-        if (base[0xCE7] == 2 && func_02179570(0) != 0)
+        if (base[0xCE7] == 2 && WIH_End(0) != 0)
             return;
         break;
     case 8:

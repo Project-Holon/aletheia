@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_06898DE0  0x06898DE0  thumb
+ *   HAND_SIDE_GetStackCountByFactor  0x06898DE0  thumb
  *   func_06899638  0x06899638  thumb
  *   func_06899648  0x06899648  thumb
  *   func_06899658  0x06899658  thumb
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_06898DE0(int a, u32 b);
+extern int HAND_SIDE_GetStackCountByFactor(int a, u32 b);
 extern int func_06899638(int a);
 extern int func_06899648(int a);
 extern int func_06899658(int a, int b);
@@ -47,7 +47,7 @@ void func_068995B0(int a, int p, int x)
 
     v = func_06899638(2);
     if (x == func_06899648(v) && func_06899658(p, v) == 0) {
-        switch (func_06898DE0(a, x)) {
+        switch (HAND_SIDE_GetStackCountByFactor(a, x)) {
         default:
         case 1:
             n = 8;

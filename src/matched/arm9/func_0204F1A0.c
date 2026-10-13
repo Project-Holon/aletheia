@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8144  0x020A8144  data
- *   g_020A814C  0x020A814C  data
+ *   NNS_GfdDefaultFuncFreeTexVram  0x020A8144  data
+ *   NNS_GfdDefaultFuncFreePlttVram  0x020A814C  data
  *
  * Release one record of the 0x28-byte array hanging off the object's +0x04
  * field: when the record's first word is set, hand its +0x20 and +0x24
@@ -50,16 +50,16 @@ typedef struct Obj0204F1A0 {
     u8 *f04;
 } Obj0204F1A0;
 
-extern Fn0204F1A0 g_020A8144;
-extern Fn0204F1A0 g_020A814C;
+extern Fn0204F1A0 NNS_GfdDefaultFuncFreeTexVram;
+extern Fn0204F1A0 NNS_GfdDefaultFuncFreePlttVram;
 
 void BILLBOARD_ReleaseImageVramIfUsed(Obj0204F1A0 *a0, u32 a1)
 {
     u32 off = a1 * 0x28;
 
     if (*(u32 *)(a0->f04 + off) != 0) {
-        g_020A8144(*(u32 *)((char *)a0->f04 + off + 0x20));
-        g_020A814C(*(u32 *)((char *)a0->f04 + off + 0x24));
+        NNS_GfdDefaultFuncFreeTexVram(*(u32 *)((char *)a0->f04 + off + 0x20));
+        NNS_GfdDefaultFuncFreePlttVram(*(u32 *)((char *)a0->f04 + off + 0x24));
         *(u32 *)((char *)a0->f04 + off) = 0;
     }
     *(u32 *)((char *)a0->f04 + off + 0x14) = 5;

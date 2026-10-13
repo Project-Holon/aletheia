@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK61_IsPlayerStepReady",
+   "name": "FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady",
    "address": "0x021F3868",
    "kind": "game",
    "region": "ov061",

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E85F8  0x021E85F8  thumb  ov093
+ *   HAND_COMMON_IsMoveTarget  0x021E85F8  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTLV_CORE_CheckEitherSlotPair  0x021E86E8  thumb  ov093
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
@@ -25,7 +25,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021E85F8(int id);
+extern int HAND_COMMON_IsMoveTarget(int id);
 extern int BTL_EVENT_GetVar(int key);
 extern int BTLV_CORE_CheckEitherSlotPair(void *a, int b, int c);
 extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
@@ -44,7 +44,7 @@ void HAND_TOKUSEI_Pickpocket_StealOnContact(int u, void *a, int b)
     void *x;
     void *y;
     u8 *e;
-    if (func_021E85F8(b) != 0) {
+    if (HAND_COMMON_IsMoveTarget(b) != 0) {
         t = BTL_EVENT_GetVar(3);
         if (BTLV_CORE_CheckEitherSlotPair(a, b, t) == 0
             && WAZA_TOOL_GetFlag(BTL_EVENT_GetVar(0x12), 0) != 0) {

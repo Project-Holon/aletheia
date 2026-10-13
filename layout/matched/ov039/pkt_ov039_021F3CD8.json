@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK39_End",
+   "name": "FIELD_GIMMICK_CART_LANES_End",
    "address": "0x021F3CD8",
    "kind": "game",
    "region": "ov039",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK64_StartArcEffect",
+   "name": "FIELD_GIMMICK_ARC_EFFECT_StartArcEffect",
    "address": "0x021F3970",
    "kind": "game",
    "region": "ov064",

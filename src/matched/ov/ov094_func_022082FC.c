@@ -1,5 +1,5 @@
 /*
- * function: func_022082FC
+ * function: BTLV_GAUGE_DrawBar
  * address: 0x022082FC
  * packet: pkt_ov094_022082FC
  * region: ov094
@@ -12,10 +12,10 @@
  *   order and register home; zero the loop counter before assigning base.
  * symbols:
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
- *   func_02208034 0x02208034 thumb ov094
+ *   BTLV_GAUGE_CalcTileFill 0x02208034 thumb ov094
  *   func_0202D034 0x0202D034 thumb
  *   func_02082A60 0x02082A60 arm
- *   func_0220868C 0x0220868C thumb ov094
+ *   BTLV_GAUGE_DrawHpLoss 0x0220868C thumb ov094
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -40,11 +40,11 @@ typedef struct O {
 } O;
 struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
-extern u8 func_02208034(u32, int, int, u32 *, u8 *, u8);
+extern u8 BTLV_GAUGE_CalcTileFill(u32, int, int, u32 *, u8 *, u8);
 extern int func_0202D034(u32, u32);
 extern void func_02082A60(const void *, void *, int);
-extern void func_0220868C(O *, E *, int);
-void func_022082FC(O *o, int idx, int k)
+extern void BTLV_GAUGE_DrawHpLoss(O *, E *, int);
+void BTLV_GAUGE_DrawBar(O *o, int idx, int k)
 {
     E *e;
     u8 a[10];
@@ -57,7 +57,7 @@ void func_022082FC(O *o, int idx, int k)
     case 0:
         if (o->b4 && !(idx & 1)) break;
         CLACT_GetActorImageProxy(e->f8, (struct Struct36 *)(&buf));
-        n = func_02208034(e->f4c, e->f48, e->f68, &e->f50, a, 6);
+        n = BTLV_GAUGE_CalcTileFill(e->f4c, e->f48, e->f68, &e->f50, a, 6);
         val = e->f50;
         if (e->f4c < 48) val >>= 8;
         switch (func_0202D034(val, e->f4c)) {
@@ -70,12 +70,12 @@ void func_022082FC(O *o, int idx, int k)
             base = VRAM;
             func_02082A60(o->f14 + (color + a[i] * 32), (void *)(buf.w[1] + (base + (i + 1) * 32)), 32);
         }
-        if (e->f68 > 0) func_0220868C(o, e, n);
+        if (e->f68 > 0) BTLV_GAUGE_DrawHpLoss(o, e, n);
         break;
     case 1:
         if (e->f10 == 0) break;
         CLACT_GetActorImageProxy(e->f10, (struct Struct36 *)(&buf));
-        func_02208034(e->f58, e->f54, e->f60, &e->f64, a, 10);
+        BTLV_GAUGE_CalcTileFill(e->f58, e->f54, e->f60, &e->f64, a, 10);
         if (e->f6c == 100) {
             for (i = 0; i < 10; i++) a[i] = 0;
         }

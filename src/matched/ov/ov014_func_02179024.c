@@ -1,5 +1,5 @@
 /*
- * function: func_02179024
+ * function: WIH_GetMeasureChannel
  * address: 0x02179024
  * packet: pkt_ov014_02179024
  * region: ov014
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data a4
- *   func_02178138 0x02178138 thumb ov014
+ *   gWihWork 0x021797A8 data a4
+ *   WIH_ChangeSysState 0x02178138 thumb ov014
  *   WIH_PickRandomChannel 0x02179050 thumb ov014
  */
 
@@ -18,11 +18,11 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern struct S *g_021797A8;
-extern void func_02178138(int);
+extern struct S *gWihWork;
+extern void WIH_ChangeSysState(int);
 extern int WIH_PickRandomChannel(u16);
-u16 func_02179024(void) {
- func_02178138(1);
- *(u16 *)(((u8 *)g_021797A8) + 0x1EAC) = WIH_PickRandomChannel(*(u16 *)(((u8 *)g_021797A8) + 0x1EB0));
- return *(u16 *)(((u8 *)g_021797A8) + 0x1EAC);
+u16 WIH_GetMeasureChannel(void) {
+ WIH_ChangeSysState(1);
+ *(u16 *)(((u8 *)gWihWork) + 0x1EAC) = WIH_PickRandomChannel(*(u16 *)(((u8 *)gWihWork) + 0x1EB0));
+ return *(u16 *)(((u8 *)gWihWork) + 0x1EAC);
 }

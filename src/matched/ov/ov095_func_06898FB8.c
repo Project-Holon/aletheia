@@ -1,5 +1,5 @@
 /*
- * function: func_06898FB8
+ * function: HAND_SIDE_SafeguardNoticeBlocked
  * address:  0x06898FB8
  * packet:   pkt_ov095_06898FB8
  * region:   ov095
@@ -27,7 +27,7 @@ extern void func_06899020(u8 *p, int n, int c);
 extern void func_06899030(u8 *p, u8 v);
 extern void func_06899040(int p, u8 *q);
 
-void func_06898FB8(int a0, int p, int a2, int *s)
+void HAND_SIDE_SafeguardNoticeBlocked(int a0, int p, int a2, int *s)
 {
     u8 v;
     u8 *t;

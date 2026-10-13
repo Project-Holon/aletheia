@@ -16,7 +16,7 @@
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   d_021BFB3C     0x021BFB3C  data  ov203
+ *   gDemo3dProcData     0x021BFB3C  data  ov203
  *   ov203_id       0x000000CB  data
  */
 
@@ -31,7 +31,7 @@ typedef struct Obj {
     u32 f20;            /* 0x20 */
 } Obj;
 
-extern u8 d_021BFB3C[];
+extern u8 gDemo3dProcData[];
 extern u8 ov203_id[];
 
 struct Comm;
@@ -62,7 +62,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(void *a0, int *state, Obj *o)
             *state = *state + 1;
         break;
     case 2:
-        GAMESYSTEM_CallProc(o->f00, (u32)ov203_id, d_021BFB3C, o->f08);
+        GAMESYSTEM_CallProc(o->f00, (u32)ov203_id, gDemo3dProcData, o->f08);
         *state = *state + 1;
         break;
     case 3:

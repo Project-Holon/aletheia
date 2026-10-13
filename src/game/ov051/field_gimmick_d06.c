@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_d06.c
  * unit:     yes
- * function: GIMMICK51_Init, FIELD_GIMMICK_D06_GetStonePositions, GIMMICK51_Exit, FIELD_GIMMICK_D06_FindPanelTable, FIELD_GIMMICK_D06_GetPanelPositions, FIELD_GIMMICK_D06_GetPanelCount, FIELD_GIMMICK_D06_Init, GIMMICK51_ExitExtra, FIELD_GIMMICK_D06_Update, FIELD_GIMMICK_D06_CheckPushStone, FIELD_GIMMICK_D06_CreateSlideEvent, FIELD_GIMMICK_D06_EventSlideStone, FIELD_GIMMICK_D06_EventStoneBlocked, FIELD_GIMMICK_D06_AddStone, FIELD_GIMMICK_D06_AttachStone, FIELD_GIMMICK_D06_ScanSlide, FIELD_GIMMICK_D06_GetSlideSteps, FIELD_GIMMICK_D06_IsStoneNextToPanel, FIELD_GIMMICK_D06_AddPanelPulse, FIELD_GIMMICK_D06_TriggerPanelPulse, FIELD_GIMMICK_D06_AddStoneMmdl, FIELD_GIMMICK_D06_GetWork, FIELD_GIMMICK_D06_GetGimmickId
+ * function: FIELD_GIMMICK_D06_FindStoneTableRow, FIELD_GIMMICK_D06_GetStonePositions, FIELD_GIMMICK_D06_GetStoneCount, FIELD_GIMMICK_D06_FindPanelTable, FIELD_GIMMICK_D06_GetPanelPositions, FIELD_GIMMICK_D06_GetPanelCount, FIELD_GIMMICK_D06_Init, FIELD_GIMMICK_D06_Exit, FIELD_GIMMICK_D06_Update, FIELD_GIMMICK_D06_CheckPushStone, FIELD_GIMMICK_D06_CreateSlideEvent, FIELD_GIMMICK_D06_EventSlideStone, FIELD_GIMMICK_D06_EventStoneBlocked, FIELD_GIMMICK_D06_AddStone, FIELD_GIMMICK_D06_AttachStone, FIELD_GIMMICK_D06_ScanSlide, FIELD_GIMMICK_D06_GetSlideSteps, FIELD_GIMMICK_D06_IsStoneNextToPanel, FIELD_GIMMICK_D06_AddPanelPulse, FIELD_GIMMICK_D06_TriggerPanelPulse, FIELD_GIMMICK_D06_AddStoneMmdl, FIELD_GIMMICK_D06_GetWork, FIELD_GIMMICK_D06_GetGimmickId
  * address:  0x021F36C0
  * region:   ov051
  * compiler: dsi/1.1p1
@@ -67,14 +67,14 @@
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_d06_types.h"
 
-const GimmickD06ZoneTable *GIMMICK51_Init(int zoneId);
+const GimmickD06ZoneTable *FIELD_GIMMICK_D06_FindStoneTableRow(int zoneId);
 const GimmickD06GridPos *FIELD_GIMMICK_D06_GetStonePositions(int zoneId);
-int GIMMICK51_Exit(int zoneId);
+int FIELD_GIMMICK_D06_GetStoneCount(int zoneId);
 const GimmickD06ZoneTable *FIELD_GIMMICK_D06_FindPanelTable(int zoneId);
 const GimmickD06GridPos *FIELD_GIMMICK_D06_GetPanelPositions(int zoneId);
 int FIELD_GIMMICK_D06_GetPanelCount(int zoneId);
 void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap);
-void GIMMICK51_ExitExtra(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_D06_Exit(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_D06_Update(void);
 struct GameEvent *FIELD_GIMMICK_D06_CheckPushStone(struct FieldMap *fieldMap, int facingDir);
 struct GameEvent *FIELD_GIMMICK_D06_CreateSlideEvent(struct FieldMap *fieldMap, struct Mmdl *stone, int direction);
@@ -98,7 +98,7 @@ extern const GimmickD06ZoneTable gGimmickD06PanelTable[GIMMICK_D06_ZONE_COUNT];
 #include "field_gimmick_d06_ids.h"
 
 /* The row of the stone table for a zone; the first row for an unknown zone. */
-const GimmickD06ZoneTable *GIMMICK51_Init(int zoneId)
+const GimmickD06ZoneTable *FIELD_GIMMICK_D06_FindStoneTableRow(int zoneId)
 {
     unsigned int i;
     const GimmickD06ZoneTable *table = gGimmickD06StoneTable;
@@ -110,16 +110,16 @@ const GimmickD06ZoneTable *GIMMICK51_Init(int zoneId)
 }
 
 /*
- * Two accessors over the result of GIMMICK51_Init: the cells and their count.
+ * Two accessors over the result of FIELD_GIMMICK_D06_FindStoneTableRow: the cells and their count.
  */
 const GimmickD06GridPos *FIELD_GIMMICK_D06_GetStonePositions(int zoneId)
 {
-    return GIMMICK51_Init(zoneId)->positions;
+    return FIELD_GIMMICK_D06_FindStoneTableRow(zoneId)->positions;
 }
 
-int GIMMICK51_Exit(int zoneId)
+int FIELD_GIMMICK_D06_GetStoneCount(int zoneId)
 {
-    return GIMMICK51_Init(zoneId)->count;
+    return FIELD_GIMMICK_D06_FindStoneTableRow(zoneId)->count;
 }
 
 /* The row of the panel table for a zone; the first row for an unknown zone. */
@@ -184,7 +184,7 @@ void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap)
     effectId = 0xb;
     FIELD_EFFECT_LoadResources(effects, &effectId, 1);
     if (save->placed == 0) {
-        count = GIMMICK51_Exit(work->zoneId);
+        count = FIELD_GIMMICK_D06_GetStoneCount(work->zoneId);
         pos = FIELD_GIMMICK_D06_GetStonePositions(work->zoneId);
         i = 0;
         if (i < count)
@@ -217,7 +217,7 @@ void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap)
 }
 
 /* Gimmick exit: free the work. */
-void GIMMICK51_ExitExtra(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_D06_Exit(struct FieldMap *fieldMap)
 {
     struct GimmickWork *gimmickWork;
 

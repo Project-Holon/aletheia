@@ -11,9 +11,9 @@
  *
  * symbols:
  *   BTLV_SCU_UpdateWaitMessage   0x021EE21C  thumb  ov093
- *   func_021ECF68   0x021ECF68  thumb  ov093
+ *   BTLV_SCU_UpdateMessage   0x021ECF68  thumb  ov093
 
- * Untraced mid-stream entry point: a plain tail thunk, `ldr r3,=T; bx r3`, whose pool word names func_021ECF68.
+ * Untraced mid-stream entry point: a plain tail thunk, `ldr r3,=T; bx r3`, whose pool word names BTLV_SCU_UpdateMessage.
  */
 
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 struct T;
-extern int func_021ECF68(struct T *p);
+extern int BTLV_SCU_UpdateMessage(struct T *p);
 
-int BTLV_SCU_UpdateWaitMessage(u8 *p) { return func_021ECF68((struct T *)p); }
+int BTLV_SCU_UpdateWaitMessage(u8 *p) { return BTLV_SCU_UpdateMessage((struct T *)p); }
 

@@ -14,13 +14,13 @@ struct GameSystem;
 struct GameData;
 struct EventWork;
 
-#define GIMMICK49_MODEL_COUNT 6
+#define FIELD_GIMMICK_MODELS_A_MODEL_COUNT 6
 
 /* Event flags that switch on models 2, 3, 4 and 5. */
-#define GIMMICK49_FLAG_MODEL2 0x96B
-#define GIMMICK49_FLAG_MODEL3 0x96A
-#define GIMMICK49_FLAG_MODEL4 0x969
-#define GIMMICK49_FLAG_MODEL5 0x96C
+#define FIELD_GIMMICK_MODELS_A_FLAG_MODEL2 0x96B
+#define FIELD_GIMMICK_MODELS_A_FLAG_MODEL3 0x96A
+#define FIELD_GIMMICK_MODELS_A_FLAG_MODEL4 0x969
+#define FIELD_GIMMICK_MODELS_A_FLAG_MODEL5 0x96C
 
 /* The common work of the gimmick on the field map (2 bytes, id 0). */
 typedef struct Gimmick49Work {

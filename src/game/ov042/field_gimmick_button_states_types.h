@@ -33,9 +33,8 @@ struct GimmickWork;
 
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
-#define GIMMICK42_STATE_MODEL_COUNT 9       /* models 0 to 8 */
-#define GIMMICK42_ONE_SHOT_FIRST_MODEL 9    /* models 9 to 11 */
-#define GIMMICK42_ONE_SHOT_COUNT 3
+#define FIELD_GIMMICK_BUTTON_STATES_STATE_MODEL_COUNT 9       /* models 0 to 8 */
+#define FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL 9    /* models 9 to 11 */
 
 /* The common work of the gimmick on the field map (4 bytes, id 1), filled by the event creators. */
 typedef struct Gimmick42Work {
@@ -44,11 +43,6 @@ typedef struct Gimmick42Work {
     u8 showLastFrame;   /* 0x02: nonzero: the state event shows the last frame */
     u8 reserved;        /* 0x03 */
 } Gimmick42Work;
-
-/* The gimmick save area (work id 4 of the gimmick work). */
-typedef struct Gimmick42Save {
-    u8 oneShotPlayed[GIMMICK42_ONE_SHOT_COUNT];     /* 0x00: the model played its animation */
-} Gimmick42Save;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
@@ -77,6 +71,6 @@ extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, u16
 extern int func_021BE748(FldExpObjAnime *anime);
 extern void func_021BE580(FldExpObjCnt *expObj);
 
-int GIMMICK42_EventPlayOneShot(struct GameEvent *event, int *seq, void *work);
+int FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot(struct GameEvent *event, int *seq, void *work);
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * function: func_021E78A4
+ * function: HAND_WAZA_AddAutotomize
  * address: 0x021E78A4
  * packet: pkt_ov093_021E78A4
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F257C[];
-int *func_021E78A4(int *p);
+int *HAND_WAZA_AddAutotomize(int *p);
 
-int *func_021E78A4(int *p)
+int *HAND_WAZA_AddAutotomize(int *p)
 {
     *p = 1;
     return d_021F257C;

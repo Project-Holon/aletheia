@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_FLAG_ANIME_Init
  * address:  0x021F36C0
  * packet:   pkt_ov040_021F36C0
  * region:   ov040
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F36C0  0x021F36C0  thumb
+ *   FIELD_GIMMICK_FLAG_ANIME_Init  0x021F36C0  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
@@ -65,7 +65,7 @@ extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 
-void func_021F36C0(u32 a)
+void FIELD_GIMMICK_FLAG_ANIME_Init(u32 a)
 {
     u32 s;
     u8 *q;

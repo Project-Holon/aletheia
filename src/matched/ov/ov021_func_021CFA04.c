@@ -1,5 +1,5 @@
 /*
- * function: func_021CFA04
+ * function: SCRCMD_AddOtherOtId
  * address:  0x021CFA04
  * packet:   pkt_ov021_021CFA04
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021CFA1C  0x021CFA1C  thumb  ov021
+ *   SCRCMD_AddUniqueOtId  0x021CFA1C  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -18,14 +18,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct IdList021CFA1C;
-extern int func_021CFA1C(int v, struct IdList021CFA1C *l);
+extern int SCRCMD_AddUniqueOtId(int v, struct IdList021CFA1C *l);
 
-int func_021CFA04(int a, int v, void *l)
+int SCRCMD_AddOtherOtId(int a, int v, void *l)
 {
     int r = 0;
 
     if (a != v) {
-        r = func_021CFA1C(v, l);
+        r = SCRCMD_AddUniqueOtId(v, l);
     }
     return r;
 }

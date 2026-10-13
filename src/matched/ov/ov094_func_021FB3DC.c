@@ -19,7 +19,7 @@
  *   func_02040804  0x02040804  arm
  *   func_021F86E0  0x021F86E0  thumb  ov094
  *   func_021F8700  0x021F8700  thumb  ov094
- *   func_02209784  0x02209784  thumb  ov094
+ *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  */
 #include "../include/Obj04398.h"
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ extern u32 func_020407E8(u32 layer);
 extern u32 func_02040804(u32 layer);
 extern int func_021F86E0(void);
 extern int func_021F8700(void);
-extern void func_02209784(int a, int b, int c);
+extern void BTLV_BG_SetScroll(int a, int b, int c);
 
 int func_021FB3DC(struct Cursor *a, char *b)
 {
@@ -49,7 +49,7 @@ int func_021FB3DC(struct Cursor *a, char *b)
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), (int)0x5f, (int)(t + 2), (u16)((((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
     ((struct Obj04398 *)b)->f264 = func_020407E8(3);
     ((struct Obj04398 *)b)->f268 = func_02040804(3);
-    func_02209784(func_021F8700(), 0, 0);
+    BTLV_BG_SetScroll(func_021F8700(), 0, 0);
     ((struct Obj04398 *)b)->f0 |= 0x10;
     return ((struct Obj04398 *)b)->f23C;
 }

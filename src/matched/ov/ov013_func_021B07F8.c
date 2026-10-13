@@ -16,7 +16,7 @@
  * symbols:
  *   gVctSendState     0x021B3C84  data  ov013  a4
  *   gVctMembers     0x021B3CB0  data  ov013  a4
- *   d_021B42C0     0x021B42C0  data  ov013  a4
+ *   gVctSendBuffer     0x021B42C0  data  ov013  a4
  *   func_02082B0C  0x02082B0C  arm
  *   func_020870D0  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
@@ -62,7 +62,7 @@ typedef struct
 } PacketHeader;
 extern Ctx3C84 gVctSendState;
 extern Req * const gVctMembers[3];
-extern struct Ctx42C0 d_021B42C0;
+extern struct Ctx42C0 gVctSendBuffer;
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 extern u64 func_020870D0(void);
 #pragma opt_propagation off
@@ -99,8 +99,8 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
   {
     return 0;
   }
-  off = (d_021B42C0.f8C4 & 1) ? 0 : 0x460;
-  hdr = (PacketHeader *) ((u8 *) &d_021B42C0 + off);
+  off = (gVctSendBuffer.f8C4 & 1) ? 0 : 0x460;
+  hdr = (PacketHeader *) ((u8 *) &gVctSendBuffer + off);
   magic = 0x5F564354;
   hdr->magic = magic;
   ctx = &gVctSendState;
@@ -118,7 +118,7 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
   gVctSendState.f0 = gVctSendState.f0 + 1;
   hdr->f6 = seq;
   hdr->f8 = (u32) (func_020870D0() / (u32)divisor);
-  d_021B42C0.f8C4++;
+  gVctSendBuffer.f8C4++;
   return 1;
 }
 #pragma opt_propagation reset

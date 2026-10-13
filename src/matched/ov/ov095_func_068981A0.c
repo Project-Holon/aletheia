@@ -1,5 +1,5 @@
 /*
- * function: func_068981A0
+ * function: HAND_FIELD_UseCounterIncrement
  * address: 0x068981A0
  * packet: pkt_ov095_068981A0
  * region: ov095
@@ -14,7 +14,7 @@
  */
 extern int func_068981B4(int);
 extern void func_068981C4(int, int);
-void func_068981A0(void)
+void HAND_FIELD_UseCounterIncrement(void)
 {
     int value;
     value = func_068981B4(61);

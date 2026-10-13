@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_068993A4
+ * function: HAND_SIDE_GetHandlersWideGuard
  * address: 0x068993A4
  * packet: pkt_ov095_068993A4
  * region: ov095
@@ -10,8 +10,8 @@
  * status: EXACT
  * Unlabelled store-and-return follower after veneer 0x06899394.
  * symbols:
- *   data_0689D700 0x0689D700 data a4
+ *   gHandSideWideGuardHandlers 0x0689D700 data a4
  */
 typedef unsigned int u32;
-extern u32 data_0689D700;
-void *func_068993A4(u32 *p) { *p = 1; return &data_0689D700; }
+extern u32 gHandSideWideGuardHandlers;
+void *HAND_SIDE_GetHandlersWideGuard(u32 *p) { *p = 1; return &gHandSideWideGuardHandlers; }

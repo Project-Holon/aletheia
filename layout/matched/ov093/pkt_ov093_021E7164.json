@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E7164",
-    "func_021E71D8"
+    "HAND_WAZA_ElectroBallSetPowerBySpeed",
+    "HAND_WAZA_AddEchoedVoice"
+   ],
+   "addresses": [
+    "0x021E7164",
+    "0x021E71D8"
    ],
    "evidence": {
     "sole-ref": [

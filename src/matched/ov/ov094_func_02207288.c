@@ -16,9 +16,9 @@
  *   func_0200CED4 0x0200CED4 thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   POKE_TOOL_GetStatusCondition 0x02017F90 thumb
- *   func_02208814 0x02208814 thumb ov094
- *   func_022079C0 0x022079C0 thumb ov094
- *   func_02208D50 0x02208D50 thumb ov094
+ *   BTLV_GAUGE_SetStatusIcon 0x02208814 thumb ov094
+ *   BTLV_GAUGE_PlaceSlot 0x022079C0 thumb ov094
+ *   BTLV_GAUGE_SetSlotBarsVisible 0x02208D50 thumb ov094
  *   func_0220793C 0x0220793C thumb ov094
  *   func_0220785C 0x0220785C thumb ov094
  */
@@ -37,9 +37,9 @@ struct Blk37;
 extern u32 func_0200CED4(struct Blk37 *p, u16 id);
 extern u8 POKE_TOOL_GetGender(void *);
 extern u32 POKE_TOOL_GetStatusCondition(void *);
-extern void func_02208814(struct O *obj, int k, int idx);
-extern void func_022079C0(char *, int, Pt *);
-extern void func_02208D50(W *, int, int);
+extern void BTLV_GAUGE_SetStatusIcon(struct O *obj, int k, int idx);
+extern void BTLV_GAUGE_PlaceSlot(char *, int, Pt *);
+extern void BTLV_GAUGE_SetSlotBarsVisible(W *, int, int);
 extern void func_0220793C(char *p);
 extern void func_0220785C(struct O *o, int unused, int idx, void *data);
 void func_02207288(W *p, void *a, void *q, int mode, int i)
@@ -74,9 +74,9 @@ void func_02207288(W *p, void *a, void *q, int mode, int i)
         p->rows[i].sex = POKE_TOOL_GetGender(q);
     else
         p->rows[i].sex = 2;
-    func_02208814((O *)p, POKE_TOOL_GetStatusCondition(q), i);
-    func_022079C0((char *)p, i, 0);
-    func_02208D50((W *)p, i, 1);
+    BTLV_GAUGE_SetStatusIcon((O *)p, POKE_TOOL_GetStatusCondition(q), i);
+    BTLV_GAUGE_PlaceSlot((char *)p, i, 0);
+    BTLV_GAUGE_SetSlotBarsVisible((W *)p, i, 1);
     func_0220793C((char *)((S *)&p->rows[i]));
     func_0220785C((struct O *)p, mode, i, q);
 }

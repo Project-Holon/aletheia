@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK58_Update
+ * function: FIELD_GIMMICK_LANE_TRAINS_Update
  * address: 0x021F373C
  * packet: pkt_ov058_021F373C
  * region: ov058
@@ -47,7 +47,7 @@ extern int GFL_USE_IsSeSlotBusy(u32);
 extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *,u32);
 #define W(p,k) (*(int *)((u8 *)(p)+(k)))
 #define H(p,k) (*(u16 *)((u8 *)(p)+(k)))
-void GIMMICK58_Update(struct Obj00020 *p)
+void FIELD_GIMMICK_LANE_TRAINS_Update(struct Obj00020 *p)
 {
     struct VecFx32 pos;
     int first;

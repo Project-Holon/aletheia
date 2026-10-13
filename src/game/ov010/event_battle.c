@@ -21,7 +21,7 @@
  *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_021CF5D8  0x021CF5D8  thumb
+ *   ENCEFF_SelectEffectAndBgm  0x021CF5D8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
@@ -38,7 +38,7 @@
  *   BTL_SETUP_Create  0x02013090  thumb
  *   FIELD_ENCOUNT_SetupTrainerBattle  0x021AA5CC  thumb  ov021
  *   BTL_SETUP_SetStatusFlag  0x02013144  thumb
- *   func_021CF748  0x021CF748  thumb  ov021
+ *   ENCEFF_SelectEffectAndBgmForTrainer  0x021CF748  thumb  ov021
  *   POKEPARTY_Create  0x0201A920  thumb
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
@@ -199,7 +199,7 @@ extern void *func_020124E8(struct GameEvent *p);
 extern void *BTL_SETUP_GetParty(void *p, int i);
 extern void *POKEPARTY_GetMember(void *party, u32 i);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
-extern void func_021CF5D8(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
+extern void ENCEFF_SelectEffectAndBgm(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
 extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
 extern int GAME_DATA_GetPmsWork(int p0);
 extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
@@ -216,7 +216,7 @@ extern void EFFECT_ENCOUNT_ConsumeSpot(int s);
 extern void *BTL_SETUP_Create(u32 heap);
 extern void FIELD_ENCOUNT_SetupTrainerBattle(struct GameSystem *ctx, void *a1, u32 mode, u32 flag, void *mon, u32 a5, u16 heap);
 extern void BTL_SETUP_SetStatusFlag(char *p, int v);
-extern void func_021CF748(u32 a, u32 x, int *out, u16 *out2);
+extern void ENCEFF_SelectEffectAndBgmForTrainer(u32 a, u32 x, int *out, u16 *out2);
 extern void *POKEPARTY_Create(u16 heap);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
@@ -329,7 +329,7 @@ int EVENT_BATTLE_CallAndInvert(void (*fn)(void))
 /*
  * Four-state proc that pushes the tutorial capture battleTask (EVENT_BATTLE_ProcBattleTask)
  * for the opponent's first Pokemon and then the result screens.
- * Byte-correct first draft (func_021CF5D8's species is a u32 here: no
+ * Byte-correct first draft (ENCEFF_SelectEffectAndBgm's species is a u32 here: no
  * truncation at the call).
  * Blocker (MATCH): two arm9 Thumb callees have no func_ label and no
  * matched file: 0x0201313C (`return btlSetup->party[side]`, 8 bytes) and
@@ -359,7 +359,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
 
             if (args->btlSetup->battleKind != 1)
                 hasWildOpponent = 0;
-            func_021CF5D8(species, args->effectId, hasWildOpponent, fieldMap, &work->encounterEffect, &work->btlSetup->bgmId);
+            ENCEFF_SelectEffectAndBgm(species, args->effectId, hasWildOpponent, fieldMap, &work->encounterEffect, &work->btlSetup->bgmId);
         }
         GAME_EVENT_CallEvent(event, taskEvent);
         (*state)++;
@@ -439,7 +439,7 @@ int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMo
         BTL_SETUP_SetStatusFlag((char *)btlSetup, 0x100);
         task->skipResultCheck = 1;
     }
-    func_021CF748(battleKind, battleSrc, (int *)&task->encounterEffect, &task->btlSetup->bgmId);
+    ENCEFF_SelectEffectAndBgmForTrainer(battleKind, battleSrc, (int *)&task->encounterEffect, &task->btlSetup->bgmId);
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((u8 *)battleSrc));
     return (int)taskEvent;
 }
@@ -531,7 +531,7 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapI
     work = func_020124E8(battleTask);
     EVENT_BATTLE_InitTaskWork(work, gameSystem, btlSetup);
     work->isScripted = 1;
-    func_021CF5D8(504, 5, 0, (void *)fieldMap, &work->encounterEffect, &work->btlSetup->bgmId);
+    ENCEFF_SelectEffectAndBgm(504, 5, 0, (void *)fieldMap, &work->encounterEffect, &work->btlSetup->bgmId);
     work->encounterEffect = 0;
     return battleTask;
 }

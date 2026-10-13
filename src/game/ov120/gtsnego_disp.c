@@ -95,7 +95,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   func_02040588 0x02040588 arm
  *   func_021D7EC4 0x021D7EC4 thumb ov120
- *   func_021B64D0 0x021B64D0 thumb ov067
+ *   TOUCHBAR_SetAllButtonsVisible 0x021B64D0 thumb ov067
  *   func_021D7D3C 0x021D7D3C thumb ov120
  *   func_021D7DC8 0x021D7DC8 thumb ov120
  *   func_021D7ECC 0x021D7ECC thumb ov120
@@ -110,7 +110,7 @@
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   func_021D8418 0x021D8418 thumb ov120
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   func_021D6FD8 0x021D6FD8 thumb ov120
  *   func_021D8358 0x021D8358 thumb ov120
  *   func_021D6E50 0x021D6E50 thumb ov120
@@ -507,7 +507,7 @@ extern void TOUCHBAR_Update(struct S *p);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D7EC4(u8 *p);
-extern void func_021B64D0(u8 *, u32);
+extern void TOUCHBAR_SetAllButtonsVisible(u8 *, u32);
 extern void func_021D7D3C(char *p);
 extern void func_021D7DC8(char *p, int a, int b, int c, int d, int e);
 extern void *func_021D7ECC(char *p, u16 n);
@@ -521,7 +521,7 @@ extern void func_021D6D94(u8 *p);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void func_021D8418(int);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D6FD8(u8 *p, u32 flag);
 extern void *func_021D8358(char *p, int n);
 extern int func_021D6E50(void *unused, int *p);
@@ -1365,7 +1365,7 @@ void func_021D4D28(u8 *p)
 void func_021D4EC0(u8 *p)
 {
     ((struct GtsnegoDispCtx *)p)->f138 = 0;
-    func_021B64D0((u8 *)func_021D6988(((struct GtsnegoDispCtx *)p)->f3C), 1);
+    TOUCHBAR_SetAllButtonsVisible((u8 *)func_021D6988(((struct GtsnegoDispCtx *)p)->f3C), 1);
     func_021D7D3C(((struct GtsnegoDispCtx *)p)->f40);
     func_021D6814(((struct GtsnegoDispCtx *)p)->f3C);
     *(void * *)&((struct GtsnegoDispCtx *)p)->f4 = func_021D444C;
@@ -1493,7 +1493,7 @@ void func_021D50C4(struct GtsnegoDispCtx *p)
         func_021D8418(*(int *)&p->f38);
         zero = 0;
         *(int *)&p->f38 = zero;
-        func_021B6558((unsigned char *)func_021D6988(p->f3C), 1, 1);
+        TOUCHBAR_SetButtonVisible((unsigned char *)func_021D6988(p->f3C), 1, 1);
         switch (state) {
         case 0:
             func_021D79F4(p->f40, 0xe);
@@ -1527,7 +1527,7 @@ void func_021D50C4(struct GtsnegoDispCtx *p)
 void func_021D5188(struct GtsnegoDispCtx *p)
 {
     if (func_021D7AF4(p->f40)) {
-        func_021B6558((unsigned char *)func_021D6988(p->f3C), 1, 0);
+        TOUCHBAR_SetButtonVisible((unsigned char *)func_021D6988(p->f3C), 1, 0);
         p->f38 = func_021D8358(p->f40, 1);
         func_021D63F4(p->f3C, 1, 1);
         func_021D6FD8(p->f3C, 0);
@@ -1820,7 +1820,7 @@ void func_021D5758(struct GtsnegoDispCtx *p)
     if (func_021D7AF4(p->f40)) {
         if (--p->f14 <= 0) {
             func_021D79F4(p->f40, 0x20);
-            func_021B64D0((u8 *)func_021D6988(p->f3C), 1);
+            TOUCHBAR_SetAllButtonsVisible((u8 *)func_021D6988(p->f3C), 1);
             func_021D4244(((int *)p), func_021D5AD4, 0x7c7);
             if (func_020355C4() == 0)
                 func_021D69F4(p->f3C, 0, p->f15C);
@@ -1906,7 +1906,7 @@ void func_021D588C(u8 *p)
 
 
 
-int func_021D593C(u8 *p,int n) { if (func_021D6A9C(((struct GtsnegoDispCtx *)p)->f3C,n)) { func_021B64D0((u8 *)func_021D6988((u8 *)(((struct GtsnegoDispCtx *)p)->f3C)),0); GFL_USE_PlaySeDefaultVolume(1356); return n; } return 9; }
+int func_021D593C(u8 *p,int n) { if (func_021D6A9C(((struct GtsnegoDispCtx *)p)->f3C,n)) { TOUCHBAR_SetAllButtonsVisible((u8 *)func_021D6988((u8 *)(((struct GtsnegoDispCtx *)p)->f3C)),0); GFL_USE_PlaySeDefaultVolume(1356); return n; } return 9; }
 
 
 
@@ -1976,7 +1976,7 @@ void func_021D59E0(struct GtsnegoDispCtx *p)
                 func_021D79F4(p->f40, 0x2b);
             if (func_020355C4() == 0)
                 func_021D69F4(p->f3C, 0, p->f15C);
-            func_021B6558((unsigned char *)func_021D6988(p->f3C), 1, 1);
+            TOUCHBAR_SetButtonVisible((unsigned char *)func_021D6988(p->f3C), 1, 1);
             func_021D63F4(p->f3C, 0, 0);
             func_021D4244(p, func_021D5AD4, 0x8c3);
             break;
@@ -1995,7 +1995,7 @@ void func_021D59E0(struct GtsnegoDispCtx *p)
 void func_021D5A84(struct GtsnegoDispCtx *p)
 {
     if (func_021D7AF4(p->f40)) {
-        func_021B6558((unsigned char *)func_021D6988(p->f3C), 1, 0);
+        TOUCHBAR_SetButtonVisible((unsigned char *)func_021D6988(p->f3C), 1, 0);
         p->f38 = func_021D7B60(p->f40, 1);
         func_021D63F4(p->f3C, 1, 0);
         func_021D69F4(p->f3C, 0, 9);

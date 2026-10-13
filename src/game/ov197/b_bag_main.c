@@ -95,10 +95,10 @@
  *   func_0220AF6C 0x0220AF6C thumb ov196
  *   func_0220AFDC 0x0220AFDC thumb ov196
  *   func_0220AFC4 0x0220AFC4 thumb ov196
- *   func_02209A7C 0x02209A7C thumb
- *   func_02209B30 0x02209B30 thumb
- *   func_02209B60  0x02209B60  thumb  ov094
- *   func_02209C18 0x02209C18 thumb
+ *   BTLV_FINGER_CURSOR_Create 0x02209A7C thumb
+ *   BTLV_FINGER_CURSOR_Delete 0x02209B30 thumb
+ *   BTLV_FINGER_CURSOR_Start  0x02209B60  thumb  ov094
+ *   BTLV_FINGER_CURSOR_DeleteActor 0x02209C18 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   d_0220E0E0 0x0220E0E0 data a1
  *   func_02030734 0x02030734 arm
@@ -142,7 +142,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   func_0220AF64 0x0220AF64 thumb ov196
  *   func_02030EAC 0x02030EAC arm
- *   func_02209C2C 0x02209C2C thumb
+ *   BTLV_FINGER_CURSOR_IsActive 0x02209C2C thumb
  *   func_0203FC6C 0x0203FC6C arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
@@ -512,10 +512,10 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern void func_0220AF6C(char *,int,int,int,int);
 extern void func_0220AFDC(char *,void *);
 extern void func_0220AFC4(u8 *p);
-extern int func_02209A7C(int, int, int);
-extern void func_02209B30(int);
-extern void func_02209B60(u32, u32, u32, u32, u32, u32);
-extern void func_02209C18(int);
+extern int BTLV_FINGER_CURSOR_Create(int, int, int);
+extern void BTLV_FINGER_CURSOR_Delete(int);
+extern void BTLV_FINGER_CURSOR_Start(u32, u32, u32, u32, u32, u32);
+extern void BTLV_FINGER_CURSOR_DeleteActor(int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_021F86D4(void);
@@ -556,7 +556,7 @@ extern void func_0220B1A0(char *);
 extern void TCBL_Destroy(struct S02031140 *);
 extern void func_0220AF64(void *);
 extern void func_02030EAC(struct Node *);
-extern int func_02209C2C(void *);
+extern int BTLV_FINGER_CURSOR_IsActive(void *);
 extern void func_0203FC6C(const struct BgVramReq *,u32);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
@@ -1520,7 +1520,7 @@ void func_0220C6C0(char *a)
 
 void func_0220C6D0(char *a)
 {
-    ((struct Obj00315 *)a)->f14C = func_02209A7C(*(int *)&((struct Obj00315 *)a)->f8, 9,
+    ((struct Obj00315 *)a)->f14C = BTLV_FINGER_CURSOR_Create(*(int *)&((struct Obj00315 *)a)->f8, 9,
                                          *(unsigned short *)(*(int *)&((struct Obj00315 *)a)->f0 + 0xc));
 }
 
@@ -1529,7 +1529,7 @@ void func_0220C6D0(char *a)
 
 void func_0220C6E8(char *a)
 {
-    func_02209B30(((struct Obj25045 *)a)->f14C);
+    BTLV_FINGER_CURSOR_Delete(((struct Obj25045 *)a)->f14C);
 }
 
 
@@ -1537,7 +1537,7 @@ void func_0220C6E8(char *a)
 
 void func_0220C6F8(u8 *p, u32 a, u32 b)
 {
-    func_02209B60(((struct Obj25046 *)p)->f14C, a, b, 2, 6, 0x14);
+    BTLV_FINGER_CURSOR_Start(((struct Obj25046 *)p)->f14C, a, b, 2, 6, 0x14);
 }
 
 
@@ -1545,7 +1545,7 @@ void func_0220C6F8(u8 *p, u32 a, u32 b)
 
 void func_0220C714(char *a)
 {
-    func_02209C18(((struct Obj25047 *)a)->f14C);
+    BTLV_FINGER_CURSOR_DeleteActor(((struct Obj25047 *)a)->f14C);
 }
 
 
@@ -2183,7 +2183,7 @@ int func_0220D464(char *p)
 {
     switch (((struct Obj00688 *)p)->f53D) {
     case 0:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
             func_0220D89C((char **)p, 0x54d);
             ((struct Obj00688 *)p)->f533 = 2;
             ((struct Obj00688 *)p)->f531 = 0x11;
@@ -2193,7 +2193,7 @@ int func_0220D464(char *p)
         }
         break;
     case 1:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 0) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) {
             func_0220D234(p);
             ++((struct Obj00688 *)p)->f53D;
             ((struct Obj00688 *)p)->f531 = 0x11;
@@ -2201,7 +2201,7 @@ int func_0220D464(char *p)
         }
         break;
     case 2:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
             func_0220D89C((char **)p, 0x54d);
             *(u16 *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30) = 0;
             ((struct Obj00688 *)p)->f531 = 0x11;
@@ -2211,7 +2211,7 @@ int func_0220D464(char *p)
         }
         break;
     case 3:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 0) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) {
             func_0220D254(p);
             ++((struct Obj00688 *)p)->f53D;
             ((struct Obj00688 *)p)->f531 = 0x11;
@@ -2219,7 +2219,7 @@ int func_0220D464(char *p)
         }
         break;
     case 4:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
             func_0220D89C((char **)p, 0x54d);
             ((struct Obj25098 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f16 = func_0220BB98(p, *(short *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30));
             ((struct Obj25099 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f2A = ((struct Obj00688 *)p)->f533;
@@ -2229,7 +2229,7 @@ int func_0220D464(char *p)
         }
         break;
     case 5:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 0) return func_0220D11C(p);
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) return func_0220D11C(p);
         break;
     }
     return 0x11;

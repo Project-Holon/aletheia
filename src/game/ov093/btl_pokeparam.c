@@ -23,9 +23,9 @@
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
  *   BTL_POKEPARAM_ResetEffectsOnSwitchOut   0x021D64F0  thumb
  *   BTL_FIELD_RegisterSlot 0x021EF9F4 thumb ov093
- *   func_021EFAD8 0x021EFAD8 thumb ov093
- *   func_021EFB34 0x021EFB34 thumb ov093
- *   func_021EFA94 0x021EFA94 thumb ov093
+ *   BTL_FIELD_AddSlotHolder 0x021EFAD8 thumb ov093
+ *   BTL_FIELD_RemoveHolderFromSlots 0x021EFB34 thumb ov093
+ *   BTL_FIELD_RemoveSlot 0x021EFA94 thumb ov093
  *   func_021D69A0 0x021D69A0 thumb ov093
  *   BTL_POKEPARAM_PassEffects 0x021D65C8 thumb ov093
  *   BTL_POKEPARAM_SetSubstituteHp 0x021D6D5C thumb ov093
@@ -39,28 +39,28 @@
  *   BTL_POKEPARAM_AddHitRecord 0x021D6848 thumb ov093
  *   BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
  *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
- *   func_021EFC78   0x021EFC78  thumb
+ *   BTL_FIELD_TickSlots   0x021EFC78  thumb
  *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
  *   BTL_FIELD_GetCountdownByte 0x021EF9A8 thumb ov093
  *   BTL_MAIN_GetTrainerItem 0x021B9F84 thumb ov093
- *   d_021EFF74  0x021EFF74  data  a1
+ *   gAiSlotLimitTable  0x021EFF74  data  a1
  *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   func_021D805C  0x021D805C  thumb  ov093
  *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
- *   d_021EFF94  0x021EFF94  data  ov093  a1
+ *   gAiMoveStageCheckPairs  0x021EFF94  data  ov093  a1
  *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
- *   d_021EFFA0 0x021EFFA0 data a1
- *   func_021EAE74 0x021EAE74 thumb ov093
- *   func_021EAE64 0x021EAE64 thumb ov093
- *   func_021EAE04 0x021EAE04 thumb ov093
- *   func_021EAECC 0x021EAECC thumb ov093
+ *   gAiMoveSickCheckPairs 0x021EFFA0 data a1
+ *   BTLV_CORE_SetCounterDisplay 0x021EAE74 thumb ov093
+ *   BTLV_CORE_PollCounterInput 0x021EAE64 thumb ov093
+ *   BTLV_CORE_StartFadeIn 0x021EAE04 thumb ov093
+ *   BTLV_CORE_SetCounterValueMode 0x021EAECC thumb ov093
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   func_021F8B10 0x021F8B10 thumb ov094
  *   BTL_MAIN_SetKeepBgm 0x021B92A0 thumb ov093
- *   func_021EAE14 0x021EAE14 thumb ov093
+ *   BTLV_CORE_PollFadeInDone 0x021EAE14 thumb ov093
  *   gBtlNet 0x021F3B88 data ov093 a4
  *   gBtlNetSourceName 0x021F3A98 data ov093 a4
  *   func_02030734 0x02030734 arm
@@ -78,7 +78,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
- *   FIELD_GIMMICK_GATE_IsSaveBlockListOn   0x021F3A98  data
+ *   gBtlNetSourceName   0x021F3A98  data
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   MIi_CpuClear16 0x02082A48  arm
  *   STRBUF_GetLength   0x020458F8  arm
@@ -95,7 +95,7 @@
  *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
  *   BTL_POKEPARAM_ClearHitHistory  0x021D67F4  thumb  ov093
  *   func_021D6DC4  0x021D6DC4  thumb  ov093
- *   d_021F3AA4     0x021F3AA4  data  a1
+ *   gBtlPokeparamFileName     0x021F3AA4  data  a1
  *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
  *   func_020181F4  0x020181F4  thumb
@@ -105,7 +105,7 @@
  *   BTLV_CORE_PackBytes  0x021E8CE0  thumb  ov093
  *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
  *   BTL_CALC_ApplyStatStage  0x021D78E4  thumb  ov093
- *   data_021F040C  0x021F040C  data  ov093
+ *   gSemiInvulnerableContFlags  0x021F040C  data  ov093
  *   _dflt   0x0209B750  arm
  *   _dfltu  0x0209B790  arm
  *   _ddiv   0x0209D1E0  arm
@@ -196,8 +196,8 @@ extern u8 POKE_TOOL_GetGender(PokemonParam *mon);
 extern u16 BTLV_CORE_PackBytes(u32 type1, u32 type2);
 extern int BTL_FIELD_GetStaticSlotObject(int);
 extern unsigned short BTL_CALC_ApplyStatStage(unsigned short stat, int stage);
-extern const char d_021F3AA4[];
-extern const u32 data_021F040C[4];
+extern const char gBtlPokeparamFileName[];
+extern const u32 gSemiInvulnerableContFlags[4];
 BtlPokeParam *BTL_POKEPARAM_Create(PokemonParam *mon, u8 pokeId, u32 heapId);
 void BTL_POKEPARAM_ReloadFromMon(BtlPokeParam *pp, PokemonParam *mon, u32 withHp, u32 withAbility);
 int BTL_POKEPARAM_LoadMoves(BtlPokeParam *pp, PokemonParam *mon, int reset);
@@ -344,7 +344,7 @@ BtlPokeParam *BTL_POKEPARAM_Create(PokemonParam *mon, u8 pokeId, u32 heapId)
     BtlPokeParam *pp;
     u32 statusCondition;
 
-    pp = sub_02030734(heapId, 0x1f8, 1, d_021F3AA4, 0xe3);
+    pp = sub_02030734(heapId, 0x1f8, 1, gBtlPokeparamFileName, 0xe3);
     pp->partyIndex = pokeId;
     pp->species = func_02017E1C(mon, 5, 0);
     pp->mon = mon;
@@ -1092,7 +1092,7 @@ u32 BTL_POKEPARAM_GetSemiInvulnerableFlag(BtlPokeParam *pp)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        if (BTL_POKEPARAM_TestContFlag(pp, data_021F040C[i])) return data_021F040C[i];
+        if (BTL_POKEPARAM_TestContFlag(pp, gSemiInvulnerableContFlags[i])) return gSemiInvulnerableContFlags[i];
     }
     return 0x10;
 }
@@ -1802,16 +1802,16 @@ void BTL_POKEPARAM_AddHitRecord(struct BtlPokeParam *poke, struct BtlHitRecord *
         for (i = 0; i < BTL_POKEPARAM_HIT_MAX - 1; i++) {
             poke->hitHistory[turn][i].moveId = poke->hitHistory[turn][i + 1].moveId;
             poke->hitHistory[turn][i].damage = poke->hitHistory[turn][i + 1].damage;
-            poke->hitHistory[turn][i].moveType = poke->hitHistory[turn][i + 1].moveType;
-            poke->hitHistory[turn][i].attackerId = poke->hitHistory[turn][i + 1].attackerId;
+            poke->hitHistory[turn][i].typeAndAttacker = poke->hitHistory[turn][i + 1].typeAndAttacker;
+            poke->hitHistory[turn][i].hitFlags = poke->hitHistory[turn][i + 1].hitFlags;
         }
         count--;
     }
     slot = (struct BtlPokeParam *)((u8 *)poke + turn * sizeof(poke->hitHistory[0]) + count * sizeof(struct BtlHitRecord));
     slot->hitHistory[0][0].moveId = record->moveId;
     slot->hitHistory[0][0].damage = record->damage;
-    slot->hitHistory[0][0].moveType = record->moveType;
-    slot->hitHistory[0][0].attackerId = record->attackerId;
+    slot->hitHistory[0][0].typeAndAttacker = record->typeAndAttacker;
+    slot->hitHistory[0][0].hitFlags = record->hitFlags;
     if (poke->hitCount[turn] < BTL_POKEPARAM_HIT_MAX) poke->hitCount[turn]++;
 }
 
@@ -1844,8 +1844,8 @@ int BTL_POKEPARAM_GetHitRecord(const struct BtlPokeParam *poke, int turnsAgo, u3
             slot = (const struct BtlPokeParam *)((const u8 *)poke + turn * sizeof(poke->hitHistory[0]) + (u8)(count - hitsAgo - 1) * sizeof(struct BtlHitRecord));
             out->moveId = slot->hitHistory[0][0].moveId;
             out->damage = slot->hitHistory[0][0].damage;
-            out->moveType = slot->hitHistory[0][0].moveType;
-            out->attackerId = slot->hitHistory[0][0].attackerId;
+            out->typeAndAttacker = slot->hitHistory[0][0].typeAndAttacker;
+            out->hitFlags = slot->hitHistory[0][0].hitFlags;
             return 1;
         }
     }

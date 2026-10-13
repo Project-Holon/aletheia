@@ -1,5 +1,5 @@
 /*
- * function: func_021E8478
+ * function: HAND_WAZA_PledgeSkipWait
  * address:  0x021E8478
  * packet:   pkt_ov093_021E8478
  * region:   ov093
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E8478(int a, int b, int c, int *d)
+void HAND_WAZA_PledgeSkipWait(int a, int b, int c, int *d)
 {
     if (c == BTL_EVENT_GetVar(2) && *d != 0)
         BTL_EVENT_OverwriteVar(0x51, 1);

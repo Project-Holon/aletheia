@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_UpdateCameraShake
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake
  * address:  0x021F4210
  * packet:   pkt_ov043_021F4210
  * region:   ov043
@@ -24,7 +24,7 @@ extern void FIELD_CAMERA_SetTraceTarget(int p, int v);
 extern void FIELD_CAMERA_GetTargetShift(int p, int *v);
 extern void FIELD_CAMERA_SetTargetShift(int p, void *v);
 
-int GIMMICK43_UpdateCameraShake(u8 *s)
+int FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(u8 *s)
 {
     int v[3];
 

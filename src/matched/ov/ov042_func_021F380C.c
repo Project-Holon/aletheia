@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK42_Exit
+ * function: FIELD_GIMMICK_BUTTON_STATES_Exit
  * address: 0x021F380C
  * packet: pkt_ov042_021F380C
  * region: ov042
@@ -36,7 +36,7 @@ extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *, u16);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *);
-void GIMMICK42_Exit(u8 *p)
+void FIELD_GIMMICK_BUTTON_STATES_Exit(u8 *p)
 {
     int x = FIELDMAP_GetExpObj((int *)p);
     FIELDMAP_FreeCommonWork(p, 1);

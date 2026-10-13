@@ -23,7 +23,7 @@
  *   func_02008DF0 0x02008DF0 thumb
  *   func_021C414C 0x021C414C thumb ov136
  *   func_021C3FC8 0x021C3FC8 thumb ov136
- *   ov136_id 0x0000006E data
+ *   ov110_id 0x0000006E data
  *   D_021C7750 0x021C7750 data
  *   D_021C775C 0x021C775C data
  */
@@ -43,7 +43,7 @@ extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void func_021C414C(void *a, u8 *p);
 extern void func_021C3FC8(u8 *ctx, u8 *arg);
-extern u8 ov136_id[];
+extern u8 ov110_id[];
 extern u8 D_021C7750[];
 extern u8 D_021C775C[];
 int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
@@ -88,7 +88,7 @@ int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
         }
         return 1;
     case 3:
-        func_02034AC4((int)ov136_id);
+        func_02034AC4((int)ov110_id);
         func_021C3FC8(ctx, (u8 *)msg);
         PROCSYS_Push(*(void **)(ctx + 0x1C), (u32)-1, D_021C775C, *(void **)(ctx + 8));
         *state = 4;
@@ -105,7 +105,7 @@ int func_021C3E9C(int unused, u32 *state, u16 *msg, u8 *ctx)
                 *(u16 *)(*(u8 **)(ctx + 0x10) + 0x32) = PMSI_PARAM_GetWord(*(u16 **)(ctx + 8));
         }
         PMSI_PARAM_Delete(*(void **)(ctx + 8));
-        func_02034A5C((int)ov136_id);
+        func_02034A5C((int)ov110_id);
         *state = 0;
         break;
     }

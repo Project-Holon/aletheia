@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_06898E1C",
-    "func_06898E28",
-    "func_06898E38",
-    "func_06898E44"
+    "HAND_SIDE_GetHandlersReflect",
+    "HAND_SIDE_ReflectOnDamage",
+    "HAND_SIDE_GetHandlersLightScreen",
+    "HAND_SIDE_LightScreenOnDamage"
+   ],
+   "addresses": [
+    "0x06898E1C",
+    "0x06898E28",
+    "0x06898E38",
+    "0x06898E44"
    ],
    "evidence": {
     "sole-ref": [

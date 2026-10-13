@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   func_021D8980 0x021D8980 thumb ov119
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -19,7 +19,7 @@
  *   func_021DBE70 0x021DBE70 thumb ov119
  */
 #include "../include/Obj00001.h"
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern int func_021D8980(char *p);
 struct Obj;
@@ -31,10 +31,10 @@ extern void func_021D8E84(void *,int);
 extern void func_021DBE70(char *p);
 void func_021DBAF8(char *p)
 {
-    func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,0);
-    func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),7,1);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),7,1);
     TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),7,1);
-    func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),9,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),9,0);
     func_021D8980(p);
     CLACT_SetActorDrawEnable((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04,1);
     func_021E4420(p);

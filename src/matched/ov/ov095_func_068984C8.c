@@ -1,5 +1,5 @@
 /*
- * function: func_068984C8
+ * function: HAND_POS_LunarDanceOnSwitchIn
  * address: 0x068984C8
  * packet: pkt_ov095_068984C8
  * region: ov095
@@ -67,7 +67,7 @@ extern u8 func_06898768(void *, u8);
 extern u8 *func_06898778(void *, int, int);
 extern void func_06898788(void *, void *);
 extern void func_06898798(void *);
-void func_068984C8(void *a, void *b, u8 c)
+void HAND_POS_LunarDanceOnSwitchIn(void *a, void *b, u8 c)
 {
     u32 i;
     u32 j;

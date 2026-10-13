@@ -1,5 +1,5 @@
 /*
- * function: func_021E7F1C
+ * function: HAND_WAZA_TelekinesisCheckTarget
  * address:  0x021E7F1C
  * packet:   pkt_ov093_021E7F1C
  * region:   ov093
@@ -26,7 +26,7 @@ extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E7F1C(int a, void *b, int c)
+void HAND_WAZA_TelekinesisCheckTarget(int a, void *b, int c)
 {
     void *m;
     int r;

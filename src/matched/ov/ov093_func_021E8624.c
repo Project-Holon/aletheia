@@ -1,5 +1,5 @@
 /*
- * function: func_021E8624
+ * function: HAND_COMMON_IsLastToAct
  * address:  0x021E8624
  * packet:   pkt_ov093_021E8624
  * region:   ov093
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern int BTL_SERVER_FLOW_AreAllOtherActionsDone(u8 *p, int key);
 
-int func_021E8624(int a, int b)
+int HAND_COMMON_IsLastToAct(int a, int b)
 {
     if (BTL_SERVER_FLOW_AreAllOtherActionsDone((u8 *)a, b) != 0)
         return 1;

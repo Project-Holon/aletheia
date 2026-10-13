@@ -1,5 +1,5 @@
 /*
- * function: func_021E700C
+ * function: HAND_WAZA_HexDoublePowerOnStatus
  * address:  0x021E700C
  * packet:   pkt_ov093_021E700C
  * region:   ov093
@@ -26,7 +26,7 @@ struct Unk021D62A8;
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern void BTLV_CORE_EventScaleDamage(int a);
 
-void func_021E700C(int x, int a, int c)
+void HAND_WAZA_HexDoublePowerOnStatus(int x, int a, int c)
 {
     if (c == BTL_EVENT_GetVar(3)) {
         if (BTL_POKEPARAM_GetMajorStatusIndex(BTL_SERVER_FLOW_GetPokeParam((int *)a, (u8)BTL_EVENT_GetVar(4))) != 0) {

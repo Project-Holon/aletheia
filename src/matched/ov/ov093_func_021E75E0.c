@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E75E0, func_021E7628
+ * function: HAND_WAZA_CircleThrowForceSwitch, HAND_WAZA_AddSmackDown
  * address:  0x021E75E0
  * packet:   pkt_ov093_021E75E0
  * region:   ov093
@@ -31,7 +31,7 @@ extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F28B8[];
 
-void func_021E75E0(int a, int b, int c)
+void HAND_WAZA_CircleThrowForceSwitch(int a, int b, int c)
 {
     u8 *p;
     int k, r;
@@ -50,7 +50,7 @@ void func_021E75E0(int a, int b, int c)
     }
 }
 
-int *func_021E7628(int *p)
+int *HAND_WAZA_AddSmackDown(int *p)
 {
     *p = 2;
     return d_021F28B8;

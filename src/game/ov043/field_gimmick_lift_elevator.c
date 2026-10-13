@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_lift_elevator.c
  * unit:     yes
- * function: GIMMICK43_Init, GIMMICK43_Exit, GIMMICK43_Update, GIMMICK43_CallLiftEvent, GIMMICK43_CallElevatorEvent, GIMMICK43_LiftEventMain, GIMMICK43_ElevatorEventMain, GIMMICK43_IsLiftArrived, GIMMICK43_IsInLiftZone, GIMMICK43_ShowLiftAnime, GIMMICK43_GetLiftAnimeIndex, GIMMICK43_UpdateBigLift, GIMMICK43_ShowElevatorIdleAnime, GIMMICK43_StartCameraShake, GIMMICK43_UpdateCameraShake, GIMMICK43_SnapElevatorToTop
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_Init, FIELD_GIMMICK_LIFT_ELEVATOR_Exit, FIELD_GIMMICK_LIFT_ELEVATOR_Update, FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent, FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent, FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain, FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain, FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived, FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone, FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime, FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex, FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift, FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime, FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake, FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake, FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop
  * address:  0x021F36C0
  * region:   ov043
  * compiler: dsi/1.1p1
@@ -148,21 +148,21 @@ extern int FIELD_ZONEFOG_GetFogSlope(void *zoneFog);
 extern void FIELD_FOG_FADE_Init(void *fog, u32 offset, u32 slope, u32 frames);
 extern void FIELD_CAMERA_GetTargetShift(u8 *camera, VecFx32 *out);
 extern void FIELD_CAMERA_SetTargetShift(u8 *camera, VecFx32 *shift);
-void GIMMICK43_Init(void *fieldMap);
-void GIMMICK43_Exit(u8 *fieldMap);
-void GIMMICK43_Update(u8 *fieldMap);
-void *GIMMICK43_CallLiftEvent(void *gameSystem, int liftIndex);
-void GIMMICK43_CallElevatorEvent(void *gameSystem, int isRising);
-int GIMMICK43_LiftEventMain(void *event, int *seq);
-int GIMMICK43_ElevatorEventMain(void *event, int *seq);
-int GIMMICK43_IsLiftArrived(Gimmick43Work *work);
-int GIMMICK43_IsInLiftZone(u8 liftIndex, int tileX, int tileZ);
-void GIMMICK43_ShowLiftAnime(Gimmick43Save *save, void *expObj, int liftIndex);
-int GIMMICK43_GetLiftAnimeIndex(Gimmick43Save *save, int liftIndex);
-void GIMMICK43_UpdateBigLift(void *gameSystem);
-void GIMMICK43_ShowElevatorIdleAnime(void *expObj);
-void GIMMICK43_StartCameraShake(u8 liftIndex, int stepY, int isStart, u8 *camera, CameraShake *shake);
-int GIMMICK43_UpdateCameraShake(CameraShake *shake);
+void FIELD_GIMMICK_LIFT_ELEVATOR_Init(void *fieldMap);
+void FIELD_GIMMICK_LIFT_ELEVATOR_Exit(u8 *fieldMap);
+void FIELD_GIMMICK_LIFT_ELEVATOR_Update(u8 *fieldMap);
+void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex);
+void FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(void *gameSystem, int isRising);
+int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *event, int *seq);
+int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(void *event, int *seq);
+int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(Gimmick43Work *work);
+int FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(u8 liftIndex, int tileX, int tileZ);
+void FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(Gimmick43Save *save, void *expObj, int liftIndex);
+int FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex(Gimmick43Save *save, int liftIndex);
+void FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift(void *gameSystem);
+void FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime(void *expObj);
+void FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(u8 liftIndex, int stepY, int isStart, u8 *camera, CameraShake *shake);
+int FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(CameraShake *shake);
 extern const HeightRegion sGimmick43FixedHeightAreas[];
 extern const LiftZone sGimmick43LiftZones[];
 extern int sGimmick43ExpObjUnitDesc;
@@ -172,7 +172,7 @@ extern const VecFx32 sGimmick43ObstacleStartPos;
 extern LiftHeights sGimmick43LiftHeights[];
 extern int sGimmick43LiftAnimeFlip[];
 
-void GIMMICK43_Init(void *fieldMap)
+void FIELD_GIMMICK_LIFT_ELEVATOR_Init(void *fieldMap)
 {
     void *expObj;
     Gimmick43Save *save;
@@ -188,14 +188,14 @@ void GIMMICK43_Init(void *fieldMap)
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     fog = FIELDMAP_GetFog(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK43_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick43Work));
     heightEx = FIELD_G3D_MAPPER_GetHeightEx(FIELDMAP_GetG3dMapper(fieldMap));
-    for (i = 0; i < GIMMICK43_FIXED_AREA_COUNT; i++) {
+    for (i = 0; i < FIELD_GIMMICK_LIFT_ELEVATOR_FIXED_AREA_COUNT; i++) {
         HEIGHT_EX_SetArea(i, sGimmick43FixedHeightAreas[i].tileX, sGimmick43FixedHeightAreas[i].tileZ, sGimmick43FixedHeightAreas[i].width,
                       sGimmick43FixedHeightAreas[i].depth, sGimmick43FixedHeightAreas[i].height, 0x800000, heightEx);
     }
-    for (i = 0; i < GIMMICK43_LIFT_COUNT; i++) {
+    for (i = 0; i < FIELD_GIMMICK_LIFT_ELEVATOR_LIFT_COUNT; i++) {
         areaId = i + 8;
         if (save->liftState[i] != 0) {
             state = 1;
@@ -206,7 +206,7 @@ void GIMMICK43_Init(void *fieldMap)
                       sGimmick43LiftZones[i].depth, sGimmick43LiftZones[i].height[state], 0x800000, heightEx);
     }
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sGimmick43ExpObjUnitDesc, 0);
-    for (i = 0; i < GIMMICK43_LIFT_COUNT; i++) {
+    for (i = 0; i < FIELD_GIMMICK_LIFT_ELEVATOR_LIFT_COUNT; i++) {
         modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, i);
         *modelPos = sGimmick43LiftStartPos[i];
         state = save->liftState[i] ? 1 : 0;
@@ -217,26 +217,26 @@ void GIMMICK43_Init(void *fieldMap)
             FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
             FLD_EXP_OBJ_SetAnimePaused(anime, 1);
         }
-        GIMMICK43_ShowLiftAnime(save, expObj, i);
+        FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(save, expObj, i);
     }
-    modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, GIMMICK43_ELEVATOR);
+    modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR);
     *modelPos = sGimmick43ElevatorStartPos;
-    FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u16)GIMMICK43_ELEVATOR, 1);
+    FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u16)FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 1);
     for (animeIdx = 0; animeIdx < 2; animeIdx++) {
-        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK43_ELEVATOR, animeIdx);
+        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, animeIdx);
         FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
         FLD_EXP_OBJ_SetAnimePaused(anime, 1);
     }
-    GIMMICK43_ShowElevatorIdleAnime(expObj);
-    modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, GIMMICK43_OBSTACLE);
+    FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime(expObj);
+    modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_OBSTACLE);
     *modelPos = sGimmick43ObstacleStartPos;
-    FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u16)GIMMICK43_OBSTACLE, 1);
-    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK43_OBSTACLE, 0, 1);
-    anime = FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK43_OBSTACLE, 0);
+    FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u16)FIELD_GIMMICK_LIFT_ELEVATOR_OBSTACLE, 1);
+    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_OBSTACLE, 0, 1);
+    anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_OBSTACLE, 0);
     FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
     FLD_EXP_OBJ_SetAnimePaused(anime, 1);
     if (save->obstacleBroken) {
-        FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, GIMMICK43_OBSTACLE, 0, FLD_EXP_OBJ_GetAnimeLastFrame(anime));
+        FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_OBSTACLE, 0, FLD_EXP_OBJ_GetAnimeLastFrame(anime));
     }
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
     if (playerPos.y <= -0x280000) {
@@ -248,7 +248,7 @@ void GIMMICK43_Init(void *fieldMap)
 
 
 
-void GIMMICK43_Exit(u8 *fieldMap)
+void FIELD_GIMMICK_LIFT_ELEVATOR_Exit(u8 *fieldMap)
 {
     void *expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
@@ -258,18 +258,18 @@ void GIMMICK43_Exit(u8 *fieldMap)
 
 
 
-void GIMMICK43_Update(u8 *fieldMap)
+void FIELD_GIMMICK_LIFT_ELEVATOR_Update(u8 *fieldMap)
 {
     void *expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK43_SAVE_BLOCK);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     FLD_EXP_OBJ_UpdateAnimes(expObj);
 }
 
 
 
 
-void *GIMMICK43_CallLiftEvent(void *gameSystem, int liftIndex)
+void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex)
 {
     void *fieldMap;
     Gimmick43Save *save;
@@ -277,9 +277,9 @@ void *GIMMICK43_CallLiftEvent(void *gameSystem, int liftIndex)
     int step;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK43_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    if (liftIndex >= GIMMICK43_LIFT_COUNT) {
+    if (liftIndex >= FIELD_GIMMICK_LIFT_ELEVATOR_LIFT_COUNT) {
         return 0;
     }
     work->liftIndex = liftIndex;
@@ -290,7 +290,7 @@ void *GIMMICK43_CallLiftEvent(void *gameSystem, int liftIndex)
         work->curY = sGimmick43LiftHeights[liftIndex].y[0];
         work->goalY = sGimmick43LiftHeights[liftIndex].y[1];
     }
-    if (liftIndex == GIMMICK43_BIG_LIFT) {
+    if (liftIndex == FIELD_GIMMICK_LIFT_ELEVATOR_BIG_LIFT) {
         step = 0x8000;
         work->isFogCheckPending = 1;
     } else {
@@ -303,13 +303,13 @@ void *GIMMICK43_CallLiftEvent(void *gameSystem, int liftIndex)
         work->stepY = step;
     }
     work->obstacleAnimeState = 0;
-    return func_020122C0(gameSystem, 0, GIMMICK43_LiftEventMain, 0);
+    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain, 0);
 }
 
 
 
 
-void GIMMICK43_CallElevatorEvent(void *gameSystem, int isRising)
+void FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(void *gameSystem, int isRising)
 {
     void *fieldMap;
     Gimmick43Work *work;
@@ -317,7 +317,7 @@ void GIMMICK43_CallElevatorEvent(void *gameSystem, int isRising)
     int step;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK43_SAVE_BLOCK);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->isRising = isRising;
     if (isRising) {
@@ -327,8 +327,8 @@ void GIMMICK43_CallElevatorEvent(void *gameSystem, int isRising)
         work->curY = 0x370000;
         work->goalY = 0x320000;
         expObj = FIELDMAP_GetExpObj(fieldMap);
-        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK43_ELEVATOR, 1, 1);
-        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK43_ELEVATOR, 0, 0);
+        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 1, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 0, 0);
     }
     step = work->goalY - work->curY;
     if (step < 0) {
@@ -337,13 +337,13 @@ void GIMMICK43_CallElevatorEvent(void *gameSystem, int isRising)
         step = 0x2000;
     }
     work->stepY = step;
-    func_020122C0(gameSystem, 0, GIMMICK43_ElevatorEventMain, 0);
+    func_020122C0(gameSystem, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain, 0);
 }
 
 
 
 
-int GIMMICK43_LiftEventMain(void *event, int *seq)
+int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *event, int *seq)
 {
     VecFx32 playerPos;
     VecFx32 mmdlPos;
@@ -372,31 +372,31 @@ int GIMMICK43_LiftEventMain(void *event, int *seq)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     camera = FIELDMAP_GetCamera(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK43_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     switch (*seq) {
     case 0:
         riderCount = 0;
         iter = 0;
         mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
-        for (i = 0; i < GIMMICK43_RIDER_MAX; i++) {
+        for (i = 0; i < FIELD_GIMMICK_LIFT_ELEVATOR_RIDER_MAX; i++) {
             work->riders[i] = 0;
         }
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
         while (FLDMMDL_SysSearchUseMmdl(mmdlSys, &mmdl, &iter) == 1) {
             tileX = FLDMMDL_GetGridNowX(mmdl);
             tileZ = FLDMMDL_GetGridNowZ(mmdl);
-            if (GIMMICK43_IsInLiftZone(work->liftIndex, tileX, tileZ)) {
+            if (FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(work->liftIndex, tileX, tileZ)) {
                 FLDMMDL_GetPos(mmdl, &mmdlPos);
-                if (playerPos.y - 0x10000 < mmdlPos.y && mmdlPos.y < playerPos.y + 0x10000 && riderCount < GIMMICK43_RIDER_MAX) {
+                if (playerPos.y - 0x10000 < mmdlPos.y && mmdlPos.y < playerPos.y + 0x10000 && riderCount < FIELD_GIMMICK_LIFT_ELEVATOR_RIDER_MAX) {
                     work->riders[riderCount++] = mmdl;
                 }
             }
         }
-        GIMMICK43_StartCameraShake(work->liftIndex, work->stepY, 1, camera, &work->shake);
+        FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(work->liftIndex, work->stepY, 1, camera, &work->shake);
         (*seq)++;
         break;
     case 1:
-        if (GIMMICK43_UpdateCameraShake(&work->shake)) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(&work->shake)) {
             (*seq)++;
         }
         break;
@@ -414,14 +414,14 @@ int GIMMICK43_LiftEventMain(void *event, int *seq)
         if (work->isStalled == 0) {
             work->curY += work->stepY;
         }
-        if (GIMMICK43_IsLiftArrived(work)) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(work)) {
             work->curY = work->goalY;
-            GIMMICK43_StartCameraShake(work->liftIndex, work->stepY, 0, camera, &work->shake);
+            FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(work->liftIndex, work->stepY, 0, camera, &work->shake);
             GFL_USE_PlaySeDefaultVolume(0x6cb);
             (*seq)++;
         }
         FLD_EXP_OBJ_GetModelStatus(expObj, 0, work->liftIndex)->y = work->curY;
-        for (i = 0; i < GIMMICK43_RIDER_MAX; i++) {
+        for (i = 0; i < FIELD_GIMMICK_LIFT_ELEVATOR_RIDER_MAX; i++) {
             rider = work->riders[i];
             if (rider != 0) {
                 ridePos = *FLDMMDL_GetPosPtr(rider);
@@ -432,19 +432,19 @@ int GIMMICK43_LiftEventMain(void *event, int *seq)
         }
         break;
     case 5:
-        if (GIMMICK43_UpdateCameraShake(&work->shake)) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(&work->shake)) {
             (*seq)++;
         }
         break;
     case 6:
         FIELD_CAMERA_RestartDelay(camera);
         animeIdx = work->liftIndex;
-        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)animeIdx, (u16)GIMMICK43_GetLiftAnimeIndex(save, animeIdx)), 0);
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)animeIdx, (u16)FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex(save, animeIdx)), 0);
         (*seq)++;
         break;
     case 7:
         animeIdx = work->liftIndex;
-        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)animeIdx, (u16)GIMMICK43_GetLiftAnimeIndex(save, animeIdx));
+        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)animeIdx, (u16)FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex(save, animeIdx));
         becameOn = 0;
         if (FLD_EXP_OBJ_IsAnimeStopped(anime) == 0) {
             break;
@@ -457,8 +457,8 @@ int GIMMICK43_LiftEventMain(void *event, int *seq)
         }
         heightEx = FIELD_G3D_MAPPER_GetHeightEx(FIELDMAP_GetG3dMapper(fieldMap));
         HEIGHT_EX_SetAreaHeight(work->liftIndex + 8, sGimmick43LiftHeights[work->liftIndex].y[becameOn], heightEx);
-        GIMMICK43_ShowLiftAnime(save, expObj, work->liftIndex);
-        if (work->liftIndex != GIMMICK43_BIG_LIFT) {
+        FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(save, expObj, work->liftIndex);
+        if (work->liftIndex != FIELD_GIMMICK_LIFT_ELEVATOR_BIG_LIFT) {
             return 1;
         }
         (*seq)++;
@@ -469,14 +469,14 @@ int GIMMICK43_LiftEventMain(void *event, int *seq)
         }
         break;
     }
-    GIMMICK43_UpdateBigLift(gameSystem);
+    FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift(gameSystem);
     return 0;
 }
 
 
 
 
-int GIMMICK43_ElevatorEventMain(void *event, int *seq)
+int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(void *event, int *seq)
 {
     void *fieldMap;
     void *expObj;
@@ -489,7 +489,7 @@ int GIMMICK43_ElevatorEventMain(void *event, int *seq)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     camera = FIELDMAP_GetCamera(fieldMap);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK43_SAVE_BLOCK);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     switch (*seq) {
     case 0:
         if (work->isRising != 0) {
@@ -501,15 +501,15 @@ int GIMMICK43_ElevatorEventMain(void *event, int *seq)
         break;
     case 1:
         work->curY += work->stepY;
-        if (GIMMICK43_IsLiftArrived(work)) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(work)) {
             work->curY = work->goalY;
             if (work->isRising == 0) {
-                GIMMICK43_StartCameraShake(0xff, work->stepY, 0, camera, &work->shake);
+                FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(0xff, work->stepY, 0, camera, &work->shake);
                 GFL_USE_PlaySeDefaultVolume(0x6cb);
             }
             (*seq)++;
         }
-        FLD_EXP_OBJ_GetModelStatus(expObj, 0, GIMMICK43_ELEVATOR)->y = work->curY;
+        FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR)->y = work->curY;
         player = FIELDMAP_GetFieldPlayer(fieldMap);
         FIELD_PLAYER_GetPos(player, &pos);
         pos.y = work->curY;
@@ -519,17 +519,17 @@ int GIMMICK43_ElevatorEventMain(void *event, int *seq)
         if (work->isRising != 0) {
             return 1;
         }
-        if (GIMMICK43_UpdateCameraShake(&work->shake)) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(&work->shake)) {
             if (work->savedCameraTarget != 0) {
                 FIELD_CAMERA_SetTraceTarget(camera, work->savedCameraTarget);
             }
-            FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK43_ELEVATOR, 1), 0);
+            FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 1), 0);
             (*seq)++;
         }
         break;
     case 3:
-        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK43_ELEVATOR, 1))) {
-            GIMMICK43_ShowElevatorIdleAnime(expObj);
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 1))) {
+            FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime(expObj);
             return 1;
         }
         break;
@@ -539,7 +539,7 @@ int GIMMICK43_ElevatorEventMain(void *event, int *seq)
 
 
 
-int GIMMICK43_IsLiftArrived(Gimmick43Work *work)
+int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(Gimmick43Work *work)
 {
     if (work->stepY < 0) {
         if (work->goalY >= work->curY) {
@@ -557,12 +557,12 @@ int GIMMICK43_IsLiftArrived(Gimmick43Work *work)
 
 
 /*
- * Unlabelled leaf called only from GIMMICK43_LiftEventMain. Each field gets its own
+ * Unlabelled leaf called only from FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain. Each field gets its own
  * pool word (sGimmick43LiftZones + 0/8/4/C). The loads must be written in field
  * order tileX, tileZ, width, depth: loading width before tileZ swaps the
  * index and value registers (17 bytes).
  */
-int GIMMICK43_IsInLiftZone(u8 liftIndex, int tileX, int tileZ)
+int FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(u8 liftIndex, int tileX, int tileZ)
 {
     int x0;
     int z0;
@@ -582,7 +582,7 @@ int GIMMICK43_IsInLiftZone(u8 liftIndex, int tileX, int tileZ)
 
 
 
-void GIMMICK43_ShowLiftAnime(Gimmick43Save *save, void *expObj, int liftIndex)
+void FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(Gimmick43Save *save, void *expObj, int liftIndex)
 {
     int shownAnime, hiddenAnime;
 
@@ -612,7 +612,7 @@ void GIMMICK43_ShowLiftAnime(Gimmick43Save *save, void *expObj, int liftIndex)
 
 
 
-int GIMMICK43_GetLiftAnimeIndex(Gimmick43Save *save, int liftIndex)
+int FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex(Gimmick43Save *save, int liftIndex)
 {
     int animeIdx;
 
@@ -639,7 +639,7 @@ int GIMMICK43_GetLiftAnimeIndex(Gimmick43Save *save, int liftIndex)
  * FIELDMAP_GetFog's result is bound to zoneFog before the A01FC call: passed inline,
  * the ternary fourth argument is evaluated before the call.
  */
-void GIMMICK43_UpdateBigLift(void *gameSystem)
+void FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift(void *gameSystem)
 {
     void *fieldMap;
     void *expObj;
@@ -655,13 +655,13 @@ void GIMMICK43_UpdateBigLift(void *gameSystem)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     camera = FIELDMAP_GetCamera(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK43_SAVE_BLOCK);
-    if (work->liftIndex != GIMMICK43_BIG_LIFT) {
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
+    if (work->liftIndex != FIELD_GIMMICK_LIFT_ELEVATOR_BIG_LIFT) {
         return;
     }
     if (save->obstacleBroken == 0 && work->curY <= -0x230000) {
         save->obstacleBroken = 1;
-        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK43_OBSTACLE, 0), 0);
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_OBSTACLE, 0), 0);
         GFL_USE_PlaySeDefaultVolume(0x6cd);
         work->curY = -0x230000;
         work->isStalled = 1;
@@ -672,12 +672,12 @@ void GIMMICK43_UpdateBigLift(void *gameSystem)
     if (work->isStalled != 0) {
         switch (work->stallStage) {
         case 0:
-            GIMMICK43_StartCameraShake(work->liftIndex, work->stepY, 0, camera, &work->shake);
+            FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(work->liftIndex, work->stepY, 0, camera, &work->shake);
             GFL_USE_PlaySeDefaultVolume(0x6cb);
             work->stallStage++;
             break;
         case 1:
-            if (GIMMICK43_UpdateCameraShake(&work->shake)) {
+            if (FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(&work->shake)) {
                 work->stallFrames++;
                 if (work->stallFrames >= 100) {
                     work->stepY = -0x2000;
@@ -715,7 +715,7 @@ void GIMMICK43_UpdateBigLift(void *gameSystem)
             work->obstacleAnimeState = 2;
             return;
         }
-        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK43_OBSTACLE, 0))) {
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_OBSTACLE, 0))) {
             GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x6cd));
             work->obstacleAnimeState = 0;
         }
@@ -725,19 +725,19 @@ void GIMMICK43_UpdateBigLift(void *gameSystem)
 
 
 
-void GIMMICK43_ShowElevatorIdleAnime(void *expObj)
+void FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime(void *expObj)
 {
-    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK43_ELEVATOR, 0, 1);
-    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK43_ELEVATOR, 1, 0);
-    FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, GIMMICK43_ELEVATOR, 0, 0);
-    expObj = FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK43_ELEVATOR, 0);
+    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 0, 1);
+    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 1, 0);
+    FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 0, 0);
+    expObj = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR, 0);
     FLD_EXP_OBJ_SetAnimePaused(expObj, 1);
 }
 
 
 
 
-void GIMMICK43_StartCameraShake(u8 liftIndex, int stepY, int isStart, u8 *camera, CameraShake *shake)
+void FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(u8 liftIndex, int stepY, int isStart, u8 *camera, CameraShake *shake)
 {
     shake->phase = 0;
     shake->count = 0;
@@ -748,7 +748,7 @@ void GIMMICK43_StartCameraShake(u8 liftIndex, int stepY, int isStart, u8 *camera
         shake->amplitude = 0x1000;
         shake->halfCycles = 2;
     } else {
-        if (liftIndex == GIMMICK43_BIG_LIFT) {
+        if (liftIndex == FIELD_GIMMICK_LIFT_ELEVATOR_BIG_LIFT) {
             shake->amplitude = 0x4000;
         } else {
             shake->amplitude = 0x2000;
@@ -763,7 +763,7 @@ void GIMMICK43_StartCameraShake(u8 liftIndex, int stepY, int isStart, u8 *camera
 
 
 
-int GIMMICK43_UpdateCameraShake(CameraShake *shake)
+int FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(CameraShake *shake)
 {
     VecFx32 shift;
 
@@ -793,7 +793,7 @@ int GIMMICK43_UpdateCameraShake(CameraShake *shake)
 
 /* Puts the elevator at its upper end without the ride: the model and the
  * player are set to the top height and the camera is detached. */
-void GIMMICK43_SnapElevatorToTop(void *gameSystem)
+void FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(void *gameSystem)
 {
     void *fieldMap;
     void *expObj;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E85F8",
+   "name": "HAND_COMMON_IsMoveTarget",
    "address": "0x021E85F8",
    "kind": "game",
    "region": "ov093",

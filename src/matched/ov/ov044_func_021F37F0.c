@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK44_LiftEventMain
+ * function: FIELD_GIMMICK_LIFT_LiftEventMain
  * address:  0x021F37F0
  * packet:   pkt_ov044_021F37F0
  * region:   ov044
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Once filed EXACT* because the extent ran into the unlabelled leaf GIMMICK44_IsLiftArrived
+ * Once filed EXACT* because the extent ran into the unlabelled leaf FIELD_GIMMICK_LIFT_IsLiftArrived
  * (filed as ov044_func_021F390C.c).
  *
  * symbols:
@@ -29,8 +29,8 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
- *   GIMMICK44_IsLiftArrived  0x021F390C  thumb  ov044
- *   GIMMICK44_ShowIdleAnime  0x021F392C  thumb  ov044
+ *   FIELD_GIMMICK_LIFT_IsLiftArrived  0x021F390C  thumb  ov044
+ *   FIELD_GIMMICK_LIFT_ShowIdleAnime  0x021F392C  thumb  ov044
  */
 
 typedef unsigned int u32;
@@ -56,10 +56,10 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
-extern int GIMMICK44_IsLiftArrived(int *p);
-extern void GIMMICK44_ShowIdleAnime(void *p);
+extern int FIELD_GIMMICK_LIFT_IsLiftArrived(int *p);
+extern void FIELD_GIMMICK_LIFT_ShowIdleAnime(void *p);
 
-int GIMMICK44_LiftEventMain(void *a, int *b)
+int FIELD_GIMMICK_LIFT_LiftEventMain(void *a, int *b)
 {
     void *s;
     void *r;
@@ -83,7 +83,7 @@ int GIMMICK44_LiftEventMain(void *a, int *b)
         break;
     case 1:
         w[0] += w[2];
-        if (GIMMICK44_IsLiftArrived(w)) {
+        if (FIELD_GIMMICK_LIFT_IsLiftArrived(w)) {
             w[0] = w[1];
             if (w[4] == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x6cb);
@@ -108,7 +108,7 @@ int GIMMICK44_LiftEventMain(void *a, int *b)
         break;
     case 3:
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(r, 0, 0, 0))) {
-            GIMMICK44_ShowIdleAnime(r);
+            FIELD_GIMMICK_LIFT_ShowIdleAnime(r);
             return 1;
         }
         break;

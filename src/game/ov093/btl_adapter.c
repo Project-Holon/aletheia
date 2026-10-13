@@ -53,7 +53,7 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F134  0x0201F134  thumb
  *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
- *   d_021F39A0     0x021F39A0  data  a2
+ *   sBtlMsgSidePairIds     0x021F39A0  data  a2
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
@@ -212,7 +212,7 @@ extern int gBtlAdapterMode;
 extern const char gBtlAdapterFileName[];
 extern struct BtlMsgState gBtlMsgState;
 extern const u16 sBtlMsgBankFileIds[];
-extern const u16 d_021F39A0[];
+extern const u16 sBtlMsgSidePairIds[];
 extern struct BtlMsgBuilder sBtlMsgBuilders[];
 
 void BTL_ADAPTER_ClearSlots(int mode);
@@ -559,7 +559,7 @@ void BTL_MSG_FormatWithSide(struct Strbuf *dest, u16 msgId, u32 *args)
     u32 i;
 
     for (i = 0; i < 27; i++) {
-        if (msgId == d_021F39A0[i]) {
+        if (msgId == sBtlMsgSidePairIds[i]) {
             if (BTL_MAIN_IsLocalSide(gBtlMsgState.battle, (u8)*args) == 0)
                 msgId = msgId + 1;
             break;
@@ -941,7 +941,7 @@ void BTL_MSG_BuildUiStringFlagged(struct Strbuf *dest, u32 msgId, u32 *args)
 
 
 /*
- * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildTrainerStringBody; callee of func_021EA55C case 6.
+ * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildTrainerStringBody; callee of BTLV_CORE_BuildMessage case 6.
  */
 void BTL_MSG_BuildTrainerString(struct Strbuf *dest, u32 msgId, u32 *args)
 {
@@ -950,7 +950,7 @@ void BTL_MSG_BuildTrainerString(struct Strbuf *dest, u32 msgId, u32 *args)
 
 
 /*
- * Unlabelled leaf, callee of the tail stub 0x021EF6E8 that func_021EA55C calls.
+ * Unlabelled leaf, callee of the tail stub 0x021EF6E8 that BTLV_CORE_BuildMessage calls.
  * Twin of BTL_MSG_BuildUiStringFlagged without the useSpeciesName stores, using the +0x28 slot.
  */
 void BTL_MSG_BuildTrainerStringBody(struct Strbuf *dest, u32 msgId, u32 *args)

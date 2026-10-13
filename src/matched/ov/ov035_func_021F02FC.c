@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F0640    0x021F0640 data ov035 a4
+ *   sPowerOnOffTable    0x021F0640 data ov035 a4
  *   d_021F064C  0x021F064C  data
  *   d_021F064C  0x021F064C  data
  *   d_021F064C    0x021F064C data ov035 a4
@@ -21,7 +21,7 @@
  */
 #include "../include/Obj06146.h"
 
-extern int d_021F0640[];
+extern int sPowerOnOffTable[];
 extern char d_021F064C[];
 typedef unsigned int   u32;
 struct MsgBank;
@@ -33,7 +33,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 void C_GEAR_POWER_ONOFF_OpenYesNoMenu(char *p, int a1)
 {
-    int *d = d_021F0640;
+    int *d = sPowerOnOffTable;
 
     d[3] = a1;
     d[8] = (int)func_02045EC0((struct MsgBank *)(((struct Obj06146 *)p)->f38), 5);

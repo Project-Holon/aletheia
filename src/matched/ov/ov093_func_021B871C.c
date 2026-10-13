@@ -1,5 +1,5 @@
 /*
- * function: func_021B871C
+ * function: BTL_MAIN_GetPlayerStatus
  * address:  0x021B871C
  * packet:   pkt_021B871C
  * region:   ov093
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj20957.h"
 
-int func_021B871C(char *p)
+int BTL_MAIN_GetPlayerStatus(char *p)
 {
     return ((struct Obj20957 *)p)->fC0;
 }

@@ -55,7 +55,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021DB89C 0x021DB89C thumb
  *   func_021DC2B0 0x021DC2B0 thumb
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   TOUCHBAR_Update 0x021B63D0 thumb ov067
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
@@ -108,7 +108,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern void func_021DB89C(char *p);
 extern void func_021DC2B0(char *p);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern void TOUCHBAR_Update(struct S *p);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *p);
@@ -248,7 +248,7 @@ void func_021DBE70(char *p)
                 I(p, 0xF84) = I(p, 0xF7C);
                 I(p, 0xF88) = I(p, 0xF80);
                 I(p, 0xF60) = 0;
-                func_021B6558((unsigned char *)I(p, 0x9C0), 8, 1);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(p, 0x9C0), 8, 1);
                 TOUCHBAR_SetButtonEnabled((unsigned char *)I(p, 0x9C0), 8, 1);
                 func_021E6544(p);
                 GFL_USE_PlaySeDefaultVolume(0x72A);

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: TOUCHBAR_SetButtonActorPriority, func_021B6A1C
+ * function: TOUCHBAR_SetButtonActorPriority, TOUCHBAR_SetButtonActorBgPriority
  * address:  0x021B6A10
  * packet:   pkt_ov067_021B6A10
  * region:   ov067
@@ -27,7 +27,7 @@ void TOUCHBAR_SetButtonActorPriority(void *p, unsigned int v)
     CLACT_SetActorDrawPriority(((struct Obj20614 *)p)->f0, v);
 }
 
-void func_021B6A1C(void *p, unsigned int v)
+void TOUCHBAR_SetButtonActorBgPriority(void *p, unsigned int v)
 {
     void CLACT_SetActorBgPriority(void *, unsigned int);
     CLACT_SetActorBgPriority(((struct Obj20615 *)p)->f0, v);

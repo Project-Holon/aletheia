@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8148  0x020A8148  data
+ *   NNS_GfdDefaultFuncAllocPlttVram  0x020A8148  data
  *
  * Calls the routine held in the global function pointer at 0x020A8148 with
  * (a0, a1, 0) and returns (result & 0xffff) << 3.  The 8-byte frame is
@@ -35,9 +35,9 @@
 
 typedef unsigned int u32;
 
-extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 a, u32 b, u32 c);
 
 int func_02052F58(u32 a0, u32 a1)
 {
-    return (g_020A8148(a0, a1, 0) & 0xffff) << 3;
+    return (NNS_GfdDefaultFuncAllocPlttVram(a0, a1, 0) & 0xffff) << 3;
 }

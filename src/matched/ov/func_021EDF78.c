@@ -1,5 +1,5 @@
 /*
- * function: func_021EDF78
+ * function: BTLV_SCU_IsNamePlateHidden
  * address:  0x021EDF78
  * packet:   pkt_021EDF78
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EDF78   0x021EDF78  thumb
+ *   BTLV_SCU_IsNamePlateHidden   0x021EDF78  thumb
  *
  * Returns the constant #1.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021EDF78  movs r0,#1 */
-int func_021EDF78(u8 *a0) { return 1; }
+int BTLV_SCU_IsNamePlateHidden(u8 *a0) { return 1; }
 

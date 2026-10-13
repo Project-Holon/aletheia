@@ -22,9 +22,9 @@
  *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   func_021ED76C 0x021ED76C thumb ov093
- *   func_021ED930 0x021ED930 thumb ov093
- *   func_021EDB3C 0x021EDB3C thumb ov093
+ *   BTLV_SCU_InitMsgWinFade 0x021ED76C thumb ov093
+ *   BTLV_SCU_InitMonSlots 0x021ED930 thumb ov093
+ *   BTLV_SCU_InitNamePlates 0x021EDB3C thumb ov093
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -59,9 +59,9 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_DrawFrame(struct Cfg *cfg, u16 base, u32 pal);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void func_021ED76C(struct S *s, int a);
-extern void func_021ED930(char *s);
-extern void func_021EDB3C(struct S *s, char *a1);
+extern void BTLV_SCU_InitMsgWinFade(struct S *s, int a);
+extern void BTLV_SCU_InitMonSlots(char *s);
+extern void BTLV_SCU_InitNamePlates(struct S *s, char *a1);
 extern void func_020409B4(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -92,9 +92,9 @@ void BTLV_SCU_SetupDisplay(u8 *p)
     ((struct Obj00970 *)p)->f10 = BTLV_SCU_LoadArcTiles(p, 0xb, 0xdd, 3);
     ((struct Obj00970 *)p)->f8 = (void *)BMP_WIN_Create(3, 0x15, 0x25, 0xa, 0xc, 3, 0);
     ((struct Obj00970 *)p)->fC = BMP_WIN_GetBmp(((struct Obj00970 *)p)->f8);
-    func_021ED76C((struct S *)(p + 0x154), (int)(((struct Obj00970 *)p)->f0));
-    func_021ED930((char *)p);
-    func_021EDB3C((struct S *)p, ((struct Obj00970 *)p)->f14);
+    BTLV_SCU_InitMsgWinFade((struct S *)(p + 0x154), (int)(((struct Obj00970 *)p)->f0));
+    BTLV_SCU_InitMonSlots((char *)p);
+    BTLV_SCU_InitNamePlates((struct S *)p, ((struct Obj00970 *)p)->f14);
     func_020409B4(1);
     func_020409B4(2);
     func_020409B4(3);

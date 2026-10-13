@@ -1,5 +1,5 @@
 /*
- * function: func_022090B4
+ * function: BTLV_B_GAUGE_TaskPartyBallBar
  * address: 0x022090B4
  * packet: pkt_ov094_022090B4
  * region: ov094
@@ -29,7 +29,7 @@ struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void GFL_USE_PlaySeInSlot(void *, int);
 extern void func_021F89BC(void *);
-void func_022090B4(void *task, Context *c)
+void BTLV_B_GAUGE_TaskPartyBallBar(void *task, Context *c)
 {
     int i;
     int busy = 0;

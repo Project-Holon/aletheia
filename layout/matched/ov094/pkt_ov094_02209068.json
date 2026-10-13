@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02209068",
-    "func_022090A4"
+    "BTLV_B_GAUGE_DeletePartyBallBar",
+    "BTLV_B_GAUGE_IsPartyBallBarActive"
+   ],
+   "addresses": [
+    "0x02209068",
+    "0x022090A4"
    ]
   }
  ]

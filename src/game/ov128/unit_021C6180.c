@@ -225,7 +225,7 @@
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   id194 0x000000C2 data
  *   id129 0x00000081 data
- *   d_021F5580 0x021F5580 data ov194 a4
+ *   gNameInProcData 0x021F5580 data ov194 a4
  *   d_021DA62C 0x021DA62C data ov129 a4
  *   CODEIN_PARAM_Create  0x0202E4EC  thumb  arm9
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
@@ -717,7 +717,7 @@ extern const int d_021CA68C[][8];
 extern const Entry_021C6180 d_021CA6C8[];
 extern char id194[];
 extern char id129[];
-extern char d_021F5580[];
+extern char gNameInProcData[];
 extern char d_021DA62C[];
 
 
@@ -2738,7 +2738,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, u16 heap)
         p[2] = CODEIN_PARAM_Create(heap, 0, 0, 12, sizes);
         func_021C6390(a);
         p[0] = PROCSYS_Create(heap);
-        PROCSYS_Push(p[0], (u32)id194, d_021F5580, p[1]);
+        PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);
         b[8] = 1;
         break;
     case 1:
@@ -2772,7 +2772,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, u16 heap)
         p[1] = func_021C8DA0(p, (char *)b, 0, heap);
         func_021C6390(a);
         p[0] = PROCSYS_Create(heap);
-        PROCSYS_Push(p[0], (u32)id194, d_021F5580, p[1]);
+        PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);
         b[8] = 5;
         break;
     case 5:

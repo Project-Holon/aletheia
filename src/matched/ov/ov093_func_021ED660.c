@@ -1,5 +1,5 @@
 /*
- * function: func_021ED660
+ * function: BTLV_SCU_StartMonGraphicSwapFrom
  * address:  0x021ED660
  * packet:   pkt_ov093_021ED660
  * region:   ov093
@@ -15,7 +15,7 @@
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
- *   func_021ED724  0x021ED724  thumb  ov093
+ *   BTLV_SCU_TaskMonGraphicSwap  0x021ED724  thumb  ov093
  */
 #include "../include/Obj10120.h"
 
@@ -29,13 +29,13 @@ extern void *BTL_POKEPARAM_GetMon(void *m);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_021ED724(u32 x, struct S *t);
+extern void BTLV_SCU_TaskMonGraphicSwap(u32 x, struct S *t);
 
-void func_021ED660(char *p, u32 k, u32 a, u32 b)
+void BTLV_SCU_StartMonGraphicSwapFrom(char *p, u32 k, u32 a, u32 b)
 {
     struct S *t;
 
-    t = (struct S *)TCBL_GetWork(TCBL_AddTask(((struct Obj10120 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
+    t = (struct S *)TCBL_GetWork(TCBL_AddTask(((struct Obj10120 *)p)->f2C, (void *)BTLV_SCU_TaskMonGraphicSwap, 0x18, 1));
     t->v = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj10120 *)p)->f138,
                                               BTL_MAIN_GetSlotFromViewPos(*(u8 * *)&((struct Obj10120 *)p)->f134, a)));
     t->w = p;

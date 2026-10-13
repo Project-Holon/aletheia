@@ -1,5 +1,5 @@
 /*
- * function: func_021ED208
+ * function: BTLV_SCU_StartMonDamageAnim
  * address:  0x021ED208
  * packet:   pkt_ov093_021ED208
  * region:   ov093
@@ -28,7 +28,7 @@ extern void func_021F80FC(u32 a, u32 b);
 extern void func_021F7C2C(int a, int b);
 extern void func_021F8118(u32 a, u32 b);
 
-void func_021ED208(char *p, u8 k, u16 a, int flag)
+void BTLV_SCU_StartMonDamageAnim(char *p, u8 k, u16 a, int flag)
 {
     int t;
     u32 v;

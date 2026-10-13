@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK64_StartArcEffect
+ * function: FIELD_GIMMICK_ARC_EFFECT_StartArcEffect
  * address:  0x021F3970
  * packet:   pkt_ov064_021F3970
  * region:   ov064
@@ -21,7 +21,7 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   GIMMICK64_ArcEffectEvent  0x021F3AF8  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent  0x021F3AF8  thumb  ov064
  */
 
 typedef unsigned char  u8;
@@ -56,9 +56,9 @@ extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(int a, int b, int c, u16 d, int e);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, u16 d, int e);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK64_ArcEffectEvent(void *task);
+extern int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *task);
 
-void GIMMICK64_StartArcEffect(int a, const V3 *p0, const V3 *p1, int f30, int n)
+void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(int a, const V3 *p0, const V3 *p1, int f30, int n)
 {
     int i;
     void *sys;
@@ -81,5 +81,5 @@ void GIMMICK64_StartArcEffect(int a, const V3 *p0, const V3 *p1, int f30, int n)
     w->h34 = n;
     w->h36 = 0;
     w->f30 = f30;
-    func_020122C0((void *)a, 0, (void *)GIMMICK64_ArcEffectEvent, 0);
+    func_020122C0((void *)a, 0, (void *)FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, 0);
 }

@@ -12,13 +12,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-#define GIMMICK43_LIFT_COUNT   6
-#define GIMMICK43_ELEVATOR     7   /* model index of the elevator */
-#define GIMMICK43_OBSTACLE     6   /* model index of the breakable obstacle */
-#define GIMMICK43_FIXED_AREA_COUNT 8   /* height areas 0..7 are fixed; lift areas follow from 8 */
-#define GIMMICK43_RIDER_MAX    5
-#define GIMMICK43_BIG_LIFT     5   /* lift that breaks the obstacle and changes the fog */
-#define GIMMICK43_SAVE_BLOCK   7   /* field save gimmick block id */
+#define FIELD_GIMMICK_LIFT_ELEVATOR_LIFT_COUNT   6
+#define FIELD_GIMMICK_LIFT_ELEVATOR_ELEVATOR     7   /* model index of the elevator */
+#define FIELD_GIMMICK_LIFT_ELEVATOR_OBSTACLE     6   /* model index of the breakable obstacle */
+#define FIELD_GIMMICK_LIFT_ELEVATOR_FIXED_AREA_COUNT 8   /* height areas 0..7 are fixed; lift areas follow from 8 */
+#define FIELD_GIMMICK_LIFT_ELEVATOR_RIDER_MAX    5
+#define FIELD_GIMMICK_LIFT_ELEVATOR_BIG_LIFT     5   /* lift that breaks the obstacle and changes the fog */
+#define FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK   7   /* field save gimmick block id */
 
 typedef struct VecFx32 {
     int x;
@@ -52,7 +52,7 @@ typedef struct LiftHeights {
 
 /* Gimmick save block (7 words). */
 typedef struct Gimmick43Save {
-    int liftState[GIMMICK43_LIFT_COUNT];   /* 1 = lift moved to its second position */
+    int liftState[FIELD_GIMMICK_LIFT_ELEVATOR_LIFT_COUNT];   /* 1 = lift moved to its second position */
     int obstacleBroken;                    /* obstacle (model 6) destroyed by lift 5 */
 } Gimmick43Save;
 
@@ -82,7 +82,7 @@ typedef struct Gimmick43Work {
     CameraShake shake;                  /* 0x20 */
     int isFogCheckPending;              /* 0x3C change the fog at the next threshold */
     int obstacleAnimeState;              /* 0x40 1: obstacle break just started, 2: wait for its animation */
-    void *riders[GIMMICK43_RIDER_MAX];  /* 0x44 field objects that move with the lift */
+    void *riders[FIELD_GIMMICK_LIFT_ELEVATOR_RIDER_MAX];  /* 0x44 field objects that move with the lift */
 } Gimmick43Work;
 
 #endif

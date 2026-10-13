@@ -1,5 +1,5 @@
 /*
- * function: func_021E8238
+ * function: HAND_WAZA_MiracleEyeSetDarkType
  * address:  0x021E8238
  * packet:   pkt_ov093_021E8238
  * region:   ov093
@@ -24,7 +24,7 @@ extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 union U;
 extern void BTLV_CORE_SetSlotValue(union U *p, u16 v);
 
-void func_021E8238(int a, int b, int c)
+void HAND_WAZA_MiracleEyeSetDarkType(int a, int b, int c)
 {
     u32 v;
 

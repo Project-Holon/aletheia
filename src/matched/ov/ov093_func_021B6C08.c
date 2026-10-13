@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E9034  0x021E9034  thumb  ov093
+ *   BTLV_CORE_Delete  0x021E9034  thumb  ov093
  *   BTL_CLIENT_Delete  0x021CD8E0  thumb  ov093
  *   BTL_SIDE_DeletePokeParams  0x021B9674  thumb  ov093
  *   BTL_SERVER_Delete  0x021BAB5C  thumb  ov093
@@ -30,7 +30,7 @@ struct S {
     u8 fc8[0xe8];
 };
 
-extern void func_021E9034(char *p);
+extern void BTLV_CORE_Delete(char *p);
 extern void BTL_CLIENT_Delete(u8 *p);
 extern void BTL_SIDE_DeletePokeParams(char *p);
 extern void BTL_SERVER_Delete(int a);
@@ -40,7 +40,7 @@ int BTL_MAIN_TaskCleanup(int a0, struct S *s)
     u32 i;
 
     if (s->f04 != 0) {
-        func_021E9034((char *)s->f04);
+        BTLV_CORE_Delete((char *)s->f04);
         s->f04 = 0;
     }
     for (i = 0; i < 4; i++) {

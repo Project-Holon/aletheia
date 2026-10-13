@@ -1,5 +1,5 @@
 /*
- * function: func_02207B84
+ * function: BTLV_GAUGE_StartExpGain
  * address:  0x02207B84
  * packet:   pkt_ov094_02207B84
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02207EA8  0x02207EA8  thumb  ov094
+ *   BTLV_GAUGE_StartExpChange  0x02207EA8  thumb  ov094
  */
 
 typedef unsigned int u32;
@@ -29,11 +29,11 @@ typedef struct {
 } W;
 
 struct S;
-extern void func_02207EA8(struct S *p, int a);
+extern void BTLV_GAUGE_StartExpChange(struct S *p, int a);
 
-void func_02207B84(W *p, int i, int c)
+void BTLV_GAUGE_StartExpGain(W *p, int i, int c)
 {
     p->e[i].b = 0;
     p->e[i].d = 1;
-    func_02207EA8((struct S *)(&p->e[i]), c);
+    BTLV_GAUGE_StartExpChange((struct S *)(&p->e[i]), c);
 }

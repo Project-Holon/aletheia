@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK54_SaveAnimeFrames
+ * function: FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames
  * address: 0x021F38B0
  * packet: pkt_ov054_021F38B0
  * region: ov054
@@ -27,4 +27,4 @@ typedef unsigned int   u32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern int SOUND_OBJ_GetAnimeFrame(void *);
-void GIMMICK54_SaveAnimeFrames(char *p,int a) { int *q=GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))),11); int i; for(i=0;i<2;i++) { int offset=4*i; int v=SOUND_OBJ_GetAnimeFrame(*(void **)(p+8+offset)); *(int *)((char *)q+offset)=v>>12; } }
+void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(char *p,int a) { int *q=GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))),11); int i; for(i=0;i<2;i++) { int offset=4*i; int v=SOUND_OBJ_GetAnimeFrame(*(void **)(p+8+offset)); *(int *)((char *)q+offset)=v>>12; } }

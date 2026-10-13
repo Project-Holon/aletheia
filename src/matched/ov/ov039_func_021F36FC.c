@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_Setup
+ * function: FIELD_GIMMICK_CART_LANES_Setup
  * address: 0x021F36FC
  * packet: pkt_ov039_021F36FC
  * region: ov039
@@ -46,7 +46,7 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled 0x021BE700 thumb ov021
  *   FLD_EXP_OBJ_SetAnimeFrame 0x021BE6CC thumb ov021
  *   FLD_EXP_OBJ_GetAnimeLastFrame 0x021BE748 thumb ov021
- *   GIMMICK39_UpdateTask 0x021F3A34 thumb
+ *   FIELD_GIMMICK_CART_LANES_UpdateTask 0x021F3A34 thumb
  */
 
 #include "../include/G_Vec.h"
@@ -100,7 +100,7 @@ extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *s, u32 id, u32 who
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, u8 k, int flag);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
-void GIMMICK39_UpdateTask(int a0, void *a1);
+void FIELD_GIMMICK_CART_LANES_UpdateTask(int a0, void *a1);
 extern u16 FIELDMAP_GetHeapId(void *p);
 extern void *FIELDMAP_AllocCommonWork(void *p, int id, int a, int b);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(int h, const void *res, int c);
@@ -110,7 +110,7 @@ extern void *FIELDMAP_GetTcblSys(void *p);
 extern void *func_02030DA8(void *mgr, void (*fn)(int, void *), void *work, u32 key);
 extern const Vec sCartSetup, sModelPos00, sModelPos01, sModelPos02, sModelPos03, sModelPos04, sModelPos05, sModelPos06, sModelPos07, sModelPos08, sModelPos09, sModelPos10, sModelPos11;
 
-void GIMMICK39_Setup(void *a)
+void FIELD_GIMMICK_CART_LANES_Setup(void *a)
 {
     int h;
     Work *w;
@@ -167,7 +167,7 @@ void GIMMICK39_Setup(void *a)
         FLD_EXP_OBJ_SetAnimeFrame(h, 0, j, g, FLD_EXP_OBJ_GetAnimeLastFrame((u32)FLD_EXP_OBJ_GetAnime((char *)h, 0, j, g)));
     }
     w = FIELDMAP_GetCommonWork(a, 1);
-    w->task = func_02030DA8(FIELDMAP_GetTcblSys(a), GIMMICK39_UpdateTask, a, 0);
+    w->task = func_02030DA8(FIELDMAP_GetTcblSys(a), FIELD_GIMMICK_CART_LANES_UpdateTask, a, 0);
     for (n = 0; n < 4; n++) {
         w->req[n] = 0;
         w->cur[n] = n * 2 + q->flag[n];

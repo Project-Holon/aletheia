@@ -1,5 +1,5 @@
 /*
- * function: func_021E7040
+ * function: HAND_WAZA_AddAcrobatics
  * address: 0x021E7040
  * packet: pkt_ov093_021E7040
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F268C 0x021F268C data ov093 a4
  */
 
-int *func_021E7040(int *p);
+int *HAND_WAZA_AddAcrobatics(int *p);
 extern int d_021F268C[];
 
-int *func_021E7040(int *p)
+int *HAND_WAZA_AddAcrobatics(int *p)
 {
     *p = 1;
     return d_021F268C;

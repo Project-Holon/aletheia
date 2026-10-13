@@ -1,5 +1,5 @@
 /*
- * function: func_021E8190
+ * function: HAND_WAZA_RelicSongChangeForm
  * address:  0x021E8190
  * packet:   pkt_ov093_021E8190
  * region:   ov093
@@ -32,7 +32,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E8190(int a, void *b, int c)
+void HAND_WAZA_RelicSongChangeForm(int a, void *b, int c)
 {
     int f;
     u8 *p;

@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data ov014 a4
+ *   gWihWork 0x021797A8 data ov014 a4
  *   func_02082D44 0x02082D44 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 extern void func_02082D44(void *src, void *dst, int n);
 void WIH_SetScanTarget(u16 value, void *src)
 {
-    *(u16 *)(g_021797A8 + 0x1eb2) = value;
-    func_02082D44(src, g_021797A8 + 0x140a, 6);
+    *(u16 *)(gWihWork + 0x1eb2) = value;
+    func_02082D44(src, gWihWork + 0x140a, 6);
 }

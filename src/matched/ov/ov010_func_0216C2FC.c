@@ -26,12 +26,12 @@
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
- *   GIMMICK50_InitModelsB  0x021F3714  thumb  ov050
- *   GIMMICK50_ShowModel1  0x021F37B8  thumb  ov050
- *   GIMMICK50_IsModel0AnimeDone  0x021F3758  thumb  ov050
- *   GIMMICK50_IsModel1AnimeDone  0x021F3808  thumb  ov050
- *   GIMMICK50_StopModel0Anime  0x021F3744  thumb  ov050
- *   GIMMICK50_HideModel1  0x021F3788  thumb  ov050
+ *   FIELD_GIMMICK_MODELS_B_StartModel0Anime  0x021F3714  thumb  ov050
+ *   FIELD_GIMMICK_MODELS_B_ShowModel1  0x021F37B8  thumb  ov050
+ *   FIELD_GIMMICK_MODELS_B_IsModel0AnimeDone  0x021F3758  thumb  ov050
+ *   FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone  0x021F3808  thumb  ov050
+ *   FIELD_GIMMICK_MODELS_B_StopModel0Anime  0x021F3744  thumb  ov050
+ *   FIELD_GIMMICK_MODELS_B_HideModel1  0x021F3788  thumb  ov050
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   FIELD_CAMERA_CreateShakeTask  0x021D2D50  thumb
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
@@ -90,12 +90,12 @@ extern void NAMEIN_SETUP_SnapObjToGrid(Work *w);
 extern void FLDMMDL_MOVE_GetMapHeight(void *a, VecFx32 *v, fx32 *y);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
-extern void GIMMICK50_InitModelsB(int *p);
-extern void GIMMICK50_ShowModel1(int a);
-extern int GIMMICK50_IsModel0AnimeDone(int *p);
-extern int GIMMICK50_IsModel1AnimeDone(int *p);
-extern void GIMMICK50_StopModel0Anime(int *p);
-extern void GIMMICK50_HideModel1(int *p);
+extern void FIELD_GIMMICK_MODELS_B_StartModel0Anime(int *p);
+extern void FIELD_GIMMICK_MODELS_B_ShowModel1(int a);
+extern int FIELD_GIMMICK_MODELS_B_IsModel0AnimeDone(int *p);
+extern int FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone(int *p);
+extern void FIELD_GIMMICK_MODELS_B_StopModel0Anime(int *p);
+extern void FIELD_GIMMICK_MODELS_B_HideModel1(int *p);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *FIELD_CAMERA_CreateShakeTask(void *sys, Param *p);
 extern void *FIELD_PLAYER_GetMmdl(u8 *p);
@@ -129,8 +129,8 @@ int NAMEIN_SETUP_RunLandEvent(void *evt, u32 *state, Work *w)
             (*state)++;
         break;
     case 2:
-        GIMMICK50_InitModelsB(w->field);
-        GIMMICK50_ShowModel1((int)w->field);
+        FIELD_GIMMICK_MODELS_B_StartModel0Anime(w->field);
+        FIELD_GIMMICK_MODELS_B_ShowModel1((int)w->field);
         GAME_EVENT_CallEvent(evt, EVENT_FIELDMAP_CONTROL_StartFadeIn(w->sys, w->field, 0, 0, 1, 0, 0));
         (*state)++;
         break;
@@ -160,9 +160,9 @@ int NAMEIN_SETUP_RunLandEvent(void *evt, u32 *state, Work *w)
         }
         break;
     case 4:
-        if (GIMMICK50_IsModel0AnimeDone(w->field) && GIMMICK50_IsModel1AnimeDone(w->field)) {
-            GIMMICK50_StopModel0Anime(w->field);
-            GIMMICK50_HideModel1(w->field);
+        if (FIELD_GIMMICK_MODELS_B_IsModel0AnimeDone(w->field) && FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone(w->field)) {
+            FIELD_GIMMICK_MODELS_B_StopModel0Anime(w->field);
+            FIELD_GIMMICK_MODELS_B_HideModel1(w->field);
             (*state)++;
         }
         break;

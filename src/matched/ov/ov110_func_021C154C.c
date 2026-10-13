@@ -22,7 +22,7 @@
  *   PMS_WORD_GetSaveEntry 0x02024910 thumb
  *   PMSI_PARAM_SetSentence 0x02024108 thumb
  *   PROCSYS_Push 0x02031348 arm
- *   d_021C39B8 0x021C39B8 data a4
+ *   gPmsSelectProcData 0x021C39B8 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +32,7 @@ extern struct Obj *PMSI_PARAM_Create(u32 kind, u32 a1, void *src, u32 flag, void
 extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern void PMSI_PARAM_SetSentence(u16 *dst, const u16 *src);
 extern void PROCSYS_Push(void *, int, void *, void *);
-extern const unsigned d_021C39B8[];
+extern const unsigned gPmsSelectProcData[];
 int func_021C154C(int *state, u8 *p) {
     void *q;
     switch (*state) {
@@ -40,7 +40,7 @@ int func_021C154C(int *state, u8 *p) {
     case 1:
         q=PMSI_PARAM_Create(2,0,0,1,*(void **)(p+0x1c),*(u16 *)(p+4));
         PMSI_PARAM_SetSentence(q,PMS_WORD_GetSaveEntry(*(void **)(p+0x20),p[0x95]));
-        PROCSYS_Push(*(void **)(p+0xac),-1,(void *)d_021C39B8,q);
+        PROCSYS_Push(*(void **)(p+0xac),-1,(void *)gPmsSelectProcData,q);
         *(void **)(p+0x90)=q;
         return 1;
     }

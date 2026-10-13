@@ -1,5 +1,5 @@
 /*
- * function: func_021EA824
+ * function: BTLV_CORE_EndWaitMessage
  * address:  0x021EA824
  * packet:   pkt_ov093_021EA824
  * region:   ov093
@@ -17,7 +17,7 @@
 extern void func_021F8A78(void);
 extern void BTLV_SCU_NoOp(char *p);
 
-void func_021EA824(char *p)
+void BTLV_CORE_EndWaitMessage(char *p)
 {
     func_021F8A78();
     BTLV_SCU_NoOp(*(char * *)&((struct Obj21567 *)p)->f17C);

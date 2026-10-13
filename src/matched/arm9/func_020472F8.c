@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8148     0x020A8148  data
+ *   NNS_GfdDefaultFuncAllocPlttVram     0x020A8148  data
  *   NNS_G3dPlttGetRequiredSize  0x0206A110  arm
  *
  * Open one layer: ask NNS_G3dPlttGetRequiredSize for the layer's handle (a zero handle
@@ -40,7 +40,7 @@ struct Layer {
     u16 unk_20;
 };
 
-extern u32 (*g_020A8148)(u32 handle, u32 flags, u32 zero);
+extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 handle, u32 flags, u32 zero);
 extern int NNS_G3dPlttGetRequiredSize(int p);
 
 int G3D_SYSTEM_AllocPlttVramKey(struct Layer *layer, u32 *out)
@@ -51,7 +51,7 @@ int G3D_SYSTEM_AllocPlttVramKey(struct Layer *layer, u32 *out)
     if (h == 0)
         goto ret1;
 
-    h = g_020A8148(h, layer->unk_20 & 0x8000, 0);
+    h = NNS_GfdDefaultFuncAllocPlttVram(h, layer->unk_20 & 0x8000, 0);
     *out = h;
     if (h == 0)
         return 0;

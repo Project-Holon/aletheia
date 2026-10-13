@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02207D60",
+   "name": "BTLV_GAUGE_IsSlotOccupied",
    "address": "0x02207D60",
    "kind": "game",
    "region": "ov094",

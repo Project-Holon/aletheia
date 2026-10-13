@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA478",
+   "name": "BTLV_CORE_WaitMonEffectTask",
    "address": "0x021EA478",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA720",
+   "name": "BTLV_CORE_ConsumeMessageFlag",
    "address": "0x021EA720",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA814",
+   "name": "BTLV_CORE_UpdateWaitMessage",
    "address": "0x021EA814",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA878",
+   "name": "BTLV_CORE_WaitMonSpriteLoad",
    "address": "0x021EA878",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA8A4",
+   "name": "BTLV_CORE_WaitMonSpriteChange",
    "address": "0x021EA8A4",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA8D4",
+   "name": "BTLV_CORE_WaitMonSpriteChangeAt",
    "address": "0x021EA8D4",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA8F4",
+   "name": "BTLV_CORE_WaitMonSpriteUnload",
    "address": "0x021EA8F4",
    "kind": "game",
    "region": "ov093",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EAE14",
+   "name": "BTLV_CORE_PollFadeInDone",
    "address": "0x021EAE14",
    "kind": "game",
    "region": "ov093",
@@ -139,7 +139,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021ECF50",
+   "name": "BTLV_SCU_ConsumeMessageEnded",
    "address": "0x021ECF50",
    "kind": "game",
    "region": "ov093",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED374",
+   "name": "BTLV_SCU_IsMonWithdrawDone",
    "address": "0x021ED374",
    "kind": "game",
    "region": "ov093",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED5D8",
+   "name": "BTLV_SCU_IsMonFormChangeDone",
    "address": "0x021ED5D8",
    "kind": "game",
    "region": "ov093",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED714",
+   "name": "BTLV_SCU_IsMonGraphicSwapDone",
    "address": "0x021ED714",
    "kind": "game",
    "region": "ov093",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ED8D8",
+   "name": "BTLV_SCU_IsMsgWinFadeOutTaskDone",
    "address": "0x021ED8D8",
    "kind": "game",
    "region": "ov093",

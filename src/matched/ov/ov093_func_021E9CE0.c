@@ -1,5 +1,5 @@
 /*
- * function: func_021E9CE0
+ * function: BTLV_CORE_StartMoveHighlight
  * address:  0x021E9CE0
  * packet:   pkt_ov093_021E9CE0
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E9984  0x021E9984  thumb  ov093
+ *   BTLV_CORE_InitPartyWork  0x021E9984  thumb  ov093
  */
 typedef unsigned char u8;
 
-extern void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y);
+extern void BTLV_CORE_InitPartyWork(u8 *p, u8 *q, int mode, u8 x, int y);
 
-void func_021E9CE0(u8 *p, u8 a, u8 b)
+void BTLV_CORE_StartMoveHighlight(u8 *p, u8 a, u8 b)
 {
-    func_021E9984(p, p + 0x10c, 5, a, 0);
+    BTLV_CORE_InitPartyWork(p, p + 0x10c, 5, a, 0);
     p[0x157] = b;
     p[0x174] = 0;
 }

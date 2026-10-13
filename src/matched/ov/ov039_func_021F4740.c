@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_ApplySwitch
+ * function: FIELD_GIMMICK_CART_LANES_ApplySwitch
  * address:  0x021F4740
  * packet:   pkt_ov039_021F4740
  * region:   ov039
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK39_ApplySwitch  0x021F4740  thumb
- *   GIMMICK39_IsCartBeforeSwitchLimit  0x021F4894  thumb
- *   GIMMICK39_SwapCartAnimes  0x021F47D8  thumb
+ *   FIELD_GIMMICK_CART_LANES_ApplySwitch  0x021F4740  thumb
+ *   FIELD_GIMMICK_CART_LANES_IsCartBeforeSwitchLimit  0x021F4894  thumb
+ *   FIELD_GIMMICK_CART_LANES_SwapCartAnimes  0x021F47D8  thumb
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -33,10 +33,10 @@ extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
-extern int GIMMICK39_IsCartBeforeSwitchLimit(void *p, int i, u8 j);
-extern void GIMMICK39_SwapCartAnimes(void *a, int f, int i);
+extern int FIELD_GIMMICK_CART_LANES_IsCartBeforeSwitchLimit(void *p, int i, u8 j);
+extern void FIELD_GIMMICK_CART_LANES_SwapCartAnimes(void *a, int f, int i);
 
-void GIMMICK39_ApplySwitch(u32 a, void *b)
+void FIELD_GIMMICK_CART_LANES_ApplySwitch(u32 a, void *b)
 {
     s8 *p;
     u8 *q;
@@ -53,8 +53,8 @@ void GIMMICK39_ApplySwitch(u32 a, void *b)
     arr = q + 0x10;
     v = arr[i];
     arr[i] = (v + 1) % 2;
-    if (GIMMICK39_IsCartBeforeSwitchLimit(b, (u8)i, *((u8 *)p + p[5] + 0x21EC)) != 0) {
-        GIMMICK39_SwapCartAnimes(b, v, (u8)p[5]);
+    if (FIELD_GIMMICK_CART_LANES_IsCartBeforeSwitchLimit(b, (u8)i, *((u8 *)p + p[5] + 0x21EC)) != 0) {
+        FIELD_GIMMICK_CART_LANES_SwapCartAnimes(b, v, (u8)p[5]);
         i = p[5];
         *((u8 *)p + i + 0x21EC) = i * 2 + *(u8 *)(q + i + 0x10);
     } else {

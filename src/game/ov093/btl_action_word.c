@@ -38,16 +38,13 @@
 
 typedef enum { MASK=15 } Mask;
 
-struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u32 key, int priority, u32 subPriority, u8 ownerId, u32 handlers, u16 handlerCount);
 extern struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int pokeId);
-extern void BTL_EVENT_RemoveFactor(struct BtlEventFactor *factor);
 extern void BTL_EVENT_DisablePokeFactors(u32 pokeId, int factorType);
 extern int BTL_EVENT_EnablePokeFactors(int pokeId, int factorType);
-int BTL_SERVER_FLOW_QueryMainFlag(struct BtlSvFlow *flow, int flagId);
-int BTL_SERVER_FLOW_GetFrontPosOfPoke(struct BtlSvFlow *flow, int pokeId);
-u8 *BTL_SERVER_FLOW_GetScratchBuffer(struct BtlSvFlow *flow, int bufferId);
-u8 BTL_SERVER_FLOW_CollectAlivePokeIds(struct BtlSvFlow *flow, int posKey, u8 *out);
-void BTL_SERVER_FLOW_PushCmdRecord(struct BtlSvFlow *flow, int kind, int pokeId);
+int BTL_SERVER_FLOW_QueryMainFlag(struct BtlServerFlow *flow, int flagId);
+u8 *BTL_SERVER_FLOW_GetScratchBuffer(struct BtlServerFlow *flow, int bufferId);
+u8 BTL_SERVER_FLOW_CollectAlivePokeIds(struct BtlServerFlow *flow, int posKey, u8 *out);
+void BTL_SERVER_FLOW_PushCmdRecord(struct BtlServerFlow *flow, int kind, int pokeId);
 
 void BTL_CALC_ActionSetNone(u32 *action);
 void BTL_CALC_ActionSetForcedSkip(u32 *action);
@@ -62,9 +59,9 @@ void HAND_TOKUSEI_DisableAbilityHandlers(struct BtlPokeParam *bpp);
 void HAND_TOKUSEI_EnableAbilityHandlers(struct BtlPokeParam *bpp);
 void HAND_TOKUSEI_SwapAbilityHandlers(struct BtlPokeParam *bppA, struct BtlPokeParam *bppB);
 u16 HAND_TOKUSEI_GetPokeSpeed(struct BtlPokeParam *bpp);
-int HAND_TOKUSEI_RollChanceOrFlag(struct BtlSvFlow *flow, u32 percent);
+int HAND_TOKUSEI_RollChanceOrFlag(struct BtlServerFlow *flow, u32 percent);
 u8 *HAND_TOKUSEI_GetIntimidateHandlers(u32 *packedInfo);
-void HAND_TOKUSEI_IntimidateOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+void HAND_TOKUSEI_IntimidateOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 int *HAND_TOKUSEI_GetInnerFocusHandlers(int *packedInfo);
 extern AbilityHandlerEntry gAbilityHandlerRegistry[ABILITY_REGISTRY_COUNT];
 extern u8 gIntimidateHandlers[];
@@ -108,7 +105,7 @@ struct BtlEventFactor *HAND_TOKUSEI_AddAbilityHandlers(struct BtlPokeParam *bpp)
             pokeId = BTL_POKEPARAM_GetPokeId(bpp);
             handlers = gAbilityHandlerRegistry[i].getHandlers(&handlerCount);
             priority = HAND_TOKUSEI_UnpackAbilityPriority(&handlerCount);
-            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_ABILITY, abilityId, priority, speed, pokeId, handlers, handlerCount);
+            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_ABILITY, abilityId, priority, speed, pokeId, (BtlEventHandler *)handlers, handlerCount);
         }
     }
     return 0;
@@ -149,13 +146,13 @@ void HAND_TOKUSEI_SwapAbilityHandlers(struct BtlPokeParam *bppA, struct BtlPokeP
 u16 HAND_TOKUSEI_GetPokeSpeed(struct BtlPokeParam *bpp) { return func_021D58A8(bpp,12); }
 
 /* True after a percent roll succeeds, or when the flow flag 1 is set. */
-int HAND_TOKUSEI_RollChanceOrFlag(struct BtlSvFlow *flow, u32 percent) { int result; if (BTL_CALC_RollPercent(percent)) return 1; result=BTL_SERVER_FLOW_QueryMainFlag(flow,1)!=0; return result; }
+int HAND_TOKUSEI_RollChanceOrFlag(struct BtlServerFlow *flow, u32 percent) { int result; if (BTL_CALC_RollPercent(percent)) return 1; result=BTL_SERVER_FLOW_QueryMainFlag(flow,1)!=0; return result; }
 
 u8 *HAND_TOKUSEI_GetIntimidateHandlers(u32 *packedInfo) { *packedInfo=2; return gIntimidateHandlers; }
 
 
 /* Intimidate: lowers the attack of every opposing poke when the owner enters. */
-void HAND_TOKUSEI_IntimidateOnEnter(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+void HAND_TOKUSEI_IntimidateOnEnter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
 {
     int pos;
     u8 *targets;

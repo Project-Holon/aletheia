@@ -10,8 +10,6 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      NET_WHPIPE_IsWhIdle (libdwcghttp.TWL.HYB.thumb.a(dwc_ghttp.o))
- *
  * symbols:
  *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   NET_WHPIPE_GetConnectBitmap  0x02177C3C  thumb  ov014

@@ -1,5 +1,5 @@
 /*
- * function: func_021E75D4
+ * function: HAND_WAZA_AddCircleThrow
  * address: 0x021E75D4
  * packet: pkt_ov093_021E75D4
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F277C[];
-int *func_021E75D4(int *p);
+int *HAND_WAZA_AddCircleThrow(int *p);
 
-int *func_021E75D4(int *p)
+int *HAND_WAZA_AddCircleThrow(int *p)
 {
     *p = 1;
     return d_021F277C;

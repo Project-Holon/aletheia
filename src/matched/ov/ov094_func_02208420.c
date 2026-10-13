@@ -1,5 +1,5 @@
 /*
- * function: func_02208420
+ * function: BTLV_GAUGE_DrawHpNumbers
  * address: 0x02208420
  * packet: pkt_ov094_02208420
  * region: ov094
@@ -22,7 +22,7 @@ typedef struct { char p0[4]; void *f4; char p8[0x44]; int f4c; } E;
 struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, u32);
-void func_02208420(const O *o, E *e, int v)
+void BTLV_GAUGE_DrawHpNumbers(const O *o, E *e, int v)
 {
     Struct36 buf;
     u16 current[3];

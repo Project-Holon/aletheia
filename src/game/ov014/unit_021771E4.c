@@ -10,8 +10,6 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      NET_WHPIPE_IsWorkNotAllocated (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
- *
  * symbols:
  *   NET_WHPIPE_IsWorkAllocated  0x02177A94  thumb  ov014
  */

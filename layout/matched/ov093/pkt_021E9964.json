@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E9964",
+   "name": "BTLV_CORE_CloseMenuToReselect",
    "address": "0x021E9964",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E9974",
+   "name": "BTLV_CORE_IsMenuClosed",
    "address": "0x021E9974",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA0E4",
+   "name": "BTLV_CORE_WaitSceneEffect",
    "address": "0x021EA0E4",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA428",
+   "name": "BTLV_CORE_WaitMonReset",
    "address": "0x021EA428",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA438",
+   "name": "BTLV_CORE_StartMonRefresh",
    "address": "0x021EA438",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA448",
+   "name": "BTLV_CORE_WaitMonRefresh",
    "address": "0x021EA448",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA710",
+   "name": "BTLV_CORE_WaitMessage",
    "address": "0x021EA710",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA758",
+   "name": "BTLV_CORE_PrintMessageNow",
    "address": "0x021EA758",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA768",
+   "name": "BTLV_CORE_ShowPortrait",
    "address": "0x021EA768",
    "kind": "game",
    "region": "ov093",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA778",
+   "name": "BTLV_CORE_UpdatePortraitSlideIn",
    "address": "0x021EA778",
    "kind": "game",
    "region": "ov093",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA788",
+   "name": "BTLV_CORE_StartPortraitSlideOut",
    "address": "0x021EA788",
    "kind": "game",
    "region": "ov093",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA798",
+   "name": "BTLV_CORE_WaitPortraitSlideOut",
    "address": "0x021EA798",
    "kind": "game",
    "region": "ov093",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA7A8",
+   "name": "BTLV_CORE_ReloadPortrait",
    "address": "0x021EA7A8",
    "kind": "game",
    "region": "ov093",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA7B8",
+   "name": "BTLV_CORE_UpdatePortraitMosaic",
    "address": "0x021EA7B8",
    "kind": "game",
    "region": "ov093",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA868",
+   "name": "BTLV_CORE_StartMonSpriteLoad",
    "address": "0x021EA868",
    "kind": "game",
    "region": "ov093",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA8E4",
+   "name": "BTLV_CORE_StartMonSpriteUnload",
    "address": "0x021EA8E4",
    "kind": "game",
    "region": "ov093",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EAC54",
+   "name": "BTLV_CORE_PollYesNoMenu",
    "address": "0x021EAC54",
    "kind": "game",
    "region": "ov093",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EAE04",
+   "name": "BTLV_CORE_StartFadeIn",
    "address": "0x021EAE04",
    "kind": "game",
    "region": "ov093",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EAE54",
+   "name": "BTLV_CORE_PollAutoSelectNotice",
    "address": "0x021EAE54",
    "kind": "game",
    "region": "ov093",

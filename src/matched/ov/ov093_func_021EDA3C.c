@@ -1,5 +1,5 @@
 /*
- * function: func_021EDA3C
+ * function: BTLV_SCU_GetNamePlateSide
  * address:  0x021EDA3C
  * packet:   pkt_ov093_021EDA3C
  * region:   ov093
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef enum { B_FALSE, B_TRUE } Bool;
 extern u8 BTL_MAIN_GetPosParity(u32);
 extern int BTL_MAIN_IsLocalSide(u8 *, u8);
-Bool func_021EDA3C(u8 *p, u32 x)
+Bool BTLV_SCU_GetNamePlateSide(u8 *p, u32 x)
 {
     if (BTL_MAIN_IsLocalSide(p, BTL_MAIN_GetPosParity(x)) != 0)
         return B_FALSE;

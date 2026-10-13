@@ -1,5 +1,5 @@
 /*
- * function: func_02209C2C
+ * function: BTLV_FINGER_CURSOR_IsActive
  * address:  0x02209C2C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02209C2C   0x02209C2C  thumb
+ *   BTLV_FINGER_CURSOR_IsActive   0x02209C2C  thumb
  *
  * Returns the word at +0x28 of the object passed in r0.  A bare leaf
  * getter with no prologue.
@@ -21,7 +21,7 @@ typedef struct {
     int  val;
 } Obj;
 
-int func_02209C2C(Obj *o)
+int BTLV_FINGER_CURSOR_IsActive(Obj *o)
 {
     return o->val;
 }

@@ -11,18 +11,18 @@
  *
  * DWC_StartUtilityEx (libdwcutil/main.o): second copy in ov093, a two-argument
  * wrapper forwarding the persistent heap block and both parameters to its own
- * local entry point (func_021EFAD8); tail call.
+ * local entry point (BTL_FIELD_AddSlotHolder); tail call.
  *
  * symbols:
- *   func_021EFAD8  0x021EFAD8  thumb  ov093
+ *   BTL_FIELD_AddSlotHolder  0x021EFAD8  thumb  ov093
  *   HeapMem        0x021F63F4  data   ov093  a4
  */
 
 extern char HeapMem;
 typedef unsigned int   u32;
-extern int func_021EFAD8(char *a, u32 b, u32 c);
+extern int BTL_FIELD_AddSlotHolder(char *a, u32 b, u32 c);
 
 int DWC_StartUtilityEx(int a, int b)
 {
-    return func_021EFAD8(&HeapMem, a, b);
+    return BTL_FIELD_AddSlotHolder(&HeapMem, a, b);
 }

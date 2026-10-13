@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: RAIL_SLIPDOWN_Create
  * address:  0x021F36C0
  * packet:   pkt_ov063_021F36C0
  * region:   ov063
@@ -24,7 +24,7 @@
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_021F377C  0x021F377C  thumb  ov063
+ *   RAIL_SLIPDOWN_TaskMain  0x021F377C  thumb  ov063
  *   d_021F3D80     0x021F3D80  data  a1
  */
 
@@ -61,9 +61,9 @@ extern void FLDMMDL_OnMoveBitMovePause(void *a0);
 extern u32 FIELDMAP_GetTcblSys(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02030DA8(u32 owner, void *cb, void *arg, u32 n);
-extern void func_021F377C(void);
+extern void RAIL_SLIPDOWN_TaskMain(void);
 
-W *func_021F36C0(int unused, u8 *sys, int c, int d)
+W *RAIL_SLIPDOWN_Create(int unused, u8 *sys, int c, int d)
 {
     W *p;
 
@@ -83,6 +83,6 @@ W *func_021F36C0(int unused, u8 *sys, int c, int d)
     FLDMMDL_SetStatusBitAttrGetOff((void *)p->f10, 1);
     FLDMMDL_SetStatusBitFellowHit((unsigned int *)p->f10, 0);
     FLDMMDL_OnMoveBitMovePause((void *)p->f10);
-    p->f80 = func_02030DA8(FIELDMAP_GetTcblSys((u8 *)sys), (void *)func_021F377C, p, 0);
+    p->f80 = func_02030DA8(FIELDMAP_GetTcblSys((u8 *)sys), (void *)RAIL_SLIPDOWN_TaskMain, p, 0);
     return p;
 }

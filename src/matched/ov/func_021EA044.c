@@ -1,5 +1,5 @@
 /*
- * function: func_021EA044
+ * function: BTLV_CORE_GetInputTargetSlot
  * address:  0x021EA044
  * packet:   pkt_021E8CFC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EA044   0x021EA044  thumb
+ *   BTLV_CORE_GetInputTargetSlot   0x021EA044  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0x4b; lsls r1, r1, #2; ldrb r0, [r0, r1]; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021EA044  movs r1,#0x4b; lsls r1,#2; ldrb r0,[r0,r1] */
 struct QV { u8 pad[0x12c]; u8 v; };
-u8 func_021EA044(struct QV *p) { return p->v; }
+u8 BTLV_CORE_GetInputTargetSlot(struct QV *p) { return p->v; }
 

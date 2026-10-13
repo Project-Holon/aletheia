@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_LiftEventMain
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain
  * address:  0x021F3AC0
  * packet:   pkt_ov043_021F3AC0
  * region:   ov043
@@ -37,26 +37,26 @@
  *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
  *   FLDMMDL_SetGridNowY  0x0216D85C  thumb  ov010
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
- *   GIMMICK43_IsInLiftZone  0x021F3EEC  thumb  ov043
- *   GIMMICK43_StartCameraShake  0x021F41B8  thumb  ov043
- *   GIMMICK43_UpdateCameraShake  0x021F4210  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone  0x021F3EEC  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake  0x021F41B8  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake  0x021F4210  thumb  ov043
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   GIMMICK43_IsLiftArrived  0x021F3ECC  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived  0x021F3ECC  thumb  ov043
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
- *   GIMMICK43_GetLiftAnimeIndex  0x021F3FBC  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex  0x021F3FBC  thumb  ov043
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELD_G3D_MAPPER_GetHeightEx  0x0218CEE0  thumb  ov021
  *   HEIGHT_EX_SetAreaHeight  0x021C06C0  thumb  ov021
- *   GIMMICK43_ShowLiftAnime  0x021F3F38  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime  0x021F3F38  thumb  ov043
  *   FIELDMAP_GetFog  0x02188C64  thumb  ov021
  *   FIELD_FOG_FADE_IsFade  0x021A0244  thumb  ov021
- *   GIMMICK43_UpdateBigLift  0x021F3FE8  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift  0x021F3FE8  thumb  ov043
  */
 
 typedef unsigned char u8;
@@ -107,28 +107,28 @@ extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
 extern Vec *FLDMMDL_GetPosPtr(u32 o);
 extern void FLDMMDL_SetGridNowY(void *p, int v);
 extern void FLDMMDL_SetPos(u32 o, Vec *v);
-extern int GIMMICK43_IsInLiftZone(u8 i, int x, int y);
-extern void GIMMICK43_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s);
-extern int GIMMICK43_UpdateCameraShake(u8 *s);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(u8 i, int x, int y);
+extern void FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(u8 *s);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
 extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern int GIMMICK43_IsLiftArrived(int *p);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(int *p);
 extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
-extern int GIMMICK43_GetLiftAnimeIndex(int *a, int i);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex(int *a, int i);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 extern void *FIELD_G3D_MAPPER_GetHeightEx(void *p);
 extern void HEIGHT_EX_SetAreaHeight(u8 i, int v, int *p);
-extern void GIMMICK43_ShowLiftAnime(int *a, void *b, int c);
+extern void FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(int *a, void *b, int c);
 extern u32 FIELDMAP_GetFog(u8 *p);
 extern int FIELD_FOG_FADE_IsFade(u8 *p);
-extern void GIMMICK43_UpdateBigLift(void *a);
+extern void FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift(void *a);
 
-int GIMMICK43_LiftEventMain(void *a, int *b)
+int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *a, int *b)
 {
     Vec pos;
     Vec vec;
@@ -170,18 +170,18 @@ int GIMMICK43_LiftEventMain(void *a, int *b)
         while (FLDMMDL_SysSearchUseMmdl(m, (struct Rec **)(&cur), (u32 *)(&it)) == 1) {
             x = FLDMMDL_GetGridNowX((void *)cur);
             y = FLDMMDL_GetGridNowZ((void *)cur);
-            if (GIMMICK43_IsInLiftZone(w[0], x, y)) {
+            if (FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(w[0], x, y)) {
                 FLDMMDL_GetPos((const struct Actor *)cur, (struct VecFx32 *)&vec);
                 if (pos.y - 0x10000 < vec.y && vec.y < pos.y + 0x10000 && n < 5) {
                     w[17 + n++] = cur;
                 }
             }
         }
-        GIMMICK43_StartCameraShake((u8)w[0], w[3], 1, (u32)h, (u8 *)(w + 8));
+        FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake((u8)w[0], w[3], 1, (u32)h, (u8 *)(w + 8));
         (*b)++;
         break;
     case 1:
-        if (GIMMICK43_UpdateCameraShake((u8 *)(w + 8))) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake((u8 *)(w + 8))) {
             (*b)++;
         }
         break;
@@ -199,9 +199,9 @@ int GIMMICK43_LiftEventMain(void *a, int *b)
         if (w[6] == 0) {
             w[1] += w[3];
         }
-        if (GIMMICK43_IsLiftArrived(w)) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(w)) {
             w[1] = w[2];
-            GIMMICK43_StartCameraShake((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
+            FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
             GFL_USE_PlaySeDefaultVolume((int)0x6cb);
             (*b)++;
         }
@@ -217,19 +217,19 @@ int GIMMICK43_LiftEventMain(void *a, int *b)
         }
         break;
     case 5:
-        if (GIMMICK43_UpdateCameraShake((u8 *)(w + 8))) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake((u8 *)(w + 8))) {
             (*b)++;
         }
         break;
     case 6:
         FIELD_CAMERA_RestartDelay((unsigned char *)h);
         k = w[0];
-        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(r, 0, (u16)k, (u16)GIMMICK43_GetLiftAnimeIndex(q, k)), 0);
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(r, 0, (u16)k, (u16)FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex(q, k)), 0);
         (*b)++;
         break;
     case 7:
         k = w[0];
-        e = FLD_EXP_OBJ_GetAnime(r, 0, (u16)k, (u16)GIMMICK43_GetLiftAnimeIndex(q, k));
+        e = FLD_EXP_OBJ_GetAnime(r, 0, (u16)k, (u16)FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex(q, k));
         f = 0;
         if (FLD_EXP_OBJ_IsAnimeStopped(e) == 0) {
             break;
@@ -242,7 +242,7 @@ int GIMMICK43_LiftEventMain(void *a, int *b)
         }
         c = (int)FIELD_G3D_MAPPER_GetHeightEx((void *)FIELDMAP_GetG3dMapper(s));
         HEIGHT_EX_SetAreaHeight(w[0] + 8, sGimmick43LiftHeights[w[0]].v[f], (int *)c);
-        GIMMICK43_ShowLiftAnime(q, r, w[0]);
+        FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(q, r, w[0]);
         if (w[0] != 5) {
             return 1;
         }
@@ -254,6 +254,6 @@ int GIMMICK43_LiftEventMain(void *a, int *b)
         }
         break;
     }
-    GIMMICK43_UpdateBigLift(t);
+    FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift(t);
     return 0;
 }

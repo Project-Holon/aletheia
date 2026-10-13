@@ -1,5 +1,5 @@
 /*
- * function: func_02208268
+ * function: BTLV_GAUGE_DrawGender
  * address:  0x02208268
  * packet:   pkt_ov094_02208268
  * region:   ov094
@@ -21,7 +21,7 @@ struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 
-void func_02208268(O *o, E *e)
+void BTLV_GAUGE_DrawGender(O *o, E *e)
 {
     Struct36 buf;
     int off1;

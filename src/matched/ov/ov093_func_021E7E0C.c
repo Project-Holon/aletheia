@@ -1,5 +1,5 @@
 /*
- * function: func_021E7E0C
+ * function: HAND_WAZA_QuickGuardOnUncategorizedMoveNoTarget
  * address:  0x021E7E0C
  * packet:   pkt_ov093_021E7E0C
  * region:   ov093
@@ -23,7 +23,7 @@ extern unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int x);
 extern void HAND_WAZA_AddSideEffect(int a, int b, int c, int d, int e, int f, Word g, int h);
 extern void HAND_WAZA_ProtectIncrementStreak(void *a, int b, int c);
 
-void func_021E7E0C(int a, int b, int c, int d)
+void HAND_WAZA_QuickGuardOnUncategorizedMoveNoTarget(int a, int b, int c, int d)
 {
     Word t = BTLV_CORE_MakeSlotKind2Index(1);
     int e = BTL_MAIN_IsPokeIdInSecondPair(c);

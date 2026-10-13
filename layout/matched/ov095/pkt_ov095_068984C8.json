@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_068984C8",
+   "name": "HAND_POS_LunarDanceOnSwitchIn",
    "address": "0x068984C8",
    "kind": "game",
    "region": "ov095",

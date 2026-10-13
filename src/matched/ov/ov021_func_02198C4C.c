@@ -1,5 +1,5 @@
 /*
- * function: func_02198C4C
+ * function: FLDMMDL_ACMD_WalkTableMove
  * address:  0x02198C4C
  * packet:   pkt_ov021_02198C4C
  * region:   ov021
@@ -34,7 +34,7 @@ extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
 extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-int func_02198C4C(u32 a, u32 *b)
+int FLDMMDL_ACMD_WalkTableMove(u32 a, u32 *b)
 {
     s16 *p;
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK39_UpdateCartSound",
+   "name": "FIELD_GIMMICK_CART_LANES_UpdateCartSound",
    "address": "0x021F4A18",
    "kind": "game",
    "region": "ov039",

@@ -1,5 +1,5 @@
 /*
- * function: func_02209B60
+ * function: BTLV_FINGER_CURSOR_Start
  * address:  0x02209B60
  * packet:   pkt_ov094_02209B60
  * region:   ov094
@@ -14,8 +14,8 @@
  *
  * symbols:
  *   d_0220AC10     0x0220AC10  data   ov094  a4
- *   func_02209C18  0x02209C18  thumb  ov094
- *   func_02209C30  0x02209C30  thumb  ov094
+ *   BTLV_FINGER_CURSOR_DeleteActor  0x02209C18  thumb  ov094
+ *   BTLV_FINGER_CURSOR_AnimCallback  0x02209C30  thumb  ov094
  *   CLACT_CreateAffineActor  0x0204B324  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
@@ -59,8 +59,8 @@ typedef struct {
 extern Cfg d_0220AC10;
 struct Actor;
 struct Cmd;
-extern void func_02209C18(char *p);
-extern void func_02209C30(void *p);
+extern void BTLV_FINGER_CURSOR_DeleteActor(char *p);
+extern void BTLV_FINGER_CURSOR_AnimCallback(void *p);
 struct Obj;
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 struct Obj;
@@ -70,7 +70,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 
-int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
+int BTLV_FINGER_CURSOR_Start(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
 {
     Cfg cfg = d_0220AC10;
     Msg msg;
@@ -78,7 +78,7 @@ int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
     if (p->f28 != 0)
         return 0;
     if (p->h != 0) {
-        func_02209C18((char *)p);
+        BTLV_FINGER_CURSOR_DeleteActor((char *)p);
         p->h = 0;
     }
     cfg.x = a;
@@ -102,7 +102,7 @@ int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)
     msg.p = p;
     msg.a = 0;
     msg.b = 0;
-    msg.cb = (void *)func_02209C30;
+    msg.cb = (void *)BTLV_FINGER_CURSOR_AnimCallback;
     CLACT_ApplyActorAnimCommand(p->h, (const struct Cmd *)(&msg));
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021E7158
+ * function: HAND_WAZA_AddElectroBall
  * address: 0x021E7158
  * packet: pkt_ov093_021E7158
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F245C 0x021F245C data ov093 a4
  */
 
-int *func_021E7158(int *p);
+int *HAND_WAZA_AddElectroBall(int *p);
 extern int d_021F245C[];
 
-int *func_021E7158(int *p)
+int *HAND_WAZA_AddElectroBall(int *p)
 {
     *p = 1;
     return d_021F245C;

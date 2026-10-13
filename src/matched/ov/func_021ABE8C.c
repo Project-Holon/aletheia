@@ -1,5 +1,5 @@
 /*
- * function: func_021ABE8C
+ * function: FIELD_EFFECT_IsResourceLoaded
  * address:  0x021ABE8C
  * packet:   pkt_021ABE8C
  * region:   ov021
@@ -25,7 +25,7 @@ typedef struct T T;
 typedef struct E E;
 extern E *FIELD_EFFECT_FindResourceSlot(T *, int);
 
-int func_021ABE8C(T *a, int id)
+int FIELD_EFFECT_IsResourceLoaded(T *a, int id)
 {
 if (FIELD_EFFECT_FindResourceSlot(a, id) != 0) {
     return 1;

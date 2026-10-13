@@ -1,7 +1,7 @@
 /*
  * file:     field_flash.c
  * unit:     yes
- * function: func_021C6E5C, func_021C6E74, func_021C6E94, func_021C6EA8, func_021C6EDC, FIELD_TASK_CreateCameraDistanceTween, FIELD_TASK_UpdateCameraDistanceTween, FIELD_TASK_CreateCameraYawTween, FIELD_TASK_CreateCameraPitchTween, FIELD_TASK_InitCameraAngleTween, FIELD_TASK_StepCameraAngleTween, FIELD_TASK_UpdateCameraAngleTween, FIELD_TASK_CreatePlayerSpinLinear, FIELD_TASK_CreateMmdlSpinLinear, FIELD_TASK_CreatePlayerSpinEaseIn, FIELD_TASK_CreatePlayerSpinEaseOut, FIELD_TASK_GetSpinAcmdLinear, FIELD_TASK_GetSpinAcmdEaseIn, FIELD_TASK_GetSpinAcmdEaseOut, FIELD_TASK_UpdateSpinLinear, FIELD_TASK_UpdateSpinEaseIn, FIELD_TASK_UpdateSpinEaseOut, FIELD_TASK_CreatePlayerPosTween, FIELD_TASK_UpdatePlayerPosTween, FIELD_TASK_CreatePlayerDrop, FIELD_TASK_CalcDropOffset, FIELD_TASK_UpdatePlayerDrop, func_021C77D8, FIELD_TASK_CreateFade, FIELD_TASK_UpdateFade, FIELD_TASK_CreatePlayerDrawOffsetTween, FIELD_TASK_CreateMmdlDrawOffsetTween, FIELD_TASK_CreateMmdlPosOffsetTween, FIELD_TASK_CalcOffsetByProgress, FIELD_TASK_UpdateMmdlDrawOffsetTween, FIELD_TASK_UpdateMmdlPosOffsetTween, FIELD_TASK_CreateCameraTargetTween, FIELD_TASK_UpdateCameraTargetTween, FIELD_TASK_CreateCameraLerp, FIELD_TASK_UpdateCameraLerp, FIELD_TASK_CreateRepeatPlayerEffect, FIELD_TASK_UpdateRepeatPlayerEffect, FIELD_FLASH_Create, FIELD_FLASH_Delete, FIELD_FLASH_Update, FIELD_FLASH_Apply, FIELD_FLASH_SetPendingCommand, FIELD_FLASH_GetState, FIELD_FLASH_InitTween, FIELD_FLASH_ClearTween, FIELD_FLASH_StartTween, FIELD_FLASH_StepTween, FIELD_FLASH_GetTweenSize, FIELD_FLASH_SetTweenSize, FIELD_FLASH_GetTweenAlpha, FIELD_FLASH_SetTweenAlpha, FIELD_FLASH_CmdInit, FIELD_FLASH_CmdExpand, func_021C7F44, FIELDSKILL_MAPEFF_Create, FIELDSKILL_MAPEFF_Delete, FIELDSKILL_MAPEFF_Update, FIELDSKILL_MAPEFF_Apply, FIELDSKILL_MAPEFF_GetFlash, FIELDSKILL_MAPEFF_InitFlash, FIELDSKILL_MAPEFF_FreeFlash, FIELDSKILL_MAPEFF_UpdateFlash, FIELDSKILL_MAPEFF_ApplyFlash, FLD_WIPE_3DOBJ_Create, FLD_WIPE_3DOBJ_Delete, FLD_WIPE_3DOBJ_Draw, SCRCMD_StartFld3dCi, SCRCMD_StartFld3dCiByVar, SCRCMD_RunFld3dCiMain, SCRCMD_StartFld3dCiByTable, FLD_WIPE_3DOBJ_CreateMapChangeEvent, FLD_WIPE_3DOBJ_MapChangeEventMain, FLD_WIPE_3DOBJ_FadeOutEventMain, PLEASURE_BOAT_Create, PLEASURE_BOAT_AckEvent, PLEASURE_BOAT_Update, PLEASURE_BOAT_AdvanceTime, PLEASURE_BOAT_GetStat
+ * function: FIELD_TASK_MANAGER_SetSlot, FIELD_TASK_MANAGER_FreeSlot, FIELD_TASK_MANAGER_UpdateSlot, FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone, FIELD_TASK_MANAGER_FreeSlotIfFinished, FIELD_TASK_CreateCameraDistanceTween, FIELD_TASK_UpdateCameraDistanceTween, FIELD_TASK_CreateCameraYawTween, FIELD_TASK_CreateCameraPitchTween, FIELD_TASK_InitCameraAngleTween, FIELD_TASK_StepCameraAngleTween, FIELD_TASK_UpdateCameraAngleTween, FIELD_TASK_CreatePlayerSpinLinear, FIELD_TASK_CreateMmdlSpinLinear, FIELD_TASK_CreatePlayerSpinEaseIn, FIELD_TASK_CreatePlayerSpinEaseOut, FIELD_TASK_GetSpinAcmdLinear, FIELD_TASK_GetSpinAcmdEaseIn, FIELD_TASK_GetSpinAcmdEaseOut, FIELD_TASK_UpdateSpinLinear, FIELD_TASK_UpdateSpinEaseIn, FIELD_TASK_UpdateSpinEaseOut, FIELD_TASK_CreatePlayerPosTween, FIELD_TASK_UpdatePlayerPosTween, FIELD_TASK_CreatePlayerDrop, FIELD_TASK_CalcDropOffset, FIELD_TASK_UpdatePlayerDrop, func_021C77D8, FIELD_TASK_CreateFade, FIELD_TASK_UpdateFade, FIELD_TASK_CreatePlayerDrawOffsetTween, FIELD_TASK_CreateMmdlDrawOffsetTween, FIELD_TASK_CreateMmdlPosOffsetTween, FIELD_TASK_CalcOffsetByProgress, FIELD_TASK_UpdateMmdlDrawOffsetTween, FIELD_TASK_UpdateMmdlPosOffsetTween, FIELD_TASK_CreateCameraTargetTween, FIELD_TASK_UpdateCameraTargetTween, FIELD_TASK_CreateCameraLerp, FIELD_TASK_UpdateCameraLerp, FIELD_TASK_CreateRepeatPlayerEffect, FIELD_TASK_UpdateRepeatPlayerEffect, FIELD_FLASH_Create, FIELD_FLASH_Delete, FIELD_FLASH_Update, FIELD_FLASH_Apply, FIELD_FLASH_SetPendingCommand, FIELD_FLASH_GetState, FIELD_FLASH_InitTween, FIELD_FLASH_ClearTween, FIELD_FLASH_StartTween, FIELD_FLASH_StepTween, FIELD_FLASH_GetTweenSize, FIELD_FLASH_SetTweenSize, FIELD_FLASH_GetTweenAlpha, FIELD_FLASH_SetTweenAlpha, FIELD_FLASH_CmdInit, FIELD_FLASH_CmdExpand, func_021C7F44, FIELDSKILL_MAPEFF_Create, FIELDSKILL_MAPEFF_Delete, FIELDSKILL_MAPEFF_Update, FIELDSKILL_MAPEFF_Apply, FIELDSKILL_MAPEFF_GetFlash, FIELDSKILL_MAPEFF_InitFlash, FIELDSKILL_MAPEFF_FreeFlash, FIELDSKILL_MAPEFF_UpdateFlash, FIELDSKILL_MAPEFF_ApplyFlash, FLD_WIPE_3DOBJ_Create, FLD_WIPE_3DOBJ_Delete, FLD_WIPE_3DOBJ_Draw, SCRCMD_StartFld3dCi, SCRCMD_StartFld3dCiByVar, SCRCMD_RunFld3dCiMain, SCRCMD_StartFld3dCiByTable, FLD_WIPE_3DOBJ_CreateMapChangeEvent, FLD_WIPE_3DOBJ_MapChangeEventMain, FLD_WIPE_3DOBJ_FadeOutEventMain, PLEASURE_BOAT_Create, PLEASURE_BOAT_AckEvent, PLEASURE_BOAT_Update, PLEASURE_BOAT_AdvanceTime, PLEASURE_BOAT_GetStat
  * address:  0x021C6E5C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -147,7 +147,7 @@
  *   FADE_IsActive  0x0204E804  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_021F36C0  0x021F36C0  thumb  ov037
+ *   GIMMICK_INIT_SetGimmick39Flags  0x021F36C0  thumb  ov037
  *   gPleasureBoatFileName     0x021DE534  data  a4
  *   d_00000024     0x00000024  data  a4
  *   PLEASURE_BOAT_GetTimeEvent  0x021C87E0  thumb  ov021
@@ -550,7 +550,7 @@ extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 extern int FADE_IsActive(void);
 extern int func_02034AC4(s32 overlayId);
 extern void func_02034A5C(int overlayId);
-extern void func_021F36C0(PleasureBoatWork *work);
+extern void GIMMICK_INIT_SetGimmick39Flags(PleasureBoatWork *work);
 extern int PLEASURE_BOAT_GetTimeEvent(PleasureBoatWork *work);
 extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(GameSystem *gameSystem, int a, int b, int scriptId);
 
@@ -567,11 +567,11 @@ extern char gPleasureBoatFileName;
 extern char d_00000024[];
 extern void (*gFlashCommandTable[])(FieldFlash *flash);
 
-void func_021C6E5C(FieldTaskList *list, int slot, FieldTask *task, u32 parent);
-void func_021C6E74(FieldTaskList *list, int slot);
-void func_021C6E94(FieldTaskList *list, int slot);
-void func_021C6EA8(FieldTaskList *list, int slot);
-void func_021C6EDC(FieldTaskList *list, int slot);
+void FIELD_TASK_MANAGER_SetSlot(FieldTaskList *list, int slot, FieldTask *task, u32 parent);
+void FIELD_TASK_MANAGER_FreeSlot(FieldTaskList *list, int slot);
+void FIELD_TASK_MANAGER_UpdateSlot(FieldTaskList *list, int slot);
+void FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(FieldTaskList *list, int slot);
+void FIELD_TASK_MANAGER_FreeSlotIfFinished(FieldTaskList *list, int slot);
 FieldTask *FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, fx32 targetDistance);
 int FIELD_TASK_UpdateCameraDistanceTween(CameraDistanceTween *tween);
 FieldTask *FIELD_TASK_CreateCameraYawTween(FieldMap *fieldMap, u16 frames, u32 targetAngle);
@@ -653,7 +653,7 @@ GameEvent *PLEASURE_BOAT_Update(GameSystem *gameSystem, PleasureBoatWork *work);
 void PLEASURE_BOAT_AdvanceTime(PleasureBoatWork *work, int seconds, int clamp);
 int PLEASURE_BOAT_GetStat(PleasureBoatWork *work, int kind);
 
-void func_021C6E5C(FieldTaskList *list, int slot, FieldTask *task, u32 parent)
+void FIELD_TASK_MANAGER_SetSlot(FieldTaskList *list, int slot, FieldTask *task, u32 parent)
 {
     if (list->tasks[slot] == 0) {
         list->tasks[slot] = task;
@@ -661,7 +661,7 @@ void func_021C6E5C(FieldTaskList *list, int slot, FieldTask *task, u32 parent)
     }
 }
 
-void func_021C6E74(FieldTaskList *list, int slot)
+void FIELD_TASK_MANAGER_FreeSlot(FieldTaskList *list, int slot)
 {
     if (list->tasks[slot] != 0) {
         FIELD_TASK_Delete(list->tasks[slot]);
@@ -670,13 +670,13 @@ void func_021C6E74(FieldTaskList *list, int slot)
     }
 }
 
-void func_021C6E94(FieldTaskList *list, int slot)
+void FIELD_TASK_MANAGER_UpdateSlot(FieldTaskList *list, int slot)
 {
     if (list->tasks[slot] != 0)
         FIELD_TASK_Update(list->tasks[slot]);
 }
 
-void func_021C6EA8(FieldTaskList *list, int slot)
+void FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(FieldTaskList *list, int slot)
 {
     if (list->tasks[slot] != 0 && list->parents[slot] != 0) {
         if (FIELD_TASK_GetState(list->tasks[slot]) == 0 && FIELD_TASK_GetState((FieldTask *)list->parents[slot]) == 2)
@@ -684,10 +684,10 @@ void func_021C6EA8(FieldTaskList *list, int slot)
     }
 }
 
-void func_021C6EDC(FieldTaskList *list, int slot)
+void FIELD_TASK_MANAGER_FreeSlotIfFinished(FieldTaskList *list, int slot)
 {
     if (list->tasks[slot] != 0 && FIELD_TASK_IsFinished(list->tasks[slot]) == 1)
-        func_021C6E74(list, slot);
+        FIELD_TASK_MANAGER_FreeSlot(list, slot);
 }
 
 FieldTask *FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, fx32 targetDistance)
@@ -1919,7 +1919,7 @@ PleasureBoatWork *PLEASURE_BOAT_Create(void)
     work->groupCount[3] = 0;
     work->locked = 0;
     func_02034AC4((int)d_00000024); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
-    func_021F36C0(work);
+    GIMMICK_INIT_SetGimmick39Flags(work);
     func_02034A5C((int)d_00000024);
     return work;
 }

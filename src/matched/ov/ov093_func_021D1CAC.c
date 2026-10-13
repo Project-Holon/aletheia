@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
- *   func_021EA458  0x021EA458  thumb  ov093
- *   func_021EA478  0x021EA478  thumb  ov093
+ *   BTLV_CORE_StartMonEffectTask  0x021EA458  thumb  ov093
+ *   BTLV_CORE_WaitMonEffectTask  0x021EA478  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -28,18 +28,18 @@ typedef struct {
 } BattleSeq;
 
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
-extern void func_021EA458(char *ctx, u16 a, u16 b);
-extern int func_021EA478(u32 *p);
+extern void BTLV_CORE_StartMonEffectTask(char *ctx, u16 a, u16 b);
+extern int BTLV_CORE_WaitMonEffectTask(u32 *p);
 
 int BTL_CLIENT_StepPlayRecallAnim(BattleSeq *s, int *state, int *pp)
 {
     switch (*state) {
     case 0:
-        func_021EA458(s->msgWin, BTL_MAIN_GetViewPosOfSlot(s->battle, (u8)pp[0]), (u16)pp[1]);
+        BTLV_CORE_StartMonEffectTask(s->msgWin, BTL_MAIN_GetViewPosOfSlot(s->battle, (u8)pp[0]), (u16)pp[1]);
         (*state)++;
         break;
     case 1:
-        if (func_021EA478(s->msgWin) != 0)
+        if (BTLV_CORE_WaitMonEffectTask(s->msgWin) != 0)
             return 1;
         break;
     }

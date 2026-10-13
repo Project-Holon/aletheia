@@ -1,5 +1,5 @@
 /*
- * function: func_021E84FC
+ * function: HAND_WAZA_PledgeApplyCombinedEffect
  * address: 0x021E84FC
  * packet: pkt_ov093_021E84FC
  * region: ov093
@@ -34,7 +34,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *, u32);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int BTL_SERVER_FLOW_GetPokeIdAtPos(char *p, int i);
-void func_021E84FC(int a, int b, int c, const int *d)
+void HAND_WAZA_PledgeApplyCombinedEffect(int a, int b, int c, const int *d)
 {
     int tmp;
     u8 *p;

@@ -14,7 +14,7 @@
  * launches overlay 0x88 over them with the SCRCMD_PROC_OnGtsNegotiationDone callback and
  * parks the result in the script's slot.
  *
- * 2026-10-05 (wave D9): EXACT. d_021C78A4 resolves once its symbols line carries the ov136 token (the overlay the function loads); SCRCMD_PROC_OnGtsNegotiationDone has its own witness.
+ * 2026-10-05 (wave D9): EXACT. gMbSeqProcData resolves once its symbols line carries the ov136 token (the overlay the function loads); SCRCMD_PROC_OnGtsNegotiationDone has its own witness.
  *
  * symbols:
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
@@ -28,7 +28,7 @@
  *   SCRCMD_PROC_OnGtsNegotiationDone  0x0215C7C4  thumb  ov010
  *   sAllocSiteScrcmdProc     0x021728F0  data  a1
  *   ov136_id       0x00000088  data
- *   d_021C78A4     0x021C78A4  data  ov136  a1
+ *   gMbSeqProcData     0x021C78A4  data  ov136  a1
  */
 
 typedef unsigned char u8;
@@ -47,7 +47,7 @@ extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *a0, int a1, int
 extern void SCRIPT_SYS_CallEvent(void *p, void *v);
 extern void SCRCMD_PROC_OnGtsNegotiationDone(struct Rec *r);
 extern const char sAllocSiteScrcmdProc[];
-extern const u8 d_021C78A4[];
+extern const u8 gMbSeqProcData[];
 extern u8 ov136_id[];
 
 int SCRCMD_PROC_CallGtsNegotiation(void *c, void *vm)
@@ -68,6 +68,6 @@ int SCRCMD_PROC_CallGtsNegotiation(void *c, void *vm)
     a[0] = (u32)w;
     b[0] = (u32)a;
     b[1] = (u32)SCRIPT_WORK_ReadWorkPointer(c, vm);
-    SCRIPT_SYS_CallEvent(slot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(sys, (int)x, (u32)ov136_id, (int)d_021C78A4, (int)a, (int)((void *)SCRCMD_PROC_OnGtsNegotiationDone), (int)b));
+    SCRIPT_SYS_CallEvent(slot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(sys, (int)x, (u32)ov136_id, (int)gMbSeqProcData, (int)a, (int)((void *)SCRCMD_PROC_OnGtsNegotiationDone), (int)b));
     return 1;
 }

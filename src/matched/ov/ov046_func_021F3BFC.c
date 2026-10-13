@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_ButtonEventProc
+ * function: FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc
  * address:  0x021F3BFC
  * packet:   pkt_ov046_021F3BFC
  * region:   ov046
@@ -23,7 +23,7 @@
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   GIMMICK46_PlayAnimEventProc  0x021F3DE8  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc  0x021F3DE8  thumb  ov046
  */
 
 typedef unsigned int u32;
@@ -60,9 +60,9 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-extern int GIMMICK46_PlayAnimEventProc(void *a, int *st);
+extern int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(void *a, int *st);
 
-int GIMMICK46_ButtonEventProc(u32 a, int *b)
+int FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc(u32 a, int *b)
 {
     void *h = GAME_EVENT_GetGameSystem((void *)a);
     void *x = GAMESYSTEM_GetFieldMap(h);
@@ -81,7 +81,7 @@ int GIMMICK46_ButtonEventProc(u32 a, int *b)
         q->e = 1;
         q->p1c = 0x6d3;
         q->p20 = -1;
-        GAME_EVENT_CallEvent((void *)a, (struct Evt **)func_020122C0(h, 0, GIMMICK46_PlayAnimEventProc, 0));
+        GAME_EVENT_CallEvent((void *)a, (struct Evt **)func_020122C0(h, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         (*b)++;
         break;
     case 1:

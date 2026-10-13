@@ -1,5 +1,5 @@
 /*
- * function: func_021ED2BC
+ * function: BTLV_SCU_IsMonExitDone
  * address:  0x021ED2BC
  * packet:   pkt_ov093_021ED2BC
  * region:   ov093
@@ -13,7 +13,7 @@
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  */
 extern int func_021F7EB4(void);
-int func_021ED2BC(void)
+int BTLV_SCU_IsMonExitDone(void)
 {
     if (func_021F7EB4() == 0)
         return 1;

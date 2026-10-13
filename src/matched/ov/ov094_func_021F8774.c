@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_022088F4 with the handle at 0x1a4 of the global work block.
+ * Tail call to BTLV_GAUGE_IsLowHpBgmPlaying with the handle at 0x1a4 of the global work block.
  *
  * symbols:
  *   d_0220AF20  0x0220AF20  data  ov094
- *   func_022088F4 0x022088F4 thumb ov094
+ *   BTLV_GAUGE_IsLowHpBgmPlaying 0x022088F4 thumb ov094
  */
 extern char *d_0220AF20;
-extern void func_022088F4(void *);
+extern void BTLV_GAUGE_IsLowHpBgmPlaying(void *);
 
 void func_021F8774(void)
 {
-    func_022088F4(*(void **)(d_0220AF20 + 0x1a4));
+    BTLV_GAUGE_IsLowHpBgmPlaying(*(void **)(d_0220AF20 + 0x1a4));
 }

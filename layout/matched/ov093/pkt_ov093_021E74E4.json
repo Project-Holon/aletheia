@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E74E4",
-    "func_021E7548"
+    "HAND_WAZA_ClearSmogResetTargetRanks",
+    "HAND_WAZA_AddIncinerate"
+   ],
+   "addresses": [
+    "0x021E74E4",
+    "0x021E7548"
    ],
    "evidence": {
     "sole-ref": [

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021ED6BC",
-    "func_021ED714"
+    "BTLV_SCU_StartMonGraphicSwap",
+    "BTLV_SCU_IsMonGraphicSwapDone"
+   ],
+   "addresses": [
+    "0x021ED6BC",
+    "0x021ED714"
    ]
   }
  ]

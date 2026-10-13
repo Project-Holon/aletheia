@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02209C18 0x02209C18 thumb
+ *   BTLV_FINGER_CURSOR_DeleteActor 0x02209C18 thumb
  */
 #include "../include/Obj25047.h"
 
-extern void func_02209C18(int);
+extern void BTLV_FINGER_CURSOR_DeleteActor(int);
 
 void func_0220C714(char *a)
 {
-    func_02209C18(((struct Obj25047 *)a)->f14C);
+    BTLV_FINGER_CURSOR_DeleteActor(((struct Obj25047 *)a)->f14C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_BUTTON_STATES_Init
  * address:  0x021F36C0
  * packet:   pkt_ov042_021F36C0
  * region:   ov042
@@ -15,7 +15,7 @@
  *
  * symbols:
  *   gGimmick42UnitSetup     0x021F3A58  data  a4
- *   d_021F3AD4     0x021F3AD4  data  a4
+ *   gGimmick42StatePos     0x021F3AD4  data  a4
  *   gGimmick42OneShotPos     0x021F3A68  data  a4
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
@@ -50,7 +50,7 @@ typedef struct {
 } T;
 
 extern int gGimmick42UnitSetup;
-extern T d_021F3AD4;
+extern T gGimmick42StatePos;
 extern T gGimmick42OneShotPos;
 
 struct Big;
@@ -74,7 +74,7 @@ extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 
-void func_021F36C0(void *a0)
+void FIELD_GIMMICK_BUTTON_STATES_Init(void *a0)
 {
     void *s;
     u8 *q;
@@ -89,7 +89,7 @@ void func_021F36C0(void *a0)
     q = (u8 *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a0))), 4);
     FIELDMAP_AllocCommonWork(a0, 1, FIELDMAP_GetHeapId(a0), 4);
     FLD_EXP_OBJ_AddUnitFromArchive(s, &gGimmick42UnitSetup, 0);
-    ta = d_021F3AD4;
+    ta = gGimmick42StatePos;
     for (i = 0; i < 9; i = (u8)(i + 1)) {
         e = (char *)FLD_EXP_OBJ_GetModelStatus(s, 0, (u8)i);
         *(V *)e = ta.v[i];

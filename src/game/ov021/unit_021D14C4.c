@@ -243,11 +243,11 @@
  *   FX_SinCosTable_     0x020A1B38  data   a2
  *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
  *   SP_POKE_GIMMICK_StartSwapNpc  0x021F3CFC  thumb  ov059
- *   func_021F37B8  0x021F37B8  thumb  ov064
- *   GIMMICK64_StartArcEffect  0x021F3970  thumb  ov064
- *   GIMMICK64_ShowArcModelAt  0x021F3A44  thumb  ov064
- *   GIMMICK64_CreateWaitEndEvent  0x021F3ADC  thumb
- *   GIMMICK64_CreateWaitPeakEvent  0x021F3AC0  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect  0x021F37B8  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_StartArcEffect  0x021F3970  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt  0x021F3A44  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent  0x021F3ADC  thumb
+ *   FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent  0x021F3AC0  thumb  ov064
  */
 #include "../../matched/include/G_Ent021DD614.h"
 #define NRM(i) ((NormComp *)d_021DB9A0)[i]
@@ -622,11 +622,11 @@ extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 extern void FIELD_CAMERA_SetTarget(void *h, Vec3 *v);
 extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
 extern void *SP_POKE_GIMMICK_StartSwapNpc(void *a, int *v, u32 b, u32 c);
-extern void *func_021F37B8(int a);
-extern void *GIMMICK64_StartArcEffect(void *a, int *v, int *w, int c, int d);
-extern void GIMMICK64_ShowArcModelAt(void *a, int *v);
-extern void *GIMMICK64_CreateWaitEndEvent(void *a);
-extern void *GIMMICK64_CreateWaitPeakEvent(void *a);
+extern void *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(int a);
+extern void *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *a, int *v, int *w, int c, int d);
+extern void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *a, int *v);
+extern void *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *a);
+extern void *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *a);
 void FIELD_G3D_MAPPER_GetTilePlane(TilePlane *out, int idx, TileMap *map, VecFx32 *pos, fx32 size, fx32 base);
 int SCRCMD_CheckWifiListFlags(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_WifiListOperation(ScriptVm *vm, struct ScrcmdWork *cmdWork);
@@ -2129,7 +2129,7 @@ u32 SCRCMD_StartEffectAtMmdl(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /*
- * func_021F37B8 resolves in ov064 (2026-10-02, lane gA2). Starts exist at
+ * FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect resolves in ov064 (2026-10-02, lane gA2). Starts exist at
  * 0x021F37B8 in ov041, ov050, ov060 and ov064. ov050 is void(void) and ov060
  * takes two arguments. ov041 is out on two counts: its body ends in a tail
  * call to FLD_EXP_OBJ_RemoveUnit, which is void (src/matched/ov/ov021_func_021BE418.c,
@@ -2139,13 +2139,13 @@ u32 SCRCMD_StartEffectAtMmdl(ScriptVm *vm, struct ScrcmdWork *cmdWork)
  * sibling SCRCMD_StartEffectAtPosition feeds to func_0201210C. ov064's function applies
  * func_0201210C to its argument and returns func_020122C0(arg, 0, cb, 0), a
  * task, which is what SCRIPT_SYS_CallEvent(x, t) receives here and in the same-shape
- * siblings SCRCMD_StartEffectTaskB (ov064-only GIMMICK64_CreateWaitEndEvent) and SCRCMD_StartEffectTaskC
- * (GIMMICK64_CreateWaitPeakEvent, ov064). SCRCMD_StartEffectAtPosition and SCRCMD_SetEffectPosition also call ov064.
+ * siblings SCRCMD_StartEffectTaskB (ov064-only FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent) and SCRCMD_StartEffectTaskC
+ * (FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent, ov064). SCRCMD_StartEffectAtPosition and SCRCMD_SetEffectPosition also call ov064.
  */
 int SCRCMD_StartEffectTask(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
-    void *task = func_021F37B8((int)SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *task = FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect((int)SCRCMD_WORK_GetGameSystem(cmdWork));
 
     if (task == 0) {
         return 1;
@@ -2185,7 +2185,7 @@ u32 SCRCMD_StartEffectAtPosition(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     target[0] = (tileX << 16) + 0x8000;
     target[1] = tileY << 15;
     target[2] = (tileZ << 16) + 0x8000;
-    task = GIMMICK64_StartArcEffect(gameSystem, pos, target, radius << 15, param);
+    task = FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(gameSystem, pos, target, radius << 15, param);
     if (task == 0) {
         return 1;
     }
@@ -2208,14 +2208,14 @@ u32 SCRCMD_SetEffectPosition(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     pos[0] = (tileX << 16) + 0x8000;
     pos[1] = tileY << 15;
     pos[2] = (tileZ << 16) + 0x8000;
-    GIMMICK64_ShowArcModelAt(gameSystem, pos);
+    FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(gameSystem, pos);
     return 0;
 }
 
 int SCRCMD_StartEffectTaskB(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
-    void *task = GIMMICK64_CreateWaitEndEvent(SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *task = FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(SCRCMD_WORK_GetGameSystem(cmdWork));
 
     if (task == 0) {
         return 1;
@@ -2225,14 +2225,14 @@ int SCRCMD_StartEffectTaskB(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /*
- * GIMMICK64_CreateWaitPeakEvent resolves in ov064: the only Thumb function starting there
+ * FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent resolves in ov064: the only Thumb function starting there
  * that takes one argument (ov043's takes two), and the neighbouring ov021
  * functions SCRCMD_StartEffectAtPosition and SCRCMD_SetEffectPosition already call ov064 code.
  */
 int SCRCMD_StartEffectTaskC(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
-    void *task = GIMMICK64_CreateWaitPeakEvent(SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *task = FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(SCRCMD_WORK_GetGameSystem(cmdWork));
 
     if (task == 0) {
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_068994B4
+ * function: HAND_SIDE_QuickGuardBlockPriorityMove
  * address:  0x068994B4
  * packet:   pkt_ov095_068994B4
  * region:   ov095
@@ -35,7 +35,7 @@ extern int func_06899574(int a);
 extern void func_06899584(int p, int n, int c);
 extern void func_06899594(int p, int v);
 
-void func_068994B4(int a0, int a1, int x)
+void HAND_SIDE_QuickGuardBlockPriorityMove(int a0, int a1, int x)
 {
     u8 v;
     int q;

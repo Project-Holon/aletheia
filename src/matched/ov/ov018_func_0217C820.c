@@ -16,10 +16,10 @@
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   func_021F37B8  0x021F37B8  thumb  ov060
+ *   FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt  0x021F37B8  thumb  ov060
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
- *   GIMMICK60_IsEffectActive  0x021F37D8  thumb  ov060
+ *   FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive  0x021F37D8  thumb  ov060
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
@@ -57,10 +57,10 @@ extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern void FLDMMDL_SetAcmd(void *, u16);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *, struct VecFx32 *);
-extern void func_021F37B8(int, Vec *);
+extern void FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt(int, Vec *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *, unsigned int);
-extern int GIMMICK60_IsEffectActive(void *);
+extern int FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(void *);
 extern int FLDMMDL_CheckEndAcmd(int);
 extern int FLDMMDL_EndAcmd(char *p);
 extern void FLDMMDL_DeleteMmdl(int);
@@ -85,7 +85,7 @@ int INTRUDE_FIELD_MainMmdlCopyAnime(Rec *r)
             v.x += 0x8000;
         else
             v.x -= 0x8000;
-        func_021F37B8((int)r->f4, &v);
+        FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt((int)r->f4, &v);
         GFL_USE_PlaySeDefaultVolume(0x774);
         r->f10++;
         break;
@@ -100,7 +100,7 @@ int INTRUDE_FIELD_MainMmdlCopyAnime(Rec *r)
         }
         break;
     case 2:
-        if (GIMMICK60_IsEffectActive(r->f4) == 0 && FLDMMDL_CheckEndAcmd((int)obj) == 1) {
+        if (FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(r->f4) == 0 && FLDMMDL_CheckEndAcmd((int)obj) == 1) {
             FLDMMDL_EndAcmd(obj);
             if (r->f14 != 0)
                 FLDMMDL_EndAcmd(r->f14);

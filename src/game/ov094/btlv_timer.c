@@ -1,0 +1,357 @@
+/*
+ * file:     btlv_timer.c
+ * unit:     yes
+ * function: BTLV_TIMER_Create, BTLV_TIMER_Delete, BTLV_TIMER_Start, BTLV_TIMER_DeleteActors, BTLV_TIMER_SetVisible, BTLV_TIMER_IsExpired, BTLV_TIMER_Redraw, BTLV_TIMER_TickTask
+ * address:  0x02209224
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
+ *
+ * symbols:
+ *   func_020307B0  0x020307B0  arm
+ *   BTLV_TIMER_Create  0x02209224  thumb  ov094
+ *   BTLV_TIMER_Delete 0x022092E8 thumb ov094
+ *   func_02030EAC 0x02030EAC arm
+ *   func_02030DA8  0x02030DA8  arm
+ *   BTLV_TIMER_Start 0x02209318 thumb ov094
+ *   BTLV_TIMER_SetVisible  0x022094BC  thumb  ov094
+ *   BTLV_TIMER_IsExpired  0x02209500  thumb ov094
+ *   func_02030734  0x02030734  arm
+ *   func_020490F4 0x020490F4 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_SetUnitDrawEnable  0x0204B22C  arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
+ *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   func_021F86D4 0x021F86D4 thumb ov094
+ *   sBtlvTimerSiteName     0x0220AEE0  data  ov094
+ *   func_020870D0 0x020870D0 arm
+ *   sBtlvTimerRowY 0x0220ABC0 data a4
+ *   sBtlvTimerColumnX 0x0220ABC8 data a4
+ *   sBtlvTimerSpriteZ 0x0220ABE0 data a4
+ *   sBtlvTimerWarningSeconds  0x0220ABB8  data  a4
+ */
+#include "btlv_effvm_types.h"
+#include "btlv_effect_shared_types.h"
+#include "btlv_timer_shared_types.h"
+
+typedef short s16;
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+extern void *func_020490F4(u32 id, u32 heap);
+
+extern int func_021F86E0(void);
+
+extern void *func_021F86D4(void);
+
+struct PalAnimSlot;
+
+struct ClactUnit;
+
+typedef unsigned char u8;
+
+/* Sprite position handed to CLACT_CreateActor. */
+typedef struct { s16 x, y, z, rest; } ActorPos;
+
+typedef struct { int v[2]; } SidePair;
+
+typedef struct { int v[6]; } ColumnTable;
+
+typedef struct { int v[2][6]; } SpriteZTable;
+
+/* Slots of one timer side: the clock icon, then minutes, colon, seconds. */
+typedef enum {
+    BTLV_TIMER_SLOT_ICON,
+    BTLV_TIMER_SLOT_MINUTE_TENS,
+    BTLV_TIMER_SLOT_MINUTE_ONES,
+    BTLV_TIMER_SLOT_COLON,
+    BTLV_TIMER_SLOT_SECOND_TENS,
+    BTLV_TIMER_SLOT_SECOND_ONES,
+    BTLV_TIMER_SLOT_COUNT
+} BtlvTimerSlot;
+
+typedef struct {
+    struct ClactActor *actor[BTLV_TIMER_SLOT_COUNT];
+    void *reservedSlot;
+} BtlvTimerSide;
+
+/* Two-sided battle timer (0x78 bytes): one clock per side of the field. */
+typedef struct BtlvTimer {
+    struct ClactUnit *unit[2];      /* 0x00 */
+    BtlvTimerSide side[2];          /* 0x08 */
+    s32 charResId;                  /* 0x40 */
+    s32 cellResId;                  /* 0x44 */
+    s32 paletteResId;               /* 0x48 */
+    int limit[2];                   /* 0x4c: seconds allowed per side */
+    u64 startTick[2];               /* 0x54 */
+    int animBase[2];                /* 0x64: 0 normal, 13 warning colour */
+    struct Task *tickTask;          /* 0x6c */
+    struct Task *spareTask;         /* 0x70 */
+    u16 heapId;                     /* 0x74 */
+} BtlvTimer;
+
+typedef enum { BTLV_TIMER_SIDE_PLAYER, BTLV_TIMER_SIDE_ENEMY } BtlvTimerSideId;
+
+extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+
+extern s32 CLACT_RegisterCharacter(void *archive, u32 resId, u32 compressed, u32 vramType, u16 heapId);
+
+extern s32 CLACT_RegisterCellAnim(void *archive, u32 cellId, u32 animId, u32 heapId);
+
+extern s32 CLACT_RegisterPalette(void *archive, u32 resId, u32 vramType, u32 colorCount, u16 heapId);
+
+extern int CLACT_GetPaletteVramAddress(u32 paletteId, u32 alternate);
+
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnimSlot *slots, u32 bank, u32 offset, u32 size);
+
+extern void ARC_TOOL_DeleteHandle(void *archive);
+
+extern void CLACT_ReleaseCharacter(u32 charId);
+
+extern void CLACT_ReleaseCellAnim(u32 cellId);
+
+extern void CLACT_ReleasePalette(u32 paletteId);
+
+extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
+
+extern u32 func_020307B0(void *block);
+
+extern struct ClactActor *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+
+extern u64 func_020870D0(void);
+
+extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
+
+extern void CLACT_DeleteActor(struct ClactActor *actor);
+
+extern void func_02030EAC(struct Task *task);
+
+extern void CLACT_SetUnitDrawEnable(struct ClactUnit *unit, u32 mode);
+
+extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 animSeq);
+
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 enable);
+
+BtlvTimer *BTLV_TIMER_Create(u16 heapId);
+
+void BTLV_TIMER_Delete(BtlvTimer *timer);
+
+void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy);
+
+void BTLV_TIMER_DeleteActors(BtlvTimer *timer);
+
+void BTLV_TIMER_SetVisible(BtlvTimer *timer, int side, int visible, int restart);
+
+int BTLV_TIMER_IsExpired(BtlvTimer *timer, int side);
+
+void BTLV_TIMER_Redraw(BtlvTimer *timer, int side);
+
+void BTLV_TIMER_TickTask(int tcb, int timerArg);
+
+extern char sBtlvTimerSiteName[];
+
+extern const SidePair sBtlvTimerRowY;
+
+extern const ColumnTable sBtlvTimerColumnX;
+
+extern const SpriteZTable sBtlvTimerSpriteZ;
+
+extern const SidePair sBtlvTimerWarningSeconds;
+
+/*
+ * Lever: the `lsls #15 / lsrs #16` argument is `(u16)(v >> 1)`; `& 0x7fff`
+ * or `& 0x1ffff` forms pool the mask and shift the registers.
+ */
+BtlvTimer *BTLV_TIMER_Create(u16 heapId)
+{
+    BtlvTimer *timer;
+    void *archive;
+    void *palSlots;
+
+    timer = func_02030734(heapId, 0x78, 1, sBtlvTimerSiteName, 0x81);
+    timer->heapId = heapId;
+    archive = func_020490F4(0xb, (u16)((timer->heapId & 0x7fff) | 0x8000));
+    timer->unit[0] = CLACT_CreateUnit(6, 0, timer->heapId);
+    timer->unit[1] = CLACT_CreateUnit(6, 0, timer->heapId);
+    timer->charResId = CLACT_RegisterCharacter(archive, 0x7a, 0, 0, timer->heapId);
+    timer->cellResId = CLACT_RegisterCellAnim(archive, 0x7b, 0x7c, timer->heapId);
+    timer->paletteResId = CLACT_RegisterPalette(archive, 0xa2, 0, 0xe0, timer->heapId);
+    palSlots = (void *)func_021F86E0();
+    PALANM_CopyHwPaletteToSlot(palSlots, 2, (u16)(CLACT_GetPaletteVramAddress(timer->paletteResId, 0) >> 1), 0x20);
+    ARC_TOOL_DeleteHandle(archive);
+    return timer;
+}
+
+void BTLV_TIMER_Delete(BtlvTimer *timer)
+{
+    BTLV_TIMER_DeleteActors(timer);
+    CLACT_ReleaseCharacter(timer->charResId);
+    CLACT_ReleaseCellAnim(timer->cellResId);
+    CLACT_ReleasePalette(timer->paletteResId);
+    CLACT_DeleteUnit(timer->unit[0]);
+    CLACT_DeleteUnit(timer->unit[1]);
+    func_020307B0(timer);
+}
+
+/*
+ * lever: y is a full int, narrowed by assignment to pos.y; s16 y sinks
+ *   its home store and swaps it with the explicit handle-offset spill.
+ *   Aggregate locals are declared columns, zValues, pos, rowYs in that order.
+ */
+void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy)
+{
+    ColumnTable columns;
+    SpriteZTable zValues;
+    ActorPos pos = {0, 0, 0, 0};
+    SidePair rowYs;
+    int y;
+    int unitOffset;
+    int side, slot;
+    int *zRow;
+    columns = sBtlvTimerColumnX;
+    rowYs = sBtlvTimerRowY;
+    zValues = sBtlvTimerSpriteZ;
+    for (side = 0; side < 2; side++) {
+        if ((side == 0 && secondsPlayer != 0) || (side == 1 && secondsEnemy != 0)) {
+            unitOffset = side * 4;
+            y = rowYs.v[side];
+            zRow = zValues.v[side];
+            for (slot = 0; slot < 6; slot++) {
+                pos.x = columns.v[slot];
+                pos.y = y;
+                pos.z = zRow[slot];
+                timer->side[side].actor[slot] = CLACT_CreateActor((void *)*(u32 *)((char *)timer + unitOffset), timer->charResId, timer->paletteResId, timer->cellResId, &pos, 0, timer->heapId);
+                CLACT_SetActorAutoAnim(timer->side[side].actor[slot], 1);
+            }
+        }
+    }
+    if (secondsPlayer > 5999) secondsPlayer = 5999;
+    if (secondsEnemy > 5999) secondsEnemy = 5999;
+    timer->limit[0] = secondsPlayer;
+    timer->limit[1] = secondsEnemy;
+    timer->startTick[1] = func_020870D0();
+    timer->startTick[0] = timer->startTick[1];
+    BTLV_TIMER_SetVisible(timer, 0, 0, 0);
+    BTLV_TIMER_SetVisible(timer, 1, 0, 0);
+    timer->tickTask = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))BTLV_TIMER_TickTask, timer, 0);
+}
+
+void BTLV_TIMER_DeleteActors(BtlvTimer *timer)
+{
+    int side;
+    int slot;
+
+    for (side = 0; side < 2; side++) {
+        for (slot = 0; slot < 6; slot++) {
+            if (timer->side[side].actor[slot] != 0) {
+                CLACT_DeleteActor(timer->side[side].actor[slot]);
+                timer->side[side].actor[slot] = 0;
+            }
+        }
+    }
+    if (timer->tickTask != 0) {
+        func_02030EAC(timer->tickTask);
+        timer->tickTask = 0;
+    }
+    if (timer->spareTask != 0) {
+        func_02030EAC(timer->spareTask);
+        timer->spareTask = 0;
+    }
+}
+
+void BTLV_TIMER_SetVisible(BtlvTimer *timer, int side, int visible, int restart)
+{
+    if (timer->side[side].actor[0] != 0) {
+        if (visible == 1 && restart == 1) {
+            timer->startTick[side] = func_020870D0();
+            timer->animBase[side] = 0;
+            BTLV_TIMER_Redraw(timer, side);
+        }
+        CLACT_SetUnitDrawEnable(timer->unit[side], visible);
+    }
+}
+
+int BTLV_TIMER_IsExpired(BtlvTimer *timer, int side)
+{
+    u64 elapsed;
+
+    elapsed = func_020870D0() - timer->startTick[side];
+    elapsed = (elapsed << 6) / 33514000ULL;
+    return timer->limit[side] - (int)elapsed <= 0;
+}
+
+/*
+ * note: the 0/1 icon offset is an enum-constant ternary (an int spelling flips the bne polarity).
+ */
+void BTLV_TIMER_Redraw(BtlvTimer *timer, int side)
+{
+    SidePair warningSeconds = sBtlvTimerWarningSeconds;
+    int iconOffset = side == 0 ? BTLV_TIMER_SIDE_PLAYER : BTLV_TIMER_SIDE_ENEMY;
+    int remaining = timer->limit[side] - (int)(((func_020870D0() - timer->startTick[side]) * 64) / 33514000);
+    int minutes, seconds, minuteTens, minuteOnes, secondTens, secondOnes;
+    if (timer->side[side].actor[BTLV_TIMER_SLOT_ICON] == 0)
+        return;
+    if (remaining < 0)
+        remaining = 0;
+    minutes = remaining / 60;
+    seconds = remaining % 60;
+    minuteTens = minutes / 10;
+    minuteOnes = minutes % 10;
+    secondTens = seconds / 10;
+    secondOnes = seconds % 10;
+    if (remaining == warningSeconds.v[side])
+        timer->animBase[side] = 13;
+    CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_ICON], iconOffset + timer->animBase[side]);
+    if (minuteTens == 0) {
+        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], 0);
+    } else {
+        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], 1);
+        CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], minuteTens + 3 + timer->animBase[side]);
+    }
+    if (minuteTens == 0 && minuteOnes == 0) {
+        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], 0);
+        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_COLON], 0);
+    } else {
+        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], 1);
+        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_COLON], 1);
+        CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], minuteOnes + 3 + timer->animBase[side]);
+        CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_COLON], timer->animBase[side] + 2);
+    }
+    if (minuteTens == 0 && minuteOnes == 0 && secondTens == 0) {
+        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], 0);
+    } else {
+        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], 1);
+        CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], secondTens + 3 + timer->animBase[side]);
+    }
+    CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_ONES], secondOnes + 3 + timer->animBase[side]);
+}
+
+/*
+ * Tick task of the timer: redraws both sides every frame.
+ */
+void BTLV_TIMER_TickTask(int tcb, int timerArg)
+{
+    BTLV_TIMER_Redraw((BtlvTimer *)timerArg, 0);
+    BTLV_TIMER_Redraw((BtlvTimer *)timerArg, 1);
+}

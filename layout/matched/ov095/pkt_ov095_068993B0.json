@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_068993B0",
+   "name": "HAND_SIDE_WideGuardBlockSpreadMove",
    "address": "0x068993B0",
    "kind": "game",
    "region": "ov095",

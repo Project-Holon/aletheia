@@ -1,5 +1,5 @@
 /*
- * function: func_021EA1B8
+ * function: BTLV_CORE_StartHitAnim
  * address:  0x021EA1B8
  * packet:   pkt_ov093_021EA1B8
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E9100  0x021E9100  thumb  ov093
+ *   BTLV_CORE_GetTaskWork  0x021E9100  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021EA230  0x021EA230  thumb  ov093
+ *   BTLV_CORE_ProcHitAnim  0x021EA230  thumb  ov093
  */
 #include "../include/Obj07843.h"
 typedef unsigned char u8;
@@ -29,22 +29,22 @@ struct S {
     int f28;
 };
 
-extern u8 *func_021E9100(u8 *p, int n);
+extern u8 *BTLV_CORE_GetTaskWork(u8 *p, int n);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern int func_021EA230(int *st, char *ctx);
+extern int BTLV_CORE_ProcHitAnim(int *st, char *ctx);
 
-void func_021EA1B8(struct S *s, u32 a, int b, int c)
+void BTLV_CORE_StartHitAnim(struct S *s, u32 a, int b, int c)
 {
     u8 *t;
 
     if (BTL_CLIENT_IsMainStepActive(s->f04) == 0) {
-        t = func_021E9100((u8 *)s, 0xc);
+        t = BTLV_CORE_GetTaskWork((u8 *)s, 0xc);
         ((struct Obj07843 *)t)->f4 = c;
         t[0xa] = b;
         ((struct Obj07843 *)t)->f8 = 0;
         ((struct Obj07843 *)t)->f0 = a;
         s->f1c = 0;
-        s->f20 = (u32)func_021EA230;
+        s->f20 = (u32)BTLV_CORE_ProcHitAnim;
         s->f24 = s;
         s->f28 = 0;
     }

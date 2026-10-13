@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021EA6F4  0x021EA6F4  thumb  ov093
- *   func_021EA710  0x021EA710  thumb  ov093
+ *   BTLV_CORE_PrintItemUseMessage  0x021EA6F4  thumb  ov093
+ *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -25,8 +25,8 @@ typedef struct {
 } Seq;
 
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern void func_021EA6F4(void *p, u8 b, u16 c);
-extern int func_021EA710(u32 *p);
+extern void BTLV_CORE_PrintItemUseMessage(void *p, u8 b, u16 c);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 
 int BTL_CLIENT_StepShowItemUseMessage(Seq *s, int *state, u32 *a)
 {
@@ -35,11 +35,11 @@ int BTL_CLIENT_StepShowItemUseMessage(Seq *s, int *state, u32 *a)
         if (BTL_CLIENT_IsMainStepActive((u8 *)s)) {
             return 1;
         }
-        func_021EA6F4(s->win, a[0], a[1]);
+        BTLV_CORE_PrintItemUseMessage(s->win, a[0], a[1]);
         *state = *state + 1;
         break;
     case 1:
-        if (func_021EA710(s->win)) {
+        if (BTLV_CORE_WaitMessage(s->win)) {
             return 1;
         }
         break;

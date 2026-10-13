@@ -1,5 +1,5 @@
 /*
- * function: func_06898E54
+ * function: HAND_SIDE_ScreenReduceDamage
  * address:  0x06898E54
  * packet:   pkt_ov095_06898E54
  * region:   ov095
@@ -29,7 +29,7 @@ extern int func_06898ED4(int k);
 extern int func_06898EE4(int a);
 extern void func_06898EF4(int k, int v);
 
-void func_06898E54(int a, int b, int c)
+void HAND_SIDE_ScreenReduceDamage(int a, int b, int c)
 {
     u8 t = func_06898EA4(4);
 

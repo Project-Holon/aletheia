@@ -1,5 +1,5 @@
 /*
- * function: func_021E7E58
+ * function: HAND_WAZA_AllySwitchSwapPositions
  * address:  0x021E7E58
  * packet:   pkt_ov093_021E7E58
  * region:   ov093
@@ -37,7 +37,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *l, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E7E58(int a, u8 *b, int c)
+void HAND_WAZA_AllySwitchSwapPositions(int a, u8 *b, int c)
 {
     int x, y;
     u32 k;

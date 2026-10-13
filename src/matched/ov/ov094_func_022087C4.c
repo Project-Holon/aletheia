@@ -1,5 +1,5 @@
 /*
- * function: func_022087C4
+ * function: BTLV_GAUGE_BobSlot
  * address:  0x022087C4
  * packet:   pkt_ov094_022087C4
  * region:   ov094
@@ -15,7 +15,7 @@
  *
  * symbols:
  *   FX_SinCosTable_  0x020A1B38  data
- *   func_022079C0 0x022079C0  thumb  ov094
+ *   BTLV_GAUGE_PlaceSlot 0x022079C0  thumb  ov094
  */
 
 typedef unsigned int u32;
@@ -28,9 +28,9 @@ typedef struct Ang {
 } Ang;
 
 extern s16 FX_SinCosTable_[];
-extern void func_022079C0(char *obj, int a, s16 *v);
+extern void BTLV_GAUGE_PlaceSlot(char *obj, int a, s16 *v);
 
-void func_022087C4(char *obj, int a)
+void BTLV_GAUGE_BobSlot(char *obj, int a)
 {
     s16 v[2];
     Ang *f;
@@ -41,5 +41,5 @@ void func_022087C4(char *obj, int a)
     i = f->ang;
     v[1] = FX_SinCosTable_[2 * (i >> 4)] / 0x800;
     ((Ang *)(obj + 0x440))->ang += 0x400;
-    func_022079C0(obj, a, v);
+    BTLV_GAUGE_PlaceSlot(obj, a, v);
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
- *   d_021EFD38     0x021EFD38  data   a4
+ *   gSetupSeqKind1Steps     0x021EFD38  data   a4
  */
 #include "../include/Obj02129.h"
 
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
-extern int (*d_021EFD38[7])(u8 *, u8 *);
+extern int (*gSetupSeqKind1Steps[7])(u8 *, u8 *);
 
 int BTL_MAIN_RunSetupSeqKind1(int *sp, u8 *p)
 {
@@ -38,7 +38,7 @@ int BTL_MAIN_RunSetupSeqKind1(int *sp, u8 *p)
         return 0;
     }
     if ((u32)*sp < 7) {
-        if (d_021EFD38[*sp](p, p + 0x460)) {
+        if (gSetupSeqKind1Steps[*sp](p, p + 0x460)) {
             ((struct Obj02129 *)p)->f460 = 0;
             *sp = *sp + 1;
         }

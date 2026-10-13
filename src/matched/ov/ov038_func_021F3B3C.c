@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_EventSlideDoor
+ * function: FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor
  * address:  0x021F3B3C
  * packet:   pkt_ov038_021F3B3C
  * region:   ov038
@@ -10,7 +10,7 @@
  * status:   EXACT
  * note:     enum-k spelling as ov038_func_021F3F40.  Case 1 keeps the pressed
  *           path in the if body (the release path, a task swap to
- *           GIMMICK38_EventReturnDoor, is the else) so case 0's two failed tests reuse
+ *           FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, is the else) so case 0's two failed tests reuse
  *           its `b` to the shared tail; d = (u32)s[5] >> 1 gives the plain lsrs.
  *
  * symbols:
@@ -38,7 +38,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
- *   GIMMICK38_EventReturnDoor  0x021F3DFC  thumb  ov038
+ *   FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor  0x021F3DFC  thumb  ov038
  *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb  ov021
  *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb  ov021
  *   EVENT_FIELD_PROCLINK_CreateObjAnimEvent  0x021618A0  thumb  ov010
@@ -50,7 +50,7 @@
  *   gGimmick38PullAcmdSide1     0x021F45F8  data  a4
  *   gGimmick38ReleaseAcmdSide1     0x021F4600  data  a4
  *   gGimmick38ReleaseAcmdSide0     0x021F4608  data  a4
- *   d_021F4620     0x021F4620  data  a4
+ *   gGimmick38PullAcmdSide0     0x021F4620  data  a4
  */
 #include "../include/Obj00488.h"
 
@@ -68,7 +68,7 @@ typedef struct {
 extern u32 gGimmick38PullAcmdSide1[];
 extern u32 gGimmick38ReleaseAcmdSide1[];
 extern u32 gGimmick38ReleaseAcmdSide0[];
-extern u32 d_021F4620[];
+extern u32 gGimmick38PullAcmdSide0[];
 
 struct Big;
 struct Ctx;
@@ -113,9 +113,9 @@ extern void *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(void *p, int a1, int a2, in
 extern int FLDMMDL_ACMD_ListCheckEnd(u32 a);
 extern void FLDMMDL_ACMD_ListDelete(void *a);
 extern int FLDMMDL_ACMD_ListCreate(void *t, void *p);
-extern int GIMMICK38_EventReturnDoor(int a0, int *a1);
+extern int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(int a0, int *a1);
 
-int GIMMICK38_EventSlideDoor(int a0, int *a1)
+int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int a0, int *a1)
 {
     void *w;
     void *sys;
@@ -186,7 +186,7 @@ int GIMMICK38_EventSlideDoor(int a0, int *a1)
                     *a1 = *a1 + 1;
             }
         } else {
-            GAME_EVENT_ChangeEvent((struct S0201235C *)a0, (u32 *)func_020122C0(w, 0, GIMMICK38_EventReturnDoor, 0));
+            GAME_EVENT_ChangeEvent((struct S0201235C *)a0, (u32 *)func_020122C0(w, 0, FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, 0));
             return 0;
         }
         break;
@@ -222,7 +222,7 @@ int GIMMICK38_EventSlideDoor(int a0, int *a1)
     if (((struct Obj00488 *)s)->f1C != 0 && ((struct Obj00488 *)s)->f18 == 0) {
         t = FIELD_PLAYER_GetMmdl((void *)q);
         if (((struct Obj00488 *)s)->f14 == 0) {
-            ((struct Obj00488 *)s)->f14 = FLDMMDL_ACMD_ListCreate(t, s[6] == 0 ? d_021F4620 : gGimmick38PullAcmdSide1);
+            ((struct Obj00488 *)s)->f14 = FLDMMDL_ACMD_ListCreate(t, s[6] == 0 ? gGimmick38PullAcmdSide0 : gGimmick38PullAcmdSide1);
         } else if (FLDMMDL_ACMD_ListCheckEnd(((struct Obj00488 *)s)->f14) == 1) {
             FLDMMDL_ACMD_ListDelete((void *)(((struct Obj00488 *)s)->f14));
             ((struct Obj00488 *)s)->f14 = 0;

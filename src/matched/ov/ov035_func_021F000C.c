@@ -23,11 +23,11 @@
  *   func_02049740 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   d_021F05B0    0x021F05B0 data a4
+ *   sBgCharFileIds    0x021F05B0 data a4
  *   sBgPaletteFileIds    0x021F05BC data ov035 a4
- *   d_021F05C8    0x021F05C8 data ov035 a4
- *   d_021F05E8    0x021F05E8 data ov035 a4
- *   d_021F0608    0x021F0608 data ov035 a4
+ *   sBgTemplate5    0x021F05C8 data ov035 a4
+ *   sBgTemplate4    0x021F05E8 data ov035 a4
+ *   sBgTemplate6    0x021F0608 data ov035 a4
  */
 #include "../include/Obj13078.h"
 
@@ -52,11 +52,11 @@ extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *h, u32 id, u32 layer, u3
     u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern const u32 d_021F05B0[];
+extern const u32 sBgCharFileIds[];
 extern const u32 sBgPaletteFileIds[];
-extern const u8 d_021F05C8[];
-extern const u8 d_021F05E8[];
-extern const u8 d_021F0608[];
+extern const u8 sBgTemplate5[];
+extern const u8 sBgTemplate4[];
+extern const u8 sBgTemplate6[];
 
 void C_GEAR_POWER_ONOFF_InitBgs(char *p, u32 heap)
 {
@@ -66,22 +66,22 @@ void C_GEAR_POWER_ONOFF_InitBgs(char *p, u32 heap)
 
     for (i = 4; i <= 7; i++)
         func_02040588((u8)i, 0);
-    func_0203FCA0(6, (const struct BgTemplate *)d_021F0608, 0);
+    func_0203FCA0(6, (const struct BgTemplate *)sBgTemplate6, 0);
     func_020414EC(6);
     func_020409B4(6);
     func_02040588((u8)6, 1);
-    func_0203FCA0(5, (const struct BgTemplate *)d_021F05C8, 0);
+    func_0203FCA0(5, (const struct BgTemplate *)sBgTemplate5, 0);
     func_020414EC(5);
     func_020409B4(5);
     func_02040588((u8)5, 1);
-    func_0203FCA0(4, (const struct BgTemplate *)d_021F05E8, 0);
+    func_0203FCA0(4, (const struct BgTemplate *)sBgTemplate4, 0);
     func_020414EC(4);
     func_020409B4(4);
     func_02040588((u8)4, 1);
     h = func_020490F4(0x1E, heap);
     i = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(((struct Obj13078 *)p)->f4)));
     func_02049B68(h, sBgPaletteFileIds[i], 4, 0, 1, heap);
-    r = func_02049740(h, d_021F05B0[i], 6, 0, 0, heap);
+    r = func_02049740(h, sBgCharFileIds[i], 6, 0, 0, heap);
     ((struct Obj13078 *)p)->f10 = r;
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 3, 6, 0, (u16)r, 0, 0, heap);
     ARC_TOOL_DeleteHandle(h);

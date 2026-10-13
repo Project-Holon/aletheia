@@ -8,22 +8,22 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * blocker:  +001C ABS32 sPalAnmColorCodeTable       : 0209E968 (data, from header) has no witness outside 020213C0..020213E0
+ * blocker:  +001C ABS32 sItemBerryTable       : 0209E968 (data, from header) has no witness outside 020213C0..020213E0
  * symbols:
- *   sPalAnmColorCodeTable  0x0209E968  data
+ *   sItemBerryTable  0x0209E968  data
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 sPalAnmColorCodeTable[];
+extern u16 sItemBerryTable[];
 
 int ITEM_IsBerry(u32 a)
 {
     u32 i;
 
     for (i = 0; i < 0x40; i++)
-        if (sPalAnmColorCodeTable[i] == a)
+        if (sItemBerryTable[i] == a)
             return 1;
     return 0;
 }

@@ -606,7 +606,7 @@ int func_0200E5A0(void *a0)
 
 /*
  * Unlabelled arm9 leaf: true when bit 15 of the halfword at +0x5C4 is clear.
- * Filed as the relocation witness for ov021 func_021D09D0 (wave A1).
+ * Filed as the relocation witness for ov021 TRIAL_HOUSE_LoadDeliveryState (wave A1).
  */
 int func_0200E5CC(void *p)
 {
@@ -628,7 +628,7 @@ int func_0200E5CC(void *p)
 
 /*
  * Unlabelled arm9 leaf: the low seven bits of the halfword at +0x5C4. Filed
- * as the relocation witness for ov021 func_021D0C58 (wave A1).
+ * as the relocation witness for ov021 TRIAL_HOUSE_DeliveryTaskMain (wave A1).
  */
 u16 func_0200E5E4(void *p)
 {
@@ -648,7 +648,7 @@ u16 func_0200E5E4(void *p)
 /*
  * Unlabelled arm9 leaf: element idx of a five-entry array of 0x120 byte
  * records, the base itself when idx is out of range. Filed as the relocation
- * witness for ov021 func_021D0B58 (wave A1).
+ * witness for ov021 TRIAL_HOUSE_LoadDeliveredTrainer (wave A1).
  */
 char *func_0200E5F8(char *p, u32 idx)
 {
@@ -672,7 +672,7 @@ char *func_0200E5F8(char *p, u32 idx)
  * Unlabelled arm9 function: loads save block 5 into a 0x1000 byte heap buffer,
  * copies its first 0x5C8 bytes to dst, then starts a save of block 5 and spins
  * on OS_WaitIrq until it reports done. Filed as the relocation witness for
- * ov021 func_021D0C58 (wave A1).
+ * ov021 TRIAL_HOUSE_DeliveryTaskMain (wave A1).
  */
 void func_0200E608(void *sys, void *dst, u32 heap)
 {

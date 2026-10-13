@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   data_021F3A84  0x021F3A84  data
+ *   gBtlEmptyString  0x021F3A84  data
  *   func_02034714  0x02034714  arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -22,13 +22,13 @@ typedef struct {
     u8 buf[0xBB5];
 } Buf;
 
-extern char data_021F3A84[];
+extern char gBtlEmptyString[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void BTL_SERVER_CMD_WriteU32(Buf *w, u32 v)
 {
     if (w->wpos >= 0xBB5) {
-        func_02034714(data_021F3A84, 0, data_021F3A84);
+        func_02034714(gBtlEmptyString, 0, gBtlEmptyString);
     }
     w->buf[w->wpos++] = v >> 24;
     w->buf[w->wpos++] = v >> 16;

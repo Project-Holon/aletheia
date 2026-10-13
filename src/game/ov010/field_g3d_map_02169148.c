@@ -18,8 +18,8 @@
  *   sub_02030734   0x02030734  arm
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   d_02172A40     0x02172A40  data
- *   g_020A8140     0x020A8140  data
- *   g_020A8148     0x020A8148  data
+ *   NNS_GfdDefaultFuncAllocTexVram     0x020A8140  data
+ *   NNS_GfdDefaultFuncAllocPlttVram     0x020A8148  data
  *   d_020A814C     0x020A814C  data   a4
  *   d_020A8144     0x020A8144  data   a4
  *   func_020490F4 0x020490F4 arm
@@ -161,8 +161,8 @@ extern FieldG3dMapGlbState d_02148BCC;
 extern u8 d_02172160[];
 extern u8 gG3dBaseMtx43[];
 extern short FX_SinCosTable_[];
-extern u32 (*g_020A8140)(u32 size, u32 is4x4, u32 opt);
-extern u32 (*g_020A8148)(u32 size, u32 is4pltt, u32 opt);
+extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 size, u32 is4x4, u32 opt);
+extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 size, u32 is4pltt, u32 opt);
 extern void (*d_020A814C)(u32);
 extern void (*d_020A8144)(u32);
 
@@ -204,8 +204,8 @@ FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId)
     map->altTextureRes = 0;
     if (cfg->texVramSize != 0) {
         map->texVramSize = cfg->texVramSize;
-        map->texKey = g_020A8140(cfg->texVramSize, 0, 0);
-        map->plttKey = g_020A8148(0x200, 0, 0);
+        map->texKey = NNS_GfdDefaultFuncAllocTexVram(cfg->texVramSize, 0, 0);
+        map->plttKey = NNS_GfdDefaultFuncAllocPlttVram(0x200, 0, 0);
     } else {
         map->texVramSize = 0;
         map->texKey = 0;

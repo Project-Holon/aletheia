@@ -1,5 +1,5 @@
 /*
- * function: func_021D0B58
+ * function: TRIAL_HOUSE_LoadDeliveredTrainer
  * address:  0x021D0B58
  * packet:   pkt_ov021_021D0B58
  * region:   ov021
@@ -42,7 +42,7 @@ struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *a, unsigned int b);
 extern u32 func_020307B0(void *p);
 
-void func_021D0B58(int a, Big *dst, int idx)
+void TRIAL_HOUSE_LoadDeliveredTrainer(int a, Big *dst, int idx)
 {
     int h;
     void *buf;

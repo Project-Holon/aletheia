@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B1668.c
  * unit:     yes
- * function: SCRCMD_FLDMMDL_GetMmdlByScriptId, SCRCMD_FLDMMDL_StartMmdlAnime, SCRCMD_FLDMMDL_CheckAnimeTasksDone, SCRCMD_FLDMMDL_WaitAnimeTasks, SCRCMD_FLDMMDL_GetMmdlMoveCode, SCRCMD_FLDMMDL_ChangeMmdlMoveCode, SCRCMD_FLDMMDL_GetMmdlGridPos, SCRCMD_FLDMMDL_GetPlayerGridPos, func_021B17F8, SCRCMD_FLDMMDL_AddMmdl, SCRCMD_FLDMMDL_DeleteMmdl, SCRCMD_FLDMMDL_AddPartyFollowerMmdl, SCRCMD_FLDMMDL_InitMmdlGridPosition, SCRCMD_FLDMMDL_GetMmdlEventFlag, SCRCMD_FLDMMDL_GetMmdlParam, SCRCMD_FLDMMDL_SetMmdlZoneDeleteOff, SCRCMD_FLDMMDL_CheckMmdlPauseRelease, SCRCMD_FLDMMDL_PauseMmdlsReleaseActive, SCRCMD_FLDMMDL_PauseMmdls, SCRCMD_FLDMMDL_UnpauseAllMmdls, SCRCMD_FLDMMDL_TurnTargetMmdlToPlayer, SCRCMD_FLDMMDL_SearchMmdlAtGrid, SCRCMD_FLDMMDL_SearchMmdlInFrontOfPlayer, SCRCMD_FLDMMDL_CheckPlayerAnimeDone, SCRCMD_FLDMMDL_StartPlayerAnimeAndWait, SCRCMD_FLDMMDL_StartPlayerOffsetTask, SCRCMD_FLDMMDL_StartPlayerOffsetTaskAgain, SCRCMD_FLDMMDL_GetPlayerMmdl, SCRCMD_FLDMMDL_TurnPlayerToFrontEvent, SCRCMD_FLDMMDL_GetPlayerForm, SCRCMD_FLDMMDL_StartMmdlMoveToGrid, SCRCMD_FLDMMDL_GetPlayerAnimeState, SCRCMD_FLDMMDL_GetPlayerRailLocation, SCRCMD_FLDMMDL_GetMmdlRailLocation, SCRCMD_FLDMMDL_StartMmdlEvent, SCRCMD_FLDMMDL_SetPlayerRailLocation, SCRCMD_FLDMMDL_SetMmdlRailLocation, SCRCMD_FLDMMDL_StartMmdlSpinRise, SCRCMD_FLDMMDL_StartMmdlDropIn
+ * function: SCRCMD_FLDMMDL_GetMmdlByScriptId, SCRCMD_FLDMMDL_StartMmdlAnime, SCRCMD_FLDMMDL_CheckAnimeTasksDone, SCRCMD_FLDMMDL_WaitAnimeTasks, SCRCMD_FLDMMDL_GetMmdlMoveCode, SCRCMD_FLDMMDL_ChangeMmdlMoveCode, SCRCMD_FLDMMDL_GetMmdlGridPos, SCRCMD_FLDMMDL_GetPlayerGridPos, SCRCMD_FLDMMDL_GetPlayerDir, SCRCMD_FLDMMDL_AddMmdl, SCRCMD_FLDMMDL_DeleteMmdl, SCRCMD_FLDMMDL_AddPartyFollowerMmdl, SCRCMD_FLDMMDL_InitMmdlGridPosition, SCRCMD_FLDMMDL_GetMmdlEventFlag, SCRCMD_FLDMMDL_GetMmdlParam, SCRCMD_FLDMMDL_SetMmdlZoneDeleteOff, SCRCMD_FLDMMDL_CheckMmdlPauseRelease, SCRCMD_FLDMMDL_PauseMmdlsReleaseActive, SCRCMD_FLDMMDL_PauseMmdls, SCRCMD_FLDMMDL_UnpauseAllMmdls, SCRCMD_FLDMMDL_TurnTargetMmdlToPlayer, SCRCMD_FLDMMDL_SearchMmdlAtGrid, SCRCMD_FLDMMDL_SearchMmdlInFrontOfPlayer, SCRCMD_FLDMMDL_CheckPlayerAnimeDone, SCRCMD_FLDMMDL_StartPlayerAnimeAndWait, SCRCMD_FLDMMDL_StartPlayerOffsetTask, SCRCMD_FLDMMDL_StartPlayerOffsetTaskAgain, SCRCMD_FLDMMDL_GetPlayerMmdl, SCRCMD_FLDMMDL_TurnPlayerToFrontEvent, SCRCMD_FLDMMDL_GetPlayerForm, SCRCMD_FLDMMDL_StartMmdlMoveToGrid, SCRCMD_FLDMMDL_GetPlayerAnimeState, SCRCMD_FLDMMDL_GetPlayerRailLocation, SCRCMD_FLDMMDL_GetMmdlRailLocation, SCRCMD_FLDMMDL_StartMmdlEvent, SCRCMD_FLDMMDL_SetPlayerRailLocation, SCRCMD_FLDMMDL_SetMmdlRailLocation, SCRCMD_FLDMMDL_StartMmdlSpinRise, SCRCMD_FLDMMDL_StartMmdlDropIn
  * address:  0x021B1668
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -91,7 +91,7 @@
  *   FIELD_PLAYER_CheckFormModel  0x021A3238  thumb  ov021
  *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
  *   FIELD_RAIL_WORK_GetLocationParts  0x021B83FC  thumb  ov021
- *   FIELD_OV063_Start  0x021C474C  thumb  ov021
+ *   RAIL_SLIPDOWN_Start  0x021C474C  thumb  ov021
  *   FIELD_RAIL_WORK_SetLineLocation  0x021B8484  thumb  ov021
  *   func_021B7DC0  0x021B7DC0  thumb  ov021
  *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
@@ -205,7 +205,7 @@ extern Mmdl *FIELD_PLAYER_SearchFrontMmdlHeight(struct FieldPlayer *player, u32 
 extern void FIELD_RAIL_WORK_GetLocationParts(struct RailWork *work, u16 *outRailIndex, u16 *outLineGrid, u16 *outWidthGrid);
 extern void FIELD_RAIL_WORK_SetLineLocation(struct RailWork *work, u32 railIndex, u32 lineGrid, int widthPos);
 extern void func_021B7DC0(struct RailWork *work, RailLocation *outLocation);
-extern struct GameEvent *FIELD_OV063_Start(struct GameSystem *gameSystem, struct FieldMap *fieldMap, Mmdl *mmdl);
+extern struct GameEvent *RAIL_SLIPDOWN_Start(struct GameSystem *gameSystem, struct FieldMap *fieldMap, Mmdl *mmdl);
 extern struct FieldTask *FIELD_TASK_CreateMmdlPosOffsetTween(struct FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
 extern struct FieldTask *FIELD_TASK_CreateMmdlDrawOffsetTween(struct FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
 extern struct FieldTask *FIELD_TASK_CreateMmdlSpinLinear(struct FieldMap *fieldMap, u16 frames, int spins, Mmdl *mmdl);
@@ -233,7 +233,7 @@ int SCRCMD_FLDMMDL_GetMmdlMoveCode(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_FLDMMDL_ChangeMmdlMoveCode(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_FLDMMDL_GetMmdlGridPos(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_FLDMMDL_GetPlayerGridPos(ScriptVm *vm, ScrcmdWork *cmdWork);
-int func_021B17F8(ScriptVm *vm, ScrcmdWork *cmdWork);
+int SCRCMD_FLDMMDL_GetPlayerDir(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_FLDMMDL_AddMmdl(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_FLDMMDL_DeleteMmdl(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_FLDMMDL_AddPartyFollowerMmdl(ScriptVm *vm, ScrcmdWork *cmdWork);
@@ -374,7 +374,7 @@ int SCRCMD_FLDMMDL_GetPlayerGridPos(ScriptVm *vm, ScrcmdWork *cmdWork)
 }
 
 /* Script command: read the displayed direction of the player into a script variable. */
-int func_021B17F8(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRCMD_FLDMMDL_GetPlayerDir(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     Mmdl *playerMmdl = SCRCMD_FLDMMDL_GetPlayerMmdl(cmdWork);
     u16 *dirVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -950,7 +950,7 @@ int SCRCMD_FLDMMDL_StartMmdlEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
     mmdl = FLDMMDL_SysSearchObjId(mmdlSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
-    event = FIELD_OV063_Start(gameSystem, SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, mmdl);
+    event = RAIL_SLIPDOWN_Start(gameSystem, SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, mmdl);
     SCRIPT_SYS_CallEvent(scriptWork, event);
     return 1;
 }

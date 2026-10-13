@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E814C",
+   "name": "HAND_WAZA_SkyDropBlockFlyingTarget",
    "address": "0x021E814C",
    "kind": "game",
    "region": "ov093",

@@ -21,7 +21,7 @@
  * int here.
  *
  * symbols:
- *   d_021B3CBC     0x021B3CBC  data  ov013  a4
+ *   gVctReceiveSources     0x021B3CBC  data  ov013  a4
  *   VCT_AUDIO_GetReadyCount  0x021B19AC  arm  ov013
  *   func_020870D0  0x020870D0  arm
  *   VCT_AUDIO_PeekReadyPacket  0x021B190C  arm  ov013
@@ -67,7 +67,7 @@ typedef struct Slot {
     u8 pad74[0x20];
 } Slot;
 
-extern Slot d_021B3CBC[3];
+extern Slot gVctReceiveSources[3];
 
 extern int VCT_AUDIO_GetReadyCount(u32 idx);
 extern u64 func_020870D0(void);
@@ -86,7 +86,7 @@ int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask)
     u32 d;
     u32 diff;
 
-    slot = &d_021B3CBC[idx];
+    slot = &gVctReceiveSources[idx];
     first = 1;
     n = VCT_AUDIO_GetReadyCount(idx);
     while (n != 0) {

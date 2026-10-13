@@ -13,8 +13,8 @@
  *   BTL_SERVER_CMD_ReadU16  0x021CCB18  thumb  ov093
  *   BTL_SERVER_CMD_ReadU8  0x021CCAD4  thumb  ov093
  *   BTL_SERVER_CMD_WriteCommand  0x021CCC0C  thumb  ov093
- *   data_021EFF14  0x021EFF14  data
- *   data_021F3B44  0x021F3B44  data
+ *   gBtlServerCmdLayouts  0x021EFF14  data
+ *   gBtlServerCmdArgBuffer  0x021F3B44  data
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -27,8 +27,8 @@ typedef struct {
     u32 rpos;
 } Buf;
 
-extern const u8 data_021EFF14[];
-extern s32 data_021F3B44[];
+extern const u8 gBtlServerCmdLayouts[];
+extern s32 gBtlServerCmdArgBuffer[];
 extern u16 BTL_SERVER_CMD_ReadU16(void *r);
 extern u8 BTL_SERVER_CMD_ReadU8(u8 *p);
 extern void BTL_SERVER_CMD_WriteCommand(void *w, u32 id, int cmd, s32 *a);
@@ -37,13 +37,13 @@ void BTL_SERVER_CMD_FillReserved(Buf *w, u32 x, u32 id, ...)
 {
     va_list ap;
     u32 i = 0;
-    u8 cmd = data_021EFF14[id];
+    u8 cmd = gBtlServerCmdLayouts[id];
     u32 n = cmd & 0xF;
     u16 pos;
 
     va_start(ap, id);
     for (; i < n; i++) {
-        data_021F3B44[i] = va_arg(ap, s32);
+        gBtlServerCmdArgBuffer[i] = va_arg(ap, s32);
     }
     pos = w->rpos;
     w->rpos = x;
@@ -53,7 +53,7 @@ void BTL_SERVER_CMD_FillReserved(Buf *w, u32 x, u32 id, ...)
     if (id != 0x5f) {
         pos = w->wpos;
         w->wpos = x;
-        BTL_SERVER_CMD_WriteCommand(w, id, cmd, data_021F3B44);
+        BTL_SERVER_CMD_WriteCommand(w, id, cmd, gBtlServerCmdArgBuffer);
         w->wpos = pos;
     }
 }

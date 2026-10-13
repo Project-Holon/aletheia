@@ -1,7 +1,7 @@
 /*
  * file:     gimmick_init_helpers.c
  * unit:     yes
- * function: func_021F36C0, GIMMICK_INIT_SetGimmick40Flag, GIMMICK_INIT_SetGimmick42Flags, GIMMICK_INIT_RestoreGimmick38State, GIMMICK_INIT_ResetGimmick46Panels
+ * function: GIMMICK_INIT_SetGimmick39Flags, GIMMICK_INIT_SetGimmick40Flag, GIMMICK_INIT_SetGimmick42Flags, GIMMICK_INIT_RestoreGimmick38State, GIMMICK_INIT_ResetGimmick46Panels
  * address:  0x021F36C0
  * region:   ov037
  * compiler: dsi/1.1p1
@@ -18,10 +18,10 @@
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GIMMICK_WORK_GetProgress  0x0200B3A8  thumb
- *   d_021F3840     0x021F3840  data ov037 a1
+ *   gGimmick38SwitchPlates     0x021F3840  data ov037 a1
  *   gGimmick38DoorPlates     0x021F3834  data a1
  */
-#include "gimmick_init_helpers_types.h"
+#include "gimmick_save_types.h"
 
 struct GameSystem;
 struct GameData;
@@ -36,55 +36,55 @@ extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern void *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmick, u32 gimmickId);
 extern u16 *GIMMICK_WORK_GetProgress(struct GimmickWork *gimmick, u32 gimmickId);
-void func_021F36C0(unsigned int gameSystem, int setFirst, int setSecond);
+void GIMMICK_INIT_SetGimmick39Flags(unsigned int gameSystem, int setFirst, int setSecond);
 void GIMMICK_INIT_SetGimmick40Flag(struct GameSystem *gameSystem, int enable);
 void GIMMICK_INIT_SetGimmick42Flags(unsigned int gameSystem, int buttonMask);
 void GIMMICK_INIT_RestoreGimmick38State(unsigned int gameSystem, unsigned short **foundVars);
 
 /* Per switch: the two plates it lights (-1 for none). Per door: the two plates that open it. */
-extern signed char d_021F3840[][2];
+extern signed char gGimmick38SwitchPlates[][2];
 extern unsigned char gGimmick38DoorPlates[][2];
 
 /* Marks the first and second flag of gimmick 39 as set. */
-void func_021F36C0(unsigned int gameSystem, int setFirst, int setSecond)
+void GIMMICK_INIT_SetGimmick39Flags(unsigned int gameSystem, int setFirst, int setSecond)
 {
-    Gimmick39Work *work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 2);
+    Gimmick39Save *work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 2);
 
     if (setFirst)
-        work->firstFlag = 1;
+        work->laneUnlocked[0] = 1;
     if (setSecond)
-        work->secondFlag = 1;
+        work->laneUnlocked[1] = 1;
 }
 
 /* Sets the flag of gimmick 40 and its byte mirror. */
 void GIMMICK_INIT_SetGimmick40Flag(struct GameSystem *gameSystem, int enable)
 {
     struct GameData *gameData;
-    Gimmick40Work *work;
+    Gimmick40Save *work;
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), 3);
     GAME_DATA_GetMyPlayerWork(gameData);
-    if (enable) work->enabled = 1;
-    else work->enabled = 0;
-    if (work->enabled) work->enabledByte = 1;
-    else work->enabledByte = 0;
+    if (enable) work->flag = 1;
+    else work->flag = 0;
+    if (work->flag) work->animeDone[0] = 1;
+    else work->animeDone[0] = 0;
 }
 
 
 /* Sets the three flags of gimmick 42 from the low three bits of the mask. */
 void GIMMICK_INIT_SetGimmick42Flags(unsigned int gameSystem, int buttonMask)
 {
-    Gimmick42Work *work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 4);
+    Gimmick42Save *work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 4);
     unsigned char i;
 
     for (i = 0; i < 3; i++)
-        work->flag[i] = 0;
+        work->oneShotPlayed[i] = 0;
     if (buttonMask & 1)
-        work->flag[0] = 1;
+        work->oneShotPlayed[0] = 1;
     if ((buttonMask >> 1) & 1)
-        work->flag[1] = 1;
+        work->oneShotPlayed[1] = 1;
     if ((buttonMask >> 2) & 1)
-        work->flag[2] = 1;
+        work->oneShotPlayed[2] = 1;
 }
 
 
@@ -107,7 +107,7 @@ void GIMMICK_INIT_RestoreGimmick38State(unsigned int gameSystem, unsigned short 
             work->switchFound[switchIdx] = 1;
             *foundVars[switchIdx] = 1;
             for (linkIdx = 0; linkIdx < 2; linkIdx++) {
-                plateIdx = d_021F3840[switchIdx][linkIdx];
+                plateIdx = gGimmick38SwitchPlates[switchIdx][linkIdx];
                 if (plateIdx != -1)
                     work->platePressed[plateIdx] = 1;
             }
@@ -124,23 +124,21 @@ void GIMMICK_INIT_RestoreGimmick38State(unsigned int gameSystem, unsigned short 
     work->doorOpen[6] = 1;
 }
 
-/* Fills the three panel rows of gimmick 46 with their starting values. */
+/* Sets the three units of gimmick 46 to their starting pose and lever states. */
 void GIMMICK_INIT_ResetGimmick46Panels(unsigned int gameSystem)
 {
-    Gimmick46Work *work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 10);
-    int *firstRow = work->panel[0];
-    int *secondRow;
-    int *thirdRow;
+    Gimmick46Save *work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 10);
+    Gimmick46Unit *unit = &work->units[0];
 
-    firstRow[0] = 3;
-    firstRow[1] = 0;
-    firstRow[2] = 1;
-    secondRow = work->panel[1];
-    secondRow[0] = 1;
-    secondRow[1] = 1;
-    secondRow[2] = 1;
-    thirdRow = work->panel[2];
-    thirdRow[0] = 2;
-    thirdRow[1] = 1;
-    thirdRow[2] = 0;
+    unit->pose = 3;
+    unit->leverOn[0] = 0;
+    unit->leverOn[1] = 1;
+    unit = &work->units[1];
+    unit->pose = 1;
+    unit->leverOn[0] = 1;
+    unit->leverOn[1] = 1;
+    unit = &work->units[2];
+    unit->pose = 2;
+    unit->leverOn[0] = 1;
+    unit->leverOn[1] = 0;
 }

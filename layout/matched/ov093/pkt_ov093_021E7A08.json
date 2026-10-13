@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E7A08",
-    "func_021E7A6C"
+    "HAND_WAZA_MagicRoomToggle",
+    "HAND_WAZA_AddFlameBurst"
+   ],
+   "addresses": [
+    "0x021E7A08",
+    "0x021E7A6C"
    ],
    "evidence": {
     "sole-ref": [

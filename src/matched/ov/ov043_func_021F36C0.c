@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_Init
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_Init
  * address:  0x021F36C0
  * packet:   pkt_ov043_021F36C0
  * region:   ov043
@@ -43,8 +43,8 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_GetAnimeLastFrame  0x021BE748  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
- *   GIMMICK43_ShowLiftAnime  0x021F3F38  thumb  ov043
- *   GIMMICK43_ShowElevatorIdleAnime  0x021F4174  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime  0x021F3F38  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime  0x021F4174  thumb  ov043
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_FOG_SetOffset  0x021A01BC  thumb  ov021
  *   FIELD_FOG_SetSlope  0x021A01B4  thumb  ov021
@@ -110,15 +110,15 @@ extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
-extern void  GIMMICK43_ShowLiftAnime(int *a, void *b, int c);
-extern void  GIMMICK43_ShowElevatorIdleAnime(void *p);
+extern void  FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(int *a, void *b, int c);
+extern void  FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime(void *p);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern int   FIELD_FOG_SetOffset(u32 a, u32 b);
 extern int   FIELD_FOG_SetSlope(u32 a, u32 b);
 extern void *sub_02030344(u32 heapId);
 
-void GIMMICK43_Init(void *a0)
+void FIELD_GIMMICK_LIFT_ELEVATOR_Init(void *a0)
 {
     void *s;
     int *q;
@@ -163,7 +163,7 @@ void GIMMICK43_Init(void *a0)
             FLD_EXP_OBJ_SetAnimeLoop(b, 0);
             FLD_EXP_OBJ_SetAnimePaused(b, 1);
         }
-        GIMMICK43_ShowLiftAnime(q, s, i);
+        FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(q, s, i);
     }
     e = FLD_EXP_OBJ_GetModelStatus(s, 0, 7);
     *e = sGimmick43ElevatorStartPos;
@@ -173,7 +173,7 @@ void GIMMICK43_Init(void *a0)
         FLD_EXP_OBJ_SetAnimeLoop(b, 0);
         FLD_EXP_OBJ_SetAnimePaused(b, 1);
     }
-    GIMMICK43_ShowElevatorIdleAnime(s);
+    FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime(s);
     e = FLD_EXP_OBJ_GetModelStatus(s, 0, 6);
     *e = sGimmick43ObstacleStartPos;
     FLD_EXP_OBJ_SetModelCullDraw(s, 0, (u16)6, 1);

@@ -13,7 +13,7 @@
  *   VM_GetU16  0x02011330  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   GIMMICK39_UnlockLaneFromScript  0x021F4134  thumb  ov039
+ *   FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript  0x021F4134  thumb  ov039
  */
 
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned short u16;
 struct Stream;
 extern u16 VM_GetU16(struct Stream *s);
-extern void GIMMICK39_UnlockLaneFromScript(void *p, u32 i);
+extern void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(void *p, u32 i);
 
 int SCRCMD_GIMMICK39_SetState(u32 a, u32 b)
 {
@@ -34,6 +34,6 @@ int SCRCMD_GIMMICK39_SetState(u32 a, u32 b)
     SCRCMD_WORK_GetScriptWork((void *)b);
     d = SCRCMD_WORK_GetGameSystem((void *)b);
     k = VM_GetU16((struct Stream *)a);
-    GIMMICK39_UnlockLaneFromScript(d, k);
+    FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(d, k);
     return 0;
 }

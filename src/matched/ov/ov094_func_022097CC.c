@@ -1,5 +1,5 @@
 /*
- * function: func_022097CC
+ * function: BTLV_BG_StartScroll
  * address:  0x022097CC
  * packet:   pkt_ov094_022097CC
  * region:   ov094
@@ -12,8 +12,8 @@
  * symbols:
  *   func_020407E8  0x020407E8  arm
  *   func_02040804  0x02040804  arm
- *   func_0220986C  0x0220986C  thumb  ov094
- *   func_022099E8  0x022099E8  thumb  ov094
+ *   BTLV_BG_StartScrollJob  0x0220986C  thumb  ov094
+ *   BTLV_BG_ScrollTask  0x022099E8  thumb  ov094
  */
 
 typedef unsigned int u32;
@@ -26,11 +26,11 @@ typedef struct {
 
 extern u32 func_020407E8(u32 layer);
 extern u32 func_02040804(u32 layer);
-extern void func_0220986C(O *o, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3,
+extern void BTLV_BG_StartScrollJob(O *o, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3,
                           void (*f1)(void *, void *));
-extern void func_022099E8(void *, void *);
+extern void BTLV_BG_ScrollTask(void *, void *);
 
-void func_022097CC(O *o, int a, u32 mode, int x, int y, int s1, int s2, int s3)
+void BTLV_BG_StartScroll(O *o, int a, u32 mode, int x, int y, int s1, int s2, int s3)
 {
     Vec w;
     Vec v;
@@ -48,6 +48,6 @@ void func_022097CC(O *o, int a, u32 mode, int x, int y, int s1, int s2, int s3)
         v.y += w.y;
         v.z += w.z;
     }
-    func_0220986C(o, mode, &w, &v, s1, s2, s3, func_022099E8);
+    BTLV_BG_StartScrollJob(o, mode, &w, &v, s1, s2, s3, BTLV_BG_ScrollTask);
     o->b0 = 1;
 }

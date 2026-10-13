@@ -1,5 +1,5 @@
 /*
- * function: func_021EAAD8
+ * function: BTLV_CORE_RunProc
  * address:  0x021EAAD8
  * packet:   pkt_ov093_021EAAD8
  * region:   ov093
@@ -22,7 +22,7 @@ typedef struct {
     u32 obj;                   /* 0x28 */
 } CbSlot;
 
-int func_021EAAD8(CbSlot *s)
+int BTLV_CORE_RunProc(CbSlot *s)
 {
     if (s->cb1 != 0) {
         if (s->cb1(&s->obj, s->arg) != 0) {

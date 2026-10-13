@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021EFF74  0x021EFF74  data  a1
+ *   gAiSlotLimitTable  0x021EFF74  data  a1
  *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 d_021EFF74[];
+extern u8 gAiSlotLimitTable[];
 struct Q1;
 struct Unk021D62A8;
 extern u8 BTL_SLOT_GetCount(struct Q1 *p);
@@ -48,7 +48,7 @@ u32 func_021D3DC4(u8 *a, void *b, void *c)
     if (BTL_POKEPARAM_HasSick(b, 0x13) != 0)
         return 0;
     for (i = 0; i < 4; i++) {
-        if (d_021EFF74[i] < lim)
+        if (gAiSlotLimitTable[i] < lim)
             break;
         off = i * 2;
         if (*(u16 *)(a + off + 0xe8) != 0) {

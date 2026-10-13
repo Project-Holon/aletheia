@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E94
+ * function: FIELD_TASK_MANAGER_UpdateSlot
  * address:  0x021C6E94
  * packet:   pkt_ov021_021C6E94
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef struct Q Q;
 typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R;
 extern void FIELD_TASK_Update(void);
-void func_021C6E94(R *r, int i)
+void FIELD_TASK_MANAGER_UpdateSlot(R *r, int i)
 {
     if (r->f4[i] != 0)
         FIELD_TASK_Update();

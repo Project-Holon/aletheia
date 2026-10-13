@@ -1,5 +1,5 @@
 /*
- * function: func_021EAA5C
+ * function: BTLV_CORE_CancelWindowModeSelect
  * address:  0x021EAA5C
  * packet:   pkt_ov093_021EAA5C
  * region:   ov093
@@ -18,7 +18,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern void func_0689B558(int a);
 
-void func_021EAA5C(u8 *o)
+void BTLV_CORE_CancelWindowModeSelect(u8 *o)
 {
     func_0689B558(((struct Obj21569 *)o)->f180);
 }

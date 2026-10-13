@@ -1,5 +1,5 @@
 /*
- * function: func_021E9634
+ * function: BTLV_CORE_GetPokeParamAtViewPos
  * address:  0x021E9634
  * packet:   pkt_ov093_021E9634
  * region:   ov093
@@ -25,7 +25,7 @@ struct Pair {
     char *const *q;
 };
 
-u8 *func_021E9634(struct Pair *s, u32 k)
+u8 *BTLV_CORE_GetPokeParamAtViewPos(struct Pair *s, u32 k)
 {
     return BTL_SIDE_GetPokeAtPos(s->q, BTL_MAIN_GetSlotFromViewPos(s->a, k));
 }

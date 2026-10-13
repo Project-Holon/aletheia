@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_arc_effect.c
  * unit:     yes
- * function: func_021F36C0, GIMMICK64_Exit, GIMMICK64_Update, func_021F37B8, GIMMICK64_PlayerEffectEvent, GIMMICK64_StartArcEffect, GIMMICK64_ShowArcModelAt, GIMMICK64_CreateWaitPeakEvent, GIMMICK64_CreateWaitEndEvent, GIMMICK64_ArcEffectEvent, GIMMICK64_IsArcPeakReached, GIMMICK64_IsArcAnimeStopped
+ * function: FIELD_GIMMICK_ARC_EFFECT_Init, FIELD_GIMMICK_ARC_EFFECT_Exit, FIELD_GIMMICK_ARC_EFFECT_Update, FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect, FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent, FIELD_GIMMICK_ARC_EFFECT_StartArcEffect, FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt, FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent, FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent, FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached, FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped
  * address:  0x021F36C0
  * region:   ov064
  * compiler: dsi/1.1p1
@@ -42,7 +42,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
- *   GIMMICK64_IsArcAnimeStopped  0x021F3BD8  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped  0x021F3BD8  thumb  ov064
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  */
 #include "field_gimmick_arc_effect_types.h"
@@ -76,23 +76,23 @@ extern void GFL_USE_StopAllSe(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void FADE_Start(u32 screen, s32 from, s32 to, s32 wait);
 extern int FADE_IsActive(void);
-extern int GIMMICK64_IsArcAnimeStopped(void *event, int *unusedSeq);
-void func_021F36C0(void *fieldMap);
-void GIMMICK64_Exit(void *fieldMap);
-void GIMMICK64_Update(void *fieldMap);
-struct GameEvent *func_021F37B8(void *gameSystem);
-int GIMMICK64_PlayerEffectEvent(void *event, int *seq);
-void GIMMICK64_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount);
-void GIMMICK64_ShowArcModelAt(void *gameSystem, VecFx32 *pos);
-struct GameEvent *GIMMICK64_CreateWaitPeakEvent(void *gameSystem);
-struct GameEvent *GIMMICK64_CreateWaitEndEvent(void *gameSystem);
-int GIMMICK64_ArcEffectEvent(void *event, int *unusedSeq);
-int GIMMICK64_IsArcPeakReached(void *event, int *unusedSeq);
+extern int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(void *event, int *unusedSeq);
+void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap);
+void FIELD_GIMMICK_ARC_EFFECT_Exit(void *fieldMap);
+void FIELD_GIMMICK_ARC_EFFECT_Update(void *fieldMap);
+struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem);
+int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *event, int *seq);
+void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount);
+void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos);
+struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem);
+struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem);
+int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq);
+int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq);
 extern char d_021F3C20[];
 extern char d_021F3C30[];
 extern int FLD_EXP_OBJ_IsAnimeStopped(void *anime);
 
-void func_021F36C0(void *fieldMap)
+void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap)
 {
     void *expObj;
     Gimmick64Work *work;
@@ -100,46 +100,46 @@ void func_021F36C0(void *fieldMap)
     u8 *anime;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    work = FIELDMAP_AllocCommonWork(fieldMap, GIMMICK64_WORK_ID, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick64Work));
+    work = FIELDMAP_AllocCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick64Work));
     work->fadeWait = 0;
-    if (GPOWER_GetSpecialPowerId() == GIMMICK64_SPECIAL_POWER_ID) {
+    if (GPOWER_GetSpecialPowerId() == FIELD_GIMMICK_ARC_EFFECT_SPECIAL_POWER_ID) {
         FLD_EXP_OBJ_AddUnitFromArchive(expObj, d_021F3C20, 0);
     } else {
         FLD_EXP_OBJ_AddUnitFromArchive(expObj, d_021F3C30, 0);
     }
     work->fadeTarget = 4;
-    FLD_EXP_OBJ_SetModelHidden(expObj, 0, GIMMICK64_PLAYER_MODEL, 1);
-    FLD_EXP_OBJ_SetModelHidden(expObj, 0, GIMMICK64_ARC_MODEL, 1);
-    for (animeIdx = 0; animeIdx < GIMMICK64_PLAYER_ANIME_COUNT; animeIdx++) {
-        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK64_PLAYER_MODEL, (u16)animeIdx);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, 1);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, 1);
+    for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_PLAYER_ANIME_COUNT; animeIdx++) {
+        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, (u16)animeIdx);
         FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
         FLD_EXP_OBJ_SetAnimePaused(anime, 1);
-        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK64_PLAYER_MODEL, animeIdx, 0);
+        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, animeIdx, 0);
     }
-    for (animeIdx = 0; animeIdx < GIMMICK64_ARC_ANIME_COUNT; animeIdx++) {
-        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK64_ARC_MODEL, (u16)animeIdx);
+    for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_ARC_ANIME_COUNT; animeIdx++) {
+        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, (u16)animeIdx);
         FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
         FLD_EXP_OBJ_SetAnimePaused(anime, 1);
-        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK64_ARC_MODEL, animeIdx, 0);
+        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, animeIdx, 0);
     }
 }
 
-void GIMMICK64_Exit(void *fieldMap)
+void FIELD_GIMMICK_ARC_EFFECT_Exit(void *fieldMap)
 {
     void *expObj;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    FIELDMAP_FreeCommonWork(fieldMap, GIMMICK64_WORK_ID);
+    FIELDMAP_FreeCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID);
     FLD_EXP_OBJ_RemoveUnit(expObj, 0);
 }
 
-void GIMMICK64_Update(void *fieldMap)
+void FIELD_GIMMICK_ARC_EFFECT_Update(void *fieldMap)
 {
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
 }
 
 /* Shows the player effect model at the player and starts its animes; the returned event ends with the animation. */
-struct GameEvent *func_021F37B8(void *gameSystem)
+struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem)
 {
     int animeIdx;
     void *fieldMap;
@@ -149,19 +149,19 @@ struct GameEvent *func_021F37B8(void *gameSystem)
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, GIMMICK64_PLAYER_MODEL) = playerPos;
-    FLD_EXP_OBJ_SetModelHidden(expObj, 0, GIMMICK64_PLAYER_MODEL, 0);
-    for (animeIdx = 0; animeIdx < GIMMICK64_PLAYER_ANIME_COUNT; animeIdx++) {
-        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK64_PLAYER_MODEL, (u16)animeIdx), 0);
-        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK64_PLAYER_MODEL, animeIdx, 1);
-        FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, GIMMICK64_PLAYER_MODEL, animeIdx, 0);
+    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL) = playerPos;
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, 0);
+    for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_PLAYER_ANIME_COUNT; animeIdx++) {
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, (u16)animeIdx), 0);
+        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, animeIdx, 1);
+        FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, animeIdx, 0);
     }
-    return func_020122C0(gameSystem, 0, GIMMICK64_PlayerEffectEvent, 0);
+    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent, 0);
 }
 
 /* Event of the player effect: plays sounds at frames of the first anime and fades the screen out and in
  * around frame 0x65000. Ends when the anime reaches its last frame. */
-int GIMMICK64_PlayerEffectEvent(void *event, int *seq)
+int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *event, int *seq)
 {
     void *fieldMap;
     void *expObj;
@@ -171,9 +171,9 @@ int GIMMICK64_PlayerEffectEvent(void *event, int *seq)
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    work = FIELDMAP_GetCommonWork(fieldMap, GIMMICK64_WORK_ID);
-    frame = FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, GIMMICK64_PLAYER_MODEL, 0);
-    lastFrame = FLD_EXP_OBJ_GetAnimeLastFrame(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK64_PLAYER_MODEL, 0));
+    work = FIELDMAP_GetCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID);
+    frame = FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, 0);
+    lastFrame = FLD_EXP_OBJ_GetAnimeLastFrame(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, 0));
     if (frame >= 0 && work->seDone[0] == 0) {
         GFL_USE_StopAllSe();
         GFL_USE_PlaySeDefaultVolume(0x7D0);
@@ -219,7 +219,7 @@ int GIMMICK64_PlayerEffectEvent(void *event, int *seq)
 }
 
 /* Starts the arc effect: the arc model flies from startPos to endPos in frameCount frames, rising by arcHeight at the middle. */
-void GIMMICK64_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount)
+void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount)
 {
     int animeIdx;
     void *fieldMap;
@@ -227,57 +227,57 @@ void GIMMICK64_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const V
     Gimmick64Work *work;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    work = FIELDMAP_GetCommonWork(fieldMap, GIMMICK64_WORK_ID);
+    work = FIELDMAP_GetCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     GFL_USE_PlaySeDefaultVolume(0x566);
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, GIMMICK64_ARC_MODEL) = *startPos;
-    FLD_EXP_OBJ_SetModelHidden(expObj, 0, GIMMICK64_ARC_MODEL, 0);
-    for (animeIdx = 0; animeIdx < GIMMICK64_ARC_ANIME_COUNT; animeIdx++) {
-        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK64_ARC_MODEL, (u16)animeIdx), 1);
-        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK64_ARC_MODEL, animeIdx, 0);
-        FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, GIMMICK64_ARC_MODEL, animeIdx, 0);
+    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL) = *startPos;
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, 0);
+    for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_ARC_ANIME_COUNT; animeIdx++) {
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, (u16)animeIdx), 1);
+        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, animeIdx, 0);
+        FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, animeIdx, 0);
     }
     work->arcStart = *startPos;
     work->arcEnd = *endPos;
     work->arcFrameCount = frameCount;
     work->arcFrame = 0;
     work->arcHeight = arcHeight;
-    func_020122C0(gameSystem, 0, GIMMICK64_ArcEffectEvent, 0);
+    func_020122C0(gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, 0);
 }
 
 /* Shows the arc model at pos and plays its animes. */
-void GIMMICK64_ShowArcModelAt(void *gameSystem, VecFx32 *pos)
+void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos)
 {
     int animeIdx;
     void *expObj;
 
     expObj = FIELDMAP_GetExpObj(GAMESYSTEM_GetFieldMap(gameSystem));
     GFL_USE_PlaySeDefaultVolume(0x567);
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, GIMMICK64_ARC_MODEL) = *pos;
-    FLD_EXP_OBJ_SetModelHidden(expObj, 0, GIMMICK64_ARC_MODEL, 0);
-    for (animeIdx = 0; animeIdx < GIMMICK64_ARC_ANIME_COUNT; animeIdx++) {
-        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK64_ARC_MODEL, (u16)animeIdx), 0);
-        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK64_ARC_MODEL, animeIdx, 1);
-        FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, GIMMICK64_ARC_MODEL, animeIdx, 0);
+    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL) = *pos;
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, 0);
+    for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_ARC_ANIME_COUNT; animeIdx++) {
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, (u16)animeIdx), 0);
+        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, animeIdx, 1);
+        FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, animeIdx, 0);
     }
 }
 
 /* Creates an event that ends once the arc model anime has passed frame 0x5000. */
-struct GameEvent *GIMMICK64_CreateWaitPeakEvent(void *gameSystem)
+struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem)
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
-    return func_020122C0(gameSystem, 0, GIMMICK64_IsArcPeakReached, 0);
+    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached, 0);
 }
 
 /* Creates an event that ends once the arc model anime has stopped. */
-struct GameEvent *GIMMICK64_CreateWaitEndEvent(void *gameSystem)
+struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem)
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
-    return func_020122C0(gameSystem, 0, GIMMICK64_IsArcAnimeStopped, 0);
+    return func_020122C0(gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped, 0);
 }
 
 /* Event of the arc effect: moves the arc model one frame along the line from start to end with the extra arc height. */
-int GIMMICK64_ArcEffectEvent(void *event, int *unusedSeq)
+int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq)
 {
     VecFx32 pos;
     Gimmick64Work *work;
@@ -290,7 +290,7 @@ int GIMMICK64_ArcEffectEvent(void *event, int *unusedSeq)
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    work = FIELDMAP_GetCommonWork(fieldMap, GIMMICK64_WORK_ID);
+    work = FIELDMAP_GetCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID);
     work->arcFrame++;
     base = work->arcStart.x;
     frame = work->arcFrame;
@@ -306,7 +306,7 @@ int GIMMICK64_ArcEffectEvent(void *event, int *unusedSeq)
     if (frame >= (frameCount + 1) / 2)
         frame = frameCount - frame;
     pos.y += work->arcHeight * frame / frameCount;
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, GIMMICK64_ARC_MODEL) = pos;
+    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL) = pos;
     if (work->arcFrame >= work->arcFrameCount)
         return 1;
     return 0;
@@ -317,7 +317,7 @@ int GIMMICK64_ArcEffectEvent(void *event, int *unusedSeq)
  * saved zero is then materialised before the saved one. The trailing
  * halfword at 021F3BD6 is zero alignment padding.
  */
-int GIMMICK64_IsArcPeakReached(void *event, int *unusedSeq)
+int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq)
 {
     unsigned char zero;
     unsigned char reached;
@@ -336,12 +336,12 @@ int GIMMICK64_IsArcPeakReached(void *event, int *unusedSeq)
 }
 
 /* Event: ends once the first anime of the arc model has stopped. */
-int GIMMICK64_IsArcAnimeStopped(void *event, int *unusedSeq)
+int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(void *event, int *unusedSeq)
 {
     void *expObj;
 
     expObj = FIELDMAP_GetExpObj(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event)));
-    if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK64_ARC_MODEL, 0)) != 0) {
+    if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, 0)) != 0) {
         return 1;
     }
     return 0;

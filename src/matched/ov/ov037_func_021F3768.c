@@ -14,7 +14,7 @@
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   GIMMICK_WORK_GetProgress  0x0200B3A8  thumb
- *   d_021F3840     0x021F3840  data ov037 a1
+ *   gGimmick38SwitchPlates     0x021F3840  data ov037 a1
  *   gGimmick38DoorPlates     0x021F3834  data a1
  */
 
@@ -29,7 +29,7 @@ extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, unsigned int b);
 typedef unsigned int   u32;
 struct Rec94;
 extern u8 *GIMMICK_WORK_GetProgress(struct Rec94 *p, u32 a1);
-extern signed char d_021F3840[][2];
+extern signed char gGimmick38SwitchPlates[][2];
 extern unsigned char gGimmick38DoorPlates[][2];
 
 void GIMMICK_INIT_RestoreGimmick38State(unsigned int a0, unsigned short **a1)
@@ -46,7 +46,7 @@ void GIMMICK_INIT_RestoreGimmick38State(unsigned int a0, unsigned short **a1)
             p[i] = 1;
             *a1[i] = 1;
             for (j = 0; j < 2; j++) {
-                k = d_021F3840[i][j];
+                k = gGimmick38SwitchPlates[i][j];
                 if (k != -1)
                     p[8 + k] = 1;
             }

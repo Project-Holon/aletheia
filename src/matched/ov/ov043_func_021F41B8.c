@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_StartCameraShake
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake
  * address:  0x021F41B8
  * packet:   pkt_ov043_021F41B8
  * region:   ov043
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
 extern void FIELD_CAMERA_GetTargetShift(int p, void *v);
 
-void GIMMICK43_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s)
+void FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s)
 {
     s[0] = 0;
     s[1] = 0;

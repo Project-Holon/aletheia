@@ -28,13 +28,13 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   BTL_SLOT_CompactLiving 0x021B9B60 thumb ov093
- *   data_021EFCF0 0x021EFCF0 data ov093
+ *   gClientFirstPokeIds 0x021EFCF0 data ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern const u8 data_021EFCF0[4];
+extern const u8 gClientFirstPokeIds[4];
 extern void *BTL_MAIN_GetClientParty(void *p, int i, int mode);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
@@ -71,7 +71,7 @@ void BTL_SIDE_SetupClientParty(char *a, char *b, u8 c)
     qs = a + 4;
     qo = c * 0x1c;
     n = POKEPARTY_GetCount(list);
-    x = data_021EFCF0[c];
+    x = gClientFirstPokeIds[c];
     *(void **)(a + c * 4 + 0x74) = list;
     for (i = 0, y = x; i < n; i++, y++) {
         e = POKEPARTY_GetMember(list, i);

@@ -10,10 +10,10 @@
  * status: EXACT
  * symbols:
  *   g_pWhPipeWork 0x021797A4 data ov014 a4
- *   func_02178E38 0x02178E38 thumb ov014
+ *   WIH_GetBitmap 0x02178E38 thumb ov014
  */
 
 extern unsigned char *g_pWhPipeWork;
 typedef unsigned short u16;
-extern u16 func_02178E38(void);
-unsigned int NET_WHPIPE_GetChildBitmap(void) { if (g_pWhPipeWork != 0) return func_02178E38() & 0xFFFE; return 0; }
+extern u16 WIH_GetBitmap(void);
+unsigned int NET_WHPIPE_GetChildBitmap(void) { if (g_pWhPipeWork != 0) return WIH_GetBitmap() & 0xFFFE; return 0; }

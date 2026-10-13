@@ -1,5 +1,5 @@
 /*
- * function: func_021EA4C4
+ * function: BTLV_CORE_WaitMonSwap
  * address:  0x021EA4C4
  * packet:   pkt_ov093_021EA4C4
  * region:   ov093
@@ -24,7 +24,7 @@ struct S {
     int f28;
 };
 
-int func_021EA4C4(struct S *s)
+int BTLV_CORE_WaitMonSwap(struct S *s)
 {
     if (s->f1c != 0) {
         if (s->f1c((char *)s + 0x28, s->f24) != 0) {

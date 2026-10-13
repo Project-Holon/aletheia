@@ -1,5 +1,5 @@
 /*
- * function: func_021EFC1C
+ * function: BTL_FIELD_IsMoveSealedBySlot
  * address:  0x021EFC1C
  * packet:   pkt_ov093_021EFC1C
  * region:   ov093
@@ -35,7 +35,7 @@ typedef struct {
     u32 count;              /* 0x134 */
 } S;
 
-int func_021EFC1C(S *a, char *x, void *m, u16 y)
+int BTL_FIELD_IsMoveSealedBySlot(S *a, char *x, void *m, u16 y)
 {
     u8 mon;
     u8 c;

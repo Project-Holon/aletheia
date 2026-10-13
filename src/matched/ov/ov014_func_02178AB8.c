@@ -12,15 +12,15 @@
  * The DWC copy of the NitroSDK demo wh.c's MP start (DWCi_MOV_WH_*): frees
  * and re-allocates the MP receive and send buffers (sizes from
  * WM_GetMP{Receive,Send}BufferSize, kept at +0x1E90/+0x1E8C of the work
- * block behind g_021797A8, buffers at +0x1E6C/+0x1E68, heap at +0x1EC0),
+ * block behind gWihWork, buffers at +0x1E6C/+0x1E68, heap at +0x1EC0),
  * then calls WM_StartMP with callback DWCi_MOV_WH_StateOutStartChildMP; anything but
- * WM_ERRCODE_OPERATING (2) goes to the error setter func_0217814C.
+ * WM_ERRCODE_OPERATING (2) goes to the error setter WIH_SetError.
  *
  * symbols:
- *   g_021797A8                  0x021797A8  data   ov014  a4
+ *   gWihWork                  0x021797A8  data   ov014  a4
  *   sWihFileName                  0x02179794  data   ov014  a1
  *   DWCi_MOV_WH_StateOutStartChildMP               0x02178B98  thumb  ov014
- *   func_0217814C               0x0217814C  thumb  ov014
+ *   WIH_SetError               0x0217814C  thumb  ov014
  *   WM_GetMPSendBufferSize      0x0208EC34  arm
  *   WM_GetMPReceiveBufferSize   0x0208ECA4  arm
  *   WM_StartMP                  0x0208FC4C  arm
@@ -34,11 +34,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int BOOL;
 
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 extern char sWihFileName[];
 
 extern void DWCi_MOV_WH_StateOutStartChildMP(u8 *m);
-extern void func_0217814C(int err);
+extern void WIH_SetError(int err);
 extern int WM_GetMPSendBufferSize(void);
 extern int WM_GetMPReceiveBufferSize(void);
 extern int WM_StartMP(void (*cb)(void *), void *recvBuf, u16 recvSize,
@@ -55,31 +55,31 @@ BOOL DWCi_MOV_WH_StateInStartChildMP(void)
     WM_GetMPReceiveBufferSize();
     WM_GetMPSendBufferSize();
 
-    if (*(void **)(g_021797A8 + 0x1E6C) != 0) {
-        GFL_NET_FreeAligned(*(void **)(g_021797A8 + 0x1E6C));
-        GFL_NET_FreeAligned(*(void **)(g_021797A8 + 0x1E68));
+    if (*(void **)(gWihWork + 0x1E6C) != 0) {
+        GFL_NET_FreeAligned(*(void **)(gWihWork + 0x1E6C));
+        GFL_NET_FreeAligned(*(void **)(gWihWork + 0x1E68));
     }
 
-    *(int *)(g_021797A8 + 0x1E90) = WM_GetMPReceiveBufferSize();
-    *(int *)(g_021797A8 + 0x1E8C) = WM_GetMPSendBufferSize();
+    *(int *)(gWihWork + 0x1E90) = WM_GetMPReceiveBufferSize();
+    *(int *)(gWihWork + 0x1E8C) = WM_GetMPSendBufferSize();
 
-    *(void **)(g_021797A8 + 0x1E6C) =
-        GFL_NET_AllocAligned(*(u16 *)(g_021797A8 + 0x1EC0),
-                      *(int *)(g_021797A8 + 0x1E90) + 0x20, sWihFileName, 0x7FA);
-    *(void **)(g_021797A8 + 0x1E68) =
-        GFL_NET_AllocAligned(*(u16 *)(g_021797A8 + 0x1EC0),
-                      *(int *)(g_021797A8 + 0x1E8C) + 0x20, sWihFileName, 0x7FB);
+    *(void **)(gWihWork + 0x1E6C) =
+        GFL_NET_AllocAligned(*(u16 *)(gWihWork + 0x1EC0),
+                      *(int *)(gWihWork + 0x1E90) + 0x20, sWihFileName, 0x7FA);
+    *(void **)(gWihWork + 0x1E68) =
+        GFL_NET_AllocAligned(*(u16 *)(gWihWork + 0x1EC0),
+                      *(int *)(gWihWork + 0x1E8C) + 0x20, sWihFileName, 0x7FB);
 
     freq = (GFL_NET_GetGameKind() == 2) ? 1 : 2;
 
     result = WM_StartMP((void (*)(void *))DWCi_MOV_WH_StateOutStartChildMP,
-                        *(void **)(g_021797A8 + 0x1E6C),
-                        (u16)*(int *)(g_021797A8 + 0x1E90),
-                        *(void **)(g_021797A8 + 0x1E68),
-                        (u16)*(int *)(g_021797A8 + 0x1E8C),
+                        *(void **)(gWihWork + 0x1E6C),
+                        (u16)*(int *)(gWihWork + 0x1E90),
+                        *(void **)(gWihWork + 0x1E68),
+                        (u16)*(int *)(gWihWork + 0x1E8C),
                         freq);
     if (result != 2) {
-        func_0217814C(result);
+        WIH_SetError(result);
         return 0;
     }
     return 1;

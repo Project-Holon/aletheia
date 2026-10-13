@@ -40,8 +40,8 @@ struct Mmdl;
 
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
-#define GIMMICK41_CANNON_COUNT 10
-#define GIMMICK41_DIRECTION_COUNT 4
+#define FIELD_GIMMICK_CANNONS_CANNON_COUNT 10
+#define FIELD_GIMMICK_CANNONS_DIRECTION_COUNT 4
 
 /* The camera bounce after the landing (0x10 bytes). */
 typedef struct Gimmick41Bounce {
@@ -102,8 +102,8 @@ extern void FIELD_CAMERA_GetEyeRaw(struct FieldCamera *camera, VecFx32 *out);
 extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, const VecFx32 *eye);
 
 /* The bounce functions (the last two live in the unplaced file). */
-void GIMMICK41_StartBounce(Gimmick41Work *work);
-void GIMMICK41_ResetBounce(Gimmick41Bounce *bounce);
-void GIMMICK41_UpdateBounce(Gimmick41Bounce *bounce, struct FieldCamera *camera);
+void FIELD_GIMMICK_CANNONS_StartBounce(Gimmick41Work *work);
+void FIELD_GIMMICK_CANNONS_ResetBounce(Gimmick41Bounce *bounce);
+void FIELD_GIMMICK_CANNONS_UpdateBounce(Gimmick41Bounce *bounce, struct FieldCamera *camera);
 
 #endif

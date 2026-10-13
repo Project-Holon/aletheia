@@ -1,5 +1,5 @@
 /*
- * function: func_0689905C
+ * function: HAND_SIDE_MistBlockStatDrop
  * address: 0x0689905C
  * packet: pkt_ov095_0689905C
  * region: ov095
@@ -21,7 +21,7 @@ extern int func_068990A8(int);
 extern int func_068990B8(int);
 extern int func_068990C8(int);
 extern int func_068990D8(int, int);
-void func_0689905C(int a0, int a1, int value, int *out)
+void HAND_SIDE_MistBlockStatDrop(int a0, int a1, int value, int *out)
 {
     u8 v;
     v = func_06899098(2);

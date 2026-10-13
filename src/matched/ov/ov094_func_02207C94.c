@@ -1,5 +1,5 @@
 /*
- * function: func_02207C94
+ * function: BTLV_GAUGE_IsAnimating
  * address: 0x02207C94
  * packet: pkt_ov094_02207C94
  * region: ov094
@@ -11,7 +11,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Flags { u32 bit0:1; u32 bit1:1; u32 bit2:1; u32 middle:25; u32 bit28:1; u32 high:3; };
-int func_02207C94(u8 *p)
+int BTLV_GAUGE_IsAnimating(u8 *p)
 {
     int i;
     for (i = 0; i < 8; i++) {

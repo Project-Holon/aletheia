@@ -1,5 +1,5 @@
 /*
- * function: func_0220977C
+ * function: BTLV_BG_Delete
  * address:  0x0220977C
  * packet:   pkt_0220977C
  * region:   ov094
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 u32 func_020307B0(void *p);
 
-void func_0220977C(void *p)
+void BTLV_BG_Delete(void *p)
 {
     func_020307B0(p);
 }

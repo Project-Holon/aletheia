@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK64_ArcEffectEvent
+ * function: FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent
  * address:  0x021F3AF8
  * packet:   pkt_ov064_021F3AF8
  * region:   ov064
@@ -47,7 +47,7 @@ extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 
-int GIMMICK64_ArcEffectEvent(void *task)
+int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *task)
 {
     V3 v;
     W *w;

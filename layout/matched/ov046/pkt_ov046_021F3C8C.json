@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK46_LeverEventProc",
+   "name": "FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc",
    "address": "0x021F3C8C",
    "kind": "game",
    "region": "ov046",

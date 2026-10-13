@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EA120",
+   "name": "BTLV_CORE_WaitDamageEffect",
    "address": "0x021EA120",
    "kind": "game",
    "region": "ov093",

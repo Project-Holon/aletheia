@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E7924",
+   "name": "HAND_WAZA_PsyshockSwapDefenseStat",
    "address": "0x021E7924",
    "kind": "game",
    "region": "ov093",

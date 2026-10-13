@@ -1,5 +1,5 @@
 /*
- * function: func_021ED7C8
+ * function: BTLV_SCU_StartMsgWinFadeIn
  * address:  0x021ED7C8
  * packet:   pkt_ov093_021ED7C8
  * region:   ov093
@@ -25,7 +25,7 @@ struct CharBuf;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-void func_021ED7C8(struct S *s, int keep)
+void BTLV_SCU_StartMsgWinFadeIn(struct S *s, int keep)
 {
     if ((u8)(s->state + 0xff) <= 1) {
         if (keep == 0) {

@@ -16,7 +16,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
- *   FIELD_OV063_Start  0x021C474C  thumb  ov021
+ *   RAIL_SLIPDOWN_Start  0x021C474C  thumb  ov021
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
@@ -31,7 +31,7 @@ extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
-extern void *FIELD_OV063_Start(void *a, u32 b, u32 c);
+extern void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
 int SCRCMD_FLDMMDL_StartMmdlEvent(u32 a, u32 b)
@@ -46,7 +46,7 @@ int SCRCMD_FLDMMDL_StartMmdlEvent(u32 a, u32 b)
     t = SCRCMD_WORK_GetScriptWork((void *)b);
     m = (u32)SCRCMD_WORK_GetOccupyInfo((void *)b);
     o = (u32)FLDMMDL_SysSearchObjId((void *)m, SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b));
-    v = (u32)FIELD_OV063_Start(w, ((u32 *)SCRIPT_WORK_ResetFieldParam((int)t))[1], o);
+    v = (u32)RAIL_SLIPDOWN_Start(w, ((u32 *)SCRIPT_WORK_ResetFieldParam((int)t))[1], o);
     SCRIPT_SYS_CallEvent(t, (void *)v);
     return 1;
 }

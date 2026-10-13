@@ -1,5 +1,5 @@
 /*
- * function: func_021EFA94
+ * function: BTL_FIELD_RemoveSlot
  * address:  0x021EFA94
  * packet:   pkt_ov093_021EFA94
  * region:   ov093
@@ -10,14 +10,14 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  *
  * symbols:
- *   func_021EFCE4  0x021EFCE4  thumb  ov093
+ *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
  *   func_021EFAC8  0x021EFAC8  thumb  ov093
  *   BTL_FIELD_ResetSlot  0x021EF83C  thumb  ov093
  */
 
 typedef unsigned int u32;
 
-extern void *func_021EFCE4(char *a, int b);
+extern void *BTL_FIELD_IsSlotInUse(char *a, int b);
 extern void func_021EFAC8(u32 h);
 extern void BTL_FIELD_ResetSlot(char *a, u32 b);
 
@@ -26,9 +26,9 @@ typedef struct {
     u32 t[8];           /* 0x008 */
 } S;
 
-int func_021EFA94(S *a, u32 b)
+int BTL_FIELD_RemoveSlot(S *a, u32 b)
 {
-    if (func_021EFCE4((char *)a, b) != 0) {
+    if (BTL_FIELD_IsSlotInUse((char *)a, b) != 0) {
         if (a->t[b] != 0) {
             func_021EFAC8(a->t[b]);
             a->t[b] = 0;

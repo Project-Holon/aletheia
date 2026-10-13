@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ECC2C",
+   "name": "BTLV_SCU_PhaseOwnSendOutTriple",
    "address": "0x021ECC2C",
    "kind": "game",
    "region": "ov093",

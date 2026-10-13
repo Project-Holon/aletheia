@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK45_Update
+ * function: FIELD_GIMMICK_SWITCH_TOGGLE_Update
  * address: 0x021F381C
  * packet: pkt_ov045_021F381C
  * region: ov045
@@ -31,4 +31,4 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *);
-void GIMMICK45_Update(u32 a) { u32 p; p=FIELDMAP_GetExpObj((int *)a); FIELDMAP_GetCommonWork((char *)a,1); GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))),9); FLD_EXP_OBJ_UpdateAnimes((void *)p); }
+void FIELD_GIMMICK_SWITCH_TOGGLE_Update(u32 a) { u32 p; p=FIELDMAP_GetExpObj((int *)a); FIELDMAP_GetCommonWork((char *)a,1); GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))),9); FLD_EXP_OBJ_UpdateAnimes((void *)p); }

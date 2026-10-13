@@ -1,5 +1,5 @@
 /*
- * function: func_021E8638
+ * function: HAND_COMMON_IsItemBoundToSpecies
  * address:  0x021E8638
  * packet:   pkt_ov093_021E8638
  * region:   ov093
@@ -18,7 +18,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern int func_021E867C(int b);
 extern int func_021E868C(int b);
 
-int func_021E8638(int a, int b)
+int HAND_COMMON_IsItemBoundToSpecies(int a, int b)
 {
     switch (a) {
     case 0x1e7:

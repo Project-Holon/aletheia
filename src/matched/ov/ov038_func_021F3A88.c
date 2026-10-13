@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_StartDoorEvent
+ * function: FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent
  * address:  0x021F3A88
  * packet:   pkt_ov038_021F3A88
  * region:   ov038
@@ -18,11 +18,11 @@
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
  *   FIELD_PLAYER_GetDirDisp 0x021A3050 thumb ov021
- *   GIMMICK38_FindDoor 0x021F3A08 thumb ov038
+ *   FIELD_GIMMICK_PLATE_DOORS_FindDoor 0x021F3A08 thumb ov038
  *   func_020122C0 0x020122C0 thumb
- *   GIMMICK38_EventSlideDoor 0x021F3B3C thumb ov038
- *   GIMMICK38_EventBumpClosedDoor 0x021F407C thumb ov038
- *   GIMMICK38_EventBumpDoorSide 0x021F3F40 thumb ov038
+ *   FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor 0x021F3B3C thumb ov038
+ *   FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor 0x021F407C thumb ov038
+ *   FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide 0x021F3F40 thumb ov038
  */
 #include "../include/Obj04317.h"
 
@@ -42,13 +42,13 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
-extern int GIMMICK38_FindDoor(int *, int, int, int *, int *);
+extern int FIELD_GIMMICK_PLATE_DOORS_FindDoor(int *, int, int, int *, int *);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK38_EventSlideDoor(int a0, int *a1);
-extern int GIMMICK38_EventBumpClosedDoor(int a0, int *a1);
-extern int GIMMICK38_EventBumpDoorSide(int a0, int *a1);
+extern int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int a0, int *a1);
+extern int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(int a0, int *a1);
+extern int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(int a0, int *a1);
 
-int GIMMICK38_StartDoorEvent(int a0, int a1, int a2)
+int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int a0, int a1, int a2)
 {
     int o1;
     int o2;
@@ -63,15 +63,15 @@ int GIMMICK38_StartDoorEvent(int a0, int a1, int a2)
     r6 = FIELD_PLAYER_GetDirDisp((u8 *)r6);
     if (r6 != 0 && r6 != 1)
         return 0;
-    r7 = GIMMICK38_FindDoor((int *)r7, a1, a2, &o1, &o2);
+    r7 = FIELD_GIMMICK_PLATE_DOORS_FindDoor((int *)r7, a1, a2, &o1, &o2);
     if (r7 < 7) {
         if (o2 != 0) {
             if (o1 == 1)
-                func_020122C0((void *)a0, 0, GIMMICK38_EventSlideDoor, 0);
+                func_020122C0((void *)a0, 0, FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor, 0);
             else
-                func_020122C0((void *)a0, 0, GIMMICK38_EventBumpClosedDoor, 0);
+                func_020122C0((void *)a0, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor, 0);
         } else {
-            func_020122C0((void *)a0, 0, GIMMICK38_EventBumpDoorSide, 0);
+            func_020122C0((void *)a0, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide, 0);
         }
     } else {
         return 0;

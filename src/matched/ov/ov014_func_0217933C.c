@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data ov014 a4
+ *   gWihWork 0x021797A8 data ov014 a4
  *   WM_SetPortCallback 0x0208EB0C arm
  *   DWCi_MOV_WH_PortReceiveCallback 0x02178D9C thumb ov014
- *   func_02178138 0x02178138 thumb ov014
+ *   WIH_ChangeSysState 0x02178138 thumb ov014
  */
 typedef unsigned char u8;
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 extern int WM_SetPortCallback(int, void (*)(u8 *), void *);
 extern void DWCi_MOV_WH_PortReceiveCallback(u8 *);
-extern void func_02178138(int);
+extern void WIH_ChangeSysState(int);
 void DWCi_MOV_WH_SetReceiver(void *cb)
 {
-    *(void **)(g_021797A8 + 0x1E78) = cb;
-    if (WM_SetPortCallback(14, DWCi_MOV_WH_PortReceiveCallback, 0) != 0) func_02178138(9);
+    *(void **)(gWihWork + 0x1E78) = cb;
+    if (WM_SetPortCallback(14, DWCi_MOV_WH_PortReceiveCallback, 0) != 0) WIH_ChangeSysState(9);
 }

@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EA678  0x021EA678  thumb  ov093
- *   func_021EA710  0x021EA710  thumb  ov093
+ *   BTLV_CORE_PrintSideMessage  0x021EA678  thumb  ov093
+ *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  *   BTL_FIELD_ClearCountdown  0x021EF9C8  thumb  ov093
  */
 #include "../include/Obj10021.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021EA678(char *p, u16 k, int *c);
-extern int func_021EA710(u32 *p);
+extern void BTLV_CORE_PrintSideMessage(char *p, u16 k, int *c);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 extern void BTL_FIELD_ClearCountdown(int *p);
 
 int BTL_CLIENT_StepEndWeather(u8 *p, int *st, u32 *c)
@@ -43,11 +43,11 @@ int BTL_CLIENT_StepEndWeather(u8 *p, int *st, u32 *c)
         default:
             return 1;
         }
-        func_021EA678(((struct Obj10021 *)p)->f54, v, 0);
+        BTLV_CORE_PrintSideMessage(((struct Obj10021 *)p)->f54, v, 0);
         (*st)++;
         break;
     case 1:
-        if (func_021EA710(((struct Obj10021 *)p)->f54)) {
+        if (BTLV_CORE_WaitMessage(((struct Obj10021 *)p)->f54)) {
             BTL_FIELD_ClearCountdown(((struct Obj10021 *)p)->f34);
             return 1;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_022094BC
+ * function: BTLV_TIMER_SetVisible
  * address:  0x022094BC
  * packet:   pkt_ov094_022094BC
  * region:   ov094
@@ -12,7 +12,7 @@
  * symbols:
  *   func_020870D0  0x020870D0  arm
  *   CLACT_SetUnitDrawEnable  0x0204B22C  arm
- *   func_02209540  0x02209540  thumb  ov094
+ *   BTLV_TIMER_Redraw  0x02209540  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -30,9 +30,9 @@ extern u64 func_020870D0(void);
 struct Bank;
 extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
 struct Timer;
-extern void func_02209540(struct Timer *p, int idx);
+extern void BTLV_TIMER_Redraw(struct Timer *p, int idx);
 
-void func_022094BC(u8 *p, int i, int a, int b)
+void BTLV_TIMER_SetVisible(u8 *p, int i, int a, int b)
 {
     W *w = (W *)p;
 
@@ -40,7 +40,7 @@ void func_022094BC(u8 *p, int i, int a, int b)
         if (a == 1 && b == 1) {
             w->t[i] = func_020870D0();
             w->x64[i] = 0;
-            func_02209540((struct Timer *)w, i);
+            BTLV_TIMER_Redraw((struct Timer *)w, i);
         }
         CLACT_SetUnitDrawEnable((struct Bank *)w->h[i], a);
     }

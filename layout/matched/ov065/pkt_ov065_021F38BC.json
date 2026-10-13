@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK65_CallWaitEvent",
+   "name": "FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent",
    "address": "0x021F38BC",
    "kind": "game",
    "region": "ov065",

@@ -1,7 +1,7 @@
 /*
  * file:     daily_layout.c
  * unit:     yes
- * function: func_021F36C0, DAILY_LAYOUT_PickDistinct, DAILY_LAYOUT_ResetDeck, DAILY_LAYOUT_FindPoolCell, DAILY_LAYOUT_GetPoolCell, DAILY_LAYOUT_RemovePoolCell, DAILY_LAYOUT_DealCells
+ * function: DAILY_LAYOUT_Generate, DAILY_LAYOUT_PickDistinct, DAILY_LAYOUT_ResetDeck, DAILY_LAYOUT_FindPoolCell, DAILY_LAYOUT_GetPoolCell, DAILY_LAYOUT_RemovePoolCell, DAILY_LAYOUT_DealCells
  * address:  0x021F36C0
  * region:   ov036
  * compiler: dsi/1.1p1
@@ -15,9 +15,9 @@
  * symbols:
  *   func_0203F4E4  0x0203F4E4  arm
  *   DAILY_LAYOUT_DealCells  0x021F3980  thumb  ov036
- *   d_021F3AD4     0x021F3AD4  data  a4
+ *   gDailyLayoutCellFlags     0x021F3AD4  data  a4
  *   gDailyLayoutMainDefs     0x021F3B4C  data  a4
- *   d_021F3A98     0x021F3A98  data  a4
+ *   gDailyLayoutBonusDefs     0x021F3A98  data  a4
  *   gDailyLayoutFillerDefs     0x021F3BEC  data  a4
  *   func_020056EC 0x020056EC thumb
  *   gDailyLayoutAnchorCells     0x021F3A7C  data  a1
@@ -63,7 +63,7 @@ typedef struct DailyLayoutEntry {
     int unusedE;
 } DailyLayoutEntry;
 
-/* The 15 cells of the daily layout, filled by func_021F36C0. */
+/* The 15 cells of the daily layout, filled by DAILY_LAYOUT_Generate. */
 typedef struct DailyLayoutWork {
     u8 reserved0[6];
     u16 mainCount;
@@ -96,15 +96,15 @@ typedef struct ExtraEntryDef {
 extern void func_0203F4E4(struct RtcDate *date);
 extern int DAILY_LAYOUT_DealCells(CellDeck *deck);
 extern u32 func_020056EC(u32 range);
-void func_021F36C0(DailyLayoutWork *work);
+void DAILY_LAYOUT_Generate(DailyLayoutWork *work);
 void DAILY_LAYOUT_PickDistinct(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks);
 void DAILY_LAYOUT_ResetDeck(CellDeck *deck);
 int DAILY_LAYOUT_FindPoolCell(CellDeck *deck, int cell);
 int DAILY_LAYOUT_GetPoolCell(CellDeck *deck, int poolIdx);
 int DAILY_LAYOUT_RemovePoolCell(CellDeck *deck, int poolIdx);
-extern const CellFlags d_021F3AD4[];
+extern const CellFlags gDailyLayoutCellFlags[];
 extern const MainEntryDef gDailyLayoutMainDefs[];
-extern const ExtraEntryDef d_021F3A98[];
+extern const ExtraEntryDef gDailyLayoutBonusDefs[];
 extern const ExtraEntryDef gDailyLayoutFillerDefs[];
 
 
@@ -112,7 +112,7 @@ extern const ExtraEntryDef gDailyLayoutFillerDefs[];
  * Builds the daily layout: the number of main entries depends on the weekday,
  * then cells are dealt and each category gets its entries on its cells.
  */
-void func_021F36C0(DailyLayoutWork *work)
+void DAILY_LAYOUT_Generate(DailyLayoutWork *work)
 {
     RTCDate date;
     CellDeck deck;
@@ -163,11 +163,11 @@ void func_021F36C0(DailyLayoutWork *work)
     DAILY_LAYOUT_PickDistinct(15, 15 - (mainCount + 2), fillerScratch, deck.fillerPick);
     for (i = 0; i < mainCount; i++) {
         cell = deck.dealt[i];
-        if (d_021F3AD4[cell].flagA == 0)
+        if (gDailyLayoutCellFlags[cell].flagA == 0)
             work->flagAZeroCount++;
         else
             work->flagAOneCount++;
-        if (d_021F3AD4[cell].flagB == 0)
+        if (gDailyLayoutCellFlags[cell].flagB == 0)
             work->flagBZeroCount++;
         else
             work->flagBOneCount++;
@@ -189,10 +189,10 @@ void func_021F36C0(DailyLayoutWork *work)
         pick = deck.bonusPick[i];
         work->entry[entryCell].slotId = i;
         work->entry[entryCell].subId = 0;
-        work->entry[entryCell].valueA = d_021F3A98[pick].valueA;
+        work->entry[entryCell].valueA = gDailyLayoutBonusDefs[pick].valueA;
         work->entry[entryCell].category = 2;
-        work->entry[entryCell].valueC = d_021F3A98[pick].valueC;
-        work->entry[entryCell].valueD = d_021F3A98[pick].valueD;
+        work->entry[entryCell].valueC = gDailyLayoutBonusDefs[pick].valueC;
+        work->entry[entryCell].valueD = gDailyLayoutBonusDefs[pick].valueD;
         dealtIdx++;
     }
     fillerCount = 15u - (mainCount + 2);
@@ -310,7 +310,7 @@ int DAILY_LAYOUT_DealCells(CellDeck *deck)
     deck->dealtCount++;
     poolSize = 15;
     remaining = poolSize - 1;
-    if (d_021F3AD4[anchorIdx].flagA == 0)
+    if (gDailyLayoutCellFlags[anchorIdx].flagA == 0)
         hasFlagA = 1;
     else
         hasFlagB = 1;

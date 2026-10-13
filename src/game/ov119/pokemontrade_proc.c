@@ -14,7 +14,7 @@
  *
  * symbols:
  *   TOUCHBAR_ResetAndEnableButton 0x021B65B4 thumb ov067
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   func_02008FEC 0x02008FEC thumb
  *   MAIL_FindEmptySlot 0x02009020 thumb
@@ -481,7 +481,7 @@ typedef struct {
 } Pair_021DE3E8;
 
 extern void TOUCHBAR_ResetAndEnableButton(u32 *p, u32 a1);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern int MAIL_FindEmptySlot(void *obj, int v);
@@ -1014,7 +1014,7 @@ extern const Pair_021DE3E8 d_021E76DC;
 int func_021D8980(char *p)
 {
     TOUCHBAR_ResetAndEnableButton(*(u32 * *)&((TradeWork *)p)->f9C0, 1);
-    func_021B6558((unsigned char *)(*(u32 * *)&((TradeWork *)p)->f9C0), 1, 1);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(*(u32 * *)&((TradeWork *)p)->f9C0), 1, 1);
     return TOUCHBAR_SetButtonEnabled((unsigned char *)(*(u32 * *)&((TradeWork *)p)->f9C0), 1, 1);
 }
 
@@ -2256,7 +2256,7 @@ void func_021D9AD8(char *p) { int i; func_02045CAC((struct MsgBank *)(((TradeWor
 
 
 
-void func_021D9B34(char *p) { if(func_021E12AC(p)) { Triple_021D9124 t=d_021E75E4; func_021E1410(p,(int *)(&t),3); BG_SYS_SetMainVisiblePlanes(31); func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,0); func_021D8E84(p,(int)func_021D9A50); } }
+void func_021D9B34(char *p) { if(func_021E12AC(p)) { Triple_021D9124 t=d_021E75E4; func_021E1410(p,(int *)(&t),3); BG_SYS_SetMainVisiblePlanes(31); TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,0); func_021D8E84(p,(int)func_021D9A50); } }
 
 
 
@@ -2419,10 +2419,10 @@ void func_021D9E0C(char *p)
 
 
 void func_021D9E54(char *p) {
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),7,0);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),9,0);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),7,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),9,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
     CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF04,0);
     func_021D8C6C(p);
     func_021D8E84(p,(int)func_021D9E0C);
@@ -2728,17 +2728,17 @@ void func_021DA318(char *p)
                 I(0xf84)=I(0xf94);
                 I(0xf88)=I(0xf98);
                 func_021D8E84(p,(int)func_021D9E54);
-                func_021B6558((unsigned char *)I(0x9c0),7,0);
-                func_021B6558((unsigned char *)I(0x9c0),8,0);
-                func_021B6558((unsigned char *)I(0x9c0),9,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),7,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),8,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),9,0);
                 keep=0;
             } else if(func_021DD2A8(p) && !func_020355C4()) {
                 I(0xf84)=I(0xf94);
                 I(0xf88)=I(0xf98);
                 func_021D8E84(p,(int)func_021DA27C);
-                func_021B6558((unsigned char *)I(0x9c0),7,0);
-                func_021B6558((unsigned char *)I(0x9c0),8,0);
-                func_021B6558((unsigned char *)I(0x9c0),9,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),7,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),8,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),9,0);
                 keep=0;
             } else {
                 I(0xf84)=I(0xf94);
@@ -2780,9 +2780,9 @@ void func_021DA640(char *p) {
     int n;
     int zero=0;
     func_021DF7AC(p,0);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),7,0);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),9,1);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),7,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),9,1);
     t=d_021E7594;
     func_021E1410(p,(int *)(&t),2);
     n=(int)func_021D8D4C(*(void ** *)&((TradeWork *)p)->f828,((TradeWork *)p)->fF98,((TradeWork *)p)->fF94,p);
@@ -3746,7 +3746,7 @@ void func_021DB9B4(char *p)
     if(func_021D8A24(p)) {
         if(!GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc06,0,0)) return;
     }
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
     ((TradeWork *)p)->fF84=-1;
     ((TradeWork *)p)->fF88=-1;
     ((TradeWork *)p)->fF7C=-1;
@@ -3805,10 +3805,10 @@ void func_021DBA80(char *p)
 
 void func_021DBAF8(char *p)
 {
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),7,1);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),7,1);
     TOUCHBAR_SetButtonEnabled((unsigned char *)(((TradeWork *)p)->f9C0),7,1);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),9,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),9,0);
     func_021D8980(p);
     CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF04,1);
     func_021E4420(p);
@@ -3862,11 +3862,11 @@ void func_021DBAF8(char *p)
 void func_021DBB6C(char *p)
 {
     CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF04,1);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,func_021DD2F4(p));
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),8,func_021DD2F4(p));
     TOUCHBAR_SetButtonEnabled((unsigned char *)(((TradeWork *)p)->f9C0),8,func_021DD2F4(p));
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),7,1);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),7,1);
     TOUCHBAR_SetButtonEnabled((unsigned char *)(((TradeWork *)p)->f9C0),7,1);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),9,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),9,0);
     func_021D8980(p);
     func_021D8B38(p);
 }
@@ -3943,7 +3943,7 @@ int func_021DBD70(char *p,int a,int b) {
 
 
 
-int func_021DBDB4(char *p) {int e=(int)func_021D8DD0((void *)(((TradeWork *)p)->f828),((TradeWork *)p)->fF98,((TradeWork *)p)->fF94,p);if(func_021DBD70(p,((TradeWork *)p)->fF98,((TradeWork *)p)->fF94)) {GFL_USE_PlaySeDefaultVolume(0x626);if(func_021D8AA8(p)==0){func_021D8E84(p,(int)func_021DB9B4);return 1;}func_021D8E84(p,(int)func_021DF708);return 1;}if(e && func_02017E88((void *)e,0xa9,0)) {GFL_USE_PlaySeDefaultVolume(0x54b);func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0), 8, 0);func_021E12F8(p);func_021D8E84(p,(int)func_021DA640);return 1;}func_021D8C84(p);((TradeWork *)p)->fF98=-1;((TradeWork *)p)->fF94=-1;return 0;}
+int func_021DBDB4(char *p) {int e=(int)func_021D8DD0((void *)(((TradeWork *)p)->f828),((TradeWork *)p)->fF98,((TradeWork *)p)->fF94,p);if(func_021DBD70(p,((TradeWork *)p)->fF98,((TradeWork *)p)->fF94)) {GFL_USE_PlaySeDefaultVolume(0x626);if(func_021D8AA8(p)==0){func_021D8E84(p,(int)func_021DB9B4);return 1;}func_021D8E84(p,(int)func_021DF708);return 1;}if(e && func_02017E88((void *)e,0xa9,0)) {GFL_USE_PlaySeDefaultVolume(0x54b);TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0), 8, 0);func_021E12F8(p);func_021D8E84(p,(int)func_021DA640);return 1;}func_021D8C84(p);((TradeWork *)p)->fF98=-1;((TradeWork *)p)->fF94=-1;return 0;}
 
 
 
@@ -4080,7 +4080,7 @@ void func_021DBE70(char *p)
                 I(p, 0xF84) = I(p, 0xF7C);
                 I(p, 0xF88) = I(p, 0xF80);
                 I(p, 0xF60) = 0;
-                func_021B6558((unsigned char *)I(p, 0x9C0), 8, 1);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(p, 0x9C0), 8, 1);
                 TOUCHBAR_SetButtonEnabled((unsigned char *)I(p, 0x9C0), 8, 1);
                 func_021E6544(p);
                 GFL_USE_PlaySeDefaultVolume(0x72A);
@@ -4169,7 +4169,7 @@ void func_021DBE70(char *p)
 
 
 
-void func_021DC2B0(char *p){TOUCHBAR_Update((struct S *)(((TradeWork *)p)->f9C0));switch(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((TradeWork *)p)->f9C0)) {case 1:func_021D8E84(p,(int)func_021DB198);return;case 7:func_021D8E84(p,(int)func_021DB45C);return;case 8:if(func_021D8AA8(p)){if(func_021DD2F4(p)){func_021B6558((unsigned char *)((TradeWork *)p)->f9C0,7,0);func_021B6558((unsigned char *)((TradeWork *)p)->f9C0,8,0);func_021D8C6C(p);func_021D8E84(p,(int)func_021DF5D8);return;}else{func_021B6558((unsigned char *)((TradeWork *)p)->f9C0,7,1);func_021B6558((unsigned char *)((TradeWork *)p)->f9C0,8,0);}}else{if(((TradeWork *)p)->fF84==-1){func_021B6558((unsigned char *)((TradeWork *)p)->f9C0,7,1);func_021B6558((unsigned char *)((TradeWork *)p)->f9C0,8,0);}else{func_021D8E84(p,(int)func_021D9E54);return;}}func_021D8E84(p,(int)func_021DBE70);return;}}
+void func_021DC2B0(char *p){TOUCHBAR_Update((struct S *)(((TradeWork *)p)->f9C0));switch(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((TradeWork *)p)->f9C0)) {case 1:func_021D8E84(p,(int)func_021DB198);return;case 7:func_021D8E84(p,(int)func_021DB45C);return;case 8:if(func_021D8AA8(p)){if(func_021DD2F4(p)){TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->f9C0,7,0);TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->f9C0,8,0);func_021D8C6C(p);func_021D8E84(p,(int)func_021DF5D8);return;}else{TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->f9C0,7,1);TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->f9C0,8,0);}}else{if(((TradeWork *)p)->fF84==-1){TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->f9C0,7,1);TOUCHBAR_SetButtonVisible((unsigned char *)((TradeWork *)p)->f9C0,8,0);}else{func_021D8E84(p,(int)func_021D9E54);return;}}func_021D8E84(p,(int)func_021DBE70);return;}}
 
 
 
@@ -5415,7 +5415,7 @@ void func_021DDAD4(char *p)
 {
     Pair_021DDAD4 t=d_021E76F4;
     func_021E1410(p,(int *)(&t),2);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
     func_021D8E84(p,(int)func_021DDA50);
 }
 
@@ -5639,7 +5639,7 @@ void func_021DDF28(char *p)
         Pair_021DC2B0 t=d_021E76E4;
         func_021E1410(p,(int *)(&t),2);
         BG_SYS_SetMainVisiblePlanes(31);
-        func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
+        TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
         func_021D8E84(p,(int)func_021DDED4);
     }
 }
@@ -6002,7 +6002,7 @@ void func_021DE66C(char *p)
 {
     Triple_021DBB6C t=d_021E770C;
     func_021E1410(p,(int *)(&t),3);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
     func_021D8E84(p,(int)func_021DE5C4);
 }
 
@@ -6071,7 +6071,7 @@ int func_021DE754(char *p,int idx)
     if(mon==0 || func_02017E1C(mon,169,0)==0) goto fail;
     ((TradeWork *)p)->f10A0=idx;
     GFL_USE_PlaySeDefaultVolume(0x54c);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,0);
     if(row!=0) {
         func_021D8E84(p,(int)func_021DDAD4);
     } else {

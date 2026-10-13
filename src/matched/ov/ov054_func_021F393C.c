@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK54_RestartAnime
+ * function: FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime
  * address:  0x021F393C
  * packet:   pkt_021F393C
  * region:   ov054
@@ -20,7 +20,7 @@
 
 extern int SOUND_OBJ_SetAnimeFrame(void *, int);
 
-int GIMMICK54_RestartAnime(char *a, int b)
+int FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime(char *a, int b)
 {
     return SOUND_OBJ_SetAnimeFrame(*(void **)(a + 4 * b + 8), 0);
 }

@@ -12,15 +12,15 @@
  * Thumb tail call through r3: the work record at +0x1B0 of d_0220AF20 and the argument. Labelled in wave D8.
  *
  * symbols:
- *   func_02209500  0x02209500  thumb ov094
+ *   BTLV_TIMER_IsExpired  0x02209500  thumb ov094
  *   d_0220AF20     0x0220AF20  data ov094
  */
 
 struct W;
 extern char *d_0220AF20;
-extern int func_02209500(struct W *w, int i);
+extern int BTLV_TIMER_IsExpired(struct W *w, int i);
 
 int func_021F8524(int i)
 {
-    return func_02209500(*(struct W **)(d_0220AF20 + 0x1B0), i);
+    return BTLV_TIMER_IsExpired(*(struct W **)(d_0220AF20 + 0x1B0), i);
 }

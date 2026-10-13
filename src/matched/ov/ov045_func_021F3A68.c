@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK45_SwitchToggleEventProc
+ * function: FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc
  * address:  0x021F3A68
  * packet:   pkt_ov045_021F3A68
  * region:   ov045
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Levers: GIMMICK45_IsSwitchOn's result held in a u8 local k (truncated in place,
+ * Levers: FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn's result held in a u8 local k (truncated in place,
  * lsls r0 / lsrs r3, where passing the call inline copies it to r3 first);
  * f = 1 written after q's assignment (before it, it takes r0 and lands
  * after the copy of t). The extent past 0x021F3B36 is rodata.
@@ -23,13 +23,13 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
- *   GIMMICK45_IsSwitchOn  0x021F39A8  thumb  ov045
+ *   FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn  0x021F39A8  thumb  ov045
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_StopAllSe  0x02006210  thumb
- *   GIMMICK45_SetSwitchModelPose  0x021F3938  thumb  ov045
+ *   FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose  0x021F3938  thumb  ov045
  */
 
 typedef unsigned int u32;
@@ -49,15 +49,15 @@ extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
-extern int GIMMICK45_IsSwitchOn(int *p, int i);
+extern int FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(int *p, int i);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void GFL_USE_StopAllSe(void);
-extern void GIMMICK45_SetSwitchModelPose(void *a0, int a1, int a2, int a3);
+extern void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(void *a0, int a1, int a2, int a3);
 
-int GIMMICK45_SwitchToggleEventProc(void *a, int *st)
+int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(void *a, int *st)
 {
     int f;
     void *s;
@@ -75,20 +75,20 @@ int GIMMICK45_SwitchToggleEventProc(void *a, int *st)
     switch (*st) {
     case 0:
         i = *q;
-        k = GIMMICK45_IsSwitchOn(w, i);
+        k = FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(w, i);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((char *)t, 0, (u8)i, (u8)k), 0);
         GFL_USE_PlaySeDefaultVolume(0x6d0);
         (*st)++;
         break;
     case 1:
         i = *q;
-        k = GIMMICK45_IsSwitchOn(w, i);
+        k = FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(w, i);
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime((char *)t, 0, (u8)i, (u8)k))) {
             GFL_USE_StopAllSe();
             GFL_USE_PlaySeDefaultVolume(0x6f0);
             if (w[*q] != 0)
                 f = 0;
-            GIMMICK45_SetSwitchModelPose((void *)t, f, *q, 1);
+            FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose((void *)t, f, *q, 1);
             w[*q] = w[*q] ? 0 : 1;
             return 1;
         }

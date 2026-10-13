@@ -1,5 +1,5 @@
 /*
- * function: func_021EAA00
+ * function: BTLV_CORE_InitInputWork
  * address:  0x021EAA00
  * packet:   pkt_ov093_021EAA00
  * region:   ov093
@@ -10,22 +10,22 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E9100  0x021E9100  thumb  ov093
+ *   BTLV_CORE_GetTaskWork  0x021E9100  thumb  ov093
  *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
  *   func_021EAA24  0x021EAA24  thumb  ov093
  */
 #include "../include/Obj10115.h"
 typedef unsigned char u8;
 
-extern u8 *func_021E9100(u8 *p, int n);
+extern u8 *BTLV_CORE_GetTaskWork(u8 *p, int n);
 extern char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i);
 extern void func_021EAA24(void *a, u8 *t);
 
-void func_021EAA00(u8 *p, u8 v)
+void BTLV_CORE_InitInputWork(u8 *p, u8 v)
 {
     u8 *t;
 
-    t = func_021E9100(p, 0x3c);
+    t = BTLV_CORE_GetTaskWork(p, 0x3c);
     BTL_SIDE_GetSlotOfClientThunk(*(char * *)&((struct Obj10115 *)p)->f8, p[0xc]);
     func_021EAA24(((struct Obj10115 *)p)->f180, t);
 }

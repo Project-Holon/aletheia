@@ -14,7 +14,7 @@
  *
  * Bytes exact.
  *
- * 2026-10-05 (wave D9): EXACT. The ov174 token on the d_021B74A0 data line (the
+ * 2026-10-05 (wave D9): EXACT. The ov174 token on the gLocalTvtSysProcData data line (the
  * proc table lives in ov174, which this function loads) gave the witness; the
  * ov174_id word then resolved through the overlay_id walk. Source unchanged.
  *
@@ -25,7 +25,7 @@
  *   SCRCMD_PROC_StartOverlayProc  0x0215C63C  thumb  ov010
  *   sAllocSiteScrcmdProc     0x021728F0  data  a1
  *   ov174_id       0x000000AE  data
- *   d_021B74A0     0x021B74A0  data  a1 ov174
+ *   gLocalTvtSysProcData     0x021B74A0  data  a1 ov174
  */
 
 typedef unsigned char u8;
@@ -43,7 +43,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *SCRCMD_WORK_GetGameData(void *vm);
 extern void SCRCMD_PROC_StartOverlayProc(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char sAllocSiteScrcmdProc[];
-extern const u8 d_021B74A0[];
+extern const u8 gLocalTvtSysProcData[];
 extern u8 ov174_id[];
 
 int SCRCMD_PROC_CallValueScreen(void *c, void *vm)
@@ -55,6 +55,6 @@ int SCRCMD_PROC_CallValueScreen(void *c, void *vm)
     b = func_02030734(4, 8, 1, sAllocSiteScrcmdProc, 0x205);
     b->v = v;
     b->sys = SCRCMD_WORK_GetGameData(vm);
-    SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov174_id, d_021B74A0, b, 0, 0);
+    SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov174_id, gLocalTvtSysProcData, b, 0, 0);
     return 1;
 }

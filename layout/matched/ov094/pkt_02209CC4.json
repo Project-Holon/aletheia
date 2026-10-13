@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02209CC4",
+   "name": "BTLV_FINGER_CURSOR_TaskHideAfterDelay",
    "address": "0x02209CC4",
    "kind": "game",
    "region": "ov094",

@@ -257,7 +257,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E7554",
+   "name": "HAND_WAZA_IncinerateBurnBerry",
    "address": "0x021E7554",
    "kind": "game",
    "region": "ov093",
@@ -269,7 +269,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E781C",
+   "name": "HAND_WAZA_ReflectTypeCopyTargetType",
    "address": "0x021E781C",
    "kind": "game",
    "region": "ov093",

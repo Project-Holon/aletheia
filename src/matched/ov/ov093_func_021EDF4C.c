@@ -1,5 +1,5 @@
 /*
- * function: func_021EDF4C
+ * function: BTLV_SCU_HideNamePlate
  * address:  0x021EDF4C
  * packet:   pkt_ov093_021EDF4C
  * region:   ov093
@@ -22,7 +22,7 @@ struct W {
 };
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-void func_021EDF4C(struct W *w)
+void BTLV_SCU_HideNamePlate(struct W *w)
 {
     if (w->fa == 0)
         func_02040618(w->fb, 0, 0x90);

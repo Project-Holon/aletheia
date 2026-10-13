@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_Update
+ * function: FIELD_GIMMICK_PLATE_DOORS_Update
  * address: 0x021F39D8
  * packet: pkt_ov038_021F39D8
  * region: ov038
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *);
-void GIMMICK38_Update(void *p)
+void FIELD_GIMMICK_PLATE_DOORS_Update(void *p)
 {
     int h = FIELDMAP_GetExpObj(p);
     FIELDMAP_GetCommonWork(p, 1);

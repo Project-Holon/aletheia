@@ -12,7 +12,7 @@
  * symbols:
  *   FIELD_EVENT_CHECK_GetFrontPos  0x0218AE48  thumb  ov021
  *   FIELD_GIMMICK_IsGimmickId  0x021BE288  thumb  ov021
- *   GIMMICK38_StartDoorEvent  0x021F3A88  thumb  ov038
+ *   FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent  0x021F3A88  thumb  ov038
  *   FIELD_GIMMICK_D06_CheckPushStone  0x021F38A4  thumb  ov051
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   MAP_ATTR_GetAt  0x021AB0D4  thumb  ov021
@@ -26,8 +26,8 @@
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   FIELD_EVENT_CHECK_FindGridConnectId  0x0218AE04  thumb  ov021
- *   GIMMICK39_CheckRideEvent  0x021F404C  thumb  ov039
- *   GIMMICK41_CreateLaunchEvent  0x021F37E0  thumb  ov041
+ *   FIELD_GIMMICK_CART_LANES_CheckRideEvent  0x021F404C  thumb  ov039
+ *   FIELD_GIMMICK_CANNONS_CreateLaunchEvent  0x021F37E0  thumb  ov041
  * Addresses are Black-image addresses.
  */
 
@@ -57,7 +57,7 @@ struct Obj;
 extern void FIELD_EVENT_CHECK_GetFrontPos(struct Obj *p, struct Vec *out);
 extern int FIELD_GIMMICK_IsGimmickId(u8 *pos, int k);
 struct Desc;
-extern int GIMMICK38_StartDoorEvent(int a0, int a1, int a2);
+extern int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int a0, int a1, int a2);
 extern int FIELD_GIMMICK_D06_CheckPushStone(int a, int b);
 extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 extern int MAP_ATTR_GetAt(void *a, void *b);
@@ -71,8 +71,8 @@ extern void FLDMMDL_MOVE_AddDirVector(int dir, int *p, int amt);
 extern int FLDMMDL_MOVE_GetMapHeight(void *m, Vec *pos, int *h);
 extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 extern u32 FIELD_EVENT_CHECK_FindGridConnectId(u8 *p, void *arg);
-extern int GIMMICK39_CheckRideEvent(void *a);
-extern int GIMMICK41_CreateLaunchEvent(void *a);
+extern int FIELD_GIMMICK_CART_LANES_CheckRideEvent(void *a);
+extern int FIELD_GIMMICK_CANNONS_CreateLaunchEvent(void *a);
 
 int FIELD_EVENT_CHECK_CheckFrontTileEvents(struct FieldInput *p, void *a, u8 *pos)
 {
@@ -84,7 +84,7 @@ int FIELD_EVENT_CHECK_CheckFrontTileEvents(struct FieldInput *p, void *a, u8 *po
 
     FIELD_EVENT_CHECK_GetFrontPos((struct Obj *)p, &v);
     if (FIELD_GIMMICK_IsGimmickId(pos, 6))
-        return GIMMICK38_StartDoorEvent((int)a, v.x / 0x10000, v.z / 0x10000);
+        return FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent((int)a, v.x / 0x10000, v.z / 0x10000);
     if (FIELD_GIMMICK_IsGimmickId(pos, 0x19) || FIELD_GIMMICK_IsGimmickId(pos, 0x1A) || FIELD_GIMMICK_IsGimmickId(pos, 0x1B))
         return FIELD_GIMMICK_D06_CheckPushStone((int)pos, p->f24);
     attr = MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(pos), &v);
@@ -100,9 +100,9 @@ int FIELD_EVENT_CHECK_CheckFrontTileEvents(struct FieldInput *p, void *a, u8 *po
     }
     if (FIELD_EVENT_CHECK_FindGridConnectId((u8 *)p, &v) == 0xFFFF) {
         if (FIELD_GIMMICK_IsGimmickId(pos, 2))
-            return GIMMICK39_CheckRideEvent(a);
+            return FIELD_GIMMICK_CART_LANES_CheckRideEvent(a);
         if (FIELD_GIMMICK_IsGimmickId(pos, 5))
-            return GIMMICK41_CreateLaunchEvent(a);
+            return FIELD_GIMMICK_CANNONS_CreateLaunchEvent(a);
     }
     return 0;
 }

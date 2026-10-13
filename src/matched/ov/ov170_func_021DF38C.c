@@ -16,7 +16,7 @@
  *   NAMEIN_SETUP_CreateArgs 0x0216BFD4 thumb ov010
  *   PROCSYS_Push 0x02031348 arm
  *   d_021F1400 0x021F1400 data a1
- *   d_021F5580 0x021F5580 data a4 ov194
+ *   gNameInProcData 0x021F5580 data a4 ov194
  *   ov194_id 0x000000C2 data a1
  * data: callback descriptor belongs to ov194 loaded by PROCSYS_Push.
  */
@@ -34,7 +34,7 @@ extern void func_0200785C(void *save, unsigned box, void *dest);
 extern int *NAMEIN_SETUP_CreateArgs(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
 extern void PROCSYS_Push(void *p, int a, const void *b, void *c);
 extern const char d_021F1400[];
-extern const unsigned d_021F5580[];
+extern const unsigned gNameInProcData[];
 extern const char ov194_id[];
 int func_021DF38C(char *p)
 {
@@ -45,7 +45,7 @@ int func_021DF38C(char *p)
     r->text = STRBUF_Create(20, 0x4B);
     func_0200785C((*(void ***)p)[1], ((struct Obj10650 *)p)->f14, r->text);
     r->task = NAMEIN_SETUP_CreateArgs(0x4B, 2, 0, 0, 8, (int)r->text, value);
-    PROCSYS_Push(((struct Obj10650 *)p)->f4, (int)ov194_id, d_021F5580, r->task);
+    PROCSYS_Push(((struct Obj10650 *)p)->f4, (int)ov194_id, gNameInProcData, r->task);
     *(Request * *)&((struct Obj10650 *)p)->fC = r;
     return 0;
 }

@@ -16,7 +16,7 @@
  *           inline wrapper around the DE0 compare call; plain t pointer and unsigned loop counter (blo).
  *           Literal 3 gives the same bytes as a local n. Wrapping the other calls in a struct (alloc, id) also fits.
  * symbols:
- *   func_06898DE0  0x06898DE0  thumb
+ *   HAND_SIDE_GetStackCountByFactor  0x06898DE0  thumb
  *   func_06899780  0x06899780  thumb
  *   func_06899790  0x06899790  thumb
  *   func_068997A0  0x068997A0  thumb
@@ -33,7 +33,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_06898DE0(int a, u32 b);
+extern int HAND_SIDE_GetStackCountByFactor(int a, u32 b);
 extern int func_06899780(int a);
 extern int func_06899790(int a);
 extern int func_068997A0(void *a, int b);
@@ -47,7 +47,7 @@ extern u32 func_06899810(void);
 extern void func_06899820(void *a, void *q);
 
 typedef struct { int v; } Id;
-static inline Id cmpid(int a, u32 b) { Id r; r.v = func_06898DE0(a, b); return r; }
+static inline Id cmpid(int a, u32 b) { Id r; r.v = HAND_SIDE_GetStackCountByFactor(a, b); return r; }
 
 void func_068996D4(int a, void *p, int x)
 {

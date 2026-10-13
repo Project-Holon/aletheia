@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   func_021D0FE0  0x021D0FE0  thumb
+ *   TRIAL_HOUSE_GetDeliveryState  0x021D0FE0  thumb
  */
 #include "../include/Obj17760.h"
 
@@ -31,7 +31,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetListCursor(void *base);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern int func_021D0FE0();
+extern int TRIAL_HOUSE_GetDeliveryState();
 
 int SCRCMD_TRIALHOUSE_GetSaveState(int a0, int a1)
 {    int t5;
@@ -59,7 +59,7 @@ a1 = t6 + 0;
     q = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_0216A6DA:
 a1 = ((struct Obj17760 *)((char *)v2))->f0;
-    a0 = func_021D0FE0(v1, a1);
+    a0 = TRIAL_HOUSE_GetDeliveryState(v1, a1);
 loc_0216A6E4:
 *q = a0;
 a0 = 0;

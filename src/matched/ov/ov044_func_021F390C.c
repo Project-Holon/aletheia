@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK44_IsLiftArrived
+ * function: FIELD_GIMMICK_LIFT_IsLiftArrived
  * address:  0x021F390C
  * packet:   pkt_ov044_021F390C
  * region:   ov044
@@ -12,7 +12,7 @@
  * Unlabelled leaf called only from GIMMICK44_LiftEventMain.
  */
 
-int GIMMICK44_IsLiftArrived(int *p)
+int FIELD_GIMMICK_LIFT_IsLiftArrived(int *p)
 {
     if (p[2] < 0) {
         if (p[1] >= p[0]) {

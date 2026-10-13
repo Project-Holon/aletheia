@@ -13,15 +13,15 @@
  *
  * symbols:
  *   d_0220AF20     0x0220AF20  data   ov094
- *   func_02207B4C  0x02207B4C  thumb  ov094
+ *   BTLV_GAUGE_StartHpChangeAnimated  0x02207B4C  thumb  ov094
  */
 
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
-extern void func_02207B4C(char *p, int i, int n);
+extern void BTLV_GAUGE_StartHpChangeAnimated(char *p, int i, int n);
 
 void func_021F80FC(u32 a, u32 b)
 {
-    func_02207B4C((char *)(*(u32 *)(d_0220AF20 + 0x1a4)), a, b);
+    BTLV_GAUGE_StartHpChangeAnimated((char *)(*(u32 *)(d_0220AF20 + 0x1a4)), a, b);
 }

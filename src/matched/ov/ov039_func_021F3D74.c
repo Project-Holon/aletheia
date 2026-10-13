@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_TransferSound
+ * function: FIELD_GIMMICK_CART_LANES_TransferSound
  * address: 0x021F3D74
  * packet: pkt_ov039_021F3D74
  * region: ov039
@@ -24,4 +24,4 @@ struct BigObj;
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *p, u32 id);
 extern void FIELD_SOUND_SYSTEM_TransferSlot(struct SoundSys2 *p, u32 id, u32 who);
-void GIMMICK39_TransferSound(u32 a) { struct SoundSys2 *p; p = (struct SoundSys2 *)GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData((const struct Ctx *)a)); FIELD_SOUND_SYSTEM_ClaimSlot(p, 0x68a); FIELD_SOUND_SYSTEM_TransferSlot(p, 0x68a, 0); }
+void FIELD_GIMMICK_CART_LANES_TransferSound(u32 a) { struct SoundSys2 *p; p = (struct SoundSys2 *)GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData((const struct Ctx *)a)); FIELD_SOUND_SYSTEM_ClaimSlot(p, 0x68a); FIELD_SOUND_SYSTEM_TransferSlot(p, 0x68a, 0); }

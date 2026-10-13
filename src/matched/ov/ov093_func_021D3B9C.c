@@ -11,14 +11,14 @@
  * extent: trailing 2-byte alignment padding.
  * ABI: narrow extern arguments follow explicit caller truncation.
  * symbols:
- *   func_021EFB34 0x021EFB34 thumb ov093
+ *   BTL_FIELD_RemoveHolderFromSlots 0x021EFB34 thumb ov093
  */
 #include "../include/Obj21193.h"
 typedef unsigned char u8;
 struct S;
-extern void func_021EFB34(struct S *, u8);
+extern void BTL_FIELD_RemoveHolderFromSlots(struct S *, u8);
 int func_021D3B9C(char *p, int unused, unsigned int *a)
 {
-    func_021EFB34(*(struct S * *)&((struct Obj21193 *)p)->f34, a[0]);
+    BTL_FIELD_RemoveHolderFromSlots(*(struct S * *)&((struct Obj21193 *)p)->f34, a[0]);
     return 1;
 }

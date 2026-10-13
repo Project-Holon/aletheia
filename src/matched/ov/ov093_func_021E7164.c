@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E7164, func_021E71D8
+ * function: HAND_WAZA_ElectroBallSetPowerBySpeed, HAND_WAZA_AddEchoedVoice
  * address:  0x021E7164
  * packet:   pkt_ov093_021E7164
  * region:   ov093
@@ -26,7 +26,7 @@ extern u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(u8 *p, u8 *x, int flag);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int d_021F24EC[];
 
-void func_021E7164(int u, int a, int b)
+void HAND_WAZA_ElectroBallSetPowerBySpeed(int u, int a, int b)
 {
     int x, y, q, v;
 
@@ -51,7 +51,7 @@ void func_021E7164(int u, int a, int b)
     }
 }
 
-int *func_021E71D8(int *p)
+int *HAND_WAZA_AddEchoedVoice(int *p)
 {
     *p = 1;
     return d_021F24EC;

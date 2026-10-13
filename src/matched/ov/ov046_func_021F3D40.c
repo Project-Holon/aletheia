@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_RotateEventProc
+ * function: FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc
  * address:  0x021F3D40
  * packet:   pkt_ov046_021F3D40
  * region:   ov046
@@ -20,10 +20,10 @@
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   GIMMICK46_PlayAnimEventProc  0x021F3DE8  thumb  ov046
- *   GIMMICK46_CalcUnitPose  0x021F3BC8  thumb  ov046
- *   GIMMICK46_GetRotateAnim  0x021F3BE8  thumb  ov046
- *   GIMMICK46_ApplyPoseLines  0x021F4078  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc  0x021F3DE8  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose  0x021F3BC8  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim  0x021F3BE8  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines  0x021F4078  thumb  ov046
  */
 
 typedef unsigned int u32;
@@ -60,12 +60,12 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-extern int GIMMICK46_PlayAnimEventProc(void *a, int *st);
-extern int GIMMICK46_CalcUnitPose(int *);
-extern int GIMMICK46_GetRotateAnim(int *, int);
-extern void GIMMICK46_ApplyPoseLines(u32, int, int);
+extern int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(void *a, int *st);
+extern int FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose(int *);
+extern int FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim(int *, int);
+extern void FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines(u32, int, int);
 
-int GIMMICK46_RotateEventProc(u32 a, int *b)
+int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(u32 a, int *b)
 {
     void *h = GAME_EVENT_GetGameSystem((void *)a);
     void *x = GAMESYSTEM_GetFieldMap(h);
@@ -78,20 +78,20 @@ int GIMMICK46_RotateEventProc(u32 a, int *b)
     GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(x))), 10);
     switch (*b) {
     case 0:
-        t = GIMMICK46_CalcUnitPose(q->a8);
-        y = GIMMICK46_GetRotateAnim(q->a8, t);
+        t = FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose(q->a8);
+        y = FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim(q->a8, t);
         q->c = q->a0 * 5;
         q->d = 1;
         q->p18 = y;
         q->e = 8;
         q->p1c = 0x6d4;
         q->p20 = 0x6d9;
-        GAME_EVENT_CallEvent((void *)a, (struct Evt **)func_020122C0(h, 0, GIMMICK46_PlayAnimEventProc, 0));
+        GAME_EVENT_CallEvent((void *)a, (struct Evt **)func_020122C0(h, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         q->a8[0] = t;
         (*b)++;
         break;
     case 1:
-        GIMMICK46_ApplyPoseLines((u32)x, q->a0, *q->a8);
+        FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines((u32)x, q->a0, *q->a8);
         return 1;
     }
     return 0;

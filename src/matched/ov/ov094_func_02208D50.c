@@ -1,5 +1,5 @@
 /*
- * function: func_02208D50
+ * function: BTLV_GAUGE_SetSlotBarsVisible
  * address:  0x02208D50
  * packet:   pkt_ov094_02208D50
  * region:   ov094
@@ -41,7 +41,7 @@ typedef struct {
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 
-void func_02208D50(W *w, int i, int b)
+void BTLV_GAUGE_SetSlotBarsVisible(W *w, int i, int b)
 {
     if ((w->r[i].state == 2 || w->r[i].state == 3) && b == 1 && (i & 1) == 0) {
         CLACT_SetActorDrawEnable((struct Obj *)w->r[i].h04, w->flags.b4);

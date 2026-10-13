@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_crowd.c
  * unit:     yes
- * function: CROWD_Init, CROWD_Exit, CROWD_Update, func_021F3B10, CROWD_FindFreePerson, CROWD_FindPersonAtSpawn, CROWD_CreatePerson, CROWD_DeletePerson, CROWD_UpdatePerson, CROWD_StartPerson, CROWD_MakePersonSolid, CROWD_RemovePerson, CROWD_SidestepPerson, CROWD_LoadConfig, CROWD_FreeConfig, CROWD_UpdateSpawns, CROWD_SpawnPerson, CROWD_SpawnInitialPeople, CROWD_GetWalkCmdBase, CROWD_InitSolidPerson, CROWD_InitPlayerAwarePerson, CROWD_UpdateSolidPerson, CROWD_UpdatePlayerAwarePerson, CROWD_FindBlockingMmdl, CROWD_IsMmdlInFront, CROWD_IsTileInFront, CROWD_InitChatter, CROWD_ExitChatter, CROWD_CloseAllChatterSlots, CROWD_UpdateChatter, CROWD_InitChatterSlot, CROWD_OpenChatterSlot, CROWD_UpdateChatterSlot, CROWD_ClearChatterSlot, CROWD_CloseChatterSlot
+ * function: CROWD_Init, CROWD_Exit, CROWD_Update, CROWD_DrawProc, CROWD_FindFreePerson, CROWD_FindPersonAtSpawn, CROWD_CreatePerson, CROWD_DeletePerson, CROWD_UpdatePerson, CROWD_StartPerson, CROWD_MakePersonSolid, CROWD_RemovePerson, CROWD_SidestepPerson, CROWD_LoadConfig, CROWD_FreeConfig, CROWD_UpdateSpawns, CROWD_SpawnPerson, CROWD_SpawnInitialPeople, CROWD_GetWalkCmdBase, CROWD_InitSolidPerson, CROWD_InitPlayerAwarePerson, CROWD_UpdateSolidPerson, CROWD_UpdatePlayerAwarePerson, CROWD_FindBlockingMmdl, CROWD_IsMmdlInFront, CROWD_IsTileInFront, CROWD_InitChatter, CROWD_ExitChatter, CROWD_CloseAllChatterSlots, CROWD_UpdateChatter, CROWD_InitChatterSlot, CROWD_OpenChatterSlot, CROWD_UpdateChatterSlot, CROWD_ClearChatterSlot, CROWD_CloseChatterSlot
  * address:  0x021F39C0
  * region:   ov055
  * compiler: dsi/1.1p1
@@ -252,7 +252,7 @@ extern void FIELD_MSGBG_DeleteSubMsgWin(struct FieldMsgBg *msgBg, u32 windowId);
 void CROWD_Init(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
 void CROWD_Exit(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
 void CROWD_Update(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
-void func_021F3B10(CrowdWork *work);
+void CROWD_DrawProc(CrowdWork *work);
 CrowdPerson *CROWD_FindFreePerson(CrowdWork *work);
 const CrowdPerson *CROWD_FindPersonAtSpawn(const CrowdWork *work, int x, int z, unsigned int dir, int unused, int *isOccupied);
 void CROWD_CreatePerson(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const CrowdConfig *config, int index);
@@ -351,7 +351,7 @@ void CROWD_Update(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work
 }
 
 /* Draw hook of the sub process: close the speech windows. */
-void func_021F3B10(CrowdWork *work)
+void CROWD_DrawProc(CrowdWork *work)
 {
     CROWD_CloseAllChatterSlots(&work->chatter);
 }

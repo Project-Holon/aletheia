@@ -24,7 +24,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   sIwakudakiAnimeFiles     0x021DE0FC  data  a4
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
- *   func_021ABE8C  0x021ABE8C  thumb  ov021
+ *   FIELD_EFFECT_IsResourceLoaded  0x021ABE8C  thumb  ov021
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
  *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
@@ -126,7 +126,7 @@ extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern void func_02030EAC(void *task);
 extern int G3D_SYSTEM_TransAllocatedTexture(G3dResource *res);
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
-extern int func_021ABE8C(FieldEffectSys *fieldEffect, int effectId);
+extern int FIELD_EFFECT_IsResourceLoaded(FieldEffectSys *fieldEffect, int effectId);
 extern void FIELD_EFFECT_LoadResources(FieldEffectSys *fieldEffect, int *effectIds, int count);
 extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
 extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
@@ -221,7 +221,7 @@ void FLDEFF_IWAKUDAKI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
     FLDMMDL_GetPos(mmdl, &pos);
     pos.y += IWAKUDAKI_OFFSET_Y;
     pos.z += IWAKUDAKI_OFFSET_Z;
-    if (func_021ABE8C(fieldEffect, FLDEFF_ID_IWAKUDAKI) == 0) {
+    if (FIELD_EFFECT_IsResourceLoaded(fieldEffect, FLDEFF_ID_IWAKUDAKI) == 0) {
         effectId = FLDEFF_ID_IWAKUDAKI;
         FIELD_EFFECT_LoadResources(fieldEffect, &effectId, 1);
     }

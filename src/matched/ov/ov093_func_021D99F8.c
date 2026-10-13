@@ -13,11 +13,11 @@
  *   gStatLossGuardHandlers 0x021F0CEC data a4
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
- *   func_021E85F8 0x021E85F8 thumb ov093
+ *   HAND_COMMON_IsMoveTarget 0x021E85F8 thumb ov093
  */
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int, unsigned int);
-extern int func_021E85F8(int);
-void HAND_TOKUSEI_StatLossGuard_BlockIfFlagged(int a,int b,int c) { if(func_021E85F8(c)!=0 && BTL_EVENT_GetVar(5)==1) BTL_EVENT_OverwriteVar(0x47,1); }
+extern int HAND_COMMON_IsMoveTarget(int);
+void HAND_TOKUSEI_StatLossGuard_BlockIfFlagged(int a,int b,int c) { if(HAND_COMMON_IsMoveTarget(c)!=0 && BTL_EVENT_GetVar(5)==1) BTL_EVENT_OverwriteVar(0x47,1); }
 extern unsigned int gStatLossGuardHandlers;
 void *HAND_TOKUSEI_GetStatLossGuardHandlers(int *p) { *p=5; return &gStatLossGuardHandlers; }

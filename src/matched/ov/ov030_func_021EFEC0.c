@@ -1,5 +1,5 @@
 /*
- * function: func_021EFEC0
+ * function: NO_GEAR_StoreStepFunc
  * address:  0x021EFEC0
  * packet:   pkt_021EFEC0
  * region:   ov030
@@ -15,10 +15,10 @@
  * call into a `matched` relocation.
  *
  * symbols:
- *   func_021EFEC0  0x021EFEC0  thumb
+ *   NO_GEAR_StoreStepFunc  0x021EFEC0  thumb
  */
 
-void func_021EFEC0(int *p, int v)
+void NO_GEAR_StoreStepFunc(int *p, int v)
 {
     *p = v;
 }

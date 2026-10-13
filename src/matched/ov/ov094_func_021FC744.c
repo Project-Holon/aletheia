@@ -21,7 +21,7 @@
  *   func_021FFD9C 0x021FFD9C thumb ov094
  *   func_02200494 0x02200494 thumb ov094
  *   func_021F8700 0x021F8700 thumb ov094
- *   func_0220985C 0x0220985C thumb ov094
+ *   BTLV_BG_IsScrolling 0x0220985C thumb ov094
  *   PARTICLE_GetEffectCount 0x02051614 arm
  *   func_021F8324 0x021F8324 thumb ov094
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
@@ -64,7 +64,7 @@ typedef unsigned int   u32;
 extern int func_021FFD9C(char *p, int key);
 extern int func_02200494(char *p, int key);
 extern int func_021F8700(void);
-extern int func_0220985C(void *);
+extern int BTLV_BG_IsScrolling(void *);
 extern int PARTICLE_GetEffectCount(int **p);
 extern int func_021F8324(unsigned);
 extern int GFL_USE_IsAnySeBusy(void);
@@ -97,7 +97,7 @@ int func_021FC744(int a, State *s)
         }
     }
     if (s->mode == 0 || s->mode == 5) {
-        if (func_0220985C((void *)func_021F8700()) == 1) return 0;
+        if (BTLV_BG_IsScrolling((void *)func_021F8700()) == 1) return 0;
     }
     if (s->mode == 0 || s->mode == 2) {
         for (i = 0; i < 16; i++) {

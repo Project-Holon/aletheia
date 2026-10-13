@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_GetLiftAnimeIndex
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex
  * address:  0x021F3FBC
  * packet:   pkt_ov043_021F3FBC
  * region:   ov043
@@ -18,7 +18,7 @@
 
 extern int sGimmick43LiftAnimeFlip[];
 
-int GIMMICK43_GetLiftAnimeIndex(int *a, int i)
+int FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex(int *a, int i)
 {
     int r;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02178CDC
+ * function: WIH_StateInReset
  * address: 0x02178CDC
  * packet: pkt_ov014_02178CDC
  * region: ov014
@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02178138 0x02178138 thumb ov014
- *   func_0217814C 0x0217814C thumb ov014
+ *   WIH_ChangeSysState 0x02178138 thumb ov014
+ *   WIH_SetError 0x0217814C thumb ov014
  *   WM_Reset 0x0208F400 arm
- *   func_02178D00 0x02178D00 thumb ov014
+ *   WIH_StateOutReset 0x02178D00 thumb ov014
  */
 typedef unsigned char u8;
-extern void func_02178138(int);
-extern void func_0217814C(int);
-extern void func_02178D00(u8 *);
+extern void WIH_ChangeSysState(int);
+extern void WIH_SetError(int);
+extern void WIH_StateOutReset(u8 *);
 extern int WM_Reset(void (*)(u8 *));
-int func_02178CDC(void) {
+int WIH_StateInReset(void) {
  int r;
- func_02178138(3);
- r = WM_Reset(func_02178D00);
- if (r != 2) { func_0217814C(r); return 0; }
+ WIH_ChangeSysState(3);
+ r = WM_Reset(WIH_StateOutReset);
+ if (r != 2) { WIH_SetError(r); return 0; }
  return 1;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_06898B60",
+   "name": "HAND_POS_GetHandlersPending",
    "address": "0x06898B60",
    "kind": "game",
    "region": "ov095",

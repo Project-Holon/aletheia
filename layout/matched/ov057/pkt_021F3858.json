@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK57_DrawModelScene",
+   "name": "FIELD_GIMMICK_MODEL_SCENE_DrawModelScene",
    "address": "0x021F3858",
    "kind": "game",
    "region": "ov057",

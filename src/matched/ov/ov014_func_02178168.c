@@ -1,5 +1,5 @@
 /*
- * function: func_02178168
+ * function: WIH_StateInSetParentParam
  * address: 0x02178168
  * packet: pkt_ov014_02178168
  * region: ov014
@@ -9,27 +9,27 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data ov014 a4
- *   func_02178198 0x02178198 thumb ov014
+ *   gWihWork 0x021797A8 data ov014 a4
+ *   WIH_StateOutSetParentParam 0x02178198 thumb ov014
  *   WM_SetParentParameter 0x0208F480 arm
- *   func_02178138 0x02178138 thumb ov014
- *   func_0217814C 0x0217814C thumb ov014
+ *   WIH_ChangeSysState 0x02178138 thumb ov014
+ *   WIH_SetError 0x0217814C thumb ov014
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *g_021797A8;
-extern void func_02178198(void *);
+extern u8 *gWihWork;
+extern void WIH_StateOutSetParentParam(void *);
 extern int WM_SetParentParameter(void (*)(void *), void *);
-extern void func_02178138(int);
-extern void func_0217814C(int);
-int func_02178168(void)
+extern void WIH_ChangeSysState(int);
+extern void WIH_SetError(int);
+int WIH_StateInSetParentParam(void)
 {
     int result;
-    func_02178138(3);
-    result = WM_SetParentParameter(func_02178198, g_021797A8);
+    WIH_ChangeSysState(3);
+    result = WM_SetParentParameter(WIH_StateOutSetParentParam, gWihWork);
     if (result != 2) {
-        func_0217814C(result);
-        func_02178138(9);
+        WIH_SetError(result);
+        WIH_ChangeSysState(9);
         return 0;
     }
     return 1;

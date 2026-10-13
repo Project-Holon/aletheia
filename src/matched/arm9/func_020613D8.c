@@ -15,8 +15,8 @@
  *   func_020614D4   0x020614D4  arm
  *   func_02061644   0x02061644  arm
  *   g_02146B70      0x02146B70  data
- *   g_020A8140      0x020A8140  data
- *   g_020A8144      0x020A8144  data
+ *   NNS_GfdDefaultFuncAllocTexVram      0x020A8140  data
+ *   NNS_GfdDefaultFuncFreeTexVram      0x020A8144  data
  *
  * The mode selector of the NNS G2D multi-cell renderer.  It builds one of two
  * five-slot tables through func_02061390 depending on the mode, publishes the
@@ -60,8 +60,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u16 g_02146B70;
-extern u32 g_020A8140;
-extern u32 g_020A8144;
+extern u32 NNS_GfdDefaultFuncAllocTexVram;
+extern u32 NNS_GfdDefaultFuncFreeTexVram;
 
 extern void func_02061390(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_02061460(void);
@@ -83,6 +83,6 @@ void func_020613D8(u32 mode, u32 flag)
         return;
     }
 
-    g_020A8140 = (u32)func_020614D4;
-    g_020A8144 = (u32)func_02061644;
+    NNS_GfdDefaultFuncAllocTexVram = (u32)func_020614D4;
+    NNS_GfdDefaultFuncFreeTexVram = (u32)func_02061644;
 }

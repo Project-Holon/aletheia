@@ -29,8 +29,8 @@
  *   GX_LoadTex       0x0207F7FC  arm
  *   GX_EndLoadTex    0x0207F9B4  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   g_020A8148  0x020A8148  data
- *   g_020A8140  0x020A8140  data
+ *   NNS_GfdDefaultFuncAllocPlttVram  0x020A8148  data
+ *   NNS_GfdDefaultFuncAllocTexVram  0x020A8140  data
  *   MTX_MultVec33          0x0207B51C  arm
  *   MTX_MultVec43          0x0207BC08  arm
  *   VEC_CrossProduct       0x0207CAE8  arm
@@ -4899,7 +4899,7 @@ void func_02052FC8(struct Obj *o)
 
 
 
-extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 a, u32 b, u32 c);
 
 
 
@@ -4907,7 +4907,7 @@ extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
 
 
 
-extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
 
 
 
@@ -4933,7 +4933,7 @@ extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
  */
 int func_02052F90(u32 a0, u32 a1)
 {
-    return (g_020A8140(a0, a1, 0) & 0xffff) << 3;
+    return (NNS_GfdDefaultFuncAllocTexVram(a0, a1, 0) & 0xffff) << 3;
 }
 
 
@@ -4965,7 +4965,7 @@ int func_02052F90(u32 a0, u32 a1)
  */
 int func_02052F58(u32 a0, u32 a1)
 {
-    return (g_020A8148(a0, a1, 0) & 0xffff) << 3;
+    return (NNS_GfdDefaultFuncAllocPlttVram(a0, a1, 0) & 0xffff) << 3;
 }
 
 

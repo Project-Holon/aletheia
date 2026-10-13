@@ -1,5 +1,5 @@
 /*
- * function: func_021CF748
+ * function: ENCEFF_SelectEffectAndBgmForTrainer
  * address:  0x021CF748
  * packet:   pkt_ov021_021CF748
  * region:   ov021
@@ -48,7 +48,7 @@ extern int MAP_ATTR_IsSandVariant(u32 id);
 extern u32 FIELDMAP_GetAreaData(u8 *p);
 extern u8 ZONEDATA_GetAreaInnerOuter(struct Sub020140BCObj *p);
 
-void func_021CF748(u32 a, u32 x, int *out, u16 *out2)
+void ENCEFF_SelectEffectAndBgmForTrainer(u32 a, u32 x, int *out, u16 *out2)
 {
     int flag = 1;
     u32 t = func_0202A230((void *)a, 1);

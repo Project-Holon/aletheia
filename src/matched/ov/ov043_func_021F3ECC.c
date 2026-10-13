@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_IsLiftArrived
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived
  * address:  0x021F3ECC
  * packet:   pkt_ov043_021F3ECC
  * region:   ov043
@@ -13,7 +13,7 @@
  * ov044_func_021F390C.c with every field one word lower.
  */
 
-int GIMMICK43_IsLiftArrived(int *p)
+int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(int *p)
 {
     if (p[3] < 0) {
         if (p[2] >= p[1]) {

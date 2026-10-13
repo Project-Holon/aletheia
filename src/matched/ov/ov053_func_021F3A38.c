@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_StartWait
+ * function: FIELD_GIMMICK_SOUND_OBJS_StartWait
  * address: 0x021F3A38
  * packet: pkt_ov053_021F3A38
  * region: ov053
@@ -14,7 +14,7 @@
  *   func_02005728 0x02005728 thumb
  */
 extern unsigned func_02005728(unsigned);
-void GIMMICK53_StartWait(char *a, int i)
+void FIELD_GIMMICK_SOUND_OBJS_StartWait(char *a, int i)
 {
     ((int *)(a + 0x1c))[i] = ((int *)(a + 0x30))[i] +
         func_02005728(((int *)(a + 0x44))[i] - ((int *)(a + 0x30))[i] + 1);

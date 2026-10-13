@@ -33,7 +33,7 @@
  * table (event id plus function) and writes the number of entries.
  */
 #include "btl_action_word_types.h"
-#include "hand_tokusei_021d93d8_types.h"
+#include "hand_tokusei_types.h"
 #include "unit_021D794C_types.h"
 /*
  * ov093 held item handlers, last part: Binding Band (power part), Absorb
@@ -53,125 +53,44 @@
 struct BtlEventFactor;
 
 /* Record kinds that the item handlers push. */
-#define HANDEX_KIND_MESSAGE 4
 
-#define HANDEX_KIND_RECOVER_HP 5
 
-#define HANDEX_KIND_ADD_SICK 0xc
 
-#define HANDEX_KIND_RANK_EFFECT 0xe
 
-#define HANDEX_KIND_SET_CONT_FLAG 0x17
 
 /* Event variables the item handlers read with the event variable getter. */
 
 /* Type affinity values above this are super effective. */
-#define BTL_AFFINITY_SUPER_EFFECTIVE_ABOVE 3
 
 /* Value ids of the poke parameter getter. */
-#define BTL_VALUE_MAX_HP 0xe
 
 /* Status ids. */
-#define BTL_SICK_CONFUSION 6
 
-#define BTL_SICK_ITEM_BLOCK 15 /* the status that stops a held item from acting (guess: Embargo) */
 
 /* Stat ids of the rank (stat stage) records; also the numbers the stat berries use. */
-#define BTL_RANK_ATTACK 1
 
-#define BTL_RANK_DEFENSE 2
 
-#define BTL_RANK_SP_ATTACK 3
 
-#define BTL_RANK_SP_DEFENSE 4
 
-#define BTL_RANK_SPEED 5
 
-#define BTL_RANK_KIND_COUNT 5
 
 /* Pokemon type ids (a dense list: there is no unused slot between steel and fire). */
-enum {
-    POKETYPE_NORMAL = 0,
-    POKETYPE_FIGHTING = 1,
-    POKETYPE_FLYING = 2,
-    POKETYPE_POISON = 3,
-    POKETYPE_GROUND = 4,
-    POKETYPE_ROCK = 5,
-    POKETYPE_GHOST = 7,
-    POKETYPE_STEEL = 8,
-    POKETYPE_ELECTRIC = 12,
-    POKETYPE_PSYCHIC = 13,
-    POKETYPE_DRAGON = 15,
-    POKETYPE_DARK = 16
-};
 
 /* Condition flag that the critical-rate berry sets. */
-#define BTL_CONT_FLAG_CRITICAL_UP 9
 
 /* Slots of the per-item work words the handlers share. */
-#define ITEM_WORK_USED 0       /* nonzero once the item has acted */
 
-#define ITEM_WORK_FORCED_USE 6 /* set when the item was used from outside (same slot as hand_tokusei_021dcae8_types.h) */
 
-/* A message with up to eight word arguments, embedded in some records. */
-typedef struct {
-    u16 strId;
-    u8 strType;
-    u8 argCount : 7;
-    u8 extraSet : 1;
-    u32 args[8];
-} HandExStr;
 
-#define HANDEX_STR_SET 2 /* message type: show a message by id with a Pokemon name */
 
-/* Kind 4: show a message. */
-typedef struct {
-    u32 header;
-    HandExStr str;
-} HandExMessage;
 
-/* Kind 5: heal a Pokemon; the message is at +8. */
-typedef struct {
-    u32 header;
-    u16 amount;
-    u8 pokeId;
-    u8 pad07;
-    HandExStr str;
-} HandExRecoverHp;
 
-/* Kind 0xc: add a status condition. */
-typedef struct {
-    u32 header;
-    u32 sickKind;
-    union SickCont sickCont;
-    u8 suppressMessage;
-    u8 pad0D[2];
-    u8 pokeId;
-} HandExAddSick;
 
-/* Kind 0xe: change a stat stage (volume is the number of stages). */
-typedef struct {
-    u32 header;
-    u32 rankKind;
-    u8 pad08[4];
-    s8 volume;
-    u8 flagA;
-    u8 flagB;
-    u8 pokeCount;
-    u8 pokeId;
-} HandExRankEffect;
 
-/* Kind 0x17: set a condition flag on a Pokemon. */
-typedef struct {
-    u32 header;
-    u32 flagId;
-    u8 pokeId;
-} HandExSetContFlag;
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
-#define BTL_EVAR_HIT_SUBSTITUTE BTL_EVAR_HIT_SUBSTITUTE_FLAG
 
-struct BtlSvFlow;
+struct BtlServerFlow;
 
 /* Event ids that the item handler tables of these files use (guesses from the handler bodies). */
 enum {
@@ -197,15 +116,10 @@ enum {
 };
 
 /* More event variable keys (see hand_item_types.h for the first ones). */
-#ifndef BTL_EVAR_ATTACKER_ID
-
-#endif
 
 #define BTL_RATIO_ONE 4096
 
-#define BTL_RATIO_HALF 2048
 
-#define BTL_RATIO_DOUBLE 8192
 
 #define BTL_RATIO_MICLE_ACCURACY 0x78      /* percent, stored in the Micle status */
 
@@ -236,23 +150,17 @@ enum {
 /* Poke parameter value ids used by the HP test. */
 #define BTL_VALUE_ABILITY 0x11
 
-#define BTL_VALUE_HP 0xD
 
 /* Condition ids. */
 #define BTL_SICK_MICLE_ACCURACY 0x22
 
-#define BTL_SICK_ANY_VOLATILE 0x26
 
 /* More record kinds. */
-#define HANDEX_KIND_USE_ITEM 0
 
-#define HANDEX_KIND_DAMAGE 7
 
 #define HANDEX_KIND_RESTORE_RANKS 0x12
 
-#define HANDEX_KIND_ITEM_MESSAGE 0x23
 
-#define HANDEX_KIND_FLINCH 0x2B
 
 /* Work slot 0 of a held item is cleared when the item has shown its message (ITEM_WORK_USED). */
 
@@ -265,15 +173,6 @@ typedef struct HandExUseItem {
 /* useFlags: the record keeps the item (the berry only remembers the attacker). */
 #define HANDEX_USE_ITEM_KEEP_ITEM 2
 
-/* Kind 7: damage a Pokemon, then show a string. */
-typedef struct HandExDamage {
-    u32 header;
-    u16 amount;
-    u8 pokeId;
-    u8 pad07;
-    u32 pad08;
-    HandExStr str;
-} HandExDamage;
 
 /* Kind 0xc with a message: add a status condition, then show a string. */
 typedef struct HandExAddSickMessage {
@@ -284,7 +183,7 @@ typedef struct HandExAddSickMessage {
     u8 pad0D[2];
     u8 pokeId;
     u32 pad10;
-    HandExStr str;
+    BtlStrParam message;
 } HandExAddSickMessage;
 
 /* Kind 0x12: restore the lowered stat stages of a Pokemon. */
@@ -297,7 +196,7 @@ typedef struct HandExRestoreRanks {
 typedef struct HandExItemMessage {
     u32 header;
     u32 pad04;
-    HandExStr str;
+    BtlStrParam message;
 } HandExItemMessage;
 
 /* Kind 0x2b: make a Pokemon flinch with a chance in percent. */
@@ -308,19 +207,13 @@ typedef struct HandExFlinch {
 } HandExFlinch;
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
-#define BTL_EVAR_MOVE_CATEGORY BTL_EVAR_DAMAGE_TYPE
 
-#ifndef BTL_EVAR_ATTACKER_ID
-
-#endif
 
 #define BTL_ITEM_DITTO_SPECIES 0x84
 
 #define BTL_SICK_MOVE_LOCK 0x1b     /* choice item lock */
 
-#define BTL_SICK_INFATUATION 7
 
-#define BTL_SICK_BIND 8
 
 /* Kind 0: use the held item (flags bit 0 marks it as consumed by the handler). */
 typedef struct {
@@ -337,7 +230,7 @@ typedef struct {
     u16 effectId;
     u8 effectParam;
     u8 effectKind;
-    HandExStr str;
+    BtlStrParam message;
 } HandExLoseHp;
 
 /* Kind 0xb: cure a status slot of a Pokemon. */
@@ -361,14 +254,14 @@ typedef struct {
     u8 pokeId;
     u8 mode;
     u8 pad11[3];
-    HandExStr str;
+    BtlStrParam message;
 } HandExAddSickFull;
 
 /* Kind 0x23: consume the item and show a message at +8. */
 typedef struct {
     u32 header;
     u8 pad04[4];
-    HandExStr str;
+    BtlStrParam message;
 } HandExConsumeItem;
 
 /* Kind 0x24: move the held item of the attacker to the holder. */
@@ -379,13 +272,9 @@ typedef struct {
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 
-#define BTL_EVAR_AFFINITY_SCALED BTL_EVAR_TYPE_AFFINITY
 
-#define BTL_EVAR_SURVIVE_RESULT BTL_EVAR_ENDURE_REASON
 
-#define BTL_EVAR_NO_EFFECT_FLAG BTL_EVAR_SHEER_FORCE_FLAG
 
-#define BTL_EVAR_SKIP_CHARGE_FLAG BTL_EVAR_FORCE_FLOATING_FLAG
 
 struct BtlPokeParam;
 
@@ -413,7 +302,6 @@ struct BtlPokeParam;
 /* Species that hold-item effects check. */
 #define BTL_SPECIES_PIKACHU 0x19
 
-#define BTL_SPECIES_GIRATINA 0x1E7
 
 /* Event ids that the handlers of these items answer (names from the handler use; guesses). */
 enum {
@@ -426,9 +314,7 @@ enum {
 };
 
 /* Command kinds that these handlers queue on the battle flow. */
-#define BTL_CMD_KIND_MESSAGE 4
 
-#define BTL_CMD_KIND_ADD_SICK 12
 
 /* String table id used by the standard battle messages. */
 #define BTL_STR_TYPE_STANDARD 2
@@ -443,13 +329,13 @@ enum {
 typedef struct {
     u32 header;
     u32 sickKind;
-    union BtlSickCont sickCont;
+    union SickCont sickCont;
     u8 hideMessage;
     u8 pad0D[2];
     u8 pokeId;
     u8 pad10[4];
     BtlStrParam strParam;
-} BtlAddSickCmd;
+} BtlItemAddSickCmd;
 
 /* Services of the event factor and the item parameters. */
 extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
@@ -460,30 +346,26 @@ extern int HAND_ITEM_GetBoostRatio(struct BtlEventFactor *factor);
 
 extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *poke);
 
-extern void BTL_SERVER_FLOW_SetMsgRecordSe(BtlStrParam *strParam, u32 extraArg);
 
-extern void BTL_SERVER_FLOW_TryFinishMainCounter(struct BtlSvFlow *flow, int pokeId);
+extern void BTL_SERVER_FLOW_TryFinishMainCounter(struct BtlServerFlow *flow, int pokeId);
 
-extern int BTLV_CORE_EventTrySetFlagIfAttacker(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+extern int BTLV_CORE_EventTrySetFlagIfAttacker(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 
-extern union BtlSickCont BTLV_CORE_MakeSlotKind1Index15(void);
+extern union SickCont BTLV_CORE_MakeSlotKind1Index15(void);
 
-extern union BtlSickCont BTL_CALC_MakeDefaultSickCont(int sickKind);
+extern union SickCont BTL_CALC_MakeDefaultSickCont(int sickKind);
 
 /* The move power handler shared by all type boost items. */
-void HAND_ITEM_BoostMovePowerOfType(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int moveType);
+void HAND_ITEM_BoostMovePowerOfType(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int moveType);
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
-#define BTL_EVAR_MOVE_POWER_RATIO BTL_EVAR_POWER_RATIO
 
 /* Event variable keys that only these items use. */
 
 /* Record kinds that these handlers push to the flow. */
-#define BTL_CMD_KIND_MESSAGE 4
 
 #define BTL_CMD_KIND_LOSE_HP 7
 
-#define BTL_CMD_KIND_SET_ITEM 0x20
 
 #define BTL_CMD_KIND_ITEM_MESSAGE 0x23   /* guess: message with the user and a second Pokemon as arguments */
 
@@ -518,7 +400,7 @@ typedef struct {
     u8 announce;
     u32 pad08;
     BtlStrParam strParam;
-} BtlSetItemCmd;
+} BtlItemSetItemCmd;
 
 /* Kind 0x23: a message at +8 whose arguments are poke ids. */
 typedef struct {
@@ -542,43 +424,24 @@ typedef struct {
 
 extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *pokeParam, u32 divisor);
 
-extern int BTL_SERVER_FLOW_IsPokeEvolvable(struct BtlSvFlow *flow, int pokeId);    /* guess: the Pokemon can still evolve */
+extern int BTL_SERVER_FLOW_IsPokeEvolvable(struct BtlServerFlow *flow, int pokeId);    /* guess: the Pokemon can still evolve */
 
 extern int BTL_FIELD_GetStaticSlotObject(int query);
 
-extern int func_021E85F8(int pokeId);
+extern int HAND_COMMON_IsMoveTarget(int pokeId);
 
-extern int BTL_SERVER_FLOW_GetFrontPosOfPoke(struct BtlSvFlow *flow, int pokeId);
 
-extern int BTL_SERVER_FLOW_CheckClientHasBackupPoke(struct BtlSvFlow *flow, int pokeId);
+extern int BTL_SERVER_FLOW_CheckClientHasBackupPoke(struct BtlServerFlow *flow, int pokeId);
 
-extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlSvFlow *flow);
+extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlServerFlow *flow);
 
-extern u32 BTL_SERVER_FLOW_IsActionCounterSet(struct BtlSvFlow *flow);
+extern u32 BTL_SERVER_FLOW_IsActionCounterSet(struct BtlServerFlow *flow);
 
 extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
 
-#ifndef BTL_EVAR_SICK_CONT
 
-#define BTL_EVAR_SICK_CONT 0x1E      /* packed duration and parameters of the status being applied */
 
-#endif
 
-#ifndef BTL_RANK_ATTACK
-
-#define BTL_RANK_ATTACK 1
-
-#endif
-
-#ifndef BTL_RANK_SP_ATTACK
-
-#endif
-
-#ifndef BTL_CMD_KIND_RANK_CHANGE
-
-#define BTL_CMD_KIND_RANK_CHANGE 0xE
-
-#endif
 
 #define BTL_CMD_KIND_SWITCH_OUT 0x29
 
@@ -588,18 +451,11 @@ extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
 
 #define BTL_STR_ID_GEM_BOOST 0xB6    /* "the gem strengthened the move" */
 
-#define BTL_GEM_STATE_IDLE 0
 
-#define BTL_GEM_STATE_CONSUMED 1     /* the gem was used for this move; the power boost applies */
 
-#define BTL_GEM_STATE_DONE 2         /* the damage of the move is finished */
 
-#define BTL_GEM_RATIO 0x1800         /* 1.5 in 20.12 fixed point */
 
 /* Types of the gems (type ids of the moves). */
-#ifndef POKETYPE_NORMAL
-
-#endif
 
 /* Kind 0x29: switch the Pokemon out after a message at +4. */
 typedef struct {
@@ -609,7 +465,6 @@ typedef struct {
     u8 pokeId;
 } BtlSwitchOutCmd;
 
-#define BTL_CMD_KIND_CHANGE_TYPE 0x14
 
 /* Kind 0x14: change the type of a Pokemon to a packed type pair (the same type twice). */
 typedef struct {
@@ -618,34 +473,19 @@ typedef struct {
     u8 pokeId;
 } BtlChangeTypeCmd;
 
-/* One row of the move handler registry: move id and the function that returns its handler table. */
-typedef struct {
-    u16 moveId;
-    BtlEventHandler *(*getHandlers)(int *handlerCount);
-} WazaHandlerEntry;
-
-#define WAZA_HANDLER_REGISTRY_COUNT 0x102
-
-#define BTL_EVENT_TYPE_WAZA 0
-
-#define WAZA_HANDLER_FACTOR_LIMIT 8       /* at most 9 factors are scanned; a longer list refuses a new handler */
-
-#define BTL_FACTOR_WORK_KEEP 6            /* work slot: nonzero for a handler that stays active */
-
 /* Services used by the handlers of this part. */
 extern void BTLV_CORE_SetSlotFlag(u32 *packedCont, int slot);
 
 extern int func_021D5D14(struct BtlPokeParam *pokeParam, int statId, int amount);
 
-extern void HAND_ITEM_PushUseItem(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+extern void HAND_ITEM_PushUseItem(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 
-extern int BTL_SERVER_FLOW_IsPokeAfflictedByStatus(struct BtlSvFlow *flow, int pokeId);
+extern int BTL_SERVER_FLOW_IsPokeAfflictedByStatus(struct BtlServerFlow *flow, int pokeId);
 
-extern u32 BTL_SERVER_FLOW_TestStateFlagBit0(struct BtlSvFlow *flow);
+extern u32 BTL_SERVER_FLOW_TestStateFlagBit0(struct BtlServerFlow *flow);
 
-extern int BTL_SERVER_FLOW_TrySetOnceFlag(struct BtlSvFlow *flow);
+extern int BTL_SERVER_FLOW_TrySetOnceFlag(struct BtlServerFlow *flow);
 
-extern int WAZA_TOOL_IsDamaging(u16 moveId);
 
 extern int func_0689C8EC(u16 moveId);
 
@@ -653,7 +493,6 @@ extern int BTL_EVENT_IsFactorDead(struct BtlEventFactor *factor);
 
 extern void BTL_EVENT_MarkFactorDead(struct BtlEventFactor *factor);
 
-extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u32 key, int priority, u32 subPriority, u8 ownerId, BtlEventHandler *handlers, u16 handlerCount);
 
 extern struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int ownerId);
 
@@ -673,6 +512,6 @@ extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
 
 extern u32 BTL_CALC_Random(u32 range);
 
-extern int BTLV_CORE_PackByteTwice(int value);
+extern u16 BTLV_CORE_PackByteTwice(int value);
 
 #endif

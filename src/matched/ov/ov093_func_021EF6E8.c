@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_MSG_BuildTrainerStringBody  0x021EF6F0  thumb  ov093
  *
- * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildTrainerStringBody; callee of func_021EA55C case 6.
+ * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildTrainerStringBody; callee of BTLV_CORE_BuildMessage case 6.
  */
 
 typedef unsigned int u32;

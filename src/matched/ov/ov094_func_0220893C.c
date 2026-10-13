@@ -1,5 +1,5 @@
 /*
- * function: func_0220893C
+ * function: BTLV_GAUGE_SetLowHpBgmSuppressed
  * address:  0x0220893C
  * packet:   pkt_ov094_0220893C
  * region:   ov094
@@ -18,7 +18,7 @@ typedef struct {
     u32 c : 10;
 } W;
 
-void func_0220893C(W *p, int v)
+void BTLV_GAUGE_SetLowHpBgmSuppressed(W *p, int v)
 {
     p->b = v;
 }

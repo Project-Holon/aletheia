@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02209C2C 0x02209C2C thumb
+ *   BTLV_FINGER_CURSOR_IsActive 0x02209C2C thumb
  *   func_0220D89C 0x0220D89C thumb ov197
  *   func_0220BF20 0x0220BF20 thumb ov197
  *   func_0220D234 0x0220D234 thumb ov197
@@ -23,7 +23,7 @@
 #include "../include/Obj25100.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_02209C2C(void *);
+extern int BTLV_FINGER_CURSOR_IsActive(void *);
 extern void func_0220D89C(char **, int);
 extern void func_0220BF20(char *, int);
 extern int func_0220D234(char *);
@@ -34,7 +34,7 @@ int func_0220D464(char *p)
 {
     switch (((struct Obj00688 *)p)->f53D) {
     case 0:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
             func_0220D89C((char **)p, 0x54d);
             ((struct Obj00688 *)p)->f533 = 2;
             ((struct Obj00688 *)p)->f531 = 0x11;
@@ -44,7 +44,7 @@ int func_0220D464(char *p)
         }
         break;
     case 1:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 0) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) {
             func_0220D234(p);
             ++((struct Obj00688 *)p)->f53D;
             ((struct Obj00688 *)p)->f531 = 0x11;
@@ -52,7 +52,7 @@ int func_0220D464(char *p)
         }
         break;
     case 2:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
             func_0220D89C((char **)p, 0x54d);
             *(u16 *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30) = 0;
             ((struct Obj00688 *)p)->f531 = 0x11;
@@ -62,7 +62,7 @@ int func_0220D464(char *p)
         }
         break;
     case 3:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 0) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) {
             func_0220D254(p);
             ++((struct Obj00688 *)p)->f53D;
             ((struct Obj00688 *)p)->f531 = 0x11;
@@ -70,7 +70,7 @@ int func_0220D464(char *p)
         }
         break;
     case 4:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 1) {
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 1) {
             func_0220D89C((char **)p, 0x54d);
             ((struct Obj25098 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f16 = func_0220BB98(p, *(short *)(*(char * *)&((struct Obj00688 *)p)->f0 + ((struct Obj00688 *)p)->f533 * 2 + 0x30));
             ((struct Obj25099 *)(*(char * *)&((struct Obj00688 *)p)->f0))->f2A = ((struct Obj00688 *)p)->f533;
@@ -80,7 +80,7 @@ int func_0220D464(char *p)
         }
         break;
     case 5:
-        if (func_02209C2C(((struct Obj00688 *)p)->f14C) == 0) return func_0220D11C(p);
+        if (BTLV_FINGER_CURSOR_IsActive(((struct Obj00688 *)p)->f14C) == 0) return func_0220D11C(p);
         break;
     }
     return 0x11;

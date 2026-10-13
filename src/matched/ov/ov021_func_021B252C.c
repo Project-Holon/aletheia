@@ -14,7 +14,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   GIMMICK39_UnlockLane  0x021F4184  thumb  ov039
+ *   FIELD_GIMMICK_CART_LANES_UnlockLane  0x021F4184  thumb  ov039
  */
 
 typedef unsigned short u16;
@@ -23,14 +23,14 @@ typedef unsigned int u32;
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern u32 GIMMICK39_UnlockLane(void *, u16);
+extern u32 FIELD_GIMMICK_CART_LANES_UnlockLane(void *, u16);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
 int SCRCMD_GIMMICK39_CallSecondEvent(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);
-    u32 r = GIMMICK39_UnlockLane(d, *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b));
+    u32 r = FIELD_GIMMICK_CART_LANES_UnlockLane(d, *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b));
 
     if (r == 0) {
         return 1;

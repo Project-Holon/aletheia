@@ -12,14 +12,14 @@
  * sdk:      BTL_EVENT_IsFactorKeyRegistered (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
  *
  * symbols:
- *   func_068982C0  0x068982C0  thumb  ov095
+ *   HAND_POS_IsNotRegistered  0x068982C0  thumb  ov095
  */
 
-extern void *func_068982C0(void);
+extern void *HAND_POS_IsNotRegistered(void);
 
 int BTL_EVENT_IsFactorKeyRegistered(void)
 {
-    if (func_068982C0() == 0)
+    if (HAND_POS_IsNotRegistered() == 0)
         return 1;
     return 0;
 }

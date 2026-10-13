@@ -12,8 +12,8 @@
  * symbols:
  *   BTL_CLIENT_FlushSlotLinkWords  0x021CF3F8  thumb  ov093
  *   BTL_MAIN_GetCommPos  0x021B86C0  thumb  ov093
- *   func_021EA7FC  0x021EA7FC  thumb  ov093
- *   func_021EA814  0x021EA814  thumb  ov093
+ *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
+ *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  *   BTL_CLIENT_StopTimeLimit  0x021CE0E0  thumb  ov093
  */
@@ -23,8 +23,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern void BTL_CLIENT_FlushSlotLinkWords(u8 *p);
 extern u8 BTL_MAIN_GetCommPos(u8 **p);
-extern void func_021EA7FC(char *p);
-extern int func_021EA814(u32 *p);
+extern void BTLV_CORE_StartWaitMessage(char *p);
+extern int BTLV_CORE_UpdateWaitMessage(u32 *p);
 extern int func_021F7EB4(void);
 extern void BTL_CLIENT_StopTimeLimit(u8 *p);
 
@@ -35,14 +35,14 @@ u32 BTL_CLIENT_StepSendActions(u8 *p, s32 *st)
         BTL_CLIENT_FlushSlotLinkWords(p);
         if (BTL_MAIN_GetCommPos(*(u8 ** *)&((struct Obj07772 *)p)->f0) != 0) {
             p[0x1a9] = 1;
-            func_021EA7FC((char *)(*(u32 *)&((struct Obj07772 *)p)->f54));
+            BTLV_CORE_StartWaitMessage((char *)(*(u32 *)&((struct Obj07772 *)p)->f54));
             *st = *st + 1;
         } else {
             *st = *st + 2;
         }
         break;
     case 1:
-        if (func_021EA814(*(u32 * *)&((struct Obj07772 *)p)->f54) != 0) {
+        if (BTLV_CORE_UpdateWaitMessage(*(u32 * *)&((struct Obj07772 *)p)->f54) != 0) {
             *st = *st + 1;
         }
         break;

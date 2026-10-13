@@ -17,7 +17,7 @@
  *   func_020355C4 0x020355C4 arm
  *   func_021D69F4 0x021D69F4 thumb ov120
  *   func_021D6988 0x021D6988 thumb ov120
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   func_021D63F4 0x021D63F4 thumb ov120
  *   func_021D5AD4 0x021D5AD4 thumb ov120
  */
@@ -36,7 +36,7 @@ extern void func_021D79F4(u8 *p, u16 n);
 extern u8 func_020355C4(void);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern u32 func_021D6988(u8 *p);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D63F4(u8 *p, int flag, int mode);
 extern void func_021D5AD4(u8 *p);
 void func_021D59E0(u8 *p)
@@ -59,7 +59,7 @@ void func_021D59E0(u8 *p)
                 func_021D79F4(((struct Obj01928 *)p)->f40, 0x2b);
             if (func_020355C4() == 0)
                 func_021D69F4(((struct Obj01928 *)p)->f3C, 0, ((struct Obj01928 *)p)->f15C);
-            func_021B6558((unsigned char *)func_021D6988(((struct Obj01928 *)p)->f3C), 1, 1);
+            TOUCHBAR_SetButtonVisible((unsigned char *)func_021D6988(((struct Obj01928 *)p)->f3C), 1, 1);
             func_021D63F4(((struct Obj01928 *)p)->f3C, 0, 0);
             func_021D4244((int *)p, (int)func_021D5AD4, 0x8c3);
             break;

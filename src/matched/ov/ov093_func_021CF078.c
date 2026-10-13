@@ -14,12 +14,12 @@
  *   func_021EAF50 0x021EAF50 thumb ov093
  *   func_021EAF78 0x021EAF78 thumb ov093
  *   BTL_CLIENT_ShowMessage 0x021CE3B4 thumb ov093
- *   func_021EA710 0x021EA710 thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTL_CLIENT_BuildActionPromptMessage 0x021CE0F8 thumb ov093
- *   func_021EA65C 0x021EA65C thumb ov093
- *   func_021EA720 0x021EA720 thumb ov093
- *   func_021EABC4 0x021EABC4 thumb ov093
- *   func_021EAC54 0x021EAC54 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessageNow 0x021EA65C thumb ov093
+ *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
+ *   BTLV_CORE_StartYesNoMenu 0x021EABC4 thumb ov093
+ *   BTLV_CORE_PollYesNoMenu 0x021EAC54 thumb ov093
  *   BTL_CLIENT_PollTimeLimitReady 0x021CE08C thumb ov093
  *   BTL_ACTION_SetEscape 0x021D8414 thumb ov093
  *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
@@ -39,12 +39,12 @@ struct H;
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *, u8);
 extern void BTL_CLIENT_ShowMessage(u8 *p, void *q);
-extern int func_021EA710(u32 *p);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 extern void BTL_CLIENT_BuildActionPromptMessage(u8 *, u8 *, u8 *);
-extern void func_021EA65C(char *p, struct H *h);
-extern int func_021EA720(u32 *p);
-extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
-extern int func_021EAC54(void *, int *);
+extern void BTLV_CORE_BuildAndPrintMessageNow(char *p, struct H *h);
+extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
+extern void BTLV_CORE_StartYesNoMenu(u8 *a, u32 x, u32 y, u32 z);
+extern int BTLV_CORE_PollYesNoMenu(void *, int *);
 extern int BTL_CLIENT_PollTimeLimitReady(u8 *);
 extern void BTL_ACTION_SetEscape(u32 *p);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
@@ -89,28 +89,28 @@ u32 BTL_CLIENT_StepSelectRun(u8 *p, u32 *st)
         }
         break;
     case 1:
-        if (func_021EA710(((struct Obj02136 *)p)->f54)) {
+        if (BTLV_CORE_WaitMessage(((struct Obj02136 *)p)->f54)) {
             BTL_CLIENT_BuildActionPromptMessage(p, *(u8 * *)&((struct Obj02136 *)p)->f8, p + 0x58);
-            func_021EA65C(((struct Obj02136 *)p)->f54, (struct H *)(p + 0x58));
+            BTLV_CORE_BuildAndPrintMessageNow(((struct Obj02136 *)p)->f54, (struct H *)(p + 0x58));
             *st = 2;
         }
         break;
     case 2:
-        if (func_021EA710(((struct Obj02136 *)p)->f54))
+        if (BTLV_CORE_WaitMessage(((struct Obj02136 *)p)->f54))
             BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
         break;
     case 3:
-        func_021EA710(((struct Obj02136 *)p)->f54);
-        if (func_021EA720(((struct Obj02136 *)p)->f54)) {
+        BTLV_CORE_WaitMessage(((struct Obj02136 *)p)->f54);
+        if (BTLV_CORE_ConsumeMessageFlag(((struct Obj02136 *)p)->f54)) {
             func_021EAF18((struct L *)(p + 0x58), 3, 8);
             func_021EAF18((struct L *)(p + 0x7c), 3, 9);
-            func_021EABC4(((struct Obj02136 *)p)->f54, (u32)(p + 0x58), (u32)(p + 0x7c), 1);
+            BTLV_CORE_StartYesNoMenu(((struct Obj02136 *)p)->f54, (u32)(p + 0x58), (u32)(p + 0x7c), 1);
             *st = 4;
         }
         break;
     case 4:
-        if (func_021EA710(((struct Obj02136 *)p)->f54)) {
-            if (func_021EAC54(((struct Obj02136 *)p)->f54, &result)) {
+        if (BTLV_CORE_WaitMessage(((struct Obj02136 *)p)->f54)) {
+            if (BTLV_CORE_PollYesNoMenu(((struct Obj02136 *)p)->f54, &result)) {
                 if (result == 0)
                     *st = 5;
                 else

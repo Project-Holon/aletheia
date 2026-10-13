@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EDBE8  0x021EDBE8  thumb  ov093
- *   func_021ED988  0x021ED988  thumb  ov093
+ *   BTLV_SCU_FreeNamePlates  0x021EDBE8  thumb  ov093
+ *   BTLV_SCU_ResetMonSlots  0x021ED988  thumb  ov093
  *   BMP_WIN_Delete  0x020452E8  arm
  *   func_020403F4  0x020403F4  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -34,8 +34,8 @@ typedef struct {
 } Obj;
 
 typedef unsigned char  u8;
-extern void func_021EDBE8(char *s);
-extern void func_021ED988(u8 *p);
+extern void BTLV_SCU_FreeNamePlates(char *s);
+extern void BTLV_SCU_ResetMonSlots(u8 *p);
 struct Descriptor;
 struct PrintSys;
 struct U16Vec;
@@ -47,8 +47,8 @@ extern u32 func_020307B0(void *p);
 
 void BTLV_SCU_Delete(Obj *p)
 {
-    func_021EDBE8((char *)p);
-    func_021ED988((u8 *)p);
+    BTLV_SCU_FreeNamePlates((char *)p);
+    BTLV_SCU_ResetMonSlots((u8 *)p);
     if (p->f08 != 0) {
         BMP_WIN_Delete((struct Descriptor *)p->f08);
         p->f08 = 0;

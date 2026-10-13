@@ -1,5 +1,5 @@
 /*
- * function: func_021ED798
+ * function: BTLV_SCU_StartMsgWinFadeOut
  * address:  0x021ED798
  * packet:   pkt_ov093_021ED798
  * region:   ov093
@@ -11,7 +11,7 @@
  */
 typedef unsigned char u8;
 struct S { int a; int x4; int x8; int xc; int x10; u8 state; u8 b15; };
-void func_021ED798(struct S *s)
+void BTLV_SCU_StartMsgWinFadeOut(struct S *s)
 {
     u8 st = s->state;
     if (st == 0 || st == 3) {

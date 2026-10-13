@@ -1,5 +1,5 @@
 /*
- * function: func_02207B4C
+ * function: BTLV_GAUGE_StartHpChangeAnimated
  * address:  0x02207B4C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02207B4C   0x02207B4C  thumb
- *   func_02207DA0 0x02207DA0 thumb ov094
+ *   BTLV_GAUGE_StartHpChangeAnimated   0x02207B4C  thumb
+ *   BTLV_GAUGE_StartHpChange 0x02207DA0 thumb ov094
 
  *
  * lane O10 candidate
  */
 
 struct S;
-extern void func_02207DA0(void *obj, struct S *q, int n);
+extern void BTLV_GAUGE_StartHpChange(void *obj, struct S *q, int n);
 
-void func_02207B4C(char *p, int i, int n)
+void BTLV_GAUGE_StartHpChangeAnimated(char *p, int i, int n)
 {
-    func_02207DA0(p, (struct S *)(p + 0x40 + (i << 7)), n);
+    BTLV_GAUGE_StartHpChange(p, (struct S *)(p + 0x40 + (i << 7)), n);
     *(int *)(p + (i << 7) + 0xb4) = 1;
 }
 

@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   func_021D0AB8  0x021D0AB8  thumb
+ *   TRIAL_HOUSE_SetUseDeliveredTrainers  0x021D0AB8  thumb
  */
 #include "../include/Obj17758.h"
 
@@ -31,7 +31,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetListCursor(void *base);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern int func_021D0AB8();
+extern int TRIAL_HOUSE_SetUseDeliveredTrainers();
 
 int SCRCMD_TRIALHOUSE_SetRecordSource(int a0, int a1)
 {    int t5;
@@ -59,7 +59,7 @@ a1 = t6 + 0;
 loc_0216A5B8:
 a1 = a0 + 0;
 a0 = ((struct Obj17758 *)((char *)v2))->f0;
-    a0 = func_021D0AB8(a0, a1);
+    a0 = TRIAL_HOUSE_SetUseDeliveredTrainers(a0, a1);
 loc_0216A5C0:
 a0 = 0;
     return a0;}

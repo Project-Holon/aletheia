@@ -1,5 +1,5 @@
 /*
- * function: func_021D09D0
+ * function: TRIAL_HOUSE_LoadDeliveryState
  * address:  0x021D09D0
  * packet:   pkt_ov021_021D09D0
  * region:   ov021
@@ -42,7 +42,7 @@ struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *a, unsigned int b);
 extern u32 func_020307B0(void *p);
 
-void func_021D09D0(int a, char *out)
+void TRIAL_HOUSE_LoadDeliveryState(int a, char *out)
 {
     int v;
     int t;

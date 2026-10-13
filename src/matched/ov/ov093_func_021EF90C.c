@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EFB34  0x021EFB34  thumb  ov093
+ *   BTL_FIELD_RemoveHolderFromSlots  0x021EFB34  thumb  ov093
  *   gBtlFieldCountdown  0x021F63F4  data  a4
  */
 
 #include "../include/G_Countdown.h"
 
 extern struct Countdown gBtlFieldCountdown;
-extern int func_021EFB34(void *mem, int a);
+extern int BTL_FIELD_RemoveHolderFromSlots(void *mem, int a);
 
 int BTL_FIELD_QueryStaticSlotB(int a)
 {
-    return func_021EFB34(&(*(char *)&gBtlFieldCountdown), a);
+    return BTL_FIELD_RemoveHolderFromSlots(&(*(char *)&gBtlFieldCountdown), a);
 }

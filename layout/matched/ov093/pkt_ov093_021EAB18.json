@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EAB18",
+   "name": "BTLV_CORE_ProcClearSidePosition",
    "address": "0x021EAB18",
    "kind": "game",
    "region": "ov093",

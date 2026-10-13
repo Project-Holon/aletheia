@@ -1,5 +1,5 @@
 /*
- * function: func_02207CC4
+ * function: BTLV_GAUGE_SetSideVisible
  * address:  0x02207CC4
  * packet:   pkt_ov094_02207CC4
  * region:   ov094
@@ -13,7 +13,7 @@
  * that a plain int counter rotates away.
  *
  * symbols:
- *   func_02207D04  0x02207D04  thumb  ov094
+ *   BTLV_GAUGE_SetSlotVisible  0x02207D04  thumb  ov094
  */
 
 typedef unsigned int u32;
@@ -35,16 +35,16 @@ typedef struct O {
     E e[8];
 } O;
 
-extern void func_02207D04(O *obj, int a, int idx);
+extern void BTLV_GAUGE_SetSlotVisible(O *obj, int a, int idx);
 
-void func_02207CC4(O *obj, int a, int c)
+void BTLV_GAUGE_SetSideVisible(O *obj, int a, int c)
 {
     Idx i;
 
     for (i = I0; i < 8; i = (Idx)(i + 1)) {
         if (c == 2 || c == obj->e[i].f44) {
             if (obj->e[i].b3) {
-                func_02207D04(obj, a, (int)i);
+                BTLV_GAUGE_SetSlotVisible(obj, a, (int)i);
             }
         }
     }

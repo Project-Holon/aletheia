@@ -1,5 +1,5 @@
 /*
- * function: func_068987B4
+ * function: HAND_POS_HealingWishOnSwitchIn
  * address: 0x068987B4
  * packet: pkt_ov095_068987B4
  * region: ov095
@@ -54,7 +54,7 @@ extern int func_06898980(void *);
 extern u8 *func_06898990(void *, int, int);
 extern void func_068989A0(void *, void *);
 extern void func_068989B0(void *);
-void func_068987B4(void *a, void *b, u8 c)
+void HAND_POS_HealingWishOnSwitchIn(void *a, void *b, u8 c)
 {
     u8 slot;
     void *m;

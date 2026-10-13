@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_InitUnitPose
+ * function: FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose
  * address:  0x021F38D4
  * packet:   pkt_ov046_021F38D4
  * region:   ov046
@@ -32,7 +32,7 @@ extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeFrame(u32 a, int b, u16 c, u16 d, int e);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
 
-void GIMMICK46_InitUnitPose(u8 *base, u32 t, int idx)
+void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(u8 *base, u32 t, int idx)
 {
     int *e;
     int n;

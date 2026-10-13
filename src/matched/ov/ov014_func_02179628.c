@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data ov014 a4
+ *   gWihWork 0x021797A8 data ov014 a4
  */
 typedef unsigned char u8;
-extern u8 *g_021797A8;
-void WIH_SetConnectCallback(unsigned v) { *(unsigned *)(g_021797A8 + 0x1E84) = v; }
+extern u8 *gWihWork;
+void WIH_SetConnectCallback(unsigned v) { *(unsigned *)(gWihWork + 0x1E84) = v; }

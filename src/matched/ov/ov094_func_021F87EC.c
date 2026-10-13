@@ -11,9 +11,9 @@
  *
  * symbols:
  *   d_0220AF20     0x0220AF20  data   ov094
- *   func_02208918  0x02208918  thumb  ov094
- *   func_022088F4  0x022088F4  thumb  ov094
- *   func_02208924  0x02208924  thumb  ov094
+ *   BTLV_GAUGE_SetSavedBgmNo  0x02208918  thumb  ov094
+ *   BTLV_GAUGE_IsLowHpBgmPlaying  0x022088F4  thumb  ov094
+ *   BTLV_GAUGE_SetBgmReplaced  0x02208924  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -26,14 +26,14 @@ typedef struct {
 
 extern Work *d_0220AF20;
 
-extern void func_02208918(char *p, int v);
-extern u32 func_022088F4(void *o);
-extern void func_02208924(void *o, u32 v);
+extern void BTLV_GAUGE_SetSavedBgmNo(char *p, int v);
+extern u32 BTLV_GAUGE_IsLowHpBgmPlaying(void *o);
+extern void BTLV_GAUGE_SetBgmReplaced(void *o, u32 v);
 
 void func_021F87EC(u32 v)
 {
     d_0220AF20->flag = 1;
-    func_02208918(d_0220AF20->obj, v);
-    if (func_022088F4(d_0220AF20->obj) == 0)
-        func_02208924(d_0220AF20->obj, 1);
+    BTLV_GAUGE_SetSavedBgmNo(d_0220AF20->obj, v);
+    if (BTLV_GAUGE_IsLowHpBgmPlaying(d_0220AF20->obj) == 0)
+        BTLV_GAUGE_SetBgmReplaced(d_0220AF20->obj, 1);
 }

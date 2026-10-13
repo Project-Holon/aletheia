@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A8     0x021797A8  data  a4
+ *   gWihWork     0x021797A8  data  a4
  */
 
 #include "../include/G_S.h"
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef signed short s16;
 
-extern struct S *g_021797A8;
+extern struct S *gWihWork;
 
 int WIH_PickRandomChannel(u16 mask)
 {
@@ -37,8 +37,8 @@ int WIH_PickRandomChannel(u16 mask)
     if (cnt > 1) {
         s16 j;
 
-        *(u32 *)(((u8 *)g_021797A8) + 0x1E9C) = *(u32 *)(((u8 *)g_021797A8) + 0x1E9C) * 0x10DCD + 0x3039;
-        k = (u32)(cnt * (u8) * (u32 *)(((u8 *)g_021797A8) + 0x1E9C)) << 8 >> 16;
+        *(u32 *)(((u8 *)gWihWork) + 0x1E9C) = *(u32 *)(((u8 *)gWihWork) + 0x1E9C) * 0x10DCD + 0x3039;
+        k = (u32)(cnt * (u8) * (u32 *)(((u8 *)gWihWork) + 0x1E9C)) << 8 >> 16;
         for (j = 0; j < 16; j++) {
             if (mask & 1) {
                 if (k == 0)

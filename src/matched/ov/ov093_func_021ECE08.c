@@ -1,5 +1,5 @@
 /*
- * function: func_021ECE08
+ * function: BTLV_SCU_GetSendOutMessageId
  * address:  0x021ECE08
  * packet:   pkt_ov093_021ECE08
  * region:   ov093
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 
-u16 func_021ECE08(u8 *a, int b)
+u16 BTLV_SCU_GetSendOutMessageId(u8 *a, int b)
 {
     int r;
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ED660",
+   "name": "BTLV_SCU_StartMonGraphicSwapFrom",
    "address": "0x021ED660",
    "kind": "game",
    "region": "ov093",

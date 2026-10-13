@@ -23,7 +23,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   g_WeatherSourceName     0x021DDE74  data
  *   gWeatherBillboardDescs     0x021D8850  data
- *   d_021D8840     0x021D8840  data
+ *   gWeatherSurfaceInits     0x021D8840  data
  * Addresses are Black-image addresses.
  */
 
@@ -54,7 +54,7 @@ typedef struct {
 
 extern char g_WeatherSourceName[];
 extern Desc021A19E8 gWeatherBillboardDescs[];
-extern u8 d_021D8840[];
+extern u8 gWeatherSurfaceInits[];
 
 struct Bank;
 struct Obj;
@@ -83,7 +83,7 @@ Obj021A19E8 *WEATHER_Create(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5, u16 
     p->f14 = 0xFFFF;
     p->f28 = -1;
     p->f18 = CLACT_CreateUnit(0x40, 8, heap);
-    p->f1C = CLACT_CreateRenderer(d_021D8840, 1, heap);
+    p->f1C = CLACT_CreateRenderer(gWeatherSurfaceInits, 1, heap);
     CLACT_SetUnitRenderer(p->f18, p->f1C);
     for (j = 0; j < 2; j++) {
         p->f20[j] = WEATHER_TASK_Create((u32)p->f18, a0, a1, a2, a3, (u32)p, a4, a5, heap);

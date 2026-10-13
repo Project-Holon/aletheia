@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_COMM_RecvNoticeBytes
+ * function: DWCi_CheckDWCServer
  * address: 0x02173BE4
  * packet: pkt_ov011_02173BE4
  * region: ov011
@@ -14,12 +14,12 @@
 
 typedef unsigned char u8;
 typedef struct { u8 pad[0x15c]; u8 v[4]; } D_02173B9C;
-void INTRUDE_COMM_RecvNoticeBytes(int a, int b, const u8 *src, D_02173B9C *dst);
+void DWCi_CheckDWCServer(int a, int b, const u8 *src, D_02173B9C *dst);
 
 /*
  * sdk:      DWCi_CheckDWCServer (dwc_match.o)
  */
-void INTRUDE_COMM_RecvNoticeBytes(int a, int b, const u8 *src, D_02173B9C *dst)
+void DWCi_CheckDWCServer(int a, int b, const u8 *src, D_02173B9C *dst)
 {
     dst->v[0] = src[0];
     dst->v[1] = src[1];

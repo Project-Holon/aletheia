@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E75E0",
-    "func_021E7628"
+    "HAND_WAZA_CircleThrowForceSwitch",
+    "HAND_WAZA_AddSmackDown"
+   ],
+   "addresses": [
+    "0x021E75E0",
+    "0x021E7628"
    ],
    "evidence": {
     "sole-ref": [

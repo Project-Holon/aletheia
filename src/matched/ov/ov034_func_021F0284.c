@@ -54,7 +54,7 @@
  *   func_0208890C 0x0208890C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   d_021F0A70 0x021F0A70 data a1
+ *   sReportWindowLayouts 0x021F0A70 data a1
  */
 #include "../include/Obj00166.h"
 #include "../include/Obj09806.h"
@@ -123,7 +123,7 @@ extern u32 func_020086E8(const struct PlayTime *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern const u8 d_021F0A70[];
+extern const u8 sReportWindowLayouts[];
 static inline void print_record(u8 *p,u32 index,void *dst,void *s,u32 y,u16 color,u32 one)
 {
     u32 owner=((struct Obj09806 *)p)->f8;
@@ -138,7 +138,7 @@ void REPORT_InitWindows(u8 *p)
     u32 date[4],clock[3];
     ((struct Obj00166 *)p)->f8=PRINTSYS_QUE_Create((void *)(((struct Obj00166 *)p)->f12C));
     for(i=0;i<8;i++) {
-        const u8 *r=d_021F0A70+i*6;
+        const u8 *r=sReportWindowLayouts+i*6;
         u8 *entry=p+i*8;
         ((struct Obj13076 *)entry)->fC=BMP_WIN_Create(r[0],r[1],r[2],r[3],r[4],r[5],one);
         BMP_Clear(BMP_WIN_GetBmp((struct Descriptor *)((struct Obj13076 *)entry)->fC),0);

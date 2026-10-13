@@ -16,17 +16,17 @@
  *   func_0689C9F8  0x0689C9F8  thumb
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
- *   func_021EA3E8  0x021EA3E8  thumb  ov093
- *   func_021EA3F8  0x021EA3F8  thumb  ov093
+ *   BTLV_CORE_StartViewEffectEx  0x021EA3E8  thumb  ov093
+ *   BTLV_CORE_WaitViewEffectEx  0x021EA3F8  thumb  ov093
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_POKEPARAM_ChangeForm  0x021D66D8  thumb  ov093
- *   func_021EA888  0x021EA888  thumb  ov093
- *   func_021EA8A4  0x021EA8A4  thumb  ov093
- *   func_021EA768  0x021EA768  thumb  ov093
- *   func_021EA778  0x021EA778  thumb  ov093
- *   func_021EA788  0x021EA788  thumb  ov093
- *   func_021EA798  0x021EA798  thumb  ov093
+ *   BTLV_CORE_StartMonSpriteChange  0x021EA888  thumb  ov093
+ *   BTLV_CORE_WaitMonSpriteChange  0x021EA8A4  thumb  ov093
+ *   BTLV_CORE_ShowPortrait  0x021EA768  thumb  ov093
+ *   BTLV_CORE_UpdatePortraitSlideIn  0x021EA778  thumb  ov093
+ *   BTLV_CORE_StartPortraitSlideOut  0x021EA788  thumb  ov093
+ *   BTLV_CORE_WaitPortraitSlideOut  0x021EA798  thumb  ov093
  *   BTL_POKEPARAM_SubHp 0x021D5F90 thumb ov093
  *   BTL_POKEPARAM_AddHp 0x021D5FA4 thumb ov093
  *   BTL_POKEPARAM_DecrementMovePP 0x021D5608 thumb ov093
@@ -65,17 +65,17 @@
 
 extern u32 BTL_CLIENT_IsMainStepActive(struct BtlClient *client);
 extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 position);
-extern void func_021EA3E8(struct BtlvCore *view, int viewPosA, int viewPosB, u32 param);
-extern int func_021EA3F8(struct BtlvCore *view);
+extern void BTLV_CORE_StartViewEffectEx(struct BtlvCore *view, int viewPosA, int viewPosB, u32 param);
+extern int BTLV_CORE_WaitViewEffectEx(struct BtlvCore *view);
 extern int BTL_MAIN_GetTrainerSlotOfPoke(struct BtlMain *main, struct BtlPokeContainer *container, u32 pokeId);
 extern struct BtlPokeParam *BTL_SIDE_GetPokeByIdThunk(struct BtlPokeContainer *container, int pokeId);
 extern void BTL_POKEPARAM_ChangeForm(struct BtlPokeParam *pokeParam, u8 form);
-extern void func_021EA888(struct BtlvCore *view, int viewPos);
-extern int func_021EA8A4(struct BtlvCore *view);
-extern void func_021EA768(struct BtlvCore *view, u32 position, u32 flag);
-extern int func_021EA778(struct BtlvCore *view, u32 position);
-extern void func_021EA788(struct BtlvCore *view, u32 position);
-extern int func_021EA798(struct BtlvCore *view, u32 position);
+extern void BTLV_CORE_StartMonSpriteChange(struct BtlvCore *view, int viewPos);
+extern int BTLV_CORE_WaitMonSpriteChange(struct BtlvCore *view);
+extern void BTLV_CORE_ShowPortrait(struct BtlvCore *view, u32 position, u32 flag);
+extern int BTLV_CORE_UpdatePortraitSlideIn(struct BtlvCore *view, u32 position);
+extern void BTLV_CORE_StartPortraitSlideOut(struct BtlvCore *view, u32 position);
+extern int BTLV_CORE_WaitPortraitSlideOut(struct BtlvCore *view, u32 position);
 extern void BTL_POKEPARAM_SubHp(struct BtlPokeParam *pokeParam, u16 damage);
 extern void BTL_POKEPARAM_AddHp(struct BtlPokeParam *pokeParam, u16 amount);
 extern void BTL_POKEPARAM_DecrementMovePP(struct BtlPokeParam *pokeParam, u8 slot, u8 amount);
@@ -142,10 +142,10 @@ int BTL_CLIENT_CmdSwapViewPositions(struct BtlClient *client, int *seq, u32 *arg
         }
         viewPosA = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[0]);
         viewPosB = BTL_MAIN_GetViewPosOfSlot(client->main, (u8)args[1]);
-        func_021EA3E8(client->view, viewPosA, viewPosB, (u16)args[2]);
+        BTLV_CORE_StartViewEffectEx(client->view, viewPosA, viewPosB, (u16)args[2]);
         (*seq)++;
     } else {
-        if (func_021EA3F8(client->view) != 0) {
+        if (BTLV_CORE_WaitViewEffectEx(client->view) != 0) {
             return 1;
         }
     }
@@ -162,11 +162,11 @@ int BTL_CLIENT_CmdChangeForm(struct BtlClient *client, int *seq, u32 *args)
     case 0:
         viewPos = BTL_MAIN_GetViewPosOfSlot(client->main, BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->pokeContainer, (u8)args[0]));
         BTL_POKEPARAM_ChangeForm(BTL_SIDE_GetPokeByIdThunk(client->pokeContainer, (u8)args[0]), (u8)args[1]);
-        func_021EA888(client->view, viewPos);
+        BTLV_CORE_StartMonSpriteChange(client->view, viewPos);
         (*seq)++;
         break;
     case 1:
-        if (func_021EA8A4(client->view) != 0) {
+        if (BTLV_CORE_WaitMonSpriteChange(client->view) != 0) {
             (*seq)++;
         }
         break;
@@ -188,11 +188,11 @@ int BTL_CLIENT_CmdShowStatusPanel(struct BtlClient *client, int *seq, u32 *args)
         if (BTL_CLIENT_IsMainStepActive(client) != 0) {
             return 1;
         }
-        func_021EA768(client->view, position, 1);
+        BTLV_CORE_ShowPortrait(client->view, position, 1);
         (*seq)++;
         break;
     case 1:
-        if (func_021EA778(client->view, position) != 0) {
+        if (BTLV_CORE_UpdatePortraitSlideIn(client->view, position) != 0) {
             (*seq)++;
         }
         break;
@@ -211,11 +211,11 @@ int BTL_CLIENT_CmdHideStatusPanel(struct BtlClient *client, int *seq, u32 *args)
     position = BTL_MAIN_GetTrainerSlotOfPoke(client->main, client->pokeContainer, (u8)args[0]);
     switch (*seq) {
     case 0:
-        func_021EA788(client->view, position);
+        BTLV_CORE_StartPortraitSlideOut(client->view, position);
         (*seq)++;
         break;
     case 1:
-        if (func_021EA798(client->view, position) != 0) {
+        if (BTLV_CORE_WaitPortraitSlideOut(client->view, position) != 0) {
             return 1;
         }
         break;

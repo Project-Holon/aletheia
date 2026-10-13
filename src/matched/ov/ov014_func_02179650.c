@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data ov014 a4
+ *   gWihWork 0x021797A8 data ov014 a4
  */
 typedef unsigned char u8;
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 typedef unsigned short u16;
 void WIH_SetScanWaitFrames(u16 v)
 {
-    *(u16 *)(g_021797A8 + 0x1ec2) = v;
+    *(u16 *)(gWihWork + 0x1ec2) = v;
 }

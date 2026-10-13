@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_LIFT_Init
  * address:  0x021F36C0
  * packet:   pkt_ov044_021F36C0
  * region:   ov044
@@ -25,7 +25,7 @@
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
- *   GIMMICK44_ShowIdleAnime  0x021F392C  thumb
+ *   FIELD_GIMMICK_LIFT_ShowIdleAnime  0x021F392C  thumb
  */
 
 typedef unsigned short u16;
@@ -49,9 +49,9 @@ extern void FLD_EXP_OBJ_SetModelCullDraw(char *p, int i, int j, int v);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
-extern void  GIMMICK44_ShowIdleAnime(void *p);
+extern void  FIELD_GIMMICK_LIFT_ShowIdleAnime(void *p);
 
-void func_021F36C0(void *a0)
+void FIELD_GIMMICK_LIFT_Init(void *a0)
 {
     void *r6;
     V *e;
@@ -69,5 +69,5 @@ void func_021F36C0(void *a0)
         FLD_EXP_OBJ_SetAnimeLoop(b, 0);
         FLD_EXP_OBJ_SetAnimePaused(b, 1);
     }
-    GIMMICK44_ShowIdleAnime(r6);
+    FIELD_GIMMICK_LIFT_ShowIdleAnime(r6);
 }

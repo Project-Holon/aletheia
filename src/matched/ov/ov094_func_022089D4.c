@@ -1,5 +1,5 @@
 /*
- * function: func_022089D4
+ * function: BTLV_GAUGE_UpdateLowHpBgm
  * address: 0x022089D4
  * packet: pkt_ov094_022089D4
  * region: ov094
@@ -12,7 +12,7 @@
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   func_021F882C 0x021F882C thumb ov094
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_02208D24 0x02208D24 thumb ov094
+ *   BTLV_GAUGE_SetBgmPlayerParam 0x02208D24 thumb ov094
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   func_0202D034 0x0202D034 thumb
@@ -26,14 +26,14 @@ extern int GFL_USE_IsBgmFading(void);
 extern int GFL_USE_PopBgm(void);
 extern int func_021F882C(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
-extern void func_02208D24(int);
+extern void BTLV_GAUGE_SetBgmPlayerParam(int);
 extern void GFL_USE_FadeInBgmFull(u32);
 extern int GFL_USE_PushBgm(void);
 typedef unsigned short u16;
 extern int func_0202D034(u32 a, u32 b);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32);
-void func_022089D4(O *o)
+void BTLV_GAUGE_UpdateLowHpBgm(O *o)
 {
     int busy, found, i;
     if (o->b1) {
@@ -45,11 +45,11 @@ void func_022089D4(O *o)
                 GFL_USE_CancelChangeAndPlayBgm(o->f444, 0xffff);
                 o->b3 = 1;
             } else {
-                func_02208D24(0);
+                BTLV_GAUGE_SetBgmPlayerParam(0);
             }
             GFL_USE_FadeInBgmFull(24);
         } else {
-            func_02208D24(1);
+            BTLV_GAUGE_SetBgmPlayerParam(1);
             GFL_USE_PushBgm();
             GFL_USE_CancelChangeAndPlayBgm(0x47a, 0xffff);
         }

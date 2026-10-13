@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02209500",
+   "name": "BTLV_TIMER_IsExpired",
    "address": "0x02209500",
    "kind": "game",
    "region": "ov094",

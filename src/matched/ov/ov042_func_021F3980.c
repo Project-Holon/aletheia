@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK42_EventPlayOneShot
+ * function: FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot
  * address:  0x021F3980
  * packet:   pkt_ov042_021F3980
  * region:   ov042
@@ -50,7 +50,7 @@ extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 
-int GIMMICK42_EventPlayOneShot(void *a, int *st)
+int FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot(void *a, int *st)
 {
     void *s;
     u32 t;

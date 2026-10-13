@@ -14,8 +14,8 @@
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   BTL_MAIN_CheckSceneOff  0x021B8590  thumb  ov093
  *   func_021D3558  0x021D3558  thumb
- *   func_021EA3B8  0x021EA3B8  thumb  ov093
- *   func_021EA3D4  0x021EA3D4  thumb  ov093
+ *   BTLV_CORE_StartViewEffect  0x021EA3B8  thumb  ov093
+ *   BTLV_CORE_WaitViewEffect  0x021EA3D4  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -26,8 +26,8 @@ extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern unsigned int BTL_MAIN_CheckSceneOff(unsigned char *p);
 extern int func_021D3558(u16 v);
-extern void func_021EA3B8(char *ctx, int a, int b);
-extern int func_021EA3D4(u32 a);
+extern void BTLV_CORE_StartViewEffect(char *ctx, int a, int b);
+extern int BTLV_CORE_WaitViewEffect(u32 a);
 
 int BTL_CLIENT_StepPlayMonSimpleEffect(u32 *a, int *b, u32 *c)
 {
@@ -43,10 +43,10 @@ int BTL_CLIENT_StepPlayMonSimpleEffect(u32 *a, int *b, u32 *c)
                 return 1;
             }
         }
-        func_021EA3B8((char *)a[0x15], k, (u16)c[1]);
+        BTLV_CORE_StartViewEffect((char *)a[0x15], k, (u16)c[1]);
         (*b)++;
     } else {
-        if (func_021EA3D4(a[0x15]) != 0) {
+        if (BTLV_CORE_WaitViewEffect(a[0x15]) != 0) {
             return 1;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_02207F6C
+ * function: BTLV_GAUGE_StepValue
  * address:  0x02207F6C
  * packet:   pkt_ov094_02207F6C
  * region:   ov094
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-int func_02207F6C(int n, int target, int delta, int *cur, u8 x, int speed)
+int BTLV_GAUGE_StepValue(int n, int target, int delta, int *cur, u8 x, int speed)
 {
     u8 lim;
     int t;

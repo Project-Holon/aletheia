@@ -1,5 +1,5 @@
 /*
- * function: func_021EA3E8
+ * function: BTLV_CORE_StartViewEffectEx
  * address:  0x021EA3E8
  * packet:   pkt_ov093_021EA3E8
  * region:   ov093
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 
 extern void func_021F7AAC(int a, int b, u32 c);
 
-void func_021EA3E8(void *ctx, int a, int b, u32 c)
+void BTLV_CORE_StartViewEffectEx(void *ctx, int a, int b, u32 c)
 {
     func_021F7AAC(a, b, c);
 }

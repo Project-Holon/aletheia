@@ -14,8 +14,8 @@
  *   func_02030734  0x02030734  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0208F1B4  0x0208F1B4  arm
- *   func_021790E4  0x021790E4  thumb  ov014
- *   func_02178E1C  0x02178E1C  thumb  ov014
+ *   WIH_Initialize  0x021790E4  thumb  ov014
+ *   WIH_SetGgid  0x02178E1C  thumb  ov014
  */
 #include "../include/Obj05921.h"
 #include "../include/Obj19326.h"
@@ -30,8 +30,8 @@ extern char sFileNetWhPipe[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GFL_NET_GetInitParam(void);
 extern u16 func_0208F1B4(void);
-extern int func_021790E4(u32 heap, int a, int b);
-extern void func_02178E1C(u32 v);
+extern int WIH_Initialize(u32 heap, int a, int b);
+extern void WIH_SetGgid(u32 v);
 
 int NET_WHPIPE_Create(int a, int b, u32 c, int d)
 {
@@ -45,9 +45,9 @@ int NET_WHPIPE_Create(int a, int b, u32 c, int d)
     w = func_02030734(a, 0xCF8, 1, sFileNetWhPipe, 0xed);
     g_pWhPipeWork = (struct W *)(w);
     w[0xCE6] = 0xff;
-    if (func_021790E4(a, b, d) == 0)
+    if (WIH_Initialize(a, b, d) == 0)
         return 0;
-    func_02178E1C(((struct Obj19326 *)st)->f50);
+    WIH_SetGgid(((struct Obj19326 *)st)->f50);
     ((struct Obj05921 *)w)->fC64 = c;
     w[0xCE7] = 0;
     w[0xCE4] = 0;

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_TurnRingDirection
+ * function: FIELD_GIMMICK_CANNONS_TurnRingDirection
  * address:  0x021F3F70
  * packet:   pkt_ov041_021F3F70
  * region:   ov041
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK41_TurnRingDirection  0x021F3F70  thumb
- *   d_021F4080     0x021F4080  data  a1
+ *   FIELD_GIMMICK_CANNONS_TurnRingDirection  0x021F3F70  thumb
+ *   gGimmick41DirectionRing     0x021F4080  data  a1
  */
 
 typedef unsigned char u8;
@@ -20,11 +20,11 @@ typedef struct {
     u8 b[4];
 } T4;
 
-extern T4 d_021F4080;
+extern T4 gGimmick41DirectionRing;
 
-int GIMMICK41_TurnRingDirection(int a, int b)
+int FIELD_GIMMICK_CANNONS_TurnRingDirection(int a, int b)
 {
-    T4 t = d_021F4080;
+    T4 t = gGimmick41DirectionRing;
     u8 i;
     u8 j;
 

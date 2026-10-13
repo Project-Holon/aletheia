@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   ov178_id        0x000000B0  data
+ *   ov176_id        0x000000B0  data
  *   func_0217E058   0x0217E058  thumb
  *   func_02034A5C   0x02034A5C  arm
  *
- * Release the handle at *p, then tear down channel ov178_id.
+ * Release the handle at *p, then tear down channel ov176_id.
  */
 
 
-extern unsigned char ov178_id[];
+extern unsigned char ov176_id[];
 extern void func_0217E058(int);
 extern void func_02034A5C(int);
 
 void func_021E5B1C(int *p, void *c)
 {
     func_0217E058(*p);
-    func_02034A5C((int)ov178_id);
+    func_02034A5C((int)ov176_id);
 }

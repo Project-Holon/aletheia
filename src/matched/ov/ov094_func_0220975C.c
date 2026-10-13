@@ -1,5 +1,5 @@
 /*
- * function: func_0220975C
+ * function: BTLV_BG_Create
  * address:  0x0220975C
  * packet:   pkt_ov094_0220975C
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AEF0     0x0220AEF0  data  ov094
+ *   sBtlvBgSiteName     0x0220AEF0  data  ov094
  */
 
 typedef unsigned short u16;
@@ -21,11 +21,11 @@ typedef struct {
 } W;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char d_0220AEF0[];
+extern char sBtlvBgSiteName[];
 
-W *func_0220975C(void *a, u16 heap)
+W *BTLV_BG_Create(void *a, u16 heap)
 {
-    W *w = func_02030734(heap, 0xc, 1, d_0220AEF0, 0x48);
+    W *w = func_02030734(heap, 0xc, 1, sBtlvBgSiteName, 0x48);
     w->f0 = a;
     w->f8 = heap;
     return w;

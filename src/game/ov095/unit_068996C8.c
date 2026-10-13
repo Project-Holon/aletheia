@@ -23,7 +23,7 @@
  *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb
  *   func_021E8A58  0x021E8A58  thumb
  *   data_0689D708 0x0689D708 data a4
- *   func_06898DE0  0x06898DE0  thumb
+ *   HAND_SIDE_GetStackCountByFactor  0x06898DE0  thumb
  */
 typedef unsigned int u32;
 
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 
 typedef struct { int v; } Id;
 
-extern int func_06898DE0(int a, u32 b);
+extern int HAND_SIDE_GetStackCountByFactor(int a, u32 b);
 extern int BTL_EVENT_GetVar(int a);
 extern int func_021B9A40(int a);
 extern int BTL_SERVER_FLOW_IsPokeGroundedById(void *a, int b);
@@ -57,7 +57,7 @@ void *func_068996C8(u32 *p)
     return data_0689D708;
 }
 
-static inline Id cmpid(int a, u32 b) { Id r; r.v = func_06898DE0(a, b); return r; }
+static inline Id cmpid(int a, u32 b) { Id r; r.v = HAND_SIDE_GetStackCountByFactor(a, b); return r; }
 
 
 /*

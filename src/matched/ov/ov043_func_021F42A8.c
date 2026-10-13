@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_SnapElevatorToTop
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop
  * address:  0x021F42A8
  * packet:   pkt_021F42A8
  * region:   ov043
@@ -39,7 +39,7 @@ struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void  FIELD_PLAYER_SetPos(void *a, void *b);
 
-void GIMMICK43_SnapElevatorToTop(void *p)
+void FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(void *p)
 {
     void *a, *b, *c, *d, *e, *f;
     int tmp[3];

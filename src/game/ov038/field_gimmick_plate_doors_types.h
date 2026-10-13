@@ -9,7 +9,7 @@ typedef struct VecFx32 {
 
 /*
  * Runtime state of gimmick 38 (FIELDMAP common work, block 1, 0x24 bytes).
- * The saved state is Gimmick38Work (src/game/ov037/field_gimmick_plate_doors_types.h).
+ * The saved state is Gimmick38Work (src/game/ov037/gimmick_save_types.h).
  */
 typedef struct Gimmick38Runtime {
     unsigned char switchIdx;        /* 0x00 switch of the running switch event */

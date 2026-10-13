@@ -11,7 +11,7 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data   a4
  *   WIH_GetSysState  0x02178E4C  thumb  ov014
- *   func_02178E38  0x02178E38  thumb  ov014
+ *   WIH_GetBitmap  0x02178E38  thumb  ov014
  */
 
 #include "../include/G_W.h"
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern struct W *g_pWhPipeWork;
 extern int WIH_GetSysState(void);
 typedef unsigned short u16;
-extern u16 func_02178E38(void);
+extern u16 WIH_GetBitmap(void);
 
 int NET_WHPIPE_IsAidConnected(u16 n)
 {
@@ -30,7 +30,7 @@ int NET_WHPIPE_IsAidConnected(u16 n)
         return 0;
     if (WIH_GetSysState() != 4 && WIH_GetSysState() != 5)
         return 0;
-    if (func_02178E38() & (1 << n))
+    if (WIH_GetBitmap() & (1 << n))
         return 1;
     return 0;
 }

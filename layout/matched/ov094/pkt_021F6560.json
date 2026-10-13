@@ -331,7 +331,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02207B4C",
+   "name": "BTLV_GAUGE_StartHpChangeAnimated",
    "address": "0x02207B4C",
    "kind": "game",
    "region": "ov094",
@@ -343,7 +343,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02207B68",
+   "name": "BTLV_GAUGE_StartHpChangeInstant",
    "address": "0x02207B68",
    "kind": "game",
    "region": "ov094",
@@ -355,7 +355,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_022088F4",
+   "name": "BTLV_GAUGE_IsLowHpBgmPlaying",
    "address": "0x022088F4",
    "kind": "game",
    "region": "ov094",
@@ -367,7 +367,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02208900",
+   "name": "BTLV_GAUGE_SetLowHpBgmPlaying",
    "address": "0x02208900",
    "kind": "game",
    "region": "ov094",
@@ -379,7 +379,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02208918",
+   "name": "BTLV_GAUGE_SetSavedBgmNo",
    "address": "0x02208918",
    "kind": "game",
    "region": "ov094",
@@ -391,7 +391,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02208924",
+   "name": "BTLV_GAUGE_SetBgmReplaced",
    "address": "0x02208924",
    "kind": "game",
    "region": "ov094",
@@ -403,7 +403,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_022089BC",
+   "name": "BTLV_GAUGE_HideSlot",
    "address": "0x022089BC",
    "kind": "game",
    "region": "ov094",
@@ -415,7 +415,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02209744",
+   "name": "BTLV_TIMER_TickTask",
    "address": "0x02209744",
    "kind": "game",
    "region": "ov094",
@@ -427,7 +427,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0220985C",
+   "name": "BTLV_BG_IsScrolling",
    "address": "0x0220985C",
    "kind": "sdk",
    "region": "ov094",
@@ -439,7 +439,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02209C2C",
+   "name": "BTLV_FINGER_CURSOR_IsActive",
    "address": "0x02209C2C",
    "kind": "game",
    "region": "ov094",

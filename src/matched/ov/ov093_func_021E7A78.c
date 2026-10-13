@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E7A78, func_021E7B34
+ * function: HAND_WAZA_FlameBurstDamageAdjacent, HAND_WAZA_AddSynchronoise
  * address: 0x021E7A78
  * packet: pkt_ov093_021E7A78
  * region: ov093
@@ -37,7 +37,7 @@ extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *, u32);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F2634[];
 
-void func_021E7A78(int a, int b, int c)
+void HAND_WAZA_FlameBurstDamageAdjacent(int a, int b, int c)
 {
     u8 list[4];
     u8 k, i;
@@ -66,7 +66,7 @@ void func_021E7A78(int a, int b, int c)
     }
 }
 
-int *func_021E7B34(int *p)
+int *HAND_WAZA_AddSynchronoise(int *p)
 {
     *p = 1;
     return d_021F2634;

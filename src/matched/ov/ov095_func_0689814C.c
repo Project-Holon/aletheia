@@ -1,5 +1,5 @@
 /*
- * function: func_0689814C
+ * function: HAND_FIELD_GetHandlersMudSport
  * address: 0x0689814C
  * packet: pkt_ov095_0689814C
  * region: ov095
@@ -8,13 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * extent: 12-byte leaf, followed by labelled func_06898158.
+ * extent: 12-byte leaf, followed by labelled HAND_FIELD_MudSportWeakenElectric.
  * symbols:
- *   d_0689D610 0x0689D610 data a4
+ *   gHandFieldMudSportHandlers 0x0689D610 data a4
  */
-extern unsigned char d_0689D610[];
-void *func_0689814C(int *p)
+extern unsigned char gHandFieldMudSportHandlers[];
+void *HAND_FIELD_GetHandlersMudSport(int *p)
 {
     *p = 1;
-    return d_0689D610;
+    return gHandFieldMudSportHandlers;
 }

@@ -26,7 +26,7 @@
  *   BTL_EVENT_GetClientPartyCount 0x021D6E04 thumb ov093
  *   BTL_EVENT_GetClientPartySlotId 0x021D6E0C thumb ov093
  *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
- *   func_021B871C 0x021B871C thumb ov093
+ *   BTL_MAIN_GetPlayerStatus 0x021B871C thumb ov093
  *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_SERVER_FLOW_CalcLevelScaledExp 0x021CB55C thumb ov093
@@ -63,7 +63,7 @@ extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern unsigned char BTL_EVENT_GetClientPartyCount(unsigned char *p);
 extern u8 BTL_EVENT_GetClientPartySlotId(u8 *p, u32 i);
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
-extern int func_021B871C(char *p);
+extern int BTL_MAIN_GetPlayerStatus(char *p);
 extern void *BTL_POKEPARAM_GetMon(void *);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 BTL_SERVER_FLOW_CalcLevelScaledExp(void *, u32, u16, u16);
@@ -155,7 +155,7 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(u8 *p, u8 *a, u32 b, Rec *rec)
       void *v28;
       u32 v24;
 
-      v24 = (u32)func_021B871C(*(void **) (p + 4));
+      v24 = (u32)BTL_MAIN_GetPlayerStatus(*(void **) (p + 4));
       t = BTL_SLOT_GetPokeParam((struct S2 *)a, (u8) j);
       v28 = BTL_POKEPARAM_GetMon(t);
       lvl = func_021D59B4(t, 15);

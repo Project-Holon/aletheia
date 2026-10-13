@@ -1,5 +1,5 @@
 /*
- * function: func_021E9104
+ * function: BTLV_CORE_StepOpeningEntry
  * address:  0x021E9104
  * packet:   pkt_ov093_021E9104
  * region:   ov093
@@ -42,7 +42,7 @@ struct QD;
 extern u16 BTL_CLIENT_GetQueuedCommandWord(struct QD *p);
 extern void func_021E91D8(void *a, void *b);
 
-int func_021E9104(u8 *p, int *st)
+int BTLV_CORE_StepOpeningEntry(u8 *p, int *st)
 {
     void *r;
 

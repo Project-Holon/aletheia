@@ -1,5 +1,5 @@
 /*
- * function: func_021ED494
+ * function: BTLV_SCU_StartHpGaugeUpdate
  * address:  0x021ED494
  * packet:   pkt_ov093_021ED494
  * region:   ov093
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern void func_021F8118(u32 a, u32 b);
 extern void func_021F80FC(u32 a, u32 b);
-void func_021ED494(u8 *p, u8 k, int x)
+void BTLV_SCU_StartHpGaugeUpdate(u8 *p, u8 k, int x)
 {
     int d = func_021D59B4(BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj13567 *)p)->f138, k), 0xd);
     u8 r = BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj13567 *)p)->f134, k);

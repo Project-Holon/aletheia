@@ -36,7 +36,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
- *   func_021B64F8 0x021B64F8 thumb ov067
+ *   TOUCHBAR_SetAllButtonsBgPriority 0x021B64F8 thumb ov067
  *   TOUCHBAR_SetButtonSound 0x021B6568 thumb ov067
  *   d_021BAC20 0x021BAC20 data a4
  *   TOUCHBAR_Delete 0x021B639C thumb ov067
@@ -105,7 +105,7 @@
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
- *   func_021B79E4 0x021B79E4 thumb ov067
+ *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
  *   FRAME_LIST_Delete 0x021B796C thumb ov067
  *   func_02034AC4 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -272,7 +272,7 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void MI_CpuFill8(void *, u32, u32);
 extern R *TOUCHBAR_Create(A *, int);
-extern void func_021B64F8(u8 *, u32);
+extern void TOUCHBAR_SetAllButtonsBgPriority(u8 *, u32);
 extern void TOUCHBAR_SetButtonSound(unsigned char *p, unsigned int id, int v);
 extern void TOUCHBAR_Delete(u8 *);
 extern void TOUCHBAR_Update(struct S *p);
@@ -338,7 +338,7 @@ extern int FRAME_LIST_GetCursor(char *);
 extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, u32 heap);
 extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
-extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
+extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void FRAME_LIST_Delete(struct S *);
 extern int func_02034AC4(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
@@ -585,7 +585,7 @@ R *func_021B9820(int heap, int id)
     config.f14 = 0;
     config.f18 = 0;
     p = TOUCHBAR_Create(&config, id);
-    func_021B64F8((u8 *)p, 1);
+    TOUCHBAR_SetAllButtonsBgPriority((u8 *)p, 1);
     TOUCHBAR_SetButtonSound((unsigned char *)p, 4, 0);
     TOUCHBAR_SetButtonSound((unsigned char *)p, 5, 0);
     return p;
@@ -926,7 +926,7 @@ void func_021B9D48(char *p)
         offset=i*4;
         disabled=1;
         if(*(u32 *)(p+0x34+offset)==1)disabled=0;
-        func_021B79E4(((struct Obj02556 *)p)->f2C,disabled,i);
+        FRAME_LIST_AddItem(((struct Obj02556 *)p)->f2C,disabled,i);
         if(disabled==0)
             *(void **)(*(char * *)&((struct Obj02556 *)p)->f28+0x2c+offset)=func_02045EC0(bank,*(int *)((char *)tbl_021BAC80+offset));
         else

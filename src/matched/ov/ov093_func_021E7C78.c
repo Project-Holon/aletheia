@@ -1,5 +1,5 @@
 /*
- * function: func_021E7C78
+ * function: HAND_WAZA_FinalGambitSetFixedDamage
  * address:  0x021E7C78
  * packet:   pkt_ov093_021E7C78
  * region:   ov093
@@ -25,7 +25,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E7C78(int a, void *b, int c)
+void HAND_WAZA_FinalGambitSetFixedDamage(int a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(3))
         BTL_EVENT_OverwriteVar(0x37, func_021D59B4(BTL_SERVER_FLOW_GetPokeParam(b, c), 0xd));

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_Update
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_Update
  * address: 0x021F395C
  * packet: pkt_ov043_021F395C
  * region: ov043
@@ -37,7 +37,7 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *, u16);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *);
-void GIMMICK43_Update(u8 *p)
+void FIELD_GIMMICK_LIFT_ELEVATOR_Update(u8 *p)
 {
     int x = FIELDMAP_GetExpObj((int *)p);
     FIELDMAP_GetCommonWork((char *)p, 1);

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Named by the parked ov093 files (BTL_CALC_IntimidateOnEnter / HAND_ITEM_DestinyKnot_Infatuate /
- * HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / func_021E7388).  EXACT*: both calls resolve
+ * HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / HAND_WAZA_SimpleBeamSetAbility).  EXACT*: both calls resolve
  * (BTL_SERVER_FLOW_AllocCmdRecord by `label`, BTL_SERVER_FLOW_CommitCmdRecord by `label`), the extent runs two
  * bytes long into the unlabelled follower.
  *

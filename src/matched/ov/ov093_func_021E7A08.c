@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E7A08, func_021E7A6C
+ * function: HAND_WAZA_MagicRoomToggle, HAND_WAZA_AddFlameBurst
  * address:  0x021E7A08
  * packet:   pkt_ov093_021E7A08
  * region:   ov093
@@ -36,7 +36,7 @@ extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F265C[];
 
-void func_021E7A08(int a, int b, int c)
+void HAND_WAZA_MagicRoomToggle(int a, int b, int c)
 {
     int k;
     u8 *p;
@@ -57,7 +57,7 @@ void func_021E7A08(int a, int b, int c)
     }
 }
 
-int *func_021E7A6C(int *p)
+int *HAND_WAZA_AddFlameBurst(int *p)
 {
     *p = 1;
     return d_021F265C;

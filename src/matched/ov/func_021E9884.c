@@ -1,5 +1,5 @@
 /*
- * function: func_021E9884
+ * function: BTLV_CORE_StepMoveMenu
  * address:  0x021E9884
  * packet:   pkt_021E9884
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E9884   0x021E9884  thumb  ov093
+ *   BTLV_CORE_StepMoveMenu   0x021E9884  thumb  ov093
  *   func_021E989C   0x021E989C  thumb  ov093
  * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-int func_021E9884(E64 *p) { return func_021E989C(p[6].f0) != 0; }
+int BTLV_CORE_StepMoveMenu(E64 *p) { return func_021E989C(p[6].f0) != 0; }
 

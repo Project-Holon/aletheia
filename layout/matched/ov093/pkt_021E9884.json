@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E9884",
+   "name": "BTLV_CORE_StepMoveMenu",
    "address": "0x021E9884",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA3A0",
+   "name": "BTLV_CORE_WaitMonSpriteUpdate",
    "address": "0x021EA3A0",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA838",
+   "name": "BTLV_CORE_StartSlotEffect25F",
    "address": "0x021EA838",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EA850",
+   "name": "BTLV_CORE_WaitSlotEffect25F",
    "address": "0x021EA850",
    "kind": "game",
    "region": "ov093",

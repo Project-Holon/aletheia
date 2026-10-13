@@ -12,7 +12,7 @@
  * symbols:
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
- *   GIMMICK65_CallWaitEvent  0x021F38BC  thumb
+ *   FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent  0x021F38BC  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
 
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
-extern void *GIMMICK65_CallWaitEvent();
+extern void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent();
 extern int SCRIPT_SYS_CallEvent();
 
 int TRCARD_SYS_ScrCmdRunScriptTask(int a0, int a1)
@@ -38,7 +38,7 @@ loc_0216F8E6:
 a0 = t5 + 0;
     v1 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0216F8EE:
-    task = GIMMICK65_CallWaitEvent(v1);
+    task = FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent(v1);
 loc_0216F8F2:
     a0 = SCRIPT_SYS_CallEvent(v0, task);
 loc_0216F8FA:

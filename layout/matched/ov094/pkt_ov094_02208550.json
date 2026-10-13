@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02208550",
+   "name": "BTLV_GAUGE_DrawLevel",
    "address": "0x02208550",
    "kind": "game",
    "region": "ov094",

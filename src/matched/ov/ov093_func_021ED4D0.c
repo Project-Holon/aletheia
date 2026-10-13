@@ -1,5 +1,5 @@
 /*
- * function: func_021ED4D0
+ * function: BTLV_SCU_IsHpGaugeIdle
  * address:  0x021ED4D0
  * packet:   pkt_ov093_021ED4D0
  * region:   ov093
@@ -13,7 +13,7 @@
  *   func_021F8180  0x021F8180  thumb  ov094
  */
 extern int func_021F8180(void);
-int func_021ED4D0(void)
+int BTLV_SCU_IsHpGaugeIdle(void)
 {
     if (func_021F8180() == 0)
         return 1;

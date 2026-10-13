@@ -13,7 +13,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_021C6E74  0x021C6E74  thumb  ov021
+ *   FIELD_TASK_MANAGER_FreeSlot  0x021C6E74  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -33,12 +33,12 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef struct { u8 n; u8 pad[3]; void *f4; void *f8; } R;
-extern void func_021C6E74(R *r, u8 i);
+extern void FIELD_TASK_MANAGER_FreeSlot(R *r, u8 i);
 void FIELD_TASK_MANAGER_Delete(R *r)
 {
     int i;
     for (i = 0; i < r->n; i++)
-        func_021C6E74(r, i);
+        FIELD_TASK_MANAGER_FreeSlot(r, i);
     func_020307B0(r->f4);
     func_020307B0(r->f8);
     func_020307B0(r);

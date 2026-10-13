@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E7B40",
-    "func_021E7B8C"
+    "HAND_WAZA_SynchronoiseFailWithoutSharedType",
+    "HAND_WAZA_AddBestow"
+   ],
+   "addresses": [
+    "0x021E7B40",
+    "0x021E7B8C"
    ],
    "evidence": {
     "sole-ref": [

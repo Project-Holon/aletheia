@@ -1,5 +1,5 @@
 /*
- * function: func_021D10A8
+ * function: TRIAL_HOUSE_SaveTaskMain
  * address:  0x021D10A8
  * packet:   pkt_ov021_021D10A8
  * region:   ov021
@@ -54,7 +54,7 @@ extern void FIELD_SAVEANIME_Stop(u32 *p);
 extern int FIELD_SAVEANIME_Delete(void *a);
 extern char d_021DE674[];
 
-int func_021D10A8(u32 a, u32 *b, u32 *c)
+int TRIAL_HOUSE_SaveTaskMain(u32 a, u32 *b, u32 *c)
 {
     u32 s4 = (u32)func_020120F4((const struct Ctx *)c[0]);
     u32 r6 = (u32)GAME_DATA_GetSaveControl((struct Big *)s4);

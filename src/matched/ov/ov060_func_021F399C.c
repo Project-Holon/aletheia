@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK60_ShowEffect
+ * function: FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect
  * address:  0x021F399C
  * packet:   pkt_ov060_021F399C
  * region:   ov060
@@ -28,7 +28,7 @@ extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern V *FLD_EXP_OBJ_GetModelStatus(void *p, int i, int j);
 
-void GIMMICK60_ShowEffect(u8 *o, void *p, V *v)
+void FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect(u8 *o, void *p, V *v)
 {
     int i;
 

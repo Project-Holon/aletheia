@@ -1,5 +1,5 @@
 /*
- * function: func_021783FC
+ * function: WIH_StateOutStartParentMP
  * address:  0x021783FC
  * packet:   pkt_ov014_021783FC
  * region:   ov014
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A8     0x021797A8  data  ov014  a4
- *   func_0217814C  0x0217814C  thumb  ov014
- *   func_02178138  0x02178138  thumb  ov014
+ *   gWihWork     0x021797A8  data  ov014  a4
+ *   WIH_SetError  0x0217814C  thumb  ov014
+ *   WIH_ChangeSysState  0x02178138  thumb  ov014
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
  *   GFL_NET_GetGameKind  0x0203D5D4  arm
@@ -22,15 +22,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *g_021797A8;
-void func_0217814C(int error);
-void func_02178138(int state);
+extern u8 *gWihWork;
+void WIH_SetError(int error);
+void WIH_ChangeSysState(int state);
 u32 GFL_NET_GetChildSendSize(void);
 u32 GFL_NET_GetMaxConnectNum(void);
 u32 GFL_NET_GetGameKind(void);
 int WM_StartDataSharing(void *p, u32 a, u32 b, u16 c, u32 d);
 
-void func_021783FC(u16 *a)
+void WIH_StateOutStartParentMP(u16 *a)
 {
     u16 v1 = a[1];
     u16 mask;
@@ -39,29 +39,29 @@ void func_021783FC(u16 *a)
     u32 n;
     int r;
     if (v1 != 0) {
-        func_0217814C(v1);
-        func_02178138(9);
+        WIH_SetError(v1);
+        WIH_ChangeSysState(9);
         return;
     }
     switch (a[2]) {
     case 10:
-        if (*(int *)(g_021797A8 + 0x1E74) == 4) {
+        if (*(int *)(gWihWork + 0x1E74) == 4) {
             id = GFL_NET_GetChildSendSize();
             n = GFL_NET_GetMaxConnectNum() - 1;
             mask = (1 << (n + 1)) - 1;
             flag = 1;
             if (GFL_NET_GetGameKind() == 2)
                 flag = 0;
-            r = WM_StartDataSharing(g_021797A8 + 0x1444, 13, mask, id, flag);
+            r = WM_StartDataSharing(gWihWork + 0x1444, 13, mask, id, flag);
             if (r != 0) {
-                func_0217814C(r);
-                func_02178138(9);
+                WIH_SetError(r);
+                WIH_ChangeSysState(9);
                 return;
             }
-            func_02178138(5);
+            WIH_ChangeSysState(5);
             return;
         }
-        func_02178138(4);
+        WIH_ChangeSysState(4);
         break;
     case 11:
     case 12:

@@ -1,5 +1,5 @@
 /*
- * function: IRC_COMPATIBLE_ProcExit
+ * function: PDC_MSG_PrintMessageA
  * address: 0x021B69C4
  * packet: pkt_ov101_021B69C4
  * region: ov101
@@ -29,6 +29,6 @@ extern u32 func_020307B0(void *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
-int IRC_COMPATIBLE_ProcExit(int a,int b,int c,u8 *d) {
+int PDC_MSG_PrintMessageA(int a,int b,int c,u8 *d) {
  GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); func_021B6148(((struct Obj13717 *)d)->f0); IRC_COMPATIBLE_StepRunnerExit(d+4); func_020307B0(((struct Obj13717 *)d)->f3C); func_020315D4((void *)a); func_020306F0(58); return 1;
 }

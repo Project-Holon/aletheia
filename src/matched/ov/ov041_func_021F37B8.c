@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_Exit
+ * function: FIELD_GIMMICK_CANNONS_Exit
  * address: 0x021F37B8
  * packet: pkt_ov041_021F37B8
  * region: ov041
@@ -36,7 +36,7 @@ extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *, u16);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *);
-void GIMMICK41_Exit(u8 *p)
+void FIELD_GIMMICK_CANNONS_Exit(u8 *p)
 {
     int x = FIELDMAP_GetExpObj((int *)p);
     FIELDMAP_FreeCommonWork(p, 1);

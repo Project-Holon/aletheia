@@ -1,5 +1,5 @@
 /*
- * function: func_022099E8
+ * function: BTLV_BG_ScrollTask
  * address:  0x022099E8
  * packet:   pkt_ov094_022099E8
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F9260  0x021F9260  thumb  ov094
- *   func_02209784  0x02209784  thumb  ov094
+ *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  *   func_021F89BC  0x021F89BC  thumb  ov094
  */
 typedef unsigned char u8;
@@ -29,10 +29,10 @@ typedef struct {
 } S;
 
 extern int func_021F9260(void *m, int *out);
-extern void func_02209784(void *w, int x, int y);
+extern void BTLV_BG_SetScroll(void *w, int x, int y);
 extern void func_021F89BC(void *h);
 
-void func_022099E8(void *h, S *s)
+void BTLV_BG_ScrollTask(void *h, S *s)
 {
     void *w = s->w;
     int done;
@@ -49,7 +49,7 @@ void func_022099E8(void *h, S *s)
     } else {
         done = func_021F9260(s->mv, &s->x);
     }
-    func_02209784(w, s->x >> 12, s->y >> 12);
+    BTLV_BG_SetScroll(w, s->x >> 12, s->y >> 12);
     if (done == 1)
         func_021F89BC(h);
 }

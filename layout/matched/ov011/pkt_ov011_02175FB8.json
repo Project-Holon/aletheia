@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "INTRUDE_COMM_IsJoinRequestValid",
+   "name": "DWCi_GetHostStatus",
    "address": "0x02175FB8",
    "kind": "game",
    "region": "ov011",

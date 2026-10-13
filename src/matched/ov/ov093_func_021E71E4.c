@@ -1,5 +1,5 @@
 /*
- * function: func_021E71E4
+ * function: HAND_WAZA_EchoedVoiceSetPowerByStreak
  * address:  0x021E71E4
  * packet:   pkt_ov093_021E71E4
  * region:   ov093
@@ -32,7 +32,7 @@ extern u16 BTL_SERVER_FLOW_GetTurnCount(struct Q7 *p);
 extern int func_021E7260(int a, int b, int c);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E71E4(int a, int b, int c)
+void HAND_WAZA_EchoedVoiceSetPowerByStreak(int a, int b, int c)
 {
     int x, y, i, v;
     u32 n;

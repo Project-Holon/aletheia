@@ -14,8 +14,8 @@
  *   BTL_SIDE_GetPokeByIdThunk  0x021B9934  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   BTL_POKEPARAM_ClearIllusion  0x021D6C2C  thumb  ov093
- *   func_021EA868  0x021EA868  thumb  ov093
- *   func_021EA878  0x021EA878  thumb  ov093
+ *   BTLV_CORE_StartMonSpriteLoad  0x021EA868  thumb  ov093
+ *   BTLV_CORE_WaitMonSpriteLoad  0x021EA878  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -27,8 +27,8 @@ extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 struct Unk021D6C2C;
 extern void BTL_POKEPARAM_ClearIllusion(struct Unk021D6C2C *p);
-extern void func_021EA868(u32 *p, u32 a2, u32 a3);
-extern int func_021EA878(u32 *p);
+extern void BTLV_CORE_StartMonSpriteLoad(u32 *p, u32 a2, u32 a3);
+extern int BTLV_CORE_WaitMonSpriteLoad(u32 *p);
 
 int BTL_CLIENT_StepClearIllusion(u32 *a, int *b, u32 *c)
 {
@@ -44,11 +44,11 @@ int BTL_CLIENT_StepClearIllusion(u32 *a, int *b, u32 *c)
         m = BTL_SIDE_GetPokeByIdThunk((char *)a[1], u);
         f = BTL_CLIENT_IsMainStepActive((u8 *)a);
         BTL_POKEPARAM_ClearIllusion((struct Unk021D6C2C *)m);
-        func_021EA868((u32 *)a[0x15], s, f);
+        BTLV_CORE_StartMonSpriteLoad((u32 *)a[0x15], s, f);
         (*b)++;
         break;
     case 1:
-        if (func_021EA878((u32 *)a[0x15]) != 0) {
+        if (BTLV_CORE_WaitMonSpriteLoad((u32 *)a[0x15]) != 0) {
             (*b)++;
         }
         break;

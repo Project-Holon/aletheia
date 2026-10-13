@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_Init
+ * function: FIELD_GIMMICK_PLATE_DOORS_Init
  * address:  0x021F36C0
  * packet:   pkt_ov038_021F36C0
  * region:   ov038
@@ -79,7 +79,7 @@ extern void  FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, u16 j, u16 k, int flag)
 extern void  FLD_EXP_OBJ_SetAnimeFrame(void *p, int i, u16 j, u16 k, int v);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
 
-void GIMMICK38_Init(void *a0)
+void FIELD_GIMMICK_PLATE_DOORS_Init(void *a0)
 {
     void *r5;
     int i;

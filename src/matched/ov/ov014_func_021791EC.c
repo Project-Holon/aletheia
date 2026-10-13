@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf: sets state 1 by tail-calling func_02178138.  Used as the
- * callback of func_021791F8's call to WM_SetLifeTime.
+ * Unlabelled leaf: sets state 1 by tail-calling WIH_ChangeSysState.  Used as the
+ * callback of WIH_StateOutInitialize's call to WM_SetLifeTime.
  *
  * symbols:
- *   func_02178138  0x02178138  thumb  ov014
+ *   WIH_ChangeSysState  0x02178138  thumb  ov014
  */
 
-extern void func_02178138(int state);
+extern void WIH_ChangeSysState(int state);
 
 void DWCi_MOV_WH_StateOutSetLifeTime(void)
 {
-    func_02178138(1);
+    WIH_ChangeSysState(1);
 }

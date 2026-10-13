@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data a4
+ *   gWihWork 0x021797A8 data a4
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  */
 
 #include "../include/G_S.h"
 
 typedef unsigned char u8;
-extern struct S *g_021797A8;
+extern struct S *gWihWork;
 extern void GFL_NET_FreeAligned(void *);
 void WIH_FreeWork(void) {
- if (((u8 *)g_021797A8) != 0) {
- GFL_NET_FreeAligned(*(void **)(((u8 *)g_021797A8) + 0x1E6C));
- GFL_NET_FreeAligned(*(void **)(((u8 *)g_021797A8) + 0x1E68));
- GFL_NET_FreeAligned(((u8 *)g_021797A8));
- g_021797A8 = 0;
+ if (((u8 *)gWihWork) != 0) {
+ GFL_NET_FreeAligned(*(void **)(((u8 *)gWihWork) + 0x1E6C));
+ GFL_NET_FreeAligned(*(void **)(((u8 *)gWihWork) + 0x1E68));
+ GFL_NET_FreeAligned(((u8 *)gWihWork));
+ gWihWork = 0;
  }
 }

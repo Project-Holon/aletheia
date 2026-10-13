@@ -1,5 +1,5 @@
 /*
- * function: func_068993B0
+ * function: HAND_SIDE_WideGuardBlockSpreadMove
  * address: 0x068993B0
  * packet: pkt_ov095_068993B0
  * region: ov095
@@ -34,7 +34,7 @@ extern int func_06899478(int a);
 extern void func_06899488(int p, int n, int c);
 extern void func_06899498(int p, int v);
 
-void func_068993B0(int a0, int a1, u32 x)
+void HAND_SIDE_WideGuardBlockSpreadMove(int a0, int a1, u32 x)
 {
     u8 v;
     u16 h;

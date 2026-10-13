@@ -1,5 +1,5 @@
 /*
- * function: func_021D0BE4
+ * function: TRIAL_HOUSE_CreateDeliveryTask
  * address:  0x021D0BE4
  * packet:   pkt_ov021_021D0BE4
  * region:   ov021
@@ -15,7 +15,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_0200E588  0x0200E588  thumb
- *   func_021D0C58  0x021D0C58  thumb  ov021
+ *   TRIAL_HOUSE_DeliveryTaskMain  0x021D0C58  thumb  ov021
  *   GAME_LANGUAGE_Code     0x0209DF0C  data  a1
  */
 #include "../include/Obj20294.h"
@@ -47,15 +47,15 @@ typedef unsigned int   u32;
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern u32 func_0200E588(void);
-extern void func_021D0C58(void);
+extern void TRIAL_HOUSE_DeliveryTaskMain(void);
 extern u8 GAME_LANGUAGE_Code;
 
-void *func_021D0BE4(void *a, u8 *b, u16 *c)
+void *TRIAL_HOUSE_CreateDeliveryTask(void *a, u8 *b, u16 *c)
 {
     void *task;
     Work *w;
 
-    task = func_020122C0(a, 0, func_021D0C58, 0x90);
+    task = func_020122C0(a, 0, TRIAL_HOUSE_DeliveryTaskMain, 0x90);
     w = func_020124E8(task);
     w->f80 = (int)a;
     w->f88 = c;

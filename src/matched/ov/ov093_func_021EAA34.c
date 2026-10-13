@@ -1,5 +1,5 @@
 /*
- * function: func_021EAA34
+ * function: BTLV_CORE_PollWindowModeSelect
  * address:  0x021EAA34
  * packet:   pkt_ov093_021EAA34
  * region:   ov093
@@ -18,7 +18,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021EAA4C(int a, u8 *out);
 
-int func_021EAA34(u8 *o, u8 *out)
+int BTLV_CORE_PollWindowModeSelect(u8 *o, u8 *out)
 {
     if (func_021EAA4C(((struct Obj21568 *)o)->f180, out) != 0) {
         return 1;

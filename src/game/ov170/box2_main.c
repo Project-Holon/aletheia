@@ -170,7 +170,7 @@
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0200785C 0x0200785C thumb
  *   NAMEIN_SETUP_CreateArgs 0x0216BFD4 thumb ov010
- *   d_021F5580 0x021F5580 data a4 ov194
+ *   gNameInProcData 0x021F5580 data a4 ov194
  *   ov194_id 0x000000C2 data a1
  *   func_02007898 0x02007898 thumb
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
@@ -825,7 +825,7 @@ extern const unsigned char d_021EF798[];
 extern const unsigned gPokeStatusProcData[];
 extern const char ov131_id[];
 extern u8 ov070_id[];
-extern const unsigned d_021F5580[];
+extern const unsigned gNameInProcData[];
 extern const char ov194_id[];
 extern const unsigned char d_021EF79C[];
 extern const unsigned char d_021EF7B4[];
@@ -3641,7 +3641,7 @@ int func_021DF38C(char *p)
     r->text = STRBUF_Create(20, 0x4B);
     func_0200785C((*(void ***)p)[1], ((BoxTask *)p)->f14, r->text);
     r->task = NAMEIN_SETUP_CreateArgs(0x4B, 2, 0, 0, 8, (int)r->text, value);
-    PROCSYS_Push(((BoxTask *)p)->f4, (int)ov194_id, d_021F5580, r->task);
+    PROCSYS_Push(((BoxTask *)p)->f4, (int)ov194_id, gNameInProcData, r->task);
     *(Request_021DF378 * *)&((BoxTask *)p)->fC = r;
     return 0;
 }

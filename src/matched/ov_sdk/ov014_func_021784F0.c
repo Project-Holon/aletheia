@@ -16,17 +16,17 @@
  *
  * symbols:
  *   WM_EndParent                 0x0208F654  arm
- *   func_0217814C                0x0217814C  thumb
+ *   WIH_SetError                0x0217814C  thumb
 */
 
 extern int WM_EndParent(void *);
-extern void func_0217814C(void);
+extern void WIH_SetError(void);
 
 int DWCi_MOV_WH_StateInEndParent(void)
 {
 	if (WM_EndParent((void *)0x0217850D) != 2)
 	{
-		func_0217814C();
+		WIH_SetError();
 		return 0;
 	}
 	return 1;

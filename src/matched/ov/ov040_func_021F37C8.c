@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK40_GetFlag
+ * function: FIELD_GIMMICK_FLAG_ANIME_GetFlag
  * address: 0x021F37C8
  * packet: pkt_ov040_021F37C8
  * region: ov040
@@ -37,7 +37,7 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *, u16);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *);
-int GIMMICK40_GetFlag(u8 *p)
+int FIELD_GIMMICK_FLAG_ANIME_GetFlag(u8 *p)
 {
     FIELDMAP_GetCommonWork((char *)p, 1);
     return *GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(p))), 3);

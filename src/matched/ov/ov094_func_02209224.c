@@ -1,5 +1,5 @@
 /*
- * function: func_02209224
+ * function: BTLV_TIMER_Create
  * address:  0x02209224
  * packet:   pkt_ov094_02209224
  * region:   ov094
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   d_0220AEE0     0x0220AEE0  data  ov094
+ *   sBtlvTimerSiteName     0x0220AEE0  data  ov094
  *   func_020490F4  0x020490F4  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
@@ -43,7 +43,7 @@ typedef struct {
 typedef signed int     s32;
 struct PalAnmSlot;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char d_0220AEE0[];
+extern char sBtlvTimerSiteName[];
 extern void *func_020490F4(u32 id, u32 heap);
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -55,13 +55,13 @@ extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void ARC_TOOL_DeleteHandle(void * h);
 
-W *func_02209224(u16 heap)
+W *BTLV_TIMER_Create(u16 heap)
 {
     W *w;
     void *a;
     void *s;
 
-    w = func_02030734(heap, 0x78, 1, d_0220AEE0, 0x81);
+    w = func_02030734(heap, 0x78, 1, sBtlvTimerSiteName, 0x81);
     w->heap = heap;
     a = func_020490F4(0xb, (u16)((w->heap & 0x7fff) | 0x8000));
     w->h0 = (int)CLACT_CreateUnit(6, 0, w->heap);

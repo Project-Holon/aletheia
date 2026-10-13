@@ -1,5 +1,5 @@
 /*
- * function: func_021CF844
+ * function: SCRCMD_CountOtherOtIdsTaskMain
  * address:  0x021CF844
  * packet:   pkt_ov021_021CF844
  * region:   ov021
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Task body started by func_021CF7DC: a three-state counter walk.
+ * Task body started by SCRCMD_StartCountOtherOtIdsTask: a three-state counter walk.
  *
  * symbols:
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   func_021CF8E4  0x021CF8E4  thumb  ov021
- *   func_021CF940  0x021CF940  thumb  ov021
- *   func_021CF9AC  0x021CF9AC  thumb  ov021
+ *   SCRCMD_CountPartyOtherOtIds  0x021CF8E4  thumb  ov021
+ *   SCRCMD_CountBoxOtherOtIds  0x021CF940  thumb  ov021
+ *   SCRCMD_CountBattleBoxOtherOtIds  0x021CF9AC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -35,11 +35,11 @@ struct Ctx;
 struct Obj;
 extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern int func_021CF8E4(void *a, void *src, int c);
-extern int func_021CF940(void *a, void *src, void *b, int *c);
-extern int func_021CF9AC(void *a, void *heap, int x, int y);
+extern int SCRCMD_CountPartyOtherOtIds(void *a, void *src, int c);
+extern int SCRCMD_CountBoxOtherOtIds(void *a, void *src, void *b, int *c);
+extern int SCRCMD_CountBattleBoxOtherOtIds(void *a, void *heap, int x, int y);
 
-int func_021CF844(void *a, int *task, Work *w)
+int SCRCMD_CountOtherOtIdsTaskMain(void *a, int *task, Work *w)
 {
     int *out;
     int flag = 0;
@@ -49,14 +49,14 @@ int func_021CF844(void *a, int *task, Work *w)
     sys = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(a));
     switch (*task) {
     case 0:
-        func_021CF8E4((void *)w->f00, sys, (int)(&w->f0c));
+        SCRCMD_CountPartyOtherOtIds((void *)w->f00, sys, (int)(&w->f0c));
         (*task)++;
         break;
     case 1: {
         int base = w->f04;
         out = &w->f0c;
         for (i = flag; i < 2; i++) {
-            func_021CF940((void *)w->f00, sys, (void *)(base + i), out);
+            SCRCMD_CountBoxOtherOtIds((void *)w->f00, sys, (void *)(base + i), out);
             w->f04++;
             if (w->f04 >= 0x18) {
                 (*task)++;
@@ -66,7 +66,7 @@ int func_021CF844(void *a, int *task, Work *w)
         break;
     }
     case 2:
-        func_021CF9AC((void *)w->f00, sys, flag, (int)(&w->f0c));
+        SCRCMD_CountBattleBoxOtherOtIds((void *)w->f00, sys, flag, (int)(&w->f0c));
         flag = 1;
         break;
     }

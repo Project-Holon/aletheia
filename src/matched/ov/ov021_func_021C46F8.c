@@ -1,5 +1,5 @@
 /*
- * function: FIELD_OV063_StartAtPlayer
+ * function: RAIL_SLIPDOWN_StartAtPlayer
  * address:  0x021C46F8
  * packet:   pkt_ov021_021C46F8
  * region:   ov021
@@ -16,8 +16,8 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FIELD_PLAYER_SetDirDisp  0x021A305C  thumb  ov021
- *   func_021F36C0  0x021F36C0  thumb  ov037
- *   FIELD_OV063_TaskUpdate  0x021C4788  thumb  ov021
+ *   RAIL_SLIPDOWN_Create  0x021F36C0  thumb  ov063
+ *   RAIL_SLIPDOWN_UpdateTask  0x021C4788  thumb  ov021
  */
 
 typedef unsigned int u32;
@@ -32,12 +32,12 @@ struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern void FIELD_PLAYER_SetDirDisp(char *p, u32 b);
-extern u32 func_021F36C0(u32 a, u32 b, void *c, u32 d);
-extern int FIELD_OV063_TaskUpdate(void *t);
+extern u32 RAIL_SLIPDOWN_Create(u32 a, u32 b, void *c, u32 d);
+extern int RAIL_SLIPDOWN_UpdateTask(void *t);
 
-u32 FIELD_OV063_StartAtPlayer(u32 a, u32 b, u32 c)
+u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
 {
-    u32 t = (u32)func_020122C0((void *)a, 0, FIELD_OV063_TaskUpdate, 4);
+    u32 t = (u32)func_020122C0((void *)a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
     u32 *w = func_020124E8((struct Obj *)t);
     void *x;
     void *y;
@@ -46,6 +46,6 @@ u32 FIELD_OV063_StartAtPlayer(u32 a, u32 b, u32 c)
     x = FIELDMAP_GetFieldPlayer((void *)b);
     y = FIELD_PLAYER_GetMmdl((void *)x);
     FIELD_PLAYER_SetDirDisp(x, c);
-    *w = func_021F36C0(a, b, y, 1);
+    *w = RAIL_SLIPDOWN_Create(a, b, y, 1);
     return t;
 }

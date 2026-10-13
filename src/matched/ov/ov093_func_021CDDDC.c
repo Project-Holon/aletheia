@@ -13,12 +13,12 @@
  * (a-boolean-argument-is-a-call-in-each-arm.md; a flag value hoists `movs r1,#1`);
  * func_021F84E8 takes two arguments as its own file says, the second being the 0xe4
  * halfword still live in r1 from the || test; func_021D3FA8 is declared u32 here because
- * the original narrows its result before the u16 parameter of func_021EAEA8.
+ * the original narrows its result before the u16 parameter of BTLV_CORE_ShowCounterValue.
  *
  * symbols:
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
- *   func_021E90A0  0x021E90A0  thumb  ov093
- *   func_021E90D0  0x021E90D0  thumb  ov093
+ *   BTLV_CORE_StartOpening  0x021E90A0  thumb  ov093
+ *   BTLV_CORE_PollOpening  0x021E90D0  thumb  ov093
  *   BTL_MAIN_GetLimitTimeCommand  0x021BA5C4  thumb  ov093
  *   BTL_MAIN_GetLimitTimeGame  0x021BA5D0  thumb  ov093
  *   func_021F84E8  0x021F84E8  thumb  ov094
@@ -26,7 +26,7 @@
  *   BTL_CLIENT_StoreMonParam  0x021CDECC  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021D3FA8  0x021D3FA8  thumb  ov093
- *   func_021EAEA8  0x021EAEA8  thumb  ov093
+ *   BTLV_CORE_ShowCounterValue  0x021EAEA8  thumb  ov093
  */
 #include "../include/Obj01689.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -35,8 +35,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 struct Q3;
 struct S;
-extern void func_021E90A0(unsigned int *o, unsigned int key);
-extern int func_021E90D0(struct S *s);
+extern void BTLV_CORE_StartOpening(unsigned int *o, unsigned int key);
+extern int BTLV_CORE_PollOpening(struct S *s);
 extern u16 BTL_MAIN_GetLimitTimeCommand(u8 *p);
 extern u16 BTL_MAIN_GetLimitTimeGame(struct Q3 *p);
 extern void func_021F84E8(int a, int b);
@@ -44,21 +44,21 @@ extern void func_021F8504(u32 a, u32 b, u32 c);
 extern void BTL_CLIENT_StoreMonParam(u8 *p);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern u16 func_021D3FA8(u8 *p);
-extern void func_021EAEA8(u8 *p, int v);
+extern void BTLV_CORE_ShowCounterValue(u8 *p, int v);
 
 int BTL_CLIENT_StepOpenBattleWindow(u8 *p, int *st)
 {
     switch (*st) {
     case 0:
         if ((int)BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj01689 *)p)->f0) != 4) {
-            func_021E90A0(((struct Obj01689 *)p)->f54, 0);
+            BTLV_CORE_StartOpening(((struct Obj01689 *)p)->f54, 0);
         } else {
-            func_021E90A0(((struct Obj01689 *)p)->f54, 1);
+            BTLV_CORE_StartOpening(((struct Obj01689 *)p)->f54, 1);
         }
         *st = *st + 1;
         break;
     case 1:
-        if (func_021E90D0(((struct Obj01689 *)p)->f54) == 0) {
+        if (BTLV_CORE_PollOpening(((struct Obj01689 *)p)->f54) == 0) {
             break;
         }
         ((struct Obj01689 *)p)->fE4 = BTL_MAIN_GetLimitTimeCommand(((struct Obj01689 *)p)->f0);
@@ -71,7 +71,7 @@ int BTL_CLIENT_StepOpenBattleWindow(u8 *p, int *st)
         }
         BTL_CLIENT_StoreMonParam(p);
         if (BTL_CLIENT_IsMainStepActive(p) != 0) {
-            func_021EAEA8(((struct Obj01689 *)p)->f54, (u16)((u32)func_021D3FA8(p + 0x18)));
+            BTLV_CORE_ShowCounterValue(((struct Obj01689 *)p)->f54, (u16)((u32)func_021D3FA8(p + 0x18)));
         }
         return 1;
     }

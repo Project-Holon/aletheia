@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_FindCannonAt
+ * function: FIELD_GIMMICK_CANNONS_FindCannonAt
  * address:  0x021F3EE4
  * packet:   pkt_ov041_021F3EE4
  * region:   ov041
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK41_FindCannonAt  0x021F3EE4  thumb
+ *   FIELD_GIMMICK_CANNONS_FindCannonAt  0x021F3EE4  thumb
  *   gGimmick41CannonCells     0x021F40F0  data  a2
  */
 
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 extern struct _anon_E gGimmick41CannonCells[];
 
-u8 GIMMICK41_FindCannonAt(int a, int b)
+u8 FIELD_GIMMICK_CANNONS_FindCannonAt(int a, int b)
 {
     u8 i;
 

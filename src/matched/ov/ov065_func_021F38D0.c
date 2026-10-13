@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK65_WaitEffectEventMain
+ * function: FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain
  * address:  0x021F38D0
  * packet:   pkt_021F38D0
  * region:   ov065
@@ -24,7 +24,7 @@ extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int *FIELDMAP_GetCommonWork(char *, int);
 
-int GIMMICK65_WaitEffectEventMain(void *task)
+int FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain(void *task)
 {
     void *a;
     int r;

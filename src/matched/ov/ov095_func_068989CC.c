@@ -1,5 +1,5 @@
 /*
- * function: func_068989CC
+ * function: HAND_POS_FutureSightOnTurn
  * address: 0x068989CC
  * packet: pkt_ov095_068989CC
  * region: ov095
@@ -45,7 +45,7 @@ extern void func_06898B20(int b, void *p);
 extern u8 *func_06898B30(int b, int n, int k);
 extern void func_06898B40(int b, void *p);
 extern void func_06898B50(int a);
-void func_068989CC(int a, int b, int c, D *d)
+void HAND_POS_FutureSightOnTurn(int a, int b, int c, D *d)
 {
     if (func_06898A80(2) == 0x1f && func_06898A90(b) == 0) {
         u8 t = func_06898AA0(b);

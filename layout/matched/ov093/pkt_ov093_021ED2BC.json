@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ED2BC",
+   "name": "BTLV_SCU_IsMonExitDone",
    "address": "0x021ED2BC",
    "kind": "game",
    "region": "ov093",

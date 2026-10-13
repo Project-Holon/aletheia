@@ -1,5 +1,5 @@
 /*
- * function: func_021E8104
+ * function: HAND_WAZA_SkyDropFailIfTargetGone
  * address:  0x021E8104
  * packet:   pkt_ov093_021E8104
  * region:   ov093
@@ -24,7 +24,7 @@ extern unsigned char BTL_POKEPARAM_GetCounter(unsigned char *base, int idx);
 extern int BTL_SERVER_FLOW_IsPokeInPosTable(u8 *p, int v);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E8104(int a, void *b, int c)
+void HAND_WAZA_SkyDropFailIfTargetGone(int a, void *b, int c)
 {
     u8 v, t;
     if (c == BTL_EVENT_GetVar(2)) {

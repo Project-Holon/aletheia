@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021E7634, func_021E7754
+ * function: HAND_WAZA_SmackDownGroundTarget, HAND_WAZA_AddShellSmash
  * address: 0x021E7634
  * packet: pkt_ov093_021E7634
  * region: ov093
@@ -42,7 +42,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *, u32);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F274C[];
-void func_021E7634(int a, int b, int c)
+void HAND_WAZA_SmackDownGroundTarget(int a, int b, int c)
 {
     u8 k;
     void *x;
@@ -93,7 +93,7 @@ void func_021E7634(int a, int b, int c)
     }
 }
 
-int *func_021E7754(int *p)
+int *HAND_WAZA_AddShellSmash(int *p)
 {
     *p = 1;
     return d_021F274C;

@@ -17,7 +17,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
  *   POKEPARTY_Create  0x0201A920  thumb
- *   func_021D09D0  0x021D09D0  thumb  ov021
+ *   TRIAL_HOUSE_LoadDeliveryState  0x021D09D0  thumb  ov021
  *   d_021DE674     0x021DE674  data  a4
  */
 #include "../include/Obj07595.h"
@@ -35,7 +35,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern struct Party *POKEPARTY_Create(u32 heap);
-extern void func_021D09D0(int a, char *out);
+extern void TRIAL_HOUSE_LoadDeliveryState(int a, char *out);
 
 void *TRIAL_HOUSE_CreateWork(int a)
 {
@@ -47,7 +47,7 @@ void *TRIAL_HOUSE_CreateWork(int a)
     p = func_02030734(5, 0x154, 1, (const char *)&d_021DE674, 0x5D);
     ((struct Obj07595 *)p)->f120 = 5;
     ((struct Obj07595 *)p)->f14C = (int)func_02030734(5, r7, 1, (const char *)&d_021DE674, 0x5F);
-    func_021D09D0(a, p);
+    TRIAL_HOUSE_LoadDeliveryState(a, p);
     ((struct Obj07595 *)p)->f128 = (int)POKEPARTY_Create(((struct Obj07595 *)p)->f120);
     return p;
 }

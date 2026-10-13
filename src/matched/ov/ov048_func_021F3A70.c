@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   FIELD_GIMMICK_GATE_IsSaveBlockListOn  0x021F3A98  thumb
+ *   gBtlNetSourceName  0x021F3A98  thumb
  *   FIELD_GIMMICK_GATE_IsExtraSaveListOn  0x021F3AB4  thumb
  */
 #include "../include/Obj20530.h"
@@ -18,12 +18,12 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern int FIELD_GIMMICK_GATE_IsSaveBlockListOn(void *p);
+extern int gBtlNetSourceName(void *p);
 extern int FIELD_GIMMICK_GATE_IsExtraSaveListOn(void *p);
 
 int FIELD_GIMMICK_GATE_HasMessagesToShow(u8 *p)
 {
-    if (FIELD_GIMMICK_GATE_IsSaveBlockListOn(p) == 1 || FIELD_GIMMICK_GATE_IsExtraSaveListOn(p) == 1) {
+    if (gBtlNetSourceName(p) == 1 || FIELD_GIMMICK_GATE_IsExtraSaveListOn(p) == 1) {
         if (((struct Obj20530 *)p)->f64 != 0) {
             return 1;
         }

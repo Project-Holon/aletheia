@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  *
- * Callback adapter passed to the ov095 walker func_06898D54 by
+ * Callback adapter passed to the ov095 walker HAND_SIDE_TickTurns by
  * BTL_SERVER_FLOW_ProcSideEffectsExpire: swaps the first and third arguments and tail calls
  * BTL_SERVER_FLOW_PushSideEffectExpireMessage through r3. Filed as a witness for BTL_SERVER_FLOW_ProcSideEffectsExpire.
  *

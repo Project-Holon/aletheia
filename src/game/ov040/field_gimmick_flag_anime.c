@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_flag_anime.c
  * unit:     yes
- * function: func_021F36C0, GIMMICK40_Exit, GIMMICK40_Update, GIMMICK40_SetFlag, GIMMICK40_GetFlag, GIMMICK40_CreateEvent, GIMMICK40_EventPlayAnime
+ * function: FIELD_GIMMICK_FLAG_ANIME_Init, FIELD_GIMMICK_FLAG_ANIME_Exit, FIELD_GIMMICK_FLAG_ANIME_Update, FIELD_GIMMICK_FLAG_ANIME_SetFlag, FIELD_GIMMICK_FLAG_ANIME_GetFlag, FIELD_GIMMICK_FLAG_ANIME_CreateEvent, FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime
  * address:  0x021F36C0
  * region:   ov040
  * compiler: dsi/1.1p1
@@ -36,25 +36,26 @@
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   func_020122C0 0x020122C0 thumb
- *   GIMMICK40_EventPlayAnime 0x021F381C thumb ov040
+ *   FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime 0x021F381C thumb ov040
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  */
 #include "../ov021/fld_exp_obj_types.h"
+#include "../ov037/gimmick_save_types.h"
 #include "field_gimmick_flag_anime_types.h"
 
-void func_021F36C0(struct FieldMap *fieldMap);
-void GIMMICK40_Exit(struct FieldMap *fieldMap);
-void GIMMICK40_Update(struct FieldMap *fieldMap);
-void GIMMICK40_SetFlag(struct FieldMap *fieldMap);
-int GIMMICK40_GetFlag(struct FieldMap *fieldMap);
-struct GameEvent *GIMMICK40_CreateEvent(struct GameSystem *gameSystem, u32 modelIndex);
+void FIELD_GIMMICK_FLAG_ANIME_Init(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_FLAG_ANIME_Exit(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_FLAG_ANIME_Update(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap);
+int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap);
+struct GameEvent *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(struct GameSystem *gameSystem, u32 modelIndex);
 
 extern Gimmick40ModelPos gGimmick40ModelPos;
 extern G3dUtilSetup gGimmick40UnitSetup;
 
 /* Set up the model and show its animation at the last frame when it was played before. */
-void func_021F36C0(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_FLAG_ANIME_Init(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj;
     Gimmick40Save *save;
@@ -79,7 +80,7 @@ void func_021F36C0(struct FieldMap *fieldMap)
     }
 }
 
-void GIMMICK40_Exit(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_FLAG_ANIME_Exit(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj;
 
@@ -88,13 +89,13 @@ void GIMMICK40_Exit(struct FieldMap *fieldMap)
     FLD_EXP_OBJ_RemoveUnit(expObj, 0);
 }
 
-void GIMMICK40_Update(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_FLAG_ANIME_Update(struct FieldMap *fieldMap)
 {
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
 }
 
 /* Script command: set the gimmick flag. */
-void GIMMICK40_SetFlag(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap)
 {
     Gimmick40Save *save;
 
@@ -106,7 +107,7 @@ void GIMMICK40_SetFlag(struct FieldMap *fieldMap)
 /*
  * extent: 34 code bytes followed by two zero alignment bytes.
  */
-int GIMMICK40_GetFlag(struct FieldMap *fieldMap)
+int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap)
 {
     Gimmick40Save *save;
 
@@ -116,20 +117,20 @@ int GIMMICK40_GetFlag(struct FieldMap *fieldMap)
 }
 
 /* Create the event that plays the animation of one model; null for an unknown model. */
-struct GameEvent *GIMMICK40_CreateEvent(struct GameSystem *gameSystem, u32 modelIndex)
+struct GameEvent *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(struct GameSystem *gameSystem, u32 modelIndex)
 {
     Gimmick40Work *work = FIELDMAP_GetCommonWork(GAMESYSTEM_GetFieldMap(gameSystem), 1);
     struct GameEvent *event;
 
     if (modelIndex >= 1)
         return 0;
-    event = func_020122C0(gameSystem, 0, GIMMICK40_EventPlayAnime, 0);
+    event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime, 0);
     work->modelIndex = modelIndex;
     return event;
 }
 
 /* Gimmick event: play the animation of the model, then record that it was played. */
-int GIMMICK40_EventPlayAnime(struct GameEvent *event, int *seq, void *work)
+int FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime(struct GameEvent *event, int *seq, void *work)
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;

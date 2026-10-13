@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_GetBgmTargetVolume
+ * function: FIELD_GIMMICK_SOUND_OBJS_GetBgmTargetVolume
  * address:  0x021F3AA0
  * packet:   pkt_ov053_021F3AA0
  * region:   ov053
@@ -24,7 +24,7 @@
 extern void *FIELDMAP_GetCamera(void *p);
 extern void FIELD_CAMERA_GetEyeRaw(int, int *);
 
-int GIMMICK53_GetBgmTargetVolume(char *a, int b)
+int FIELD_GIMMICK_SOUND_OBJS_GetBgmTargetVolume(char *a, int b)
 {
     int v[3];
     float x;

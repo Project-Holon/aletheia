@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_connect_markers.c
  * unit:     yes
- * function: func_021F36C0, GIMMICK61_Exit, GIMMICK61_Update, GIMMICK61_IsPlayerStepReady, GIMMICK61_PlaceMarkers
+ * function: FIELD_GIMMICK_CONNECT_MARKERS_Init, FIELD_GIMMICK_CONNECT_MARKERS_Exit, FIELD_GIMMICK_CONNECT_MARKERS_Update, FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady, FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers
  * address:  0x021F36C0
  * region:   ov061
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
- *   GIMMICK61_PlaceMarkers  0x021F388C  thumb  ov061
+ *   FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers  0x021F388C  thumb  ov061
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   d_021F3974     0x021F3974  data  a4
  *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
@@ -62,7 +62,7 @@ extern void *FLD_EXP_OBJ_GetAnime(void *expObj, int unit, unsigned int model, in
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, u16 model, u16 animeIdx, int enabled);
 extern void FLD_EXP_OBJ_SetAnimePaused(u8 *anime, int paused);
 extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *anime, int loop);
-extern void GIMMICK61_PlaceMarkers(Gimmick61Work *work, void *fieldMap);
+extern void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(Gimmick61Work *work, void *fieldMap);
 extern u16 FIELDMAP_GetZoneId(void *fieldMap);
 extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
 extern void FIELDMAP_FreeCommonWork(void *fieldMap, int id);
@@ -79,10 +79,10 @@ extern int EVENTDATA_SYSTEM_CheckAutoPosEvent(struct EventData *eventData, VecFx
 extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unit, int model, int animeIdx, int frame);
 extern u32 FIELD_PLAYER_GetStepKind(void *player);
 extern u32 FIELD_PLAYER_GetStepPhase(void *player);
-void func_021F36C0(void *fieldMap);
-void GIMMICK61_Exit(void *fieldMap);
-void GIMMICK61_Update(void *fieldMap);
-int GIMMICK61_IsPlayerStepReady(Gimmick61Work *unusedWork, void *player);
+void FIELD_GIMMICK_CONNECT_MARKERS_Init(void *fieldMap);
+void FIELD_GIMMICK_CONNECT_MARKERS_Exit(void *fieldMap);
+void FIELD_GIMMICK_CONNECT_MARKERS_Update(void *fieldMap);
+int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(Gimmick61Work *unusedWork, void *player);
 extern char d_021F3974[];
 struct ConnectData;
 extern u16 EVENTDATA_SYSTEM_GetConnectCount(struct EventData *eventData);
@@ -90,7 +90,7 @@ extern struct ConnectData *EVENTDATA_SYSTEM_GetConnectData(struct EventData *eve
 extern u8 EVENTDATA_SYSTEM_GetConnectExitType(struct ConnectData *connect);
 extern void EVENTDATA_SYSTEM_GetConnectCenterPosThunk(struct ConnectData *connect, VecFx32 *out);
 
-void func_021F36C0(void *fieldMap)
+void FIELD_GIMMICK_CONNECT_MARKERS_Init(void *fieldMap)
 {
     u16 heapId;
     void *expObj;
@@ -102,25 +102,25 @@ void func_021F36C0(void *fieldMap)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, sizeof(Gimmick61Work));
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, d_021F3974, 0);
-    for (model = 0; model < GIMMICK61_MODEL_COUNT; model++) {
+    for (model = 0; model < FIELD_GIMMICK_CONNECT_MARKERS_MODEL_COUNT; model++) {
         FLD_EXP_OBJ_SetModelHidden(expObj, 0, (u16)model, 1);
     }
-    work->effectPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, GIMMICK61_EFFECT_MODEL);
-    anime = FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK61_EFFECT_MODEL, 0);
-    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK61_EFFECT_MODEL, 0, 1);
+    work->effectPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL);
+    anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0);
+    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0, 1);
     FLD_EXP_OBJ_SetAnimePaused(anime, 1);
     FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
-    GIMMICK61_PlaceMarkers(work, fieldMap);
+    FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(work, fieldMap);
     work->zoneId = FIELDMAP_GetZoneId(fieldMap);
 }
 
-void GIMMICK61_Exit(void *fieldMap)
+void FIELD_GIMMICK_CONNECT_MARKERS_Exit(void *fieldMap)
 {
     FLD_EXP_OBJ_RemoveUnit(FIELDMAP_GetExpObj(fieldMap), 0);
     FIELDMAP_FreeCommonWork(fieldMap, 0);
 }
 
-void GIMMICK61_Update(void *fieldMap)
+void FIELD_GIMMICK_CONNECT_MARKERS_Update(void *fieldMap)
 {
     Gimmick61Work *work;
     void *expObj;
@@ -136,16 +136,16 @@ void GIMMICK61_Update(void *fieldMap)
     work = FIELDMAP_GetCommonWork(fieldMap, 0);
     zoneId = FIELDMAP_GetZoneId(fieldMap);
     if (work->zoneId != zoneId) {
-        GIMMICK61_PlaceMarkers(work, fieldMap);
+        FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(work, fieldMap);
         work->zoneId = zoneId;
     }
-    anime = FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK61_EFFECT_MODEL, 0);
+    anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0);
     FLD_EXP_OBJ_UpdateAnimes(expObj);
     if (work->effectActive != 0 && FLD_EXP_OBJ_IsAnimeStopped(anime) != 0) {
-        FLD_EXP_OBJ_SetModelHidden(expObj, 0, GIMMICK61_EFFECT_MODEL, 1);
+        FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 1);
         work->effectActive = 0;
     }
-    if (GIMMICK61_IsPlayerStepReady(work, player) == 0) {
+    if (FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(work, player) == 0) {
         return;
     }
     FIELD_PLAYER_GetPosInDir(player, FIELD_PLAYER_GetDirDisp(player), &pos);
@@ -155,26 +155,26 @@ void GIMMICK61_Update(void *fieldMap)
         return;
     }
     work->effectActive = 1;
-    FLD_EXP_OBJ_SetModelHidden(expObj, 0, GIMMICK61_EFFECT_MODEL, 0);
-    anime = FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK61_EFFECT_MODEL, 0);
-    FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, GIMMICK61_EFFECT_MODEL, 0, 0);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0);
+    anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0);
+    FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0, 0);
     FLD_EXP_OBJ_SetAnimePaused(anime, 0);
     *work->effectPos = pos;
 }
 
 /* Returns 1 while the player is in step phase 3 of step kind 0 (ready for a new step). */
-int GIMMICK61_IsPlayerStepReady(Gimmick61Work *unusedWork, void *player)
+int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(Gimmick61Work *unusedWork, void *player)
 {
     u32 stepKind = FIELD_PLAYER_GetStepKind(player);
 
-    if (FIELD_PLAYER_GetStepPhase(player) == GIMMICK61_STEP_PHASE_READY && stepKind == 0) {
+    if (FIELD_PLAYER_GetStepPhase(player) == FIELD_GIMMICK_CONNECT_MARKERS_STEP_PHASE_READY && stepKind == 0) {
         return 1;
     }
     return 0;
 }
 
 /* Shows a marker model (1..8) at the center of each map connection of exit type 6 and hides the others. */
-void GIMMICK61_PlaceMarkers(Gimmick61Work *unusedWork, void *fieldMap)
+void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(Gimmick61Work *unusedWork, void *fieldMap)
 {
     struct EventData *eventData;
     int connectCount;
@@ -187,14 +187,14 @@ void GIMMICK61_PlaceMarkers(Gimmick61Work *unusedWork, void *fieldMap)
     connectCount = EVENTDATA_SYSTEM_GetConnectCount(eventData);
     FIELDMAP_GetHeapId(fieldMap);
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    for (i = 0; i < GIMMICK61_MARKER_MAX; i++) {
+    for (i = 0; i < FIELD_GIMMICK_CONNECT_MARKERS_MARKER_MAX; i++) {
         FLD_EXP_OBJ_SetModelHidden(expObj, 0, (u16)(i + 1), 1);
     }
     for (i = 0; i < connectCount; i++) {
         connect = EVENTDATA_SYSTEM_GetConnectData(eventData, (u16)i);
-        if (connect != 0 && EVENTDATA_SYSTEM_GetConnectExitType(connect) == GIMMICK61_MARKER_EXIT_TYPE) {
+        if (connect != 0 && EVENTDATA_SYSTEM_GetConnectExitType(connect) == FIELD_GIMMICK_CONNECT_MARKERS_MARKER_EXIT_TYPE) {
             EVENTDATA_SYSTEM_GetConnectCenterPosThunk(connect, &pos);
-            if (FIELDMAP_GetZoneId(fieldMap) == GIMMICK61_LOWERED_ZONE_ID) {
+            if (FIELDMAP_GetZoneId(fieldMap) == FIELD_GIMMICK_CONNECT_MARKERS_LOWERED_ZONE_ID) {
                 pos.y -= 0x2000;
             }
             FLD_EXP_OBJ_SetModelHidden(expObj, 0, (u16)(i + 1), 0);

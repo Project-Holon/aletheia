@@ -1,5 +1,5 @@
 /*
- * function: func_021ED724
+ * function: BTLV_SCU_TaskMonGraphicSwap
  * address:  0x021ED724
  * packet:   pkt_ov093_021ED724
  * region:   ov093
@@ -26,7 +26,7 @@ extern int func_021F7EB4(void);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021ED724(u32 x, struct S *t)
+void BTLV_SCU_TaskMonGraphicSwap(u32 x, struct S *t)
 {
     switch (t->c) {
     case 0:

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ED8E8",
+   "name": "BTLV_SCU_TaskMsgWinFadeOut",
    "address": "0x021ED8E8",
    "kind": "game",
    "region": "ov093",

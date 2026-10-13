@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_FindMmdlByObjId
+ * function: FIELD_GIMMICK_ROTATING_ROOM_FindMmdlByObjId
  * address:  0x021F4020
  * packet:   pkt_ov046_021F4020
  * region:   ov046
@@ -23,7 +23,7 @@ extern int FLDMMDL_SysSearchUseMmdl(struct Ctx *c, struct Rec **out, u32 *iter);
 typedef unsigned short u16;
 extern u16 FLDMMDL_GetObjId(void *p);
 
-int GIMMICK46_FindMmdlByObjId(u32 a, int b)
+int FIELD_GIMMICK_ROTATING_ROOM_FindMmdlByObjId(u32 a, int b)
 {
     int s1 = 0;
     int s0;

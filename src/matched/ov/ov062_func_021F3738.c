@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK62_Exit
+ * function: FIELD_GIMMICK_62_Exit
  * address:  0x021F3738
  * packet:   pkt_ov062_021F3738
  * region:   ov062
@@ -16,7 +16,7 @@
 extern int FIELDMAP_GetExpObj(int *p);
 extern void FLD_EXP_OBJ_RemoveUnit(unsigned char *p, unsigned short i);
 
-void GIMMICK62_Exit(void *p)
+void FIELD_GIMMICK_62_Exit(void *p)
 {
     FLD_EXP_OBJ_RemoveUnit((unsigned char *)FIELDMAP_GetExpObj(p), 0);
 }

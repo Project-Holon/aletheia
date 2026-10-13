@@ -5,7 +5,7 @@
  * commands into and the client reads them back from.
  *
  * One command is a u16 id followed by arguments packed as the layout byte
- * data_021EFF14[id] says: the low nibble is the argument count, the high
+ * gBtlServerCmdLayouts[id] says: the low nibble is the argument count, the high
  * nibble picks the packing (all bytes, a byte plus a halfword, several small
  * bit fields in one byte, a halfword or a 24-bit word, ...).  A layout byte of
  * 0x00 or 0x10 marks a variable-length command: arguments are 32-bit words and

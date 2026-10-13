@@ -1,5 +1,5 @@
 /*
- * function: func_021E7950
+ * function: HAND_WAZA_AddChipAway
  * address: 0x021E7950
  * packet: pkt_ov093_021E7950
  * region: ov093
@@ -15,14 +15,14 @@
  *   d_021F2998 0x021F2998 data ov093 a4
  */
 
-int *func_021E7950(int *p);
+int *HAND_WAZA_AddChipAway(int *p);
 
 /*
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E7972; movs r0, #0x51; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
  */
 extern int d_021F2998[];
 
-int *func_021E7950(int *p)
+int *HAND_WAZA_AddChipAway(int *p)
 {
     *p = 2;
     return d_021F2998;

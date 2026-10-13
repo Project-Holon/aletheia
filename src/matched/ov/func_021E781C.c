@@ -1,5 +1,5 @@
 /*
- * function: func_021E781C
+ * function: HAND_WAZA_ReflectTypeCopyTargetType
  * address:  0x021E781C
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E781C   0x021E781C  thumb ov093
+ *   HAND_WAZA_ReflectTypeCopyTargetType   0x021E781C  thumb ov093
  *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam   0x021C7CF4  thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord   0x021C88A4  thumb ov093
@@ -42,7 +42,7 @@ void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
 void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, unsigned int a);
 
-void func_021E781C(void *a, int b, int c)
+void HAND_WAZA_ReflectTypeCopyTargetType(void *a, int b, int c)
 {
     u8 k;
     void *r;

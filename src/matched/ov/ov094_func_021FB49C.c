@@ -13,7 +13,7 @@
  *   VM_GetU32  0x0201134C  thumb
  *   func_021FCF2C  0x021FCF2C  thumb  ov094
  *   func_021F8700  0x021F8700  thumb  ov094
- *   func_022097CC  0x022097CC  thumb  ov094
+ *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
  */
 #include "../include/Obj21663.h"
 typedef unsigned int   u32;
@@ -21,7 +21,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FCF2C(int a, int b);
 extern int func_021F8700(void);
-extern void func_022097CC(int a, int b, int c, int d, int e, int f, int g, int h);
+extern void BTLV_BG_StartScroll(int a, int b, int c, int d, int e, int f, int g, int h);
 
 int func_021FB49C(struct Cursor *a, char *b)
 {
@@ -34,6 +34,6 @@ int func_021FB49C(struct Cursor *a, char *b)
     t4 = VM_GetU32(a);
     t5 = VM_GetU32(a);
     v = func_021FCF2C((int)a, 14);
-    func_022097CC(func_021F8700(), v, t0, t1, t2, t3, t4, t5);
+    BTLV_BG_StartScroll(func_021F8700(), v, t0, t1, t2, t3, t4, t5);
     return ((struct Obj21663 *)b)->f23C;
 }

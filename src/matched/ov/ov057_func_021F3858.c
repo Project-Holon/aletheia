@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK57_DrawModelScene
+ * function: FIELD_GIMMICK_MODEL_SCENE_DrawModelScene
  * address:  0x021F3858
  * packet:   pkt_021F3858
  * region:   ov057
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
- *   d_021F38C4     0x021F38C4  data
+ *   sModelSceneDrawStatus     0x021F38C4  data
  */
 #include "../include/Obj09853.h"
 
 struct Arg;
 extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
-extern int d_021F38C4;
+extern int sModelSceneDrawStatus;
 
-void GIMMICK57_DrawModelScene(int a, int b, char *c)
+void FIELD_GIMMICK_MODEL_SCENE_DrawModelScene(int a, int b, char *c)
 {
-    G3D_SYSTEM_DrawObject(((struct Obj09853 *)c)->f38, (struct Arg *)(&d_021F38C4));
-    G3D_SYSTEM_DrawObject(((struct Obj09853 *)c)->f3C, (struct Arg *)(&d_021F38C4));
-    G3D_SYSTEM_DrawObject(((struct Obj09853 *)c)->f40, (struct Arg *)(&d_021F38C4));
+    G3D_SYSTEM_DrawObject(((struct Obj09853 *)c)->f38, (struct Arg *)(&sModelSceneDrawStatus));
+    G3D_SYSTEM_DrawObject(((struct Obj09853 *)c)->f3C, (struct Arg *)(&sModelSceneDrawStatus));
+    G3D_SYSTEM_DrawObject(((struct Obj09853 *)c)->f40, (struct Arg *)(&sModelSceneDrawStatus));
 }

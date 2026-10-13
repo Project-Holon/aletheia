@@ -21,14 +21,14 @@
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
  *   POKEPARTY_Copy  0x0201AC2C  thumb
- *   data_021EFCF0  0x021EFCF0  data  ov093
+ *   gClientFirstPokeIds  0x021EFCF0  data  ov093
  */
 #include "../include/Obj07747.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern const u8 data_021EFCF0[4];
+extern const u8 gClientFirstPokeIds[4];
 
 struct S2;
 extern int BTL_SIDE_GetParty(char *p, int i);
@@ -61,7 +61,7 @@ void BTL_SIDE_WriteBackPartyOrdered(char *a, char *b, int k)
     g = BTL_SIDE_GetSlotOfClient(a, k);
     n = POKEPARTY_GetCount(list);
     POKEPARTY_Init(((struct Obj07747 *)b)->f2B8);
-    t = data_021EFCF0[k];
+    t = gClientFirstPokeIds[k];
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
             m = (void *)BTL_SLOT_GetPoke((struct S2 *)g, (u8)j);

@@ -1,5 +1,5 @@
 /*
- * function: func_02209500
+ * function: BTLV_TIMER_IsExpired
  * address:  0x02209500
  * packet:   pkt_ov094_02209500
  * region:   ov094
@@ -26,7 +26,7 @@ typedef struct {
 
 extern u64 func_020870D0(void);
 
-int func_02209500(W *w, int i)
+int BTLV_TIMER_IsExpired(W *w, int i)
 {
     u64 d;
 

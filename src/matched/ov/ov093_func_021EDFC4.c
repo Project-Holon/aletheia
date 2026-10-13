@@ -1,5 +1,5 @@
 /*
- * function: func_021EDFC4
+ * function: BTLV_SCU_ProcNamePlateMosaic
  * address: 0x021EDFC4
  * packet: pkt_ov093_021EDFC4
  * region: ov093
@@ -33,7 +33,7 @@ static inline void G2_BG3Mosaic(int enable)
     if (enable) *(volatile u16 *)0x0400000e |= 0x40;
     else *(volatile u16 *)0x0400000e &= ~0x40;
 }
-int func_021EDFC4(u8 *p)
+int BTLV_SCU_ProcNamePlateMosaic(u8 *p)
 {
     u8 a;
     switch (p[0xd]) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E795C",
+   "name": "HAND_WAZA_ChipAwayIgnoreDefenseStages",
    "address": "0x021E795C",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E7974",
+   "name": "HAND_WAZA_ChipAwayIgnoreEvasionStages",
    "address": "0x021E7974",
    "kind": "game",
    "region": "ov093",

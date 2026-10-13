@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02209B60  0x02209B60  thumb  ov094
+ *   BTLV_FINGER_CURSOR_Start  0x02209B60  thumb  ov094
  *
  * Addresses are Black-image addresses.
  */
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02209B60(u32, u32, u32, u32, u32, u32);
+extern void BTLV_FINGER_CURSOR_Start(u32, u32, u32, u32, u32, u32);
 
 void func_0220C6F8(u8 *p, u32 a, u32 b)
 {
-    func_02209B60(((struct Obj25046 *)p)->f14C, a, b, 2, 6, 0x14);
+    BTLV_FINGER_CURSOR_Start(((struct Obj25046 *)p)->f14C, a, b, 2, 6, 0x14);
 }
 

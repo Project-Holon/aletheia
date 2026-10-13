@@ -15,7 +15,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
  *   func_020409B4 0x020409B4 arm
- *   d_021F0AA0 0x021F0AA0 data ov034 a4
+ *   sReportBgTemplate6 0x021F0AA0 data ov034 a4
  *   sReportBgTemplate5 0x021F0AC0 data ov034 a4
  *   sReportBgTemplate4 0x021F0AE0 data a4
  */
@@ -47,7 +47,7 @@ extern void func_020414EC(u32 i);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020409B4(u32 layer);
 
-extern struct BgTemplate d_021F0AA0;
+extern struct BgTemplate sReportBgTemplate6;
 extern struct BgTemplate sReportBgTemplate5;
 extern struct BgTemplate sReportBgTemplate4;
 
@@ -74,7 +74,7 @@ void REPORT_InitBgs(u32 heapId)
     func_02040B94(5, 0x20, 0, heapId);
     func_020409B4(5);
     {
-        struct BgTemplate t = d_021F0AA0;
+        struct BgTemplate t = sReportBgTemplate6;
 
         func_0203FCA0(6, &t, 0);
     }

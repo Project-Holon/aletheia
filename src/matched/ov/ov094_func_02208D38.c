@@ -1,5 +1,5 @@
 /*
- * function: func_02208D38
+ * function: BTLV_GAUGE_CalcBarPixels
  * address:  0x02208D38
  * packet:   pkt_ov094_02208D38
  * region:   ov094
@@ -15,7 +15,7 @@
 
 extern int func_0209C2B0(int a, int b);
 
-int func_02208D38(int a, int b, int c)
+int BTLV_GAUGE_CalcBarPixels(int a, int b, int c)
 {
     int r = func_0209C2B0(a * c, b);
     if (r == 0 && a != 0)

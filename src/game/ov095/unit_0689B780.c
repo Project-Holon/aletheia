@@ -60,7 +60,7 @@ extern char d_0689DEBC[];
 
 
 /*
- * Witness leaf for ov093 func_021EAEA8 (its tail-call pool word is 0x0689B781).
+ * Witness leaf for ov093 BTLV_CORE_ShowCounterValue (its tail-call pool word is 0x0689B781).
  * Tail-call forwarding thunk: (*(p+0xb0), 6, q) to func_0220270C (ov094).
  */
 void func_0689B780(void *p, void *q)

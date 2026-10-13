@@ -1,5 +1,5 @@
 /*
- * function: func_021EA720
+ * function: BTLV_CORE_ConsumeMessageFlag
  * address:  0x021EA720
  * packet:   pkt_021EA478
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EA720   0x021EA720  thumb  ov093
- *   func_021ECF50   0x021ECF50  thumb  ov093
+ *   BTLV_CORE_ConsumeMessageFlag   0x021EA720  thumb  ov093
+ *   BTLV_SCU_ConsumeMessageEnded   0x021ECF50  thumb  ov093
 
- * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; func_021ECF50 is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
+ * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; BTLV_SCU_ConsumeMessageEnded is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
  */
 
 typedef unsigned char u8;
@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021EA720(u32 *p) { return func_021ECF50(p[0x5f]); }
+int BTLV_CORE_ConsumeMessageFlag(u32 *p) { return BTLV_SCU_ConsumeMessageEnded(p[0x5f]); }
 

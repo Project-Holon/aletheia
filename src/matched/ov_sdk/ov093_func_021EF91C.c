@@ -14,14 +14,14 @@
  * the fourth argument rides in r3 across the BL.
  *
  * symbols:
- *   func_021EFC1C  0x021EFC1C  thumb  ov093
+ *   BTL_FIELD_IsMoveSealedBySlot  0x021EFC1C  thumb  ov093
  *   gBottomScreen  0x021F63F4  data   ov093  a4
  */
 
 extern char gBottomScreen;
-extern void func_021EFC1C(void *screen, int line, int color, char *text);
+extern void BTL_FIELD_IsMoveSealedBySlot(void *screen, int line, int color, char *text);
 
 void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text)
 {
-    func_021EFC1C(&gBottomScreen, line, color, text);
+    BTL_FIELD_IsMoveSealedBySlot(&gBottomScreen, line, color, text);
 }

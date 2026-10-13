@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C6E94  0x021C6E94  thumb  ov021
- *   func_021C6EA8  0x021C6EA8  thumb  ov021
- *   func_021C6EDC  0x021C6EDC  thumb  ov021
+ *   FIELD_TASK_MANAGER_UpdateSlot  0x021C6E94  thumb  ov021
+ *   FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone  0x021C6EA8  thumb  ov021
+ *   FIELD_TASK_MANAGER_FreeSlotIfFinished  0x021C6EDC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -20,18 +20,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021C6E94(u8 *p, u8 i);
-extern void func_021C6EA8(u8 *p, u8 i);
-extern void func_021C6EDC(u8 *p, u8 i);
+extern void FIELD_TASK_MANAGER_UpdateSlot(u8 *p, u8 i);
+extern void FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(u8 *p, u8 i);
+extern void FIELD_TASK_MANAGER_FreeSlotIfFinished(u8 *p, u8 i);
 
 void FIELD_TASK_MANAGER_Update(u8 *p)
 {
     int i;
 
     for (i = 0; i < p[0]; i++)
-        func_021C6E94(p, i);
+        FIELD_TASK_MANAGER_UpdateSlot(p, i);
     for (i = 0; i < p[0]; i++)
-        func_021C6EA8(p, i);
+        FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(p, i);
     for (i = 0; i < p[0]; i++)
-        func_021C6EDC(p, i);
+        FIELD_TASK_MANAGER_FreeSlotIfFinished(p, i);
 }

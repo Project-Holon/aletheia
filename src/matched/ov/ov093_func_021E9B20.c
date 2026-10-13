@@ -1,5 +1,5 @@
 /*
- * function: func_021E9B20
+ * function: BTLV_CORE_PollPartyMenu
  * address: 0x021E9B20
  * packet: pkt_ov093_021E9B20
  * region: ov093
@@ -42,7 +42,7 @@ extern void func_02034A5C(int);
 extern void func_0220F3E8(u8 *p);
 extern u8 ov196_id[], ov198_id[];
 
-int func_021E9B20(u8 *p)
+int BTLV_CORE_PollPartyMenu(u8 *p)
 {
     u32 i;
     switch (p[0x174]) {

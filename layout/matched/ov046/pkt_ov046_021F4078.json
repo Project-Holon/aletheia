@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK46_ApplyPoseLines",
+   "name": "FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines",
    "address": "0x021F4078",
    "kind": "game",
    "region": "ov046",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EDA5C",
+   "name": "BTLV_SCU_StartNamePlate",
    "address": "0x021EDA5C",
    "kind": "game",
    "region": "ov093",

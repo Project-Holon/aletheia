@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021ED590",
-    "func_021ED5D8"
+    "BTLV_SCU_StartMonFormChange",
+    "BTLV_SCU_IsMonFormChangeDone"
+   ],
+   "addresses": [
+    "0x021ED590",
+    "0x021ED5D8"
    ]
   }
  ]

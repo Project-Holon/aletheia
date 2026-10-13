@@ -1,5 +1,5 @@
 /*
- * function: func_021EA614
+ * function: BTLV_CORE_BuildAndPrintMessage
  * address:  0x021EA614
  * packet:   pkt_ov093_021EA614
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EA55C  0x021EA55C  thumb  ov093
- *   func_021EA730  0x021EA730  thumb  ov093
+ *   BTLV_CORE_BuildMessage  0x021EA55C  thumb  ov093
+ *   BTLV_CORE_StartPrintMessage  0x021EA730  thumb  ov093
  */
 #include "../include/Obj01899.h"
 typedef unsigned char u8;
@@ -21,13 +21,13 @@ struct H {
     u8 b2;
 };
 
-extern void func_021EA55C(struct H *p, int a);
+extern void BTLV_CORE_BuildMessage(struct H *p, int a);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
+extern void BTLV_CORE_StartPrintMessage(char *p, u32 a, u16 b, u32 c);
 
-void func_021EA614(char *p, struct H *h)
+void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h)
 {
-    func_021EA55C(h, ((struct Obj01899 *)p)->fAC);
-    func_021EA730(p, ((struct Obj01899 *)p)->fAC, h->b2, 0);
+    BTLV_CORE_BuildMessage(h, ((struct Obj01899 *)p)->fAC);
+    BTLV_CORE_StartPrintMessage(p, ((struct Obj01899 *)p)->fAC, h->b2, 0);
 }

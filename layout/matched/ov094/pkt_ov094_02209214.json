@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02209214",
+   "name": "BTLV_B_GAUGE_PartyBallBarTaskDeleted",
    "address": "0x02209214",
    "kind": "game",
    "region": "ov094",

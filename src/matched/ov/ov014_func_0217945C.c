@@ -10,24 +10,24 @@
  * status: EXACT
  * return-chain: 0209028C result is passed to 0217814C.
  * symbols:
- *   g_021797A8 0x021797A8 data ov014 a4
+ *   gWihWork 0x021797A8 data ov014 a4
  *   WM_EndDataSharing 0x0209028C arm
- *   func_0217814C 0x0217814C thumb ov014
- *   func_02178CDC 0x02178CDC thumb ov014
- *   func_02178138 0x02178138 thumb ov014
+ *   WIH_SetError 0x0217814C thumb ov014
+ *   WIH_StateInReset 0x02178CDC thumb ov014
+ *   WIH_ChangeSysState 0x02178138 thumb ov014
  */
 typedef unsigned char u8;
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 extern int WM_EndDataSharing(void *);
-extern void func_0217814C(int);
-extern int func_02178CDC(void);
-extern void func_02178138(int);
+extern void WIH_SetError(int);
+extern int WIH_StateInReset(void);
+extern void WIH_ChangeSysState(int);
 void DWCi_MOV_WH_StateInEndKeyShare(void)
 {
     int error;
-    if (*(int *)(g_021797A8 + 0x1E70) == 5) {
-        error = WM_EndDataSharing(g_021797A8 + 0x1444);
-        if (error != 0) func_0217814C(error);
+    if (*(int *)(gWihWork + 0x1E70) == 5) {
+        error = WM_EndDataSharing(gWihWork + 0x1444);
+        if (error != 0) WIH_SetError(error);
     }
-    if (func_02178CDC() == 0) func_02178138(10);
+    if (WIH_StateInReset() == 0) WIH_ChangeSysState(10);
 }

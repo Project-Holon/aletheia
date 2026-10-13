@@ -78,12 +78,21 @@ struct StatStages {
     };
 };
 
-/* One damage taken: the move that hit, the damage, the move type and the attacker. */
+/*
+ * One damage taken: the move that hit, the damage, the move type (byte +4), the attacker
+ * (byte +5) and a halfword of hit flags. The two bytes are also copied as one halfword.
+ */
 struct BtlHitRecord {
     u16 moveId;
     u16 damage;
-    u16 moveType;
-    u16 attackerId;
+    union {
+        u16 typeAndAttacker;
+        struct {
+            u8 moveType;
+            u8 attackerId;
+        };
+    };
+    u16 hitFlags;
 };
 
 /* Stat gains of one level up, filled by BTL_POKEPARAM_AddExp. */

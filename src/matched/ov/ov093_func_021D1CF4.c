@@ -19,11 +19,11 @@
  *   func_021EAF18 0x021EAF18 thumb ov093
  *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
  *   func_021EAF50 0x021EAF50 thumb ov093
- *   func_021EA614 0x021EA614 thumb ov093
- *   func_021EA710 0x021EA710 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTL_MAIN_GetClientTrainerIndex 0x021B8BEC thumb ov093
- *   func_021EA488 0x021EA488 thumb ov093
- *   func_021EA4C4 0x021EA4C4 thumb ov093
+ *   BTLV_CORE_StartMonSwap 0x021EA488 thumb ov093
+ *   BTLV_CORE_WaitMonSwap 0x021EA4C4 thumb ov093
  *   BTL_CLIENT_StoreMonParam 0x021CDECC thumb ov093
  */
 #include "../include/Obj01691.h"
@@ -41,18 +41,18 @@ extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 struct H;
 struct L;
 extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EA614(char *p, struct H *h);
-extern int func_021EA710(u32 *p);
+extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *, u32, u8);
-extern void func_021EA488(struct S *s, u8 a, u8 b, u8 c);
-extern int func_021EA4C4(struct S *s);
+extern void BTLV_CORE_StartMonSwap(struct S *s, u8 a, u8 b, u8 c);
+extern int BTLV_CORE_WaitMonSwap(struct S *s);
 extern void BTL_CLIENT_StoreMonParam(u8 *p);
 static inline void message(u8 *p, int code, u32 value, u32 id)
 {
     func_021EAF18((struct L *)(p + 0x58), 1, code);
     func_021EAF50((struct L *)(p + 0x58), value);
     func_021EAF50((struct L *)(p + 0x58), id);
-    func_021EA614(((struct Obj21146 *)p)->f54, (struct H *)(p + 0x58));
+    BTLV_CORE_BuildAndPrintMessage(((struct Obj21146 *)p)->f54, (struct H *)(p + 0x58));
 }
 int BTL_CLIENT_StepSendOutMon(u8 *p, int *state, const u32 *params)
 {
@@ -68,7 +68,7 @@ int BTL_CLIENT_StepSendOutMon(u8 *p, int *state, const u32 *params)
                 if (p[0x1A6] == a) {
                     func_021EAF18((struct L *)(p + 0x58), 1, BTL_CLIENT_PickSendOutMessageId(p));
                     func_021EAF50((struct L *)(p + 0x58), id);
-                    func_021EA614(((struct Obj01691 *)p)->f54, (struct H *)(p + 0x58));
+                    BTLV_CORE_BuildAndPrintMessage(((struct Obj01691 *)p)->f54, (struct H *)(p + 0x58));
                 } else {
                     message(p, 0x11, a, id);
                 }
@@ -81,13 +81,13 @@ int BTL_CLIENT_StepSendOutMon(u8 *p, int *state, const u32 *params)
         (*state)++;
         break;
     case 1:
-        if (func_021EA710(((struct Obj01691 *)p)->f54) != 0) {
-            func_021EA488(((struct Obj01691 *)p)->f54, BTL_MAIN_GetClientTrainerIndex(*(u8 * *)&((struct Obj01691 *)p)->f0, a, b), a, b);
+        if (BTLV_CORE_WaitMessage(((struct Obj01691 *)p)->f54) != 0) {
+            BTLV_CORE_StartMonSwap(((struct Obj01691 *)p)->f54, BTL_MAIN_GetClientTrainerIndex(*(u8 * *)&((struct Obj01691 *)p)->f0, a, b), a, b);
             (*state)++;
         }
         break;
     case 2:
-        if (func_021EA4C4(((struct Obj01691 *)p)->f54) != 0) {
+        if (BTLV_CORE_WaitMonSwap(((struct Obj01691 *)p)->f54) != 0) {
             BTL_CLIENT_StoreMonParam(p);
             return 1;
         }

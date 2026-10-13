@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_06898158",
+   "name": "HAND_FIELD_MudSportWeakenElectric",
    "address": "0x06898158",
    "kind": "game",
    "region": "ov095",

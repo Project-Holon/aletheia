@@ -14,7 +14,7 @@
  * INTRUDE_GetNextOfferSpot (unlabelled, 0x021CFB68) walks to the next used slot.
  *
  * symbols:
- *   d_021DB834  0x021DB834  data  a4
+ *   gIntrudeOfferTilePositions  0x021DB834  data  a4
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12993.h"
@@ -32,7 +32,7 @@ typedef struct {
     u16 a6;
 } Row;
 
-extern const Row d_021DB834[];
+extern const Row gIntrudeOfferTilePositions[];
 
 typedef struct {
     u16 v[10];
@@ -60,7 +60,7 @@ const Row *INTRUDE_GetNextOfferSpot(u8 *base, int *idx)
         do {
             u8 *p = base + i * 0x14;
             if (((struct Obj12993 *)p)->f20 != 0) {
-                const Row *r = &d_021DB834[p[0x22]];
+                const Row *r = &gIntrudeOfferTilePositions[p[0x22]];
                 (*idx)++;
                 return r;
             }

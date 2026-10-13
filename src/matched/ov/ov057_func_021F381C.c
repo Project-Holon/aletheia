@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK57_AdvanceModelScene
+ * function: FIELD_GIMMICK_MODEL_SCENE_AdvanceModelScene
  * address:  0x021F381C
  * packet:   pkt_021F381C
  * region:   ov057
@@ -24,7 +24,7 @@ typedef unsigned int  u32;
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
-void GIMMICK57_AdvanceModelScene(void *a, void *b, u8 *p)
+void FIELD_GIMMICK_MODEL_SCENE_AdvanceModelScene(void *a, void *b, u8 *p)
 {
     u32 m = 1 << 12;
 

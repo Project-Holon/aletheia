@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_02207C94 with the handle at 0x1a4 of the global work block.
+ * Tail call to BTLV_GAUGE_IsAnimating with the handle at 0x1a4 of the global work block.
  *
  * symbols:
  *   d_0220AF20  0x0220AF20  data  ov094
- *   func_02207C94 0x02207C94 thumb ov094
+ *   BTLV_GAUGE_IsAnimating 0x02207C94 thumb ov094
  */
 extern char *d_0220AF20;
 typedef unsigned char  u8;
-extern int func_02207C94(u8 *p);
+extern int BTLV_GAUGE_IsAnimating(u8 *p);
 
 int func_021F8180(void)
 {
-    return func_02207C94(*(void **)(d_0220AF20 + 0x1a4));
+    return BTLV_GAUGE_IsAnimating(*(void **)(d_0220AF20 + 0x1a4));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EDBE8
+ * function: BTLV_SCU_FreeNamePlates
  * address:  0x021EDBE8
  * packet:   pkt_ov093_021EDBE8
  * region:   ov093
@@ -21,7 +21,7 @@ struct Obj020437AC;
 extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 func_020307B0(void *p);
 
-void func_021EDBE8(char *s)
+void BTLV_SCU_FreeNamePlates(char *s)
 {
     u32 i;
 

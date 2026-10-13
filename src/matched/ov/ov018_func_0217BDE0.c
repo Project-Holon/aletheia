@@ -18,8 +18,8 @@
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
  *   EVENT_COMM_COMMON_CreateOfferEvent  0x02182124  thumb  ov018
- *   d_021DB810     0x021DB810  data   ov021  a2
- *   d_021DB834     0x021DB834  data   ov021  a2
+ *   gIntrudeOfferZoneIds     0x021DB810  data   ov021  a2
+ *   gIntrudeOfferTilePositions     0x021DB834  data   ov021  a2
  */
 #include "../include/Obj12483.h"
 
@@ -33,8 +33,8 @@ typedef struct { u32 f : 4; u32 g : 28; } Fw;
 typedef struct { s16 x, y, z; } Vec3s;
 typedef struct { s16 x, y, z, w; } Ent;
 
-extern u16 d_021DB810[];
-extern Ent d_021DB834[];
+extern u16 gIntrudeOfferZoneIds[];
+extern Ent gIntrudeOfferTilePositions[];
 
 extern int INTRUDE_COMM_IsSessionAccepted(u8 *);
 extern int INTRUDE_COMM_IsSessionFinished(u8 *);
@@ -71,13 +71,13 @@ int INTRUDE_FIELD_TryStartOfferEvent(int a, u8 *b, int c)
     n = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork((const struct Ctx *)a));
     FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl((void *)c), &v);
     idx = ((struct Obj12483 *)e)->f14;
-    if (n != d_021DB810[idx])
+    if (n != gIntrudeOfferZoneIds[idx])
         goto fail;
-    if (v.x != d_021DB834[idx].x)
+    if (v.x != gIntrudeOfferTilePositions[idx].x)
         goto fail;
-    if (v.y != d_021DB834[idx].y)
+    if (v.y != gIntrudeOfferTilePositions[idx].y)
         goto fail;
-    if (v.z != d_021DB834[idx].z)
+    if (v.z != gIntrudeOfferTilePositions[idx].z)
         goto fail;
     return EVENT_COMM_COMMON_CreateOfferEvent(a, b, e);
 fail:

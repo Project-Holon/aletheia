@@ -1,5 +1,5 @@
 /*
- * function: func_021F3714
+ * function: FIELD_GIMMICK_MODELS_A_PlaceModels
  * address:  0x021F3714
  * packet:   pkt_ov049_021F3714
  * region:   ov049
@@ -22,7 +22,7 @@
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   gGimmick49Setup     0x021F3894  data  ov049  a4
- *   d_021F38A4     0x021F38A4  data  a4
+ *   gGimmick49ModelPos     0x021F38A4  data  a4
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ typedef struct {
     int c;
 } V3;
 
-extern const V3 d_021F38A4[];
+extern const V3 gGimmick49ModelPos[];
 extern char gGimmick49Setup[];
 
 struct BigObj;
@@ -49,7 +49,7 @@ extern void FLD_EXP_OBJ_AddUnitFromArchive(u32 a, void *b, int c);
 extern V3 *FLD_EXP_OBJ_GetModelStatus(u32 a, int b, u16 c);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 
-void func_021F3714(u32 a0, u32 a)
+void FIELD_GIMMICK_MODELS_A_PlaceModels(u32 a0, u32 a)
 {
     int f0;
     int f1;
@@ -69,9 +69,9 @@ void func_021F3714(u32 a0, u32 a)
     FLD_EXP_OBJ_AddUnitFromArchive(s, gGimmick49Setup, 0);
     for (i = 0; i < 6; i++) {
         p = FLD_EXP_OBJ_GetModelStatus(s, 0, i);
-        p->a = d_021F38A4[i].a;
-        p->b = d_021F38A4[i].b;
-        p->c = d_021F38A4[i].c;
+        p->a = gGimmick49ModelPos[i].a;
+        p->b = gGimmick49ModelPos[i].b;
+        p->c = gGimmick49ModelPos[i].c;
     }
     if (f0 && f1 && f2 && f3) {
         FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 0, 0, 1);

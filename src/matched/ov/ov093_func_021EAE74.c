@@ -1,5 +1,5 @@
 /*
- * function: func_021EAE74
+ * function: BTLV_CORE_SetCounterDisplay
  * address:  0x021EAE74
  * packet:   pkt_ov093_021EAE74
  * region:   ov093
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern void func_021EAE98(void *a, void *b);
 
-void func_021EAE74(char *p, u32 a, u32 b)
+void BTLV_CORE_SetCounterDisplay(char *p, u32 a, u32 b)
 {
     ((struct Obj07847 *)p)->f160 = a;
     ((struct Obj07847 *)p)->f164 = b;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_022079C0  0x022079C0  thumb  ov094
+ *   BTLV_GAUGE_PlaceSlot  0x022079C0  thumb  ov094
  *   func_02030EAC  0x02030EAC  arm
  *   d_0220AAB4     0x0220AAB4  data   ov094  a2
  */
@@ -25,7 +25,7 @@ typedef struct {
 } Bf;
 
 extern const Pt d_0220AAB4;
-extern void func_022079C0(char *p, int i, Pt *pt);
+extern void BTLV_GAUGE_PlaceSlot(char *p, int i, Pt *pt);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
@@ -40,7 +40,7 @@ void func_02207960(char *p, int i)
 
         if (i & 1)
             pt.x *= -1;
-        func_022079C0(p, i, &pt);
+        BTLV_GAUGE_PlaceSlot(p, i, &pt);
         ((Bf *)(q + o))->b3 = 0;
     }
     t = *(void **)(p + o + 0xbc);

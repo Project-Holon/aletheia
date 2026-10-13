@@ -12,7 +12,7 @@
 struct FieldMap;
 struct GameSystem;
 
-#define GIMMICK50_MODEL_COUNT 2
+#define FIELD_GIMMICK_MODELS_B_MODEL_COUNT 2
 
 /* The common work of the gimmick on the field map (2 bytes, id 1). */
 typedef struct Gimmick50Work {

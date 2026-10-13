@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021EAE44 0x021EAE44 thumb ov093
- *   func_021EAE54 0x021EAE54 thumb ov093
+ *   BTLV_CORE_StartAutoSelectNotice 0x021EAE44 thumb ov093
+ *   BTLV_CORE_PollAutoSelectNotice 0x021EAE54 thumb ov093
  *   BTL_SIDE_GetClientPokeParam 0x021B990C thumb ov093
  *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
  *   BTL_CLIENT_IsActionForced 0x021CF470 thumb ov093
@@ -25,8 +25,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021EAE44(void *);
-extern int func_021EAE54(void *);
+extern void BTLV_CORE_StartAutoSelectNotice(void *);
+extern int BTLV_CORE_PollAutoSelectNotice(void *);
 typedef signed int     s32;
 extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
 struct Unk021D82D0;
@@ -46,11 +46,11 @@ int BTL_CLIENT_StepAutoSelectActions(u8 *p,int *state)
     u32 id;
     switch (*state) {
     case 0:
-        func_021EAE44(((struct Obj00662 *)p)->f54);
+        BTLV_CORE_StartAutoSelectNotice(((struct Obj00662 *)p)->f54);
         (*state)++;
         break;
     case 1:
-        if (func_021EAE54(((struct Obj00662 *)p)->f54)) {
+        if (BTLV_CORE_PollAutoSelectNotice(((struct Obj00662 *)p)->f54)) {
             for (; p[0x11d] < p[0x11c]; p[0x11d]++) {
                 ((struct Obj00662 *)p)->f8 = BTL_SIDE_GetClientPokeParam(((struct Obj00662 *)p)->f4,p[0x1a6],p[0x11d]);
                 *(u8 * *)&((struct Obj00662 *)p)->fC = p+0x124+p[0x11d]*4;

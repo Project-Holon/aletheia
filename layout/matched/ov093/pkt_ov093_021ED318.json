@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021ED318",
-    "func_021ED374"
+    "BTLV_SCU_StartMonWithdraw",
+    "BTLV_SCU_IsMonWithdrawDone"
+   ],
+   "addresses": [
+    "0x021ED318",
+    "0x021ED374"
    ]
   }
  ]

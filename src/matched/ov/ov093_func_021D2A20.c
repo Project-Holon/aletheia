@@ -23,27 +23,27 @@
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   func_021F8150 0x021F8150 thumb ov094
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
- *   func_021EA3B8 0x021EA3B8 thumb ov093
- *   func_021EA3D4 0x021EA3D4 thumb ov093
+ *   BTLV_CORE_StartViewEffect 0x021EA3B8 thumb ov093
+ *   BTLV_CORE_WaitViewEffect 0x021EA3D4 thumb ov093
  *   func_021EAF18 0x021EAF18 thumb ov093
  *   func_021EAF50 0x021EAF50 thumb ov093
- *   func_021EA614 0x021EA614 thumb ov093
- *   func_021EA720 0x021EA720 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
+ *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_021EA710 0x021EA710 thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   BTL_MAIN_NotifyLevelUp 0x021BA238 thumb ov093
- *   func_021EADA4 0x021EADA4 thumb ov093
- *   func_021EADB4 0x021EADB4 thumb ov093
- *   func_021EADC4 0x021EADC4 thumb ov093
- *   func_021EADD4 0x021EADD4 thumb ov093
- *   func_021EADE4 0x021EADE4 thumb ov093
- *   func_021EADF4 0x021EADF4 thumb ov093
+ *   BTLV_CORE_StartBallWindowOpen 0x021EADA4 thumb ov093
+ *   BTLV_CORE_UpdateBallWindowOpen 0x021EADB4 thumb ov093
+ *   BTLV_CORE_StartBallWindowRefresh 0x021EADC4 thumb ov093
+ *   BTLV_CORE_UpdateBallWindowRefresh 0x021EADD4 thumb ov093
+ *   BTLV_CORE_StartBallWindowClose 0x021EADE4 thumb ov093
+ *   BTLV_CORE_UpdateBallWindowClose 0x021EADF4 thumb ov093
  *   BTL_CLIENT_StepLearnLevelUpMoves 0x021D2CA8 thumb ov093
  *   BTL_MAIN_CopyLiveToSnapshotPoke 0x021B9358 thumb ov093
  *   gExpGainWork 0x021F3B64 data a4
@@ -78,29 +78,29 @@ extern void BTL_EVENT_ReleaseClientHandle(void *);
 extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
 extern void func_021F8150(int, void *);
 extern int GFL_USE_IsAnySeBusy(void);
-extern void func_021EA3B8(char *ctx, int a, int b);
-extern int func_021EA3D4(void *);
+extern void BTLV_CORE_StartViewEffect(char *ctx, int a, int b);
+extern int BTLV_CORE_WaitViewEffect(void *);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EA614(char *p, struct H *h);
-extern int func_021EA720(u32 *p);
+extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
+extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
 extern void GFL_USE_SetBgmPlayerParam(void *);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
-extern int func_021EA710(u32 *p);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void BTL_MAIN_NotifyLevelUp(char *p, void *m);
 struct T;
-extern void func_021EADA4(u8 *, int, struct T *);
-extern int func_021EADB4(u8 *);
-extern void func_021EADC4(u8 *);
-extern int func_021EADD4(u8 *);
-extern void func_021EADE4(u8 *);
-extern int func_021EADF4(u8 *);
+extern void BTLV_CORE_StartBallWindowOpen(u8 *, int, struct T *);
+extern int BTLV_CORE_UpdateBallWindowOpen(u8 *);
+extern void BTLV_CORE_StartBallWindowRefresh(u8 *);
+extern int BTLV_CORE_UpdateBallWindowRefresh(u8 *);
+extern void BTLV_CORE_StartBallWindowClose(u8 *);
+extern int BTLV_CORE_UpdateBallWindowClose(u8 *);
 extern int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *, int *, void *);
 extern void BTL_MAIN_CopyLiveToSnapshotPoke(char *p, int i);
 struct StateData { u8 pad0[8]; int counter; u32 remaining; u32 pad10; u8 result[14]; };
@@ -150,27 +150,27 @@ int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
         break;
     case 4:
         if (!func_021F8180() && !GFL_USE_IsAnySeBusy()) {
-            func_021EA3B8(((struct Obj00268 *)p)->f54, index, 0x25d);
+            BTLV_CORE_StartViewEffect(((struct Obj00268 *)p)->f54, index, 0x25d);
             *state = 5;
         }
         break;
     case 5:
-        if (func_021EA3D4(((struct Obj00268 *)p)->f54)) *state = 6;
+        if (BTLV_CORE_WaitViewEffect(((struct Obj00268 *)p)->f54)) *state = 6;
         break;
     case 6:
         func_021EAF18((struct L *)(p + 0x58), 1, 0x3c);
         func_021EAF50((struct L *)(p + 0x58), (int)id);
         func_021EAF50((struct L *)(p + 0x58), (int)gExpGainWork.result[0]);
-        func_021EA614(((struct Obj00268 *)p)->f54, (struct H *)(p + 0x58));
+        BTLV_CORE_BuildAndPrintMessage(((struct Obj00268 *)p)->f54, (struct H *)(p + 0x58));
         *state = 7;
         break;
     case 7:
-        if (func_021EA720(((struct Obj00268 *)p)->f54)) {
+        if (BTLV_CORE_ConsumeMessageFlag(((struct Obj00268 *)p)->f54)) {
             GFL_USE_SetBgmPlayerParam((void *)1);
             GFL_USE_PushBgm();
             GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         }
-        if (func_021EA710(((struct Obj00268 *)p)->f54) && !GFL_USE_IsBgmPlaying()) {
+        if (BTLV_CORE_WaitMessage(((struct Obj00268 *)p)->f54) && !GFL_USE_IsBgmPlaying()) {
             GFL_USE_PopBgm();
             GFL_USE_SetBgmPlayerParam(0);
             gExpGainWork.counter = 0;
@@ -182,24 +182,24 @@ int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
         if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() || gExpGainWork.counter > 80) {
             gExpGainWork.counter = 0;
             BTL_MAIN_NotifyLevelUp(((struct Obj00268 *)p)->f0, obj);
-            func_021EADA4(*(u8 * *)&((struct Obj00268 *)p)->f54, (int)obj, (struct T *)gExpGainWork.result);
+            BTLV_CORE_StartBallWindowOpen(*(u8 * *)&((struct Obj00268 *)p)->f54, (int)obj, (struct T *)gExpGainWork.result);
             *state = 9;
         }
         break;
     case 9:
-        if (func_021EADB4(((struct Obj00268 *)p)->f54) && ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg())) {
-            func_021EADC4(((struct Obj00268 *)p)->f54);
+        if (BTLV_CORE_UpdateBallWindowOpen(((struct Obj00268 *)p)->f54) && ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg())) {
+            BTLV_CORE_StartBallWindowRefresh(((struct Obj00268 *)p)->f54);
             *state = 10;
         }
         break;
     case 10:
-        if (func_021EADD4(((struct Obj00268 *)p)->f54) && ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg())) {
-            func_021EADE4(((struct Obj00268 *)p)->f54);
+        if (BTLV_CORE_UpdateBallWindowRefresh(((struct Obj00268 *)p)->f54) && ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg())) {
+            BTLV_CORE_StartBallWindowClose(((struct Obj00268 *)p)->f54);
             *state = 11;
         }
         break;
     case 11:
-        if (func_021EADF4(((struct Obj00268 *)p)->f54)) {
+        if (BTLV_CORE_UpdateBallWindowClose(((struct Obj00268 *)p)->f54)) {
             gExpGainWork.counter = 0;
             *state = 12;
         }

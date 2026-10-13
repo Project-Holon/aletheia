@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_IsInLiftZone
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone
  * address:  0x021F3EEC
  * packet:   pkt_ov043_021F3EEC
  * region:   ov043
@@ -31,7 +31,7 @@ typedef struct {
 
 extern R sGimmick43LiftZones[];
 
-int GIMMICK43_IsInLiftZone(u8 i, int x, int y)
+int FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone(u8 i, int x, int y)
 {
     int x0;
     int y0;

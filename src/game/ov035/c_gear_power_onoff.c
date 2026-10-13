@@ -1,7 +1,7 @@
 /*
  * file:     c_gear_power_onoff.c
  * unit:     yes
- * function: REPORT_Create, C_GEAR_POWER_ONOFF_Delete, C_GEAR_POWER_ONOFF_Update, C_GEAR_POWER_ONOFF_InitScreen, C_GEAR_POWER_ONOFF_ExitScreen, C_GEAR_POWER_ONOFF_InitBgs, C_GEAR_POWER_ONOFF_ExitBgs, C_GEAR_POWER_ONOFF_CreateTaskMenuRes, C_GEAR_POWER_ONOFF_DeleteTaskMenuRes, C_GEAR_POWER_ONOFF_InitWindows, C_GEAR_POWER_ONOFF_ExitWindows, C_GEAR_POWER_ONOFF_PrintMessage, C_GEAR_POWER_ONOFF_ResetAndPrintMessage, C_GEAR_POWER_ONOFF_OpenYesNoMenu, C_GEAR_POWER_ONOFF_CloseMenu, C_GEAR_POWER_ONOFF_UpdateMenu, C_GEAR_POWER_ONOFF_GetMenuResult, C_GEAR_POWER_ONOFF_IsMenuDecided, C_GEAR_POWER_ONOFF_StepTurnOn, C_GEAR_POWER_ONOFF_StepTurnOff
+ * function: C_GEAR_POWER_ONOFF_Create, C_GEAR_POWER_ONOFF_Delete, C_GEAR_POWER_ONOFF_Update, C_GEAR_POWER_ONOFF_InitScreen, C_GEAR_POWER_ONOFF_ExitScreen, C_GEAR_POWER_ONOFF_InitBgs, C_GEAR_POWER_ONOFF_ExitBgs, C_GEAR_POWER_ONOFF_CreateTaskMenuRes, C_GEAR_POWER_ONOFF_DeleteTaskMenuRes, C_GEAR_POWER_ONOFF_InitWindows, C_GEAR_POWER_ONOFF_ExitWindows, C_GEAR_POWER_ONOFF_PrintMessage, C_GEAR_POWER_ONOFF_ResetAndPrintMessage, C_GEAR_POWER_ONOFF_OpenYesNoMenu, C_GEAR_POWER_ONOFF_CloseMenu, C_GEAR_POWER_ONOFF_UpdateMenu, C_GEAR_POWER_ONOFF_GetMenuResult, C_GEAR_POWER_ONOFF_IsMenuDecided, C_GEAR_POWER_ONOFF_StepTurnOn, C_GEAR_POWER_ONOFF_StepTurnOff
  * address:  0x021EFEC0
  * region:   ov035
  * compiler: dsi/1.1p1
@@ -14,12 +14,12 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021F0678    0x021F0678 data ov035 a1
+ *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
  *   func_02012138 0x02012138 thumb
  *   func_0202EB44 0x0202EB44 thumb
  *   func_0201214C 0x0201214C thumb
  *   func_020307B0 0x020307B0 arm
- *   d_021F0640 0x021F0640 data ov035 a4
+ *   sPowerOnOffTable 0x021F0640 data ov035 a4
  *   FIELD_SUBSCREEN_SetPanelResult 0x021A0FA0 thumb ov021
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -45,11 +45,11 @@
  *   func_02049740 0x02049740 arm
  *   func_02049990 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   d_021F05B0    0x021F05B0 data a4
+ *   sBgCharFileIds    0x021F05B0 data a4
  *   sBgPaletteFileIds    0x021F05BC data ov035 a4
- *   d_021F05C8    0x021F05C8 data ov035 a4
- *   d_021F05E8    0x021F05E8 data ov035 a4
- *   d_021F0608    0x021F0608 data ov035 a4
+ *   sBgTemplate5    0x021F05C8 data ov035 a4
+ *   sBgTemplate4    0x021F05E8 data ov035 a4
+ *   sBgTemplate6    0x021F0608 data ov035 a4
  *   func_0203FB44 0x0203FB44 arm
  *   sub_020403F4  0x020403F4 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
@@ -202,7 +202,7 @@ extern u32 GAME_COMM_GetKind(void *beacon);
 extern void GAME_COMM_RequestExitNoCallback(void *beacon);
 extern void GAMESYSTEM_SetAlwaysNetFlag(void *gameSystem, unsigned int v);
 extern u32 GAMESYSTEM_TryStartAutoComm(void *gameSystem);
-CGearPowerOnOffWork *REPORT_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId);
+CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId);
 void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work);
 void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate);
 void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId);
@@ -222,19 +222,19 @@ u8 C_GEAR_POWER_ONOFF_GetMenuResult(CGearPowerOnOffWork *work);
 u32 C_GEAR_POWER_ONOFF_IsMenuDecided(CGearPowerOnOffWork *work);
 int C_GEAR_POWER_ONOFF_StepTurnOn(CGearPowerOnOffWork *work);
 int C_GEAR_POWER_ONOFF_StepTurnOff(CGearPowerOnOffWork *work);
-extern char d_021F0678[];
-extern CGearPowerOnOffTable d_021F0640;
-extern const u32 d_021F05B0[];
+extern char sCGearPowerOnOffFileName[];
+extern CGearPowerOnOffTable sPowerOnOffTable;
+extern const u32 sBgCharFileIds[];
 extern const u32 sBgPaletteFileIds[];
-extern const struct BgTemplate d_021F05C8;
-extern const struct BgTemplate d_021F05E8;
-extern const struct BgTemplate d_021F0608;
+extern const struct BgTemplate sBgTemplate5;
+extern const struct BgTemplate sBgTemplate4;
+extern const struct BgTemplate sBgTemplate6;
 
 
 
-CGearPowerOnOffWork *REPORT_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId)
+CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId)
 {
-    CGearPowerOnOffWork *work = func_02030734(heapId, 0x50, 1, d_021F0678, 0x12D);
+    CGearPowerOnOffWork *work = func_02030734(heapId, 0x50, 1, sCGearPowerOnOffFileName, 0x12D);
     work->gameSystem = gameSystem;
     work->beacon = func_02012138(gameSystem);
     work->subscreen = subscreen;
@@ -254,7 +254,7 @@ CGearPowerOnOffWork *REPORT_Create(FieldSubscreen *subscreen, void *gameSystem, 
 void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work) { C_GEAR_POWER_ONOFF_ExitScreen(work); func_020307B0(work); }
 
 
-void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate) { if(work->closeRequested==0) { if(d_021F0640.sceneStep[work->scene](work)) { FIELD_SUBSCREEN_SetPanelResult(work->subscreen,14); work->closeRequested=1; } } PRINTSYS_QUE_Main(work->printQue); }
+void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate) { if(work->closeRequested==0) { if(sPowerOnOffTable.sceneStep[work->scene](work)) { FIELD_SUBSCREEN_SetPanelResult(work->subscreen,14); work->closeRequested=1; } } PRINTSYS_QUE_Main(work->printQue); }
 
 
 
@@ -285,22 +285,22 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
 
     for (i = 4; i <= 7; i++)
         func_02040588((u8)i, 0);
-    func_0203FCA0(6, &d_021F0608, 0);
+    func_0203FCA0(6, &sBgTemplate6, 0);
     func_020414EC(6);
     func_020409B4(6);
     func_02040588((u8)6, 1);
-    func_0203FCA0(5, &d_021F05C8, 0);
+    func_0203FCA0(5, &sBgTemplate5, 0);
     func_020414EC(5);
     func_020409B4(5);
     func_02040588((u8)5, 1);
-    func_0203FCA0(4, &d_021F05E8, 0);
+    func_0203FCA0(4, &sBgTemplate4, 0);
     func_020414EC(4);
     func_020409B4(4);
     func_02040588((u8)4, 1);
     arc = func_020490F4(0x1E, heapId);
     i = func_02008550(func_02012944(func_020120F4(work->gameSystem)));
     func_02049B68(arc, sBgPaletteFileIds[i], 4, 0, 1, heapId);
-    charAlloc = func_02049740(arc, d_021F05B0[i], 6, 0, 0, heapId);
+    charAlloc = func_02049740(arc, sBgCharFileIds[i], 6, 0, 0, heapId);
     work->bgCharAlloc = charAlloc;
     func_02049990(arc, 3, 6, 0, (u16)charAlloc, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
@@ -413,7 +413,7 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct B
 
 void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, int heapId)
 {
-    CGearPowerOnOffTable *table = &d_021F0640;
+    CGearPowerOnOffTable *table = &sPowerOnOffTable;
 
     table->menuHeapId = heapId;
     table->yesLabel = func_02045EC0(work->msgBank, 5);

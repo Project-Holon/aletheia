@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
- *   func_021EA0F4  0x021EA0F4  thumb  ov093
- *   func_021EA120  0x021EA120  thumb  ov093
+ *   BTLV_CORE_StartDamageEffect  0x021EA0F4  thumb  ov093
+ *   BTLV_CORE_WaitDamageEffect  0x021EA120  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -28,9 +28,9 @@ typedef struct {
 
 extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 struct S;
-extern void func_021EA0F4(struct S *s, u32 a, u32 b, u32 c);
+extern void BTLV_CORE_StartDamageEffect(struct S *s, u32 a, u32 b, u32 c);
 struct S;
-extern int func_021EA120(struct S *s);
+extern int BTLV_CORE_WaitDamageEffect(struct S *s);
 
 int BTL_CLIENT_StepPlayMonTaskAnim(Seq *s, int *state, u32 *a)
 {
@@ -39,11 +39,11 @@ int BTL_CLIENT_StepPlayMonTaskAnim(Seq *s, int *state, u32 *a)
     switch (*state) {
     case 0:
         t = BTL_MAIN_GetTrainerSlotOfPoke((void *)s->unk00, (void *)s->unk04, (u8)a[0]);
-        func_021EA0F4(s->win, (u16)a[2], t, (u8)a[1]);
+        BTLV_CORE_StartDamageEffect(s->win, (u16)a[2], t, (u8)a[1]);
         *state = *state + 1;
         break;
     case 1:
-        if (func_021EA120(s->win)) {
+        if (BTLV_CORE_WaitDamageEffect(s->win)) {
             return 1;
         }
         break;

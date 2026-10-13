@@ -28,7 +28,7 @@
  *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
  *   BTL_POKEPARAM_ClearHitHistory  0x021D67F4  thumb  ov093
  *   func_021D6DC4  0x021D6DC4  thumb  ov093
- *   d_021F3AA4     0x021F3AA4  data  a1
+ *   gBtlPokeparamFileName     0x021F3AA4  data  a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -91,13 +91,13 @@ extern void BTL_POKEPARAM_ClearSickConts(u8 *p, int all);
 extern union Slot BTL_CALC_MakeDefaultSickCont(int);
 extern void BTL_POKEPARAM_ClearHitHistory(u8 *p);
 extern void func_021D6DC4(u8 *p);
-extern const char d_021F3AA4[];
+extern const char gBtlPokeparamFileName[];
 S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c)
 {
     S *p;
     u32 n;
 
-    p = sub_02030734(c, 0x1f8, 1, d_021F3AA4, 0xe3);
+    p = sub_02030734(c, 0x1f8, 1, gBtlPokeparamFileName, 0xe3);
     p->f19 = b;
     p->f0c = func_02017E1C(a, 5, 0);
     p->f00 = a;

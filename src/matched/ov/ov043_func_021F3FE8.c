@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_UpdateBigLift
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift
  * address:  0x021F3FE8
  * packet:   pkt_ov043_021F3FE8
  * region:   ov043
@@ -27,8 +27,8 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
- *   GIMMICK43_StartCameraShake  0x021F41B8  thumb  ov043
- *   GIMMICK43_UpdateCameraShake  0x021F4210  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake  0x021F41B8  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake  0x021F4210  thumb  ov043
  *   FIELDMAP_GetZoneFog  0x02188C68  thumb  ov021
  *   FIELD_ZONEFOG_GetFogOffset  0x021A03A4  thumb  ov021
  *   FIELD_ZONEFOG_GetFogSlope  0x021A03B8  thumb  ov021
@@ -58,15 +58,15 @@ extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern int GFL_USE_GetSeSlot(u32 a0);
 extern void GFL_USE_StopSeSlot(int i);
-extern void GIMMICK43_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s);
-extern int GIMMICK43_UpdateCameraShake(u8 *s);
+extern void FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(u8 *s);
 extern u32 FIELDMAP_GetZoneFog(u8 *p);
 extern int FIELD_ZONEFOG_GetFogOffset(int *p);
 extern int FIELD_ZONEFOG_GetFogSlope(int *p);
 extern u32 FIELDMAP_GetFog(u8 *p);
 extern void FIELD_FOG_FADE_Init(u8 *p, u32 a, u32 b, u32 c);
 
-void GIMMICK43_UpdateBigLift(void *a)
+void FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift(void *a)
 {
     void *s;
     void *r;
@@ -99,12 +99,12 @@ void GIMMICK43_UpdateBigLift(void *a)
     if (w[6] != 0) {
         switch (((u16 *)w)[15]) {
         case 0:
-            GIMMICK43_StartCameraShake((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
+            FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
             GFL_USE_PlaySeDefaultVolume(0x6cb);
             ((u16 *)w)[15]++;
             break;
         case 1:
-            if (GIMMICK43_UpdateCameraShake((u8 *)(w + 8))) {
+            if (FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake((u8 *)(w + 8))) {
                 ((u16 *)w)[14]++;
                 if (((u16 *)w)[14] >= 100) {
                     w[3] = -0x2000;

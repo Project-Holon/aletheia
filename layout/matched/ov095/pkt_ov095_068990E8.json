@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_068990E8",
+   "name": "HAND_SIDE_MistNoticeStatDrop",
    "address": "0x068990E8",
    "kind": "game",
    "region": "ov095",

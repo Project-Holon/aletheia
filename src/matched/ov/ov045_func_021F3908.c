@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK45_IsRequirementMet
+ * function: FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet
  * address:  0x021F3908
  * packet:   pkt_021F3908
  * region:   ov045
@@ -13,16 +13,16 @@
  * region token so the function's own ov045 window fixes it.
  *
  * symbols:
- *   d_021F3B60  0x021F3B60  data  ov045
- *   d_021F3B62  0x021F3B62  data
+ *   sSwitchToggleRequirementSwitchIndex  0x021F3B60  data  ov045
+ *   sSwitchToggleRequirementState  0x021F3B62  data
  */
 
-extern unsigned short d_021F3B60[];
-extern unsigned short d_021F3B62[];
+extern unsigned short sSwitchToggleRequirementSwitchIndex[];
+extern unsigned short sSwitchToggleRequirementState[];
 
-int GIMMICK45_IsRequirementMet(char *a0, int a1)
+int FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet(char *a0, int a1)
 {
-    unsigned short v = (unsigned short)(*(unsigned int *)(a0 + d_021F3B60[a1 * 2] * 4) != 0);
+    unsigned short v = (unsigned short)(*(unsigned int *)(a0 + sSwitchToggleRequirementSwitchIndex[a1 * 2] * 4) != 0);
 
-    return v == d_021F3B62[a1 * 2];
+    return v == sSwitchToggleRequirementState[a1 * 2];
 }

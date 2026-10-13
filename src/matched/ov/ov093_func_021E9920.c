@@ -1,5 +1,5 @@
 /*
- * function: func_021E9920
+ * function: BTLV_CORE_AbortTargetMenu
  * address: 0x021E9920
  * packet: pkt_ov093_021E9920
  * region: ov093
@@ -11,11 +11,11 @@
  * interface: eight-byte ldr-r3/bx-r3 stub forwards only live r0;
  * target body reads only r0. Original caller does not read result.
  * symbols:
- *   func_021E9928 0x021E9928 thumb ov093
+ *   BTLV_CORE_AbortInput 0x021E9928 thumb ov093
  */
 typedef unsigned int u32;
-extern void func_021E9928(char *p);
-void func_021E9920(void *p)
+extern void BTLV_CORE_AbortInput(char *p);
+void BTLV_CORE_AbortTargetMenu(void *p)
 {
-    func_021E9928(p);
+    BTLV_CORE_AbortInput(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_FindDoor
+ * function: FIELD_GIMMICK_PLATE_DOORS_FindDoor
  * address:  0x021F3A08
  * packet:   pkt_ov038_021F3A08
  * region:   ov038
@@ -17,7 +17,7 @@
 
 extern struct S3A08 gGimmick38DoorPos[];
 
-int GIMMICK38_FindDoor(int *base, int x, int y, int *o1, int *o2)
+int FIELD_GIMMICK_PLATE_DOORS_FindDoor(int *base, int x, int y, int *o1, int *o2)
 {
     int f;
     int ax;

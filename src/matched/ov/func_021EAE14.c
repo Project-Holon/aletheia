@@ -1,5 +1,5 @@
 /*
- * function: func_021EAE14
+ * function: BTLV_CORE_PollFadeInDone
  * address:  0x021EAE14
  * packet:   pkt_021EA478
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EAE14   0x021EAE14  thumb  ov093
+ *   BTLV_CORE_PollFadeInDone   0x021EAE14  thumb  ov093
  *   BTLV_SCU_GetWaitState   0x021EE25C  thumb  ov093
 
  * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; BTLV_SCU_GetWaitState is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021EAE14(u32 *p) { return BTLV_SCU_GetWaitState(p[0x5f]); }
+int BTLV_CORE_PollFadeInDone(u32 *p) { return BTLV_SCU_GetWaitState(p[0x5f]); }
 

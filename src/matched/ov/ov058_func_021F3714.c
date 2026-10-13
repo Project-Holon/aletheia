@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK58_Exit
+ * function: FIELD_GIMMICK_LANE_TRAINS_Exit
  * address:  0x021F3714
  * packet:   pkt_ov058_021F3714
  * region:   ov058
@@ -28,7 +28,7 @@ extern int FIELDMAP_GetExpObj(int *p);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *p, u16 i);
 extern void FIELDMAP_FreeCommonWork(unsigned char *p, int id);
 
-void GIMMICK58_Exit(void *a0)
+void FIELD_GIMMICK_LANE_TRAINS_Exit(void *a0)
 {
     GAME_DATA_GetFieldSave((struct Big *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a0)));
     FLD_EXP_OBJ_RemoveUnit((u8 *)FIELDMAP_GetExpObj((int *)a0), 0);

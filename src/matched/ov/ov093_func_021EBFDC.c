@@ -1,5 +1,5 @@
 /*
- * function: func_021EBFDC
+ * function: BTLV_SCU_RunTrainerIntroOne
  * address: 0x021EBFDC
  * packet: pkt_ov093_021EBFDC
  * region: ov093
@@ -10,8 +10,8 @@
  * symbols:
  *   BTL_MAIN_GetTrainerType 0x021BA020 thumb ov093
  *   func_021F7F58 0x021F7F58 thumb ov094
- *   func_021ED798 0x021ED798 thumb ov093
- *   func_021ED814 0x021ED814 thumb ov093
+ *   BTLV_SCU_StartMsgWinFadeOut 0x021ED798 thumb ov093
+ *   BTLV_SCU_UpdateMsgWinFade 0x021ED814 thumb ov093
  *   func_021F7A28 0x021F7A28 thumb ov094
  *   BTLV_SCU_StartBrightnessFade 0x021EB584 thumb ov093
  *   func_021F7EB4 0x021F7EB4 thumb ov094
@@ -19,8 +19,8 @@
  *   BTLV_SCU_GetBallStates 0x021EE104 thumb ov093
  *   func_021F823C 0x021F823C thumb ov094
  *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
- *   func_021ECEB8 0x021ECEB8 thumb ov093
- *   func_021ECF68 0x021ECF68 thumb ov093
+ *   BTLV_SCU_StartMessage 0x021ECEB8 thumb ov093
+ *   BTLV_SCU_UpdateMessage 0x021ECF68 thumb ov093
  */
 #include "../include/Obj00027.h"
 typedef unsigned char u8;
@@ -30,8 +30,8 @@ struct S { int h, x, y, dx, dy; u8 state, cnt; };
 extern u16 BTL_MAIN_GetTrainerType(char *, int);
 extern void func_021F7F58(int, u32, u32, u32, u32);
 struct T;
-extern void func_021ED798(struct S *s);
-extern int func_021ED814(struct S *);
+extern void BTLV_SCU_StartMsgWinFadeOut(struct S *s);
+extern int BTLV_SCU_UpdateMsgWinFade(struct S *);
 extern void func_021F7A28(int, u32);
 extern void BTLV_SCU_StartBrightnessFade(int);
 extern int func_021F7EB4(void);
@@ -39,9 +39,9 @@ extern void *BTL_MAIN_GetCompetitor(void ***);
 extern void BTLV_SCU_GetBallStates(u8 *p, u32 *out, u32 a, u32 b, u32 flag);
 extern void func_021F823C(u32 *);
 extern void BTL_MSG_FormatArgs(u32, u16, u32, ...);
-extern void func_021ECEB8(u8 *, u32, u16, u32);
-extern int func_021ECF68(struct T *p);
-int func_021EBFDC(u8 *p, int *state, u16 i)
+extern void BTLV_SCU_StartMessage(u8 *, u32, u16, u32);
+extern int BTLV_SCU_UpdateMessage(struct T *p);
+int BTLV_SCU_RunTrainerIntroOne(u8 *p, int *state, u16 i)
 {
     u8 *b = p + 0xf0;
     int msg;
@@ -50,11 +50,11 @@ int func_021EBFDC(u8 *p, int *state, u16 i)
     case 0:
         b[1] = 9;
         func_021F7F58(BTL_MAIN_GetTrainerType(*(char * *)&((struct Obj00027 *)p)->f134, i), b[1], 0, 0, 0);
-        func_021ED798((struct S *)(p + 0x154));
+        BTLV_SCU_StartMsgWinFadeOut((struct S *)(p + 0x154));
         (*state)++;
         break;
     case 1:
-        if (func_021ED814((struct S *)(p + 0x154))) {
+        if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154))) {
             func_021F7A28(b[1], 0x237);
             BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
@@ -67,19 +67,19 @@ int func_021EBFDC(u8 *p, int *state, u16 i)
             BTLV_SCU_GetBallStates(p, buf, i, 4, 1);
             func_021F823C(buf);
             BTL_MSG_FormatArgs(((struct Obj00027 *)p)->f34, msg, 1, i);
-            func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
+            BTLV_SCU_StartMessage(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }
         break;
     case 3:
-        if (func_021ECF68((struct T *)p)) {
+        if (BTLV_SCU_UpdateMessage((struct T *)p)) {
             func_021F7A28(b[1], 0x238);
-            func_021ED798((struct S *)(p + 0x154));
+            BTLV_SCU_StartMsgWinFadeOut((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
     case 4:
-        if (func_021ED814((struct S *)(p + 0x154)) && !func_021F7EB4()) return 1;
+        if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154)) && !func_021F7EB4()) return 1;
         break;
     }
     return 0;

@@ -1,7 +1,7 @@
 /*
  * file:     rail_slipdown.c
  * unit:     yes
- * function: func_021F36C0, func_021F3758, func_021F376C, func_021F377C
+ * function: RAIL_SLIPDOWN_Create, RAIL_SLIPDOWN_Delete, RAIL_SLIPDOWN_IsDone, RAIL_SLIPDOWN_TaskMain
  * address:  0x021F36C0
  * region:   ov063
  * compiler: dsi/1.1p1
@@ -27,7 +27,7 @@
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_021F377C  0x021F377C  thumb  ov063
+ *   RAIL_SLIPDOWN_TaskMain  0x021F377C  thumb  ov063
  *   d_021F3D80     0x021F3D80  data  a1
  *   func_02030EAC  0x02030EAC  arm
  *   func_020307B0  0x020307B0  arm
@@ -92,12 +92,12 @@ extern void FLDMMDL_OnMoveBitMovePause(struct Mmdl *mmdl);
 extern void *FIELDMAP_GetTcblSys(void *fieldMap);
 extern RailSlipdown *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct TcbTask *func_02030DA8(void *tcblSys, void (*func)(void *tcb, RailSlipdown *slipdown), RailSlipdown *arg, u32 priority);
-extern void func_021F377C(void *tcb, RailSlipdown *slipdown);
+extern void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown);
 extern void func_02030EAC(struct TcbTask *task);
 extern u32 func_020307B0(void *p);
-RailSlipdown *func_021F36C0(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer);
-void func_021F3758(RailSlipdown *slipdown);
-int func_021F376C(RailSlipdown *slipdown);
+RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer);
+void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown);
+int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown);
 extern const char d_021F3D80[];
 typedef long long s64;
 extern int FLDMMDL_RAIL_GetDrawOffset(struct Mmdl *mmdl, SlipdownDir *out);
@@ -144,7 +144,7 @@ static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
 static inline void setDir16(SlipdownDir *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
 static inline void setVec(VecFx32 *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
 
-RailSlipdown *func_021F36C0(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer)
+RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer)
 {
     RailSlipdown *slipdown;
 
@@ -164,17 +164,17 @@ RailSlipdown *func_021F36C0(void *gameSystem, void *fieldMap, struct Mmdl *mmdl,
     FLDMMDL_SetStatusBitAttrGetOff(slipdown->mmdl, 1);
     FLDMMDL_SetStatusBitFellowHit(slipdown->mmdl, 0);
     FLDMMDL_OnMoveBitMovePause(slipdown->mmdl);
-    slipdown->task = func_02030DA8(FIELDMAP_GetTcblSys(fieldMap), func_021F377C, slipdown, 0);
+    slipdown->task = func_02030DA8(FIELDMAP_GetTcblSys(fieldMap), RAIL_SLIPDOWN_TaskMain, slipdown, 0);
     return slipdown;
 }
 
-void func_021F3758(RailSlipdown *slipdown)
+void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown)
 {
     func_02030EAC(slipdown->task);
     func_020307B0(slipdown);
 }
 
-int func_021F376C(RailSlipdown *slipdown)
+int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown)
 {
     if (slipdown->state == SLIPDOWN_STATE_DONE) {
         return 1;
@@ -186,7 +186,7 @@ int func_021F376C(RailSlipdown *slipdown)
  * Task of RAIL_SLIPDOWN_Create. Finds the landing place below the model,
  * then slides the model (and the camera with it) from start to end in steps.
  */
-void func_021F377C(void *tcb, RailSlipdown *slipdown)
+void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
 {
     int stepFixed;
     struct RailManager *railMan;

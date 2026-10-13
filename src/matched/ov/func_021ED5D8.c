@@ -1,5 +1,5 @@
 /*
- * function: func_021ED5D8
+ * function: BTLV_SCU_IsMonFormChangeDone
  * address:  0x021ED5D8
  * packet:   pkt_021EA478
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ED5D8   0x021ED5D8  thumb  ov093
+ *   BTLV_SCU_IsMonFormChangeDone   0x021ED5D8  thumb  ov093
 
- * Untraced mid-stream entry point, same shape as func_021ED374 with the offset 0x40.
+ * Untraced mid-stream entry point, same shape as BTLV_SCU_IsMonWithdrawDone with the offset 0x40.
  */
 
 typedef unsigned char u8;
@@ -22,5 +22,5 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u32 func_021ED5D8(u8 *p) { if (p[0x40] == 0) return 1; return 0; }
+u32 BTLV_SCU_IsMonFormChangeDone(u8 *p) { if (p[0x40] == 0) return 1; return 0; }
 

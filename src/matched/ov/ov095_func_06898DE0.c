@@ -1,5 +1,5 @@
 /*
- * function: func_06898DE0
+ * function: HAND_SIDE_GetStackCountByFactor
  * address: 0x06898DE0
  * packet: pkt_ov095_06898DE0
  * region: ov095
@@ -15,7 +15,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 extern int func_06898E0C(int);
 extern const u32 d_0689E7EC[];
-int func_06898DE0(int a, u32 b)
+int HAND_SIDE_GetStackCountByFactor(int a, u32 b)
 {
     int index;
     index = func_06898E0C(a);

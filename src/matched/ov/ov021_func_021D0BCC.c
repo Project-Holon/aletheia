@@ -1,5 +1,5 @@
 /*
- * function: func_021D0BCC
+ * function: TRIAL_HOUSE_GetTrainerObjCode
  * address:  0x021D0BCC
  * packet:   pkt_021D0BCC
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 
 u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 a0);
 
-void func_021D0BCC(char *p)
+void TRIAL_HOUSE_GetTrainerObjCode(char *p)
 {
     FLD_BTL_INST_TOOL_LookupKeyValue(((struct Obj20293 *)p)->f4);
 }

@@ -11,13 +11,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-#define GIMMICK65_SAVE_BLOCK     0x36   /* field save gimmick block id */
-#define GIMMICK65_ANIME_COUNT    2
-#define GIMMICK65_FIRST_NIGHT_TIME_ZONE 3   /* time zones 3 and 4 use the night models */
-#define GIMMICK65_SE_START_NIGHT 0x7F7
-#define GIMMICK65_SE_START_DAY   0x7F8
-#define GIMMICK65_SE_DAY_PEAK    0x7F9   /* day variant, played at the peak frame */
-#define GIMMICK65_PEAK_FRAME     0x3C000 /* fx32 frame 60 of animation 0 */
+#define FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK     0x36   /* field save gimmick block id */
+#define FIELD_GIMMICK_TIME_EFFECT_ANIME_COUNT    2
+#define FIELD_GIMMICK_TIME_EFFECT_FIRST_NIGHT_TIME_ZONE 3   /* time zones 3 and 4 use the night models */
+#define FIELD_GIMMICK_TIME_EFFECT_SE_START_NIGHT 0x7F7
+#define FIELD_GIMMICK_TIME_EFFECT_SE_START_DAY   0x7F8
+#define FIELD_GIMMICK_TIME_EFFECT_SE_DAY_PEAK    0x7F9   /* day variant, played at the peak frame */
+#define FIELD_GIMMICK_TIME_EFFECT_PEAK_FRAME     0x3C000 /* fx32 frame 60 of animation 0 */
 
 typedef struct VecFx32 {
     int x;

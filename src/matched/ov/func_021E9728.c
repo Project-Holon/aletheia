@@ -1,5 +1,5 @@
 /*
- * function: func_021E9728
+ * function: BTLV_CORE_SetStep
  * address:  0x021E9728
  * packet:   pkt_021E8CFC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E9728   0x021E9728  thumb
+ *   BTLV_CORE_SetStep   0x021E9728  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: str r1, [r0, #0x14]; movs r1, #0; str r1, [r0, #0x18]; bx lr.
  */
@@ -24,7 +24,7 @@ typedef signed int s32;
 
 /* 021E9728  str r1,[r0,#0x14]; movs r1,#0; str r1,[r0,#0x18] */
 struct QU { u8 pad[0x14]; u32 a; u32 b; };
-void func_021E9728(struct QU *p, u32 v)
+void BTLV_CORE_SetStep(struct QU *p, u32 v)
 {
     p->a = v;
     p->b = 0;

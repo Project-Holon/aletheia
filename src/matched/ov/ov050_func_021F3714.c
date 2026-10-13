@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK50_InitModelsB
+ * function: FIELD_GIMMICK_MODELS_B_StartModel0Anime
  * address: 0x021F3714
  * packet: pkt_ov050_021F3714
  * region: ov050
@@ -20,4 +20,4 @@ extern int FIELDMAP_GetExpObj(int *);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *, int,int,int,int);
 extern void *FLD_EXP_OBJ_GetAnime(char *, int,unsigned int,int);
 extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *,int);
-void GIMMICK50_InitModelsB(int *p) { char *q=(char *)FIELDMAP_GetExpObj(p); FLD_EXP_OBJ_SetAnimeEnabled(q,0,0,0,1); FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(q,0,0,0),0); }
+void FIELD_GIMMICK_MODELS_B_StartModel0Anime(int *p) { char *q=(char *)FIELDMAP_GetExpObj(p); FLD_EXP_OBJ_SetAnimeEnabled(q,0,0,0,1); FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(q,0,0,0),0); }

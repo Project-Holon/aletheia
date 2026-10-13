@@ -22,7 +22,7 @@
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   func_02030734  0x02030734  arm
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
- *   GIMMICK51_Exit  0x021F36EC  thumb  ov051
+ *   FIELD_GIMMICK_D06_GetStoneCount  0x021F36EC  thumb  ov051
  *   FIELD_GIMMICK_D06_GetStonePositions  0x021F36E0  thumb  ov051
  *   FIELD_GIMMICK_D06_AddStone  0x021F3B44  thumb  ov051
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
@@ -53,7 +53,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void FIELD_EFFECT_LoadResources(int, int *, int);
-extern int GIMMICK51_Exit(int a);
+extern int FIELD_GIMMICK_D06_GetStoneCount(int a);
 extern int FIELD_GIMMICK_D06_GetStonePositions(int a);
 extern void FIELD_GIMMICK_D06_AddStone(int *a, int *out, int x, int y);
 extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
@@ -94,7 +94,7 @@ void FIELD_GIMMICK_D06_Init(unsigned char *a)
     n = 0xb;
     FIELD_EFFECT_LoadResources(sp8, &n, 1);
     if (((struct Obj09844 *)p)->f0 == 0) {
-        cnt = GIMMICK51_Exit(q[0]);
+        cnt = FIELD_GIMMICK_D06_GetStoneCount(q[0]);
         e = (int *)FIELD_GIMMICK_D06_GetStonePositions(q[0]);
         i = 0;
         if (i < cnt)

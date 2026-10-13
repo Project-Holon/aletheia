@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_ShowLiftAnime
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime
  * address:  0x021F3F38
  * packet:   pkt_ov043_021F3F38
  * region:   ov043
@@ -26,7 +26,7 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern void *FLD_EXP_OBJ_GetAnime(void *p, int i, u16 j, u16 k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 
-void GIMMICK43_ShowLiftAnime(int *a, void *b, int c)
+void FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime(int *a, void *b, int c)
 {
     int r4, r6;
 

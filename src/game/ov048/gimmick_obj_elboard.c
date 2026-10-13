@@ -23,7 +23,7 @@
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F230  0x0201F230  thumb
  *   func_0201ED04  0x0201ED04  thumb
- *   d_021F50C0     0x021F50C0  data  a4
+ *   gElboardLayout     0x021F50C0  data  a4
  *   func_0201EC74  0x0201EC74  thumb
  *   func_02045B38  0x02045B38  arm
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
@@ -164,7 +164,7 @@ typedef struct ElboardHighlights {
 } ElboardHighlights;
 
 /*
- * Layout table of the board lanes (d_021F50C0, 0x64 bytes), shared with
+ * Layout table of the board lanes (gElboardLayout, 0x64 bytes), shared with
  * field_gimmick_gate.c. The label message ids that follow it in the data are
  * gElboardLabelMsgId. They stay out of the struct on purpose: with a struct above
  * about 0x70 bytes the compiler schedules GIMMICK_OBJ_ELBOARD_AddDateMessage differently.
@@ -355,11 +355,11 @@ struct GameEvent *GIMMICK_OBJ_ELBOARD_CreateCameraEvent(struct GameSystem *gameS
 int GIMMICK_OBJ_ELBOARD_ReadGateEntry(void *dst, u32 archiveId, u32 memberIndex);
 int GIMMICK_OBJ_ELBOARD_CheckEntryZone(GateNewsEntry *entry, int zoneId);
 int GIMMICK_OBJ_ELBOARD_CheckEntryGPower(GateNewsEntry *entry);
-extern ElboardLayout d_021F50C0;
-extern u32 gElboardLabelMsgId[];        /* labelMsgId, inside d_021F50C0 */
-extern u16 gElboardLayoutAnimIndex[];        /* animIndex, inside d_021F50C0 */
-extern const char *gElboardLayoutTextureName[];  /* textureName, inside d_021F50C0 */
-extern const char *gElboardLayoutPaletteName[];  /* paletteName, inside d_021F50C0 */
+extern ElboardLayout gElboardLayout;
+extern u32 gElboardLabelMsgId[];        /* labelMsgId, inside gElboardLayout */
+extern u16 gElboardLayoutAnimIndex[];        /* animIndex, inside gElboardLayout */
+extern const char *gElboardLayoutTextureName[];  /* textureName, inside gElboardLayout */
+extern const char *gElboardLayoutPaletteName[];  /* paletteName, inside gElboardLayout */
 extern const int gElboardNoticeLanes[];  /* lanes of the notice list: 2, 3, 4, 5 */
 extern u16 gElboardPlaceTable[1];       /* places looked up in the table: {0x71} */
 extern u8 gElboardPlaceKinds[3];        /* kinds that qualify: {6, 7, 8} */
@@ -461,9 +461,9 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     func_0201EFA4(wordSet, 2, locals.date.year, 2, 2, 1);
     func_0201F230(wordSet, 0, locals.date.month);
     func_0201EFA4(wordSet, 1, locals.date.day, 2, 0, 1);
-    locals.msg.animIndex = d_021F50C0.animIndex[0];
-    locals.msg.textureName = d_021F50C0.textureName[0];
-    locals.msg.paletteName = d_021F50C0.paletteName[0];
+    locals.msg.animIndex = gElboardLayout.animIndex[0];
+    locals.msg.textureName = gElboardLayout.textureName[0];
+    locals.msg.paletteName = gElboardLayout.paletteName[0];
     locals.msg.arcId = 2;
     locals.msg.fileId = 0x26;
     locals.msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dateMsgId;
@@ -546,9 +546,9 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
         msgId = 0xc4;
         break;
     }
-    msg.animIndex = d_021F50C0.animIndex[1];
-    msg.textureName = d_021F50C0.textureName[1];
-    msg.paletteName = d_021F50C0.paletteName[1];
+    msg.animIndex = gElboardLayout.animIndex[1];
+    msg.textureName = gElboardLayout.textureName[1];
+    msg.paletteName = gElboardLayout.paletteName[1];
     msg.arcId = 2;
     msg.fileId = 0x26;
     msg.msgId = msgId;
@@ -578,9 +578,9 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
     func_0201EE0C(words, 0, placeName, 0, 1, 0);
     STRBUF_Delete(placeName);
     MSGDATA_Delete(placeNames);
-    msg.animIndex = d_021F50C0.animIndex[2];
-    msg.textureName = d_021F50C0.textureName[2];
-    msg.paletteName = d_021F50C0.paletteName[2];
+    msg.animIndex = gElboardLayout.animIndex[2];
+    msg.textureName = gElboardLayout.textureName[2];
+    msg.paletteName = gElboardLayout.paletteName[2];
     msg.arcId = 2;
     msg.fileId = 0x26;
     msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->newsMsgId;
@@ -606,9 +606,9 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage1(GateWork *work)
     case 5: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[5]; break;
     case 6: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[2]; break;
     }
-    msg.animIndex = d_021F50C0.animIndex[3];
-    msg.textureName = d_021F50C0.textureName[3];
-    msg.paletteName = d_021F50C0.paletteName[3];
+    msg.animIndex = gElboardLayout.animIndex[3];
+    msg.textureName = gElboardLayout.textureName[3];
+    msg.paletteName = gElboardLayout.paletteName[3];
     msg.arcId = 2;
     msg.fileId = 0x26;
     msg.wordSet = 0;
@@ -632,9 +632,9 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage2(GateWork *work)
     case 5: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[6]; break;
     case 6: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[3]; break;
     }
-    msg.animIndex = d_021F50C0.animIndex[4];
-    msg.textureName = d_021F50C0.textureName[4];
-    msg.paletteName = d_021F50C0.paletteName[4];
+    msg.animIndex = gElboardLayout.animIndex[4];
+    msg.textureName = gElboardLayout.textureName[4];
+    msg.paletteName = gElboardLayout.paletteName[4];
     msg.arcId = 2;
     msg.fileId = 0x26;
     msg.wordSet = 0;
@@ -658,9 +658,9 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage3(GateWork *work)
     case 5: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[7]; break;
     case 6: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dayMsgId[4]; break;
     }
-    msg.animIndex = d_021F50C0.animIndex[5];
-    msg.textureName = d_021F50C0.textureName[5];
-    msg.paletteName = d_021F50C0.paletteName[5];
+    msg.animIndex = gElboardLayout.animIndex[5];
+    msg.textureName = gElboardLayout.textureName[5];
+    msg.paletteName = gElboardLayout.paletteName[5];
     msg.arcId = 2;
     msg.fileId = 0x26;
     msg.wordSet = 0;
@@ -684,9 +684,9 @@ void GIMMICK_OBJ_ELBOARD_AddWeekdayMessage(GateWork *work)
     case 5: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->weekMsgId[4]; break;
     case 6: msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->weekMsgId[5]; break;
     }
-    msg.animIndex = d_021F50C0.animIndex[6];
-    msg.textureName = d_021F50C0.textureName[6];
-    msg.paletteName = d_021F50C0.paletteName[6];
+    msg.animIndex = gElboardLayout.animIndex[6];
+    msg.textureName = gElboardLayout.textureName[6];
+    msg.paletteName = gElboardLayout.paletteName[6];
     msg.arcId = 2;
     msg.fileId = 0x26;
     msg.wordSet = 0;
@@ -721,9 +721,9 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
     for (i = 0; i < savedCount; i++)
         func_0201EE60(words, i, savedIds[i]);
     func_0201F02C(words, 6, GAME_DATA_GetMyStatus(work->gameData));
-    msg.animIndex = d_021F50C0.animIndex[3];
-    msg.textureName = d_021F50C0.textureName[3];
-    msg.paletteName = d_021F50C0.paletteName[3];
+    msg.animIndex = gElboardLayout.animIndex[3];
+    msg.textureName = gElboardLayout.textureName[3];
+    msg.paletteName = gElboardLayout.paletteName[3];
     msg.arcId = 2;
     msg.fileId = 0x26;
     msg.msgId = msgId;

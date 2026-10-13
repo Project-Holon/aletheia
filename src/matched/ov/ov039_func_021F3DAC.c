@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_GetDockLane
+ * function: FIELD_GIMMICK_CART_LANES_GetDockLane
  * address:  0x021F3DAC
  * packet:   pkt_021F3DAC
  * region:   ov039
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK39_GetDockLane 0x021F3DAC thumb
+ *   FIELD_GIMMICK_CART_LANES_GetDockLane 0x021F3DAC thumb
  *   sDockLanes    0x021F4C0C data ov039 a1
  */
 
 extern unsigned char sDockLanes[];
 
-unsigned char GIMMICK39_GetDockLane(int i)
+unsigned char FIELD_GIMMICK_CART_LANES_GetDockLane(int i)
 {
     return sDockLanes[i];
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_022080B0
+ * function: BTLV_GAUGE_CalcPixelChange
  * address:  0x022080B0
  * packet:   pkt_ov094_022080B0
  * region:   ov094
@@ -12,7 +12,7 @@
  * symbols:
  */
 
-int func_022080B0(int a, int b, int c, unsigned int d)
+int BTLV_GAUGE_CalcPixelChange(int a, int b, int c, unsigned int d)
 {
     int k;
     int x;

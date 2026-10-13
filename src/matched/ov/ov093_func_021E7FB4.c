@@ -1,5 +1,5 @@
 /*
- * function: func_021E7FB4
+ * function: HAND_WAZA_SkyDropBlockAllyTarget
  * address:  0x021E7FB4
  * packet:   pkt_ov093_021E7FB4
  * region:   ov093
@@ -23,7 +23,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E7FB4(int a, int b, int c)
+void HAND_WAZA_SkyDropBlockAllyTarget(int a, int b, int c)
 {
     u8 k;
 

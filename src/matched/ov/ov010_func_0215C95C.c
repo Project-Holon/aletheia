@@ -22,7 +22,7 @@
  * template) only reach an overlay loader through SCRCMD_PROC_StartOverlayProc, so no
  * class attests them.
  *
- * 2026-10-05 (wave D9): d_021BA758 now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches SCRCMD_PROC_StartOverlayProc, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to GAMESYSTEM_CallProc r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
+ * 2026-10-05 (wave D9): gPlayerProfileProcData now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches SCRCMD_PROC_StartOverlayProc, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to GAMESYSTEM_CallProc r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
  *
  * symbols:
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
@@ -40,7 +40,7 @@
  *   INTRUDE_COMM_BuildLocalProfile  0x02175648  thumb  ov011
  *   SCRCMD_PROC_StartOverlayProc  0x0215C63C  thumb  ov010
  *   sAllocSiteScrcmdProc     0x021728F0  data  a1
- *   d_021BA758     0x021BA758  data  ov099  a1
+ *   gPlayerProfileProcData     0x021BA758  data  ov099  a1
  *   ov071_id       0x00000047  data
  */
 
@@ -96,7 +96,7 @@ extern u16 *func_0200BE48(void *sys);
 extern void INTRUDE_COMM_BuildLocalProfile(void *sv, struct Out *o);
 extern void SCRCMD_PROC_StartOverlayProc(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
 extern const char sAllocSiteScrcmdProc[];
-extern const u8 d_021BA758[];
+extern const u8 gPlayerProfileProcData[];
 extern u8 ov071_id[];
 
 int SCRCMD_PROC_CallPlayerProfile(void *c, void *vm)
@@ -129,6 +129,6 @@ int SCRCMD_PROC_CallPlayerProfile(void *c, void *vm)
     }
     w->sys = sys;
     w->slot = idx;
-    SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov071_id, d_021BA758, w, 0, 0);
+    SCRCMD_PROC_StartOverlayProc(c, vm, (u32)ov071_id, gPlayerProfileProcData, w, 0, 0);
     return 1;
 }

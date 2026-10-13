@@ -1,5 +1,5 @@
 /*
- * function: func_021EDE54
+ * function: BTLV_SCU_DrawNamePlate
  * address: 0x021EDE54
  * packet: pkt_ov093_021EDE54
  * region: ov093
@@ -34,7 +34,7 @@ extern u32 func_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
-void func_021EDE54(u8 *p)
+void BTLV_SCU_DrawNamePlate(u8 *p)
 {
     u8 *q;
     u32 size;

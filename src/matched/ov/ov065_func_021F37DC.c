@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK65_Update
+ * function: FIELD_GIMMICK_TIME_EFFECT_Update
  * address:  0x021F37DC
  * packet:   pkt_ov065_021F37DC
  * region:   ov065
@@ -43,7 +43,7 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 
-void GIMMICK65_Update(int a)
+void FIELD_GIMMICK_TIME_EFFECT_Update(int a)
 {
     int s;
     int *w;

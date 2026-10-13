@@ -1,5 +1,5 @@
 /*
- * function: func_02179498
+ * function: WIH_Finalize
  * address:  0x02179498
  * packet:   pkt_ov014_02179498
  * region:   ov014
@@ -11,39 +11,39 @@
  *
  * The DWC copy of the NitroSDK demo wh.c's WH_Finalize (DWCi_MOV_WH_*),
  * returning BOOL and reading its state from the work block behind
- * g_021797A8: +0x1E70 system state, +0x1E74 connect mode, +0x1444 the
+ * gWihWork: +0x1E70 system state, +0x1E74 connect mode, +0x1444 the
  * data-sharing info, +0x1E98 an error latch, +0x1EDF a byte flag.
  *
  * symbols:
- *   g_021797A8          0x021797A8  data   ov014  a4
+ *   gWihWork          0x021797A8  data   ov014  a4
  *   DWCi_MOV_WH_StateInEndKeyShare       0x0217945C  thumb  ov014
  *   DWCi_MOV_WH_EndScan       0x021788FC  thumb  ov014
- *   func_02178138       0x02178138  thumb  ov014
- *   func_02178C50       0x02178C50  thumb  ov014
- *   func_021784AC       0x021784AC  thumb  ov014
+ *   WIH_ChangeSysState       0x02178138  thumb  ov014
+ *   WIH_StateInEndChildMP       0x02178C50  thumb  ov014
+ *   WIH_StateInEndParentMP       0x021784AC  thumb  ov014
  *   WM_EndDataSharing   0x0209028C  arm
  */
 
 typedef unsigned char u8;
 typedef int BOOL;
 
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 
 extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 extern BOOL DWCi_MOV_WH_EndScan(void);
-extern void func_02178138(int state);
-extern BOOL func_02178C50(void);
-extern BOOL func_021784AC(void);
+extern void WIH_ChangeSysState(int state);
+extern BOOL WIH_StateInEndChildMP(void);
+extern BOOL WIH_StateInEndParentMP(void);
 extern int WM_EndDataSharing(void *info);
 
-BOOL func_02179498(void)
+BOOL WIH_Finalize(void)
 {
     int state;
 
-    if (g_021797A8 == 0 || (state = *(int *)(g_021797A8 + 0x1E70)) == 1)
+    if (gWihWork == 0 || (state = *(int *)(gWihWork + 0x1E70)) == 1)
         return 1;
 
-    if (*(int *)(g_021797A8 + 0x1E98) != 0) {
+    if (*(int *)(gWihWork + 0x1E98) != 0) {
         DWCi_MOV_WH_StateInEndKeyShare();
         return 1;
     }
@@ -57,37 +57,37 @@ BOOL func_02179498(void)
         return 1;
     }
 
-    if (g_021797A8[0x1EDF] != 0)
+    if (gWihWork[0x1EDF] != 0)
         return 1;
 
     if (state != 5 && state != 4) {
-        func_02178138(3);
+        WIH_ChangeSysState(3);
         DWCi_MOV_WH_StateInEndKeyShare();
         return 1;
     }
 
-    func_02178138(3);
+    WIH_ChangeSysState(3);
 
-    switch (*(int *)(g_021797A8 + 0x1E74)) {
+    switch (*(int *)(gWihWork + 0x1E74)) {
     case 5:
-        if (WM_EndDataSharing(g_021797A8 + 0x1444) != 0) {
+        if (WM_EndDataSharing(gWihWork + 0x1444) != 0) {
             DWCi_MOV_WH_StateInEndKeyShare();
             break;
         }
     case 1:
-        if (!func_02178C50())
+        if (!WIH_StateInEndChildMP())
             DWCi_MOV_WH_StateInEndKeyShare();
         break;
     case 2:
     case 3:
         break;
     case 4:
-        if (WM_EndDataSharing(g_021797A8 + 0x1444) != 0) {
+        if (WM_EndDataSharing(gWihWork + 0x1444) != 0) {
             DWCi_MOV_WH_StateInEndKeyShare();
             break;
         }
     case 0:
-        if (!func_021784AC())
+        if (!WIH_StateInEndParentMP())
             DWCi_MOV_WH_StateInEndKeyShare();
         break;
     }

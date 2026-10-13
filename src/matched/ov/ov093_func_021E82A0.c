@@ -1,5 +1,5 @@
 /*
- * function: func_021E82A0
+ * function: HAND_WAZA_GetFreezeShockIceBurnHandlers
  * address: 0x021E82A0
  * packet: pkt_ov093_021E82A0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E8270.c and filed here.
  *
  * symbols:
- *   d_021F2814 0x021F2814 data ov093 a4
+ *   gFreezeShockIceBurnHandlers 0x021F2814 data ov093 a4
  */
 
-int *func_021E82A0(int *p);
-extern int d_021F2814[];
+int *HAND_WAZA_GetFreezeShockIceBurnHandlers(int *p);
+extern int gFreezeShockIceBurnHandlers[];
 
-int *func_021E82A0(int *p)
+int *HAND_WAZA_GetFreezeShockIceBurnHandlers(int *p)
 {
     *p = 1;
-    return d_021F2814;
+    return gFreezeShockIceBurnHandlers;
 }

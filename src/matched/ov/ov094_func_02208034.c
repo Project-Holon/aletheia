@@ -1,5 +1,5 @@
 /*
- * function: func_02208034
+ * function: BTLV_GAUGE_CalcTileFill
  * address:  0x02208034
  * packet:   pkt_ov094_02208034
  * region:   ov094
@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 func_02208034(u32 a, int b, int c, u32 *pp, u8 *out, u8 n)
+u8 BTLV_GAUGE_CalcTileFill(u32 a, int b, int c, u32 *pp, u8 *out, u8 n)
 {
     int lim;
     int i;

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK64_IsArcPeakReached
+ * function: FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached
  * address: 0x021F3BAC
  * packet: pkt_ov064_021F3BAC
  * region: ov064
@@ -25,7 +25,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int FIELDMAP_GetExpObj(int *p);
 extern int FLD_EXP_OBJ_GetAnimeFrame(int a, int b, int c, int d);
 
-int GIMMICK64_IsArcPeakReached(void *p)
+int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *p)
 {
     unsigned char zero;
     unsigned char flag;

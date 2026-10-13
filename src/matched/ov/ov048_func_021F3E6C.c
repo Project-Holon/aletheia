@@ -16,7 +16,7 @@
  *   func_0201F230  0x0201F230  thumb
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
  *   func_0201ED04  0x0201ED04  thumb
- *   d_021F50C0     0x021F50C0  data  a4
+ *   gElboardLayout     0x021F50C0  data  a4
  */
 
 #include "../include/G_T.h"
@@ -27,7 +27,7 @@ struct WordSet;
 struct Date { int a, b, c, d; };
 struct Rec { u16 h; u32 f4, f8, fc, f10, f14, f18; };
 struct Tab { u16 pad[2]; u16 h4; };
-extern struct T d_021F50C0;
+extern struct T gElboardLayout;
 
 extern struct WordSet *func_0201EC64(u32 heap);
 struct RTCDate;
@@ -47,9 +47,9 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(int *p)
     func_0201EFA4(w, 2, L.d.a, 2, 2, 1);
     func_0201F230(w, 0, L.d.b);
     func_0201EFA4(w, 1, L.d.c, 2, 0, 1);
-    L.r.h = d_021F50C0.h;
-    L.r.f4 = d_021F50C0.f2c;
-    L.r.f8 = d_021F50C0.f48;
+    L.r.h = gElboardLayout.h;
+    L.r.f4 = gElboardLayout.f2c;
+    L.r.f8 = gElboardLayout.f48;
     L.r.fc = 2;
     L.r.f10 = 0x26;
     L.r.f14 = *(u32 *)(*(u32 *)((u32)p + 0x1c) + 0x18);

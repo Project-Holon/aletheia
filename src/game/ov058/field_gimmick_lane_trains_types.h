@@ -41,24 +41,24 @@ struct GameSystem;
 struct GameData;
 struct GimmickWork;
 
-#define GIMMICK58_LANE_COUNT       3
-#define GIMMICK58_MODELS_PER_LANE  4
+#define FIELD_GIMMICK_LANE_TRAINS_LANE_COUNT       3
+#define FIELD_GIMMICK_LANE_TRAINS_MODELS_PER_LANE  4
 
 /* The track runs along x between these two positions (fx32). */
-#define GIMMICK58_TRACK_MIN_X      0x1770000
-#define GIMMICK58_TRACK_MAX_X      0x1C60000
+#define FIELD_GIMMICK_LANE_TRAINS_TRACK_MIN_X      0x1770000
+#define FIELD_GIMMICK_LANE_TRAINS_TRACK_MAX_X      0x1C60000
 /* How far the trail model stays behind the lead model. */
-#define GIMMICK58_TRAIL_GAP        0x60000
+#define FIELD_GIMMICK_LANE_TRAINS_TRAIL_GAP        0x60000
 /* Height of the models. */
-#define GIMMICK58_TRAIN_Y          0x50000
+#define FIELD_GIMMICK_LANE_TRAINS_TRAIN_Y          0x50000
 /* The z of the eastbound and the westbound track. */
-#define GIMMICK58_EAST_TRACK_Z     0x2100000
-#define GIMMICK58_WEST_TRACK_Z     0x20B0000
+#define FIELD_GIMMICK_LANE_TRAINS_EAST_TRACK_Z     0x2100000
+#define FIELD_GIMMICK_LANE_TRAINS_WEST_TRACK_Z     0x20B0000
 /* The player hears a train while the player stands in this z range. */
-#define GIMMICK58_HEAR_MIN_Z       0x2020000
-#define GIMMICK58_HEAR_MAX_Z       0x2140000
+#define FIELD_GIMMICK_LANE_TRAINS_HEAR_MIN_Z       0x2020000
+#define FIELD_GIMMICK_LANE_TRAINS_HEAR_MAX_Z       0x2140000
 /* The player hears it when the lead model is at most this far ahead of the player. */
-#define GIMMICK58_HEAR_DISTANCE    0x40000
+#define FIELD_GIMMICK_LANE_TRAINS_HEAR_DISTANCE    0x40000
 
 /* Movement state of one train (8 bytes). */
 typedef struct Gimmick58Train {

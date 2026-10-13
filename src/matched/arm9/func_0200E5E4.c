@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled arm9 leaf: the low seven bits of the halfword at +0x5C4. Filed
- * as the relocation witness for ov021 func_021D0C58 (wave A1).
+ * as the relocation witness for ov021 TRIAL_HOUSE_DeliveryTaskMain (wave A1).
  */
 #include "../include/Obj15608.h"
 

@@ -15,7 +15,7 @@
  * 2026-10-05 (D9 lane 02): 021C4B8C is `adds r1,r0,#0; ldr r0,[pc]; ldr r3,[pc]; bx r3` with pool words 0x021C4B9D and 0x06898D55: a linker thunk to a function outside the image, not C
  *   (a C call through the constant gives push/blx/pop, 14 bytes differ). The veneers are the same kind. Stays MATCH*.
  * 2026-10-05 (D9r lane16): 021C4B8C is NOT a linker thunk. It is C: a Thumb
- *   tail call `func_06898D54(BTL_SERVER_FLOW_OnSideEffectExpired, p)` into the matched ov095 walker
+ *   tail call `HAND_SIDE_TickTurns(BTL_SERVER_FLOW_OnSideEffectExpired, p)` into the matched ov095 walker
  *   (ov095 lives in VRAM at 0x0689xxxx). BTL_SERVER_FLOW_OnSideEffectExpired (new EXACT witness,
  *   src/matched/ov/ov093_func_021C4B9C.c) is the callback that swaps args and
  *   tail calls BTL_SERVER_FLOW_PushSideEffectExpireMessage. BTL_SERVER_FLOW_ProcSideEffectsExpire itself verifies MATCH (pending

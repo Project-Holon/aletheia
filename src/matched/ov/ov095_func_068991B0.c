@@ -1,5 +1,5 @@
 /*
- * function: func_068991B0
+ * function: HAND_SIDE_TailwindDoubleSpeed
  * address: 0x068991B0
  * packet: pkt_ov095_068991B0
  * region: ov095
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 extern int func_068991D4(int);
 extern int func_068991E4(u8);
 extern void func_068991F4(int, int);
-void func_068991B0(int a0, int a1, int value)
+void HAND_SIDE_TailwindDoubleSpeed(int a0, int a1, int value)
 {
     int two;
     two = 2;

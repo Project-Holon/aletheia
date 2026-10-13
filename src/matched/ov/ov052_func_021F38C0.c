@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: FIELD_GIMMICK_BSUBWAY_InitTrainSway, func_021F38E4
+ * function: FIELD_GIMMICK_BSUBWAY_InitTrainSway, FIELD_GIMMICK_BSUBWAY_ExitTrainSway
  * address: 0x021F38C0
  * packet: pkt_ov052_021F38C0
  * region: ov052
@@ -28,7 +28,7 @@ void FIELD_GIMMICK_BSUBWAY_InitTrainSway(char *a)
     ((struct Obj13112 *)a)->f24 = func_02030734(((struct Obj13112 *)a)->fC, 12, 1, sFieldGimmickBsubwayFileName, 0x164);
 }
 
-void func_021F38E4(char *a)
+void FIELD_GIMMICK_BSUBWAY_ExitTrainSway(char *a)
 {
     func_020307B0(((struct Obj20567 *)a)->f24);
 }

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK61_Update
+ * function: FIELD_GIMMICK_CONNECT_MARKERS_Update
  * address:  0x021F376C
  * packet:   pkt_ov061_021F376C
  * region:   ov061
@@ -17,12 +17,12 @@
  *   GAME_DATA_GetEventData  0x02012844  thumb
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   GIMMICK61_PlaceMarkers  0x021F388C  thumb  ov061
+ *   FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers  0x021F388C  thumb  ov061
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
- *   GIMMICK61_IsPlayerStepReady  0x021F3868  thumb  ov061
+ *   FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady  0x021F3868  thumb  ov061
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   FIELD_PLAYER_GetPosInDir  0x021A3364  thumb  ov021
  *   EVENTDATA_SYSTEM_CheckAutoPosEvent  0x02162478  thumb  ov010
@@ -50,19 +50,19 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
 extern int *FIELDMAP_GetCommonWork(char *a, int idx);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern void GIMMICK61_PlaceMarkers(int *o, int a);
+extern void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(int *o, int a);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_UpdateAnimes(int a);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
-extern int GIMMICK61_IsPlayerStepReady(void *unused, void *x);
+extern int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(void *unused, void *x);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 extern void FIELD_PLAYER_GetPosInDir(u32 *a, int b, int *out);
 extern int EVENTDATA_SYSTEM_CheckAutoPosEvent(char *p, int *v);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 
-void GIMMICK61_Update(struct Obj00020 *a)
+void FIELD_GIMMICK_CONNECT_MARKERS_Update(struct Obj00020 *a)
 {
     int *o;
     int s;
@@ -78,7 +78,7 @@ void GIMMICK61_Update(struct Obj00020 *a)
     o = FIELDMAP_GetCommonWork((char *)a, 0);
     cur = FIELDMAP_GetZoneId((u8 *)a);
     if (o[2] != cur) {
-        GIMMICK61_PlaceMarkers(o, (int)a);
+        FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(o, (int)a);
         o[2] = cur;
     }
     e = FLD_EXP_OBJ_GetAnime((char *)s, 0, 0, 0);
@@ -87,7 +87,7 @@ void GIMMICK61_Update(struct Obj00020 *a)
         FLD_EXP_OBJ_SetModelHidden((char *)s, 0, 0, 1);
         o[0] = 0;
     }
-    if (GIMMICK61_IsPlayerStepReady(o, g) == 0) {
+    if (FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(o, g) == 0) {
         return;
     }
     FIELD_PLAYER_GetPosInDir(g, FIELD_PLAYER_GetDirDisp(g), (int *)(&v));

@@ -19,8 +19,8 @@
  *   func_021F7998 0x021F7998 thumb ov094
  *   BTL_CLIENT_ShowEndSpeech 0x021D185C thumb ov093
  *   func_021F7EB4 0x021F7EB4 thumb ov094
- *   func_021EA600 0x021EA600 thumb ov093
- *   func_021EA710 0x021EA710 thumb ov093
+ *   BTLV_CORE_PrintMessageBuffer 0x021EA600 thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  */
 #include "../include/Obj00066.h"
 typedef unsigned char u8;
@@ -37,8 +37,8 @@ extern void func_021F7F58(int, u32, u32, u32, u32);
 extern void func_021F7998(u32 a);
 extern void BTL_CLIENT_ShowEndSpeech(void *, int, int);
 extern int func_021F7EB4(void);
-extern void func_021EA600(char *p);
-extern int func_021EA710(u32 *p);
+extern void BTLV_CORE_PrintMessageBuffer(char *p);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 int BTL_CLIENT_StepShowEndSpeech(u8 *p, int *state, void *a2)
 {
     u32 mode;
@@ -59,12 +59,12 @@ int BTL_CLIENT_StepShowEndSpeech(u8 *p, int *state, void *a2)
         break;
     case 1:
         if (func_021F7EB4() == 0) {
-            func_021EA600(((struct Obj00066 *)p)->f54);
+            BTLV_CORE_PrintMessageBuffer(((struct Obj00066 *)p)->f54);
             *state = 2;
         }
         break;
     case 2:
-        if (func_021EA710(((struct Obj00066 *)p)->f54) != 0) {
+        if (BTLV_CORE_WaitMessage(((struct Obj00066 *)p)->f54) != 0) {
             idx = BTL_MAIN_GetOwnOpponentClient(((struct Obj00066 *)p)->f0, 0);
             if (idx == BTL_MAIN_GetOwnOpponentClient(((struct Obj00066 *)p)->f0, 1)) return 1;
             func_021F7998(0x271);
@@ -83,12 +83,12 @@ int BTL_CLIENT_StepShowEndSpeech(u8 *p, int *state, void *a2)
         break;
     case 4:
         if (func_021F7EB4() == 0) {
-            func_021EA600(((struct Obj00066 *)p)->f54);
+            BTLV_CORE_PrintMessageBuffer(((struct Obj00066 *)p)->f54);
             *state = 5;
         }
         break;
     case 5:
-        if (func_021EA710(((struct Obj00066 *)p)->f54) != 0) return 1;
+        if (BTLV_CORE_WaitMessage(((struct Obj00066 *)p)->f54) != 0) return 1;
         break;
     }
     return 0;

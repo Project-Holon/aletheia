@@ -1,7 +1,7 @@
 /*
  * file:     btlv_finger_cursor.c
  * unit:     yes
- * function: func_02209A7C, func_02209B30, func_02209B60, func_02209C18, func_02209C2C, func_02209C30
+ * function: BTLV_FINGER_CURSOR_Create, BTLV_FINGER_CURSOR_Delete, BTLV_FINGER_CURSOR_Start, BTLV_FINGER_CURSOR_DeleteActor, BTLV_FINGER_CURSOR_IsActive, BTLV_FINGER_CURSOR_AnimCallback, BTLV_FINGER_CURSOR_TaskHideAfterDelay
  * address:  0x02209A7C
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -10,283 +10,280 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   d_0220AEFC     0x0220AEFC  data  ov094
- *   func_020490F4  0x020490F4  arm
- *   CLACT_RegisterCharacter  0x0204A6C8  arm
- *   CLACT_RegisterCellAnim  0x0204AF28  arm
- *   CLACT_RegisterPaletteEx  0x0204AC18  arm
- *   CLACT_GetPaletteVramAddress  0x0204AEF4  arm
- *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
- *   CLACT_CreateUnit  0x0204B100  arm
- *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   func_021F86D4  0x021F86D4  thumb  ov094
+ *   func_020307B0  0x020307B0  arm
+ *   func_02030EAC 0x02030EAC arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_02209CC4  0x02209CC4  thumb  ov094
- *   d_0220AC10     0x0220AC10  data   ov094  a4
- *   CLACT_CreateAffineActor  0x0204B324  arm
- *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   CLACT_SetActorAutoAnim  0x0204B92C  arm
+ *   func_02030734  0x02030734  arm
+ *   func_020490F4 0x020490F4 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
+ *   CLACT_CreateAffineActor 0x0204B324 arm
+ *   CLACT_SetActorAutoAnim 0x0204B92C arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   BTLV_FINGER_CURSOR_Delete  0x02209B30  thumb  ov094
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   BTLV_FINGER_CURSOR_Create  0x02209A7C  thumb  ov094
+ *   BTLV_FINGER_CURSOR_Start  0x02209B60  thumb  ov094
+ *   BTLV_FINGER_CURSOR_IsActive  0x02209C2C  thumb  ov094
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   func_021F86D4 0x021F86D4 thumb ov094
+ *   d_0220AEFC     0x0220AEFC  data  ov094
+ *   d_0220AC10     0x0220AC10  data   ov094  a4
+ *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   CLACT_ApplyActorAnimCommand  0x0204BA00  arm
- *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
- *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
- *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
- *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
- *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  */
-#include "../../matched/include/Obj10160.h"
+#include "btlv_effvm_types.h"
+#include "btlv_effect_shared_types.h"
+#include "btlv_clact_shared_types.h"
+#include "btlv_timer_shared_types.h"
 
-struct PalAnmSlot;
-struct Bank;
-struct Node;
-struct Actor;
-struct Cmd;
-struct Obj;
-typedef unsigned char u8;
+extern u32 func_020307B0(void *p);
 
-typedef unsigned short u16;
+extern void func_02030EAC(struct Node *n);
 
-typedef unsigned int u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-typedef struct {
-    int h0;                 /* 0x00 */
-    int pad04;
-    void *task;             /* 0x08 */
-    int h0c;                /* 0x0c */
-    int h10;                /* 0x10 */
-    int h14;                /* 0x14 */
-    char pad18[0x2c - 0x18];
-    u16 heap;               /* 0x2c */
-} W;
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-typedef signed int     s32;
+extern void *func_020490F4(u32 id, u32 heap);
 
-typedef struct {
-    int h0;
-    int f4;
-    void *f8;
-    int fc;
-    int f10;
-    int f14;
-} P_02209B30;
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 
-typedef struct {
-    u32 f0;
-    void *h;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u16 f2c;
-} P_02209B60;
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
+
+extern void CLACT_ReleaseCharacter(u32 i);
+
+extern void CLACT_ReleasePalette(u32 i);
+
+extern void CLACT_ReleaseCellAnim(u32 i);
+
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+
+extern void *func_021F86D4(void);
+
+struct ClactAnimCommand;
+
+/* Pointing-hand cursor shown over a battle menu entry (0x30 bytes). */
+typedef struct BtlvFingerCursor {
+    struct Bank *clactUnit;         /* 0x00 */
+    struct ClactActor *actor;       /* 0x04, null while hidden or deleted */
+    void *task;                     /* 0x08, delayed-hide task */
+    s32 charResId;                  /* 0x0c */
+    s32 palResId;                   /* 0x10 */
+    s32 cellResId;                  /* 0x14 */
+    u32 state;             /* 0x18, animation step 0..3 */
+    u32 startDelay;                 /* 0x1c, frames before the press animation */
+    u32 loopCount;                  /* 0x20, press animation loops */
+    u32 hideTimer;                  /* 0x24, frames until auto-hide */
+    u32 isActive;          /* 0x28 */
+    u16 heapId;                     /* 0x2c */
+} BtlvFingerCursor;
 
 typedef struct {
     u16 x;
     u16 y;
-    u32 rest[5];
-} Cfg;
+    u32 animParams[5];
+} ActorSetup;
 
-typedef struct {
-    u16 a;
-    u16 b;
-    void *p;
-    void *cb;
-} Msg;
+typedef struct ClactAnimCommand {
+    u16 kind;
+    u16 param;
+    void *userData;
+    void *callback;
+} ClactAnimCommand;
 
-typedef struct {
-    char pad[0x28];
-    int  val;
-} Obj;
-
-typedef struct {
-    u32 f0;
-    void *h;
-    u32 f8;
-    u32 fc;
-    u32 f10;
-    u32 f14;
-    volatile u32 f18;
-    u32 f1c;
-    u32 f20;
-    u32 f24;
-    volatile u32 f28;
-    u16 f2c;
-} P_02209C30;
-
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(u32 id, u32 heap);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void * h);
-extern void *func_021F86D4(void);
+
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
-extern void func_02209CC4(void *a, void *b);
-extern void func_02030EAC(struct Node *n);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
+
+extern void BTLV_FINGER_CURSOR_TaskHideAfterDelay(void *task, void *work);
+
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern u32 func_020307B0(void *p);
-extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
-extern void CLACT_DeleteActor(struct Obj *p);
-W *func_02209A7C(void *a0, u32 b, u16 heap);
-void func_02209B30(P_02209B30 *p);
-int func_02209B60(P_02209B60 *p, u16 a, u16 b, u32 c, u32 e, u32 f);
-void func_02209C18(char *p);
-int func_02209C2C(Obj *o);
-void func_02209C30(P_02209C30 *p);
+
+extern struct ClactActor *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
+
+extern void CLACT_SetActorAnimSeq(struct ClactActor *p, u16 value);
+
+extern void CLACT_SetActorAnimFrame(struct ClactActor *p, u32 value);
+
+extern void CLACT_SetActorAutoAnim(struct ClactActor *p, u32 v);
+
+extern void CLACT_SetActorDrawEnable(struct ClactActor *p, u32 v);
+
+extern void CLACT_ApplyActorAnimCommand(struct ClactActor *a, const struct ClactAnimCommand *cmd);
+
+extern void CLACT_DeleteActor(struct ClactActor *p);
+
+BtlvFingerCursor *BTLV_FINGER_CURSOR_Create(void *palAnmSlots, u32 palSlot, u16 heapId);
+
+void BTLV_FINGER_CURSOR_Delete(BtlvFingerCursor *cursor);
+
+int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, u16 x, u16 y, u32 startDelay, u32 loopCount, u32 hideTimer);
+
+void BTLV_FINGER_CURSOR_DeleteActor(BtlvFingerCursor *cursor);
+
+int BTLV_FINGER_CURSOR_IsActive(BtlvFingerCursor *cursor);
+
+void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor);
+
 extern char d_0220AEFC[];
-extern Cfg d_0220AC10;
 
+extern ActorSetup d_0220AC10;
 
-W *func_02209A7C(void *a0, u32 b, u16 heap)
+BtlvFingerCursor *BTLV_FINGER_CURSOR_Create(void *palAnmSlots, u32 palSlot, u16 heapId)
 {
-    W *w;
-    void *a;
+    BtlvFingerCursor *cursor;
+    void *archive;
 
-    w = func_02030734(heap, 0x30, 1, d_0220AEFC, 0x52);
-    a = func_020490F4(0xb, (u16)((heap & 0x7fff) | 0x8000));
-    w->heap = heap;
-    w->h0c = CLACT_RegisterCharacter(a, 0xd9, 0, 1, heap);
-    w->h14 = CLACT_RegisterCellAnim(a, 0xdb, 0xdc, heap);
-    w->h10 = CLACT_RegisterPaletteEx(a, 0xda, 1, (u16)(b << 5), 0, 1, heap);
-    PALANM_CopyHwPaletteToSlot(a0, 3, (u16)(CLACT_GetPaletteVramAddress(w->h10, 1) >> 1), 0x20);
-    w->h0 = (int)CLACT_CreateUnit(1, 0, heap);
-    ARC_TOOL_DeleteHandle(a);
-    w->task = func_02030DA8(func_021F86D4(), func_02209CC4, w, 0);
-    return w;
+    cursor = func_02030734(heapId, 0x30, 1, d_0220AEFC, 0x52);
+    archive = func_020490F4(0xb, (u16)((heapId & 0x7fff) | 0x8000));
+    cursor->heapId = heapId;
+    cursor->charResId = CLACT_RegisterCharacter(archive, 0xd9, 0, 1, heapId);
+    cursor->cellResId = CLACT_RegisterCellAnim(archive, 0xdb, 0xdc, heapId);
+    cursor->palResId = CLACT_RegisterPaletteEx(archive, 0xda, 1, (u16)(palSlot << 5), 0, 1, heapId);
+    PALANM_CopyHwPaletteToSlot(palAnmSlots, 3, (u16)(CLACT_GetPaletteVramAddress(cursor->palResId, 1) >> 1), 0x20);
+    cursor->clactUnit = CLACT_CreateUnit(1, 0, heapId);
+    ARC_TOOL_DeleteHandle(archive);
+    cursor->task = func_02030DA8(func_021F86D4(), BTLV_FINGER_CURSOR_TaskHideAfterDelay, cursor, 0);
+    return cursor;
 }
 
-
-void func_02209B30(P_02209B30 *p)
+void BTLV_FINGER_CURSOR_Delete(BtlvFingerCursor *cursor)
 {
-    func_02030EAC(p->f8);
-    func_02209C18((char *)p);
-    CLACT_ReleaseCharacter(p->fc);
-    CLACT_ReleaseCellAnim(p->f14);
-    CLACT_ReleasePalette(p->f10);
-    CLACT_DeleteUnit((struct Bank *)p->h0);
-    func_020307B0(p);
+    func_02030EAC(cursor->task);
+    BTLV_FINGER_CURSOR_DeleteActor(cursor);
+    CLACT_ReleaseCharacter(cursor->charResId);
+    CLACT_ReleaseCellAnim(cursor->cellResId);
+    CLACT_ReleasePalette(cursor->palResId);
+    CLACT_DeleteUnit(cursor->clactUnit);
+    func_020307B0(cursor);
 }
-
 
 /*
- * The f24 store is written out in both arms (the cross-jumped-tail idiom):
+ * The hideTimer store is written out in both arms (the cross-jumped-tail idiom):
  * then-arm `str` is cross-jumped onto the else-arm copy, giving beq/b/movs.
  */
-int func_02209B60(P_02209B60 *p, u16 a, u16 b, u32 c, u32 e, u32 f)
+int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, u16 x, u16 y, u32 startDelay, u32 loopCount, u32 hideTimer)
 {
-    Cfg cfg = d_0220AC10;
-    Msg msg;
+    ActorSetup setup = d_0220AC10;
+    ClactAnimCommand command;
 
-    if (p->f28 != 0)
+    if (cursor->isActive != 0)
         return 0;
-    if (p->h != 0) {
-        func_02209C18((char *)p);
-        p->h = 0;
+    if (cursor->actor != 0) {
+        BTLV_FINGER_CURSOR_DeleteActor(cursor);
+        cursor->actor = 0;
     }
-    cfg.x = a;
-    cfg.y = b;
-    p->h = CLACT_CreateAffineActor(p->f0, p->fc, p->f10, p->f14, (u32)(&cfg), 1, p->f2c);
-    CLACT_SetActorAnimSeq(p->h, 0);
-    CLACT_SetActorAnimFrame(p->h, 0);
-    CLACT_SetActorAutoAnim(p->h, 1);
-    CLACT_SetActorDrawEnable(p->h, 1);
-    if (c != 0)
-        p->f1c = c;
+    setup.x = x;
+    setup.y = y;
+    cursor->actor = CLACT_CreateAffineActor((u32)cursor->clactUnit, cursor->charResId, cursor->palResId, cursor->cellResId, (u32)(&setup), 1, cursor->heapId);
+    CLACT_SetActorAnimSeq(cursor->actor, 0);
+    CLACT_SetActorAnimFrame(cursor->actor, 0);
+    CLACT_SetActorAutoAnim(cursor->actor, 1);
+    CLACT_SetActorDrawEnable(cursor->actor, 1);
+    if (startDelay != 0)
+        cursor->startDelay = startDelay;
     else
-        p->f1c = 1;
-    if (f != 0)
-        p->f24 = f;
+        cursor->startDelay = 1;
+    if (hideTimer != 0)
+        cursor->hideTimer = hideTimer;
     else
-        p->f24 = 1;
-    p->f18 = 0;
-    p->f20 = e;
-    p->f28 = 0;
-    msg.p = p;
-    msg.a = 0;
-    msg.b = 0;
-    msg.cb = (void *)func_02209C30;
-    CLACT_ApplyActorAnimCommand(p->h, (const struct Cmd *)(&msg));
+        cursor->hideTimer = 1;
+    cursor->state = 0;
+    cursor->loopCount = loopCount;
+    cursor->isActive = 0;
+    command.userData = cursor;
+    command.kind = 0;
+    command.param = 0;
+    command.callback = (void *)BTLV_FINGER_CURSOR_AnimCallback;
+    CLACT_ApplyActorAnimCommand(cursor->actor, &command);
     return 1;
 }
 
-
-void func_02209C18(char *p)
+void BTLV_FINGER_CURSOR_DeleteActor(BtlvFingerCursor *cursor)
 {
-    if (((struct Obj10160 *)p)->f4 != 0) {
-        CLACT_DeleteActor(((struct Obj10160 *)p)->f4);
-        ((struct Obj10160 *)p)->f4 = 0;
+    if (cursor->actor != 0) {
+        CLACT_DeleteActor(cursor->actor);
+        cursor->actor = 0;
     }
 }
 
-
-/*
- * Returns the word at +0x28 of the object passed in r0.  A bare leaf
- * getter with no prologue.
- */
-int func_02209C2C(Obj *o)
+/* Returns the isActive flag at +0x28.  A bare leaf getter with no prologue. */
+int BTLV_FINGER_CURSOR_IsActive(BtlvFingerCursor *cursor)
 {
-    return o->val;
+    return cursor->isActive;
 }
 
-
 /*
- * f18 and f28 are volatile: the original reloads f18 after each f28
- * store and keeps the store order.
+ * state and isActive are accessed through a volatile view (live): the
+ * original reloads state after each isActive store and keeps the store order.
+ * The other fields stay plain, so the volatile view is local to this function.
  */
-void func_02209C30(P_02209C30 *p)
+void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor)
 {
-    Msg m0;
-    Msg m1;
+    volatile BtlvFingerCursor *live = cursor;
+    ClactAnimCommand pressCommand;
+    ClactAnimCommand releaseCommand;
 
-    switch (p->f18) {
+    switch (live->state) {
     case 0:
-        if (--p->f1c == 0) {
-            CLACT_SetActorAnimSeq(p->h, 1);
-            p->f18++;
-            m0.p = p;
-            m0.a = 1;
-            m0.b = p->f20;
-            m0.cb = (void *)func_02209C30;
-            CLACT_ApplyActorAnimCommand(p->h, (const struct Cmd *)(&m0));
+        if (--cursor->startDelay == 0) {
+            CLACT_SetActorAnimSeq(cursor->actor, 1);
+            live->state++;
+            pressCommand.userData = cursor;
+            pressCommand.kind = 1;
+            pressCommand.param = cursor->loopCount;
+            pressCommand.callback = (void *)BTLV_FINGER_CURSOR_AnimCallback;
+            CLACT_ApplyActorAnimCommand(cursor->actor, &pressCommand);
             return;
         }
         break;
     case 1:
-        p->f28 = 1;
-        p->f18++;
-        m1.p = p;
-        m1.a = 2;
-        m1.b = 0;
-        m1.cb = (void *)func_02209C30;
-        CLACT_ApplyActorAnimCommand(p->h, (const struct Cmd *)(&m1));
+        live->isActive = 1;
+        live->state++;
+        releaseCommand.userData = cursor;
+        releaseCommand.kind = 2;
+        releaseCommand.param = 0;
+        releaseCommand.callback = (void *)BTLV_FINGER_CURSOR_AnimCallback;
+        CLACT_ApplyActorAnimCommand(cursor->actor, &releaseCommand);
         return;
     case 2:
-        CLACT_SetActorDrawEnable(p->h, 0);
-        p->f28 = 0;
-        p->f18++;
+        CLACT_SetActorDrawEnable(cursor->actor, 0);
+        live->isActive = 0;
+        live->state++;
         break;
     case 3:
         break;
     }
+}
+
+/* Task callback: hides the cursor when the hide timer runs out. */
+void BTLV_FINGER_CURSOR_TaskHideAfterDelay(void *task, void *work)
+{
+    BtlvFingerCursor *cursor = work;
+
+    if (cursor->actor == 0)
+        return;
+    if (cursor->isActive == 0)
+        return;
+    if (--cursor->hideTimer != 0)
+        return;
+    CLACT_SetActorDrawEnable(cursor->actor, 0);
+    cursor->isActive = 0;
 }

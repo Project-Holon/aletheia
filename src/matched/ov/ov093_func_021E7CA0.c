@@ -1,5 +1,5 @@
 /*
- * function: func_021E7CA0
+ * function: HAND_WAZA_AddAfterYou
  * address: 0x021E7CA0
  * packet: pkt_ov093_021E7CA0
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F27EC 0x021F27EC data ov093 a4
  */
 
-int *func_021E7CA0(int *p);
+int *HAND_WAZA_AddAfterYou(int *p);
 extern int d_021F27EC[];
 
-int *func_021E7CA0(int *p)
+int *HAND_WAZA_AddAfterYou(int *p)
 {
     *p = 1;
     return d_021F27EC;

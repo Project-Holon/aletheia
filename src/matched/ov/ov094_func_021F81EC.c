@@ -14,7 +14,7 @@
  * symbols:
  *   d_0220AF20 0x0220AF20 data a4
  *   func_02030DA8 0x02030DA8 arm
- *   func_02208870 0x02208870 thumb ov094
+ *   BTLV_GAUGE_SelectSlot 0x02208870 thumb ov094
  *   func_021F896C 0x021F896C thumb
  *   func_0220074C 0x0220074C thumb
  */
@@ -78,7 +78,7 @@ typedef struct {
 } Work_0220074C;
 
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
-void func_02208870(void *w, int sel);
+void BTLV_GAUGE_SelectSlot(void *w, int sel);
 void func_021F81EC(int sel);
 void func_021F896C(void *h, void (*cb)(void *), int arg);
 void func_0220074C(Work_0220074C *w, int i, int kind, VecFx32_vFE48 *p, VecFx32_vFE48 *q, int n, int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
@@ -86,5 +86,5 @@ extern BtlvEff *d_0220AF20;
 
 void func_021F81EC(int sel)
 {
-    func_02208870((void *)d_0220AF20->h1a4, sel);
+    BTLV_GAUGE_SelectSlot((void *)d_0220AF20->h1a4, sel);
 }

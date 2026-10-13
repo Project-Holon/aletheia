@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_CONNECT_MARKERS_Init
  * address:  0x021F36C0
  * packet:   pkt_ov061_021F36C0
  * region:   ov061
@@ -20,7 +20,7 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
- *   GIMMICK61_PlaceMarkers  0x021F388C  thumb  ov061
+ *   FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers  0x021F388C  thumb  ov061
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   d_021F3974     0x021F3974  data  a4
  */
@@ -40,10 +40,10 @@ extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *p, int v);
-extern void GIMMICK61_PlaceMarkers(int *o, int a);
+extern void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(int *o, int a);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
 
-void func_021F36C0(void *a)
+void FIELD_GIMMICK_CONNECT_MARKERS_Init(void *a)
 {
     u16 w;
     void *s;
@@ -63,6 +63,6 @@ void func_021F36C0(void *a)
     FLD_EXP_OBJ_SetAnimeEnabled(s, 0, 0, 0, 1);
     FLD_EXP_OBJ_SetAnimePaused(e, 1);
     FLD_EXP_OBJ_SetAnimeLoop(e, 0);
-    GIMMICK61_PlaceMarkers(o, (int)a);
+    FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(o, (int)a);
     o[2] = FIELDMAP_GetZoneId(a);
 }

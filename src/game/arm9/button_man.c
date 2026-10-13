@@ -30,9 +30,9 @@
  *   func_02058180  0x02058180  arm
  *   func_02058204  0x02058204  arm
  *   func_020582CC  0x020582CC  arm
- *   g_020A8140   0x020A8140  data
+ *   NNS_GfdDefaultFuncAllocTexVram   0x020A8140  data
  *   g_pParticleMan   0x02146A88  data
- *   g_020A8148   0x020A8148  data
+ *   NNS_GfdDefaultFuncAllocPlttVram   0x020A8148  data
  *   func_0207E1F8  0x0207E1F8  arm
  *   func_0207E24C  0x0207E24C  arm
  *   func_0207E2A0  0x0207E2A0  arm
@@ -278,9 +278,9 @@ u32 func_02051774(void)
     return *(u32 *)(*(u32 *)&d_02146A88 + 0x40);
 }
 
-extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
 
-extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 a, u32 b, u32 c);
 
 extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
 
@@ -649,7 +649,7 @@ unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3)
  */
 u32 BUTTON_MAN_AppendList0(u32 a, u32 b)
 {
-    u32 v = g_020A8140(a, b, 0);
+    u32 v = NNS_GfdDefaultFuncAllocTexVram(a, b, 0);
     struct HandleLists *base = g_pParticleMan->base;
     u16 n = base->count0;
 
@@ -680,7 +680,7 @@ int BUTTON_MAN_Func1AA0(int a, int b)
  */
 u32 BUTTON_MAN_AppendList1(u32 a, u32 b)
 {
-    u32 v = g_020A8148(a, b, 0);
+    u32 v = NNS_GfdDefaultFuncAllocPlttVram(a, b, 0);
     struct HandleLists *base = g_pParticleMan->base;
     u16 n = base->count1;
 

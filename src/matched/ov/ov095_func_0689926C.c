@@ -1,5 +1,5 @@
 /*
- * function: func_0689926C
+ * function: HAND_SIDE_StealthRockHurtOnEnter
  * address:  0x0689926C
  * packet:   pkt_ov095_0689926C
  * region:   ov095
@@ -38,7 +38,7 @@ extern void func_06899374(u8 *p, int n, int c);
 extern void func_06899384(u8 *p, int v);
 extern void func_06899394(int p, u8 *q);
 
-void func_0689926C(int a0, int p, int x)
+void HAND_SIDE_StealthRockHurtOnEnter(int a0, int p, int x)
 {
     int n;
     u8 v;

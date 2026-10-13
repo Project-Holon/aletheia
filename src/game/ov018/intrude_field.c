@@ -131,8 +131,8 @@
  *   INTRUDE_COMM_GetJoinStatus  0x02175CF4  thumb  ov011
  *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
  *   EVENT_COMM_COMMON_CreateOfferEvent  0x02182124  thumb  ov018
- *   d_021DB810     0x021DB810  data   ov021  a2
- *   d_021DB834     0x021DB834  data   ov021  a2
+ *   gIntrudeOfferZoneIds     0x021DB810  data   ov021  a2
+ *   gIntrudeOfferTilePositions     0x021DB834  data   ov021  a2
  *   INTRUDE_FIELD_gZonePositions 0x02182B9C data ov018 a4
  *   INTRUDE_FIELD_gHomeAnchorPos     0x02182B60  data   a4
  *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
@@ -595,8 +595,8 @@ int INTRUDE_FIELD_StepPlayerSpin(PlayerSpinWork *spin, IntrudeCommSys *work);
 
 extern const VecFx32 INTRUDE_FIELD_gSymbolMarkerPos;
 extern const char INTRUDE_FIELD_gStartParamFile[];
-extern u16 d_021DB810[];
-extern IntrudeTilePos d_021DB834[];
+extern u16 gIntrudeOfferZoneIds[];
+extern IntrudeTilePos gIntrudeOfferTilePositions[];
 extern IntrudeZonePos INTRUDE_FIELD_gZonePositions[];
 extern const VecFx32 INTRUDE_FIELD_gHomeAnchorPos;
 extern const MmdlHeader INTRUDE_FIELD_gMmdlHeaderTemplate;
@@ -1445,13 +1445,13 @@ int INTRUDE_FIELD_TryStartOfferEvent(struct GameSystem *gameSystem, IntrudeCommS
     zoneId = func_02012AC8(func_020120F8(gameSystem));
     FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(player), &playerGrid);
     offerIndex = offer->head.param.x;
-    if (zoneId != d_021DB810[offerIndex])
+    if (zoneId != gIntrudeOfferZoneIds[offerIndex])
         goto fail;
-    if (playerGrid.x != d_021DB834[offerIndex].x)
+    if (playerGrid.x != gIntrudeOfferTilePositions[offerIndex].x)
         goto fail;
-    if (playerGrid.y != d_021DB834[offerIndex].y)
+    if (playerGrid.y != gIntrudeOfferTilePositions[offerIndex].y)
         goto fail;
-    if (playerGrid.z != d_021DB834[offerIndex].z)
+    if (playerGrid.z != gIntrudeOfferTilePositions[offerIndex].z)
         goto fail;
     return EVENT_COMM_COMMON_CreateOfferEvent(gameSystem, work, offer);
 fail:

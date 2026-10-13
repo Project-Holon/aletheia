@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02208958, func_022089AC
+ * function: BTLV_GAUGE_GetSlotHealthInfo, BTLV_GAUGE_RequestStop
  * address:  0x02208958
  * packet:   pkt_ov094_02208958
  * region:   ov094
@@ -58,7 +58,7 @@ typedef unsigned short u16;
 struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 
-int func_02208958(W *w, int i, int *o1, int *o2)
+int BTLV_GAUGE_GetSlotHealthInfo(W *w, int i, int *o1, int *o2)
 {
     if (w->r[i].f00 == 0 || !w->r[i].flags.b3 || w->r[i].flags.b30) {
         *o1 = 0;
@@ -72,7 +72,7 @@ int func_02208958(W *w, int i, int *o1, int *o2)
     return 1;
 }
 
-void func_022089AC(W *w)
+void BTLV_GAUGE_RequestStop(W *w)
 {
     w->flags.b22 = 1;
 }

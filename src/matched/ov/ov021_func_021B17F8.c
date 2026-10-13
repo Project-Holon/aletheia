@@ -1,5 +1,5 @@
 /*
- * function: func_021B17F8
+ * function: SCRCMD_FLDMMDL_GetPlayerDir
  * address:  0x021B17F8
  * packet:   pkt_ov021_021B17F8
  * region:   ov021
@@ -22,7 +22,7 @@ extern int SCRCMD_FLDMMDL_GetPlayerMmdl(u32 a);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u16 FLDMMDL_GetDirDisp(void *p);
 
-int func_021B17F8(u32 a, u32 b)
+int SCRCMD_FLDMMDL_GetPlayerDir(u32 a, u32 b)
 {
     u32 x = SCRCMD_FLDMMDL_GetPlayerMmdl(b);
     u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);

@@ -1,5 +1,5 @@
 /*
- * function: func_0220868C
+ * function: BTLV_GAUGE_DrawHpLoss
  * address:  0x0220868C
  * packet:   pkt_ov094_0220868C
  * region:   ov094
@@ -21,7 +21,7 @@ struct Struct36;
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 
-void func_0220868C(O *o, E *e, int c)
+void BTLV_GAUGE_DrawHpLoss(O *o, E *e, int c)
 {
     u8 cnt[6];
     Struct36 buf;

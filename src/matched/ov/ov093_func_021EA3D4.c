@@ -1,5 +1,5 @@
 /*
- * function: func_021EA3D4
+ * function: BTLV_CORE_WaitViewEffect
  * address:  0x021EA3D4
  * packet:   pkt_ov093_021EA3D4
  * region:   ov093
@@ -14,7 +14,7 @@
  */
 extern int func_021F7EB4(void);
 
-int func_021EA3D4(void)
+int BTLV_CORE_WaitViewEffect(void)
 {
     if (func_021F7EB4() == 0) {
         return 1;

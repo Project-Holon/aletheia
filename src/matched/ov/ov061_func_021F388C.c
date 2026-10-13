@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK61_PlaceMarkers
+ * function: FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers
  * address:  0x021F388C
  * packet:   pkt_ov061_021F388C
  * region:   ov061
@@ -56,7 +56,7 @@ extern void *FLD_EXP_OBJ_GetModelStatus(int a, int b, u16 c);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(int a, int b, u16 c, u16 d, int e);
 
-void GIMMICK61_PlaceMarkers(int *o, int a)
+void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(int *o, int a)
 {
     int h;
     int n;

@@ -228,7 +228,7 @@
  *   FIELD_CAMERA_StartMoveToSetting  0x0218FA40  thumb  ov021
  *   FIELD_CAMERA_CreateShakeTask  0x021D2D50  thumb  ov021
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   func_021F36C0  0x021F36C0  thumb  ov037
+ *   GIMMICK_INIT_SetGimmick39Flags  0x021F36C0  thumb  ov037
  *   FIELD_CAMERA_SetSetting  0x0218E17C  thumb  ov021
  *   FIELD_FK_DEMO_GetCameraSettingId  0x021F36C8  thumb  ov056
  *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
@@ -561,7 +561,7 @@ extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 extern void FIELD_CAMERA_StartMoveToSetting(u8 *p, u16 v);
 extern void *FIELD_CAMERA_CreateShakeTask(void *a, struct Blk021D2D50 *src);
 extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
-extern void *func_021F36C0(void *a, u8 *b, u32 c);
+extern void *GIMMICK_INIT_SetGimmick39Flags(void *a, u8 *b, u32 c);
 extern u32 FIELD_FK_DEMO_GetCameraSettingId(u32 idx);
 extern void FIELD_CAMERA_SetSetting(u32 *p, u32 v);
 extern u32 FIELDMAP_GetMapFunc(u8 *p);
@@ -2692,7 +2692,7 @@ int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     u8 *fieldMap = func_0201210C(gameSystem);
     unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, func_021F36C0(gameSystem, fieldMap, (u16)(slotNumber - 1)));
+    SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_INIT_SetGimmick39Flags(gameSystem, fieldMap, (u16)(slotNumber - 1)));
     return 1;
 }
 

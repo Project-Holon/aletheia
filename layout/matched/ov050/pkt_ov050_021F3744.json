@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK50_StopModel0Anime",
+   "name": "FIELD_GIMMICK_MODELS_B_StopModel0Anime",
    "address": "0x021F3744",
    "kind": "game",
    "region": "ov050",

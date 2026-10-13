@@ -1,7 +1,7 @@
 /*
  * file:     touchbar.c
  * unit:     yes
- * function: TOUCHBAR_Create, TOUCHBAR_Delete, TOUCHBAR_Update, TOUCHBAR_GetPressedButtonIdIfDone, TOUCHBAR_GetPressedButtonIdIfPressing, TOUCHBAR_IsBusy, TOUCHBAR_SetAllButtonsEnabled, func_021B64D0, func_021B64F8, TOUCHBAR_SetAllButtonsPriority, TOUCHBAR_SetButtonEnabled, func_021B6558, TOUCHBAR_SetButtonSound, TOUCHBAR_SetButtonKeyMask, func_021B6588, TOUCHBAR_SetButtonToggled, func_021B65A8, TOUCHBAR_ResetAndEnableButton, TOUCHBAR_FindButton, TOUCHBAR_GetButton, TOUCHBAR_LoadGfx, TOUCHBAR_FreeGfx, TOUCHBAR_GetGfxWord, TOUCHBAR_LoadCharToBg, TOUCHBAR_InitButton, TOUCHBAR_FreeButton, TOUCHBAR_CheckButtonPressed, TOUCHBAR_IsButtonActorIdle, func_021B69B8, func_021B69BC, func_021B69C8, func_021B69D0, func_021B69D4, TOUCHBAR_SetButtonToggle, TOUCHBAR_IsButtonDown, func_021B6A10, func_021B6A1C, TOUCHBAR_OnPressPlain, TOUCHBAR_OnPressToggle, TOUCHBAR_SetEnabledPlain, TOUCHBAR_SetEnabledToggle, TOUCHBAR_PrintAligned, TOUCHBAR_PrintYesNoCancelLabels, TOUCHBAR_GetStringAlignOffset
+ * function: TOUCHBAR_Create, TOUCHBAR_Delete, TOUCHBAR_Update, TOUCHBAR_GetPressedButtonIdIfDone, TOUCHBAR_GetPressedButtonIdIfPressing, TOUCHBAR_IsBusy, TOUCHBAR_SetAllButtonsEnabled, TOUCHBAR_SetAllButtonsVisible, TOUCHBAR_SetAllButtonsBgPriority, TOUCHBAR_SetAllButtonsPriority, TOUCHBAR_SetButtonEnabled, TOUCHBAR_SetButtonVisible, TOUCHBAR_SetButtonSound, TOUCHBAR_SetButtonKeyMask, TOUCHBAR_SetButtonBgPriority, TOUCHBAR_SetButtonToggled, func_021B65A8, TOUCHBAR_ResetAndEnableButton, TOUCHBAR_FindButton, TOUCHBAR_GetButton, TOUCHBAR_LoadGfx, TOUCHBAR_FreeGfx, TOUCHBAR_GetGfxWord, TOUCHBAR_LoadCharToBg, TOUCHBAR_InitButton, TOUCHBAR_FreeButton, TOUCHBAR_CheckButtonPressed, TOUCHBAR_IsButtonActorIdle, func_021B69B8, TOUCHBAR_SetButtonActorVisible, func_021B69C8, func_021B69D0, func_021B69D4, TOUCHBAR_SetButtonToggle, TOUCHBAR_IsButtonDown, func_021B6A10, TOUCHBAR_SetButtonActorBgPriority, TOUCHBAR_OnPressPlain, TOUCHBAR_OnPressToggle, TOUCHBAR_SetEnabledPlain, TOUCHBAR_SetEnabledToggle, TOUCHBAR_PrintAligned, TOUCHBAR_PrintYesNoCancelLabels, TOUCHBAR_GetStringAlignOffset
  * address:  0x021B62E0
  * region:   ov067
  * compiler: dsi/1.1p1
@@ -155,14 +155,14 @@ int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *bar);
 int TOUCHBAR_GetPressedButtonIdIfPressing(TouchBar *bar);
 int TOUCHBAR_IsBusy(TouchBar *bar);
 void TOUCHBAR_SetAllButtonsEnabled(TouchBar *bar, u32 enabled);
-void func_021B64D0(TouchBar *bar, u32 visible);
-void func_021B64F8(TouchBar *bar, u32 bgPriority);
+void TOUCHBAR_SetAllButtonsVisible(TouchBar *bar, u32 visible);
+void TOUCHBAR_SetAllButtonsBgPriority(TouchBar *bar, u32 bgPriority);
 void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u32 priority);
 void TOUCHBAR_SetButtonEnabled(TouchBar *bar, unsigned int buttonId, int enabled);
-void func_021B6558(TouchBar *bar, unsigned int buttonId, unsigned int visible);
+void TOUCHBAR_SetButtonVisible(TouchBar *bar, unsigned int buttonId, unsigned int visible);
 void TOUCHBAR_SetButtonSound(TouchBar *bar, unsigned int buttonId, int soundId);
 void TOUCHBAR_SetButtonKeyMask(TouchBar *bar, unsigned int buttonId, int keyMask);
-void func_021B6588(TouchBar *bar, unsigned int buttonId, unsigned int bgPriority);
+void TOUCHBAR_SetButtonBgPriority(TouchBar *bar, unsigned int buttonId, unsigned int bgPriority);
 void TOUCHBAR_SetButtonToggled(TouchBar *bar, unsigned int buttonId, unsigned int toggled);
 int func_021B65A8(TouchBar *bar, int buttonId);
 void TOUCHBAR_ResetAndEnableButton(TouchBar *bar, unsigned int buttonId);
@@ -177,14 +177,14 @@ void TOUCHBAR_FreeButton(TouchBarButton *button);
 int TOUCHBAR_CheckButtonPressed(TouchBarButton *button);
 int TOUCHBAR_IsButtonActorIdle(TouchBarButton *button);
 int func_021B69B8(TouchBarButton *button);
-void func_021B69BC(TouchBarButton *button, unsigned int visible);
+void TOUCHBAR_SetButtonActorVisible(TouchBarButton *button, unsigned int visible);
 void func_021B69C8(TouchBarButton *button, int enabled);
 void func_021B69D0(TouchBarButton *button, int soundId);
 void func_021B69D4(TouchBarButton *button, int keyMask);
 void TOUCHBAR_SetButtonToggle(TouchBarButton *button, u32 down);
 u32 TOUCHBAR_IsButtonDown(TouchBarButton *button);
 void func_021B6A10(TouchBarButton *button, unsigned int priority);
-void func_021B6A1C(TouchBarButton *button, unsigned int bgPriority);
+void TOUCHBAR_SetButtonActorBgPriority(TouchBarButton *button, unsigned int bgPriority);
 void TOUCHBAR_OnPressPlain(TouchBarButton *button);
 void TOUCHBAR_OnPressToggle(TouchBarButton *button);
 void TOUCHBAR_SetEnabledPlain(TouchBarButton *button, u32 enabled);
@@ -299,22 +299,22 @@ void TOUCHBAR_SetAllButtonsEnabled(TouchBar *bar, u32 enabled)
 }
 
 
-void func_021B64D0(TouchBar *bar, u32 visible)
+void TOUCHBAR_SetAllButtonsVisible(TouchBar *bar, u32 visible)
 {
     u32 i;
 
     for (i = 0; i < bar->buttonCount; i++) {
-        func_021B69BC(&bar->buttons[i], visible);
+        TOUCHBAR_SetButtonActorVisible(&bar->buttons[i], visible);
     }
 }
 
 
-void func_021B64F8(TouchBar *bar, u32 bgPriority)
+void TOUCHBAR_SetAllButtonsBgPriority(TouchBar *bar, u32 bgPriority)
 {
     u32 i;
 
     for (i = 0; i < bar->buttonCount; i++) {
-        func_021B6A1C(&bar->buttons[i], bgPriority);
+        TOUCHBAR_SetButtonActorBgPriority(&bar->buttons[i], bgPriority);
     }
 }
 
@@ -335,9 +335,9 @@ void TOUCHBAR_SetButtonEnabled(TouchBar *bar, unsigned int buttonId, int enabled
 }
 
 
-void func_021B6558(TouchBar *bar, unsigned int buttonId, unsigned int visible)
+void TOUCHBAR_SetButtonVisible(TouchBar *bar, unsigned int buttonId, unsigned int visible)
 {
-    func_021B69BC(TOUCHBAR_FindButton(bar, buttonId), visible);
+    TOUCHBAR_SetButtonActorVisible(TOUCHBAR_FindButton(bar, buttonId), visible);
 }
 
 
@@ -353,9 +353,9 @@ void TOUCHBAR_SetButtonKeyMask(TouchBar *bar, unsigned int buttonId, int keyMask
 }
 
 
-void func_021B6588(TouchBar *bar, unsigned int buttonId, unsigned int bgPriority)
+void TOUCHBAR_SetButtonBgPriority(TouchBar *bar, unsigned int buttonId, unsigned int bgPriority)
 {
-    func_021B6A1C(TOUCHBAR_FindButton(bar, buttonId), bgPriority);
+    TOUCHBAR_SetButtonActorBgPriority(TOUCHBAR_FindButton(bar, buttonId), bgPriority);
 }
 
 
@@ -593,7 +593,7 @@ int func_021B69B8(TouchBarButton *button)
 }
 
 
-void func_021B69BC(TouchBarButton *button, unsigned int visible)
+void TOUCHBAR_SetButtonActorVisible(TouchBarButton *button, unsigned int visible)
 {
     CLACT_SetActorDrawEnable(button->actor, visible);
 }
@@ -644,7 +644,7 @@ void func_021B6A10(TouchBarButton *button, unsigned int priority)
 /*
  * Tail call on the actor pointer loaded from offset 0.
  */
-void func_021B6A1C(TouchBarButton *button, unsigned int bgPriority)
+void TOUCHBAR_SetButtonActorBgPriority(TouchBarButton *button, unsigned int bgPriority)
 {
     CLACT_SetActorBgPriority(button->actor, bgPriority);
 }

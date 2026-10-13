@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK61_IsPlayerStepReady
+ * function: FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady
  * address:  0x021F3868
  * packet:   pkt_021F3868
  * region:   ov061
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern u32 FIELD_PLAYER_GetStepKind(void *x);
 extern u32 FIELD_PLAYER_GetStepPhase(void *x);
 
-int GIMMICK61_IsPlayerStepReady(void *unused, void *x)
+int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(void *unused, void *x)
 {
     u32 a = FIELD_PLAYER_GetStepKind(x);
 

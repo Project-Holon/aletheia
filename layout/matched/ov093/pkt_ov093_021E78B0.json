@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E78B0",
-    "func_021E7918"
+    "HAND_WAZA_AutotomizeLoseWeight",
+    "HAND_WAZA_AddPsyshock"
+   ],
+   "addresses": [
+    "0x021E78B0",
+    "0x021E7918"
    ],
    "evidence": {
     "sole-ref": [

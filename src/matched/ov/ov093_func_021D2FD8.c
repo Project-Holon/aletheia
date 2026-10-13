@@ -19,13 +19,13 @@
  *   func_021EAF50 0x021EAF50 thumb ov093
  *   func_021F883C 0x021F883C thumb ov094
  *   gCatchShakeMessages 0x021EFF80 data a2
- *   func_021EA710 0x021EA710 thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTL_MAIN_NotifyCapture 0x021BA2D4 thumb ov093
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   func_021F7C0C 0x021F7C0C thumb ov094
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   BTL_MAIN_SetKeepBgm 0x021B92A0 thumb ov093
- *   func_021EA614 0x021EA614 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,13 +42,13 @@ extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021F883C(u32);
 extern const u16 gCatchShakeMessages[];
 struct H;
-extern int func_021EA710(u32 *p);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 extern void BTL_MAIN_NotifyCapture(u32 p, u32 *q);
 extern int GFL_USE_IsBgmPlaying(void);
 extern void func_021F7C0C(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void BTL_MAIN_SetKeepBgm(u8 *p);
-extern void func_021EA614(char *p, struct H *h);
+extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 int BTL_CLIENT_StepThrowBall(u32 *a, int *b, const u32 *c)
 {
     switch (*b) {
@@ -69,12 +69,12 @@ int BTL_CLIENT_StepThrowBall(u32 *a, int *b, const u32 *c)
                 else msg = 0x3d;
                 func_021EAF18((struct L *)((u8 *)a + 0x58), 1, msg);
             }
-            func_021EA614((char *)a[21], (struct H *)((u8 *)a + 0x58));
+            BTLV_CORE_BuildAndPrintMessage((char *)a[21], (struct H *)((u8 *)a + 0x58));
             (*b)++;
         }
         break;
     case 2:
-        if (func_021EA710((u32 *)a[21])) {
+        if (BTLV_CORE_WaitMessage((u32 *)a[21])) {
             if (c[2]) {
                 BTL_MAIN_NotifyCapture((u32)((void *)a[0]), (u32 *)BTL_SIDE_GetPokeAtPos((char *const *)a[1], (u8)c[0]));
                 (*b)++;
@@ -90,13 +90,13 @@ int BTL_CLIENT_StepThrowBall(u32 *a, int *b, const u32 *c)
                 u8 *p = BTL_SIDE_GetPokeAtPos((char *const *)a[1], (u8)c[0]);
                 func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x42);
                 func_021EAF50((struct L *)((u8 *)a + 0x58), BTL_POKEPARAM_GetPokeId(p));
-                func_021EA614((char *)a[21], (struct H *)((u8 *)a + 0x58));
+                BTLV_CORE_BuildAndPrintMessage((char *)a[21], (struct H *)((u8 *)a + 0x58));
                 (*b)++;
             } else return 1;
         }
         break;
     case 4:
-        if (func_021EA710((u32 *)a[21])) (*b)++;
+        if (BTLV_CORE_WaitMessage((u32 *)a[21])) (*b)++;
         break;
     default:
         return 1;

@@ -12,7 +12,7 @@
  *   func_021F0AE4 0x021F0AE4 thumb ov107
  *   func_021F0D28 0x021F0D28 thumb ov107
  *   func_0208459C 0x0208459C arm
- *   func_02179570 0x02179570 thumb ov014
+ *   WIH_End 0x02179570 thumb ov014
  *   d_021F6EA0 0x021F6EA0 data ov107 a4
  *   func_021EFC10 0x021EFC10 thumb ov107
  */
@@ -24,7 +24,7 @@ extern void func_021F0AE4(void);
 extern u16 func_021F0D28(void);
 typedef unsigned int   u32;
 extern void func_0208459C(int clear, u32 irqFlags);
-extern int func_02179570(void (*cb)(int));
+extern int WIH_End(void (*cb)(int));
 extern u8 d_021F6EA0[];
 extern int func_021EFC10(void);
 void func_021EFCA8(u8 *p) {
@@ -33,7 +33,7 @@ void func_021EFCA8(u8 *p) {
  while(func_021F0D28()!=0&&func_021F0D28()!=5) func_0208459C(1,1);
  if(((struct Obj22279 *)p)->f1C==1) {
  *(int *)(d_021F6EA0+8)=0;
- while(func_02179570((void (*)(int))((int)func_021EFC10))) func_0208459C(1,1);
+ while(WIH_End((void (*)(int))((int)func_021EFC10))) func_0208459C(1,1);
  while(*(int *)(d_021F6EA0+8)==0) func_0208459C(1,1);
  }
 }

@@ -22,8 +22,8 @@
  *   NET_WHPIPE_StartChild 0x02177E20 thumb ov014
  *   NET_WHPIPE_RequestFinalize 0x021776C4 thumb ov014
  *   WIH_GetSysState 0x02178E4C thumb ov014
- *   func_021793B8 0x021793B8 thumb ov014
- *   func_02179394 0x02179394 thumb ov014
+ *   WIH_StepDS 0x021793B8 thumb ov014
+ *   WIH_GetSharedDataAdr 0x02179394 thumb ov014
  *   NET_WHPIPE_SendData 0x02177C30 thumb ov014
  *   NET_WHPIPE_SetEventCallback  0x02177310  thumb
  *   NET_WHPIPE_IsConnected 0x021779F4 thumb ov014
@@ -48,8 +48,8 @@ extern int NET_WHPIPE_IsConnected(void);
 extern int WIH_HasBeaconBeenSent(void);
 extern void WIH_SetConnectCallback(unsigned connectCallback);
 extern int WIH_GetSysState(void);
-extern int func_021793B8(int sendData);
-extern int func_02179394(u16 aid);
+extern int WIH_StepDS(int sendData);
+extern int WIH_GetSharedDataAdr(u16 aid);
 
 /* Device table slots, in table order (see g_021796A0). */
 void *GFL_NET_DEVWIRELESS_GetScanResult(int entryIndex);
@@ -115,10 +115,10 @@ int GFL_NET_DEVWIRELESS_RequestShutdown(void) { return NET_WHPIPE_RequestFinaliz
 int GFL_NET_DEVWIRELESS_IsDataSharing(void) { if (WIH_GetSysState() == 5) return 1; return 0; }
 
 /* Slot 23: submits this frame's send data to the data-sharing step. */
-int GFL_NET_DEVWIRELESS_StepDataSharing(int sendData) { return func_021793B8(sendData); }
+int GFL_NET_DEVWIRELESS_StepDataSharing(int sendData) { return WIH_StepDS(sendData); }
 
 /* Slot 24: data-sharing entry received from the child with the given aid. */
-int GFL_NET_DEVWIRELESS_GetSharedData(u32 aid) { return func_02179394((u16)aid); }
+int GFL_NET_DEVWIRELESS_GetSharedData(u32 aid) { return WIH_GetSharedDataAdr((u16)aid); }
 
 /*
  * Slot 25: send data of the given size, completion callbackArg. The second

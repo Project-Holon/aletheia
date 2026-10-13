@@ -21,7 +21,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   func_0201ED04  0x0201ED04  thumb
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb
- *   d_021F50C0     0x021F50C0  data  a4
+ *   gElboardLayout     0x021F50C0  data  a4
  */
 #include "../include/Obj00270.h"
 #include "../include/G_T.h"
@@ -46,7 +46,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
-extern struct T d_021F50C0;
+extern struct T gElboardLayout;
 
 void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(int *p)
 {
@@ -66,9 +66,9 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(int *p)
     func_0201EE0C(h, 0, (const void *)r6, 0, 1, 0);
     STRBUF_Delete((struct U16Vec *)r6);
     MSGDATA_Delete((struct Rec *)r7);
-    s.a = *(u16 *)(((u8 *)&d_021F50C0) + 8);
-    s.b = *(int *)(((u8 *)&d_021F50C0) + 0x34);
-    s.c = *(int *)(((u8 *)&d_021F50C0) + 0x50);
+    s.a = *(u16 *)(((u8 *)&gElboardLayout) + 8);
+    s.b = *(int *)(((u8 *)&gElboardLayout) + 0x34);
+    s.c = *(int *)(((u8 *)&gElboardLayout) + 0x50);
     s.d = 2;
     s.e = 0x26;
     s.f = *(int *)(p[7] + 0x20);

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "TOUCHBAR_GetButtonId",
-    "func_021B69BC",
+    "TOUCHBAR_SetButtonActorVisible",
     "TOUCHBAR_CallSetEnabled",
     "TOUCHBAR_SetButtonSoundId",
     "TOUCHBAR_SetButtonKeys"

@@ -1,5 +1,5 @@
 /*
- * function: func_021E7388
+ * function: HAND_WAZA_SimpleBeamSetAbility
  * address:  0x021E7388
  * packet:   pkt_ov093_021E7388
  * region:   ov093
@@ -33,7 +33,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E7388(int a, void *b, int c)
+void HAND_WAZA_SimpleBeamSetAbility(int a, void *b, int c)
 {
     u32 i;
     u32 n;

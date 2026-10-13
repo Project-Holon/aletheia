@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_EventLaunch
+ * function: FIELD_GIMMICK_CANNONS_EventLaunch
  * address:  0x021F3884
  * packet:   pkt_ov041_021F3884
  * region:   ov041
@@ -22,12 +22,12 @@
  *   - the tail after the switch is `if (w[2] != 0) { ... } return 0;` (one shared epilogue).
  *   - the tail uses its own local m2 (declared between r and sel) for its spill slot.
  * symbols:
- *   GIMMICK41_GetFirstAnimeSlot  0x021F3F18  thumb  ov041
- *   GIMMICK41_FacingToRingIndex  0x021F3F44  thumb  ov041
- *   GIMMICK41_GetCannonDirection  0x021F3FC0  thumb  ov041
- *   GIMMICK41_StartBounce  0x021F3FD8  thumb  ov041
- *   GIMMICK41_ResetBounce  0x021F3FEC  thumb  ov041
- *   GIMMICK41_UpdateBounce  0x021F4000  thumb  ov041
+ *   FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot  0x021F3F18  thumb  ov041
+ *   FIELD_GIMMICK_CANNONS_FacingToRingIndex  0x021F3F44  thumb  ov041
+ *   FIELD_GIMMICK_CANNONS_GetCannonDirection  0x021F3FC0  thumb  ov041
+ *   FIELD_GIMMICK_CANNONS_StartBounce  0x021F3FD8  thumb  ov041
+ *   FIELD_GIMMICK_CANNONS_ResetBounce  0x021F3FEC  thumb  ov041
+ *   FIELD_GIMMICK_CANNONS_UpdateBounce  0x021F4000  thumb  ov041
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
@@ -121,11 +121,11 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void FIELD_CAMERA_EndDelay(u8 *a);
-extern void GIMMICK41_ResetBounce(u8 *);
+extern void FIELD_GIMMICK_CANNONS_ResetBounce(u8 *);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
-extern int GIMMICK41_FacingToRingIndex(int);
-extern int GIMMICK41_GetCannonDirection(u32, int);
-extern u16 GIMMICK41_GetFirstAnimeSlot(int);
+extern int FIELD_GIMMICK_CANNONS_FacingToRingIndex(int);
+extern int FIELD_GIMMICK_CANNONS_GetCannonDirection(u32, int);
+extern u16 FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(int);
 extern void *ICA_ANIME_CreateWithFullBuffer(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
 struct Obj11244;
 extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
@@ -146,7 +146,7 @@ extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
 extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
-extern void GIMMICK41_StartBounce(u8 *);
+extern void FIELD_GIMMICK_CANNONS_StartBounce(u8 *);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 extern u32 *FLDMMDL_ClearStatusBit(u32 *p, u32 v);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
@@ -162,9 +162,9 @@ extern int FIELD_CAMERA_ResumeTargetTrace(u32 a);
 extern void FIELD_CAMERA_StartMoveToSaved(u8 *p, u8 *src, u16 v);
 extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
 extern u32 FLDMMDL_CheckMoveBit(void *p, u32 v);
-extern void GIMMICK41_UpdateBounce(u8 *p, u8 *obj);
+extern void FIELD_GIMMICK_CANNONS_UpdateBounce(u8 *p, u8 *obj);
 
-int GIMMICK41_EventLaunch(void *a0, int *state)
+int FIELD_GIMMICK_CANNONS_EventLaunch(void *a0, int *state)
 {
     void *ctx;
     void *s;
@@ -195,14 +195,14 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
     switch (*state) {
     case 0:
         FIELD_CAMERA_EndDelay(obj);
-        GIMMICK41_ResetBounce(w + 0x720);
+        FIELD_GIMMICK_CANNONS_ResetBounce(w + 0x720);
         (*state)++;
         break;
     case 1:
         if ((int)FIELD_CAMERA_IsDelayEnabled(obj) != 0)
             break;
         row = w[0];
-        sel = GIMMICK41_FacingToRingIndex(w[1]);
+        sel = FIELD_GIMMICK_CANNONS_FacingToRingIndex(w[1]);
         v = gGimmick41Flights[w[0]][sel].id;
         if (v == -1)
             return 1;
@@ -221,7 +221,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         }
         w[3] = 0;
         b0 = w[0];
-        i1 = GIMMICK41_GetFirstAnimeSlot(GIMMICK41_GetCannonDirection(w[1], b0));
+        i1 = FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(FIELD_GIMMICK_CANNONS_GetCannonDirection(w[1], b0));
         FLD_EXP_OBJ_SetAnimeEnabled(s, 0, (u16)b0, (u16)i1, 1);
         FLD_EXP_OBJ_SetAnimeEnabled(s, 0, (u16)b0, (u16)(i1 + 1), 1);
         FLD_EXP_OBJ_SetAnimeFrame(s, 0, b0, i1, 0);
@@ -231,17 +231,17 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         break;
     case 2:
         b0 = w[0];
-        r = GIMMICK41_GetCannonDirection(w[1], b0);
-        v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)GIMMICK41_GetFirstAnimeSlot(r));
+        r = FIELD_GIMMICK_CANNONS_GetCannonDirection(w[1], b0);
+        v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(r));
         if (v / 4096 == gGimmick41FireSeFrames[r])
             GFL_USE_PlaySeDefaultVolume(0x698);
         if (v / 4096 < gGimmick41FireDoneFrames[r])
             break;
-        i3 = GIMMICK41_GetFirstAnimeSlot(r);
+        i3 = FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(r);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(s, 0, (u16)b0, (u16)i3), 1);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(s, 0, (u16)b0, (u16)(i3 + 1)), 1);
         SCRIPT_SYS_CallScriptEvent(a0, 2, 0, 0, (int)0x8015);
-        idx = (u16)gGimmick41Flights[w[0]][GIMMICK41_FacingToRingIndex(w[1])].k;
+        idx = (u16)gGimmick41Flights[w[0]][FIELD_GIMMICK_CANNONS_FacingToRingIndex(w[1])].k;
         {
         Req req;
         req.a = gGimmick41CameraInfos[idx].a;
@@ -264,7 +264,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         FLDMMDL_SetStatusBit(m, (int)0x200);
         FLDMMDL_SetMoveBit(m, (int)0x8000);
         b0 = w[0];
-        i4 = GIMMICK41_GetFirstAnimeSlot(GIMMICK41_GetCannonDirection(w[1], b0));
+        i4 = FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(FIELD_GIMMICK_CANNONS_GetCannonDirection(w[1], b0));
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(s, 0, (u16)b0, (u16)i4), 0);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(s, 0, (u16)b0, (u16)(i4 + 1)), 0);
         GFL_USE_PlaySeDefaultVolume(0x699);
@@ -272,8 +272,8 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         break;
     case 4:
         b0 = w[0];
-        r = GIMMICK41_GetCannonDirection(w[1], b0);
-        v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)GIMMICK41_GetFirstAnimeSlot(r));
+        r = FIELD_GIMMICK_CANNONS_GetCannonDirection(w[1], b0);
+        v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(r));
         if (v / 4096 < gGimmick41FlightStartFrames[r])
             break;
         GFL_USE_PlaySeDefaultVolume(0x6A0);
@@ -283,12 +283,12 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         break;
     case 5:
         b0 = w[0];
-        r = GIMMICK41_GetCannonDirection(w[1], b0);
-        v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)GIMMICK41_GetFirstAnimeSlot(r));
+        r = FIELD_GIMMICK_CANNONS_GetCannonDirection(w[1], b0);
+        v = FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)b0, (u16)FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(r));
         if (v / 4096 == gGimmick41LandingFrames[r]) {
             GFL_USE_PlaySeDefaultVolume(0x696);
             if (w[3] == 0) {
-                GIMMICK41_StartBounce(w);
+                FIELD_GIMMICK_CANNONS_StartBounce(w);
                 FIELD_CAMERA_SetMode(obj, (int)1);
             }
             FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(ctx)), (int)0);
@@ -298,7 +298,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         cam = FIELDMAP_GetFieldPlayer(ctx);
         {
             Vec pos = {0, 0, 0};
-            Ent *e = &gGimmick41Flights[w[0]][GIMMICK41_FacingToRingIndex(w[1])];
+            Ent *e = &gGimmick41Flights[w[0]][FIELD_GIMMICK_CANNONS_FacingToRingIndex(w[1])];
             pos.x = (e->x << 16) + 0x8000;
             pos.y = e->y << 16;
             pos.z = (e->z << 16) + 0x8000;
@@ -310,7 +310,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         FLDMMDL_ClearStatusBit(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(ctx)), (int)0x200);
         ICA_ANIME_Delete((struct IcaAnime *)(*(u32 *)(w + 0x714)));
         b0 = w[0];
-        i6 = GIMMICK41_GetFirstAnimeSlot(GIMMICK41_GetCannonDirection(w[1], b0));
+        i6 = FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(FIELD_GIMMICK_CANNONS_GetCannonDirection(w[1], b0));
         FLD_EXP_OBJ_SetAnimeEnabled(s, 0, (u16)b0, (u16)i6, 0);
         FLD_EXP_OBJ_SetAnimeEnabled(s, 0, (u16)b0, (u16)(i6 + 1), 0);
         FIELD_CAMERA_RestartDelay(obj);
@@ -366,7 +366,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
             w[3] = 1;
         }
         row = w[0];
-        idx = (u16)gGimmick41Flights[row][GIMMICK41_FacingToRingIndex(w[1])].k;
+        idx = (u16)gGimmick41Flights[row][FIELD_GIMMICK_CANNONS_FacingToRingIndex(w[1])].k;
         m2 = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(ctx));
         if (*(u16 *)(w + 0x718) == *(u16 *)(w + 0x71A) - 1 - gGimmick41LandSeFramesBeforeEnd[idx] && idx != 11) {
             FLDMMDL_ClearMoveBit(m2, (int)0x8000);
@@ -383,7 +383,7 @@ int GIMMICK41_EventLaunch(void *a0, int *state)
         *(u16 *)(w + 0x718) += 1;
         if (*(u16 *)(w + 0x718) >= *(u16 *)(w + 0x71A))
             w[2] = 0;
-        GIMMICK41_UpdateBounce(w + 0x720, obj);
+        FIELD_GIMMICK_CANNONS_UpdateBounce(w + 0x720, obj);
     }
     return 0;
 }

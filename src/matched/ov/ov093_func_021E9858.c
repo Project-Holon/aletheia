@@ -1,5 +1,5 @@
 /*
- * function: func_021E9858
+ * function: BTLV_CORE_ReopenMoveMenu
  * address:  0x021E9858
  * packet:   pkt_ov093_021E9858
  * region:   ov093
@@ -11,19 +11,19 @@
  *
  * symbols:
  *   func_021E9874  0x021E9874  thumb  ov093
- *   func_021E9728  0x021E9728  thumb  ov093
- *   func_021E9884  0x021E9884  thumb  ov093
+ *   BTLV_CORE_SetStep  0x021E9728  thumb  ov093
+ *   BTLV_CORE_StepMoveMenu  0x021E9884  thumb  ov093
  */
 #include "../include/Obj21554.h"
 typedef unsigned int u32;
 
 extern void func_021E9874(void *p);
 struct QU;
-extern void func_021E9728(struct QU *p, u32 v);
-extern int func_021E9884(void *p);
+extern void BTLV_CORE_SetStep(struct QU *p, u32 v);
+extern int BTLV_CORE_StepMoveMenu(void *p);
 
-void func_021E9858(char *p)
+void BTLV_CORE_ReopenMoveMenu(char *p)
 {
     func_021E9874(((struct Obj21554 *)p)->f180);
-    func_021E9728((struct QU *)p, (u32)func_021E9884);
+    BTLV_CORE_SetStep((struct QU *)p, (u32)BTLV_CORE_StepMoveMenu);
 }

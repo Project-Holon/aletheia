@@ -38,17 +38,17 @@
  *   DWCi_MOV_WH_StartScan 0x021785B4 thumb ov014
  *   WIH_SetScanTarget 0x02178714 thumb ov014
  *   DWCi_MOV_WH_EndScan 0x021788FC thumb ov014
- *   func_02178E38 0x02178E38 thumb ov014
+ *   WIH_GetBitmap 0x02178E38 thumb ov014
  *   WIH_GetSysState 0x02178E4C thumb ov014
- *   func_02178E84 0x02178E84 thumb ov014
- *   func_02179024 0x02179024 thumb ov014
+ *   WIH_StartMeasureChannel 0x02178E84 thumb ov014
+ *   WIH_GetMeasureChannel 0x02179024 thumb ov014
  *   WIH_FreeWork 0x02179158 thumb ov014
- *   func_02179288 0x02179288 thumb ov014
- *   func_02179328 0x02179328 thumb ov014
+ *   WIH_ParentConnect 0x02179288 thumb ov014
+ *   WIH_SetJudgeAcceptFunc 0x02179328 thumb ov014
  *   DWCi_MOV_WH_SetReceiver 0x0217933C thumb ov014
  *   DWCi_MOV_WH_SendData 0x02179368 thumb ov014
- *   func_02179498 0x02179498 thumb ov014
- *   func_02179570 0x02179570 thumb ov014
+ *   WIH_Finalize 0x02179498 thumb ov014
+ *   WIH_End 0x02179570 thumb ov014
  *   WIH_GetOwnAid 0x021795A4 thumb ov014
  *   WIH_SetJudgeScanFunc 0x021795C0 thumb ov014
  *   WIH_SetBeaconGameInfo 0x021795D4 thumb ov014
@@ -88,7 +88,7 @@ void NET_WHPIPE_TaskFinishEnd(WhPipeWork *work);
 int NET_WHPIPE_RequestEnd(int a);
 int NET_WHPIPE_AcceptChild(void);
 int NET_WHPIPE_RejectChild(void);
-/* Evidence: func_02179328 stores its argument unchanged; the caller passes a function pointer. */
+/* Evidence: WIH_SetJudgeAcceptFunc stores its argument unchanged; the caller passes a function pointer. */
 void NET_WHPIPE_SetAcceptChild(int a);
 void NET_WHPIPE_TaskParentSearchWait(WhPipeWork *work);
 void NET_WHPIPE_TaskParentSearchStart(WhPipeWork *work);
@@ -109,19 +109,19 @@ int DWCi_MOV_WH_ChildConnectAuto(u32 a, const u16 *b, u32 c);
 int DWCi_MOV_WH_StartScan(u32 a, u16 *b, u32 c);
 void WIH_SetScanTarget(u16 value, void *src);
 int DWCi_MOV_WH_EndScan(void);
-u16 func_02178E38(void);
+u16 WIH_GetBitmap(void);
 int WIH_GetSysState(void);
-int func_02178E84(void);
-u16 func_02179024(void);
+int WIH_StartMeasureChannel(void);
+u16 WIH_GetMeasureChannel(void);
 void WIH_FreeWork(void);
-BOOL func_02179288(int mode, u16 tgid, int channel, u16 maxEntry);
-void func_02179328(void *v);
+BOOL WIH_ParentConnect(int mode, u16 tgid, int channel, u16 maxEntry);
+void WIH_SetJudgeAcceptFunc(void *v);
 void DWCi_MOV_WH_SetReceiver(void *cb);
-/* Guard wrapper: forwards to DWCi_MOV_WH_StateInSetMPData when WIH_GetOwnAid is nonzero or one of bits 1-7 of func_02178E38 is set, else returns 0. */
+/* Guard wrapper: forwards to DWCi_MOV_WH_StateInSetMPData when WIH_GetOwnAid is nonzero or one of bits 1-7 of WIH_GetBitmap is set, else returns 0. */
 BOOL DWCi_MOV_WH_SendData(int a, u16 b, int c);
 /* The DWC copy of the NitroSDK demo wh.c WH_Finalize (DWCi_MOV_WH_*), returning BOOL. */
-BOOL func_02179498(void);
-int func_02179570(void (*cb)(int));
+BOOL WIH_Finalize(void);
+int WIH_End(void (*cb)(int));
 unsigned short WIH_GetOwnAid(void);
 void WIH_SetJudgeScanFunc(unsigned v);
 /* When the state word of the WH work block is 4 or 5, forwards to the arm9 function at 0x02090CD4 (WM_SetGameInfo shape) with (0, a, b, c, d, 1), the halfword arguments truncated. */
@@ -146,7 +146,7 @@ int NET_WHPIPE_IsStateScanning(void) { if (WIH_GetSysState() == 2) return 1; ret
 
 int NET_WHPIPE_SendData(int data, unsigned int size, int callbackArg) { return DWCi_MOV_WH_SendData(data, size, callbackArg); }
 
-unsigned int NET_WHPIPE_GetConnectBitmap(void) { return func_02178E38(); }
+unsigned int NET_WHPIPE_GetConnectBitmap(void) { return WIH_GetBitmap(); }
 
 int NET_WHPIPE_GetOwnAid(void) { return WIH_GetOwnAid(); }
 
@@ -166,7 +166,7 @@ void NET_WHPIPE_TaskConnectParent(WhPipeWork *work)
         work->entryListChanged = 0;
         work->scanning = 0;
         work->running = 0;
-        channel = func_02179024();
+        channel = WIH_GetMeasureChannel();
         if (work->channel == 0xFF)
             work->channel = channel;
         else
@@ -174,12 +174,12 @@ void NET_WHPIPE_TaskConnectParent(WhPipeWork *work)
         if (net->bRenewTgid != 0)
             work->tgid = func_0208F1B4();
         NET_WHPIPE_PublishBeacon();
-        func_02179288(connectModeTable[net->bMPMode], work->tgid, channel, net->maxConnectNum - 1);
+        WIH_ParentConnect(connectModeTable[net->bMPMode], work->tgid, channel, net->maxConnectNum - 1);
         NET_WHPIPE_SetTask(g_pWhPipeWork, 0);
     }
 }
 
-void NET_WHPIPE_TaskStartParent(WhPipeWork *work) { if (WIH_GetSysState() == 1 && func_02178E84() != 0) NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskConnectParent); }
+void NET_WHPIPE_TaskStartParent(WhPipeWork *work) { if (WIH_GetSysState() == 1 && WIH_StartMeasureChannel() != 0) NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskConnectParent); }
 
 int NET_WHPIPE_StartParent(int autoChannel)
 {
@@ -244,16 +244,16 @@ int NET_WHPIPE_StartChild(u32 unused, u8 *bssid, u32 entryIndex, void (*onConnec
 
 void NET_WHPIPE_TaskFinishEnd(WhPipeWork *work) { if (WIH_GetSysState() == 0) { WIH_FreeWork(); NET_WHPIPE_Destroy(); } }
 
-int NET_WHPIPE_RequestEnd(int endCallback) { if (func_02179570((void (*)(int))endCallback) != 0) { NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskFinishEnd); return 1; } return 0; }
+int NET_WHPIPE_RequestEnd(int endCallback) { if (WIH_End((void (*)(int))endCallback) != 0) { NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskFinishEnd); return 1; } return 0; }
 
 int NET_WHPIPE_AcceptChild(void) { return 1; }
 
 int NET_WHPIPE_RejectChild(void) { return 0; }
 
 /*
- * evidence: func_02179328 stores its argument unchanged; the caller passes a function pointer.
+ * evidence: WIH_SetJudgeAcceptFunc stores its argument unchanged; the caller passes a function pointer.
  */
-void NET_WHPIPE_SetAcceptChild(int acceptChild) { if (acceptChild != 0) func_02179328(NET_WHPIPE_AcceptChild); else func_02179328(NET_WHPIPE_RejectChild); }
+void NET_WHPIPE_SetAcceptChild(int acceptChild) { if (acceptChild != 0) WIH_SetJudgeAcceptFunc(NET_WHPIPE_AcceptChild); else WIH_SetJudgeAcceptFunc(NET_WHPIPE_RejectChild); }
 
 void NET_WHPIPE_TaskParentSearchWait(WhPipeWork *work)
 {
@@ -261,7 +261,7 @@ void NET_WHPIPE_TaskParentSearchWait(WhPipeWork *work)
         if (work->searchTimer != 0)
             work->searchTimer--;
         if (work->searchTimer == 0) {
-            if (func_02179498() != 0)
+            if (WIH_Finalize() != 0)
                 NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskChildScanStart);
         }
     }
@@ -278,7 +278,7 @@ void NET_WHPIPE_TaskParentSearchStart(WhPipeWork *work)
         if (work->searchChannelIndex >= 3)
             work->searchChannelIndex = 0;
         NET_WHPIPE_PublishBeacon();
-        if (func_02179288(0, work->tgid, channelTable[work->searchChannelIndex], 1) != 0) {
+        if (WIH_ParentConnect(0, work->tgid, channelTable[work->searchChannelIndex], 1) != 0) {
             work->searchTimer = func_020056EC(0x98) + 0x3C;
             NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskParentSearchWait);
         }

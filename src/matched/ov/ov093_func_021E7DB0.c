@@ -1,5 +1,5 @@
 /*
- * function: func_021E7DB0
+ * function: HAND_WAZA_RoundDoublePower
  * address:  0x021E7DB0
  * packet:   pkt_ov093_021E7DB0
  * region:   ov093
@@ -28,7 +28,7 @@ extern u16 BTL_SERVER_FLOW_GetTurnCount(struct Q7 *p);
 extern u32 func_021E7DF0(int a, int b, int c);
 extern void BTLV_CORE_EventScaleDamage(int n);
 
-void func_021E7DB0(void *a, void *b, int c)
+void HAND_WAZA_RoundDoublePower(void *a, void *b, int c)
 {
     int x;
     u16 y;

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_ResetBounce
+ * function: FIELD_GIMMICK_CANNONS_ResetBounce
  * address: 0x021F3FEC
  * packet: pkt_ov041_021F3FEC
  * region: ov041
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj04319.h"
 
-void GIMMICK41_ResetBounce(unsigned char *p)
+void FIELD_GIMMICK_CANNONS_ResetBounce(unsigned char *p)
 {
     ((struct Obj04319 *)p)->f0 = 0;
     ((struct Obj04319 *)p)->f4 = 0;

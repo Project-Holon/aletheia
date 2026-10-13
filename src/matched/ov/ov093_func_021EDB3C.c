@@ -1,5 +1,5 @@
 /*
- * function: func_021EDB3C
+ * function: BTLV_SCU_InitNamePlates
  * address:  0x021EDB3C
  * packet:   pkt_ov093_021EDB3C
  * region:   ov093
@@ -51,7 +51,7 @@ struct Bmp;
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-void func_021EDB3C(struct S *s, char *a1)
+void BTLV_SCU_InitNamePlates(struct S *s, char *a1)
 {
     u32 i;
 

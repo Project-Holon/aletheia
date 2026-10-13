@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0FC
+ * function: STARTMENU_ReplaceWithBattleFlagProcWithSave
  * address:  0x021BC0FC
  * packet:   pkt_ov088_021BC0FC
  * region:   ov088
@@ -20,7 +20,7 @@ extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern char gStartMenuBattleFlagProcData[];
 extern char ov088_id[];
 
-void func_021BC0FC(void)
+void STARTMENU_ReplaceWithBattleFlagProcWithSave(void)
 {
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)gStartMenuBattleFlagProcData, 1);
 }

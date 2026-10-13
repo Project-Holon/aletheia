@@ -11,7 +11,7 @@
  *
  * symbols:
  *   gVctSendState  0x021B3C84  data  ov013  a4
- *   d_021B42C0  0x021B42C0  data  ov013  a4
+ *   gVctSendBuffer  0x021B42C0  data  ov013  a4
  *   gVctSession  0x021B60D8  data  ov013  a4
  *   gVctSendSchedule  0x021B3ADA  data  ov013  a1
  *   VCT_AUDIO_EncodeSendFrame  0x021B0D18  arm  ov013
@@ -48,7 +48,7 @@ typedef struct {
 } Ctx60D8;
 
 extern Ctx3C84 gVctSendState;
-extern struct Ctx42C0 d_021B42C0;
+extern struct Ctx42C0 gVctSendBuffer;
 extern Ctx60D8 gVctSession;
 extern u8 gVctSendSchedule[][3];
 
@@ -71,28 +71,28 @@ int VCT_AUDIO_SendFrameStep(void)
     if (gVctSendState.f20 == 0)
         return 1;
 
-    if (d_021B42C0.f8C8 == 0) {
-        d_021B42C0.f8C8 = VCT_AUDIO_EncodeSendFrame();
-        if (d_021B42C0.f8C8 != 0 && gVctSendState.f18 != 0)
+    if (gVctSendBuffer.f8C8 == 0) {
+        gVctSendBuffer.f8C8 = VCT_AUDIO_EncodeSendFrame();
+        if (gVctSendBuffer.f8C8 != 0 && gVctSendState.f18 != 0)
             return 0;
         return 1;
     }
 
     count = 1;
     if (gVctSession.f10 == 2)
-        count = gVctSendSchedule[d_021B42C0.f8D4][d_021B42C0.f8D0++];
+        count = gVctSendSchedule[gVctSendBuffer.f8D4][gVctSendBuffer.f8D0++];
 
     for (i = 0; i < count; i++) {
-        mask = d_021B42C0.f8CC;
+        mask = gVctSendBuffer.f8CC;
         z = clz32(mask);
         if (z == 32)
             break;
-        d_021B42C0.f8CC = mask & ~(0x80000000 >> z);
-        func_02177044((u8)(31 - z), d_021B42C0.f8C8, gVctSendState.fC);
-        if (d_021B42C0.f8CC == 0) {
-            d_021B42C0.f8C0++;
-            d_021B42C0.f8C8 = 0;
-            d_021B42C0.f8CC = 0;
+        gVctSendBuffer.f8CC = mask & ~(0x80000000 >> z);
+        func_02177044((u8)(31 - z), gVctSendBuffer.f8C8, gVctSendState.fC);
+        if (gVctSendBuffer.f8CC == 0) {
+            gVctSendBuffer.f8C0++;
+            gVctSendBuffer.f8C8 = 0;
+            gVctSendBuffer.f8CC = 0;
             break;
         }
     }

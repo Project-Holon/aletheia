@@ -1,5 +1,5 @@
 /*
- * function: func_021E7074
+ * function: HAND_WAZA_AddStoredPower
  * address: 0x021E7074
  * packet: pkt_ov093_021E7074
  * region: ov093
@@ -15,7 +15,7 @@
  *   d_021F267C 0x021F267C data ov093 a4
  */
 
-int *func_021E7074(int *p);
+int *HAND_WAZA_AddStoredPower(int *p);
 
 /*
  * note:     the bonus is a compound add onto the fetched value
@@ -23,13 +23,13 @@ int *func_021E7074(int *p);
  *           into r1 and multiplies by 0x14 held in r0 like the image; every
  *           single-expression spelling (`t + sum * 0x14`, an inline helper,
  *           a narrow or enum multiplier local) multiplies in the constant's
- *           register and is 4 bytes short.  func_021E70D8 is the unlabelled
+ *           register and is 4 bytes short.  HAND_WAZA_AddHeavySlam is the unlabelled
  *           12-byte store-and-return leaf after the pool (twin of
- *           ov093_func_021E7164.c's func_021E71D8).
+ *           ov093_func_021E7164.c's HAND_WAZA_AddEchoedVoice).
  */
 extern int d_021F267C[];
 
-int *func_021E7074(int *p)
+int *HAND_WAZA_AddStoredPower(int *p)
 {
     *p = 1;
     return d_021F267C;

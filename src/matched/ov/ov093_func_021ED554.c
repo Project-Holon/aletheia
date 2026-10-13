@@ -1,5 +1,5 @@
 /*
- * function: func_021ED554
+ * function: BTLV_SCU_ShowMon
  * address:  0x021ED554
  * packet:   pkt_ov093_021ED554
  * region:   ov093
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EDA04  0x021EDA04  thumb  ov093
+ *   BTLV_SCU_ShowMonSlot  0x021EDA04  thumb  ov093
  *   func_021F87D4  0x021F87D4  thumb  ov094
  */
 typedef unsigned char u8;
 struct E;
-extern void func_021EDA04(struct E *e);
+extern void BTLV_SCU_ShowMonSlot(struct E *e);
 typedef unsigned int   u32;
 extern void func_021F87D4(u32 v);
-int func_021ED554(u8 *p, int k)
+int BTLV_SCU_ShowMon(u8 *p, int k)
 {
-    func_021EDA04((struct E *)(p + 0x48 + k * 12));
+    BTLV_SCU_ShowMonSlot((struct E *)(p + 0x48 + k * 12));
     func_021F87D4(0);
     return 1;
 }

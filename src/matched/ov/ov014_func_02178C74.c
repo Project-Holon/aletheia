@@ -1,5 +1,5 @@
 /*
- * function: func_02178C74
+ * function: WIH_StateOutEndChildMP
  * address: 0x02178C74
  * packet: pkt_ov014_02178C74
  * region: ov014
@@ -9,25 +9,25 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02178138 0x02178138 thumb ov014
- *   func_0217814C 0x0217814C thumb ov014
- *   func_02179498 0x02179498 thumb ov014
- *   func_02178C98 0x02178C98 thumb ov014
+ *   WIH_ChangeSysState 0x02178138 thumb ov014
+ *   WIH_SetError 0x0217814C thumb ov014
+ *   WIH_Finalize 0x02179498 thumb ov014
+ *   WIH_StateInEndChild 0x02178C98 thumb ov014
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02178138(int);
-extern void func_0217814C(int);
-extern int func_02179498(void);
-extern int func_02178C98(void);
-void func_02178C74(void *arg)
+extern void WIH_ChangeSysState(int);
+extern void WIH_SetError(int);
+extern int WIH_Finalize(void);
+extern int WIH_StateInEndChild(void);
+void WIH_StateOutEndChildMP(void *arg)
 {
     int result = ((u16 *)arg)[1];
     if (result != 0) {
-        func_0217814C(result);
-        func_02179498();
+        WIH_SetError(result);
+        WIH_Finalize();
         return;
     }
-    if (func_02178C98() == 0)
-        func_02178138(9);
+    if (WIH_StateInEndChild() == 0)
+        WIH_ChangeSysState(9);
 }

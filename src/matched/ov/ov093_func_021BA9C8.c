@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021F3A60 0x021F3A60 data a4
+ *   gBtlServerFileName 0x021F3A60 data a4
  *   STRBUF_Create 0x020457B0 arm
  *   BTL_CALC_SetRngState 0x021D787C thumb ov093
  *   BTL_SERVER_ClearClient 0x021BB828 thumb ov093
@@ -22,7 +22,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Copy24 { int x[6]; };
-extern u8 d_021F3A60[];
+extern u8 gBtlServerFileName[];
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
 typedef unsigned int   u32;
 struct U16Vec;
@@ -38,7 +38,7 @@ u8 *BTL_SERVER_Create(void *a, struct Copy24 *b, void *c, int d, u16 heap)
 {
     u8 *p;
     int i;
-    p = func_02030734(heap, 0xcc4, 1, (const char *)d_021F3A60, 0xad);
+    p = func_02030734(heap, 0xcc4, 1, (const char *)gBtlServerFileName, 0xad);
     ((struct Obj01234 *)p)->fC = a;
     ((struct Obj01234 *)p)->f10 = c;
     ((struct Obj01234 *)p)->fCC0 = heap;

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EABC4  0x021EABC4  thumb  ov093
- *   func_021EAC54  0x021EAC54  thumb  ov093
+ *   BTLV_CORE_StartYesNoMenu  0x021EABC4  thumb  ov093
+ *   BTLV_CORE_PollYesNoMenu  0x021EAC54  thumb  ov093
  */
 #include "../include/Obj05202.h"
 
@@ -30,8 +30,8 @@ typedef struct {
 
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
-extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
-extern int func_021EAC54(void *win, int *out);
+extern void BTLV_CORE_StartYesNoMenu(u8 *a, u32 x, u32 y, u32 z);
+extern int BTLV_CORE_PollYesNoMenu(void *win, int *out);
 
 int BTL_CLIENT_StepAskYesNo(BattleSeq *s, int *state)
 {
@@ -43,11 +43,11 @@ int BTL_CLIENT_StepAskYesNo(BattleSeq *s, int *state)
     case 0:
         func_021EAF18((struct L *)s->msg, 3, 5);
         func_021EAF18((struct L *)((u8 *)s + 0x7c), 3, 1);
-        func_021EABC4(s->msgWin, (u32)s->msg, (u32)((u8 *)s + 0x7c), 0);
+        BTLV_CORE_StartYesNoMenu(s->msgWin, (u32)s->msg, (u32)((u8 *)s + 0x7c), 0);
         (*state)++;
         break;
     case 1:
-        if (func_021EAC54(s->msgWin, &t)) {
+        if (BTLV_CORE_PollYesNoMenu(s->msgWin, &t)) {
             f = 0;
             if (t != 0)
                 f = 1;

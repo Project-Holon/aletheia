@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK44_SnapLiftToBottom
+ * function: FIELD_GIMMICK_LIFT_SnapLiftToBottom
  * address:  0x021F3970
  * packet:   pkt_ov044_021F3970
  * region:   ov044
@@ -39,7 +39,7 @@ struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 
-void GIMMICK44_SnapLiftToBottom(void *a)
+void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *a)
 {
     void *s;
     void *r;

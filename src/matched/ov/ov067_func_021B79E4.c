@@ -1,5 +1,5 @@
 /*
- * function: func_021B79E4
+ * function: FRAME_LIST_AddItem
  * address: 0x021B79E4
  * packet: pkt_ov067_021B79E4
  * region: ov067
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj20620.h"
 typedef struct Pair { unsigned first, second; } Pair;
-void func_021B79E4(char *ctx, unsigned first, unsigned second)
+void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second)
 {
     (*(Pair **)(ctx + 0x28))[*(unsigned short *)(ctx + 0x4c)].first = first;
     (*(Pair **)(ctx + 0x28))[*(unsigned short *)(ctx + 0x4c)].second = second;

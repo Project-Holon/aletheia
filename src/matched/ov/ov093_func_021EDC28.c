@@ -1,5 +1,5 @@
 /*
- * function: func_021EDC28
+ * function: BTLV_SCU_PrepareNamePlate
  * address:  0x021EDC28
  * packet:   pkt_ov093_021EDC28
  * region:   ov093
@@ -16,8 +16,8 @@
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021EDF4C  0x021EDF4C  thumb  ov093
- *   func_021EDE54  0x021EDE54  thumb  ov093
+ *   BTLV_SCU_HideNamePlate  0x021EDF4C  thumb  ov093
+ *   BTLV_SCU_DrawNamePlate  0x021EDE54  thumb  ov093
  *   func_021F8AE8  0x021F8AE8  thumb  ov094
  */
 
@@ -40,11 +40,11 @@ struct W {
 extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern void func_021EDF4C(struct W *w);
-extern void func_021EDE54(u8 *p);
+extern void BTLV_SCU_HideNamePlate(struct W *w);
+extern void BTLV_SCU_DrawNamePlate(u8 *p);
 extern void func_021F8AE8(int a, u32 b);
 
-void func_021EDC28(struct W *w, u8 a1, int flag)
+void BTLV_SCU_PrepareNamePlate(struct W *w, u8 a1, int flag)
 {
     u8 *t;
     u16 h;
@@ -57,12 +57,12 @@ void func_021EDC28(struct W *w, u8 a1, int flag)
         if (k == w->f0c) {
             return;
         }
-        func_021EDF4C(w);
+        BTLV_SCU_HideNamePlate(w);
     }
     if (h != w->f08 || k != w->f0c) {
         w->f08 = h;
         w->f0c = k;
-        func_021EDE54((u8 *)w);
+        BTLV_SCU_DrawNamePlate((u8 *)w);
     }
     w->f22_1 = (u8)flag;
     w->f0d = 0;

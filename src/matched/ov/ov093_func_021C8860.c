@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Named by the parked ov093 files (HAND_ITEM_DestinyKnot_Infatuate / HAND_ITEM_RockyHelmetDamageReaction /
- * func_021E7388).  Appends `val` to the record at p: the count in bits 8..14
+ * HAND_WAZA_SimpleBeamSetAbility).  Appends `val` to the record at p: the count in bits 8..14
  * of the +2 halfword (max 7 entries) is incremented and `val` stored at
  * p + 4 + idx*4.  The 7-bit unsigned bitfield is what makes the count
  * unsigned (`bhs`, not `bge`) and produces the lsl/lsr extraction pair.

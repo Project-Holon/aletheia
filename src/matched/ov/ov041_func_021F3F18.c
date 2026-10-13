@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_GetFirstAnimeSlot
+ * function: FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot
  * address:  0x021F3F18
  * packet:   pkt_ov041_021F3F18
  * region:   ov041
@@ -13,7 +13,7 @@
  * index. Callee of GIMMICK41_EventLaunch.
  */
 
-int GIMMICK41_GetFirstAnimeSlot(int x)
+int FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(int x)
 {
     switch (x) {
     case 0: return 0;

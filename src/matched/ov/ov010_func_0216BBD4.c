@@ -16,7 +16,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   GIMMICK45_SecondarySwitchEventProc  0x021F39B8  thumb  ov045
+ *   FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc  0x021F39B8  thumb  ov045
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
 
@@ -33,7 +33,7 @@ struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
-extern int GIMMICK45_SecondarySwitchEventProc();
+extern int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc();
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
 int FIELD_G3D_MAP_CmdStartSpPokeGimmickTask(int c, int vm)
@@ -73,7 +73,7 @@ int FIELD_G3D_MAP_CmdStartSpPokeGimmickTask(int c, int vm)
         x = vec;
         y = buf;
     }
-    r = GIMMICK45_SecondarySwitchEventProc(p8, a1, x, y, a5 << 15, a6);
+    r = FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(p8, a1, x, y, a5 << 15, a6);
     if (r == 0) {
         return 1;
     }

@@ -26,7 +26,7 @@
  *   GIMMICK_OBJ_ELBOARD_Delete 0x021F474C thumb ov048
  *   GIMMICK_OBJ_ELBOARD_Advance 0x021F4784 thumb ov048
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
- *   d_021F50C0 0x021F50C0 data a4
+ *   gElboardLayout 0x021F50C0 data a4
  *   func_021F47B0 0x021F47B0 thumb ov048
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0200C3B8 0x0200C3B8 thumb
@@ -160,7 +160,7 @@ GateNewsEntry *FIELD_GIMMICK_GATE_FindListNewsEntry(GateWork *work);
 
 /* The two sets of board resources (one per text mode), and the board data shared with gimmick_obj_elboard.c. */
 extern G3dUtilSetup gGateExpObjSetups[];
-extern int d_021F50C0[];            /* element 0: scroll step per frame */
+extern int gElboardLayout[];            /* element 0: scroll step per frame */
 extern const u16 gGateBoardAnimeTable[];      /* animation index by GateBoardRecord.animeKind */
 extern const char gGateSourceFileName[];     /* file name passed to the heap allocations below */
 
@@ -217,7 +217,7 @@ void FIELD_GIMMICK_GATE_Update(FieldMap *fieldMap)
     GateWork *work;
 
     work = FIELDMAP_GetCommonWork(fieldMap, GATE_WORK_ID);
-    GIMMICK_OBJ_ELBOARD_Advance(work->board, d_021F50C0[0]);
+    GIMMICK_OBJ_ELBOARD_Advance(work->board, gElboardLayout[0]);
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
 }
 

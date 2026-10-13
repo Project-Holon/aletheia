@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_rotating_room.c
  * unit:     yes
- * function: GIMMICK46_Init, GIMMICK46_InitModel, GIMMICK46_InitUnitPose, GIMMICK46_Exit, GIMMICK46_Update, GIMMICK46_StartButtonEvent, GIMMICK46_StartLeverEvent, GIMMICK46_StartRotateEvent, GIMMICK46_StartHopEvent, GIMMICK46_CalcUnitPose, GIMMICK46_GetRotateAnim, GIMMICK46_ButtonEventProc, GIMMICK46_LeverEventProc, GIMMICK46_RotateEventProc, GIMMICK46_PlayAnimEventProc, GIMMICK46_HopEventProc, GIMMICK46_SetExteriorHidden, GIMMICK46_FindMmdlByObjId, GIMMICK46_SetMmdlVanish, GIMMICK46_ApplyPoseLines, GIMMICK46_IsPosInside
+ * function: FIELD_GIMMICK_ROTATING_ROOM_Init, FIELD_GIMMICK_ROTATING_ROOM_InitModel, FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose, FIELD_GIMMICK_ROTATING_ROOM_Exit, FIELD_GIMMICK_ROTATING_ROOM_Update, FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent, FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent, FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent, FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent, FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose, FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim, FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc, FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc, FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, FIELD_GIMMICK_ROTATING_ROOM_HopEventProc, FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden, FIELD_GIMMICK_ROTATING_ROOM_FindMmdlByObjId, FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish, FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines, FIELD_GIMMICK_ROTATING_ROOM_IsPosInside
  * address:  0x021F36C0
  * region:   ov046
  * compiler: dsi/1.1p1
@@ -24,7 +24,7 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   GIMMICK46_IsPosInside  0x021F40D8  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_IsPosInside  0x021F40D8  thumb  ov046
  *   sGimmick46ExpUnitDesc     0x021F4120  data  a4
  *   sGimmick46UnitAngles     0x021F4108  data  a2
  *   sGimmick46BodyPos     0x021F4194  data  a4
@@ -63,6 +63,7 @@
  *   FIELD_NOGRID_MAPPER_SetLineEnable  0x021BB3DC  thumb  ov021
  *   sGimmick46PoseLines  0x021F4430  data  ov046  a4
  */
+#include "../ov037/gimmick_save_types.h"
 #include "field_gimmick_rotating_room_types.h"
 
 struct FieldMap;
@@ -119,27 +120,27 @@ extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, u32 vanish);
 extern struct NogridMapper *FIELDMAP_GetNogridMapper(struct FieldMap *fieldMap);
 extern void FIELD_NOGRID_MAPPER_SetLineEnable(struct NogridMapper *mapper, int lineIndex, int enabled);
 
-void GIMMICK46_Init(struct FieldMap *fieldMap);
-void GIMMICK46_InitModel(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, u16 *angle, int animCount, int cullDraw);
-void GIMMICK46_InitUnitPose(Gimmick46Save *save, struct FldExpObj *expObj, int unitIndex);
-void GIMMICK46_Exit(struct FieldMap *fieldMap);
-void GIMMICK46_Update(struct FieldMap *fieldMap);
-void GIMMICK46_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side);
-void GIMMICK46_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side);
-void GIMMICK46_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex);
-struct GameEvent *GIMMICK46_StartHopEvent(struct GameSystem *gameSystem, int direction);
-int GIMMICK46_CalcUnitPose(Gimmick46Unit *unit);
-int GIMMICK46_GetRotateAnim(Gimmick46Unit *unit, int newPose);
-int GIMMICK46_ButtonEventProc(struct GameEvent *event, int *state);
-int GIMMICK46_LeverEventProc(struct GameEvent *event, int *state);
-int GIMMICK46_RotateEventProc(struct GameEvent *event, int *state);
-int GIMMICK46_PlayAnimEventProc(struct GameEvent *event, int *state);
-int GIMMICK46_HopEventProc(struct GameEvent *event, int *state);
-void GIMMICK46_SetExteriorHidden(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden);
-struct Mmdl *GIMMICK46_FindMmdlByObjId(struct FieldMap *fieldMap, int objId);
-void GIMMICK46_SetMmdlVanish(struct FieldMap *fieldMap, int objId, u32 vanish);
-void GIMMICK46_ApplyPoseLines(struct FieldMap *fieldMap, int unitIndex, int pose);
-int GIMMICK46_IsPosInside(Vec3Fx *pos);
+void FIELD_GIMMICK_ROTATING_ROOM_Init(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, u16 *angle, int animCount, int cullDraw);
+void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(Gimmick46Save *save, struct FldExpObj *expObj, int unitIndex);
+void FIELD_GIMMICK_ROTATING_ROOM_Exit(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side);
+void FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side);
+void FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex);
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *gameSystem, int direction);
+int FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose(Gimmick46Unit *unit);
+int FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim(Gimmick46Unit *unit, int newPose);
+int FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc(struct GameEvent *event, int *state);
+int FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc(struct GameEvent *event, int *state);
+int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(struct GameEvent *event, int *state);
+int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(struct GameEvent *event, int *state);
+int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(struct GameEvent *event, int *state);
+void FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden);
+struct Mmdl *FIELD_GIMMICK_ROTATING_ROOM_FindMmdlByObjId(struct FieldMap *fieldMap, int objId);
+void FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(struct FieldMap *fieldMap, int objId, u32 vanish);
+void FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines(struct FieldMap *fieldMap, int unitIndex, int pose);
+int FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(Vec3Fx *pos);
 
 extern struct FldExpUnitDesc sGimmick46ExpUnitDesc;
 extern u16 sGimmick46UnitAngles[];         /* initial angle per unit */
@@ -153,7 +154,7 @@ extern int sGimmick46HopHeights[];         /* height offsets of the hop, in tile
 extern int sGimmick46PoseLines[][4][6];   /* walk lines (line, enabled) per (unit, pose) */
 
 
-void GIMMICK46_Init(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_ROTATING_ROOM_Init(struct FieldMap *fieldMap)
 {
     Vec3Fx extraPos;
     Vec3Fx playerPos;
@@ -166,37 +167,37 @@ void GIMMICK46_Init(struct FieldMap *fieldMap)
     int inside;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick46Work));
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sGimmick46ExpUnitDesc, 0);
-    for (unitIdx = 0; unitIdx < GIMMICK46_UNIT_COUNT; unitIdx++) {
+    for (unitIdx = 0; unitIdx < FIELD_GIMMICK_ROTATING_ROOM_UNIT_COUNT; unitIdx++) {
         /* Cleared and then set: the first store is in the original code. */
         angle = 0;
         angle = sGimmick46UnitAngles[unitIdx];
-        firstModel = unitIdx * GIMMICK46_MODELS_PER_UNIT;
-        GIMMICK46_InitModel(expObj, firstModel, &sGimmick46BodyPos[unitIdx], &angle, 8, 0);
-        GIMMICK46_InitModel(expObj, firstModel + 1, &sGimmick46LeverPos[unitIdx], &angle, 2, 0);
-        GIMMICK46_InitModel(expObj, firstModel + 2, &sGimmick46LeverPos[unitIdx], &angle, 2, 0);
-        GIMMICK46_InitModel(expObj, firstModel + 3, &sGimmick46ButtonPos[unitIdx * 2], 0, 1, 1);
-        GIMMICK46_InitModel(expObj, firstModel + 4, &sGimmick46ButtonPos[unitIdx * 2 + 1], 0, 1, 1);
-        GIMMICK46_InitUnitPose(save, expObj, unitIdx);
+        firstModel = unitIdx * FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT;
+        FIELD_GIMMICK_ROTATING_ROOM_InitModel(expObj, firstModel, &sGimmick46BodyPos[unitIdx], &angle, 8, 0);
+        FIELD_GIMMICK_ROTATING_ROOM_InitModel(expObj, firstModel + 1, &sGimmick46LeverPos[unitIdx], &angle, 2, 0);
+        FIELD_GIMMICK_ROTATING_ROOM_InitModel(expObj, firstModel + 2, &sGimmick46LeverPos[unitIdx], &angle, 2, 0);
+        FIELD_GIMMICK_ROTATING_ROOM_InitModel(expObj, firstModel + 3, &sGimmick46ButtonPos[unitIdx * 2], 0, 1, 1);
+        FIELD_GIMMICK_ROTATING_ROOM_InitModel(expObj, firstModel + 4, &sGimmick46ButtonPos[unitIdx * 2 + 1], 0, 1, 1);
+        FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(save, expObj, unitIdx);
     }
     /* The position is copied to a local first; passing the table row
      * directly changes the stack frame. */
     extraPos = sGimmick46ExtraModelPos;
-    GIMMICK46_InitModel(expObj, GIMMICK46_MODEL_EXTRA, &extraPos, 0, 0, 0);
-    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, GIMMICK46_MODEL_EXTRA, 0, 1);
+    FIELD_GIMMICK_ROTATING_ROOM_InitModel(expObj, FIELD_GIMMICK_ROTATING_ROOM_MODEL_EXTRA, &extraPos, 0, 0, 0);
+    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ROTATING_ROOM_MODEL_EXTRA, 0, 1);
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
-    inside = GIMMICK46_IsPosInside(&playerPos) != 0 ? 1 : 0;
-    GIMMICK46_SetExteriorHidden(expObj, fieldMap, inside);
+    inside = FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(&playerPos) != 0 ? 1 : 0;
+    FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(expObj, fieldMap, inside);
     work->playerInside = inside;
-    for (unitIdx = 0; unitIdx < GIMMICK46_UNIT_COUNT; unitIdx++)
-        GIMMICK46_ApplyPoseLines(fieldMap, unitIdx, save->units[unitIdx].pose);
+    for (unitIdx = 0; unitIdx < FIELD_GIMMICK_ROTATING_ROOM_UNIT_COUNT; unitIdx++)
+        FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines(fieldMap, unitIdx, save->units[unitIdx].pose);
 }
 
 
 
-void GIMMICK46_InitModel(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, u16 *angle, int animCount, int cullDraw)
+void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, u16 *angle, int animCount, int cullDraw)
 {
     FldExpModel *model;
     struct FldExpAnime *anime;
@@ -226,7 +227,7 @@ void GIMMICK46_InitModel(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, 
 
 
 
-void GIMMICK46_InitUnitPose(Gimmick46Save *save, struct FldExpObj *expObj, int unitIdx)
+void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(Gimmick46Save *save, struct FldExpObj *expObj, int unitIdx)
 {
     Gimmick46Unit *unit;
     int bodyModel;
@@ -257,7 +258,7 @@ void GIMMICK46_InitUnitPose(Gimmick46Save *save, struct FldExpObj *expObj, int u
         bodyAnim = 1;
         break;
     }
-    bodyModel = unitIdx * GIMMICK46_MODELS_PER_UNIT;
+    bodyModel = unitIdx * FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT;
     bodyAnime = FLD_EXP_OBJ_GetAnime(expObj, 0, bodyModel, bodyAnim);
     FLD_EXP_OBJ_SetAnimePaused(bodyAnime, 0);
     FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, bodyModel, bodyAnim, 1);
@@ -287,7 +288,7 @@ void GIMMICK46_InitUnitPose(Gimmick46Save *save, struct FldExpObj *expObj, int u
 
 
 
-void GIMMICK46_Exit(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_ROTATING_ROOM_Exit(struct FieldMap *fieldMap)
 {
     struct FldExpObj *expObj;
 
@@ -305,20 +306,20 @@ void GIMMICK46_Exit(struct FieldMap *fieldMap)
 
 
 
-void GIMMICK46_Update(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap)
 {
     Vec3Fx playerPos;
     struct FldExpObj *expObj = FIELDMAP_GetExpObj(fieldMap);
     Gimmick46Work *work = FIELDMAP_GetCommonWork(fieldMap, 1);
     int inside = 1;
 
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     FLD_EXP_OBJ_UpdateAnimes(expObj);
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
-    if (GIMMICK46_IsPosInside(&playerPos) == 0)
+    if (FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(&playerPos) == 0)
         inside = 0;
     if (work->playerInside != inside) {
-        GIMMICK46_SetExteriorHidden(expObj, fieldMap, inside);
+        FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(expObj, fieldMap, inside);
         work->playerInside = inside;
     }
 }
@@ -331,18 +332,18 @@ void GIMMICK46_Update(struct FieldMap *fieldMap)
 
 
 
-void GIMMICK46_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side)
+void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side)
 {
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     Gimmick46Save *save;
     Gimmick46Work *work;
 
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->side = side;
     work->unit = &save->units[unitIndex];
-    func_020122C0(gameSystem, 0, GIMMICK46_ButtonEventProc, 0);
+    func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc, 0);
 }
 
 
@@ -353,18 +354,18 @@ void GIMMICK46_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, in
 
 
 
-void GIMMICK46_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side)
+void FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side)
 {
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     Gimmick46Save *save;
     Gimmick46Work *work;
 
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->side = side;
     work->unit = &save->units[unitIndex];
-    func_020122C0(gameSystem, 0, GIMMICK46_LeverEventProc, 0);
+    func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc, 0);
 }
 
 
@@ -375,17 +376,17 @@ void GIMMICK46_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int
 
 
 
-void GIMMICK46_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex)
+void FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex)
 {
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     Gimmick46Save *save;
     Gimmick46Work *work;
 
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->unit = &save->units[unitIndex];
-    func_020122C0(gameSystem, 0, GIMMICK46_RotateEventProc, 0);
+    func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc, 0);
 }
 
 
@@ -401,7 +402,7 @@ void GIMMICK46_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex)
  * multiplying by minus one), and the hop data pointer is a separate local
  * that is formed after the func_020122C0 call.
  */
-struct GameEvent *GIMMICK46_StartHopEvent(struct GameSystem *gameSystem, int direction)
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *gameSystem, int direction)
 {
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     Gimmick46Work *work;
@@ -409,12 +410,12 @@ struct GameEvent *GIMMICK46_StartHopEvent(struct GameSystem *gameSystem, int dir
     struct GameEvent *hopEvent;
     Vec3Fx playerPos;
 
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    hopEvent = func_020122C0(gameSystem, 0, GIMMICK46_HopEventProc, 0);
+    hopEvent = func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_HopEventProc, 0);
     hop = &work->event.hop;
     hop->step = 0;
-    hop->speedX = GIMMICK46_HOP_SPEED;
+    hop->speedX = FIELD_GIMMICK_ROTATING_ROOM_HOP_SPEED;
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
     hop->baseY = playerPos.y;
     if (direction == 2)
@@ -429,7 +430,7 @@ struct GameEvent *GIMMICK46_StartHopEvent(struct GameSystem *gameSystem, int dir
 
 
 
-int GIMMICK46_CalcUnitPose(Gimmick46Unit *unit)
+int FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose(Gimmick46Unit *unit)
 {
     if (unit->leverOn[0] == 0) {
         if (unit->leverOn[1] == 0)
@@ -449,9 +450,9 @@ int GIMMICK46_CalcUnitPose(Gimmick46Unit *unit)
 
 
 /*
- * Unlabelled leaf (no lr push) between GIMMICK46_CalcUnitPose and GIMMICK46_ButtonEventProc.
+ * Unlabelled leaf (no lr push) between FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose and FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc.
  */
-int GIMMICK46_GetRotateAnim(Gimmick46Unit *unit, int newPose)
+int FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim(Gimmick46Unit *unit, int newPose)
 {
     return sGimmick46RotateAnimTable[unit->pose][newPose] - 5;
 }
@@ -467,7 +468,7 @@ int GIMMICK46_GetRotateAnim(Gimmick46Unit *unit, int newPose)
  * The 3/4 selector must be a ternary inside the sum with the ternary
  * first: an if-assigned local or `a0 * 5 + (...)` gets other registers.
  */
-int GIMMICK46_ButtonEventProc(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc(struct GameEvent *event, int *state)
 {
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -475,16 +476,16 @@ int GIMMICK46_ButtonEventProc(struct GameEvent *event, int *state)
 
     FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
-        work->event.anim.modelIndex = (work->side == 0 ? GIMMICK46_MODEL_BUTTON_BASE : GIMMICK46_MODEL_BUTTON_BASE + 1) + work->unitIndex * GIMMICK46_MODELS_PER_UNIT;
+        work->event.anim.modelIndex = (work->side == 0 ? FIELD_GIMMICK_ROTATING_ROOM_MODEL_BUTTON_BASE : FIELD_GIMMICK_ROTATING_ROOM_MODEL_BUTTON_BASE + 1) + work->unitIndex * FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT;
         work->event.anim.startCount = 1;
         work->event.anim.animId[0] = 0;
         work->event.anim.stopCount = 1;
-        work->event.anim.startSe = GIMMICK46_SE_BUTTON;
-        work->event.anim.endSe = GIMMICK46_SE_NONE;
-        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, GIMMICK46_PlayAnimEventProc, 0));
+        work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_BUTTON;
+        work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_NONE;
+        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         (*state)++;
         break;
     case 1:
@@ -498,7 +499,7 @@ int GIMMICK46_ButtonEventProc(struct GameEvent *event, int *state)
 
 
 
-int GIMMICK46_LeverEventProc(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc(struct GameEvent *event, int *state)
 {
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -508,18 +509,18 @@ int GIMMICK46_LeverEventProc(struct GameEvent *event, int *state)
     FIELDMAP_GetExpObj(fieldMap);
     newLeverState = 1;
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         if (work->unit->leverOn[work->side] != 0)
             newLeverState = 0;
-        work->event.anim.modelIndex = (work->side == 0 ? GIMMICK46_MODEL_LEVER_BASE : GIMMICK46_MODEL_LEVER_BASE + 1) + work->unitIndex * GIMMICK46_MODELS_PER_UNIT;
+        work->event.anim.modelIndex = (work->side == 0 ? FIELD_GIMMICK_ROTATING_ROOM_MODEL_LEVER_BASE : FIELD_GIMMICK_ROTATING_ROOM_MODEL_LEVER_BASE + 1) + work->unitIndex * FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT;
         work->event.anim.startCount = 1;
         work->event.anim.animId[0] = newLeverState;
         work->event.anim.stopCount = 2;
-        work->event.anim.startSe = GIMMICK46_SE_LEVER_START;
-        work->event.anim.endSe = GIMMICK46_SE_LEVER_END;
-        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, GIMMICK46_PlayAnimEventProc, 0));
+        work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_LEVER_START;
+        work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_LEVER_END;
+        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         work->unit->leverOn[work->side] = newLeverState;
         (*state)++;
         break;
@@ -533,7 +534,7 @@ int GIMMICK46_LeverEventProc(struct GameEvent *event, int *state)
 
 
 
-int GIMMICK46_RotateEventProc(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(struct GameEvent *event, int *state)
 {
     struct GameSystem *gameSystem = GAME_EVENT_GetGameSystem(event);
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -543,23 +544,23 @@ int GIMMICK46_RotateEventProc(struct GameEvent *event, int *state)
 
     FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
-        newPose = GIMMICK46_CalcUnitPose(work->unit);
-        bodyAnim = GIMMICK46_GetRotateAnim(work->unit, newPose);
-        work->event.anim.modelIndex = work->unitIndex * GIMMICK46_MODELS_PER_UNIT;
+        newPose = FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose(work->unit);
+        bodyAnim = FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim(work->unit, newPose);
+        work->event.anim.modelIndex = work->unitIndex * FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT;
         work->event.anim.startCount = 1;
         work->event.anim.animId[0] = bodyAnim;
         work->event.anim.stopCount = 8;
-        work->event.anim.startSe = GIMMICK46_SE_ROTATE_START;
-        work->event.anim.endSe = GIMMICK46_SE_ROTATE_END;
-        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, GIMMICK46_PlayAnimEventProc, 0));
+        work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_ROTATE_START;
+        work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_ROTATE_END;
+        GAME_EVENT_CallEvent(event, func_020122C0(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         work->unit->pose = newPose;
         (*state)++;
         break;
     case 1:
-        GIMMICK46_ApplyPoseLines(fieldMap, work->unitIndex, work->unit->pose);
+        FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines(fieldMap, work->unitIndex, work->unit->pose);
         return 1;
     }
     return 0;
@@ -568,7 +569,7 @@ int GIMMICK46_RotateEventProc(struct GameEvent *event, int *state)
 
 
 
-int GIMMICK46_PlayAnimEventProc(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(struct GameEvent *event, int *state)
 {
     struct FieldMap *fieldMap;
     struct FldExpObj *expObj;
@@ -580,7 +581,7 @@ int GIMMICK46_PlayAnimEventProc(struct GameEvent *event, int *state)
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     anim = &FIELDMAP_GetCommonWork(fieldMap, 1)->event.anim;
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         modelIdx = anim->modelIndex;
@@ -600,7 +601,7 @@ int GIMMICK46_PlayAnimEventProc(struct GameEvent *event, int *state)
     case 1:
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, anim->modelIndex, anim->animId[0]))) {
             GFL_USE_StopAllSe();
-            if (anim->endSe != GIMMICK46_SE_NONE)
+            if (anim->endSe != FIELD_GIMMICK_ROTATING_ROOM_SE_NONE)
                 GFL_USE_PlaySeDefaultVolume(anim->endSe);
             return 1;
         }
@@ -612,7 +613,7 @@ int GIMMICK46_PlayAnimEventProc(struct GameEvent *event, int *state)
 
 
 
-int GIMMICK46_HopEventProc(struct GameEvent *event, int *state)
+int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(struct GameEvent *event, int *state)
 {
     struct FieldMap *fieldMap;
     Gimmick46HopEvent *hop;
@@ -623,10 +624,10 @@ int GIMMICK46_HopEventProc(struct GameEvent *event, int *state)
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     FIELDMAP_GetExpObj(fieldMap);
     hop = &FIELDMAP_GetCommonWork(fieldMap, 1)->event.hop;
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK46_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
-        GFL_USE_PlaySeDefaultVolume(GIMMICK46_SE_HOP_START);
+        GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_ROTATING_ROOM_SE_HOP_START);
         (*state)++;
         break;
     case 1:
@@ -636,8 +637,8 @@ int GIMMICK46_HopEventProc(struct GameEvent *event, int *state)
         pos.y = hop->baseY + (sGimmick46HopHeights[hop->step] << 12);
         FIELD_PLAYER_SetPos(player, &pos);
         hop->step = hop->step + 1;
-        if (hop->step >= GIMMICK46_HOP_STEPS) {
-            GFL_USE_PlaySeDefaultVolume(GIMMICK46_SE_HOP_END);
+        if (hop->step >= FIELD_GIMMICK_ROTATING_ROOM_HOP_STEPS) {
+            GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_ROTATING_ROOM_SE_HOP_END);
             return done;
         }
         break;
@@ -648,7 +649,7 @@ int GIMMICK46_HopEventProc(struct GameEvent *event, int *state)
 
 
 
-void GIMMICK46_SetExteriorHidden(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden)
+void FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden)
 {
     func_021BE4B4(expObj, 0, 15, hidden);
     func_021BE4B4(expObj, 0, 10, hidden);
@@ -656,16 +657,16 @@ void GIMMICK46_SetExteriorHidden(struct FldExpObj *expObj, struct FieldMap *fiel
     func_021BE4B4(expObj, 0, 12, hidden);
     func_021BE4B4(expObj, 0, 13, hidden);
     func_021BE4B4(expObj, 0, 14, hidden);
-    GIMMICK46_SetMmdlVanish(fieldMap, 4, hidden);
-    GIMMICK46_SetMmdlVanish(fieldMap, 5, hidden);
-    GIMMICK46_SetMmdlVanish(fieldMap, 9, hidden);
-    GIMMICK46_SetMmdlVanish(fieldMap, 6, hidden);
+    FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(fieldMap, 4, hidden);
+    FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(fieldMap, 5, hidden);
+    FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(fieldMap, 9, hidden);
+    FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(fieldMap, 6, hidden);
 }
 
 
 
 
-struct Mmdl *GIMMICK46_FindMmdlByObjId(struct FieldMap *fieldMap, int objId)
+struct Mmdl *FIELD_GIMMICK_ROTATING_ROOM_FindMmdlByObjId(struct FieldMap *fieldMap, int objId)
 {
     u32 iterator = 0;
     struct Mmdl *mmdl;
@@ -680,11 +681,11 @@ struct Mmdl *GIMMICK46_FindMmdlByObjId(struct FieldMap *fieldMap, int objId)
 
 
 
-void GIMMICK46_SetMmdlVanish(struct FieldMap *fieldMap, int objId, u32 vanish)
+void FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(struct FieldMap *fieldMap, int objId, u32 vanish)
 {
     struct Mmdl *mmdl;
 
-    mmdl = GIMMICK46_FindMmdlByObjId(fieldMap, objId);
+    mmdl = FIELD_GIMMICK_ROTATING_ROOM_FindMmdlByObjId(fieldMap, objId);
     if (mmdl)
         FLDMMDL_SetStatusBitVanish(mmdl, vanish);
 }
@@ -699,7 +700,7 @@ void GIMMICK46_SetMmdlVanish(struct FieldMap *fieldMap, int objId, u32 vanish)
  * apart. FIELD_NOGRID_MAPPER_SetLineEnable is ov021's thunk (reads r0-r2); ov214's label at the
  * same address is a different two-argument function.
  */
-void GIMMICK46_ApplyPoseLines(struct FieldMap *fieldMap, int unitIndex, int pose)
+void FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines(struct FieldMap *fieldMap, int unitIndex, int pose)
 {
     int lines[6];
     int enabled[6];
@@ -718,7 +719,7 @@ void GIMMICK46_ApplyPoseLines(struct FieldMap *fieldMap, int unitIndex, int pose
         FIELD_NOGRID_MAPPER_SetLineEnable(mapper, lines[i], enabled[i]);
 }
 
-int GIMMICK46_IsPosInside(Vec3Fx *pos)
+int FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(Vec3Fx *pos)
 {
     if (pos->y > 0x40000)
         return 0;

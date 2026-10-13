@@ -1,5 +1,5 @@
 /*
- * function: func_021CF8E4
+ * function: SCRCMD_CountPartyOtherOtIds
  * address:  0x021CF8E4
  * packet:   pkt_ov021_021CF8E4
  * region:   ov021
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Counts the party members whose value func_021CFA04 accepts.
+ * Counts the party members whose value SCRCMD_AddOtherOtId accepts.
  *
  * symbols:
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   func_021CFA04  0x021CFA04  thumb  ov021
+ *   SCRCMD_AddOtherOtId  0x021CFA04  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -29,9 +29,9 @@ extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32   POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern int func_021CFA04(int a, int v, void *l);
+extern int SCRCMD_AddOtherOtId(int a, int v, void *l);
 
-int func_021CF8E4(void *a, void *src, int c)
+int SCRCMD_CountPartyOtherOtIds(void *a, void *src, int c)
 {
     void *party = GAME_DATA_GetMyParty(src);
     int cnt = POKEPARTY_GetCount(party);
@@ -42,7 +42,7 @@ int func_021CF8E4(void *a, void *src, int c)
         void *p = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(p, 0x4c, 0) == 0) {
             u32 v = POKE_TOOL_GetPartyValue(p, 7, 0);
-            if (func_021CFA04((int)a, v, (void *)c) != 0) {
+            if (SCRCMD_AddOtherOtId((int)a, v, (void *)c) != 0) {
                 n++;
             }
         }

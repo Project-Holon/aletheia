@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK42_CreateOneShotEvent
+ * function: FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent
  * address:  0x021F3888
  * packet:   pkt_ov042_021F3888
  * region:   ov042
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK42_CreateOneShotEvent  0x021F3888  thumb
- *   GIMMICK42_EventPlayOneShot  0x021F3980  thumb
+ *   FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent  0x021F3888  thumb
+ *   FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot  0x021F3980  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -38,9 +38,9 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK42_EventPlayOneShot(void *a, int *st);
+extern int FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot(void *a, int *st);
 
-int GIMMICK42_CreateOneShotEvent(void *a, u32 b)
+int FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(void *a, u32 b)
 {
     void *s;
     u8 *p;
@@ -53,7 +53,7 @@ int GIMMICK42_CreateOneShotEvent(void *a, u32 b)
     if (b > 3) {
         return 0;
     }
-    r = (int)func_020122C0(a, 0, GIMMICK42_EventPlayOneShot, 0);
+    r = (int)func_020122C0(a, 0, FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
     p[1] = b;
     return r;
 }

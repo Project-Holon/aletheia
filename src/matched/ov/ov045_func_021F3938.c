@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK45_SetSwitchModelPose
+ * function: FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose
  * address:  0x021F3938
  * packet:   pkt_ov045_021F3938
  * region:   ov045
@@ -23,7 +23,7 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern void *FLD_EXP_OBJ_GetAnime(void *p, int i, u16 j, u16 k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 
-void GIMMICK45_SetSwitchModelPose(void *a0, int a1, int a2, int a3)
+void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(void *a0, int a1, int a2, int a3)
 {
     int r4, r7;
 

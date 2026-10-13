@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_06898E1C, func_06898E28, func_06898E38, func_06898E44
+ * function: HAND_SIDE_GetHandlersReflect, HAND_SIDE_ReflectOnDamage, HAND_SIDE_GetHandlersLightScreen, HAND_SIDE_LightScreenOnDamage
  * address:  0x06898E1C
  * packet:   pkt_ov095_06898E1C
  * region:   ov095
@@ -16,37 +16,37 @@
  * entries of the {key, fn} tables at 0x0689D6F0 / 0x0689D710.
  *
  * symbols:
- *   func_06898E54  0x06898E54  thumb  ov095
- *   d_0689D6F0     0x0689D6F0  data   ov095  a4
- *   d_0689D710     0x0689D710  data   ov095  a4
+ *   HAND_SIDE_ScreenReduceDamage  0x06898E54  thumb  ov095
+ *   gHandSideReflectHandlers     0x0689D6F0  data   ov095  a4
+ *   gHandSideLightScreenHandlers     0x0689D710  data   ov095  a4
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 d_0689D6F0[];
-extern u8 d_0689D710[];
-extern void func_06898E54(int a, int b, int c);
+extern u8 gHandSideReflectHandlers[];
+extern u8 gHandSideLightScreenHandlers[];
+extern void HAND_SIDE_ScreenReduceDamage(int a, int b, int c);
 
-u8 *func_06898E1C(u32 *p)
+u8 *HAND_SIDE_GetHandlersReflect(u32 *p)
 {
     *p = 1;
-    return d_0689D6F0;
+    return gHandSideReflectHandlers;
 }
 
-void func_06898E28(int a, int b, int c)
+void HAND_SIDE_ReflectOnDamage(int a, int b, int c)
 {
-    func_06898E54(b, c, 1);
+    HAND_SIDE_ScreenReduceDamage(b, c, 1);
 }
 
-u8 *func_06898E38(u32 *p)
+u8 *HAND_SIDE_GetHandlersLightScreen(u32 *p)
 {
     *p = 1;
-    return d_0689D710;
+    return gHandSideLightScreenHandlers;
 }
 
-void func_06898E44(int a, int b, int c)
+void HAND_SIDE_LightScreenOnDamage(int a, int b, int c)
 {
-    func_06898E54(b, c, 2);
+    HAND_SIDE_ScreenReduceDamage(b, c, 2);
 }

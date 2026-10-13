@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E7998, func_021E79FC
+ * function: HAND_WAZA_WonderRoomToggle, HAND_WAZA_AddMagicRoom
  * address:  0x021E7998
  * packet:   pkt_ov093_021E7998
  * region:   ov093
@@ -36,7 +36,7 @@ extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern int d_021F2684[];
 
-void func_021E7998(int a, int b, int c)
+void HAND_WAZA_WonderRoomToggle(int a, int b, int c)
 {
     int k;
     u8 *p;
@@ -57,7 +57,7 @@ void func_021E7998(int a, int b, int c)
     }
 }
 
-int *func_021E79FC(int *p)
+int *HAND_WAZA_AddMagicRoom(int *p)
 {
     *p = 1;
     return d_021F2684;

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021EAE24, func_021EAE34
+ * function: BTLV_CORE_ClearWaitWindow, BTLV_CORE_GetWaitState
  * address: 0x021EAE24
  * packet: pkt_ov093_021EAE24
  * region: ov093
@@ -18,11 +18,11 @@ typedef unsigned char u8;
 struct Q;
 extern void BTLV_SCU_ClearWaitWindow(struct Q *q);
 extern int BTLV_SCU_GetWaitState(void *);
-void func_021EAE24(u8 *p)
+void BTLV_CORE_ClearWaitWindow(u8 *p)
 {
     BTLV_SCU_ClearWaitWindow(((struct Obj21577 *)p)->f17C);
 }
-int func_021EAE34(u8 *p)
+int BTLV_CORE_GetWaitState(u8 *p)
 {
     return BTLV_SCU_GetWaitState(((struct Obj21578 *)p)->f17C);
 }

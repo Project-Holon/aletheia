@@ -14,7 +14,7 @@
  *   NET_WHPIPE_IsIdle  0x02177AA8  thumb  ov014
  *   func_020056EC  0x020056EC  thumb
  *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
- *   func_02179288  0x02179288  thumb  ov014
+ *   WIH_ParentConnect  0x02179288  thumb  ov014
  *   NET_WHPIPE_SetTask  0x0217727C  thumb
  *   NET_WHPIPE_TaskParentSearchWait  0x02177EFC  thumb
  */
@@ -29,7 +29,7 @@ extern u8 g_SearchChannels[3];
 int NET_WHPIPE_IsIdle(void);
 u32 func_020056EC(u32 n);
 void NET_WHPIPE_PublishBeacon(void);
-int func_02179288(int mode, u16 a, int b, u16 c);
+int WIH_ParentConnect(int mode, u16 a, int b, u16 c);
 void NET_WHPIPE_SetTask(u32 *p, u32 v);
 void NET_WHPIPE_TaskParentSearchWait(u8 *a);
 
@@ -44,7 +44,7 @@ void NET_WHPIPE_TaskParentSearchStart(u8 *a)
         if (a[0xCF1] >= 3)
             a[0xCF1] = 0;
         NET_WHPIPE_PublishBeacon();
-        if (func_02179288(0, ((struct Obj04956 *)a)->fC68, tab[a[0xCF1]], 1) != 0) {
+        if (WIH_ParentConnect(0, ((struct Obj04956 *)a)->fC68, tab[a[0xCF1]], 1) != 0) {
             a[0xCF2] = func_020056EC(0x98) + 0x3C;
             NET_WHPIPE_SetTask((u32 *)g_pWhPipeWork, (u32)NET_WHPIPE_TaskParentSearchWait);
         }

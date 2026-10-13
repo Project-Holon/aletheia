@@ -1,5 +1,5 @@
 /*
- * function: func_021E704C
+ * function: HAND_WAZA_AcrobaticsDoublePowerWithoutItem
  * address:  0x021E704C
  * packet:   pkt_ov093_021E704C
  * region:   ov093
@@ -26,7 +26,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern void BTLV_CORE_EventScaleDamage(int n);
 
-void func_021E704C(int a, void *b, int c)
+void HAND_WAZA_AcrobaticsDoublePowerWithoutItem(int a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(3)) {
         if (BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(b, c)) == 0)

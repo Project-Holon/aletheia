@@ -1,5 +1,5 @@
 /*
- * function: func_021ED930
+ * function: BTLV_SCU_InitMonSlots
  * address:  0x021ED930
  * packet:   pkt_ov093_021ED930
  * region:   ov093
@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
- *   func_021ED9A4  0x021ED9A4  thumb  ov093
+ *   BTLV_SCU_InitMonSlot  0x021ED9A4  thumb  ov093
  */
 #include "../include/Obj10122.h"
 
@@ -22,9 +22,9 @@ typedef unsigned int u32;
 extern u32 BTL_MAIN_GetRule(void **p);
 extern unsigned int BTL_MAIN_GetRuleSlotSpan(unsigned int **p);
 struct E;
-extern void func_021ED9A4(struct E *e, u8 *o, u8 k);
+extern void BTLV_SCU_InitMonSlot(struct E *e, u8 *o, u8 k);
 
-void func_021ED930(char *s)
+void BTLV_SCU_InitMonSlots(char *s)
 {
     u32 i;
     u32 n;
@@ -39,6 +39,6 @@ void func_021ED930(char *s)
         n = 5;
     }
     for (i = 0; i <= n; i++) {
-        func_021ED9A4((struct E *)(s + 0x48 + i * 12), (u8 *)s, i);
+        BTLV_SCU_InitMonSlot((struct E *)(s + 0x48 + i * 12), (u8 *)s, i);
     }
 }

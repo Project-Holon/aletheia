@@ -1,5 +1,5 @@
 /*
- * function: func_021E727C
+ * function: HAND_WAZA_RetaliateDoublePowerAfterAllyFaint
  * address:  0x021E727C
  * packet:   pkt_ov093_021E727C
  * region:   ov093
@@ -27,7 +27,7 @@ extern int func_021E72E4(int a, int b, int c);
 extern int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
 extern void BTL_EVENT_MultiplyVar(int key, int m);
 
-void func_021E727C(int a, int b, int c)
+void HAND_WAZA_RetaliateDoublePowerAfterAllyFaint(int a, int b, int c)
 {
     int x;
     u32 n;

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021E9964 0x021E9964 thumb ov093
- *   func_021E9974 0x021E9974 thumb ov093
+ *   BTLV_CORE_CloseMenuToReselect 0x021E9964 thumb ov093
+ *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
  *   BTL_SIDE_GetClientPokeParam 0x021B990C thumb ov093
  *   BTL_CLIENT_IsActionForced 0x021CF470 thumb ov093
  *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
@@ -20,8 +20,8 @@
 #include "../include/Obj00888.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021E9964(u32);
-extern int func_021E9974(u32);
+extern void BTLV_CORE_CloseMenuToReselect(u32);
+extern int BTLV_CORE_IsMenuClosed(u32);
 extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
 extern u32 BTL_CLIENT_IsActionForced(u8 *, void *, u8 *);
 extern void BTL_CALC_ActionSetNone(u32 *p);
@@ -35,11 +35,11 @@ u32 BTL_CLIENT_StepAdvanceSlot(u8 *p, int *st)
     void *q;
     switch (*st) {
     case 0:
-        func_021E9964(((struct Obj00888 *)p)->f54);
+        BTLV_CORE_CloseMenuToReselect(((struct Obj00888 *)p)->f54);
         ++*st;
         break;
     case 1:
-        if (func_021E9974(((struct Obj00888 *)p)->f54)) {
+        if (BTLV_CORE_IsMenuClosed(((struct Obj00888 *)p)->f54)) {
             ++p[0x11d];
             if (p[0x11d] < p[0x11c]) {
                 if ((((u32)p[0x1b2] << 29) >> 31) == 0) {

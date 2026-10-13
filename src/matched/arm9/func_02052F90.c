@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8140  0x020A8140  data
+ *   NNS_GfdDefaultFuncAllocTexVram  0x020A8140  data
  *
  * Twin of src/matched/func_02052F58.c: same twelve instructions and the same
  * two pool words by position, differing only in the global function pointer
@@ -30,9 +30,9 @@
 
 typedef unsigned int u32;
 
-extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
 
 int func_02052F90(u32 a0, u32 a1)
 {
-    return (g_020A8140(a0, a1, 0) & 0xffff) << 3;
+    return (NNS_GfdDefaultFuncAllocTexVram(a0, a1, 0) & 0xffff) << 3;
 }

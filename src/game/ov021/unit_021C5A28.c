@@ -19,7 +19,7 @@
  *   FIELD_STATUS_CreateSubProcNoFadeEvent  0x02014728  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   abs_id_C2      0x000000C2  data
- *   d_021F5580     0x021F5580  data  ov194  a4
+ *   gNameInProcData     0x021F5580  data  ov194  a4
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -171,7 +171,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
 int SCRCMD_NicknameEventMain(struct Evt *event, int *state, NicknameEventWork *work);
 void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result);
 int SCRCMD_SubProcEventMain(struct Evt *event, int *state, SubProcEventWork *work);
-extern char d_021F5580;
+extern char gNameInProcData;
 extern unsigned char abs_id_C2[];
 extern char gSubProcTable[];
 extern char ov171_id[];
@@ -194,7 +194,7 @@ void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInParam *na
  * pooled small constant (abs_id_C2, R_ARM_ABS32) passed as the third argument
  * to FIELD_STATUS_CreateSubProcEvent / FIELD_STATUS_CreateSubProcNoFadeEvent, neither of which is in match.py's
  * OVERLAY_ID_CONSUMERS, and no other pool word image-wide holds 0x000000C2,
- * so no evidence class attests it.  d_021F5580 resolves with the ov194 token (0xC2 is ov194; its proc table init/main/exit sits at 0x021F5580).
+ * so no evidence class attests it.  gNameInProcData resolves with the ov194 token (0xC2 is ov194; its proc table init/main/exit sits at 0x021F5580).
  */
 int SCRCMD_NameInEventMain(struct Evt *event, int *state, NameInEventWork *work)
 {
@@ -203,9 +203,9 @@ int SCRCMD_NameInEventMain(struct Evt *event, int *state, NameInEventWork *work)
     switch (*state) {
     case 0:
         if (work->mode != 0) {
-            childEvent = (int)FIELD_STATUS_CreateSubProcEvent((char *)work->gameSystem, (int)work->fieldMap, (int)abs_id_C2, (int)(&d_021F5580), (int)work->nameIn);
+            childEvent = (int)FIELD_STATUS_CreateSubProcEvent((char *)work->gameSystem, (int)work->fieldMap, (int)abs_id_C2, (int)(&gNameInProcData), (int)work->nameIn);
         } else {
-            childEvent = (int)FIELD_STATUS_CreateSubProcNoFadeEvent((char *)work->gameSystem, (int)work->fieldMap, (int)abs_id_C2, (int)(&d_021F5580), (int)work->nameIn);
+            childEvent = (int)FIELD_STATUS_CreateSubProcNoFadeEvent((char *)work->gameSystem, (int)work->fieldMap, (int)abs_id_C2, (int)(&gNameInProcData), (int)work->nameIn);
         }
         GAME_EVENT_CallEvent(event, (struct Evt **)childEvent);
         (*state)++;

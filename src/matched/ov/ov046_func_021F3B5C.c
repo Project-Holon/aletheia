@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_StartHopEvent
+ * function: FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent
  * address:  0x021F3B5C
  * packet:   pkt_ov046_021F3B5C
  * region:   ov046
@@ -23,7 +23,7 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   GIMMICK46_HopEventProc  0x021F3EFC  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_HopEventProc  0x021F3EFC  thumb  ov046
  */
 
 typedef unsigned int u32;
@@ -44,9 +44,9 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK46_HopEventProc(u32 a, int *b);
+extern int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(u32 a, int *b);
 
-void *GIMMICK46_StartHopEvent(void *a, int b)
+void *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(void *a, int b)
 {
     void *x = GAMESYSTEM_GetFieldMap(a);
     char *q;
@@ -56,7 +56,7 @@ void *GIMMICK46_StartHopEvent(void *a, int b)
 
     GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(x))), 10);
     q = (char *)FIELDMAP_GetCommonWork(x, 1);
-    r = func_020122C0(a, 0, GIMMICK46_HopEventProc, 0);
+    r = func_020122C0(a, 0, FIELD_GIMMICK_ROTATING_ROOM_HopEventProc, 0);
     w = (int *)(q + 12);
     ((unsigned char *)w)[3] = 0;
     w[1] = 0x2000;

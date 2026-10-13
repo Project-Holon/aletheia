@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B64F8",
+   "name": "TOUCHBAR_SetAllButtonsBgPriority",
    "address": "0x021B64F8",
    "kind": "game",
    "region": "ov067",

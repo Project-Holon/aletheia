@@ -1,5 +1,5 @@
 /*
- * function: func_021E83CC
+ * function: HAND_WAZA_PledgeCheckCombo
  * address:  0x021E83CC
  * packet:   pkt_ov093_021E83CC
  * region:   ov093
@@ -14,7 +14,7 @@
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_EVENT_GetClientReservedChoice  0x021D6E50  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
- *   func_021E8384  0x021E8384  thumb  ov093
+ *   HAND_WAZA_FindPledgeCombo  0x021E8384  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -24,10 +24,10 @@ struct QQ;
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_EVENT_GetClientReservedChoice(u8 *p, u8 *id, u16 *value);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
-extern int func_021E8384(u32 x, u32 y);
+extern int HAND_WAZA_FindPledgeCombo(u32 x, u32 y);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E83CC(void *a, void *b, int c, int *d)
+void HAND_WAZA_PledgeCheckCombo(void *a, void *b, int c, int *d)
 {
     u16 y;
     u8 x;
@@ -36,7 +36,7 @@ void func_021E83CC(void *a, void *b, int c, int *d)
 
     if (c == BTL_EVENT_GetVar(3)) {
         if (BTL_EVENT_GetClientReservedChoice(BTL_SERVER_FLOW_GetPokeParam(b, c), &x, &y) != 0) {
-            r = func_021E8384(BTL_EVENT_GetFactorKey(a), y);
+            r = HAND_WAZA_FindPledgeCombo(BTL_EVENT_GetFactorKey(a), y);
             k = BTL_EVENT_GetVar(0x16);
             if (r != 0) {
                 d[1] = r;

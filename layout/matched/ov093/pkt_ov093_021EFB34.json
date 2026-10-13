@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EFB34",
+   "name": "BTL_FIELD_RemoveHolderFromSlots",
    "address": "0x021EFB34",
    "kind": "game",
    "region": "ov093",

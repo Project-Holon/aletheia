@@ -1,5 +1,5 @@
 /*
- * function: func_02209318
+ * function: BTLV_TIMER_Start
  * address: 0x02209318
  * packet: pkt_ov094_02209318
  * region: ov094
@@ -14,13 +14,13 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_020870D0 0x020870D0 arm
- *   func_022094BC 0x022094BC thumb ov094
+ *   BTLV_TIMER_SetVisible 0x022094BC thumb ov094
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
- *   func_02209744 0x02209744 thumb ov094
- *   d_0220ABC0 0x0220ABC0 data a4
- *   d_0220ABC8 0x0220ABC8 data a4
- *   d_0220ABE0 0x0220ABE0 data a4
+ *   BTLV_TIMER_TickTask 0x02209744 thumb ov094
+ *   sBtlvTimerRowY 0x0220ABC0 data a4
+ *   sBtlvTimerColumnX 0x0220ABC8 data a4
+ *   sBtlvTimerSpriteZ 0x0220ABE0 data a4
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,19 +36,19 @@ typedef struct {
     int left[2]; u64 time[2]; int state[2]; void *task;
     char pad70[4]; u16 heap;
 } Work;
-extern const Pair d_0220ABC0;
-extern const Six d_0220ABC8;
-extern const Twelve d_0220ABE0;
+extern const Pair sBtlvTimerRowY;
+extern const Six sBtlvTimerColumnX;
+extern const Twelve sBtlvTimerSpriteZ;
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern u64 func_020870D0(void);
 typedef unsigned char  u8;
-extern void func_022094BC(u8 *p, int i, int a, int b);
+extern void BTLV_TIMER_SetVisible(u8 *p, int i, int a, int b);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void func_02209744(int unused, int x);
-void func_02209318(Work *m, int a, int b)
+extern void BTLV_TIMER_TickTask(int unused, int x);
+void BTLV_TIMER_Start(Work *m, int a, int b)
 {
     Six icons;
     Twelve values;
@@ -58,9 +58,9 @@ void func_02209318(Work *m, int a, int b)
     int off;
     int i, j;
     int *row;
-    icons = d_0220ABC8;
-    types = d_0220ABC0;
-    values = d_0220ABE0;
+    icons = sBtlvTimerColumnX;
+    types = sBtlvTimerRowY;
+    values = sBtlvTimerSpriteZ;
     for (i = 0; i < 2; i++) {
         if ((i == 0 && a != 0) || (i == 1 && b != 0)) {
             off = i * 4;
@@ -81,7 +81,7 @@ void func_02209318(Work *m, int a, int b)
     m->left[1] = b;
     m->time[1] = func_020870D0();
     m->time[0] = m->time[1];
-    func_022094BC((u8 *)m, 0, 0, 0);
-    func_022094BC((u8 *)m, 1, 0, 0);
-    m->task = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))func_02209744, m, 0);
+    BTLV_TIMER_SetVisible((u8 *)m, 0, 0, 0);
+    BTLV_TIMER_SetVisible((u8 *)m, 1, 0, 0);
+    m->task = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))BTLV_TIMER_TickTask, m, 0);
 }

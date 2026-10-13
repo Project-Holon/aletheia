@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK38_FindDoor",
+   "name": "FIELD_GIMMICK_PLATE_DOORS_FindDoor",
    "address": "0x021F3A08",
    "kind": "game",
    "region": "ov038",

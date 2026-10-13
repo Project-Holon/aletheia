@@ -38,12 +38,6 @@ typedef struct Gimmick40Work {
     u16 reserved;       /* 0x02 */
 } Gimmick40Work;
 
-/* The gimmick save area (work id 3 of the gimmick work). */
-typedef struct Gimmick40Save {
-    s32 flag;           /* 0x00: set and read by script commands */
-    u8  animeDone[1];   /* 0x04: per model, the animation was played */
-} Gimmick40Save;
-
 /* Where the model stands (x and z in fx32). */
 typedef struct Gimmick40ModelPos {
     fx32 x;
@@ -76,6 +70,6 @@ extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int
 extern int func_021BE748(FldExpObjAnime *anime);
 extern void func_021BE580(FldExpObjCnt *expObj);
 
-int GIMMICK40_EventPlayAnime(struct GameEvent *event, int *seq, void *work);
+int FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime(struct GameEvent *event, int *seq, void *work);
 
 #endif

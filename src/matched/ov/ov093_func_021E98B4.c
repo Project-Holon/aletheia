@@ -1,5 +1,5 @@
 /*
- * function: func_021E98B4
+ * function: BTLV_CORE_PollMoveMenu
  * address: 0x021E98B4
  * packet: pkt_ov093_021E98B4
  * region: ov093
@@ -11,12 +11,12 @@
  * interface: eight-byte ldr-r3/bx-r3 stub forwards only live r0;
  * target body reads only r0. Original caller compares returned r0 with zero.
  * symbols:
- *   func_021E9738 0x021E9738 thumb ov093
+ *   BTLV_CORE_RunStep 0x021E9738 thumb ov093
  */
 typedef unsigned int u32;
 struct S;
-extern int func_021E9738(struct S *s);
-u32 func_021E98B4(void *p)
+extern int BTLV_CORE_RunStep(struct S *s);
+u32 BTLV_CORE_PollMoveMenu(void *p)
 {
-    return func_021E9738(p);
+    return BTLV_CORE_RunStep(p);
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   func_021E85F8  0x021E85F8  thumb  ov093
+ *   HAND_COMMON_IsMoveTarget  0x021E85F8  thumb  ov093
  *   BTL_SERVER_FLOW_GetFrontPosOfPoke  0x021C7D00  thumb  ov093
  *   BTL_SERVER_FLOW_CheckClientHasBackupPoke  0x021C7F24  thumb  ov093
  *   BTL_SERVER_FLOW_CheckShowdownThunk  0x021C83D4  thumb  ov093
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern int BTL_EVENT_GetVar(int key);
-extern int func_021E85F8(int id);
+extern int HAND_COMMON_IsMoveTarget(int id);
 extern int BTL_SERVER_FLOW_GetFrontPosOfPoke(u8 *p, int b);
 extern int BTL_SERVER_FLOW_CheckClientHasBackupPoke(u8 *p, int i);
 extern int BTL_SERVER_FLOW_CheckShowdownThunk(u8 *p);
@@ -42,7 +42,7 @@ void HAND_ITEM_RedCardForceSwitch(int self, void *q, int id)
     u8 t;
     u8 *r;
 
-    if (func_021E85F8(id) == 0)
+    if (HAND_COMMON_IsMoveTarget(id) == 0)
         return;
     t = BTL_EVENT_GetVar(3);
     if (BTL_SERVER_FLOW_GetFrontPosOfPoke(q, t) == 6)

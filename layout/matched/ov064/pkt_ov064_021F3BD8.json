@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK64_IsArcAnimeStopped",
+   "name": "FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped",
    "address": "0x021F3BD8",
    "kind": "game",
    "region": "ov064",

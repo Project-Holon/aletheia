@@ -1,5 +1,5 @@
 /*
- * function: func_021E98E8
+ * function: BTLV_CORE_PollTargetMenu
  * address:  0x021E98E8
  * packet:   pkt_ov093_021E98E8
  * region:   ov093
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E9738  0x021E9738  thumb  ov093
+ *   BTLV_CORE_RunStep  0x021E9738  thumb  ov093
  *   func_021E9910  0x021E9910  thumb  ov093
  */
 #include "../include/Obj21555.h"
 struct S;
-extern int func_021E9738(struct S *s);
+extern int BTLV_CORE_RunStep(struct S *s);
 extern int func_021E9910(void *p);
 
-int func_021E98E8(char *p)
+int BTLV_CORE_PollTargetMenu(char *p)
 {
-    if (func_021E9738((struct S *)p) != 0) {
+    if (BTLV_CORE_RunStep((struct S *)p) != 0) {
         if (func_021E9910(((struct Obj21555 *)p)->f180) != 0) {
             return 1;
         }

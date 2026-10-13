@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK60_UpdateEffect",
+   "name": "FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect",
    "address": "0x021F39F4",
    "kind": "game",
    "region": "ov060",

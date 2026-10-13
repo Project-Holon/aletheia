@@ -1,5 +1,5 @@
 /*
- * function: func_021EAE64
+ * function: BTLV_CORE_PollCounterInput
  * address:  0x021EAE64
  * packet:   pkt_021EAE64
  * region:   ov093
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EAE64   0x021EAE64  thumb  ov093
+ *   BTLV_CORE_PollCounterInput   0x021EAE64  thumb  ov093
  *   func_0689B790   0x0689B790  thumb  ov095
  *
  * Resolved: func_0689B790 was matched (ov095), so the +0x0C ABS32 now
  * attests through the `matched` class and the thunk is byte-exact.
  *
- * Indexed-dispatch thunk, o18's 23-member shape: void func_021EAE64(E64 *p) { func_0689B790(p[0x6].f0); }
+ * Indexed-dispatch thunk, o18's 23-member shape: void BTLV_CORE_PollCounterInput(E64 *p) { func_0689B790(p[0x6].f0); }
  */
 
 typedef unsigned char u8;
@@ -28,4 +28,4 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-void func_021EAE64(E64 *p) { func_0689B790(p[0x6].f0); }
+void BTLV_CORE_PollCounterInput(E64 *p) { func_0689B790(p[0x6].f0); }

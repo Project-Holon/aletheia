@@ -1,5 +1,5 @@
 /*
- * function: func_02207BAC
+ * function: BTLV_GAUGE_RefreshForLevelUp
  * address: 0x02207BAC
  * packet: pkt_ov094_02207BAC
  * region: ov094
@@ -13,7 +13,7 @@
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
- *   func_02207EA8 0x02207EA8 thumb ov094
+ *   BTLV_GAUGE_StartExpChange 0x02207EA8 thumb ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,8 +41,8 @@ struct QF;
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
 struct S;
-extern void func_02207EA8(struct S *p, int a);
-void func_02207BAC(O *o, void *q, int idx)
+extern void BTLV_GAUGE_StartExpChange(struct S *p, int a);
+void BTLV_GAUGE_RefreshForLevelUp(O *o, void *q, int idx)
 {
     int delta;
     u32 next;
@@ -58,5 +58,5 @@ void func_02207BAC(O *o, void *q, int idx)
     o->e[idx].b2 = 1;
     o->e[idx].f8 = 0;
     o->e[idx].b28 = 1;
-    func_02207EA8((struct S *)(&o->e[idx]), delta);
+    BTLV_GAUGE_StartExpChange((struct S *)(&o->e[idx]), delta);
 }

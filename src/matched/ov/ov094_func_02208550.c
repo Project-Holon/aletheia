@@ -1,5 +1,5 @@
 /*
- * function: func_02208550
+ * function: BTLV_GAUGE_DrawLevel
  * address: 0x02208550
  * packet: pkt_ov094_02208550
  * region: ov094
@@ -49,7 +49,7 @@ extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Delete(struct Obj020437AC *p);
-void func_02208550(O *o, E *e)
+void BTLV_GAUGE_DrawLevel(O *o, E *e)
 {
     void *v, *bmp;
     char *pixels;

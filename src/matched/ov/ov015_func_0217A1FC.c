@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * notes:    2026-10-05 wave P16 lane E5: libirc timeout check. Elapsed ticks since the stored tick, converted
- *           to milliseconds as (ticks << 6) / 33514 (same form as ov094 func_02209500); true after 100 ms.
+ *           to milliseconds as (ticks << 6) / 33514 (same form as ov094 BTLV_TIMER_IsExpired); true after 100 ms.
  *           Plain C, no pragmas.
  *
  * symbols:

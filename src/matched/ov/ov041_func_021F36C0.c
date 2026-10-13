@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_Init
+ * function: FIELD_GIMMICK_CANNONS_Init
  * address:  0x021F36C0
  * packet:   pkt_ov041_021F36C0
  * region:   ov041
@@ -60,7 +60,7 @@ extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
 
-void GIMMICK41_Init(void *a0)
+void FIELD_GIMMICK_CANNONS_Init(void *a0)
 {
     char *e;
     unsigned int i;

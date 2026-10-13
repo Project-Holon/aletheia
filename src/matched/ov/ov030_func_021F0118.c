@@ -1,5 +1,5 @@
 /*
- * function: func_021F0118
+ * function: NO_GEAR_Destroy
  * address:  0x021F0118
  * packet:   pkt_ov030_021F0118
  * region:   ov030
@@ -24,7 +24,7 @@ extern u32 func_020307B0(void *p);
 
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
-void func_021F0118(char *p)
+void NO_GEAR_Destroy(char *p)
 {
     NO_GEAR_ReleaseGraphics(p);
     REG_DB_BLDCNT_SUB = 0;

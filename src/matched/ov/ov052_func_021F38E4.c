@@ -1,5 +1,5 @@
 /*
- * function: func_021F38E4
+ * function: FIELD_GIMMICK_BSUBWAY_ExitTrainSway
  * address:  0x021F38E4
  * packet:   pkt_021F38E4
  * region:   ov052
@@ -24,7 +24,7 @@ struct Obj20567 {
 
 extern u32 func_020307B0(void *p);
 
-void func_021F38E4(char *a)
+void FIELD_GIMMICK_BSUBWAY_ExitTrainSway(char *a)
 {
     func_020307B0(((struct Obj20567 *)a)->f24);
 }

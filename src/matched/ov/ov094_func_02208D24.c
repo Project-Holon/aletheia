@@ -1,5 +1,5 @@
 /*
- * function: func_02208D24
+ * function: BTLV_GAUGE_SetBgmPlayerParam
  * address:  0x02208D24
  * packet:   pkt_ov094_02208D24
  * region:   ov094
@@ -16,7 +16,7 @@
 extern int func_0200F300(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 
-void func_02208D24(int a)
+void BTLV_GAUGE_SetBgmPlayerParam(int a)
 {
     if (func_0200F300() != 1)
         GFL_USE_SetBgmPlayerParam((void *)a);

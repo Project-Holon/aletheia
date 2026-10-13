@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK60_UpdateEffect
+ * function: FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect
  * address:  0x021F39F4
  * packet:   pkt_ov060_021F39F4
  * region:   ov060
@@ -24,7 +24,7 @@ extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 
-void GIMMICK60_UpdateEffect(u8 *a, void *p)
+void FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect(u8 *a, void *p)
 {
     if (a[1] != 0) {
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(p, 0, 0x14, 0)) != 0) {

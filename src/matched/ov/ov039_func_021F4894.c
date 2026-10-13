@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_IsCartBeforeSwitchLimit
+ * function: FIELD_GIMMICK_CART_LANES_IsCartBeforeSwitchLimit
  * address: 0x021F4894
  * packet: pkt_ov039_021F4894
  * region: ov039
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   GIMMICK39_GetAnimeFrame 0x021F3DE4 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_GetAnimeFrame 0x021F3DE4 thumb ov039
  *   sSwitchFrameLimits 0x021F4BE4 data a2
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i);
+extern int FIELD_GIMMICK_CART_LANES_GetAnimeFrame(void *p, u16 delta, u16 i);
 extern const u16 sSwitchFrameLimits[];
-int GIMMICK39_IsCartBeforeSwitchLimit(void *p, int i, u8 j) { if (GIMMICK39_GetAnimeFrame(p, (u8)i, j + 1) <= (int)(sSwitchFrameLimits[i] << 12)) return 1; return 0; }
+int FIELD_GIMMICK_CART_LANES_IsCartBeforeSwitchLimit(void *p, int i, u8 j) { if (FIELD_GIMMICK_CART_LANES_GetAnimeFrame(p, (u8)i, j + 1) <= (int)(sSwitchFrameLimits[i] << 12)) return 1; return 0; }

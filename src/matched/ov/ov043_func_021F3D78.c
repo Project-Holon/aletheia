@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_ElevatorEventMain
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain
  * address:  0x021F3D78
  * packet:   pkt_ov043_021F3D78
  * region:   ov043
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Once filed EXACT* because the extent ran into the unlabelled leaf GIMMICK43_IsLiftArrived
+ * Once filed EXACT* because the extent ran into the unlabelled leaf FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived
  * (filed as ov043_func_021F3ECC.c) and the unlabelled follower
  * 0x021F3EEC. Twin of ov044_func_021F37F0.c.
  *
@@ -34,10 +34,10 @@
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
- *   GIMMICK43_IsLiftArrived  0x021F3ECC  thumb  ov043
- *   GIMMICK43_StartCameraShake  0x021F41B8  thumb  ov043
- *   GIMMICK43_UpdateCameraShake  0x021F4210  thumb  ov043
- *   GIMMICK43_ShowElevatorIdleAnime  0x021F4174  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived  0x021F3ECC  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake  0x021F41B8  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake  0x021F4210  thumb  ov043
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime  0x021F4174  thumb  ov043
  */
 
 typedef unsigned char u8;
@@ -70,12 +70,12 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
-extern int GIMMICK43_IsLiftArrived(int *p);
-extern void GIMMICK43_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s);
-extern int GIMMICK43_UpdateCameraShake(u8 *s);
-extern void GIMMICK43_ShowElevatorIdleAnime(void *p);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(int *p);
+extern void FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake(u8 *s);
+extern void FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime(void *p);
 
-int GIMMICK43_ElevatorEventMain(void *a, int *b)
+int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(void *a, int *b)
 {
     void *s;
     void *r;
@@ -100,10 +100,10 @@ int GIMMICK43_ElevatorEventMain(void *a, int *b)
         break;
     case 1:
         w[1] += w[3];
-        if (GIMMICK43_IsLiftArrived(w)) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived(w)) {
             w[1] = w[2];
             if (w[5] == 0) {
-                GIMMICK43_StartCameraShake(0xff, w[3], 0, h, (u8 *)(w + 8));
+                FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake(0xff, w[3], 0, h, (u8 *)(w + 8));
                 GFL_USE_PlaySeDefaultVolume(0x6cb);
             }
             (*b)++;
@@ -118,7 +118,7 @@ int GIMMICK43_ElevatorEventMain(void *a, int *b)
         if (w[5] != 0) {
             return 1;
         }
-        if (GIMMICK43_UpdateCameraShake((u8 *)(w + 8))) {
+        if (FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake((u8 *)(w + 8))) {
             if (w[4] != 0) {
                 FIELD_CAMERA_SetTraceTarget(h, w[4]);
             }
@@ -128,7 +128,7 @@ int GIMMICK43_ElevatorEventMain(void *a, int *b)
         break;
     case 3:
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(r, 0, 7, 1))) {
-            GIMMICK43_ShowElevatorIdleAnime(r);
+            FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime(r);
             return 1;
         }
         break;

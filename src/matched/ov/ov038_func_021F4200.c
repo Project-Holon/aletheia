@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_EventPressSwitch
+ * function: FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch
  * address:  0x021F4200
  * packet:   pkt_ov038_021F4200
  * region:   ov038
@@ -57,7 +57,7 @@ extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, int j, u16 k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 
-int GIMMICK38_EventPressSwitch(int a0, int *a1)
+int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(int a0, int *a1)
 {
     void *sys;
     int h;

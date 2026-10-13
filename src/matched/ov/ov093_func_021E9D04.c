@@ -1,5 +1,5 @@
 /*
- * function: func_021E9D04
+ * function: BTLV_CORE_StartBagMenu
  * address: 0x021E9D04
  * packet: pkt_ov093_021E9D04
  * region: ov093
@@ -15,7 +15,7 @@
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
  *   BTL_SIDE_CountLivingOfClient 0x021B9B04 thumb ov093
- *   func_021E9984 0x021E9984 thumb ov093
+ *   BTLV_CORE_InitPartyWork 0x021E9984 thumb ov093
  *   func_021D3D7C 0x021D3D7C thumb ov093
  *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
  *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
@@ -34,14 +34,14 @@ struct Q1;
 struct S2;
 extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
 extern unsigned char BTL_SIDE_CountLivingOfClient(int a, int b);
-extern void func_021E9984(u8 *, u8 *, int, u8, int);
+extern void BTLV_CORE_InitPartyWork(u8 *, u8 *, int, u8, int);
 extern u32 func_021D3D7C(u8 *p);
 extern u8 BTL_SLOT_GetCount(struct Q1 *p);
 extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 
-void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
+void BTLV_CORE_StartBagMenu(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
 {
     u32 i;
     u32 n;
@@ -75,7 +75,7 @@ void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
         else if (d) flag = 4;
     }
     p[0xf0] = flag;
-    func_021E9984(p, p + 0x10c, 3, 0, 0);
+    BTLV_CORE_InitPartyWork(p, p + 0x10c, 3, 0, 0);
     list = (void *)func_021D3D7C(((struct Obj00056 *)p)->f4);
     n = BTL_SLOT_GetCount(list);
     for (i = 0; i < n; i++)

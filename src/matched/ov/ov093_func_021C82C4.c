@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_06898CF4  0x06898CF4  thumb  ov095
+ *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
  *
- * Resolved: func_06898CF4 was matched (ov095), so the +0x08 ABS32 now attests
+ * Resolved: HAND_SIDE_IsActive was matched (ov095), so the +0x08 ABS32 now attests
  * through the `matched` class and the thunk is byte-exact.
  */
 
-int func_06898CF4(int a, int b);
+int HAND_SIDE_IsActive(int a, int b);
 
 int BTL_SERVER_FLOW_CheckSideEffectActive(int a, int b, int c)
 {
     (void)a;
-    return func_06898CF4(b, c);
+    return HAND_SIDE_IsActive(b, c);
 }

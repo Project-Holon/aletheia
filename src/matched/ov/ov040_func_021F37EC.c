@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK40_CreateEvent
+ * function: FIELD_GIMMICK_FLAG_ANIME_CreateEvent
  * address: 0x021F37EC
  * packet: pkt_ov040_021F37EC
  * region: ov040
@@ -20,7 +20,7 @@
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
  *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
  *   func_020122C0 0x020122C0 thumb
- *   GIMMICK40_EventPlayAnime 0x021F381C thumb ov040
+ *   FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime 0x021F381C thumb ov040
  */
 
 typedef unsigned char u8;
@@ -42,13 +42,13 @@ extern void FLD_EXP_OBJ_RemoveUnit(u8 *, u16);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK40_EventPlayAnime(void *, int *);
-void *GIMMICK40_CreateEvent(void *p, u32 i)
+extern int FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime(void *, int *);
+void *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(void *p, u32 i)
 {
     u16 *q = (u16 *)FIELDMAP_GetCommonWork((char *)GAMESYSTEM_GetFieldMap(p), 1);
     void *r;
     if (i >= 1) return 0;
-    r = func_020122C0(p, 0, GIMMICK40_EventPlayAnime, 0);
+    r = func_020122C0(p, 0, FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime, 0);
     *q = i;
     return r;
 }

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_End
+ * function: FIELD_GIMMICK_CART_LANES_End
  * address:  0x021F3CD8
  * packet:   pkt_ov039_021F3CD8
  * region:   ov039
@@ -36,7 +36,7 @@ extern void func_02030EAC(struct Node *n);
 extern void FIELDMAP_FreeCommonWork(int, int);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *p, u16 i);
 
-void GIMMICK39_End(int a)
+void FIELD_GIMMICK_CART_LANES_End(int a)
 {
     int r6 = FIELDMAP_GetExpObj((int *)a);
     int *r4 = FIELDMAP_GetCommonWork(a, 1);

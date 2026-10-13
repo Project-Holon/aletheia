@@ -27,11 +27,11 @@
  *   BTL_CLIENT_StepSelectAction 0x021CE4D0 thumb ov093
  *   BTL_CLIENT_StepMoveHighlight 0x021CED4C thumb ov093
  *   BTL_CLIENT_BuildMoveUsableTable 0x021CECB4 thumb ov093
- *   func_021E97BC 0x021E97BC thumb ov093
- *   func_021E9808 0x021E9808 thumb ov093
+ *   BTLV_CORE_StartMoveMenu 0x021E97BC thumb ov093
+ *   BTLV_CORE_StartMoveMenuForEntry 0x021E9808 thumb ov093
  *   BTL_CLIENT_PollTimeLimitAndSetSub 0x021CE0BC thumb ov093
- *   func_021E98AC 0x021E98AC thumb ov093
- *   func_021E98B4 0x021E98B4 thumb ov093
+ *   BTLV_CORE_AbortMoveMenu 0x021E98AC thumb ov093
+ *   BTLV_CORE_PollMoveMenu 0x021E98B4 thumb ov093
  *   BTL_CALC_ActionGetKind 0x021D8454 thumb ov093
  *   BTL_SLOT_GetRotateSrcIndex 0x021B9AB0 thumb ov093
  *   BTL_ACTION_GetFightSlotFlag 0x021D832C thumb ov093
@@ -44,11 +44,11 @@
  *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
  *   BTL_ACTION_SetFight 0x021D82D0 thumb ov093
  *   BTL_CALC_IsMultiFighterRule 0x021D7EF0 thumb ov093
- *   func_021E98BC 0x021E98BC thumb ov093
- *   func_021E9920 0x021E9920 thumb ov093
- *   func_021E98E8 0x021E98E8 thumb ov093
- *   func_021EA710 0x021EA710 thumb ov093
- *   func_021E9858 0x021E9858 thumb ov093
+ *   BTLV_CORE_StartTargetMenu 0x021E98BC thumb ov093
+ *   BTLV_CORE_AbortTargetMenu 0x021E9920 thumb ov093
+ *   BTLV_CORE_PollTargetMenu 0x021E98E8 thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
+ *   BTLV_CORE_ReopenMoveMenu 0x021E9858 thumb ov093
  */
 #include "../include/Obj00434.h"
 typedef unsigned char u8;
@@ -65,11 +65,11 @@ extern int BTL_CLIENT_StepAutoSelectActions(u8 *, int *);
 extern int BTL_CLIENT_StepSelectAction(u8 *, u32 *);
 extern u32 BTL_CLIENT_StepMoveHighlight(u8 *, int *);
 extern void BTL_CLIENT_BuildMoveUsableTable(u8 *, void *);
-extern void func_021E97BC(char *p, u8 *a, int b);
-extern void func_021E9808(char *p, u32 *q, int c);
+extern void BTLV_CORE_StartMoveMenu(char *p, u8 *a, int b);
+extern void BTLV_CORE_StartMoveMenuForEntry(char *p, u32 *q, int c);
 extern int BTL_CLIENT_PollTimeLimitAndSetSub(u8 *p, void *q);
-extern void func_021E98AC(void *);
-extern u32 func_021E98B4(void *);
+extern void BTLV_CORE_AbortMoveMenu(void *);
+extern u32 BTLV_CORE_PollMoveMenu(void *);
 extern u32 BTL_CALC_ActionGetKind(u32 *);
 extern int BTL_SLOT_GetRotateSrcIndex(int);
 struct Unk021D82FC;
@@ -83,11 +83,11 @@ extern u32 BTL_ACTION_GetFightMove(u32 *);
 extern void BTL_ACTION_SetRotate(u32 *p, u32 sub);
 extern void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub);
 extern u32 BTL_CALC_IsMultiFighterRule(u32);
-extern void func_021E98BC(char *p, u8 *a, int b);
-extern void func_021E9920(void *);
-extern int func_021E98E8(char *p);
-extern int func_021EA710(u32 *p);
-extern void func_021E9858(char *p);
+extern void BTLV_CORE_StartTargetMenu(char *p, u8 *a, int b);
+extern void BTLV_CORE_AbortTargetMenu(void *);
+extern int BTLV_CORE_PollTargetMenu(char *p);
+extern int BTLV_CORE_WaitMessage(u32 *p);
+extern void BTLV_CORE_ReopenMoveMenu(char *p);
 
 int BTL_CLIENT_StepSelectMove(u8 *p, u32 *state)
 {
@@ -107,19 +107,19 @@ int BTL_CLIENT_StepSelectMove(u8 *p, u32 *state)
         }
         break;
     case 1:
-        func_021E97BC(((struct Obj00434 *)p)->f54, (u8 *)(*(u32 *)&((struct Obj00434 *)p)->f8), *(u32 *)&((struct Obj00434 *)p)->fC);
+        BTLV_CORE_StartMoveMenu(((struct Obj00434 *)p)->f54, (u8 *)(*(u32 *)&((struct Obj00434 *)p)->f8), *(u32 *)&((struct Obj00434 *)p)->fC);
         *state = 3;
         break;
     case 2:
-        func_021E9808(((struct Obj00434 *)p)->f54, (u32 *)(p + 0xa4), *(int *)&((struct Obj00434 *)p)->fC);
+        BTLV_CORE_StartMoveMenuForEntry(((struct Obj00434 *)p)->f54, (u32 *)(p + 0xa4), *(int *)&((struct Obj00434 *)p)->fC);
         *state = 3;
         break;
     case 3:
         if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)BTL_CLIENT_StepAutoSelectActions))) {
-            func_021E98AC(((struct Obj00434 *)p)->f54);
+            BTLV_CORE_AbortMoveMenu(((struct Obj00434 *)p)->f54);
             return 0;
         }
-        if (func_021E98B4(((struct Obj00434 *)p)->f54)) {
+        if (BTLV_CORE_PollMoveMenu(((struct Obj00434 *)p)->f54)) {
             k = BTL_CALC_ActionGetKind(*(u32 * *)&((struct Obj00434 *)p)->fC);
             if (k == 0) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
             else if (k == 5) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
@@ -164,21 +164,21 @@ int BTL_CLIENT_StepSelectMove(u8 *p, u32 *state)
         else BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
         break;
     case 5:
-        func_021E98BC(((struct Obj00434 *)p)->f54, (u8 *)(*(u32 *)&((struct Obj00434 *)p)->f8), *(u32 *)&((struct Obj00434 *)p)->fC);
+        BTLV_CORE_StartTargetMenu(((struct Obj00434 *)p)->f54, (u8 *)(*(u32 *)&((struct Obj00434 *)p)->f8), *(u32 *)&((struct Obj00434 *)p)->fC);
         *state = 6;
         break;
     case 6:
         if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)BTL_CLIENT_StepAutoSelectActions))) {
-            func_021E9920(((struct Obj00434 *)p)->f54);
+            BTLV_CORE_AbortTargetMenu(((struct Obj00434 *)p)->f54);
             return 0;
         }
-        k = func_021E98E8(((struct Obj00434 *)p)->f54);
+        k = BTLV_CORE_PollTargetMenu(((struct Obj00434 *)p)->f54);
         if (k == 1) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
         else if (k == 2) *state = 1;
         break;
     case 7:
-        if (func_021EA710(((struct Obj00434 *)p)->f54)) {
-            func_021E9858(((struct Obj00434 *)p)->f54);
+        if (BTLV_CORE_WaitMessage(((struct Obj00434 *)p)->f54)) {
+            BTLV_CORE_ReopenMoveMenu(((struct Obj00434 *)p)->f54);
             *state = 3;
         }
         break;

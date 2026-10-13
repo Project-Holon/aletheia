@@ -1,5 +1,5 @@
 /*
- * function: func_02209784
+ * function: BTLV_BG_SetScroll
  * address:  0x02209784
  * packet:   pkt_ov094_02209784
  * region:   ov094
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   d_0220AEF0     0x0220AEF0  data  ov094
+ *   sBtlvBgSiteName     0x0220AEF0  data  ov094
  *   func_020056A0  0x020056A0  thumb
- *   func_02209A54  0x02209A54  thumb  ov094
+ *   BTLV_BG_ApplyScrollTask  0x02209A54  thumb  ov094
  *   func_021F896C  0x021F896C  thumb  ov094
  */
 typedef unsigned char u8;
@@ -26,17 +26,17 @@ typedef struct {
 } W;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char d_0220AEF0[];
+extern char sBtlvBgSiteName[];
 extern void *func_020056A0(void (*cb)(void *), void *ctx, int pri);
-extern void func_02209A54(void *h);
+extern void BTLV_BG_ApplyScrollTask(void *h);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 
-void func_02209784(W *w, u32 a, u32 b)
+void BTLV_BG_SetScroll(W *w, u32 a, u32 b)
 {
     u32 *o;
 
-    o = func_02030734((u16)((w->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEF0, 0x67);
+    o = func_02030734((u16)((w->heap & 0x7fff) | 0x8000), 8, 0, sBtlvBgSiteName, 0x67);
     o[0] = a;
     o[1] = b;
-    func_021F896C(func_020056A0(func_02209A54, o, 0), 0, 0);
+    func_021F896C(func_020056A0(BTLV_BG_ApplyScrollTask, o, 0), 0, 0);
 }

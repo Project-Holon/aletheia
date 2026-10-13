@@ -39,7 +39,7 @@
  *   FIELD_PLAYER_GetRideEffect  0x021A2F98  thumb  ov021
  *   FLDEFF_NAMIPOKE_SetWakeEnabled  0x021ACBC8  thumb  ov021
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
- *   func_021ABE8C  0x021ABE8C  thumb  ov021
+ *   FIELD_EFFECT_IsResourceLoaded  0x021ABE8C  thumb  ov021
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   FLDEFF_NAMIPOKE_SPLASH_StartAtPos  0x021AD598  thumb  ov021
  *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
@@ -136,7 +136,7 @@ extern u32 FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir);
 extern u32 FIELD_PLAYER_GetRideEffect(FieldPlayer *player);
 extern u32 FLDEFF_NAMIPOKE_SetWakeEnabled(u32 namipoke, int visible);
 extern FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
-extern int func_021ABE8C(FieldEffectCtrl *ctrl, int effectId);
+extern int FIELD_EFFECT_IsResourceLoaded(FieldEffectCtrl *ctrl, int effectId);
 extern void FIELD_EFFECT_LoadResources(FieldEffectCtrl *ctrl, int *effectIds, int count);
 extern void FLDEFF_NAMIPOKE_SPLASH_StartAtPos(FieldEffectCtrl *ctrl, u32 kind, VecFx32 *pos);
 extern int GFL_USE_IsLoaderBusy(void);
@@ -468,7 +468,7 @@ void FIELD_TILE_MOVE_SlideFinishBump(TileSlideWork *work)
     if (work->bumpEntry != 0) {
         effectCtrl = FIELDMAP_GetEffect(work->fieldMap);
         effectId = 9;
-        if (func_021ABE8C(effectCtrl, effectId) == 0) {
+        if (FIELD_EFFECT_IsResourceLoaded(effectCtrl, effectId) == 0) {
             FIELD_EFFECT_LoadResources(effectCtrl, &effectId, 1);
         }
         FIELD_PLAYER_GetPos(work->player, &pos);

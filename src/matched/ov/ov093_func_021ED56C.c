@@ -1,5 +1,5 @@
 /*
- * function: func_021ED56C
+ * function: BTLV_SCU_StartPosCueEffect
  * address:  0x021ED56C
  * packet:   pkt_ov093_021ED56C
  * region:   ov093
@@ -14,7 +14,7 @@
  */
 typedef unsigned int   u32;
 extern void func_021F7A28(int a, u32 b);
-void func_021ED56C(int a, int b)
+void BTLV_SCU_StartPosCueEffect(int a, int b)
 {
     func_021F7A28(b, 0x25f);
 }

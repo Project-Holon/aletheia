@@ -34,7 +34,7 @@
  *   func_020124E8 0x020124E8 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   ov203_id 0x000000CB data a1
- *   d_021BFB3C 0x021BFB3C data ov203 a4
+ *   gDemo3dProcData 0x021BFB3C data ov203 a4
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb ov010
  *   GAME_DATA_GetEventState  0x02012ED0  thumb
@@ -52,8 +52,8 @@
  *   func_020095C8  0x020095C8  thumb
  *   func_0200973C  0x0200973C  thumb
  *   func_0200856C  0x0200856C  thumb
- *   ov_id_DA  0x000000DA  data
- *   d_021BAB5C  0x021BAB5C  data  a4 ov218
+ *   ov218_id  0x000000DA  data
+ *   gUnSelectProcData  0x021BAB5C  data  a4 ov218
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
  *   g_Bg2ScaleState  0x02172BA4  data  ov010  a4
  *   g_Bg2ScaleStep  0x021729FC  data  ov010  a4
@@ -76,7 +76,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_BEACON_SEARCH_SetSymbolMapPoke  0x0216559C  thumb  ov010
  *   ov215_id       0x000000D7  data   a1
- *   d_021F7118     0x021F7118  data   ov215  a4
+ *   gEggDemoViewProcData     0x021F7118  data   ov215  a4
  *   ZONEDATA_GetParentZoneId  0x02013E40  thumb
  *   func_02012894  0x02012894  thumb
  *   g_ZoneRemapTable  0x02171F2C  data  ov010  a4
@@ -100,7 +100,7 @@
  *   func_0200E714  0x0200E714  thumb
  *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
- *   d_021C39B8     0x021C39B8  data   ov110  a4
+ *   gPmsSelectProcData     0x021C39B8  data   ov110  a4
  *   func_0201210C  0x0201210C  thumb
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
@@ -108,8 +108,8 @@
  *   WEATHER_RequestChangeNoFade  0x021A1BE4  thumb  ov021
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
  *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
- *   ov_id_D9  0x000000D9  data
- *   d_021C3FE0  0x021C3FE0  data  ov217
+ *   ov217_id  0x000000D9  data
+ *   gResearchTopProcData  0x021C3FE0  data  ov217
  *   g_ResearchRadarFileName 0x02172A00 data a1
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
  *   KEY_GetTrg  0x020362DC  arm
@@ -464,18 +464,18 @@ int EVENT_RESEARCH_RADAR_GetReportMessageId(unsigned int kind);
 extern u8 *g_SymbolMapGridTable[];
 extern const char g_SymbolMapFileName[];
 extern u8 ov203_id[];
-extern u8 d_021BFB3C[];
-extern char ov_id_DA[];
-extern char d_021BAB5C[];
+extern u8 gDemo3dProcData[];
+extern char ov218_id[];
+extern char gUnSelectProcData[];
 extern float g_Bg2ScaleState[2];
 extern float g_Bg2ScaleStep;
 extern char ov215_id[];
-extern char d_021F7118[];
+extern char gEggDemoViewProcData[];
 extern ZoneRemapEntry g_ZoneRemapTable[2];
 extern char ov110_id[];
-extern char d_021C39B8[];
-extern char ov_id_D9[];
-extern char d_021C3FE0[];
+extern char gPmsSelectProcData[];
+extern char ov217_id[];
+extern char gResearchTopProcData[];
 extern const char g_ResearchRadarFileName[];
 
 
@@ -776,7 +776,7 @@ int SYMBOL_MAP_RecordTaskMain(void *task, u32 *state)
     SymbolMapRecordWork *work = func_020124E8(task);
     switch (*state) {
     case 0:
-        GAME_EVENT_CallProc(task, (u32)ov203_id, (u32)d_021BFB3C, (u32)work);
+        GAME_EVENT_CallProc(task, (u32)ov203_id, (u32)gDemo3dProcData, (u32)work);
         *state = *state + 1;
         break;
     case 1:
@@ -955,14 +955,14 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
  * witness outside this function; GAME_EVENT_CallProc is not a listed overlay-id consumer and the
  * word is referenced only from this pool. Every concrete byte matches.
  *
- * 2026-10-05 (D8 lane 15): the callback table d_021BAB5C lives in ov218 (loaded by this function); the data line now carries the ov218 token and the relocation resolves.
+ * 2026-10-05 (D8 lane 15): the callback table gUnSelectProcData lives in ov218 (loaded by this function); the data line now carries the ov218 token and the relocation resolves.
  */
 int SYMBOL_MAP_PickerTaskMain(void *task, int *state)
 {
     SymbolMapPickerWork *work = func_020124E8(task);
     switch (*state) {
     case 0:
-        GAME_EVENT_CallProc(task, (u32)ov_id_DA, (u32)d_021BAB5C, (u32)work);
+        GAME_EVENT_CallProc(task, (u32)ov218_id, (u32)gUnSelectProcData, (u32)work);
         *state = *state + 1;
         break;
     case 1:
@@ -1118,7 +1118,7 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
         *state = 4;
         break;
     case 4:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov215_id, d_021F7118, &work->procParam);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov215_id, gEggDemoViewProcData, &work->procParam);
         *state = 5;
         break;
     case 5:
@@ -1294,7 +1294,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
  *   - ov110_id 0x6E: overlay_id refuses, GAME_EVENT_CallProc is not in
  *     OVERLAY_ID_CONSUMERS (it stores a1 in a descriptor for the state
  *     machine GAME_EVENT_CallProcSeq rather than passing it straight to a loader).
- *   - d_021C39B8: with the ov110 token the hint is "contested" and no
+ *   - gPmsSelectProcData: with the ov110 token the hint is "contested" and no
  *     overlay_id site loads ov110; without it, "no witness".  Resolves once
  *     ov110_id does.
  *   - arm9 unlabelled leaves 0x0202411C, 0x02024124, 0x02024128,
@@ -1319,7 +1319,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
         if (pmsParam == 0) {
             return 1;
         }
-        GAME_EVENT_CallProc(task, (u32)ov110_id, (u32)d_021C39B8, (u32)pmsParam);
+        GAME_EVENT_CallProc(task, (u32)ov110_id, (u32)gPmsSelectProcData, (u32)pmsParam);
         (*state)++;
         break;
     case 1:
@@ -1398,7 +1398,7 @@ int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork
         *state = 2;
         break;
     case 2:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov_id_D9, d_021C3FE0, work->param);
+        GAMESYSTEM_CallProc(gameSystem, (u32)ov217_id, gResearchTopProcData, work->param);
         *state = 3;
         break;
     case 3:

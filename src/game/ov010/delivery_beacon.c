@@ -309,7 +309,7 @@ int DELIVERY_BEACON_Start(DeliveryBeacon *work)
 
 
 /*
- * Unlabelled leaf, blocker of ov021 func_021D0C58: whether any of 18 slots (stride 100) has its flag byte set.
+ * Unlabelled leaf, blocker of ov021 TRIAL_HOUSE_DeliveryTaskMain: whether any of 18 slots (stride 100) has its flag byte set.
  * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here,
  * ov010 holds this Thumb routine, and the ov021 callers already name ov010
  * (ov010 is the overlay resident with ov021).

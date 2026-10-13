@@ -28,8 +28,8 @@
  *   func_020307E0  0x020307E0  arm
  *   G3D_SYSTEM_FreeVramTexture   0x020470D0  arm
  *   G3D_SYSTEM_DeleteResource   0x02046EFC  arm
- *   g_020A8144  0x020A8144  data
- *   g_020A814C  0x020A814C  data
+ *   NNS_GfdDefaultFuncFreeTexVram  0x020A8144  data
+ *   NNS_GfdDefaultFuncFreePlttVram  0x020A814C  data
  *   G3X_Reset          0x0207DA8C  arm
  *   func_02048AE8      0x02048AE8  arm
  *   func_02048B0C      0x02048B0C  arm
@@ -180,8 +180,8 @@ void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSl
 extern const u32 gTexSizeTbl[];
 extern const struct TexParamEntry gTexParamS[];
 extern const struct TexParamEntry gTexParamT[];
-extern FreeVramFn g_020A8144;
-extern FreeVramFn g_020A814C;
+extern FreeVramFn NNS_GfdDefaultFuncFreeTexVram;
+extern FreeVramFn NNS_GfdDefaultFuncFreePlttVram;
 extern const fx16 FX_SinCosTable_[];
 extern const struct Quad gBillboardQuad[];
 
@@ -419,8 +419,8 @@ void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index)
 {
     u32 off = index * 0x28;
     if (*(u32 *)(((struct BbBoardBytes *)board)->images + off) != 0) {
-        g_020A8144(*(u32 *)((char *)board->images + off + 0x20));
-        g_020A814C(*(u32 *)((char *)board->images + off + 0x24));
+        NNS_GfdDefaultFuncFreeTexVram(*(u32 *)((char *)board->images + off + 0x20));
+        NNS_GfdDefaultFuncFreePlttVram(*(u32 *)((char *)board->images + off + 0x24));
         *(u32 *)((char *)board->images + off) = 0;
     }
     *(u32 *)((char *)board->images + off + 0x14) = 5;
@@ -441,8 +441,8 @@ void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index)
 void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int index)
 {
     u32 off = index * 0x28;
-    g_020A8144(*(u32 *)((u8 *)board->images + off + 0x20));
-    g_020A814C(*(u32 *)((u8 *)board->images + off + 0x24));
+    NNS_GfdDefaultFuncFreeTexVram(*(u32 *)((u8 *)board->images + off + 0x20));
+    NNS_GfdDefaultFuncFreePlttVram(*(u32 *)((u8 *)board->images + off + 0x24));
     *(u32 *)((u8 *)board->images + off) = 0;
     *(u32 *)((u8 *)board->images + off + 0x14) = 5;
 }

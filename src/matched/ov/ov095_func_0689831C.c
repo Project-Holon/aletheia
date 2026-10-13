@@ -1,5 +1,5 @@
 /*
- * function: func_0689831C
+ * function: HAND_POS_GetHandlersWish
  * address: 0x0689831C
  * packet: pkt_ov095_0689831C
  * region: ov095
@@ -10,11 +10,11 @@
  * status: EXACT
  * note: Unlabelled follower after the 0689830C veneer; ends before existing 06898328.
  * symbols:
- *   d_0689D698 0x0689D698 data ov095 a4
+ *   gHandPosWishHandlers 0x0689D698 data ov095 a4
  */
-extern unsigned int d_0689D698;
-unsigned int *func_0689831C(unsigned int *p)
+extern unsigned int gHandPosWishHandlers;
+unsigned int *HAND_POS_GetHandlersWish(unsigned int *p)
 {
     *p = 1;
-    return &d_0689D698;
+    return &gHandPosWishHandlers;
 }

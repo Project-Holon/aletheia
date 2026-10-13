@@ -1,5 +1,5 @@
 /*
- * function: func_021ED268
+ * function: BTLV_SCU_StartMonMotion
  * address:  0x021ED268
  * packet:   pkt_ov093_021ED268
  * region:   ov093
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *, u32);
 extern void func_021F7C2C(int, int);
-void func_021ED268(u8 *p, u8 k, u32 x)
+void BTLV_SCU_StartMonMotion(u8 *p, u8 k, u32 x)
 {
     func_021F7C2C(BTL_MAIN_GetViewPosOfSlot(*(u8 * *)&((struct Obj21589 *)p)->f134, k), x);
 }

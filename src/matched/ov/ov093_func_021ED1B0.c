@@ -1,5 +1,5 @@
 /*
- * function: func_021ED1B0
+ * function: BTLV_SCU_RunWazaProc
  * address:  0x021ED1B0
  * packet:   pkt_ov093_021ED1B0
  * region:   ov093
@@ -15,7 +15,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 typedef int (*Cb)(void *, u32);
 
-int func_021ED1B0(char *p)
+int BTLV_SCU_RunWazaProc(char *p)
 {
     Cb f;
 

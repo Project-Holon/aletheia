@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_ApplyPoseLines
+ * function: FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines
  * address:  0x021F4078
  * packet:   pkt_ov046_021F4078
  * region:   ov046
@@ -27,7 +27,7 @@ extern u32 FIELDMAP_GetNogridMapper(u8 *p);
 extern void FIELD_NOGRID_MAPPER_SetLineEnable(u32 *p, int b, int c);
 extern int sGimmick46PoseLines[][4][6];
 
-void GIMMICK46_ApplyPoseLines(u32 a, int b, int c)
+void FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines(u32 a, int b, int c)
 {
     int v1[6];
     int v2[6];

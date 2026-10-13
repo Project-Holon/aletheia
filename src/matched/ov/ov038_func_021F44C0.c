@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_EventScripted
+ * function: FIELD_GIMMICK_PLATE_DOORS_EventScripted
  * address:  0x021F44C0
  * packet:   pkt_ov038_021F44C0
  * region:   ov038
@@ -60,7 +60,7 @@ extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 extern int SCRIPT_SYS_ChangeScriptEvent(int a0, int a1, int a2, int a3);
 extern const V3 gGimmick38EffectPos[];
 
-int GIMMICK38_EventScripted(void *a, int *state)
+int FIELD_GIMMICK_PLATE_DOORS_EventScripted(void *a, int *state)
 {
     void *sys;
     void *h;

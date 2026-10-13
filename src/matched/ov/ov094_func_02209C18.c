@@ -1,5 +1,5 @@
 /*
- * function: func_02209C18
+ * function: BTLV_FINGER_CURSOR_DeleteActor
  * address:  0x02209C18
  * packet:   pkt_ov094_02209C18
  * region:   ov094
@@ -17,7 +17,7 @@
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02209C18(char *p)
+void BTLV_FINGER_CURSOR_DeleteActor(char *p)
 {
     if (((struct Obj10160 *)p)->f4 != 0) {
         CLACT_DeleteActor(((struct Obj10160 *)p)->f4);

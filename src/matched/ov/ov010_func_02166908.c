@@ -16,10 +16,10 @@
  * symbols:
  *   func_020124E8  0x020124E8  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
- *   ov_id_DA  0x000000DA  data
- *   d_021BAB5C  0x021BAB5C  data  a4 ov218
+ *   ov218_id  0x000000DA  data
+ *   gUnSelectProcData  0x021BAB5C  data  a4 ov218
  
- * 2026-10-05 (D8 lane 15): the callback table d_021BAB5C lives in ov218 (loaded by this function); the data line now carries the ov218 token and the relocation resolves.
+ * 2026-10-05 (D8 lane 15): the callback table gUnSelectProcData lives in ov218 (loaded by this function); the data line now carries the ov218 token and the relocation resolves.
  */
 
 typedef unsigned char u8;
@@ -40,15 +40,15 @@ struct S {
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
-extern char ov_id_DA[];
-extern char d_021BAB5C[];
+extern char ov218_id[];
+extern char gUnSelectProcData[];
 
 int SYMBOL_MAP_PickerTaskMain(void *a, int *st)
 {
     struct S *s = func_020124E8(a);
     switch (*st) {
     case 0:
-        GAME_EVENT_CallProc(a, (u32)ov_id_DA, (u32)d_021BAB5C, (u32)s);
+        GAME_EVENT_CallProc(a, (u32)ov218_id, (u32)gUnSelectProcData, (u32)s);
         *st = *st + 1;
         break;
     case 1:

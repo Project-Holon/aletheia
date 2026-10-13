@@ -1,5 +1,5 @@
 /*
- * function: func_06898D10
+ * function: HAND_SIDE_Remove
  * address: 0x06898D10
  * packet: pkt_ov095_06898D10
  * region: ov095
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_0689E7E0 0x0689E7E0 data a4
+ *   gHandSideEffectSlots 0x0689E7E0 data a4
  *   func_06898D44 0x06898D44 thumb ov095
  */
 
@@ -17,12 +17,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Node Node;
-extern struct Row g_0689E7E0;
+extern struct Row gHandSideEffectSlots;
 extern void func_06898D44(Node *n);
-int func_06898D10(u32 a, u32 b)
+int HAND_SIDE_Remove(u32 a, u32 b)
 {
     u32 *p;
-    p = (u32 *)((u32)((u8 *)&g_0689E7E0) + a * 224 + b * 16);
+    p = (u32 *)((u32)((u8 *)&gHandSideEffectSlots) + a * 224 + b * 16);
     if (p[0] != 0) {
         func_06898D44((Node *)p[0]);
         p[0] = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_022092E8
+ * function: BTLV_TIMER_Delete
  * address:  0x022092E8
  * packet:   pkt_ov094_022092E8
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02209458  0x02209458  thumb  ov094
+ *   BTLV_TIMER_DeleteActors  0x02209458  thumb  ov094
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
@@ -26,7 +26,7 @@ typedef struct {
     int h48;
 } W;
 
-extern void func_02209458(W *w);
+extern void BTLV_TIMER_DeleteActors(W *w);
 typedef unsigned int   u32;
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
@@ -35,9 +35,9 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
 
-void func_022092E8(W *w)
+void BTLV_TIMER_Delete(W *w)
 {
-    func_02209458(w);
+    BTLV_TIMER_DeleteActors(w);
     CLACT_ReleaseCharacter(w->h40);
     CLACT_ReleaseCellAnim(w->h44);
     CLACT_ReleasePalette(w->h48);

@@ -10,8 +10,6 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      IRCNET_IsNotRunning (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
- *
  * symbols:
  *   IRCNET_IsRunning  0x021799F0  thumb  ov015
  */

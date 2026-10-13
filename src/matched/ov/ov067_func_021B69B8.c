@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: TOUCHBAR_GetButtonId, func_021B69BC, TOUCHBAR_CallSetEnabled, TOUCHBAR_SetButtonSoundId, TOUCHBAR_SetButtonKeys
+ * function: TOUCHBAR_GetButtonId, TOUCHBAR_SetButtonActorVisible, TOUCHBAR_CallSetEnabled, TOUCHBAR_SetButtonSoundId, TOUCHBAR_SetButtonKeys
  * address:  0x021B69B8
  * packet:   pkt_ov067_021B69B8
  * region:   ov067
@@ -28,7 +28,7 @@ int TOUCHBAR_GetButtonId(void *p)
 
 typedef unsigned int   u32;
 struct Obj;
-void func_021B69BC(void *p, unsigned int v)
+void TOUCHBAR_SetButtonActorVisible(void *p, unsigned int v)
 {
     void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
     CLACT_SetActorDrawEnable(((struct Obj20611 *)p)->f0, v);

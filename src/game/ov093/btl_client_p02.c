@@ -23,9 +23,9 @@
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
  *   BTL_POKEPARAM_ResetEffectsOnSwitchOut   0x021D64F0  thumb
  *   BTL_FIELD_RegisterSlot 0x021EF9F4 thumb ov093
- *   func_021EFAD8 0x021EFAD8 thumb ov093
- *   func_021EFB34 0x021EFB34 thumb ov093
- *   func_021EFA94 0x021EFA94 thumb ov093
+ *   BTL_FIELD_AddSlotHolder 0x021EFAD8 thumb ov093
+ *   BTL_FIELD_RemoveHolderFromSlots 0x021EFB34 thumb ov093
+ *   BTL_FIELD_RemoveSlot 0x021EFA94 thumb ov093
  *   func_021D69A0 0x021D69A0 thumb ov093
  *   BTL_POKEPARAM_PassEffects 0x021D65C8 thumb ov093
  *   BTL_POKEPARAM_SetSubstituteHp 0x021D6D5C thumb ov093
@@ -39,28 +39,28 @@
  *   BTL_POKEPARAM_AddHitRecord 0x021D6848 thumb ov093
  *   BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
  *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
- *   func_021EFC78   0x021EFC78  thumb
+ *   BTL_FIELD_TickSlots   0x021EFC78  thumb
  *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
  *   BTL_FIELD_GetCountdownByte 0x021EF9A8 thumb ov093
  *   BTL_MAIN_GetTrainerItem 0x021B9F84 thumb ov093
- *   d_021EFF74  0x021EFF74  data  a1
+ *   gAiSlotLimitTable  0x021EFF74  data  a1
  *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   func_021D805C  0x021D805C  thumb  ov093
  *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
- *   d_021EFF94  0x021EFF94  data  ov093  a1
+ *   gAiMoveStageCheckPairs  0x021EFF94  data  ov093  a1
  *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
- *   d_021EFFA0 0x021EFFA0 data a1
- *   func_021EAE74 0x021EAE74 thumb ov093
- *   func_021EAE64 0x021EAE64 thumb ov093
- *   func_021EAE04 0x021EAE04 thumb ov093
- *   func_021EAECC 0x021EAECC thumb ov093
+ *   gAiMoveSickCheckPairs 0x021EFFA0 data a1
+ *   BTLV_CORE_SetCounterDisplay 0x021EAE74 thumb ov093
+ *   BTLV_CORE_PollCounterInput 0x021EAE64 thumb ov093
+ *   BTLV_CORE_StartFadeIn 0x021EAE04 thumb ov093
+ *   BTLV_CORE_SetCounterValueMode 0x021EAECC thumb ov093
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   func_021F8B10 0x021F8B10 thumb ov094
  *   BTL_MAIN_SetKeepBgm 0x021B92A0 thumb ov093
- *   func_021EAE14 0x021EAE14 thumb ov093
+ *   BTLV_CORE_PollFadeInDone 0x021EAE14 thumb ov093
  *   gBtlNet 0x021F3B88 data ov093 a4
  *   gBtlNetSourceName 0x021F3A98 data ov093 a4
  *   func_02030734 0x02030734 arm
@@ -78,7 +78,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
- *   FIELD_GIMMICK_GATE_IsSaveBlockListOn   0x021F3A98  data
+ *   gBtlNetSourceName   0x021F3A98  data
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   MIi_CpuClear16 0x02082A48  arm
  *   STRBUF_GetLength   0x020458F8  arm
@@ -95,7 +95,7 @@
  *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
  *   BTL_POKEPARAM_ClearHitHistory  0x021D67F4  thumb  ov093
  *   func_021D6DC4  0x021D6DC4  thumb  ov093
- *   d_021F3AA4     0x021F3AA4  data  a1
+ *   gBtlPokeparamFileName     0x021F3AA4  data  a1
  *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
  *   func_020181F4  0x020181F4  thumb
@@ -105,7 +105,7 @@
  *   BTLV_CORE_PackBytes  0x021E8CE0  thumb  ov093
  *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
  *   BTL_CALC_ApplyStatStage  0x021D78E4  thumb  ov093
- *   data_021F040C  0x021F040C  data  ov093
+ *   gSemiInvulnerableContFlags  0x021F040C  data  ov093
  *   _dflt   0x0209B750  arm
  *   _dfltu  0x0209B790  arm
  *   _ddiv   0x0209D1E0  arm
@@ -235,9 +235,9 @@ extern void BTL_POKEPARAM_ClearTurnFlag(u8 *, u32);
 extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
 extern void BTL_POKEPARAM_ResetEffectsOnSwitchOut(void *p);
 extern int BTL_FIELD_RegisterSlot(void *, u32, Slot, int);
-extern int func_021EFAD8(char *a, u32 b, u32 c);
-extern void func_021EFB34(struct BtlNet *, u8);
-extern int func_021EFA94(void *, int);
+extern int BTL_FIELD_AddSlotHolder(char *a, u32 b, u32 c);
+extern void BTL_FIELD_RemoveHolderFromSlots(struct BtlNet *, u8);
+extern int BTL_FIELD_RemoveSlot(void *, int);
 extern void func_021D69A0(u8 *, int, u8);
 extern void BTL_POKEPARAM_PassEffects(struct BtlPokeParam *, struct BtlPokeParam *);
 extern void BTL_POKEPARAM_SetSubstituteHp(u8 *, u16);
@@ -259,16 +259,16 @@ extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern u32 func_021D805C(void *p, u32 n);
 extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
 extern u8 BTL_POKEPARAM_GetCritStage(struct BtlPokeParam *p);
-extern void func_021EAE74(char *p, u32 a, u32 b);
-extern int func_021EAE64(void *);
-extern void func_021EAE04(u32 *p);
-extern void func_021EAECC(u8 *p, int v, int w);
+extern void BTLV_CORE_SetCounterDisplay(char *p, u32 a, u32 b);
+extern int BTLV_CORE_PollCounterInput(void *);
+extern void BTLV_CORE_StartFadeIn(u32 *p);
+extern void BTLV_CORE_SetCounterValueMode(u8 *p, int v, int w);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void PM_VOICE_SetMasterVolume(u8);
 extern int func_021F8B10(void);
 extern void BTL_MAIN_SetKeepBgm(u8 *p);
-extern int func_021EAE14(u32 *p);
+extern int BTLV_CORE_PollFadeInDone(u32 *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -336,13 +336,13 @@ void BTL_POKEPARAM_SetStat(u8 *p, int k, u16 v);
 int func_021D59B4(u8 *p, int k);
 void BTL_POKEPARAM_SetItem(struct BtlPokeParam *p, u16 v);
 int func_021D5D14(s8 *p, int i, int sign);
-extern u8 d_021EFF74[];
-extern Pair_021D3E70 d_021EFF94[];
-extern Pair_021D3EC8 d_021EFFA0[];
+extern u8 gAiSlotLimitTable[];
+extern Pair_021D3E70 gAiMoveStageCheckPairs[];
+extern Pair_021D3EC8 gAiMoveSickCheckPairs[];
 extern struct BtlNet *gBtlNet;
 extern const char gBtlNetSourceName[];
-extern const char d_021F3AA4[];
-extern const u32 data_021F040C[4];
+extern const char gBtlPokeparamFileName[];
+extern const u32 gSemiInvulnerableContFlags[4];
 
 
 
@@ -809,7 +809,7 @@ int func_021D3B74(u32 *a, int *b, u32 *c)
 
 int func_021D3B88(u32 *a, int *b, u32 *c)
 {
-    func_021EFAD8((char *)a[13], c[0], (u8)c[1]);
+    BTL_FIELD_AddSlotHolder((char *)a[13], c[0], (u8)c[1]);
     return 1;
 }
 
@@ -850,7 +850,7 @@ int func_021D3B88(u32 *a, int *b, u32 *c)
  */
 int func_021D3B9C(char *p, int unused, unsigned int *a)
 {
-    func_021EFB34(*(struct BtlNet * *)&((struct BtlNetCtx *)p)->f34, a[0]);
+    BTL_FIELD_RemoveHolderFromSlots(*(struct BtlNet * *)&((struct BtlNetCtx *)p)->f34, a[0]);
     return 1;
 }
 
@@ -891,7 +891,7 @@ int func_021D3B9C(char *p, int unused, unsigned int *a)
  */
 int func_021D3BB0(char *p, int unused, unsigned int *a)
 {
-    func_021EFA94(((struct BtlNetCtx *)p)->f34, a[0]);
+    BTL_FIELD_RemoveSlot(((struct BtlNetCtx *)p)->f34, a[0]);
     return 1;
 }
 
@@ -1334,11 +1334,11 @@ int func_021D3CFC(char *p, int unused, unsigned int *a)
 
 /* 021D3D1C  3-arg call on field 0x34, then returns 1 */
 /*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; ldr r0, [r0, #0x34]; movs r1, #0; movs r2, #0; bl func_021EFC78; movs r0, #1; pop {r3, pc}.
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; ldr r0, [r0, #0x34]; movs r1, #0; movs r2, #0; bl BTL_FIELD_TickSlots; movs r0, #1; pop {r3, pc}.
  */
 int func_021D3D1C(u8 *p)
 {
-    func_021EFC78(((struct BtlNetCtx *)p)->f34, 0, 0);
+    BTL_FIELD_TickSlots(((struct BtlNetCtx *)p)->f34, 0, 0);
     return 1;
 }
 
@@ -1652,7 +1652,7 @@ u32 func_021D3DC4(u8 *a, void *b, void *c)
     if (BTL_POKEPARAM_HasSick(b, 0x13) != 0)
         return 0;
     for (i = 0; i < 4; i++) {
-        if (d_021EFF74[i] < lim)
+        if (gAiSlotLimitTable[i] < lim)
             break;
         off = i * 2;
         if (*(u16 *)(a + off + 0xe8) != 0) {
@@ -1716,7 +1716,7 @@ int func_021D3E70(void *s, void *m)
     u32 i;
 
     for (i = 0; i < 6; i++) {
-        if (func_021D805C(s, d_021EFF94[i].a) != 0 && func_021D5D14(m, d_021EFF94[i].b, 1) != 0)
+        if (func_021D805C(s, gAiMoveStageCheckPairs[i].a) != 0 && func_021D5D14(m, gAiMoveStageCheckPairs[i].b, 1) != 0)
             return 1;
     }
     if (func_021D805C(s, 0x24) != 0 && BTL_POKEPARAM_GetCritStage(m) == 0)
@@ -1755,7 +1755,7 @@ int func_021D3E70(void *s, void *m)
 
 
 
-int func_021D3EC8(void *s,struct Unk021D62A8 *m) { u32 i; for(i=0;i<7;i++) if(func_021D805C(s,d_021EFFA0[i].a) && BTL_POKEPARAM_HasSick(m,d_021EFFA0[i].b)) return 1; return 0; }
+int func_021D3EC8(void *s,struct Unk021D62A8 *m) { u32 i; for(i=0;i<7;i++) if(func_021D805C(s,gAiMoveSickCheckPairs[i].a) && BTL_POKEPARAM_HasSick(m,gAiMoveSickCheckPairs[i].b)) return 1; return 0; }
 
 
 
@@ -2291,7 +2291,7 @@ void func_021D3FDC(u8 *p, struct Q *q)
                 ++q->tick;
                 if (q->tick == q->target) {
                     q->current = q->target;
-                    if (*(void **)(p+0x54)) func_021EAE74(*(void **)(p+0x54),q->current,q->target);
+                    if (*(void **)(p+0x54)) BTLV_CORE_SetCounterDisplay(*(void **)(p+0x54),q->current,q->target);
                 }
             }
             return;
@@ -2300,15 +2300,15 @@ void func_021D3FDC(u8 *p, struct Q *q)
     if (!q->current || !*(void **)(p+0x54)) return;
     switch (q->state) {
     case 0:
-        input = func_021EAE64(*(void **)(p+0x54));
+        input = BTLV_CORE_PollCounterInput(*(void **)(p+0x54));
         adjusted = 0;
         switch (input) {
         case 2:
             q->mode = 1;
-            func_021EAE04(*(void **)(p+0x54));
+            BTLV_CORE_StartFadeIn(*(void **)(p+0x54));
             q->flag1 = 1;
             q->state = 1;
-            func_021EAECC(*(void **)(p+0x54),q->current,1);
+            BTLV_CORE_SetCounterValueMode(*(void **)(p+0x54),q->current,1);
             GFL_USE_FadeOutBgm(30);
             GFL_USE_SetPlayersAudible(0,62);
             PM_VOICE_SetMasterVolume(0);
@@ -2324,12 +2324,12 @@ void func_021D3FDC(u8 *p, struct Q *q)
             q->delay = 45;
             break;
         }
-        if (adjusted || changed) func_021EAE74(*(void **)(p+0x54),q->current,q->target);
+        if (adjusted || changed) BTLV_CORE_SetCounterDisplay(*(void **)(p+0x54),q->current,q->target);
         if (q->delay) {
             --q->delay;
             if (!q->delay) {
                 q->mode = 2;
-                func_021EAE04(*(void **)(p+0x54));
+                BTLV_CORE_StartFadeIn(*(void **)(p+0x54));
                 q->flag1 = 1;
                 q->state = 1;
                 GFL_USE_FadeOutBgm(30);
@@ -2340,7 +2340,7 @@ void func_021D3FDC(u8 *p, struct Q *q)
         }
         break;
     case 1:
-        if (func_021EAE14(*(void **)(p+0x54))) { q->flag2 = 1; q->state = 2; }
+        if (BTLV_CORE_PollFadeInDone(*(void **)(p+0x54))) { q->flag2 = 1; q->state = 2; }
         break;
     case 2:
         break;

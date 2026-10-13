@@ -11,18 +11,18 @@
  *
  * Recursive MATCH unblocker: the unlabelled ov014 setter that WIH_DWC_Delete
  * (+001A) and WIH_DWC_Create (+0056) call: store v into word +0x1E88 of the
- * object behind the pointer at g_021797A8.
+ * object behind the pointer at gWihWork.
  *
  * symbols:
- *   g_021797A8   0x021797A8  data  ov014  a4
+ *   gWihWork   0x021797A8  data  ov014  a4
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 
 void WIH_SetBeaconFoundCallback(u32 v)
 {
-    *(u32 *)(g_021797A8 + 0x1E88) = v;
+    *(u32 *)(gWihWork + 0x1E88) = v;
 }

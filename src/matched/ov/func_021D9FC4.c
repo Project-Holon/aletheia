@@ -11,7 +11,7 @@
  *
  * symbols:
  *   HAND_TOKUSEI_ForecastOnWeatherChange   0x021D9FC4  thumb ov093
- *   func_021E85F8   0x021E85F8  thumb ov093
+ *   HAND_COMMON_IsMoveTarget   0x021E85F8  thumb ov093
  *   BTL_SERVER_FLOW_CheckShowdownThunk   0x021C83D4  thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam   0x021C7CF4  thumb ov093
  *   BTL_POKEPARAM_IsFainted   0x021D5B68  thumb ov093
@@ -22,7 +22,7 @@
  *   BTL_SERVER_FLOW_CommitCmdRecord   0x021C88C8  thumb ov093
  *   BTLV_CORE_PackByteTwice   0x021E8CF0  thumb ov093
  *
- * Four gates before the body (func_021E85F8(c) non-zero, BTL_SERVER_FLOW_CheckShowdownThunk(b)
+ * Four gates before the body (HAND_COMMON_IsMoveTarget(c) non-zero, BTL_SERVER_FLOW_CheckShowdownThunk(b)
  * zero, record valid, and the (u8) of BTL_EVENT_GetVar(0x16) neither 0x11 nor
  * rejected by BTL_POKEPARAM_HasType), then the 2-event, record, 3-event sequence of
  * HAND_TOKUSEI_CureSick with the halfword from BTLV_CORE_PackByteTwice in the record.
@@ -36,7 +36,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021E85F8(int c);
+int HAND_COMMON_IsMoveTarget(int c);
 int BTL_SERVER_FLOW_CheckShowdownThunk(u8 *p);
 void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 int BTL_POKEPARAM_IsFainted(void *p);
@@ -52,7 +52,7 @@ void HAND_TOKUSEI_ForecastOnWeatherChange(void *a, int b, int c)
     void *r, *p;
     u8 k;
 
-    if (func_021E85F8(c) == 0)
+    if (HAND_COMMON_IsMoveTarget(c) == 0)
         return;
     if (BTL_SERVER_FLOW_CheckShowdownThunk((u8 *)b) != 0)
         return;

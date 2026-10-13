@@ -15,7 +15,7 @@
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
- *   func_021B79E4 0x021B79E4 thumb ov067
+ *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02045B38 0x02045B38 arm
@@ -38,7 +38,7 @@ extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
 struct MsgBank;
 struct Rec;
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
-extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
+extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -72,7 +72,7 @@ void func_021B9D48(char *p)
         offset=i*4;
         disabled=1;
         if(*(u32 *)(p+0x34+offset)==1)disabled=0;
-        func_021B79E4(((struct Obj02556 *)p)->f2C,disabled,i);
+        FRAME_LIST_AddItem(((struct Obj02556 *)p)->f2C,disabled,i);
         if(disabled==0)
             *(void **)(*(char * *)&((struct Obj02556 *)p)->f28+0x2c+offset)=func_02045EC0(bank,*(int *)((char *)tbl_021BAC80+offset));
         else

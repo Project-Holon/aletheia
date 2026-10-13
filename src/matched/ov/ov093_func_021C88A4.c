@@ -19,7 +19,7 @@
  * loads schedule as the original (add before the target load).
  *
  * Named by five parked pending files (BTL_CALC_IntimidateOnEnter / HAND_ITEM_DestinyKnot_Infatuate /
- * HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / func_021E7388).
+ * HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / HAND_WAZA_SimpleBeamSetAbility).
  *
  * 2026-10-05 (D9 lane 02): unchanged. 0x021CC9AC is a 176-byte packer, not a tiny leaf, and ov093 below 0x021D4000 is pengy's, so no witness filed. Needs the integrator seed.
  * 2026-10-05 (D9r lane 14): callee 0x021CC9AC is now matched EXACT as

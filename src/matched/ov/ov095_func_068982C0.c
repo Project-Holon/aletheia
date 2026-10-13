@@ -1,5 +1,5 @@
 /*
- * function: func_068982C0
+ * function: HAND_POS_IsNotRegistered
  * address: 0x068982C0
  * packet: pkt_ov095_068982C0
  * region: ov095
@@ -18,7 +18,7 @@ struct Node;
 extern struct Node *func_068982EC(int, int);
 extern unsigned short func_068982FC(struct Node *);
 extern struct Node *func_0689830C(struct Node *);
-int func_068982C0(int a, int b)
+int HAND_POS_IsNotRegistered(int a, int b)
 {
     struct Node *p = func_068982EC(1, b);
     while (p != 0) {

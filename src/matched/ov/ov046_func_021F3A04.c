@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_Exit
+ * function: FIELD_GIMMICK_ROTATING_ROOM_Exit
  * address: 0x021F3A04
  * packet: pkt_ov046_021F3A04
  * region: ov046
@@ -21,4 +21,4 @@ extern int FIELDMAP_GetExpObj(int *p);
 extern int *FIELDMAP_GetCommonWork(char *,int);
 extern void FIELDMAP_FreeCommonWork(u8 *,int);
 extern void FLD_EXP_OBJ_RemoveUnit(u8 *,u16);
-void GIMMICK46_Exit(u32 a) { u32 p; p=FIELDMAP_GetExpObj((int *)a); FIELDMAP_GetCommonWork((char *)a,1); FIELDMAP_FreeCommonWork((u8 *)a,1); FLD_EXP_OBJ_RemoveUnit((u8 *)p,0); }
+void FIELD_GIMMICK_ROTATING_ROOM_Exit(u32 a) { u32 p; p=FIELDMAP_GetExpObj((int *)a); FIELDMAP_GetCommonWork((char *)a,1); FIELDMAP_FreeCommonWork((u8 *)a,1); FLD_EXP_OBJ_RemoveUnit((u8 *)p,0); }

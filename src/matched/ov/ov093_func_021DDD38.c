@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E85F8  0x021E85F8  thumb  ov093
+ *   HAND_COMMON_IsMoveTarget  0x021E85F8  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
@@ -19,7 +19,7 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021E85F8(int id);
+extern int HAND_COMMON_IsMoveTarget(int id);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *l, int a, int b);
 struct S;
@@ -31,7 +31,7 @@ extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 void HAND_ITEM_ShowResistBerryMessage(void *a, u8 *b, int c, int *d)
 {
     u8 *p;
-    if (*d != 0 && func_021E85F8(c) != 0) {
+    if (*d != 0 && HAND_COMMON_IsMoveTarget(c) != 0) {
         p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x23, c);
         BTL_SERVER_FLOW_InitMsgRecord(p + 8, 2, 219);
         BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 8), c);

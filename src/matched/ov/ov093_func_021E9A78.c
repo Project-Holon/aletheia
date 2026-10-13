@@ -1,5 +1,5 @@
 /*
- * function: func_021E9A78
+ * function: BTLV_CORE_StartPartyMenu
  * address:  0x021E9A78
  * packet:   pkt_ov093_021E9A78
  * region:   ov093
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E9984  0x021E9984  thumb  ov093
+ *   BTLV_CORE_InitPartyWork  0x021E9984  thumb  ov093
  *   func_021E9AF4  0x021E9AF4  thumb  ov093
  *   func_021E9B04  0x021E9B04  thumb  ov093
  */
 #include "../include/Obj00056.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y);
+extern void BTLV_CORE_InitPartyWork(u8 *p, u8 *q, int mode, u8 x, int y);
 extern u32 func_021E9AF4(u8 *p);
 extern u8 func_021E9B04(u8 *p, u8 i);
 
-void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r)
+void BTLV_CORE_StartPartyMenu(char *p, const u8 *q, int x, int y, u8 *r)
 {
     u32 i;
     u32 n;
 
     if (x < 0) x = 0;
-    func_021E9984((u8 *)p, (u8 *)(p + 0x10c), q[0xb], x, y);
+    BTLV_CORE_InitPartyWork((u8 *)p, (u8 *)(p + 0x10c), q[0xb], x, y);
     n = func_021E9AF4(r);
     for (i = 0; i < n; i++) {
         if (i >= 2) break;

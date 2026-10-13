@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_CreateSoundObjs
+ * function: FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs
  * address:  0x021F3828
  * packet:   pkt_ov053_021F3828
  * region:   ov053
@@ -22,9 +22,9 @@
  *   SOUND_OBJ_CreateNoSource  0x021C4D7C  thumb  ov021
  *   SOUND_OBJ_SetAnime  0x021C4DC0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
- *   GIMMICK53_LoadWaitLimits  0x021F3978  thumb  ov053
- *   GIMMICK53_LoadBgmFade  0x021F39BC  thumb  ov053
- *   GIMMICK53_ClearSlideSe  0x021F3B30  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits  0x021F3978  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade  0x021F39BC  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe  0x021F3B30  thumb  ov053
  */
 
 typedef unsigned short u16;
@@ -57,11 +57,11 @@ extern void *SOUND_OBJ_Create(int a, int b, int c, int d, int e);
 extern int SOUND_OBJ_CreateNoSource(int, int);
 extern void SOUND_OBJ_SetAnime(int, int, int, int);
 extern u32 func_020307B0(void *p);
-extern void GIMMICK53_LoadWaitLimits(char *a);
-extern void GIMMICK53_LoadBgmFade(char *a);
-extern void GIMMICK53_ClearSlideSe(void *);
+extern void FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits(char *a);
+extern void FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade(char *a);
+extern void FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe(void *);
 
-void GIMMICK53_CreateSoundObjs(O *o, u32 q)
+void FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(O *o, u32 q)
 {
     int i;
     int a;
@@ -100,7 +100,7 @@ void GIMMICK53_CreateSoundObjs(O *o, u32 q)
     func_020307B0(p);
     for (i = 0; i < 5; i++)
         o->w[i] = 0;
-    GIMMICK53_LoadWaitLimits((char *)o);
-    GIMMICK53_LoadBgmFade((char *)o);
-    GIMMICK53_ClearSlideSe(o->f68);
+    FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits((char *)o);
+    FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade((char *)o);
+    FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe(o->f68);
 }

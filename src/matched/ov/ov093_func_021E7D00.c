@@ -1,5 +1,5 @@
 /*
- * function: func_021E7D00
+ * function: HAND_WAZA_QuashMoveTargetLast
  * address:  0x021E7D00
  * packet:   pkt_ov093_021E7D00
  * region:   ov093
@@ -25,7 +25,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *l, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E7D00(int a, u8 *b, int c)
+void HAND_WAZA_QuashMoveTargetLast(int a, u8 *b, int c)
 {
     u8 *p;
     if (c == BTL_EVENT_GetVar(3)) {

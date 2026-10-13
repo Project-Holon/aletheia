@@ -1,5 +1,5 @@
 /*
- * function: func_02209A7C
+ * function: BTLV_FINGER_CURSOR_Create
  * address:  0x02209A7C
  * packet:   pkt_ov094_02209A7C
  * region:   ov094
@@ -22,7 +22,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_021F86D4  0x021F86D4  thumb  ov094
  *   func_02030DA8  0x02030DA8  arm
- *   func_02209CC4  0x02209CC4  thumb  ov094
+ *   BTLV_FINGER_CURSOR_TaskHideAfterDelay  0x02209CC4  thumb  ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,9 +54,9 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void * h);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
-extern void func_02209CC4(void *a, void *b);
+extern void BTLV_FINGER_CURSOR_TaskHideAfterDelay(void *a, void *b);
 
-W *func_02209A7C(void *a0, u32 b, u16 heap)
+W *BTLV_FINGER_CURSOR_Create(void *a0, u32 b, u16 heap)
 {
     W *w;
     void *a;
@@ -70,6 +70,6 @@ W *func_02209A7C(void *a0, u32 b, u16 heap)
     PALANM_CopyHwPaletteToSlot(a0, 3, (u16)(CLACT_GetPaletteVramAddress(w->h10, 1) >> 1), 0x20);
     w->h0 = (int)CLACT_CreateUnit(1, 0, heap);
     ARC_TOOL_DeleteHandle(a);
-    w->task = func_02030DA8(func_021F86D4(), func_02209CC4, w, 0);
+    w->task = func_02030DA8(func_021F86D4(), BTLV_FINGER_CURSOR_TaskHideAfterDelay, w, 0);
     return w;
 }

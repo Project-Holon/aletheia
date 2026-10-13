@@ -1,5 +1,5 @@
 /*
- * function: func_0215A624
+ * function: SCRCMD_WORK_SetTimeIcon
  * address:  0x0215A624
  * packet:   pkt_ov010_0215A624
  * region:   ov010
@@ -20,7 +20,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-void func_0215A624(u8 *p, u32 v)
+void SCRCMD_WORK_SetTimeIcon(u8 *p, u32 v)
 {
     *(u32 *)((u8 *)((struct Obj18787 *)p)->f20 + 0x100) = v;
 }

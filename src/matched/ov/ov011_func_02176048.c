@@ -11,7 +11,7 @@
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
- *   INTRUDE_COMM_IsJoinRequestValid  0x02175FB8  thumb  ov011
+ *   DWCi_GetHostStatus  0x02175FB8  thumb  ov011
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   INTRUDE_COMM_SetSessionRequestSendFlag  0x02175920  thumb  ov011
@@ -69,7 +69,7 @@ typedef struct {
 
 extern void MI_CpuFill8(void *p, int v, int n);
 extern int INTRUDE_COMM_IsSessionActive(u8 *p);
-extern int INTRUDE_COMM_IsJoinRequestValid(void *p, Src *src);
+extern int DWCi_GetHostStatus(void *p, Src *src);
 extern u32 GFL_NET_SYSTEM_GetConnectNum(void);
 extern int GFL_NET_GetNegotiationNum(void);
 extern void INTRUDE_COMM_SetSessionRequestSendFlag(void *p);
@@ -84,7 +84,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(u8 *a0, Work *p, Src *src, int idx)
         p->entries[idx].state = 2;
         return 0;
     }
-    if (INTRUDE_COMM_IsJoinRequestValid(a0 + 0x1AC, src) == 0) {
+    if (DWCi_GetHostStatus(a0 + 0x1AC, src) == 0) {
         p->entries[idx].state = 2;
         return 0;
     }

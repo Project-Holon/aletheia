@@ -1,5 +1,5 @@
 /*
- * function: func_021EFCE4
+ * function: BTL_FIELD_IsSlotInUse
  * address:  0x021EFCE4
  * packet:   pkt_021EFCE4
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EFCE4 0x021EFCE4 thumb
+ *   BTL_FIELD_IsSlotInUse 0x021EFCE4 thumb
  */
 
 typedef unsigned char u8;
 
-void *func_021EFCE4(char *arg0, int arg1)
+void *BTL_FIELD_IsSlotInUse(char *arg0, int arg1)
 {
     return *(void **)(arg0 + arg1 * 4 + 0x148);
 }

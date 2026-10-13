@@ -43,7 +43,7 @@
  *   func_021DD528 0x021DD528 thumb ov119
  *   func_02041570 0x02041570 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   func_021E6B90 0x021E6B90 thumb ov119
  *   WIPE_SYS_Start 0x0202208C thumb
  *   func_021D8A24 0x021D8A24 thumb ov119
@@ -1021,7 +1021,7 @@ extern void func_021DD9DC(unsigned char *);
 extern void func_021DD528(char *,int);
 extern void func_02041570(int channel, u16 val);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021E6B90(char *p);
 extern void WIPE_SYS_Start(void *p1, u32_021DECA0 p2, u32_021DECA0 p3, u32_021DECA0 p4, u32_021DECA0 p5, u32_021DECA0 p6, u32_021DECA0 p7);
 extern int func_021D8A24(void *);
@@ -1893,7 +1893,7 @@ void func_021DEC4C(void *p) {
 void func_021DECA0(char *p) {
  func_021E4000(p);func_021DF7D0(p);func_021DF8E0(p);func_021E64B8(p);func_021DD588(p);func_021E4570(p);func_021DD9DC((unsigned char *)p);func_021E4888(p);
  func_021DD528(p,1);func_02041570(6,0);CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->fF04,0);
- func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,1);TOUCHBAR_SetButtonEnabled((unsigned char *)(((TradeWork *)p)->f9C0),1,0);func_021E24E8(p,6);
+ TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,1);TOUCHBAR_SetButtonEnabled((unsigned char *)(((TradeWork *)p)->f9C0),1,0);func_021E24E8(p,6);
  ((TradeWork *)p)->f108C=0;((TradeWork *)p)->f1084=1;func_021E6B90(p);
  WIPE_SYS_Start(0,1,1,0,6,1,((TradeWork *)p)->f5F4);func_021D8E84(p,(int)func_021DEC4C);
 }
@@ -4964,7 +4964,7 @@ void func_021E1D68(char *p,void *a)
         p[0x11f9]=1;
         func_020056A0((void (*)(void *, void *))func_021E2A98,p,0);
     }
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),1,1);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),1,1);
 }
 
 
@@ -5439,7 +5439,7 @@ void *func_021E2984(char *p,int a) {
     ((TradeWork *)p)->f648=APP_TASKMENU_WIN_CreateEx((u32_021DEA24)(((TradeWork *)p)->f6B0),(u32_021DEA24)(p+0x650),8,21,16,3,0,1,((TradeWork *)p)->f5F4);
     STRBUF_Delete(((TradeWork *)p)->f650);
     CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF04),0);
-    func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),8,0);
     return ((TradeWork *)p)->f648;
 }
 
@@ -5452,7 +5452,7 @@ void *func_021E2984(char *p,int a) {
 void func_021E2A1C(char *p,int a,int b) {
     if (!PRINTSYS_QUE_IsFinished(((TradeWork *)p)->f740)) PRINTSYS_QUE_Clear(((TradeWork *)p)->f740);
     if(a) CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->fF04),1);
-    if(b) func_021B6558((unsigned char *)(((TradeWork *)p)->f9C0),8,func_021DD2F4(p));
+    if(b) TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->f9C0),8,func_021DD2F4(p));
     if(((TradeWork *)p)->f648) {
         APP_TASKMENU_WIN_Delete(((TradeWork *)p)->f648);
         ((TradeWork *)p)->f648=0;
@@ -6565,8 +6565,8 @@ void func_021E3C20(char *p)
     t.e[3].fE = 22; t.e[3].f10 = 21; t.e[3].f12 = 20;
     t.e[3].f18 = 48; t.e[3].f1C = 0x54C;
     (*(void * *)&((TradeWork *)p)->f9C0) = TOUCHBAR_Create(&c, ((TradeWork *)p)->f5F4);
-    func_021B6558((*(void * *)&((TradeWork *)p)->f9C0), 9, 0);
-    func_021B6558((*(void * *)&((TradeWork *)p)->f9C0), 8, 0);
+    TOUCHBAR_SetButtonVisible((*(void * *)&((TradeWork *)p)->f9C0), 9, 0);
+    TOUCHBAR_SetButtonVisible((*(void * *)&((TradeWork *)p)->f9C0), 8, 0);
     TOUCHBAR_SetAllButtonsPriority((*(void * *)&((TradeWork *)p)->f9C0), 2);
 }
 

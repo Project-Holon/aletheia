@@ -1,5 +1,5 @@
 /*
- * function: func_021E814C
+ * function: HAND_WAZA_SkyDropBlockFlyingTarget
  * address:  0x021E814C
  * packet:   pkt_ov093_021E814C
  * region:   ov093
@@ -22,7 +22,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_HasType(void *a, int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E814C(int a, void *b, int c)
+void HAND_WAZA_SkyDropBlockFlyingTarget(int a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(3)) {
         if (BTL_POKEPARAM_HasType(BTL_SERVER_FLOW_GetPokeParam(b, (u8)BTL_EVENT_GetVar(4)), 2) != 0)

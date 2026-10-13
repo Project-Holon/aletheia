@@ -1,5 +1,5 @@
 /*
- * function: func_021E7270
+ * function: HAND_WAZA_AddRetaliate
  * address: 0x021E7270
  * packet: pkt_ov093_021E7270
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F2624[];
-int *func_021E7270(int *p);
+int *HAND_WAZA_AddRetaliate(int *p);
 
-int *func_021E7270(int *p)
+int *HAND_WAZA_AddRetaliate(int *p)
 {
     *p = 1;
     return d_021F2624;

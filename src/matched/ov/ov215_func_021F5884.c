@@ -48,7 +48,7 @@
  *   func_021F5CFC 0x021F5CFC thumb ov215
  *   NAMEIN_SETUP_CreateMonArgs 0x0216C028 thumb ov010
  *   PROCSYS_Push 0x02031348 arm
- *   d_021F5580 0x021F5580 data ov194 a4
+ *   gNameInProcData 0x021F5580 data ov194 a4
  *   abs_id_C2 0xC2 data
  *   NAMEIN_SETUP_IsCanceled 0x0216C0E4 thumb ov010
  *   STRBUF_Create 0x020457B0 arm
@@ -108,7 +108,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *),*func_0200C0F0(void *);
 extern void func_021F5CFC(u32,char *);
 extern int *NAMEIN_SETUP_CreateMonArgs(u16,int,int,int,int);
 extern void PROCSYS_Push(void *,u32,u32,u32);
-extern char d_021F5580,abs_id_C2;
+extern char gNameInProcData,abs_id_C2;
 extern int NAMEIN_SETUP_IsCanceled(int *);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void NAMEIN_SETUP_CopyName(int *,int),POKE_TOOL_SetPartyValue(void *,u32,u32),STRBUF_Delete(struct U16Vec *);
@@ -163,7 +163,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
             block=func_0200C0F0(GAME_DATA_GetSaveControl((struct Big *)a[0]));
             func_021F5CFC((u32)a,(char *)p);p[4]=15;
             child=NAMEIN_SETUP_CreateMonArgs(((struct Obj00186 *)p)->f0,(int)a[1],10,0,(int)block);p[33]=(u32)child;
-            PROCSYS_Push((void *)p[34],(u32)&abs_id_C2,(u32)&d_021F5580,(u32)child);
+            PROCSYS_Push((void *)p[34],(u32)&abs_id_C2,(u32)&gNameInProcData,(u32)child);
         }break;
     case 15:
         if(active!=1){

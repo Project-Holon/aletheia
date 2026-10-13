@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A8  0x021797A8  data
+ *   gWihWork  0x021797A8  data
  */
 
 #include "../../../matched/include/G_S.h"
 
-extern struct S *g_021797A8;
+extern struct S *gWihWork;
 
 /*
  * Sets the byte at +0x1EDE of the WH work block: nonzero pauses the scan
@@ -23,5 +23,5 @@ extern struct S *g_021797A8;
  */
 void WIH_SetScanTimerPaused(unsigned char v)
 {
-    ((unsigned char *)g_021797A8)[0x1EDE] = v;
+    ((unsigned char *)gWihWork)[0x1EDE] = v;
 }

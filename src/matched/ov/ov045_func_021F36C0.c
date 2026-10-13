@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_SWITCH_TOGGLE_Init
  * address:  0x021F36C0
  * packet:   pkt_ov045_021F36C0
  * region:   ov045
@@ -13,9 +13,9 @@
  * directly schedules the i*12 table offset before the call.
  *
  * symbols:
- *   d_021F3B50     0x021F3B50  data  ov045
- *   d_021F3B80     0x021F3B80  data  ov045  a4
- *   d_021F3BA4     0x021F3BA4  data  ov045  a4
+ *   sSwitchToggleUnitDesc     0x021F3B50  data  ov045
+ *   sSwitchTogglePrimaryModelPos     0x021F3B80  data  ov045  a4
+ *   sSwitchToggleSecondaryModelPos     0x021F3BA4  data  ov045  a4
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -29,7 +29,7 @@
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
- *   GIMMICK45_SetSwitchModelPose  0x021F3938  thumb
+ *   FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose  0x021F3938  thumb
  */
 
 typedef unsigned short u16;
@@ -41,9 +41,9 @@ typedef struct {
     int c;
 } V;
 
-extern int d_021F3B50;
-extern V d_021F3B80[];
-extern V d_021F3BA4[];
+extern int sSwitchToggleUnitDesc;
+extern V sSwitchTogglePrimaryModelPos[];
+extern V sSwitchToggleSecondaryModelPos[];
 
 struct Ctx;
 extern int FIELDMAP_GetExpObj(int *p);
@@ -63,9 +63,9 @@ extern void FLD_EXP_OBJ_SetModelCullDraw(char *p, int i, int j, int v);
 extern void *FLD_EXP_OBJ_GetAnime(void *p, int i, u16 j, u16 k);
 extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
-extern void  GIMMICK45_SetSwitchModelPose(void *a0, int a1, int a2, int a3);
+extern void  FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(void *a0, int a1, int a2, int a3);
 
-void func_021F36C0(void *a0)
+void FIELD_GIMMICK_SWITCH_TOGGLE_Init(void *a0)
 {
     void *r4;
     int *q;
@@ -78,10 +78,10 @@ void func_021F36C0(void *a0)
     r4 = (void *)FIELDMAP_GetExpObj(a0);
     q = GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave((struct Big *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a0))), 9);
     FIELDMAP_AllocCommonWork(a0, 1, FIELDMAP_GetHeapId(a0), 4);
-    FLD_EXP_OBJ_AddUnitFromArchive(r4, &d_021F3B50, 0);
+    FLD_EXP_OBJ_AddUnitFromArchive(r4, &sSwitchToggleUnitDesc, 0);
     for (i = 0; i < 3; i++) {
         e = FLD_EXP_OBJ_GetModelStatus(r4, 0, i);
-        *e = d_021F3B80[i];
+        *e = sSwitchTogglePrimaryModelPos[i];
         FLD_EXP_OBJ_SetModelCullDraw(r4, 0, (u16)i, 1);
         for (j = 0; j < 2; j++) {
             b = FLD_EXP_OBJ_GetAnime(r4, 0, i, j);
@@ -90,14 +90,14 @@ void func_021F36C0(void *a0)
         }
         k = i + 3;
         e = FLD_EXP_OBJ_GetModelStatus(r4, 0, k);
-        *e = d_021F3BA4[i];
+        *e = sSwitchToggleSecondaryModelPos[i];
         FLD_EXP_OBJ_SetModelCullDraw(r4, 0, (u16)k, 1);
         for (j = 0; j < 2; j++) {
             b = FLD_EXP_OBJ_GetAnime(r4, 0, k, j);
             FLD_EXP_OBJ_SetAnimeLoop(b, 0);
             FLD_EXP_OBJ_SetAnimePaused(b, 1);
         }
-        GIMMICK45_SetSwitchModelPose(r4, q[i], i, 1);
-        GIMMICK45_SetSwitchModelPose(r4, q[i], i, 0);
+        FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(r4, q[i], i, 1);
+        FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(r4, q[i], i, 0);
     }
 }

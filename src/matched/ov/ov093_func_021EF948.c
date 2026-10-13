@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EFCE4  0x021EFCE4  thumb  ov093
+ *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
  *   gBtlFieldCountdown  0x021F63F4  data  a4
  */
 
 #include "../include/G_Countdown.h"
 
 extern struct Countdown gBtlFieldCountdown;
-extern void *func_021EFCE4(char *arg0, int arg1);
+extern void *BTL_FIELD_IsSlotInUse(char *arg0, int arg1);
 
 int BTL_FIELD_GetStaticSlotObject(int a)
 {
-    return (int)func_021EFCE4(&(*(char *)&gBtlFieldCountdown), a);
+    return (int)BTL_FIELD_IsSlotInUse(&(*(char *)&gBtlFieldCountdown), a);
 }

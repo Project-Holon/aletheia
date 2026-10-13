@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_BRIDGE_Init
  * address:  0x021F36C0
  * packet:   pkt_ov047_021F36C0
  * region:   ov047
@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 
-void func_021F36C0(int a)
+void FIELD_GIMMICK_BRIDGE_Init(int a)
 {
     void **p;
 

@@ -15,8 +15,8 @@
  *
  * symbols:
  *   gVctSendState  0x021B3C84  data  ov013  a4
- *   d_021B3CBC  0x021B3CBC  data  ov013  a4
- *   d_021B3AD0  0x021B3AD0  data  ov013  a1
+ *   gVctReceiveSources  0x021B3CBC  data  ov013  a4
+ *   gVctFrameSpecs  0x021B3AD0  data  ov013  a1
  *   VCT_POOL_AllocFrame  0x021B2FB0  arm  ov013
  *   VCT_AUDIO_FlushReadyQueue  0x021B1720  arm  ov013
  *   VCT_AUDIO_FlushPendingSlot  0x021B133C  arm  ov013
@@ -88,8 +88,8 @@ typedef struct Voice {
 } Voice;
 
 extern Ctx3C84 gVctSendState;
-extern Chan d_021B3CBC[3];
-extern SizeEnt d_021B3AD0[];
+extern Chan gVctReceiveSources[3];
+extern SizeEnt gVctFrameSpecs[];
 
 extern Voice *VCT_POOL_AllocFrame(void);
 extern void VCT_AUDIO_FlushReadyQueue(u32 x);
@@ -117,8 +117,8 @@ int VCT_AUDIO_ReceiveFrame(u32 id, Frame *hdr, u32 size, u64 tick)
         return 0;
 
     for (i = 0; i < 3; i++) {
-        if (id == d_021B3CBC[i].f38) {
-            ch = &d_021B3CBC[i];
+        if (id == gVctReceiveSources[i].f38) {
+            ch = &gVctReceiveSources[i];
             break;
         }
     }
@@ -138,7 +138,7 @@ int VCT_AUDIO_ReceiveFrame(u32 id, Frame *hdr, u32 size, u64 tick)
     ch->f24 = mode;
     if (mode >= 5)
         return 0;
-    if (size != d_021B3AD0[mode].a * 0x44 + d_021B3AD0[mode].b + 0xc)
+    if (size != gVctFrameSpecs[mode].a * 0x44 + gVctFrameSpecs[mode].b + 0xc)
         return 0;
     if ((gVctSendState.f4 & (id != 0 ? 1 << id : 1)) == 0)
         return 0;

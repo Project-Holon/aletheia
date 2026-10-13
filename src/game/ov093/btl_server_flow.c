@@ -14,13 +14,13 @@
  * Split from btl_server.c (lane L189): __FILE__ anchor 021BB9C4 (gFlowSourceFileName "btl_server_flow.c") used by the 0x212c-byte ServerFlow constructor 021BB968, which is the first function of the file.
  *
  * symbols:
- *   data_021EFCF0  0x021EFCF0  data  ov093
+ *   gClientFirstPokeIds  0x021EFCF0  data  ov093
  *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
- *   d_021EFCF4  0x021EFCF4  data  ov093  a1
- *   d_021EFCFA  0x021EFCFA  data  ov093  a1
+ *   gViewPosOfSlotDouble  0x021EFCF4  data  ov093  a1
+ *   gViewPosOfSlotTriple  0x021EFCFA  data  ov093  a1
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
@@ -55,7 +55,7 @@
  *   func_02007C70 0x02007C70 thumb
  *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
- *   data_021EFD70  0x021EFD70  data  ov093
+ *   gBtlPosTables  0x021EFD70  data  ov093
  *   BTL_MAIN_GetEnemyLanePos 0x021B8C20 thumb ov093
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
@@ -88,12 +88,12 @@
  *   BTL_CLIENT_SET_JudgeResult  0x021D8270  thumb  ov093
  *   BTL_CALC_SetRngState  0x021D787C  thumb  ov093
  *   BTL_MAIN_InitClientParties  0x021B68D8  thumb  ov093
- *   func_021E9034  0x021E9034  thumb  ov093
+ *   BTLV_CORE_Delete  0x021E9034  thumb  ov093
  *   BTLV_CORE_ResetDisplay  0x021E8E28  thumb  ov093
  *   BTLV_CORE_Create  0x021E8F20  thumb  ov093
  *   BTL_POKEPARAM_GetUsedMoveTotal 0x021D54B4 thumb ov093
  *   func_02030734 0x02030734 arm
- *   d_021F3A60 0x021F3A60 data a4
+ *   gBtlServerFileName 0x021F3A60 data a4
  *   BTL_ADAPTER_Create  0x021EEA58  thumb  ov093
  *   STRBUF_Delete  0x02045808  arm
  *   BTL_ADAPTER_Delete  0x021EEAE0  thumb  ov093
@@ -130,7 +130,7 @@
  *   func_0689D1FC 0x0689D1FC thumb ov095
  *   MI_CpuFill8 0x02082BCC arm
  *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
- *   func_06898BFC 0x06898BFC thumb ov095
+ *   HAND_SIDE_InitTable 0x06898BFC thumb ov095
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BTL_MAIN_RegisterZukanSeen 0x021B8750 thumb ov093
  *   func_0689D134 0x0689D134 thumb ov095
@@ -164,7 +164,7 @@
  *   func_021D69AC 0x021D69AC thumb ov093
  *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
  *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb
- *   func_021B871C 0x021B871C thumb ov093
+ *   BTL_MAIN_GetPlayerStatus 0x021B871C thumb ov093
  *   BTL_MAIN_GetBadgeCount 0x021B85A0 thumb ov093
  *   POKE_TOOL_IsBoxOwnedByPlayer 0x02018488 thumb
  *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
@@ -238,11 +238,11 @@
  *   func_0689CE58 0x0689CE58 thumb ov095
  *   BTL_MAIN_CheckSceneOff 0x021B8590 thumb ov093
  *   func_0689CBB8 0x0689CBB8 thumb ov095
- *   d_021F3B2C  0x021F3B2C  data  ov093  a4
- *   d_021F3B20  0x021F3B20  data  ov093  a4
- *   d_021F3B38  0x021F3B38  data  a4
- *   d_021F3B26  0x021F3B26  data  ov093  a4
- *   d_021F3B23  0x021F3B23  data  ov093  a4
+ *   sDamageEffectiveness  0x021F3B2C  data  ov093  a4
+ *   sDamageCriticalFlags  0x021F3B20  data  ov093  a4
+ *   sDamageTargets  0x021F3B38  data  a4
+ *   sDamageValues  0x021F3B26  data  ov093  a4
+ *   sDamageAftereffects  0x021F3B23  data  ov093  a4
  *   d_021F3B20b 0x021F3B20  data  ov093  a4
  *   BTL_POKEPARAM_AddHitRecord  0x021D6848  thumb  ov093
  *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
@@ -302,7 +302,7 @@
  *   BTL_POKEPARAM_TickSickCont 0x021D6064 thumb ov093
  *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *   func_0689B8CC 0x0689B8CC thumb ov095
- *   func_06898D54 0x06898D54 thumb ov095
+ *   HAND_SIDE_TickTurns 0x06898D54 thumb ov095
  *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
  *   func_021C4C40 0x021C4C40 thumb ov093
  *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
@@ -357,8 +357,8 @@
  *   func_0689D5F4 0x0689D5F4 thumb ov095
  *   BTL_MAIN_GetActivePosPerSide  0x021B8670  thumb  ov093
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
- *   func_06898CF4  0x06898CF4  thumb  ov095
- *   func_06898CE0 0x06898CE0 thumb ov095
+ *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
+ *   HAND_SIDE_GetStackCount 0x06898CE0 thumb ov095
  *   func_068982AC  0x068982AC  thumb
  *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
  *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
@@ -370,10 +370,10 @@
  *   func_0689C9C0 0x0689C9C0 thumb ov095
  *   BTL_POKEPARAM_SetTypes  0x021D66B0  thumb  ov093
  *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
- *   func_06898C10 0x06898C10 thumb ov095
- *   func_06898D10 0x06898D10 thumb ov095
+ *   HAND_SIDE_AddFactor 0x06898C10 thumb ov095
+ *   HAND_SIDE_Remove 0x06898D10 thumb ov095
  *   BTL_FIELD_QueryStaticSlotA 0x021EF8E8 thumb ov093
- *   func_068981F0 0x068981F0 thumb ov095
+ *   HAND_POS_AddFactor 0x068981F0 thumb ov095
  *   func_0689C974 0x0689C974 thumb ov095
  *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
  *   HAND_ITEM_AddForcedFactor  0x021DCF78  thumb  ov093
@@ -424,11 +424,11 @@
  *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
  *   func_0689D1D4 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
- *   data_021F3A84 0x021F3A84 data
+ *   gBtlEmptyString 0x021F3A84 data
  *   func_02034714 0x02034714 arm
- *   data_021EFF14  0x021EFF14  data  ov093
- *   data_021F3B44  0x021F3B44  data  ov093
- *   d_021F3A88 0x021F3A88 data a4
+ *   gBtlServerCmdLayouts  0x021EFF14  data  ov093
+ *   gBtlServerCmdArgBuffer  0x021F3B44  data  ov093
+ *   gBtlClientFileName 0x021F3A88 data a4
  *   func_021D3F04 0x021D3F04 thumb ov093
  *   func_021D3D9C 0x021D3D9C thumb ov093
  *   func_02187F00 0x02187F00 thumb ov096
@@ -456,47 +456,47 @@
  *   func_021D3FA8 0x021D3FA8 thumb ov093
  *   PM_VOICE_SetMasterVolume 0x02006734 thumb
  *   func_021D3F98 0x021D3F98 thumb ov093
- *   func_021EAE24 0x021EAE24 thumb ov093
+ *   BTLV_CORE_ClearWaitWindow 0x021EAE24 thumb ov093
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_021F88BC 0x021F88BC thumb ov094
  *   func_021F8678 0x021F8678 thumb ov094
- *   func_021EAE34 0x021EAE34 thumb ov093
- *   func_021EAE74 0x021EAE74 thumb ov093
+ *   BTLV_CORE_GetWaitState 0x021EAE34 thumb ov093
+ *   BTLV_CORE_SetCounterDisplay 0x021EAE74 thumb ov093
  *   gBtlClientCommandTable 0x021EFFEC data a4
  *   func_021F8524 0x021F8524 thumb ov094
- *   func_021E90A0  0x021E90A0  thumb  ov093
- *   func_021E90D0  0x021E90D0  thumb  ov093
+ *   BTLV_CORE_StartOpening  0x021E90A0  thumb  ov093
+ *   BTLV_CORE_PollOpening  0x021E90D0  thumb  ov093
  *   func_021F84E8  0x021F84E8  thumb  ov094
  *   func_021F8504  0x021F8504  thumb  ov094
- *   func_021EAEA8  0x021EAEA8  thumb  ov093
+ *   BTLV_CORE_ShowCounterValue  0x021EAEA8  thumb  ov093
  *   BTL_REC_ReadSkipFlag  0x021EE688  thumb  ov093
  *   func_021D3F54  0x021D3F54  thumb  ov093
- *   func_021EAA00  0x021EAA00  thumb  ov093
- *   func_021EAA5C  0x021EAA5C  thumb  ov093
- *   func_021EAA34  0x021EAA34  thumb  ov093
+ *   BTLV_CORE_InitInputWork  0x021EAA00  thumb  ov093
+ *   BTLV_CORE_CancelWindowModeSelect  0x021EAA5C  thumb  ov093
+ *   BTLV_CORE_PollWindowModeSelect  0x021EAA34  thumb  ov093
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EAF78  0x021EAF78  thumb  ov093
  *   BTL_REC_ReadRecord 0x021EE6B8 thumb ov093
  *   func_021D3FD0 0x021D3FD0 thumb ov093
- *   func_021EA614 0x021EA614 thumb ov093
- *   func_021EA710 0x021EA710 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
- *   func_021EAE44 0x021EAE44 thumb ov093
- *   func_021EAE54 0x021EAE54 thumb ov093
+ *   BTLV_CORE_StartAutoSelectNotice 0x021EAE44 thumb ov093
+ *   BTLV_CORE_PollAutoSelectNotice 0x021EAE54 thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   BTL_CALC_PeekMoveTarget 0x021D81F8 thumb ov093
- *   func_021EA65C 0x021EA65C thumb ov093
- *   func_021E9760 0x021E9760 thumb ov093
- *   func_021E979C 0x021E979C thumb ov093
- *   func_021E97A4 0x021E97A4 thumb ov093
- *   func_021E9964 0x021E9964 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessageNow 0x021EA65C thumb ov093
+ *   BTLV_CORE_StartActionMenu 0x021E9760 thumb ov093
+ *   BTLV_CORE_AbortActionMenu 0x021E979C thumb ov093
+ *   BTLV_CORE_PollActionMenu 0x021E97A4 thumb ov093
+ *   BTLV_CORE_CloseMenuToReselect 0x021E9964 thumb ov093
  *   func_0689CB08 0x0689CB08 thumb ov095
- *   func_021E9974 0x021E9974 thumb ov093
- *   func_021E9954 0x021E9954 thumb ov093
+ *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
+ *   BTLV_CORE_CloseMenu 0x021E9954 thumb ov093
  *   func_021F7F58 0x021F7F58 thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
- *   func_021EA6B0 0x021EA6B0 thumb ov093
+ *   BTLV_CORE_PrintTrainerMessage 0x021EA6B0 thumb ov093
  *   BTL_CALC_IsGymLeaderTrainer 0x021D7F38 thumb ov093
  *   func_021F87EC 0x021F87EC thumb ov094
  *   func_021F8774 0x021F8774 thumb ov094
@@ -505,45 +505,45 @@
  *   func_0202A298 0x0202A298 thumb
  *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
  *   gBtlClientSupportItemKeys 0x021EFF78 data ov093 a2
- *   func_021E97BC 0x021E97BC thumb ov093
- *   func_021E9808 0x021E9808 thumb ov093
- *   func_021E98AC 0x021E98AC thumb ov093
- *   func_021E98B4 0x021E98B4 thumb ov093
+ *   BTLV_CORE_StartMoveMenu 0x021E97BC thumb ov093
+ *   BTLV_CORE_StartMoveMenuForEntry 0x021E9808 thumb ov093
+ *   BTLV_CORE_AbortMoveMenu 0x021E98AC thumb ov093
+ *   BTLV_CORE_PollMoveMenu 0x021E98B4 thumb ov093
  *   func_021D832C 0x021D832C thumb ov093
  *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
  *   BTL_CALC_IsMultiFighterRule 0x021D7EF0 thumb ov093
- *   func_021E98BC 0x021E98BC thumb ov093
- *   func_021E9920 0x021E9920 thumb ov093
- *   func_021E98E8 0x021E98E8 thumb ov093
- *   func_021E9858 0x021E9858 thumb ov093
+ *   BTLV_CORE_StartTargetMenu 0x021E98BC thumb ov093
+ *   BTLV_CORE_AbortTargetMenu 0x021E9920 thumb ov093
+ *   BTLV_CORE_PollTargetMenu 0x021E98E8 thumb ov093
+ *   BTLV_CORE_ReopenMoveMenu 0x021E9858 thumb ov093
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
- *   func_021E9CE0  0x021E9CE0  thumb  ov093
- *   func_021E9B14  0x021E9B14  thumb  ov093
- *   func_021E9B20  0x021E9B20  thumb  ov093
- *   func_021E9A78 0x021E9A78 thumb ov093
+ *   BTLV_CORE_StartMoveHighlight  0x021E9CE0  thumb  ov093
+ *   BTLV_CORE_LockPartyChoice  0x021E9B14  thumb  ov093
+ *   BTLV_CORE_PollPartyMenu  0x021E9B20  thumb  ov093
+ *   BTLV_CORE_StartPartyMenu 0x021E9A78 thumb ov093
  *   func_0689CB14 0x0689CB14 thumb ov095
  *   func_0689CB1C 0x0689CB1C thumb ov095
  *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
- *   func_021E9D04 0x021E9D04 thumb ov093
- *   func_021E9E70 0x021E9E70 thumb ov093
- *   func_021E9E80 0x021E9E80 thumb ov093
- *   func_021EA01C 0x021EA01C thumb ov093
- *   func_021EA044 0x021EA044 thumb ov093
- *   func_021EA030 0x021EA030 thumb ov093
- *   func_021EA04C 0x021EA04C thumb ov093
+ *   BTLV_CORE_StartBagMenu 0x021E9D04 thumb ov093
+ *   BTLV_CORE_SkipBagPartyPrompt 0x021E9E70 thumb ov093
+ *   BTLV_CORE_PollBagMenu 0x021E9E80 thumb ov093
+ *   BTLV_CORE_GetSelectedItem 0x021EA01C thumb ov093
+ *   BTLV_CORE_GetInputTargetSlot 0x021EA044 thumb ov093
+ *   BTLV_CORE_GetSelectedItemPocket 0x021EA030 thumb ov093
+ *   BTLV_CORE_GetInputResultFlag 0x021EA04C thumb ov093
  *   BTL_ACTION_SetItem 0x021D8358 thumb ov093
- *   func_021EA058 0x021EA058 thumb ov093
- *   func_021EA720 0x021EA720 thumb ov093
- *   func_021EABC4 0x021EABC4 thumb ov093
- *   func_021EAC54 0x021EAC54 thumb ov093
+ *   BTLV_CORE_SaveBagCursors 0x021EA058 thumb ov093
+ *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
+ *   BTLV_CORE_StartYesNoMenu 0x021EABC4 thumb ov093
+ *   BTLV_CORE_PollYesNoMenu 0x021EAC54 thumb ov093
  *   func_021D8414 0x021D8414 thumb ov093
- *   func_021EA7FC  0x021EA7FC  thumb  ov093
- *   func_021EA814  0x021EA814  thumb  ov093
+ *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
+ *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
  *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
  *   BTL_POKEPARAM_GetLastMoveSlot  0x021D67C4  thumb  ov093
  *   BTL_POKEPARAM_HasMove 0x021D5750 thumb ov093
- *   func_021EFCE4 0x021EFCE4 thumb ov093
- *   func_021EFC1C 0x021EFC1C thumb ov093
+ *   BTL_FIELD_IsSlotInUse 0x021EFCE4 thumb ov093
+ *   BTL_FIELD_IsMoveSealedBySlot 0x021EFC1C thumb ov093
  *   BTLV_CORE_GetSlotLow 0x021E8AFC thumb ov093
  *   BTL_POKEPARAM_GetSickTurn 0x021D631C thumb ov093
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
@@ -565,56 +565,56 @@
  *   BTL_REC_GetPacketId  0x021EE638  thumb  ov093
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021F878C   0x021F878C  thumb ov094
- *   func_021EA600 0x021EA600 thumb ov093
+ *   BTLV_CORE_PrintMessageBuffer 0x021EA600 thumb ov093
  *   PMSI_PARAM_IsEnabled  0x02024450  thumb
  *   PMSI_PARAM_ToString  0x0202435C  thumb
- *   func_021EA5E4  0x021EA5E4  thumb  ov093
+ *   BTLV_CORE_CopyMessageBuffer  0x021EA5E4  thumb  ov093
  *   STRBUF_Delete   0x02045808  arm
- *   func_021EA5F0  0x021EA5F0  thumb  ov093
+ *   BTLV_CORE_BuildMessageToBuffer  0x021EA5F0  thumb  ov093
  *   func_02082A90 0x02082A90 arm
- *   func_021EA824 0x021EA824 thumb ov093
+ *   BTLV_CORE_EndWaitMessage 0x021EA824 thumb ov093
  *   gServerCommandHandlers 0x021F00DC data a4
- *   func_021EA458  0x021EA458  thumb  ov093
- *   func_021EA478  0x021EA478  thumb  ov093
- *   func_021EA488 0x021EA488 thumb ov093
- *   func_021EA4C4 0x021EA4C4 thumb ov093
- *   func_021EA678  0x021EA678  thumb  ov093
+ *   BTLV_CORE_StartMonEffectTask  0x021EA458  thumb  ov093
+ *   BTLV_CORE_WaitMonEffectTask  0x021EA478  thumb  ov093
+ *   BTLV_CORE_StartMonSwap 0x021EA488 thumb ov093
+ *   BTLV_CORE_WaitMonSwap 0x021EA4C4 thumb ov093
+ *   BTLV_CORE_PrintSideMessage  0x021EA678  thumb  ov093
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   func_021EA694  0x021EA694  thumb  ov093
- *   func_021EA6F4  0x021EA6F4  thumb  ov093
+ *   BTLV_CORE_PrintTaggedMessage  0x021EA694  thumb  ov093
+ *   BTLV_CORE_PrintItemUseMessage  0x021EA6F4  thumb  ov093
  *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb  ov093
- *   func_021EA0A0 0x021EA0A0 thumb ov093
- *   func_021EA0E4 0x021EA0E4 thumb ov093
- *   func_021EA354  0x021EA354  thumb  ov093
- *   func_021EA0F4  0x021EA0F4  thumb  ov093
- *   func_021EA120  0x021EA120  thumb  ov093
- *   func_021EA280  0x021EA280  thumb  ov093
- *   func_021EA2BC  0x021EA2BC  thumb  ov093
- *   func_021EA384  0x021EA384  thumb  ov093
- *   func_021EA3A0  0x021EA3A0  thumb  ov093
+ *   BTLV_CORE_StartSceneEffect 0x021EA0A0 thumb ov093
+ *   BTLV_CORE_WaitSceneEffect 0x021EA0E4 thumb ov093
+ *   BTLV_CORE_SetMonShown  0x021EA354  thumb  ov093
+ *   BTLV_CORE_StartDamageEffect  0x021EA0F4  thumb  ov093
+ *   BTLV_CORE_WaitDamageEffect  0x021EA120  thumb  ov093
+ *   BTLV_CORE_StartMultiDamageEffect  0x021EA280  thumb  ov093
+ *   BTLV_CORE_ProcMultiDamageEffect  0x021EA2BC  thumb  ov093
+ *   BTLV_CORE_StartMonSpriteUpdate  0x021EA384  thumb  ov093
+ *   BTLV_CORE_WaitMonSpriteUpdate  0x021EA3A0  thumb  ov093
  *   func_021F81D0  0x021F81D0  thumb  ov094
- *   func_021EA40C  0x021EA40C  thumb  ov093
- *   func_021EA428  0x021EA428  thumb  ov093
- *   func_021EA438  0x021EA438  thumb  ov093
- *   func_021EA448  0x021EA448  thumb  ov093
- *   func_021EA7C8  0x021EA7C8  thumb  ov093
- *   func_021EA7E8  0x021EA7E8  thumb  ov093
- *   func_021EA7D8  0x021EA7D8  thumb  ov093
+ *   BTLV_CORE_StartMonReset  0x021EA40C  thumb  ov093
+ *   BTLV_CORE_WaitMonReset  0x021EA428  thumb  ov093
+ *   BTLV_CORE_StartMonRefresh  0x021EA438  thumb  ov093
+ *   BTLV_CORE_WaitMonRefresh  0x021EA448  thumb  ov093
+ *   BTLV_CORE_StartViewEffect262  0x021EA7C8  thumb  ov093
+ *   BTLV_CORE_WaitViewEffectDone  0x021EA7E8  thumb  ov093
+ *   BTLV_CORE_StartViewEffect261  0x021EA7D8  thumb  ov093
  *   BTL_FIELD_StoreCountdown  0x021EF9C0  thumb  ov093
  *   gWeatherEffects     0x021EFFAE  data   ov093  a2
  *   BTL_FIELD_ClearCountdown  0x021EF9C8  thumb  ov093
- *   func_021EA838  0x021EA838  thumb  ov093
- *   func_021EA850  0x021EA850  thumb  ov093
- *   func_021EA904  0x021EA904  thumb  ov093
- *   func_021EA950  0x021EA950  thumb  ov093
+ *   BTLV_CORE_StartSlotEffect25F  0x021EA838  thumb  ov093
+ *   BTLV_CORE_WaitSlotEffect25F  0x021EA850  thumb  ov093
+ *   BTLV_CORE_StartRotation  0x021EA904  thumb  ov093
+ *   BTLV_CORE_WaitRotation  0x021EA950  thumb  ov093
  *   func_021F7E94 0x021F7E94 thumb ov094
  *   func_021F7EA4  0x021F7EA4  thumb  ov094
- *   func_021EA8B4  0x021EA8B4  thumb  ov093
- *   func_021EA8D4  0x021EA8D4  thumb  ov093
- *   func_021EA1B8  0x021EA1B8  thumb  ov093
- *   func_021EA1F0  0x021EA1F0  thumb  ov093
- *   func_021EA8E4 0x021EA8E4 thumb ov093
- *   func_021EA8F4 0x021EA8F4 thumb ov093
+ *   BTLV_CORE_StartMonSpriteChangeAt  0x021EA8B4  thumb  ov093
+ *   BTLV_CORE_WaitMonSpriteChangeAt  0x021EA8D4  thumb  ov093
+ *   BTLV_CORE_StartHitAnim  0x021EA1B8  thumb  ov093
+ *   BTLV_CORE_WaitHitAnim  0x021EA1F0  thumb  ov093
+ *   BTLV_CORE_StartMonSpriteUnload 0x021EA8E4 thumb ov093
+ *   BTLV_CORE_WaitMonSpriteUnload 0x021EA8F4 thumb ov093
  *   gEffortValueParams     0x021EFF88  data  ov093  a2
  *   func_021F8204 0x021F8204 thumb ov094
  *   func_021F8134 0x021F8134 thumb ov094
@@ -623,39 +623,39 @@
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   func_021F8150 0x021F8150 thumb ov094
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
- *   func_021EA3B8 0x021EA3B8 thumb ov093
- *   func_021EA3D4 0x021EA3D4 thumb ov093
+ *   BTLV_CORE_StartViewEffect 0x021EA3B8 thumb ov093
+ *   BTLV_CORE_WaitViewEffect 0x021EA3D4 thumb ov093
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
- *   func_021EADA4 0x021EADA4 thumb ov093
- *   func_021EADB4 0x021EADB4 thumb ov093
- *   func_021EADC4 0x021EADC4 thumb ov093
- *   func_021EADD4 0x021EADD4 thumb ov093
- *   func_021EADE4 0x021EADE4 thumb ov093
- *   func_021EADF4 0x021EADF4 thumb ov093
+ *   BTLV_CORE_StartBallWindowOpen 0x021EADA4 thumb ov093
+ *   BTLV_CORE_UpdateBallWindowOpen 0x021EADB4 thumb ov093
+ *   BTLV_CORE_StartBallWindowRefresh 0x021EADC4 thumb ov093
+ *   BTLV_CORE_UpdateBallWindowRefresh 0x021EADD4 thumb ov093
+ *   BTLV_CORE_StartBallWindowClose 0x021EADE4 thumb ov093
+ *   BTLV_CORE_UpdateBallWindowClose 0x021EADF4 thumb ov093
  *   gExpGainWork 0x021F3B64 data a4
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_020181F4   0x020181F4  thumb
  *   POKE_TOOL_GetLevelUpMove   0x02018328  thumb
- *   func_021EA638   0x021EA638  thumb ov093
- *   func_021EAC64   0x021EAC64  thumb ov093
- *   func_021EAC80   0x021EAC80  thumb ov093
- *   g_021F3B64      0x021F3B64  data
+ *   BTLV_CORE_BuildAndPrintMessageFlag   0x021EA638  thumb ov093
+ *   BTLV_CORE_StartMoveForgetScreen   0x021EAC64  thumb ov093
+ *   BTLV_CORE_ProcMoveForgetScreen   0x021EAC80  thumb ov093
+ *   sLevelUpMoveScan      0x021F3B64  data
  *   func_021F7CFC 0x021F7CFC thumb ov094
  *   func_021F883C 0x021F883C thumb ov094
  *   gCatchShakeMessages 0x021EFF80 data a2
  *   func_021F7C0C 0x021F7C0C thumb ov094
  *   func_021F7D44  0x021F7D44  thumb  ov094
- *   func_021EAA6C  0x021EAA6C  thumb  ov093
- *   func_021EAAD8  0x021EAAD8  thumb  ov093
- *   func_021EA768  0x021EA768  thumb  ov093
- *   func_021EA778  0x021EA778  thumb  ov093
- *   func_021EA7A8  0x021EA7A8  thumb  ov093
- *   func_021EA7B8  0x021EA7B8  thumb  ov093
- *   func_021EA868  0x021EA868  thumb  ov093
- *   func_021EA878  0x021EA878  thumb  ov093
+ *   BTLV_CORE_StartClearSidePosition  0x021EAA6C  thumb  ov093
+ *   BTLV_CORE_RunProc  0x021EAAD8  thumb  ov093
+ *   BTLV_CORE_ShowPortrait  0x021EA768  thumb  ov093
+ *   BTLV_CORE_UpdatePortraitSlideIn  0x021EA778  thumb  ov093
+ *   BTLV_CORE_ReloadPortrait  0x021EA7A8  thumb  ov093
+ *   BTLV_CORE_UpdatePortraitMosaic  0x021EA7B8  thumb  ov093
+ *   BTLV_CORE_StartMonSpriteLoad  0x021EA868  thumb  ov093
+ *   BTLV_CORE_WaitMonSpriteLoad  0x021EA878  thumb  ov093
  *   func_0689C9D4 0x0689C9D4 thumb ov095
  *   BTL_MAIN_MapPosForRule  0x021B8CB0  thumb  ov093
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
@@ -1691,7 +1691,7 @@ extern void func_0689D118(void *);
 extern void func_0689D1FC(void *, void *, void *, u32);
 extern void MI_CpuFill8(void *, int, u32);
 extern void BTL_CLIENT_SET_Clear(u8 *p);
-extern void func_06898BFC(void *);
+extern void HAND_SIDE_InitTable(void *);
 extern void ARC_TOOL_DeleteHandle(u32);
 extern void BTL_MAIN_RegisterZukanSeen(char *p, unsigned char k, void *m);
 extern void func_0689D134(u8 *);
@@ -1724,7 +1724,7 @@ extern int func_0689D588(u8 *, u8);
 extern int BTL_MAIN_GetCompetitorKind(unsigned int **p);
 extern u8 func_021D69AC(u8 *, int);
 extern void BTL_POKEPARAM_SetTurnFlag(struct UtilWork *p, u32 n);
-extern int func_021B871C(char *);
+extern int BTL_MAIN_GetPlayerStatus(char *);
 extern int POKE_TOOL_IsOwnedByPlayer(void *, int);
 extern u8 BTL_MAIN_GetBadgeCount(u8 **p);
 extern void BTL_EVENT_SetVarOnce(int key, u32 val);
@@ -1853,7 +1853,7 @@ extern void func_0689B7A8(u8 *, u8 *, union Slot, u32, BtlServerFlow *);
 extern int BTL_POKEPARAM_TickSickCont(u8 *p, u32 k, union Slot *out, int *changed);
 extern u32 BTL_CALC_PackPokeIds(const u8 *p);
 extern void func_0689B8CC(u8 *, u8 *, u32);
-extern void func_06898D54(void (*cb)(u8, u32, u32), u32 arg);
+extern void HAND_SIDE_TickTurns(void (*cb)(u8, u32, u32), u32 arg);
 extern int BTL_FIELD_QueryStaticSlotC(int, int);
 extern void func_021C4C40(int, void *);
 extern u32 BTL_FIELD_TickCountdown(void);
@@ -1908,8 +1908,8 @@ extern int BTL_MAIN_CheckFrontPos(unsigned int **, unsigned int);
 extern int func_0689D5F4(u8 *, int);
 unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **p);
 extern unsigned int SHINKA_CHECK_GetRowParam(void *, unsigned int, unsigned int, unsigned int);
-int func_06898CF4(int a, int b);
-extern int func_06898CE0(unsigned int, int);
+int HAND_SIDE_IsActive(int a, int b);
+extern int HAND_SIDE_GetStackCount(unsigned int, int);
 extern int func_068982AC(int);
 extern u16 BTL_POKEPARAM_GetWeight(u8 *p);
 extern int BTL_POKEPARAM_IsMovePPFull(u8 *p, int i, int s);
@@ -1921,10 +1921,10 @@ extern void BTL_POKEPARAM_SetStat(u8 *, int, u16);
 extern int func_0689C9C0(int);
 extern void BTL_POKEPARAM_SetTypes(u8 *p, int n);
 extern void BTL_POKEPARAM_ClearTurnFlag(u8 *p, u32 n);
-extern void *func_06898C10(u8, int, Word_021CAA58_td);
-extern int func_06898D10(u32, u32);
+extern void *HAND_SIDE_AddFactor(u8, int, Word_021CAA58_td);
+extern int HAND_SIDE_Remove(u32, u32);
 extern int BTL_FIELD_QueryStaticSlotA(int);
-extern int func_068981F0(u32, u8, u8, const void *, u8);
+extern int HAND_POS_AddFactor(u32, u8, u8, const void *, u8);
 extern int func_0689C974(u16);
 extern void BTL_POKEPARAM_ClearConsumedItem(u8 *);
 extern void *HAND_ITEM_AddForcedFactor(void *p, unsigned int k);
@@ -2623,26 +2623,26 @@ u16 BTL_SERVER_CMD_Reserve(Buf_021CC768 *w, u32 id);
 void BTL_SERVER_CMD_FillReserved(Buf_021CC768 *w, u16 x, u32 id, ...);
 void BTL_SERVER_CMD_WriteU8Wrapper(void *p, u8 v);
 void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
-extern const u8 data_021EFCF0[4];
-extern u8 d_021EFCF4[2][3];
-extern u8 d_021EFCFA[2][3];
-extern struct Unk021EFD70 data_021EFD70[];
-extern u8 d_021F3A60[];
+extern const u8 gClientFirstPokeIds[4];
+extern u8 gViewPosOfSlotDouble[2][3];
+extern u8 gViewPosOfSlotTriple[2][3];
+extern struct Unk021EFD70 gBtlPosTables[];
+extern u8 gBtlServerFileName[];
 extern u8 gFlowSourceFileName[];
 extern const u16 gPledgeMoveIds[3];
-extern u32 d_021F3B2C[];
-extern u8 d_021F3B20[];
-extern u8 *d_021F3B38[];
-extern u16 d_021F3B26[];
-extern u8 d_021F3B23[];
+extern u32 sDamageEffectiveness[];
+extern u8 sDamageCriticalFlags[];
+extern u8 *sDamageTargets[];
+extern u16 sDamageValues[];
+extern u8 sDamageAftereffects[];
 extern u32 d_021F3B20b[];
 extern struct T6 gEffortValueStatTable[];
 extern const BagItemEffectEntry gBagItemEffectTable[];
 extern struct SizeEntry gHandExRecordSizeTable[0x3B];
-extern char data_021F3A84[];
-extern const u8 data_021EFF14[];
-extern s32 data_021F3B44[];
-extern u8 d_021F3A88[];
+extern char gBtlEmptyString[];
+extern const u8 gBtlServerCmdLayouts[];
+extern s32 gBtlServerCmdArgBuffer[];
+extern u8 gBtlClientFileName[];
 extern const Entry_021CC768 gBtlClientCommandTable[15];
 extern const u16 gBtlClientSupportItemKeys[4];
 extern const struct Row gBtlClientAiHitKindRows[4];
@@ -2650,7 +2650,7 @@ extern const CodeEntry gServerCommandHandlers[];
 extern Pair16 gWeatherEffects[5];
 extern u16 gEffortValueParams[];
 extern union DView gExpGainWork;
-extern struct StateData g_021F3B64;
+extern struct StateData sLevelUpMoveScan;
 extern const u16 gCatchShakeMessages[];
 
 
@@ -2715,7 +2715,7 @@ void BTL_SERVER_FLOW_Reset(BtlServerFlow *flow)
 
 /*
  * Lever: the four flag clears are typed bitfield assignments, emitting bics.
- * BTL_SERVER_FLOW_ClearPendingCounter leaves its input in r0 for the following func_06898BFC.
+ * BTL_SERVER_FLOW_ClearPendingCounter leaves its input in r0 for the following HAND_SIDE_InitTable.
  */
 void BTL_SERVER_FLOW_InitState(BtlServerFlow *flow)
 {
@@ -2732,7 +2732,7 @@ void BTL_SERVER_FLOW_InitState(BtlServerFlow *flow)
     BTL_SERVER_FLOW_ResetFrameStack(flow);
     BTL_CLIENT_SET_Clear(flow->escapedClientSet);
     BTL_SERVER_FLOW_ResetHandExBuffer(&flow->cmdLock);
-    func_06898BFC(BTL_SERVER_FLOW_ClearPendingCounter((char *)flow->eventParamBuf));
+    HAND_SIDE_InitTable(BTL_SERVER_FLOW_ClearPendingCounter((char *)flow->eventParamBuf));
     flow->escapeAttemptCount = 0;
     flow->unusedByte = 0;
     flow->stateFlags.bits.pursuitRunning = 0;
@@ -4104,7 +4104,7 @@ int BTL_SERVER_FLOW_CheckDisobedience(BtlServerFlow *flow, u8 *pokeParam)
         k = BTL_MAIN_PokeIdToClientIdThunk(BTL_POKEPARAM_GetPokeId(pokeParam));
         if (k == BTL_MAIN_GetOwnClientId((u8 *)flow->mainModule)) {
             void *v = BTL_POKEPARAM_GetMon(pokeParam);
-            if (POKE_TOOL_IsOwnedByPlayer(v, func_021B871C((char *)flow->mainModule)) == 0) {
+            if (POKE_TOOL_IsOwnedByPlayer(v, BTL_MAIN_GetPlayerStatus((char *)flow->mainModule)) == 0) {
                 n = BTL_MAIN_GetBadgeCount((u8 **)flow->mainModule);
                 if (n < 8) {
                     u16 r;
@@ -8200,7 +8200,7 @@ u32 BTL_SERVER_FLOW_ProcDamageRecordIfAny(BtlServerFlow *flow, u16 *a, u8 *b, u8
  * 2026-10-05 Q10/Q10b/Q10c/G7L9 (pengy share, user-approved): body from the listing, 47 of 704 bytes off (spill
  *   slot order m/k*4 around the third count, and the 5798/5840/59C4 argument order). Facts kept: v28 is u8,
  *   021C4104 takes sa/sb as separate stack args, 021C1198 takes an int, a7 is a one-bit field struct, the last
- *   loop's byte argument is d_021F3B20[k], 021C5798 has 8 parameters (two unused).
+ *   loop's byte argument is sDamageCriticalFlags[k], 021C5798 has 8 parameters (two unused).
  * pass 2 2026-10-06 P2L45: EXACT (was 47 bytes off). Closing form: variables reused as a person would. The third
  *   count reuses `cnt` (no separate cnt3), the m loop reuses `j` from the cnt2 loop, and the later loops reuse
  *   `i` (neutral). A reused variable gets a second web numbered after the declared locals, which puts the m index
@@ -8222,48 +8222,48 @@ int BTL_SERVER_FLOW_ApplyDamageRecord(BtlServerFlow *flow, u8 *attacker, u8 *unu
 
     v28 = func_0689D5C8(flow->posPokeTable, BTL_POKEPARAM_GetPokeId(attacker));
     sum = BTL_SERVER_FLOW_SumHitRecordDamage(damageRecord);
-    cnt = BTL_SERVER_FLOW_UnpackDamageEntries(flow, (List_td *)damageRecord, (u32 *)d_021F3B38, (u16 *)d_021F3B26, (u32 *)d_021F3B2C, (u8 *)d_021F3B20);
+    cnt = BTL_SERVER_FLOW_UnpackDamageEntries(flow, (List_td *)damageRecord, (u32 *)sDamageTargets, (u16 *)sDamageValues, (u32 *)sDamageEffectiveness, (u8 *)sDamageCriticalFlags);
     for (i = 0; i < cnt; i++) {
-        if (BTL_POKEPARAM_HasSubstitute(d_021F3B38[i])) {
-            h = BTL_SERVER_FLOW_ProcSubstituteDamage(flow, attacker, d_021F3B38[i], d_021F3B26[i], d_021F3B2C[i], d_021F3B20[i], moveRecord);
-            func_0689CBB8(flow->curDamageSet, d_021F3B38[i], h, 1);
-            sum -= d_021F3B26[i] - h;
+        if (BTL_POKEPARAM_HasSubstitute(sDamageTargets[i])) {
+            h = BTL_SERVER_FLOW_ProcSubstituteDamage(flow, attacker, sDamageTargets[i], sDamageValues[i], sDamageEffectiveness[i], sDamageCriticalFlags[i], moveRecord);
+            func_0689CBB8(flow->curDamageSet, sDamageTargets[i], h, 1);
+            sum -= sDamageValues[i] - h;
         }
     }
     if (BTL_SERVER_FLOW_IsFirstHit(st)) {
-        cnt2 = BTL_SERVER_FLOW_UnpackEntryPokes(flow, (const struct Q_021C0CB4 *)damageRecord, (u32 *)d_021F3B38);
+        cnt2 = BTL_SERVER_FLOW_UnpackEntryPokes(flow, (const struct Q_021C0CB4 *)damageRecord, (u32 *)sDamageTargets);
         for (j = 0; j < cnt2; j++)
-            BTL_SERVER_FLOW_RunMoveHitEventLocked(flow, attacker, d_021F3B38[j], moveRecord);
+            BTL_SERVER_FLOW_RunMoveHitEventLocked(flow, attacker, sDamageTargets[j], moveRecord);
     }
     st[1] = st[1] + 1;
-    cnt = BTL_SERVER_FLOW_UnpackHitEntries(flow, (const struct Q_021C0CE8 *)damageRecord, (u32 *)d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20, d_021F3B23);
+    cnt = BTL_SERVER_FLOW_UnpackHitEntries(flow, (const struct Q_021C0CE8 *)damageRecord, (u32 *)sDamageTargets, sDamageValues, sDamageEffectiveness, sDamageCriticalFlags, sDamageAftereffects);
     if (cnt == 0)
         return sum;
-    BTL_SERVER_FLOW_RunTargetsDamagedEventLocked(flow, (u32)moveRecord, attacker, cnt, (u32 *)d_021F3B38);
+    BTL_SERVER_FLOW_RunTargetsDamagedEventLocked(flow, (u32)moveRecord, attacker, cnt, (u32 *)sDamageTargets);
     flag = a7.bits.a;
-    BTL_SERVER_FLOW_PushMoveEffectiveness(flow, moveRecord, cnt, (int *)d_021F3B2C, d_021F3B38, d_021F3B26, d_021F3B20, flag);
+    BTL_SERVER_FLOW_PushMoveEffectiveness(flow, moveRecord, cnt, (int *)sDamageEffectiveness, sDamageTargets, sDamageValues, sDamageCriticalFlags, flag);
     if (BTL_SERVER_FLOW_GetHitFlagsMultiHit(st) == 0)
-        BTL_SERVER_FLOW_PushEffectivenessMessageList(flow, cnt, (int *)d_021F3B2C, d_021F3B38, flag);
+        BTL_SERVER_FLOW_PushEffectivenessMessageList(flow, cnt, (int *)sDamageEffectiveness, sDamageTargets, flag);
     else
         BTL_SERVER_FLOW_SetHitFlagsResultIf3(st, d_021F3B20b[3]);
-    BTL_SERVER_FLOW_PushCriticalHitMessage(flow, cnt, d_021F3B38, d_021F3B20, flag);
+    BTL_SERVER_FLOW_PushCriticalHitMessage(flow, cnt, sDamageTargets, sDamageCriticalFlags, flag);
     for (j = 0; j < cnt; j++) {
-        func_0689CBB8(flow->curDamageSet, d_021F3B38[j], d_021F3B26[j], 0);
-        BTL_SERVER_FLOW_RecordDamageHit(flow, v28, attacker, d_021F3B38[j], (u8 *)moveRecord, d_021F3B26[j]);
-        BTL_POKEPARAM_SetTurnFlag((struct UtilWork *)d_021F3B38[j], 2);
+        func_0689CBB8(flow->curDamageSet, sDamageTargets[j], sDamageValues[j], 0);
+        BTL_SERVER_FLOW_RecordDamageHit(flow, v28, attacker, sDamageTargets[j], (u8 *)moveRecord, sDamageValues[j]);
+        BTL_POKEPARAM_SetTurnFlag((struct UtilWork *)sDamageTargets[j], 2);
     }
     for (i = 0; i < cnt; i++) {
-        if (d_021F3B23[i])
-            BTL_SERVER_FLOW_ProcDamageAftereffect(flow, d_021F3B38[i], d_021F3B23[i]);
+        if (sDamageAftereffects[i])
+            BTL_SERVER_FLOW_ProcDamageAftereffect(flow, sDamageTargets[i], sDamageAftereffects[i]);
     }
     for (i = 0; i < cnt; i++) {
-        BTL_SERVER_FLOW_ProcFlinchChance(flow, moveRecord, attacker, d_021F3B38[i]);
-        BTL_SERVER_FLOW_ProcDrainHeal(flow, (u8 *)moveRecord, (u32)attacker, d_021F3B38[i], d_021F3B26[i]);
-        BTL_SERVER_FLOW_ProcMoveCategoryEffect(flow, (u8 *)moveRecord, attacker, d_021F3B38[i], d_021F3B26[i], 0);
-        BTL_SERVER_FLOW_ProcDamageEndEvents(flow, attacker, d_021F3B38[i], (u8 *)moveRecord, d_021F3B2C[i], d_021F3B26[i], d_021F3B20[i], 0);
+        BTL_SERVER_FLOW_ProcFlinchChance(flow, moveRecord, attacker, sDamageTargets[i]);
+        BTL_SERVER_FLOW_ProcDrainHeal(flow, (u8 *)moveRecord, (u32)attacker, sDamageTargets[i], sDamageValues[i]);
+        BTL_SERVER_FLOW_ProcMoveCategoryEffect(flow, (u8 *)moveRecord, attacker, sDamageTargets[i], sDamageValues[i], 0);
+        BTL_SERVER_FLOW_ProcDamageEndEvents(flow, attacker, sDamageTargets[i], (u8 *)moveRecord, sDamageEffectiveness[i], sDamageValues[i], sDamageCriticalFlags[i], 0);
     }
     for (i = 0; i < cnt; i++)
-        BTL_SERVER_FLOW_ProcFaintedPoke(flow, d_021F3B38[i]);
+        BTL_SERVER_FLOW_ProcFaintedPoke(flow, sDamageTargets[i]);
     BTL_SERVER_FLOW_ProcFaintedPoke(flow, attacker);
     return sum;
 }
@@ -11936,7 +11936,7 @@ int BTL_SERVER_FLOW_CalcSickDamage(BtlServerFlow *flow, u8 *poke, u32 sickKind, 
 
 
 /*
- * C tail call through r3 into the ov095 walker func_06898D54 (ov095 is
+ * C tail call through r3 into the ov095 walker HAND_SIDE_TickTurns (ov095 is
  * loaded in VRAM at 0x0689xxxx), with the ov093 callback BTL_SERVER_FLOW_OnSideEffectExpired.
  * Earlier notes called this a linker thunk; it is plain mwcc C.
  * 2026-10-05 (D9r lane16): every byte right; MATCH only because the ABS32
@@ -11945,7 +11945,7 @@ int BTL_SERVER_FLOW_CalcSickDamage(BtlServerFlow *flow, u8 *poke, u32 sickKind, 
  */
 void BTL_SERVER_FLOW_ProcSideEffectsExpire(BtlServerFlow *flow)
 {
-    func_06898D54((void (*)(u8,  u32,  u32))BTL_SERVER_FLOW_OnSideEffectExpired, (u32)flow);
+    HAND_SIDE_TickTurns((void (*)(u8,  u32,  u32))BTL_SERVER_FLOW_OnSideEffectExpired, (u32)flow);
 }
 
 
@@ -16330,7 +16330,7 @@ int BTL_SERVER_FLOW_QueryMainFlag(BtlServerFlow *flow, int value)
 int BTL_SERVER_FLOW_CheckSideEffectActive(int a, int b, int c)
 {
     (void)a;
-    return func_06898CF4(b, c);
+    return HAND_SIDE_IsActive(b, c);
 }
 
 
@@ -16345,7 +16345,7 @@ int BTL_SERVER_FLOW_CheckSideEffectActive(int a, int b, int c)
 /*
  * extent: two bytes alignment padding precede non-C veneer 021C82E4.
  */
-int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k) { return func_06898CE0(BTL_MAIN_GetPosParity(v),k); }
+int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k) { return HAND_SIDE_GetStackCount(BTL_MAIN_GetPosParity(v),k); }
 
 
 
@@ -16932,7 +16932,7 @@ u32 BTL_SERVER_FLOW_HasMsgRecord(u8 *record)
 
 /*
  * Named by the parked ov093 files (HAND_ITEM_DestinyKnot_Infatuate / HAND_ITEM_RockyHelmetDamageReaction /
- * func_021E7388).  Low byte of the +2 halfword <- (u8)a; +0 halfword <- b;
+ * HAND_WAZA_SimpleBeamSetAbility).  Low byte of the +2 halfword <- (u8)a; +0 halfword <- b;
  * then bits 8..14 of the +2 halfword are cleared.  `(u8)(u16)a` and the
  * `(int)` cast before `~0x7F00` are both load-bearing: the first gives the
  * double narrowing, the second keeps the mask sign-extended (0xFFFF80FF) so
@@ -16959,7 +16959,7 @@ void BTL_SERVER_FLOW_InitMsgRecord(void *record, int kind, int stringId)
 
 /*
  * Named by the parked ov093 files (HAND_ITEM_DestinyKnot_Infatuate / HAND_ITEM_RockyHelmetDamageReaction /
- * func_021E7388).  Appends `val` to the record at p: the count in bits 8..14
+ * HAND_WAZA_SimpleBeamSetAbility).  Appends `val` to the record at p: the count in bits 8..14
  * of the +2 halfword (max 7 entries) is incremented and `val` stored at
  * p + 4 + idx*4.  The 7-bit unsigned bitfield is what makes the count
  * unsigned (`bhs`, not `bge`) and produces the lsl/lsr extraction pair.
@@ -17012,7 +17012,7 @@ void BTL_SERVER_FLOW_SetMsgRecordSe(u8 *record, u32 seId)
  * loads schedule as the original (add before the target load).
  *
  * Named by five parked pending files (BTL_CALC_IntimidateOnEnter / HAND_ITEM_DestinyKnot_Infatuate /
- * HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / func_021E7388).
+ * HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / HAND_WAZA_SimpleBeamSetAbility).
  *
  * 2026-10-05 (D9 lane 02): unchanged. 0x021CC9AC is a 176-byte packer, not a tiny leaf, and ov093 below 0x021D4000 is pengy's, so no witness filed. Needs the integrator seed.
  * 2026-10-05 (D9r lane 14): callee 0x021CC9AC is now matched EXACT as
@@ -17037,7 +17037,7 @@ void *BTL_SERVER_FLOW_AllocCmdRecord(BtlServerFlow *flow, int kind, int pokeId)
 
 /*
  * Named by the parked ov093 files (BTL_CALC_IntimidateOnEnter / HAND_ITEM_DestinyKnot_Infatuate /
- * HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / func_021E7388).  EXACT*: both calls resolve
+ * HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / HAND_WAZA_SimpleBeamSetAbility).  EXACT*: both calls resolve
  * (BTL_SERVER_FLOW_AllocCmdRecord by `label`, BTL_SERVER_FLOW_CommitCmdRecord by `label`), the extent runs two
  * bytes long into the unlabelled follower.
  */
@@ -17057,7 +17057,7 @@ void BTL_SERVER_FLOW_PushCmdRecord(BtlServerFlow *flow, int kind, int pokeId)
 
 /*
  * Unlabelled-record helper reached from the five ov093 packets that name it
- * (HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / BTL_CALC_IntimidateOnEnter / func_021E7388 /
+ * (HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / BTL_CALC_IntimidateOnEnter / HAND_WAZA_SimpleBeamSetAbility /
  * HAND_ITEM_DestinyKnot_Infatuate).  Runs the battle-command dispatcher on (`a`, `b`), then
  * dispatches the same command through the record `a + 0x1D74`.
  */
@@ -18065,7 +18065,7 @@ u8 BTL_SERVER_FLOW_ExecCmdAdjustValueMessage(BtlServerFlow *flow, const struct C
     v = c->w8;
     pv = &v;
     BTL_SERVER_FLOW_QueryAdjustedValueEvent(flow, c->id, c->w4, c->b12, pv);
-    if (func_06898C10(c->b12, c->w4, *(Word_021CAA58_td *)pv) != 0) {
+    if (HAND_SIDE_AddFactor(c->b12, c->w4, *(Word_021CAA58_td *)pv) != 0) {
         BTL_SERVER_FLOW_PushMsgRecord(flow, (const struct Msg *)((u8 *)c + 0x10));
         return 1;
     }
@@ -18116,7 +18116,7 @@ u8 BTL_SERVER_FLOW_ExecCmdExpireSideEffects(BtlServerFlow *flow, u8 *s)
     u8 r = 0;
     u32 i;
     for (i = 0; i < 14; i++) {
-        if (TestSideEffectBit(s, i) && func_06898D10(s[7], i)) {
+        if (TestSideEffectBit(s, i) && HAND_SIDE_Remove(s[7], i)) {
             BTL_SERVER_FLOW_PushSideEffectExpireMessage(flow, i, s[7]);
             r = 1;
         }
@@ -18273,7 +18273,7 @@ int BTL_SERVER_FLOW_PushMsgRecord(BtlServerFlow *flow, const struct Msg *msg)
 u8 BTL_SERVER_FLOW_ExecCmdTrainerMessage(BtlServerFlow *flow, const struct Cmd_021C9A24 *q)
 {
     int r;
-    if (func_068981F0(q->w4, q->b8, q->id, q->data, q->b28)) r = 1;
+    if (HAND_POS_AddFactor(q->w4, q->b8, q->id, q->data, q->b28)) r = 1;
     else r = 0;
     return r;
 }
@@ -19660,7 +19660,7 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(BtlServerFlow *flow, u8 *party, u32 defe
       void *v28;
       u32 v24;
 
-      v24 = (u32)func_021B871C(flow->mainModule);
+      v24 = (u32)BTL_MAIN_GetPlayerStatus(flow->mainModule);
       t = BTL_SLOT_GetPokeParam((struct S2 *)party, (u8) j);
       v28 = BTL_POKEPARAM_GetMon(t);
       lvl = func_021D59B4(t, 15);
@@ -20314,7 +20314,7 @@ int BTL_SERVER_FLOW_ItemEffectCheckSlotMessage(BtlServerFlow *flow, u8 *poke)
     Word_021CAA58_td t;
     m = BTL_MAIN_IsPokeIdInSecondPair(BTL_POKEPARAM_GetPokeId(poke));
     t = BTLV_CORE_MakeSlotKind2Index(5);
-    if (func_06898C10(m, 3, t)) {
+    if (HAND_SIDE_AddFactor(m, 3, t)) {
         w = BTL_SERVER_FLOW_AllocCmdRecord(flow, 4, 0x1f);
         BTL_SERVER_FLOW_InitMsgRecord(w + 4, 1, 0x88);
         BTL_SERVER_FLOW_AppendMsgRecordArg((struct S_p12 *)(w + 4), m);

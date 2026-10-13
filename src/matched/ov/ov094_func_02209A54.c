@@ -1,5 +1,5 @@
 /*
- * function: func_02209A54
+ * function: BTLV_BG_ApplyScrollTask
  * address:  0x02209A54
  * packet:   pkt_ov094_02209A54
  * region:   ov094
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Task callback passed to func_020056A0 by func_02209784 (leaf of that
+ * Task callback passed to func_020056A0 by BTLV_BG_SetScroll (leaf of that
  * caller: its pool word 0x02209A55 names this unlabelled Thumb function).
  *
  * symbols:
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_021F89BC(void *h);
 
-void func_02209A54(void *h)
+void BTLV_BG_ApplyScrollTask(void *h)
 {
     int *p = (int *)TCBL_IsDeletePending(h);
 

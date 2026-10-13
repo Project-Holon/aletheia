@@ -1,5 +1,5 @@
 /*
- * function: func_021E8304
+ * function: HAND_WAZA_GetFusionHandlers
  * address: 0x021E8304
  * packet: pkt_ov093_021E8304
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E8270.c and filed here.
  *
  * symbols:
- *   d_021F27E4 0x021F27E4 data ov093 a4
+ *   gFusionFlareFusionBoltHandlers 0x021F27E4 data ov093 a4
  */
 
-int *func_021E8304(int *p);
-extern int d_021F27E4[];
+int *HAND_WAZA_GetFusionHandlers(int *p);
+extern int gFusionFlareFusionBoltHandlers[];
 
-int *func_021E8304(int *p)
+int *HAND_WAZA_GetFusionHandlers(int *p)
 {
     *p = 1;
-    return d_021F27E4;
+    return gFusionFlareFusionBoltHandlers;
 }

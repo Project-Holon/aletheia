@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   g_021797A8     0x021797A8  data  a4
- *   func_02178138  0x02178138  thumb  ov014
- *   func_0217814C  0x0217814C  thumb  ov014
+ *   gWihWork     0x021797A8  data  a4
+ *   WIH_ChangeSysState  0x02178138  thumb  ov014
+ *   WIH_SetError  0x0217814C  thumb  ov014
  *   DWCi_MOV_WH_StateInStartChildMP  0x02178AB8  thumb  ov014
  */
 #include "../include/Obj04957.h"
@@ -21,9 +21,9 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern struct S *g_021797A8;
-void func_02178138(int a);
-void func_0217814C(int a);
+extern struct S *gWihWork;
+void WIH_ChangeSysState(int a);
+void WIH_SetError(int a);
 int DWCi_MOV_WH_StateInStartChildMP(void);
 
 void DWCi_MOV_WH_StateOutStartChild(u8 *m)
@@ -32,34 +32,34 @@ void DWCi_MOV_WH_StateOutStartChild(u8 *m)
     void (*cb)(int);
 
     if (((struct Obj04957 *)m)->f2 != 0) {
-        func_0217814C(((struct Obj04957 *)m)->f2);
+        WIH_SetError(((struct Obj04957 *)m)->f2);
         v = ((struct Obj04957 *)m)->f2;
         if (v == 0xC) {
-            func_02178138(9);
+            WIH_ChangeSysState(9);
             return;
         }
         if (v == 0xB) {
-            func_02178138(9);
+            WIH_ChangeSysState(9);
             return;
         }
         if (v == 1) {
-            func_02178138(8);
+            WIH_ChangeSysState(8);
             return;
         }
-        func_02178138(9);
+        WIH_ChangeSysState(9);
         return;
     }
     v = ((struct Obj04957 *)m)->f8;
     if (v == 8)
         return;
     if (v == 7) {
-        func_02178138(4);
+        WIH_ChangeSysState(4);
         if (DWCi_MOV_WH_StateInStartChildMP() == 0) {
-            func_02178138(3);
+            WIH_ChangeSysState(3);
             return;
         }
-        *(u16 *)(((u8 *)g_021797A8) + 0x1EA8) = ((struct Obj04957 *)m)->fA;
-        cb = *(void (**)(int))(((u8 *)g_021797A8) + 0x1E84);
+        *(u16 *)(((u8 *)gWihWork) + 0x1EA8) = ((struct Obj04957 *)m)->fA;
+        cb = *(void (**)(int))(((u8 *)gWihWork) + 0x1E84);
         if (cb != 0)
             cb(((struct Obj04957 *)m)->fA);
         return;
@@ -67,11 +67,11 @@ void DWCi_MOV_WH_StateOutStartChild(u8 *m)
     if (v == 6)
         return;
     if (v == 9) {
-        func_0217814C(0x14);
-        func_02178138(9);
+        WIH_SetError(0x14);
+        WIH_ChangeSysState(9);
         return;
     }
     if (v == 0x1A)
         return;
-    func_02178138(9);
+    WIH_ChangeSysState(9);
 }

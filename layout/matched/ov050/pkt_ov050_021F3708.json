@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK50_Update",
+   "name": "FIELD_GIMMICK_MODELS_B_Update",
    "address": "0x021F3708",
    "kind": "game",
    "region": "ov050",

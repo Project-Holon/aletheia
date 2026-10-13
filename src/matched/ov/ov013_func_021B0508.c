@@ -16,12 +16,12 @@
  * load stays below the f1C store.
  * symbols:
  *   gVctSendState     0x021B3C84  data  ov013  a4
- *   d_021B3C24     0x021B3C24  data  ov013  a4
+ *   gVctSendEnabled     0x021B3C24  data  ov013  a4
  *   gVctSession     0x021B60D8  data  ov013  a4
- *   d_021B3AD0     0x021B3AD0  data  ov013  a1
- *   d_021B42C0     0x021B42C0  data  ov013  a4
+ *   gVctFrameSpecs     0x021B3AD0  data  ov013  a1
+ *   gVctSendBuffer     0x021B42C0  data  ov013  a4
  *   gVctMembers     0x021B3CB0  data  ov013  a4
- *   d_021B3CBC     0x021B3CBC  data  ov013  a4
+ *   gVctReceiveSources     0x021B3CBC  data  ov013  a4
  *   func_02087170  0x02087170  arm
  *   VCT_DSP_InitVoiceGateDefaults  0x021B3250  arm  ov013
  *   VCT_AUDIO_ClearReadyQueue  0x021B16E4  arm  ov013
@@ -68,17 +68,17 @@ typedef struct {
 } Slot;
 
 extern Ctx3C84 gVctSendState;
-extern int d_021B3C24;
+extern int gVctSendEnabled;
 extern Ctx60D8 gVctSession;
 typedef struct {
     u8 a;
     u8 b;
 } Pair;
 
-extern const Pair d_021B3AD0[];
-extern struct Ctx42C0 d_021B42C0;
+extern const Pair gVctFrameSpecs[];
+extern struct Ctx42C0 gVctSendBuffer;
 extern void *gVctMembers[3];
-extern Slot d_021B3CBC[3];
+extern Slot gVctReceiveSources[3];
 
 extern u16 func_02087170(void);
 extern void VCT_DSP_InitVoiceGateDefaults(void);
@@ -91,8 +91,8 @@ static inline u32 pairValue(u32 k)
 {
     const Pair *p;
     u32 a;
-    a = d_021B3AD0[k].a;
-    p = &d_021B3AD0[k];
+    a = gVctFrameSpecs[k].a;
+    p = &gVctFrameSpecs[k];
     return a * 0x44 + p->b + 0xC;
 }
 int VCT_SESSION_Init(void)
@@ -101,7 +101,7 @@ int VCT_SESSION_Init(void)
     u32 k;
 
     gVctSendState.f0 = func_02087170();
-    d_021B3C24 = 1;
+    gVctSendEnabled = 1;
     gVctSendState.f20 = 0;
     gVctSendState.f4 = 0;
     k = 0;
@@ -113,17 +113,17 @@ int VCT_SESSION_Init(void)
     }
     gVctSendState.f24 = 0x440;
     gVctSendState.fC = pairValue(k);
-    d_021B42C0.f8C0 = 0;
-    d_021B42C0.f8C4 = 0;
-    d_021B42C0.f8CC = 0;
-    d_021B42C0.f8C8 = 0;
-    d_021B42C0.f8D0 = 0;
-    d_021B42C0.f8D4 = 0;
+    gVctSendBuffer.f8C0 = 0;
+    gVctSendBuffer.f8C4 = 0;
+    gVctSendBuffer.f8CC = 0;
+    gVctSendBuffer.f8C8 = 0;
+    gVctSendBuffer.f8D0 = 0;
+    gVctSendBuffer.f8D4 = 0;
     VCT_DSP_InitVoiceGateDefaults();
     for (i = 0; (i < 3) ? 1 : 0; i++) {
         gVctMembers[i] = 0;
         VCT_AUDIO_ClearReadyQueue(i);
-        VCT_AUDIO_InitReceiveSource((char *)&d_021B3CBC[i], i, -1);
+        VCT_AUDIO_InitReceiveSource((char *)&gVctReceiveSources[i], i, -1);
     }
     VCT_AUDIO_ResetPendingList();
     VCT_DSP_InitEchoState();

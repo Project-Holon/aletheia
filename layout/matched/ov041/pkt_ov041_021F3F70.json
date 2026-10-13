@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK41_TurnRingDirection",
+   "name": "FIELD_GIMMICK_CANNONS_TurnRingDirection",
    "address": "0x021F3F70",
    "kind": "game",
    "region": "ov041",

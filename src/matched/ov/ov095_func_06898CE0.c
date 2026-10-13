@@ -1,5 +1,5 @@
 /*
- * function: func_06898CE0
+ * function: HAND_SIDE_GetStackCount
  * address: 0x06898CE0
  * packet: pkt_ov095_06898CE0
  * region: ov095
@@ -13,7 +13,7 @@
  */
 typedef unsigned int u32;
 extern const u32 d_0689E7EC[];
-u32 func_06898CE0(u32 a, u32 b)
+u32 HAND_SIDE_GetStackCount(u32 a, u32 b)
 {
     return *(const u32 *)((u32)d_0689E7EC + a * 224 + b * 16);
 }

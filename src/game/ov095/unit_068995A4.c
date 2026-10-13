@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B9A40  0x021B9A40  thumb
+ *   BTL_MAIN_IsPokeIdInSecondPair  0x021B9A40  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb
  *   BTL_SERVER_FLOW_IsPokeGroundedById  0x021C8234  thumb
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb
@@ -23,7 +23,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
  *   data_0689D740 0x0689D740 data a4
- *   func_06898DE0  0x06898DE0  thumb
+ *   HAND_SIDE_GetStackCountByFactor  0x06898DE0  thumb
  */
 #include "../../matched/include/Obj13633.h"
 
@@ -33,9 +33,9 @@ typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-extern int func_06898DE0(int a, u32 b);
+extern int HAND_SIDE_GetStackCountByFactor(int a, u32 b);
 extern int BTL_EVENT_GetVar(int a);
-extern int func_021B9A40(int a);
+extern int BTL_MAIN_IsPokeIdInSecondPair(int a);
 extern int BTL_SERVER_FLOW_IsPokeGroundedById(int a, int b);
 extern u8 *BTL_SERVER_FLOW_AllocCmdRecord(int p, int n, int m);
 extern int BTL_SERVER_FLOW_GetPokeParam(int a, int b);
@@ -65,8 +65,8 @@ void func_068995B0(int a, int p, int x)
     u8 *t;
 
     v = BTL_EVENT_GetVar(2);
-    if (x == func_021B9A40(v) && BTL_SERVER_FLOW_IsPokeGroundedById(p, v) == 0) {
-        switch (func_06898DE0(a, x)) {
+    if (x == BTL_MAIN_IsPokeIdInSecondPair(v) && BTL_SERVER_FLOW_IsPokeGroundedById(p, v) == 0) {
+        switch (HAND_SIDE_GetStackCountByFactor(a, x)) {
         default:
         case 1:
             n = 8;

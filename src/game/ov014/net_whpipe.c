@@ -25,8 +25,8 @@
  *   func_02030734  0x02030734  arm
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0208F1B4  0x0208F1B4  arm
- *   func_021790E4  0x021790E4  thumb  ov014
- *   func_02178E1C  0x02178E1C  thumb  ov014
+ *   WIH_Initialize  0x021790E4  thumb  ov014
+ *   WIH_SetGgid  0x02178E1C  thumb  ov014
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_02082D44  0x02082D44  arm
@@ -34,7 +34,7 @@
  *   DWCi_MOV_WH_SetReceiver  0x0217933C  thumb  ov014
  *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   DWCi_MOV_WH_StartScan  0x021785B4  thumb  ov014
- *   func_02179498  0x02179498  thumb  ov014
+ *   WIH_Finalize  0x02179498  thumb  ov014
  *   DWCi_MOV_WH_StateInEndKeyShare  0x0217945C  thumb  ov014
  *   func_020307B0 0x020307B0 arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
@@ -43,13 +43,13 @@
  *   sEmptyString   0x02179790  data   a4
  *   func_02034714  0x02034714  arm
  *   WIH_GetOwnAid  0x021795A4  thumb  ov014
- *   func_02179570  0x02179570  thumb  ov014
+ *   WIH_End  0x02179570  thumb  ov014
  *   GFL_NET_CallErrorStateFunc  0x0203D720  arm
  *   GFL_NET_CallStateChangeFunc  0x0203D754  arm
  *   NET_WHPIPE_IsStateScanning  0x02177C1C  thumb
  *   WIH_SetScanTimerPaused  0x02179664  thumb
  *   WIH_UpdateScanTimer  0x021793F8  thumb
- *   func_02178E38  0x02178E38  thumb  ov014
+ *   WIH_GetBitmap  0x02178E38  thumb  ov014
  */
 #include "../arm9/net_whpipe_types.h"
 #define OFFSETOF(type, field) ((u32)&((type *)0)->field)
@@ -66,8 +66,8 @@ extern void NET_WHPIPE_StartJoinLock(int a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GFL_NET_GetInitParam(void);
 extern u16 func_0208F1B4(void);
-extern int func_021790E4(u32 heap, int a, int b);
-extern void func_02178E1C(u32 v);
+extern int WIH_Initialize(u32 heap, int a, int b);
+extern void WIH_SetGgid(u32 v);
 u16 func_0203F1FC(const u8 *src, u32 len);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(void *src, void *dst, int n);
@@ -75,7 +75,7 @@ extern void MI_CpuFill8(void *, u32, u32);
 extern void DWCi_MOV_WH_SetReceiver(void *cb);
 extern int WIH_GetSysState(void);
 extern int DWCi_MOV_WH_StartScan(u32 a, u16 *b, u32 c);
-extern int func_02179498(void);
+extern int WIH_Finalize(void);
 extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 extern u32 func_020307B0(void *p);
 extern int GFL_NET_GetRunState(void);
@@ -83,13 +83,13 @@ extern void func_02088234(void);
 extern void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 unsigned short WIH_GetOwnAid(void);
-int func_02179570(void (*cb)(int));
+int WIH_End(void (*cb)(int));
 void GFL_NET_CallErrorStateFunc(u32 a);
 void GFL_NET_CallStateChangeFunc(u32 a);
 int NET_WHPIPE_IsStateScanning(void);
 void WIH_SetScanTimerPaused(unsigned char v);
 void WIH_UpdateScanTimer(void);
-extern u16 func_02178E38(void);
+extern u16 WIH_GetBitmap(void);
 int GFL_NET_DEVWIRELESS_GetSignalLevel(void);
 int GFL_NET_DEVWIRELESS_GetLastErrorCode(void);
 void GFL_NET_DEVWIRELESS_SetWatchDisconnect(unsigned char watch);
@@ -219,9 +219,9 @@ int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
     work = func_02030734(heapId, 0xCF8, 1, sFileNetWhPipe, 0xed);
     g_pWhPipeWork = work;
     work->channel = 0xff;
-    if (func_021790E4(heapId, wmParam, forListening) == 0)
+    if (WIH_Initialize(heapId, wmParam, forListening) == 0)
         return 0;
-    func_02178E1C(init->ggid);
+    WIH_SetGgid(init->ggid);
     work->userData = userData;
     work->shutdownRequest = 0;
     work->startedFlag = 0;
@@ -401,7 +401,7 @@ int NET_WHPIPE_StartScan(int clearEntries)
 
 void NET_WHPIPE_TaskBeginFinalize(WhPipeWork *work)
 {
-    if (WIH_GetSysState() == 1 && func_02179498() != 0) {
+    if (WIH_GetSysState() == 1 && WIH_Finalize() != 0) {
         work->shutdownCountdown = 0xFF;
         NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskWaitFinalize);
     }
@@ -438,7 +438,7 @@ int NET_WHPIPE_RequestFinalize(void)
 
     if (work == 0)
         return 1;
-    if (work->shutdownRequest == 0 && func_02179498() != 0) {
+    if (work->shutdownRequest == 0 && WIH_Finalize() != 0) {
         work->shutdownCountdown = 0xFF;
         NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskWaitFinalize);
         return 1;
@@ -573,9 +573,9 @@ void NET_WHPIPE_UpdateState(u32 tick)
             NET_WHPIPE_Destroy();
         break;
     case 1:
-        if (work->shutdownRequest == 1 && func_02179570(0) != 0)
+        if (work->shutdownRequest == 1 && WIH_End(0) != 0)
             return;
-        if (work->shutdownRequest == 2 && func_02179570(0) != 0)
+        if (work->shutdownRequest == 2 && WIH_End(0) != 0)
             return;
         break;
     case 8:
@@ -637,7 +637,7 @@ int NET_WHPIPE_IsAidConnected(u16 aid)
         return 0;
     if (WIH_GetSysState() != 4 && WIH_GetSysState() != 5)
         return 0;
-    if (func_02178E38() & (1 << aid))
+    if (WIH_GetBitmap() & (1 << aid))
         return 1;
     return 0;
 }
@@ -662,7 +662,7 @@ int NET_WHPIPE_IsIdle(void) { if (g_pWhPipeWork != 0) { if (WIH_GetSysState() ==
 
 
 /* Bitmap of connected aids without the parent bit. */
-unsigned int NET_WHPIPE_GetChildBitmap(void) { if (g_pWhPipeWork != 0) return func_02178E38() & 0xFFFE; return 0; }
+unsigned int NET_WHPIPE_GetChildBitmap(void) { if (g_pWhPipeWork != 0) return WIH_GetBitmap() & 0xFFFE; return 0; }
 
 
 int NET_WHPIPE_IsDisconnectDetected(void)

@@ -1,5 +1,5 @@
 /*
- * function: func_021E8200
+ * function: HAND_WAZA_ForesightSetGhostType
  * address:  0x021E8200
  * packet:   pkt_ov093_021E8200
  * region:   ov093
@@ -24,7 +24,7 @@ extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 union U;
 extern void BTLV_CORE_SetSlotValue(union U *p, u16 v);
 
-void func_021E8200(int a, int b, int c)
+void HAND_WAZA_ForesightSetGhostType(int a, int b, int c)
 {
     u32 v;
 

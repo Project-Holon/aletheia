@@ -1,5 +1,5 @@
 /*
- * function: func_06898F10
+ * function: HAND_SIDE_SafeguardBlockSick
  * address:  0x06898F10
  * packet:   pkt_ov095_06898F10
  * region:   ov095
@@ -29,7 +29,7 @@ extern int func_06898F88(int k);
 extern int func_06898F98(int x);
 extern int func_06898FA8(int k, int v);
 
-void func_06898F10(int p0, int p1, int a, int *out)
+void HAND_SIDE_SafeguardBlockSick(int p0, int p1, int a, int *out)
 {
     u8 t = func_06898F58(4);
     int x;

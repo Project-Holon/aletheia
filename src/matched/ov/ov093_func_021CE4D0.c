@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * note 2026-10-05 (wave P26 lane 2): byte-identical to the original except that two call
- * relocations have no witness in the current index: func_021E979C and func_021E9954. Both
+ * relocations have no witness in the current index: BTLV_CORE_AbortActionMenu and BTLV_CORE_CloseMenu. Both
  * leaves are now filed (src/matched/ov/ov093_func_021E979C.c, ov093_func_021E9954.c, EXACT);
  * the verdict becomes EXACT once the integrator regenerates the index. The original extent is
  * 772 B: 756 B of C plus the 16 B linker veneer at 021CE7C4 (not C, resolved as a veneer witness).
@@ -27,14 +27,14 @@
  *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
  *   BTL_CLIENT_FindSupportItem 0x021CE8F0 thumb ov093
  *   BTL_CLIENT_BuildActionPromptMessage 0x021CE0F8 thumb ov093
- *   func_021EA65C 0x021EA65C thumb ov093
- *   func_021EA710 0x021EA710 thumb ov093
- *   func_021E9760 0x021E9760 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessageNow 0x021EA65C thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
+ *   BTLV_CORE_StartActionMenu 0x021E9760 thumb ov093
  *   BTL_CLIENT_PollTimeLimitAndSetSub 0x021CE0BC thumb ov093
- *   func_021E979C 0x021E979C thumb ov093
- *   func_021E97A4 0x021E97A4 thumb ov093
+ *   BTLV_CORE_AbortActionMenu 0x021E979C thumb ov093
+ *   BTLV_CORE_PollActionMenu 0x021E97A4 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
- *   func_021E9964 0x021E9964 thumb ov093
+ *   BTLV_CORE_CloseMenuToReselect 0x021E9964 thumb ov093
  *   BTL_CLIENT_SetSlotFlag 0x021CF430 thumb ov093
  *   BTL_MAIN_IsRecordEnabledInComm 0x021BA1EC thumb ov093
  *   BTL_MAIN_GetCompetitorKind 0x021B86E4 thumb ov093
@@ -42,8 +42,8 @@
  *   BTL_CALC_ActionGetKind 0x021D8454 thumb ov093
  *   func_021CE7C4 0x021CE7C4 thumb ov093
  *   BTL_CLIENT_FlushSlotLinkWord 0x021CF3B8 thumb ov093
- *   func_021E9974 0x021E9974 thumb ov093
- *   func_021E9954 0x021E9954 thumb ov093
+ *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
+ *   BTLV_CORE_CloseMenu 0x021E9954 thumb ov093
  *   func_021EAF18 0x021EAF18 thumb ov093
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021EAF50 0x021EAF50 thumb ov093
@@ -69,14 +69,14 @@ extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
 typedef unsigned short u16;
 extern u32 BTL_CLIENT_FindSupportItem(const u8 *p, u16 *out);
 extern void BTL_CLIENT_BuildActionPromptMessage(u8 *, u8 *, u8 *);
-extern void func_021EA65C(char *p, struct H *h);
-extern int func_021EA710(u32 *p);
-extern void func_021E9760(char *, u8 *, int, int);
+extern void BTLV_CORE_BuildAndPrintMessageNow(char *p, struct H *h);
+extern int BTLV_CORE_WaitMessage(u32 *p);
+extern void BTLV_CORE_StartActionMenu(char *, u8 *, int, int);
 extern int BTL_CLIENT_PollTimeLimitAndSetSub(u8 *p, void *q);
-extern void func_021E979C(char *p);
-extern int func_021E97A4(char *p);
+extern void BTLV_CORE_AbortActionMenu(char *p);
+extern int BTLV_CORE_PollActionMenu(char *p);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
-extern void func_021E9964(u32);
+extern void BTLV_CORE_CloseMenuToReselect(u32);
 extern void BTL_CLIENT_SetSlotFlag(u8 *, u32, u32);
 extern int BTL_MAIN_IsRecordEnabledInComm(char **p);
 extern int BTL_MAIN_GetCompetitorKind(unsigned int **p);
@@ -84,8 +84,8 @@ extern u8 BTL_CLIENT_GetSlotFlag(u8 *, u32);
 extern u32 BTL_CALC_ActionGetKind(u32 *);
 extern void func_021CE7C4(u8 *);
 extern void BTL_CLIENT_FlushSlotLinkWord(u8 *, u32);
-extern int func_021E9974(u32);
-extern void func_021E9954(void *);
+extern int BTLV_CORE_IsMenuClosed(u32);
+extern void BTLV_CORE_CloseMenu(void *);
 extern void func_021EAF18(struct L *p, int kind, int id);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021EAF50(struct L *p, u32 val);
@@ -122,7 +122,7 @@ int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st)
     case 1:
         if (*(signed char *)(p + 0x11E) != p[0x11D] || p[0x120]) {
             BTL_CLIENT_BuildActionPromptMessage(p, P(8), p + 0x58);
-            func_021EA65C(P(0x54), (struct H *)(p + 0x58));
+            BTLV_CORE_BuildAndPrintMessageNow(P(0x54), (struct H *)(p + 0x58));
             p[0x120] = 0;
             p[0x11E] = p[0x11D];
             ++*st; break;
@@ -130,22 +130,22 @@ int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st)
         *st += 2U;
         break;
     case 2:
-        if (!func_021EA710(P(0x54))) return 0;
+        if (!BTLV_CORE_WaitMessage(P(0x54))) return 0;
         ++*st;
         /* falls through */
     case 3:
-        func_021E9760(P(0x54), P(8), p[0x11D] > p[0x11F], (int)P(12));
+        BTLV_CORE_StartActionMenu(P(0x54), P(8), p[0x11D] > p[0x11F], (int)P(12));
         ++*st; break;
     case 4:
         if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)BTL_CLIENT_StepAutoSelectActions))) {
-            func_021E979C(P(0x54));
+            BTLV_CORE_AbortActionMenu(P(0x54));
             return 0;
         }
-        result = func_021E97A4(P(0x54));
+        result = BTLV_CORE_PollActionMenu(P(0x54));
         switch (result) {
         case 3:
             if (BTL_POKEPARAM_HasSick(P(8), 0x21)) {
-                func_021E9964(W(0x54));
+                BTLV_CORE_CloseMenuToReselect(W(0x54));
                 *st = 6;
             } else {
                 BTL_CLIENT_SetSlotFlag(p, p[0x11D], 0);
@@ -159,7 +159,7 @@ int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st)
         case 2:
             if (BTL_POKEPARAM_HasSick(P(8), 0x21)) *st = 6;
             else if (p[0x1AA] == 1 && !BTL_MAIN_IsRecordEnabledInComm(P(0))) {
-                func_021E9964(W(0x54));
+                BTLV_CORE_CloseMenuToReselect(W(0x54));
                 *st = 5;
             } else BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectItem));
             break;
@@ -189,19 +189,19 @@ int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st)
         }
         break;
     case 5:
-        if (func_021E9974(W(0x54))) *st = 3;
+        if (BTLV_CORE_IsMenuClosed(W(0x54))) *st = 3;
         break;
     case 6:
-        func_021E9954(P(0x54));
+        BTLV_CORE_CloseMenu(P(0x54));
         ++*st; break;
     case 7:
-        if (!func_021E9974(W(0x54))) break;
+        if (!BTLV_CORE_IsMenuClosed(W(0x54))) break;
         func_021EAF18((struct L *)(p + 0x58), 1, 0xC5);
         func_021EAF50((struct L *)(p + 0x58), BTL_POKEPARAM_GetPokeId(P(8)));
         BTL_CLIENT_ShowMessage(p, p + 0x58);
         ++*st; break;
     case 8:
-        if (func_021EA710(P(0x54))) *st = 1;
+        if (BTLV_CORE_WaitMessage(P(0x54))) *st = 1;
         break;
     }
     return 0;

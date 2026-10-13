@@ -1,7 +1,7 @@
 /*
  * file:     trial_house.c
  * unit:     yes
- * function: TRIAL_HOUSE_CreateWork, func_021D09D0, TRIAL_HOUSE_DeleteWork, TRIAL_HOUSE_SetBattleMode, func_021D0AB8, TRIAL_HOUSE_LoadTrainer, TRIAL_HOUSE_BuildTrainerFromMode, func_021D0B58, func_021D0BCC, func_021D0BD8, func_021D0BE4, func_021D0C58, TRIAL_HOUSE_ComputeScoreAndRank, func_021D0FE0, func_021D0FE8, TRIAL_HOUSE_GetRecordSlotsState, func_021D1058, func_021D1080, func_021D10A8 
+ * function: TRIAL_HOUSE_CreateWork, TRIAL_HOUSE_LoadDeliveryState, TRIAL_HOUSE_DeleteWork, TRIAL_HOUSE_SetBattleMode, TRIAL_HOUSE_SetUseDeliveredTrainers, TRIAL_HOUSE_LoadTrainer, TRIAL_HOUSE_BuildTrainerFromMode, TRIAL_HOUSE_LoadDeliveredTrainer, TRIAL_HOUSE_GetTrainerObjCode, TRIAL_HOUSE_CreateTrainerMsgEvent, TRIAL_HOUSE_CreateDeliveryTask, TRIAL_HOUSE_DeliveryTaskMain, TRIAL_HOUSE_ComputeScoreAndRank, TRIAL_HOUSE_GetDeliveryState, TRIAL_HOUSE_CreateSaveTask, TRIAL_HOUSE_GetRecordSlotsState, TRIAL_HOUSE_IsDeliveryIdReceived, TRIAL_HOUSE_MarkDeliveryIdReceived, TRIAL_HOUSE_SaveTaskMain 
  * address:  0x021D096C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -243,24 +243,24 @@ extern void FIELD_SAVEANIME_Stop(FieldSaveAnime *anim);
 extern int FIELD_SAVEANIME_Delete(FieldSaveAnime *anim);
 
 TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem);
-void func_021D09D0(GameSystem *gameSystem, TrialHouseWork *work);
+void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work);
 void TRIAL_HOUSE_DeleteWork(GameSystem *gameSystem, TrialHouseWork **slot);
 void TRIAL_HOUSE_SetBattleMode(TrialHouseWork *work, u32 mode);
-void func_021D0AB8(TrialHouseWork *work, int useDeliveredTrainers);
+void TRIAL_HOUSE_SetUseDeliveredTrainers(TrialHouseWork *work, int useDeliveredTrainers);
 u16 TRIAL_HOUSE_LoadTrainer(GameSystem *gameSystem, TrialHouseWork *work, u32 index);
 void TRIAL_HOUSE_BuildTrainerFromMode(TrialHouseWork *work, u32 mode);
-void func_021D0B58(GameSystem *gameSystem, BtlInstTrainer *dst, int index);
-u16 func_021D0BCC(TrialHouseWork *work);
-GameEvent *func_021D0BD8(GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId);
-GameEvent *func_021D0BE4(GameSystem *gameSystem, TrialHouseWork *work, u16 *result);
-int func_021D0C58(GameEvent *event, u32 *seq, void *work);
+void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *dst, int index);
+u16 TRIAL_HOUSE_GetTrainerObjCode(TrialHouseWork *work);
+GameEvent *TRIAL_HOUSE_CreateTrainerMsgEvent(GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId);
+GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork *work, u16 *result);
+int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work);
 void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore);
-int func_021D0FE0(int unused, TrialHouseWork *work);
-GameEvent *func_021D0FE8(GameSystem *gameSystem, int unused, int mode);
+int TRIAL_HOUSE_GetDeliveryState(int unused, TrialHouseWork *work);
+GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mode);
 int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem);
-u8 func_021D1058(TrialHouseSave *save, u32 id);
-void func_021D1080(TrialHouseSave *save, u32 id);
-int func_021D10A8(GameEvent *event, u32 *seq, void *work);
+u8 TRIAL_HOUSE_IsDeliveryIdReceived(TrialHouseSave *save, u32 id);
+void TRIAL_HOUSE_MarkDeliveryIdReceived(TrialHouseSave *save, u32 id);
+int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work);
 
 extern char d_021DE674[];                              /* source file name for the heap allocator */
 extern u8 GAME_LANGUAGE_Code;                                  /* game version of this ROM */
@@ -282,13 +282,13 @@ TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem)
     work = func_02030734(TRIAL_HOUSE_HEAP_ID, sizeof(TrialHouseWork), 1, d_021DE674, 0x5D);
     work->heapId = TRIAL_HOUSE_HEAP_ID;
     work->delivery = func_02030734(TRIAL_HOUSE_HEAP_ID, deliverySize, 1, d_021DE674, 0x5F);
-    func_021D09D0(gameSystem, work);
+    TRIAL_HOUSE_LoadDeliveryState(gameSystem, work);
     work->playerParty = POKEPARTY_Create(work->heapId);
     return work;
 }
 
 /* Reads the delivered trainers of the save and stores their state in the work. */
-void func_021D09D0(GameSystem *gameSystem, TrialHouseWork *work)
+void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work)
 {
     int state;
     TrialHouseDelivery *delivery;
@@ -327,7 +327,7 @@ void TRIAL_HOUSE_DeleteWork(GameSystem *gameSystem, TrialHouseWork **slot)
  * into one tail) and the 0x12C store after it: that puts the two stores in
  * different blocks when constants are derived, so the second offset is
  * rematerialised (`movs #0x4b; lsls`) instead of `adds r0,#8`.
- * Extent runs into func_021D0AB8 (filed separately).
+ * Extent runs into TRIAL_HOUSE_SetUseDeliveredTrainers (filed separately).
  */
 void TRIAL_HOUSE_SetBattleMode(TrialHouseWork *work, u32 mode)
 {
@@ -356,7 +356,7 @@ void TRIAL_HOUSE_SetBattleMode(TrialHouseWork *work, u32 mode)
  * +0x130 of the first.  Matched to supply the `matched` witness for the
  * pending ov010 caller SCRCMD_TRIALHOUSE_SetRecordSource.
  */
-void func_021D0AB8(TrialHouseWork *work, int useDeliveredTrainers)
+void TRIAL_HOUSE_SetUseDeliveredTrainers(TrialHouseWork *work, int useDeliveredTrainers)
 {
     work->useDeliveredTrainers = useDeliveredTrainers;
 }
@@ -364,11 +364,11 @@ void func_021D0AB8(TrialHouseWork *work, int useDeliveredTrainers)
 u16 TRIAL_HOUSE_LoadTrainer(GameSystem *gameSystem, TrialHouseWork *work, u32 index)
 {
     if (work->useDeliveredTrainers != 0) {
-        func_021D0B58(gameSystem, &work->trainer, index);
+        TRIAL_HOUSE_LoadDeliveredTrainer(gameSystem, &work->trainer, index);
     } else {
         TRIAL_HOUSE_BuildTrainerFromMode(work, index);
     }
-    return func_021D0BCC(work);
+    return TRIAL_HOUSE_GetTrainerObjCode(work);
 }
 
 /* Draws a trainer of the built-in list: the tier is the mode, the trainer is random within it. */
@@ -411,7 +411,7 @@ void TRIAL_HOUSE_BuildTrainerFromMode(TrialHouseWork *work, u32 mode)
 }
 
 /* Copies one delivered trainer into the work. */
-void func_021D0B58(GameSystem *gameSystem, BtlInstTrainer *dst, int index)
+void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *dst, int index)
 {
     SaveControl *saveControl;
     void *buf;
@@ -429,24 +429,24 @@ void func_021D0B58(GameSystem *gameSystem, BtlInstTrainer *dst, int index)
  * Unblocked by matching FLD_BTL_INST_TOOL_LookupKeyValue (ov010, EXACT): the +0008 ABS32 site now
  * attests as `matched`.
  */
-u16 func_021D0BCC(TrialHouseWork *work)
+u16 TRIAL_HOUSE_GetTrainerObjCode(TrialHouseWork *work)
 {
     return FLD_BTL_INST_TOOL_LookupKeyValue(work->trainer.trainerType);
 }
 
 /* Starts the message event of the trainer. */
-GameEvent *func_021D0BD8(GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId)
+GameEvent *TRIAL_HOUSE_CreateTrainerMsgEvent(GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId)
 {
     return FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(gameSystem, &work->trainer, index, (u16)mmdlId);
 }
 
 /* Starts the task that receives trainers by wireless delivery; the result is written to *result. */
-GameEvent *func_021D0BE4(GameSystem *gameSystem, TrialHouseWork *work, u16 *result)
+GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork *work, u16 *result)
 {
     GameEvent *event;
     TrialHouseDeliveryTaskWork *task;
 
-    event = func_020122C0(gameSystem, 0, func_021D0C58, sizeof(TrialHouseDeliveryTaskWork));
+    event = func_020122C0(gameSystem, 0, TRIAL_HOUSE_DeliveryTaskMain, sizeof(TrialHouseDeliveryTaskWork));
     task = func_020124E8(event);
     task->gameSystem = gameSystem;
     task->result = result;
@@ -471,7 +471,7 @@ GameEvent *func_021D0BE4(GameSystem *gameSystem, TrialHouseWork *work, u16 *resu
  *
  * Addresses are Black-image addresses.
  */
-int func_021D0C58(GameEvent *event, u32 *seq, void *work)
+int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work)
 {
     TrialHouseDeliveryTaskWork *task = work;
     GameSystem *gameSystem;
@@ -533,9 +533,9 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
         delivery = task->trialHouse->delivery;
         deliveryId = func_0200E5E4(delivery);
         isValid = func_0200E5A0(delivery);
-        isKnown = func_021D1058(save, deliveryId);
+        isKnown = TRIAL_HOUSE_IsDeliveryIdReceived(save, deliveryId);
         if (isValid != 0 && (isKnown == 0 || deliveryId == 0)) {
-            func_021D1080(save, deliveryId);
+            TRIAL_HOUSE_MarkDeliveryIdReceived(save, deliveryId);
             func_0200E608(gameData, task->trialHouse->delivery, TRIAL_HOUSE_SAVE_HEAP_ID);
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_RECEIVED;
         } else if (isKnown != 0) {
@@ -555,7 +555,7 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
         }
         break;
     case 6:
-        func_021D09D0(gameSystem, task->trialHouse);
+        TRIAL_HOUSE_LoadDeliveryState(gameSystem, task->trialHouse);
         return 1;
     }
     return 0;
@@ -664,19 +664,19 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
  * its pointer argument (the second argument register).  Matched to supply the
  * `matched` witness for the pending ov010 caller SCRCMD_TRIALHOUSE_GetSaveState.
  */
-int func_021D0FE0(int unused, TrialHouseWork *work)
+int TRIAL_HOUSE_GetDeliveryState(int unused, TrialHouseWork *work)
 {
     return work->deliveryState;
 }
 
 /* Starts the task that writes the delivered data to the save (mode 1: mark it used, else erase it). */
-GameEvent *func_021D0FE8(GameSystem *gameSystem, int unused, int mode)
+GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mode)
 {
     GameEvent *event;
     TrialHouseSaveTaskWork *task;
     FieldSaveAnime *saveAnime;
 
-    event = func_020122C0(gameSystem, 0, func_021D10A8, sizeof(TrialHouseSaveTaskWork));
+    event = func_020122C0(gameSystem, 0, TRIAL_HOUSE_SaveTaskMain, sizeof(TrialHouseSaveTaskWork));
     task = func_020124E8(event);
     task->gameSystem = gameSystem;
     task->buffer = 0;
@@ -705,7 +705,7 @@ int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem)
 }
 
 /* Whether a delivery id was received before; ids out of range count as received. */
-u8 func_021D1058(TrialHouseSave *save, u32 id)
+u8 TRIAL_HOUSE_IsDeliveryIdReceived(TrialHouseSave *save, u32 id)
 {
     if (id < TRIAL_HOUSE_DELIVERY_ID_COUNT) {
         return (save->receivedIds[(u8)(id >> 3)] >> (u8)(id & 7)) & 1;
@@ -715,10 +715,10 @@ u8 func_021D1058(TrialHouseSave *save, u32 id)
 
 /*
  * Bit set in the 128-bit field at +0x28, ignoring out-of-range indices.
- * Region ov021 for the same reason as func_021D1058 (wave A1 witness).
+ * Region ov021 for the same reason as TRIAL_HOUSE_IsDeliveryIdReceived (wave A1 witness).
  * Addresses are Black-image addresses.
  */
-void func_021D1080(TrialHouseSave *save, u32 id)
+void TRIAL_HOUSE_MarkDeliveryIdReceived(TrialHouseSave *save, u32 id)
 {
     if (id < TRIAL_HOUSE_DELIVERY_ID_COUNT) {
         save->receivedIds[(u8)(id >> 3)] |= (u8)(1 << (u8)(id & 7));
@@ -726,7 +726,7 @@ void func_021D1080(TrialHouseSave *save, u32 id)
 }
 
 /* Save task: writes save block 5 and shows the save animation until it is done. */
-int func_021D10A8(GameEvent *event, u32 *seq, void *work)
+int TRIAL_HOUSE_SaveTaskMain(GameEvent *event, u32 *seq, void *work)
 {
     TrialHouseSaveTaskWork *task = work;
     GameData *gameData = func_020120F4(task->gameSystem);

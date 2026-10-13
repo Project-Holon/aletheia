@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_FindStopAtFrame
+ * function: FIELD_GIMMICK_CART_LANES_FindStopAtFrame
  * address: 0x021F4864
  * packet: pkt_ov039_021F4864
  * region: ov039
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 sStopFrames[][2];
-int GIMMICK39_FindStopAtFrame(u32 a, u32 b, u8 *out) { u8 i; for (i = 0; i < 2; i++) { if (sStopFrames[a][i] == b) { *out = i; return 1; } } return 0; }
+int FIELD_GIMMICK_CART_LANES_FindStopAtFrame(u32 a, u32 b, u8 *out) { u8 i; for (i = 0; i < 2; i++) { if (sStopFrames[a][i] == b) { *out = i; return 1; } } return 0; }

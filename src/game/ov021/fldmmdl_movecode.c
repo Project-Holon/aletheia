@@ -16,8 +16,8 @@
  * Merged from unit_0219A098.c and unit_0219B508.c, which are one original (model move code file).
  *
  * symbols:
- *   func_02198C08  0x02198C08  thumb
- *   func_02198C4C       0x02198C4C  thumb
+ *   FLDMMDL_ACMD_WalkTableInit  0x02198C08  thumb
+ *   FLDMMDL_ACMD_WalkTableMove       0x02198C4C  thumb
  *   DWCca_ghttp_caList  0x021D4A44  data
  *   DWCca_ghttp_caList_b 0x021D4A80  data
  *   DWCca_ghttp_caList_c 0x021D4A9C  data

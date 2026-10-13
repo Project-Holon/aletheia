@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
- *   func_021ABE8C  0x021ABE8C  thumb  ov021
+ *   FIELD_EFFECT_IsResourceLoaded  0x021ABE8C  thumb  ov021
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
  *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
@@ -30,7 +30,7 @@ struct Actor;
 struct VecFx32;
 extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *v);
 struct T;
-extern int func_021ABE8C(struct T *a, int b);
+extern int FIELD_EFFECT_IsResourceLoaded(struct T *a, int b);
 extern void FIELD_EFFECT_LoadResources(int a, int *b, int c);
 typedef unsigned int   u32;
 extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
@@ -45,7 +45,7 @@ void FLDEFF_IWAKUDAKI_Start(int a, int b)
     FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)&v);
     v.y += 0x1000;
     v.z += 0xc000;
-    if (func_021ABE8C((struct T *)b, 10) == 0) {
+    if (FIELD_EFFECT_IsResourceLoaded((struct T *)b, 10) == 0) {
         n = 10;
         FIELD_EFFECT_LoadResources(b, &n, 1);
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EA768
+ * function: BTLV_CORE_ShowPortrait
  * address:  0x021EA768
  * packet:   pkt_021E9964
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EA768   0x021EA768  thumb  ov093
- *   func_021EDA5C   0x021EDA5C  thumb  ov093
+ *   BTLV_CORE_ShowPortrait   0x021EA768  thumb  ov093
+ *   BTLV_SCU_StartNamePlate   0x021EDA5C  thumb  ov093
  * Indexed-dispatch thunk (o18's 23-member shape): the member's whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base; only the scratch register, the index constant and the tail target differ. Tail call T(p[i]) with the index materialised as a scaled immediate.
  */
 
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-void func_021EA768(u32 *p, u32 a2, u32 a3) { func_021EDA5C(p[0x5f], a2, a3); }
+void BTLV_CORE_ShowPortrait(u32 *p, u32 a2, u32 a3) { BTLV_SCU_StartNamePlate(p[0x5f], a2, a3); }
 

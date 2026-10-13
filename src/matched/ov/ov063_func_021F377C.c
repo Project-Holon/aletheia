@@ -1,5 +1,5 @@
 /*
- * function: func_021F377C
+ * function: RAIL_SLIPDOWN_TaskMain
  * address: 0x021F377C
  * packet: pkt_ov063_021F377C
  * region: ov063
@@ -119,7 +119,7 @@ extern char *FLDMMDL_OffMoveBitMovePause(void *a0);
 static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
 static inline void vset16(SmallVec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
 static inline void vset(Vec *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
-void func_021F377C(int unused,S *s)
+void RAIL_SLIPDOWN_TaskMain(int unused,S *s)
 {
  int n,terrain,height,y,valid,i;
  u16 bound;

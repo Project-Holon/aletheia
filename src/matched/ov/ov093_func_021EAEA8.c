@@ -1,5 +1,5 @@
 /*
- * function: func_021EAEA8
+ * function: BTLV_CORE_ShowCounterValue
  * address:  0x021EAEA8
  * packet:   pkt_ov093_021EAEA8
  * region:   ov093
@@ -15,7 +15,7 @@
 #include "../include/Obj07848.h"
 typedef unsigned char u8;
 extern void func_0689B780(void *, void *);
-void func_021EAEA8(u8 *p, int v)
+void BTLV_CORE_ShowCounterValue(u8 *p, int v)
 {
     ((struct Obj07848 *)p)->f160 = v;
     ((struct Obj07848 *)p)->f164 = v;

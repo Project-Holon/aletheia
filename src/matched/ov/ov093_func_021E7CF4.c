@@ -1,5 +1,5 @@
 /*
- * function: func_021E7CF4
+ * function: HAND_WAZA_AddQuash
  * address: 0x021E7CF4
  * packet: pkt_ov093_021E7CF4
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F25B4 0x021F25B4 data ov093 a4
  */
 
-int *func_021E7CF4(int *p);
+int *HAND_WAZA_AddQuash(int *p);
 extern int d_021F25B4[];
 
-int *func_021E7CF4(int *p)
+int *HAND_WAZA_AddQuash(int *p)
 {
     *p = 1;
     return d_021F25B4;

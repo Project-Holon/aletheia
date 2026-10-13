@@ -1,5 +1,5 @@
 /*
- * function: func_02207D78
+ * function: BTLV_GAUGE_TakeSlotEvent
  * address:  0x02207D78
  * packet:   pkt_ov094_02207D78
  * region:   ov094
@@ -17,7 +17,7 @@ typedef struct {
     unsigned int b28 : 4;
 } Bits;
 
-int func_02207D78(char *p, int i)
+int BTLV_GAUGE_TakeSlotEvent(char *p, int i)
 {
     int r = 0;
 

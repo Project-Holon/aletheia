@@ -14,8 +14,8 @@
  *   func_021F7D44  0x021F7D44  thumb  ov094
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  *   func_021EAF18  0x021EAF18  thumb  ov093
- *   func_021EA614  0x021EA614  thumb  ov093
- *   func_021EA710  0x021EA710  thumb  ov093
+ *   BTLV_CORE_BuildAndPrintMessage  0x021EA614  thumb  ov093
+ *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -28,8 +28,8 @@ extern int func_021F7EB4(void);
 struct H;
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
-extern void func_021EA614(char *p, struct H *h);
-extern int func_021EA710(u32 *p);
+extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 
 int BTL_CLIENT_StepShowBallBlocked(u32 *a, int *b, u32 *c)
 {
@@ -41,12 +41,12 @@ int BTL_CLIENT_StepShowBallBlocked(u32 *a, int *b, u32 *c)
     case 1:
         if (func_021F7EB4() == 0) {
             func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x43);
-            func_021EA614((char *)a[0x15], (struct H *)((u8 *)a + 0x58));
+            BTLV_CORE_BuildAndPrintMessage((char *)a[0x15], (struct H *)((u8 *)a + 0x58));
             (*b)++;
         }
         break;
     case 2:
-        if (func_021EA710((u32 *)a[0x15]) != 0) {
+        if (BTLV_CORE_WaitMessage((u32 *)a[0x15]) != 0) {
             return 1;
         }
         break;

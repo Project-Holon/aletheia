@@ -13,7 +13,7 @@
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   GIMMICK64_CreateWaitEndEvent  0x021F3ADC  thumb
+ *   FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent  0x021F3ADC  thumb
  */
 
 typedef unsigned char u8;
@@ -22,13 +22,13 @@ typedef unsigned int u32;
 
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
-extern void *GIMMICK64_CreateWaitEndEvent(void *a);
+extern void *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *a);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 
 int SCRCMD_StartEffectTaskB(u32 a, u32 b)
 {
     void *x = SCRCMD_WORK_GetScriptWork((void *)b);
-    void *t = GIMMICK64_CreateWaitEndEvent(SCRCMD_WORK_GetGameSystem((void *)b));
+    void *t = FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(SCRCMD_WORK_GetGameSystem((void *)b));
 
     if (t == 0) {
         return 1;

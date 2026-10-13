@@ -1,5 +1,5 @@
 /*
- * function: func_02207E1C
+ * function: BTLV_GAUGE_UpdateHpAnim
  * address:  0x02207E1C
  * packet:   pkt_ov094_02207E1C
  * region:   ov094
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02207F6C  0x02207F6C  thumb  ov094
- *   func_022082FC  0x022082FC  thumb  ov094
- *   func_02208420  0x02208420  thumb  ov094
+ *   BTLV_GAUGE_StepValue  0x02207F6C  thumb  ov094
+ *   BTLV_GAUGE_DrawBar  0x022082FC  thumb  ov094
+ *   BTLV_GAUGE_DrawHpNumbers  0x02208420  thumb  ov094
  */
 
 typedef unsigned int u32;
@@ -41,21 +41,21 @@ typedef struct O {
 } O;
 
 typedef unsigned char  u8;
-extern int func_02207F6C(int n, int target, int delta, int *cur, u8 x, int speed);
-extern void func_022082FC(O *obj, int idx, int k);
-extern void func_02208420(O *obj, E *e, int v);
+extern int BTLV_GAUGE_StepValue(int n, int target, int delta, int *cur, u8 x, int speed);
+extern void BTLV_GAUGE_DrawBar(O *obj, int idx, int k);
+extern void BTLV_GAUGE_DrawHpNumbers(O *obj, E *e, int v);
 
-void func_02207E1C(O *obj, int idx)
+void BTLV_GAUGE_UpdateHpAnim(O *obj, int idx)
 {
     E *e;
     int r;
 
     e = &obj->e[idx];
-    r = func_02207F6C(e->f4c, e->f48, e->f68, &e->f50, (int)6, (u16)e->f74);
-    func_022082FC(obj, idx, 0);
+    r = BTLV_GAUGE_StepValue(e->f4c, e->f48, e->f68, &e->f50, (int)6, (u16)e->f74);
+    BTLV_GAUGE_DrawBar(obj, idx, 0);
     if (r == -1) {
         e->f48 = e->f48 - e->f68;
-        func_02208420(obj, e, e->f48);
+        BTLV_GAUGE_DrawHpNumbers(obj, e, e->f48);
         e->b0 = 0;
         e->f50 = 0;
         if (e->f68 > 0) {
@@ -63,6 +63,6 @@ void func_02207E1C(O *obj, int idx)
             e->y = 1;
         }
     } else {
-        func_02208420(obj, e, r);
+        BTLV_GAUGE_DrawHpNumbers(obj, e, r);
     }
 }

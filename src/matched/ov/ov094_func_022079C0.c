@@ -1,5 +1,5 @@
 /*
- * function: func_022079C0
+ * function: BTLV_GAUGE_PlaceSlot
  * address:  0x022079C0
  * packet:   pkt_ov094_022079C0
  * region:   ov094
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AAD0  0x0220AAD0  data  ov094  a2
- *   d_0220AAC0  0x0220AAC0  data  ov094  a2
- *   d_0220AAD8  0x0220AAD8  data  ov094  a2
- *   d_0220AB0C  0x0220AB0C  data  ov094  a2
- *   d_0220AB2C  0x0220AB2C  data  ov094  a2
+ *   sGaugeBarOffsets  0x0220AAD0  data  ov094  a2
+ *   sGaugeStatusIconOffsets  0x0220AAC0  data  ov094  a2
+ *   sGaugeDefaultPositions  0x0220AAD8  data  ov094  a2
+ *   sGaugeLayout2Positions  0x0220AB0C  data  ov094  a2
+ *   sGaugeLayout3Positions  0x0220AB2C  data  ov094  a2
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  */
 
@@ -38,17 +38,17 @@ typedef struct {
     char p0[0x40];
     Ent e[1];
 } W;
-extern const P2 d_0220AAD0;
-extern const P2 d_0220AAC0;
-extern const P6 d_0220AAD8;
-extern const P8 d_0220AB0C;
-extern const P8 d_0220AB2C;
+extern const P2 sGaugeBarOffsets;
+extern const P2 sGaugeStatusIconOffsets;
+extern const P6 sGaugeDefaultPositions;
+extern const P8 sGaugeLayout2Positions;
+extern const P8 sGaugeLayout3Positions;
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_022079C0(W *p, int i, Point *off)
+void BTLV_GAUGE_PlaceSlot(W *p, int i, Point *off)
 {
     P6 tC;
     P8 tD;
@@ -59,11 +59,11 @@ void func_022079C0(W *p, int i, Point *off)
     int x;
     int y;
 
-    tA = d_0220AAD0;
-    tB = d_0220AAC0;
-    tC = d_0220AAD8;
-    tD = d_0220AB0C;
-    tE = d_0220AB2C;
+    tA = sGaugeBarOffsets;
+    tB = sGaugeStatusIconOffsets;
+    tC = sGaugeDefaultPositions;
+    tD = sGaugeLayout2Positions;
+    tE = sGaugeLayout3Positions;
     if (p->e[i].state == 2) {
         x = tD.p[i].x;
         y = tD.p[i].y;

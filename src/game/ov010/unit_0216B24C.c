@@ -79,7 +79,7 @@
  *   sMissionGoal 0x021723C1 data a1
  *   sMissionTimeLimitHours 0x021723C2 data a1
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   GIMMICK45_SecondarySwitchEventProc  0x021F39B8  thumb  ov045
+ *   FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc  0x021F39B8  thumb  ov045
  *   SP_POKE_GIMMICK_ShowAndPlay  0x021F3AA0  thumb  ov059
  *   SP_POKE_GIMMICK_StartWaitAnimeEnd 0x021F3B68 thumb ov059
  *   SP_POKE_GIMMICK_StartWaitAnimeProgress 0x021F3B40 thumb ov059
@@ -191,7 +191,7 @@ extern u16 func_0200C34C(struct BeaconSave *beacon, u32 slot);
 extern unsigned long long func_0200C37C(struct BeaconSave *beacon);
 extern void func_020891E0(struct RTCDate *date, struct RTCTime *time, long long sec);
 extern void FIELD_PLAYER_GetPos(void *player, FxVec3 *out);
-extern void *GIMMICK45_SecondarySwitchEventProc(void *gameSystem, int fromPlayer, FxVec3 *from, FxVec3 *to, int height, int frames);
+extern void *FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(void *gameSystem, int fromPlayer, FxVec3 *from, FxVec3 *to, int height, int frames);
 extern void SP_POKE_GIMMICK_ShowAndPlay(void *gameSystem, int mode, FxVec3 *position);
 extern void *SP_POKE_GIMMICK_StartWaitAnimeEnd(void *gameSystem, u32 value);
 extern void *SP_POKE_GIMMICK_StartWaitAnimeProgress(void *gameSystem, u32 value);
@@ -914,7 +914,7 @@ int FIELD_G3D_MAP_CmdStartSpPokeGimmickTask(struct ScriptContext *ctx, struct Sc
         from = &targetPos;
         to = &playerPos;
     }
-    gimmickTask = GIMMICK45_SecondarySwitchEventProc(gameSystem, fromPlayer, from, to, speed << 15, frames);
+    gimmickTask = FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(gameSystem, fromPlayer, from, to, speed << 15, frames);
     if (gimmickTask == 0) {
         return 1;
     }

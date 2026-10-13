@@ -12,8 +12,8 @@
  * symbols:
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
- *   func_021EA768  0x021EA768  thumb  ov093
- *   func_021EA778  0x021EA778  thumb  ov093
+ *   BTLV_CORE_ShowPortrait  0x021EA768  thumb  ov093
+ *   BTLV_CORE_UpdatePortraitSlideIn  0x021EA778  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -22,8 +22,8 @@ typedef unsigned int u32;
 
 extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
 extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
-extern void func_021EA768(u32 *p, u32 a2, u32 a3);
-extern int func_021EA778(u32 *p, u32 a2);
+extern void BTLV_CORE_ShowPortrait(u32 *p, u32 a2, u32 a3);
+extern int BTLV_CORE_UpdatePortraitSlideIn(u32 *p, u32 a2);
 
 int BTL_CLIENT_CmdShowStatusPanel(u32 *a, int *b, u32 *c)
 {
@@ -35,11 +35,11 @@ int BTL_CLIENT_CmdShowStatusPanel(u32 *a, int *b, u32 *c)
         if (BTL_CLIENT_IsMainStepActive((u8 *)a) != 0) {
             return 1;
         }
-        func_021EA768((u32 *)a[0x15], s, 1);
+        BTLV_CORE_ShowPortrait((u32 *)a[0x15], s, 1);
         (*b)++;
         break;
     case 1:
-        if (func_021EA778((u32 *)a[0x15], s) != 0) {
+        if (BTLV_CORE_UpdatePortraitSlideIn((u32 *)a[0x15], s) != 0) {
             (*b)++;
         }
         break;

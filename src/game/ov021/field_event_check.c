@@ -77,7 +77,7 @@
  *   FIELD_PLAYER_SetGridMoveFlag  0x021A3550  thumb  ov021
  *   FIELD_PLAYER_ResetGridMove  0x021A356C  thumb  ov021
  *   FIELDMAP_GetZoneEffectWork  0x02189A70  thumb  ov021
- *   GIMMICK53_RaiseBgmVolume  0x021F3B10  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume  0x021F3B10  thumb  ov053
  *   GAME_COMM_GetWork  0x02026474  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   EVENT_MAPCHANGE_CreateSpecialLocationEvent  0x021850FC  thumb  ov020
@@ -162,19 +162,19 @@
  *   EVENTDATA_SYSTEM_IsConnectExitDir  0x021626B8  thumb  ov010
  *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
  *   FIELD_GIMMICK_IsGimmickId  0x021BE288  thumb  ov021
- *   GIMMICK38_StartDoorEvent  0x021F3A88  thumb  ov038
+ *   FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent  0x021F3A88  thumb  ov038
  *   FIELD_GIMMICK_D06_CheckPushStone  0x021F38A4  thumb  ov051
  *   MAP_ATTR_IsWaterfall  0x021AB310  thumb  ov021
  *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
- *   GIMMICK39_CheckRideEvent  0x021F404C  thumb  ov039
- *   GIMMICK41_CreateLaunchEvent  0x021F37E0  thumb  ov041
+ *   FIELD_GIMMICK_CART_LANES_CheckRideEvent  0x021F404C  thumb  ov039
+ *   FIELD_GIMMICK_CANNONS_CreateLaunchEvent  0x021F37E0  thumb  ov041
  *   EVENTDATA_SYSTEM_SearchConnectIdByRailLocation  0x02162598  thumb  ov010
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
  *   FIELD_ENCOUNT_CheckWfbcEncount  0x021AA248  thumb
  *   FIELD_ENCOUNT_CheckWildEncount  0x021A9F40  thumb
  *   RAIL_ATTR_IsSignBoard  0x021BB188  thumb
  *   FLDMMDL_RAIL_GetHitBitsDirNoAttr  0x0219E418  thumb
- *   FIELD_OV063_StartAtPlayer  0x021C46F8  thumb
+ *   RAIL_SLIPDOWN_StartAtPlayer  0x021C46F8  thumb
  *   ZONEDATA_SetExitRailLocation  0x02014134  thumb
  *   EVENTDATA_SYSTEM_GetConnectRailExitOffset  0x021626B0  thumb  ov010
  *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
@@ -449,7 +449,7 @@ extern void *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void FIELD_PLAYER_SetGridMoveFlag(u32 *p, int a);
 extern void FIELD_PLAYER_ResetGridMove(void **p);
 extern u32 FIELDMAP_GetZoneEffectWork(FieldMap *fieldMap);
-extern void GIMMICK53_RaiseBgmVolume(void);
+extern void FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume(void);
 extern u32 GAME_COMM_GetWork(void *obj);
 extern u32 func_0200FB24(void);
 extern void *EVENT_MAPCHANGE_CreateSpecialLocationEvent(void *p, FieldMap *fieldMap);
@@ -543,19 +543,19 @@ extern int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(void *eventData, VecFx32 *p
 int EVENTDATA_SYSTEM_IsConnectExitDir(char *a0, int a1);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
 extern int FIELD_GIMMICK_IsGimmickId(FieldMap *fieldMap, int k);
-extern int GIMMICK38_StartDoorEvent(int a0, int a1, int a2);
+extern int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int a0, int a1, int a2);
 extern int FIELD_GIMMICK_D06_CheckPushStone(int a, int b);
 extern int MAP_ATTR_IsWaterfall(u16 a);
 extern int FLDMMDL_MOVE_GetMapHeight(void *m, VecFx32 *pos, int *h);
-extern int GIMMICK39_CheckRideEvent(void *a);
-extern int GIMMICK41_CreateLaunchEvent(void *a);
+extern int FIELD_GIMMICK_CART_LANES_CheckRideEvent(void *a);
+extern int FIELD_GIMMICK_CANNONS_CreateLaunchEvent(void *a);
 extern int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(void *eventData, RailLocation *location);
 extern int ZONEDATA_IsZoneInTableDFC0(int a0);
 extern int FIELD_ENCOUNT_CheckWfbcEncount(void *ctx, void *b);
 extern int FIELD_ENCOUNT_CheckWildEncount(void *ctx, int mode);
 extern int RAIL_ATTR_IsSignBoard(u16 a);
 extern int FLDMMDL_RAIL_GetHitBitsDirNoAttr(u32 a, u32 b);
-extern u32 FIELD_OV063_StartAtPlayer(u32 a, u32 b, u32 c);
+extern u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c);
 extern void ZONEDATA_SetExitRailLocation(u8 *p, u16 b, int c, u16 d, u16 e, u16 f, u16 g, s16 h);
 extern u16 EVENTDATA_SYSTEM_GetConnectRailExitOffset(void *b, void *q);
 extern void *FLDMMDL_GetMmdlSys(void *o);
@@ -871,7 +871,7 @@ int FIELD_EVENT_CHECK_RunGrid(void *gameSystem, FieldMap *fieldMap)
         FIELD_PLAYER_SetGridMoveFlag(FIELDMAP_GetFieldPlayer(curFieldMap), menuRequest);
         FIELD_PLAYER_ResetGridMove(FIELDMAP_GetFieldPlayer(curFieldMap));
         if (FIELDMAP_GetZoneEffectWork(curFieldMap) != 0)
-            GIMMICK53_RaiseBgmVolume();
+            FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume();
         FIELD_EVENT_CHECK_StopSoundAfterEvent(gameSystem, curFieldMap);
     }
     return result;
@@ -941,7 +941,7 @@ int FIELD_EVENT_CHECK_RunRail(void *gameSystem, FieldMap *fieldMap)
         curFieldMap = func_0201210C(gameSystem);
         FIELD_PLACE_NAME_Cancel((u8 *)FIELDMAP_GetPlaceName(curFieldMap));
         if (FIELDMAP_GetZoneEffectWork(curFieldMap) != 0)
-            GIMMICK53_RaiseBgmVolume();
+            FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume();
         FIELD_EVENT_CHECK_StopSoundAfterEvent(gameSystem, curFieldMap);
     }
     return result;
@@ -1701,7 +1701,7 @@ int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSys
 
     FIELD_EVENT_CHECK_GetFrontPos(input, &frontPos);
     if (FIELD_GIMMICK_IsGimmickId(fieldMap, 6))
-        return GIMMICK38_StartDoorEvent((int)gameSystem, frontPos.x / 0x10000, frontPos.z / 0x10000);
+        return FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent((int)gameSystem, frontPos.x / 0x10000, frontPos.z / 0x10000);
     if (FIELD_GIMMICK_IsGimmickId(fieldMap, 0x19) || FIELD_GIMMICK_IsGimmickId(fieldMap, 0x1A) || FIELD_GIMMICK_IsGimmickId(fieldMap, 0x1B))
         return FIELD_GIMMICK_D06_CheckPushStone((int)fieldMap, input->facingDir);
     frontAttr = MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(fieldMap), &frontPos);
@@ -1717,9 +1717,9 @@ int FIELD_EVENT_CHECK_CheckFrontTileEvents(FieldEventInput *input, void *gameSys
     }
     if (FIELD_EVENT_CHECK_FindGridConnectId(input, &frontPos) == 0xFFFF) {
         if (FIELD_GIMMICK_IsGimmickId(fieldMap, 2))
-            return GIMMICK39_CheckRideEvent(gameSystem);
+            return FIELD_GIMMICK_CART_LANES_CheckRideEvent(gameSystem);
         if (FIELD_GIMMICK_IsGimmickId(fieldMap, 5))
-            return GIMMICK41_CreateLaunchEvent(gameSystem);
+            return FIELD_GIMMICK_CANNONS_CreateLaunchEvent(gameSystem);
     }
     return 0;
 }
@@ -1799,7 +1799,7 @@ int FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSyste
         if (moveState == 0 || moveState == 3) {
             if (RAIL_ATTR_IsSignBoard(MAP_ATTR_GetTerrainId(input->tileAttr))) {
                 if (FLDMMDL_RAIL_GetHitBitsDirNoAttr((u32)playerMmdl, inputDir) & 3)
-                    return FIELD_OV063_StartAtPlayer((u32)gameSystem, (u32)fieldMap, inputDir);
+                    return RAIL_SLIPDOWN_StartAtPlayer((u32)gameSystem, (u32)fieldMap, inputDir);
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_02208814
+ * function: BTLV_GAUGE_SetStatusIcon
  * address:  0x02208814
  * packet:   pkt_ov094_02208814
  * region:   ov094
@@ -14,7 +14,7 @@
  * index shift, the member form schedules it after (as the original does).
  *
  * symbols:
- *   d_0220AAF0     0x0220AAF0  data   ov094  a4
+ *   sGaugeStatusAnimTable     0x0220AAF0  data   ov094  a4
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
@@ -36,14 +36,14 @@ typedef struct T7 {
     u32 w[7];
 } T7;
 
-extern T7 d_0220AAF0;
+extern T7 sGaugeStatusAnimTable;
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_02208814(O *obj, int k, int idx)
+void BTLV_GAUGE_SetStatusIcon(O *obj, int k, int idx)
 {
-    T7 t = d_0220AAF0;
+    T7 t = sGaugeStatusAnimTable;
 
     if (obj->e[idx].h != 0) {
         if (k == 0) {

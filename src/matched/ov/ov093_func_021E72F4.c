@@ -1,5 +1,5 @@
 /*
- * function: func_021E72F4
+ * function: HAND_WAZA_AddFoulPlay
  * address: 0x021E72F4
  * packet: pkt_ov093_021E72F4
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F2834 0x021F2834 data ov093 a4
  */
 
-int *func_021E72F4(int *p);
+int *HAND_WAZA_AddFoulPlay(int *p);
 extern int d_021F2834[];
 
-int *func_021E72F4(int *p)
+int *HAND_WAZA_AddFoulPlay(int *p)
 {
     *p = 1;
     return d_021F2834;

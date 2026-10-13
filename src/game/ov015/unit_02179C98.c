@@ -10,8 +10,6 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      IRCNET_IsSender (libdwcghttp.TWL.HYB.thumb.a(dwc_ghttp.o))
- *
  * symbols:
  *   IRCNET_GetSenderFlag  0x02179D30  thumb  ov015
  */

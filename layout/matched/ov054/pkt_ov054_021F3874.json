@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK54_LoadWaitLimits",
+   "name": "FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits",
    "address": "0x021F3874",
    "kind": "game",
    "region": "ov054",

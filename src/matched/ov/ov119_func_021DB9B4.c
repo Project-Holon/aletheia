@@ -12,7 +12,7 @@
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   func_021D94A0 0x021D94A0 thumb ov119
  *   func_021D8B38 0x021D8B38 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D94A0(void *,int);
 extern void func_021D8B38(char *p);
 extern void func_021D8E84(void *,int);
@@ -38,7 +38,7 @@ void func_021DB9B4(char *p)
     if(func_021D8A24(p)) {
         if(!GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc06,0,0)) return;
     }
-    func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,0);
     ((struct Obj00001 *)p)->fF84=-1;
     ((struct Obj00001 *)p)->fF88=-1;
     ((struct Obj00001 *)p)->fF7C=-1;

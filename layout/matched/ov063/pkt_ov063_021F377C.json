@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F377C",
+   "name": "RAIL_SLIPDOWN_TaskMain",
    "address": "0x021F377C",
    "kind": "game",
    "region": "ov063",

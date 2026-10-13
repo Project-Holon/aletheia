@@ -1,5 +1,5 @@
 /*
- * function: func_02208900
+ * function: BTLV_GAUGE_SetLowHpBgmPlaying
  * address:  0x02208900
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02208900   0x02208900  thumb
+ *   BTLV_GAUGE_SetLowHpBgmPlaying   0x02208900  thumb
  *
  * lane O10 candidate
  */
@@ -21,7 +21,7 @@ typedef struct {
     unsigned int b : 1;
 } S8900;
 
-void func_02208900(S8900 *p, int v)
+void BTLV_GAUGE_SetLowHpBgmPlaying(S8900 *p, int v)
 {
     p->b = v;
 }

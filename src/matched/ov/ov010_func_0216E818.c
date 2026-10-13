@@ -21,7 +21,7 @@
  *   func_02008DF0  0x02008DF0  thumb
  *   EVENT_BATTLE_InitTaskWork  0x0216F02C  thumb  ov010
  *   BTL_SETUP_SetStatusFlag  0x02013144  thumb
- *   func_021CF748  0x021CF748  thumb  ov021
+ *   ENCEFF_SelectEffectAndBgmForTrainer  0x021CF748  thumb  ov021
  *   EFFECT_ENCOUNT_ConsumeSpot  0x021AAABC  thumb  ov021
  *   EVENT_BATTLE_ProcBattleTask  0x0216EB98  thumb  ov010
  */
@@ -47,7 +47,7 @@ extern void EVENT_BATTLE_DispatchBattleKindNotify(u16 id, int col);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void EVENT_BATTLE_InitTaskWork(void **p, void *a, void *b);
 extern void BTL_SETUP_SetStatusFlag(char *p, int v);
-extern void func_021CF748(u32 a, u32 x, int *out, u16 *out2);
+extern void ENCEFF_SelectEffectAndBgmForTrainer(u32 a, u32 x, int *out, u16 *out2);
 extern void EFFECT_ENCOUNT_ConsumeSpot(int s);
 
 int EVENT_BATTLE_CreateEncounterTask(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
@@ -73,7 +73,7 @@ int EVENT_BATTLE_CreateEncounterTask(int a0, int a1, int a2, int a3, int a4, int
         BTL_SETUP_SetStatusFlag((char *)x, 0x100);
         t[6] = 1;
     }
-    func_021CF748(a4, a1, (int *)((int)t + 0x24), (u16 *)(t[2] + 0x18));
+    ENCEFF_SelectEffectAndBgmForTrainer(a4, a1, (int *)((int)t + 0x24), (u16 *)(t[2] + 0x18));
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((u8 *)a1));
     return h;
 }

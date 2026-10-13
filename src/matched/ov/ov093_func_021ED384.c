@@ -1,5 +1,5 @@
 /*
- * function: func_021ED384
+ * function: BTLV_SCU_TaskMonWithdraw
  * address:  0x021ED384
  * packet:   pkt_ov093_021ED384
  * region:   ov093
@@ -27,7 +27,7 @@ extern void func_021F7F04(int a);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021ED384(u32 a, u8 *t)
+void BTLV_SCU_TaskMonWithdraw(u32 a, u8 *t)
 {
     switch (((struct Obj03709 *)t)->f4) {
     case 0:

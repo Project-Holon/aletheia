@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_time_effect.c
  * unit:     yes
- * function: GIMMICK65_Init, GIMMICK65_Exit, GIMMICK65_Update, GIMMICK65_StartEffect, GIMMICK65_CallWaitEvent, GIMMICK65_WaitEffectEventMain
+ * function: FIELD_GIMMICK_TIME_EFFECT_Init, FIELD_GIMMICK_TIME_EFFECT_Exit, FIELD_GIMMICK_TIME_EFFECT_Update, FIELD_GIMMICK_TIME_EFFECT_StartEffect, FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent, FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain
  * address:  0x021F36C0
  * region:   ov065
  * compiler: dsi/1.1p1
@@ -41,7 +41,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  *   func_020122C0 0x020122C0 thumb
- *   GIMMICK65_WaitEffectEventMain 0x021F38D0 thumb ov065
+ *   FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain 0x021F38D0 thumb ov065
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  */
@@ -75,19 +75,19 @@ extern int FLD_EXP_OBJ_GetAnimeFrame(int expObj, int unit, int model, int animeI
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int FLD_EXP_OBJ_IsAnimeStopped(void *anime);
 extern void *func_020122C0(void *owner, void *a, void *eventFunc, u32 size);
-extern int GIMMICK65_WaitEffectEventMain(void *event);
-void GIMMICK65_Init(void *fieldMap);
-void GIMMICK65_Exit(unsigned char *fieldMap);
-void GIMMICK65_Update(int fieldMap);
-void GIMMICK65_StartEffect(int fieldMap);
-void *GIMMICK65_CallWaitEvent(void *gameSystem);
+extern int FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain(void *event);
+void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap);
+void FIELD_GIMMICK_TIME_EFFECT_Exit(unsigned char *fieldMap);
+void FIELD_GIMMICK_TIME_EFFECT_Update(int fieldMap);
+void FIELD_GIMMICK_TIME_EFFECT_StartEffect(int fieldMap);
+void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent(void *gameSystem);
 extern char sGimmick65UnitDescNight[];
 extern char sGimmick65UnitDescDay[];
 extern VecFx32 sGimmick65EffectPosition;
 extern void *GAME_EVENT_GetGameSystem(void *event);
 extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
 
-void GIMMICK65_Init(void *fieldMap)
+void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap)
 {
     void *gameData;
     Gimmick65Save *save;
@@ -97,12 +97,12 @@ void GIMMICK65_Init(void *fieldMap)
     void *expObj;
 
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), GIMMICK65_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick65Work));
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->isPlaying = 0;
-    if (TIMEZONE_GetNowTimeZone(GAME_DATA_GetSeason(gameData)) - GIMMICK65_FIRST_NIGHT_TIME_ZONE <= 1) {
+    if (TIMEZONE_GetNowTimeZone(GAME_DATA_GetSeason(gameData)) - FIELD_GIMMICK_TIME_EFFECT_FIRST_NIGHT_TIME_ZONE <= 1) {
         FLD_EXP_OBJ_AddUnitFromArchive(expObj, sGimmick65UnitDescNight, 0);
         work->isNight = 1;
     } else {
@@ -112,7 +112,7 @@ void GIMMICK65_Init(void *fieldMap)
     *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = sGimmick65EffectPosition;
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, 0, 1);
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, 0, save->isEffectPending == 0);
-    for (i = 0; i < GIMMICK65_ANIME_COUNT; i++) {
+    for (i = 0; i < FIELD_GIMMICK_TIME_EFFECT_ANIME_COUNT; i++) {
         anime = FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)0, (u16)i);
         FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
         FLD_EXP_OBJ_SetAnimePaused(anime, 1);
@@ -121,14 +121,14 @@ void GIMMICK65_Init(void *fieldMap)
 }
 
 
-void GIMMICK65_Exit(unsigned char *fieldMap)
+void FIELD_GIMMICK_TIME_EFFECT_Exit(unsigned char *fieldMap)
 {
     FLD_EXP_OBJ_RemoveUnit(FIELDMAP_GetExpObj(fieldMap), 0);
     FIELDMAP_FreeCommonWork(fieldMap, 1);
 }
 
 
-void GIMMICK65_Update(int fieldMap)
+void FIELD_GIMMICK_TIME_EFFECT_Update(int fieldMap)
 {
     int expObj;
     Gimmick65Work *work;
@@ -138,19 +138,19 @@ void GIMMICK65_Update(int fieldMap)
     if (work->isPlaying != 0) {
         FLD_EXP_OBJ_UpdateAnimes(expObj);
         if (work->isNight == 0) {
-            if (FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, 0, 0) == GIMMICK65_PEAK_FRAME)
-                GFL_USE_PlaySeDefaultVolume(GIMMICK65_SE_DAY_PEAK);
+            if (FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, 0, 0) == FIELD_GIMMICK_TIME_EFFECT_PEAK_FRAME)
+                GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_TIME_EFFECT_SE_DAY_PEAK);
         }
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime((void *)expObj, 0, 0, 0)) != 0) {
             FLD_EXP_OBJ_SetModelHidden((void *)expObj, 0, 0, 1);
             work->isPlaying = 0;
-            GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)fieldMap))), GIMMICK65_SAVE_BLOCK)->isEffectPending = 0;
+            GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)fieldMap))), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK)->isEffectPending = 0;
         }
     }
 }
 
 
-void GIMMICK65_StartEffect(int fieldMap)
+void FIELD_GIMMICK_TIME_EFFECT_StartEffect(int fieldMap)
 {
     int i;
     int expObj;
@@ -160,21 +160,21 @@ void GIMMICK65_StartEffect(int fieldMap)
     work = FIELDMAP_GetCommonWork((void *)fieldMap, 1);
     work->isPlaying = 1;
     FLD_EXP_OBJ_SetModelHidden((void *)expObj, 0, 0, 0);
-    for (i = 0; i < GIMMICK65_ANIME_COUNT; i++)
+    for (i = 0; i < FIELD_GIMMICK_TIME_EFFECT_ANIME_COUNT; i++)
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((void *)expObj, 0, 0, (unsigned short)i), 0);
     if (work->isNight != 0)
-        GFL_USE_PlaySeDefaultVolume(GIMMICK65_SE_START_NIGHT);
+        GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_TIME_EFFECT_SE_START_NIGHT);
     else
-        GFL_USE_PlaySeDefaultVolume(GIMMICK65_SE_START_DAY);
+        GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_TIME_EFFECT_SE_START_DAY);
 }
 
 
-void *GIMMICK65_CallWaitEvent(void *gameSystem)
+void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent(void *gameSystem)
 {
-    return func_020122C0(gameSystem, 0, (void *)GIMMICK65_WaitEffectEventMain, 0);
+    return func_020122C0(gameSystem, 0, (void *)FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain, 0);
 }
 
-int GIMMICK65_WaitEffectEventMain(void *event)
+int FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain(void *event)
 {
     void *fieldMap;
     int isDone;

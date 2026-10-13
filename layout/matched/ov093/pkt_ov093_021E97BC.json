@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E97BC",
+   "name": "BTLV_CORE_StartMoveMenu",
    "address": "0x021E97BC",
    "kind": "game",
    "region": "ov093",

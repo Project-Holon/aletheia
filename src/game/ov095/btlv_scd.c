@@ -1,7 +1,7 @@
 /*
  * file:     btlv_scd.c
  * unit:     yes
- * function: func_06899AF0
+ * function: BTLV_SCD_Create
  * address:  0x06899AF0
  * region:   ov095
  * compiler: dsi/1.1p1
@@ -27,63 +27,64 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Obj {
-    u8 pad0[8];
-    int f08;
-    int f0c;
-    int f10;
-    int f14;
-    u8 pad18[0x74 - 0x18];
-    int f74;
+/* Auxiliary battle view (0xb4 bytes), created once by BTLV_CORE_Create. */
+typedef struct BtlvAuxView {
+    u8 pad00[8];
+    int fontMain;                   /* 0x08 */
+    int msgBuffer;                  /* 0x0c, STRBUF of 0x80 characters */
+    int netCtx;                     /* 0x10 */
+    int printQueue;                 /* 0x14 */
+    u8 pad18[0x74 - 0x18];          /* 0x20: four-entry slot table (func_06899E2C clears it) */
+    int slotCursor;                 /* 0x74 */
     u8 pad78[0x8f - 0x78];
-    u8 f8f;
-    u8 f90;
-    u8 f91;
+    u8 stateFlag;                   /* 0x8f */
+    u8 viewParam;                   /* 0x90, "param" argument of BTLV_CORE_Create */
+    u8 modeFlag;                    /* 0x91 */
     union {
         u8 raw;
         struct {
-            u8 lo : 7;
-            u8 hi : 1;
-        } b;
-    } f92;
+            u8 mode : 7;
+            u8 busy : 1;
+        } bits;
+    } status;                       /* 0x92 */
     u8 pad93[0x9c - 0x93];
-    int f9c;
-    int fa0;
-    int fa4;
-    int fa8;
-    u16 fac;
-} Obj;
+    int core;                       /* 0x9c, owning BtlvCore */
+    int mainWork;                   /* 0xa0 */
+    int mainRegion;                 /* 0xa4 */
+    int clientView;                 /* 0xa8, client data of the local client */
+    u16 heapId;                     /* 0xac */
+} BtlvAuxView;
 
-extern Obj *func_02030734(u16 a, int b, int c, u8 *d, int e);
+extern BtlvAuxView *func_02030734(u16 heapId, int size, int clear, u8 *site, int tag);
 extern int func_021D3D70(void);
-extern int func_021B9AF8(int a, int b);
-extern int STRBUF_Create(int a, u16 b);
-extern int PRINTSYS_QUE_Create(u16 a);
+extern int func_021B9AF8(int mainRegion, int clientIndex);
+extern int STRBUF_Create(int size, u16 heapId);
+extern int PRINTSYS_QUE_Create(u16 heapId);
 extern void func_06899E2C(unsigned char *p);
-Obj *func_06899AF0(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7);
+BtlvAuxView *BTLV_SCD_Create(int core, int mainWork, int mainRegion, int taskList, int fontMain, int netCtx, int viewParam, u16 heapId);
 extern u8 g_0689E7B8[];
 
 
-Obj *func_06899AF0(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7)
+BtlvAuxView *BTLV_SCD_Create(int core, int mainWork, int mainRegion, int taskList, int fontMain, int netCtx, int viewParam, u16 heapId)
 {
-    Obj *o;
+    BtlvAuxView *view;
 
-    o = func_02030734(e7, 0xb4, 1, g_0689E7B8, 0xc8);
-    o->f9c = a;
-    o->fa0 = b;
-    o->fa4 = c;
-    o->fac = e7;
-    o->f08 = e4;
-    o->f10 = e5;
-    o->fa8 = func_021B9AF8(c, func_021D3D70());
-    o->f0c = STRBUF_Create(0x80, e7);
-    o->f74 = 0;
-    o->f90 = e6;
-    o->f91 = 0;
-    o->f92.b.lo = 0;
-    o->f92.b.hi = 0;
-    o->f8f = 0;
-    o->f14 = PRINTSYS_QUE_Create(o->fac);
-    func_06899E2C((unsigned char *)o);
-    return o;
+    view = func_02030734(heapId, 0xb4, 1, g_0689E7B8, 0xc8);
+    view->core = core;
+    view->mainWork = mainWork;
+    view->mainRegion = mainRegion;
+    view->heapId = heapId;
+    view->fontMain = fontMain;
+    view->netCtx = netCtx;
+    view->clientView = func_021B9AF8(mainRegion, func_021D3D70());
+    view->msgBuffer = STRBUF_Create(0x80, heapId);
+    view->slotCursor = 0;
+    view->viewParam = viewParam;
+    view->modeFlag = 0;
+    view->status.bits.mode = 0;
+    view->status.bits.busy = 0;
+    view->stateFlag = 0;
+    view->printQueue = PRINTSYS_QUE_Create(view->heapId);
+    func_06899E2C((unsigned char *)view);
+    return view;
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021ED590, func_021ED5D8
+ * function: BTLV_SCU_StartMonFormChange, BTLV_SCU_IsMonFormChangeDone
  * address:  0x021ED590
  * packet:   pkt_ov093_021ED590
  * region:   ov093
@@ -14,7 +14,7 @@
  *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
- *   func_021ED5E8  0x021ED5E8  thumb  ov093
+ *   BTLV_SCU_TaskMonFormChange  0x021ED5E8  thumb  ov093
  */
 #include "../include/Obj12173.h"
 #include "../include/Obj13568.h"
@@ -27,14 +27,14 @@ extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *p, u32 k);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_021ED5E8(u32 x, struct S *t);
+extern void BTLV_SCU_TaskMonFormChange(u32 x, struct S *t);
 
-void func_021ED590(char *p, u8 k, u32 a)
+void BTLV_SCU_StartMonFormChange(char *p, u8 k, u32 a)
 {
     struct S *t;
 
     if (k != 6) {
-        t = (struct S *)TCBL_GetWork(TCBL_AddTask(((struct Obj13568 *)p)->f2C, (void *)func_021ED5E8, 0x18, 1));
+        t = (struct S *)TCBL_GetWork(TCBL_AddTask(((struct Obj13568 *)p)->f2C, (void *)BTLV_SCU_TaskMonFormChange, 0x18, 1));
         t->p = p;
         t->k = k;
         t->a = a;
@@ -45,7 +45,7 @@ void func_021ED590(char *p, u8 k, u32 a)
     }
 }
 
-int func_021ED5D8(char *p)
+int BTLV_SCU_IsMonFormChangeDone(char *p)
 {
     if (((struct Obj12173 *)p)->f40 == 0)
         return 1;

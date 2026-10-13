@@ -12,16 +12,16 @@
  *
  * symbols:
  *   func_021BD3CC 0x021BD3CC arm
- *   HAND_TOKUSEI_SynchronizeOnSickAdded 0x021DA04C data
+ *   gDwcLanguageTable 0x021DA04C data
  *
  * Table lookup through the function-pointer table at 0x021DA04C.
  * Addresses are Black-image addresses.
  */
 
 extern unsigned char func_021C0EC8(void);
-extern int HAND_TOKUSEI_SynchronizeOnSickAdded[];
+extern int gDwcLanguageTable[];
 
 int func_021BD3CC(void)
 {
-    return HAND_TOKUSEI_SynchronizeOnSickAdded[func_021C0EC8()];
+    return gDwcLanguageTable[func_021C0EC8()];
 }

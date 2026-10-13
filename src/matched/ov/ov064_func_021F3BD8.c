@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK64_IsArcAnimeStopped
+ * function: FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped
  * address:  0x021F3BD8
  * packet:   pkt_ov064_021F3BD8
  * region:   ov064
@@ -28,7 +28,7 @@ extern int FIELDMAP_GetExpObj(int *p);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 
-int GIMMICK64_IsArcAnimeStopped(void *task)
+int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(void *task)
 {
     int s;
 

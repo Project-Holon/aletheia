@@ -1,5 +1,5 @@
 /*
- * function: func_06899260
+ * function: HAND_SIDE_GetHandlersStealthRock
  * address: 0x06899260
  * packet: pkt_ov095_06899260
  * region: ov095
@@ -10,12 +10,12 @@
  * status: EXACT
  * Follower after the fixed linker veneer at 06899250; ends at 0689926C.
  * symbols:
- *   d_0689D728 0x0689D728 data a4
+ *   gHandSideStealthRockHandlers 0x0689D728 data a4
  */
-extern unsigned char d_0689D728[];
+extern unsigned char gHandSideStealthRockHandlers[];
 
-void *func_06899260(int *p)
+void *HAND_SIDE_GetHandlersStealthRock(int *p)
 {
     *p = 1;
-    return d_0689D728;
+    return gHandSideStealthRockHandlers;
 }

@@ -16,7 +16,7 @@
  *   func_021FFD9C  0x021FFD9C  thumb  ov094
  *   func_022018A8  0x022018A8  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
- *   func_022089BC  0x022089BC  thumb  ov094
+ *   BTLV_GAUGE_HideSlot  0x022089BC  thumb  ov094
  */
 typedef struct {
     int x, y, z;
@@ -42,7 +42,7 @@ extern int func_021FFD9C(char *p, int key);
 extern void func_022018A8(Work *w, Vec3 *out, int key);
 extern void func_021FF4C0(Work *w, int key, int a, Vec3 *v, int b, int c, int d);
 extern int func_021F86B4(void);
-extern void func_022089BC(char *p, int i);
+extern void BTLV_GAUGE_HideSlot(char *p, int i);
 extern void func_021FF374(Work *w, int key, int kind);
 
 void func_021FF7B0(Work *w, int a, int b)
@@ -59,7 +59,7 @@ void func_021FF7B0(Work *w, int a, int b)
         if (func_021FFD9C((char *)w, keys[i])) {
             func_022018A8(w, &v, keys[i ^ 1]);
             func_021FF4C0(w, keys[i], 0, &v, 0, 0, 0);
-            func_022089BC((char *)func_021F86B4(), keys[i]);
+            BTLV_GAUGE_HideSlot((char *)func_021F86B4(), keys[i]);
             if (w->e[idx[i]].f6) {
                 w->e[idx[i]].f6 = 0;
                 func_021FF374(w, keys[i], 0);

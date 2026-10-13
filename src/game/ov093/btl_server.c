@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
- * Split from btl_server.c (lane L189): __FILE__ anchor 021BAA8C (d_021F3A60 "btl_server.c") used by the 0xcc4-byte BtlServer constructor 021BA9C8, which is the first function of the file.
+ * Split from btl_server.c (lane L189): __FILE__ anchor 021BAA8C (gBtlServerFileName "btl_server.c") used by the 0xcc4-byte BtlServer constructor 021BA9C8, which is the first function of the file.
  *
  * symbols:
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
@@ -23,7 +23,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   BTL_CALC_SetRngState  0x021D787C  thumb  ov093
  *   func_02030734 0x02030734 arm
- *   d_021F3A60 0x021F3A60 data a4
+ *   gBtlServerFileName 0x021F3A60 data a4
  *   BTL_ADAPTER_Create  0x021EEA58  thumb  ov093
  *   STRBUF_Delete  0x02045808  arm
  *   BTL_ADAPTER_Delete  0x021EEAE0  thumb  ov093
@@ -205,14 +205,14 @@ int BTL_SERVER_FLOW_RunBagModeSetup(void *flow);
 BtlWordPair *BTL_SERVER_FLOW_GetSlotTable(void *flow);
 u8 BTL_SERVER_FLOW_GetChosenSlot(void *flow);
 int BTL_SERVER_FLOW_GetBattleResult(void *flow);
-extern u8 d_021F3A60[];
+extern u8 gBtlServerFileName[];
 
 
 BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlServerRngState *rngState, void *partyTable, int flowParam, u16 heapId)
 {
     BtlServer *server;
     int i;
-    server = func_02030734(heapId, 0xcc4, 1, (const char *)d_021F3A60, 0xad);
+    server = func_02030734(heapId, 0xcc4, 1, (const char *)gBtlServerFileName, 0xad);
     server->main = main;
     server->partyTable = partyTable;
     server->heapId = heapId;

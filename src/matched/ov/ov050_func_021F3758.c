@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK50_IsModel0AnimeDone
+ * function: FIELD_GIMMICK_MODELS_B_IsModel0AnimeDone
  * address: 0x021F3758
  * packet: pkt_ov050_021F3758
  * region: ov050
@@ -18,4 +18,4 @@
 extern int FIELDMAP_GetExpObj(int *);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *);
-int GIMMICK50_IsModel0AnimeDone(int *p) { int i; char *q; q=(char *)FIELDMAP_GetExpObj(p); for(i=0;i<1;i++) { if(FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(q,0,0,(unsigned short)i))==0) return 0; } return 1; }
+int FIELD_GIMMICK_MODELS_B_IsModel0AnimeDone(int *p) { int i; char *q; q=(char *)FIELDMAP_GetExpObj(p); for(i=0;i<1;i++) { if(FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(q,0,0,(unsigned short)i))==0) return 0; } return 1; }

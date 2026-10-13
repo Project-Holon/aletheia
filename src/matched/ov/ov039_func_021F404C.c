@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_CheckRideEvent
+ * function: FIELD_GIMMICK_CART_LANES_CheckRideEvent
  * address:  0x021F404C
  * packet:   pkt_ov039_021F404C
  * region:   ov039
@@ -22,17 +22,17 @@
  *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb ov021
  *   FIELD_PLAYER_GetDirDisp 0x021A3050 thumb ov021
  *   FIELD_PLAYER_GetPos 0x021A3038 thumb ov021
- *   GIMMICK39_FindDockAt 0x021F36C0 thumb ov039
- *   GIMMICK39_IsCartAtDock 0x021F3DB8 thumb ov039
- *   GIMMICK39_GetDockLane 0x021F3DAC thumb ov039
- *   GIMMICK39_GetDockCart 0x021F3D98 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_FindDockAt 0x021F36C0 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_IsCartAtDock 0x021F3DB8 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_GetDockLane 0x021F3DAC thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_GetDockCart 0x021F3D98 thumb ov039
  *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
  *   FLD_EXP_OBJ_GetAnime 0x021BE674 thumb ov021
  *   FLD_EXP_OBJ_SetAnimePaused 0x021BE6B0 thumb ov021
- *   GIMMICK39_IsLaneLocked 0x021F4158 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_IsLaneLocked 0x021F4158 thumb ov039
  *   func_020122C0 0x020122C0 thumb
- *   GIMMICK39_RideRefusedEventMain 0x021F4610 thumb ov039
- *   GIMMICK39_RideEventMain 0x021F41A8 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_RideRefusedEventMain 0x021F4610 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_RideEventMain 0x021F41A8 thumb ov039
  */
 
 typedef unsigned char u8;
@@ -59,19 +59,19 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
-extern u8 GIMMICK39_FindDockAt(int x, int z);
-extern int GIMMICK39_IsCartAtDock(signed char *p, int i);
-extern u8 GIMMICK39_GetDockLane(int n);
-extern u8 GIMMICK39_GetDockCart(u8 *s, int n);
+extern u8 FIELD_GIMMICK_CART_LANES_FindDockAt(int x, int z);
+extern int FIELD_GIMMICK_CART_LANES_IsCartAtDock(signed char *p, int i);
+extern u8 FIELD_GIMMICK_CART_LANES_GetDockLane(int n);
+extern u8 FIELD_GIMMICK_CART_LANES_GetDockCart(u8 *s, int n);
 extern int FIELDMAP_GetExpObj(int *p);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
-extern int GIMMICK39_IsLaneLocked(u8 *p, int i);
+extern int FIELD_GIMMICK_CART_LANES_IsLaneLocked(u8 *p, int i);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK39_RideRefusedEventMain(void *a0, int *a1);
-extern int GIMMICK39_RideEventMain(void *a0, int *a1);
+extern int FIELD_GIMMICK_CART_LANES_RideRefusedEventMain(void *a0, int *a1);
+extern int FIELD_GIMMICK_CART_LANES_RideEventMain(void *a0, int *a1);
 
-int GIMMICK39_CheckRideEvent(void *a0)
+int FIELD_GIMMICK_CART_LANES_CheckRideEvent(void *a0)
 {
     void *sys;
     void *p;
@@ -91,21 +91,21 @@ int GIMMICK39_CheckRideEvent(void *a0)
         return 0;
     }
     FIELD_PLAYER_GetPos(x, (struct VecFx32 *)&v);
-    n = GIMMICK39_FindDockAt(v.x / 0x10000, v.z / 0x10000);
+    n = FIELD_GIMMICK_CART_LANES_FindDockAt(v.x / 0x10000, v.z / 0x10000);
     if (n == 0xff) {
         return 0;
     }
-    if (GIMMICK39_IsCartAtDock((signed char *)s, n)) {
-        c = GIMMICK39_GetDockLane(n);
-        s[4] = GIMMICK39_GetDockCart(s, n);
+    if (FIELD_GIMMICK_CART_LANES_IsCartAtDock((signed char *)s, n)) {
+        c = FIELD_GIMMICK_CART_LANES_GetDockLane(n);
+        s[4] = FIELD_GIMMICK_CART_LANES_GetDockCart(s, n);
         k = s[4] + 1;
         h = FIELDMAP_GetExpObj(sys);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((char *)h, 0, (u8)c, (u16)k), 1);
         s[7] = c;
-        if (GIMMICK39_IsLaneLocked(p, c)) {
-            return (int)func_020122C0(a0, 0, GIMMICK39_RideRefusedEventMain, 0);
+        if (FIELD_GIMMICK_CART_LANES_IsLaneLocked(p, c)) {
+            return (int)func_020122C0(a0, 0, FIELD_GIMMICK_CART_LANES_RideRefusedEventMain, 0);
         }
-        return (int)func_020122C0(a0, 0, GIMMICK39_RideEventMain, 0);
+        return (int)func_020122C0(a0, 0, FIELD_GIMMICK_CART_LANES_RideEventMain, 0);
     }
     return 0;
 }

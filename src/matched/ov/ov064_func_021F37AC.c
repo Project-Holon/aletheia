@@ -1,5 +1,5 @@
 ﻿/*
- * function: GIMMICK64_Update
+ * function: FIELD_GIMMICK_ARC_EFFECT_Update
  * address:  0x021F37AC
  * packet:   pkt_021F37AC
  * region:   ov064
@@ -16,7 +16,7 @@
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
 */
 
-void GIMMICK64_Update(void *p)
+void FIELD_GIMMICK_ARC_EFFECT_Update(void *p)
 {
     void *FIELDMAP_GetExpObj(void *p);
     void FLD_EXP_OBJ_UpdateAnimes(void *p);

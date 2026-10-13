@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK60_HideGaugeModels
+ * function: FIELD_GIMMICK_GAUGE_EFFECT_HideGaugeModels
  * address:  0x021F3850
  * packet:   pkt_021F3850
  * region:   ov060
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 
 extern void func_021BE4B4(char *ctx, int b, int c, u32 d);
 
-void GIMMICK60_HideGaugeModels(char *p)
+void FIELD_GIMMICK_GAUGE_EFFECT_HideGaugeModels(char *p)
 {
     int i;
 

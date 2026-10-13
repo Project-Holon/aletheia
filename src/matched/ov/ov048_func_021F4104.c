@@ -12,7 +12,7 @@
  * symbols:
  *   func_02088864  0x02088864  arm
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb
- *   d_021F50C0     0x021F50C0  data  a4
+ *   gElboardLayout     0x021F50C0  data  a4
  */
 
 #include "../include/G_T.h"
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct RTCDate;
 extern int func_02088864(struct RTCDate *date);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
-extern struct T d_021F50C0;
+extern struct T gElboardLayout;
 
 void GIMMICK_OBJ_ELBOARD_AddDailyMessage1(int *p)
 {
@@ -41,9 +41,9 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage1(int *p)
     case 5: s.f = *(int *)(p[7] + 0x38); break;
     case 6: s.f = *(int *)(p[7] + 0x2c); break;
     }
-    s.a = *(u16 *)(((u8 *)&d_021F50C0) + 0xa);
-    s.b = *(int *)(((u8 *)&d_021F50C0) + 0x38);
-    s.c = *(int *)(((u8 *)&d_021F50C0) + 0x54);
+    s.a = *(u16 *)(((u8 *)&gElboardLayout) + 0xa);
+    s.b = *(int *)(((u8 *)&gElboardLayout) + 0x38);
+    s.c = *(int *)(((u8 *)&gElboardLayout) + 0x54);
     s.d = 2;
     s.e = 0x26;
     s.g = 0;

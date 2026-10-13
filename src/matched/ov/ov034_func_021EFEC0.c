@@ -1,5 +1,5 @@
 /*
- * function: func_021EFEC0
+ * function: REPORT_Create
  * address:  0x021EFEC0
  * packet:   pkt_ov034_021EFEC0
  * region:   ov034
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EFEC0 0x021EFEC0 thumb
+ *   REPORT_Create 0x021EFEC0 thumb
  *   func_02030734 0x02030734 arm
  *   sReportAllocSite    0x021F0B20 data ov034 a1
  *   REPORT_InitBgs 0x021F0114 thumb ov034
@@ -36,7 +36,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern int func_020056A0(void *, void *, int);
 extern void REPORT_UpdateSaveAnim(void *task, char *p);
 
-void *func_021EFEC0(int a0, int a1)
+void *REPORT_Create(int a0, int a1)
 {
     char *p = (char *)func_02030734(a1, 0x130, 0, sReportAllocSite, 0x114);
     *(int *)&((struct Obj00166 *)p)->f0 = a0;

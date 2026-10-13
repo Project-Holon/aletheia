@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02209540",
+   "name": "BTLV_TIMER_Redraw",
    "address": "0x02209540",
    "kind": "game",
    "region": "ov094",

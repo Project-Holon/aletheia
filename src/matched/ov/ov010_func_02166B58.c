@@ -23,7 +23,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_BEACON_SEARCH_SetSymbolMapPoke  0x0216559C  thumb  ov010
  *   ov215_id       0x000000D7  data   a1
- *   d_021F7118     0x021F7118  data   ov215  a4
+ *   gEggDemoViewProcData     0x021F7118  data   ov215  a4
  */
 
 typedef unsigned short u16;
@@ -42,7 +42,7 @@ extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, in
 extern void  GAME_BEACON_SEARCH_SetSymbolMapPoke(u16 x);
 
 extern char ov215_id[];
-extern char d_021F7118[];
+extern char gEggDemoViewProcData[];
 
 u32 SYMBOL_MAP_PokeEventTaskMain(void *obj, u32 *mode, u32 *args)
 {
@@ -72,7 +72,7 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *obj, u32 *mode, u32 *args)
         *mode = 4;
         break;
     case 4:
-        GAMESYSTEM_CallProc((struct IcaAnime *)a0, (u32)ov215_id, d_021F7118, &args[4]);
+        GAMESYSTEM_CallProc((struct IcaAnime *)a0, (u32)ov215_id, gEggDemoViewProcData, &args[4]);
         *mode = 5;
         break;
     case 5:

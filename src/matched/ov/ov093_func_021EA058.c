@@ -1,5 +1,5 @@
 /*
- * function: func_021EA058
+ * function: BTLV_CORE_SaveBagCursors
  * address:  0x021EA058
  * packet:   pkt_ov093_021EA058
  * region:   ov093
@@ -24,7 +24,7 @@ struct MyItemSave;
 extern void MYITEM_SAVEDATA_SetBattlePocketCursors(struct MyItemSave *p, const s16 *a, const s16 *b);
 extern void MYITEM_SAVEDATA_SetLastBattleItem(struct MyItemSave *p, u16 a, u16 b);
 
-void func_021EA058(char *p)
+void BTLV_CORE_SaveBagCursors(char *p)
 {
     if (((struct Obj04374 *)p)->fDE != 0 && ((struct Obj04374 *)p)->f12C != 6 && ((struct Obj04374 *)p)->fD0 != 1) {
         MYITEM_SAVEDATA_SetBattlePocketCursors(((struct Obj04374 *)p)->fE4, (s16 *)(p + 0xf8), (s16 *)(p + 0x100));

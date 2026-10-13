@@ -14,7 +14,7 @@
  *   BTL_MAIN_MarkClientsDisconnected  0x021B8548  thumb  ov093
  *   BTL_CLIENT_RunTick  0x021CD97C  thumb  ov093
  *   BTL_CLIENT_GetCursor  0x021CDD94  thumb  ov093
- *   func_021E908C  0x021E908C  thumb  ov093
+ *   BTLV_CORE_Update  0x021E908C  thumb  ov093
  */
 #include "../include/Obj20950.h"
 
@@ -32,7 +32,7 @@ extern int BTL_NET_HasCommError(void);
 extern void BTL_MAIN_MarkClientsDisconnected(u8 *);
 extern int BTL_CLIENT_RunTick(int);
 extern void BTL_CLIENT_GetCursor(char *p, int *o);
-extern void func_021E908C(char *p);
+extern void BTLV_CORE_Update(char *p);
 
 int BTL_MAIN_StepChild(u8 *p)
 {
@@ -53,6 +53,6 @@ int BTL_MAIN_StepChild(u8 *p)
             r = 1;
         }
     }
-    func_021E908C((char *)(((struct Obj20950 *)p)->f4));
+    BTLV_CORE_Update((char *)(((struct Obj20950 *)p)->f4));
     return r;
 }

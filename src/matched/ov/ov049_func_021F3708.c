@@ -1,5 +1,5 @@
 ﻿/*
- * function: func_021F3708
+ * function: FIELD_GIMMICK_MODELS_A_Update
  * address:  0x021F3708
  * packet:   pkt_021F3708
  * region:   ov049
@@ -21,7 +21,7 @@
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
 */
 
-void func_021F3708(void *p)
+void FIELD_GIMMICK_MODELS_A_Update(void *p)
 {
     void *FIELDMAP_GetExpObj(void *p);
     void FLD_EXP_OBJ_UpdateAnimes(void *p);

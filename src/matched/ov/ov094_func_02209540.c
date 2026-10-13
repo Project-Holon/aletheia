@@ -1,5 +1,5 @@
 /*
- * function: func_02209540
+ * function: BTLV_TIMER_Redraw
  * address:  0x02209540
  * packet:   pkt_ov094_02209540
  * region:   ov094
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _ll_udiv    0x0209C00C  arm
- *   d_0220ABB8  0x0220ABB8  data  a4
+ *   sBtlvTimerWarningSeconds  0x0220ABB8  data  a4
  *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
@@ -30,15 +30,15 @@ typedef struct Timer {
 } Timer;
 typedef enum { B_FALSE, B_TRUE } Bool;
 typedef struct Pair { int v[2]; } Pair;
-extern const Pair d_0220ABB8;
+extern const Pair sBtlvTimerWarningSeconds;
 extern u64 func_020870D0(void);
 struct Obj;
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_02209540(Timer *p, int idx)
+void BTLV_TIMER_Redraw(Timer *p, int idx)
 {
-    Pair tbl = d_0220ABB8;
+    Pair tbl = sBtlvTimerWarningSeconds;
     int icon = idx == 0 ? B_FALSE : B_TRUE;
     int r = p->limit[idx] - (int)(((func_020870D0() - p->start[idx]) * 64) / 33514000);
     int min, sec, m10, m1, s10, s1;

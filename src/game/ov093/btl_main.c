@@ -1,7 +1,7 @@
 /*
  * file:     btl_main.c
  * unit:     yes
- * function: BTL_MAIN_ProcInit, BTL_MAIN_ProcMain, BTL_MAIN_IsRecordPlaybackDone, BTL_MAIN_ProcExit, BTL_MAIN_StartSetupTask, BTL_MAIN_StartCleanupTask, BTL_MAIN_IsCommCompetitor, BTL_MAIN_SetupOwnClient, BTL_MAIN_InitClientParties, BTL_MAIN_InitTrainerSlot, BTL_MAIN_GetPositionsPerClient, BTL_MAIN_InitFirstTwoTrainerSlots, BTL_MAIN_StartRecordPlayback, BTL_MAIN_CreateViewCore, BTL_MAIN_TaskSetupSingle, BTL_MAIN_TaskCleanup, BTL_MAIN_TaskSetupDouble, BTL_MAIN_TaskSetupMulti, BTL_MAIN_TaskSetupTriple, BTL_MAIN_TaskSetupRotation, BTL_MAIN_TaskCommSingle, BTL_MAIN_TaskCommDouble, BTL_MAIN_RunSetupSeqKind1, BTL_MAIN_RunSetupSeqKind3, BTL_MAIN_SeqSyncRules, BTL_MAIN_SeqExchangeRegulation, BTL_MAIN_SeqExchangePlayers, BTL_MAIN_SeqExchangePerapVoice, BTL_MAIN_SeqCreateClientsKind1Solo, BTL_MAIN_SeqCreateClientsByMulti, BTL_MAIN_SeqCreateClientsKind3, BTL_MAIN_SeqCreateClientsKind1, BTL_MAIN_SeqCreateView, BTL_MAIN_StepClientsSolo, BTL_MAIN_StepParent, BTL_MAIN_StepChild, BTL_MAIN_MarkClientsDisconnected, BTL_MAIN_CheckAllClientsReady, BTL_MAIN_GetRule, BTL_MAIN_CheckSceneOff, BTL_MAIN_GetBadgeCount, BTL_MAIN_CheckShiftModePrompt, BTL_MAIN_GetTextSpeedFrames, BTL_MAIN_CheckEventOverlayAllowed, BTL_MAIN_GetPmsWork, BTL_MAIN_GetRuleSlotSpan, BTL_MAIN_GetActivePosPerSide, BTL_MAIN_CheckFrontPos, BTL_MAIN_GetCompetitor, BTL_MAIN_GetCommPos, BTL_MAIN_IsMultiMode, BTL_MAIN_GetWinBgm, BTL_MAIN_GetCompetitorKind, BTL_MAIN_GetFieldSituation, func_021B871C, BTL_MAIN_CheckZukanSeen, BTL_MAIN_GetZukanSeenCount, BTL_MAIN_GetGameData, BTL_MAIN_RegisterZukanSeen, BTL_MAIN_DecodeMessageCode, BTL_MAIN_DecodeMessageCodeBasic, BTL_MAIN_ExpandPosDouble, BTL_MAIN_ExpandPosTriple, BTL_MAIN_CountClientTrainers, BTL_MAIN_IsClientUsed, BTL_MAIN_GetClientSide, BTL_MAIN_IsLocalSide, BTL_MAIN_GetClientTrainerIndex, BTL_MAIN_GetEnemyLanePos, BTL_MAIN_GetOwnLanePos, BTL_MAIN_GetEnemyLanePosFromWork, BTL_MAIN_GetFacingPos
+ * function: BTL_MAIN_ProcInit, BTL_MAIN_ProcMain, BTL_MAIN_IsRecordPlaybackDone, BTL_MAIN_ProcExit, BTL_MAIN_StartSetupTask, BTL_MAIN_StartCleanupTask, BTL_MAIN_IsCommCompetitor, BTL_MAIN_SetupOwnClient, BTL_MAIN_InitClientParties, BTL_MAIN_InitTrainerSlot, BTL_MAIN_GetPositionsPerClient, BTL_MAIN_InitFirstTwoTrainerSlots, BTL_MAIN_StartRecordPlayback, BTL_MAIN_CreateViewCore, BTL_MAIN_TaskSetupSingle, BTL_MAIN_TaskCleanup, BTL_MAIN_TaskSetupDouble, BTL_MAIN_TaskSetupMulti, BTL_MAIN_TaskSetupTriple, BTL_MAIN_TaskSetupRotation, BTL_MAIN_TaskCommSingle, BTL_MAIN_TaskCommDouble, BTL_MAIN_RunSetupSeqKind1, BTL_MAIN_RunSetupSeqKind3, BTL_MAIN_SeqSyncRules, BTL_MAIN_SeqExchangeRegulation, BTL_MAIN_SeqExchangePlayers, BTL_MAIN_SeqExchangePerapVoice, BTL_MAIN_SeqCreateClientsKind1Solo, BTL_MAIN_SeqCreateClientsByMulti, BTL_MAIN_SeqCreateClientsKind3, BTL_MAIN_SeqCreateClientsKind1, BTL_MAIN_SeqCreateView, BTL_MAIN_StepClientsSolo, BTL_MAIN_StepParent, BTL_MAIN_StepChild, BTL_MAIN_MarkClientsDisconnected, BTL_MAIN_CheckAllClientsReady, BTL_MAIN_GetRule, BTL_MAIN_CheckSceneOff, BTL_MAIN_GetBadgeCount, BTL_MAIN_CheckShiftModePrompt, BTL_MAIN_GetTextSpeedFrames, BTL_MAIN_CheckEventOverlayAllowed, BTL_MAIN_GetPmsWork, BTL_MAIN_GetRuleSlotSpan, BTL_MAIN_GetActivePosPerSide, BTL_MAIN_CheckFrontPos, BTL_MAIN_GetCompetitor, BTL_MAIN_GetCommPos, BTL_MAIN_IsMultiMode, BTL_MAIN_GetWinBgm, BTL_MAIN_GetCompetitorKind, BTL_MAIN_GetFieldSituation, BTL_MAIN_GetPlayerStatus, BTL_MAIN_CheckZukanSeen, BTL_MAIN_GetZukanSeenCount, BTL_MAIN_GetGameData, BTL_MAIN_RegisterZukanSeen, BTL_MAIN_DecodeMessageCode, BTL_MAIN_DecodeMessageCodeBasic, BTL_MAIN_ExpandPosDouble, BTL_MAIN_ExpandPosTriple, BTL_MAIN_CountClientTrainers, BTL_MAIN_IsClientUsed, BTL_MAIN_GetClientSide, BTL_MAIN_IsLocalSide, BTL_MAIN_GetClientTrainerIndex, BTL_MAIN_GetEnemyLanePos, BTL_MAIN_GetOwnLanePos, BTL_MAIN_GetEnemyLanePosFromWork, BTL_MAIN_GetFacingPos
  * address:  0x021B6100
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -81,7 +81,7 @@
  *   BTL_CLIENT_GetNetChannel 0x021CD978 thumb ov093
  *   BTL_SERVER_SetClientAdapter 0x021BAA94 thumb ov093
  *   BTL_SERVER_Restart 0x021BAB40 thumb ov093
- *   func_021E9034 0x021E9034 thumb ov093
+ *   BTLV_CORE_Delete 0x021E9034 thumb ov093
  *   BTL_CLIENT_Delete 0x021CD8E0 thumb ov093
  *   BTL_SIDE_DeletePokeParams 0x021B9674 thumb ov093
  *   BTL_SERVER_Delete 0x021BAB5C thumb ov093
@@ -92,8 +92,8 @@
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb arm9
  *   GFL_USE_IsBgmFading 0x02005E50 thumb arm9
  *   RINGTONE_SYS_RegisterSleepCallbacks 0x02029F6C thumb arm9
- *   d_021EFD38 0x021EFD38 data a4
- *   d_021EFD54 0x021EFD54 data a4
+ *   gSetupSeqKind1Steps 0x021EFD38 data a4
+ *   gSetupSeqKind3Steps 0x021EFD54 data a4
  *   BTL_NET_SendEntry 0x021D4294 thumb ov093
  *   BTL_NET_IsLeaderKnown 0x021D4348 thumb ov093
  *   BTL_NET_IsLeader 0x021D4360 thumb ov093
@@ -147,7 +147,7 @@
  *   BTL_SERVER_Update 0x021BAB9C thumb ov093
  *   BTL_CLIENT_RunTick 0x021CD97C thumb ov093
  *   BTL_CLIENT_GetCursor 0x021CDD94 thumb ov093
- *   func_021E908C 0x021E908C thumb ov093
+ *   BTLV_CORE_Update 0x021E908C thumb ov093
  *   BTL_SERVER_GetFinalData 0x021BABDC thumb ov093
  *   BTL_CLIENT_MarkCommandIssued 0x021CD914 thumb ov093
  *   func_02013080 0x02013080 thumb
@@ -162,13 +162,13 @@
  *   func_0200CFA0 0x0200CFA0 thumb
  *   BTL_MAIN_MapPosForRule 0x021B8CB0 thumb ov093
  *   BTL_MAIN_IsBackRowPos 0x021B99F0 thumb ov093
- *   data_021EFCF0  0x021EFCF0  data  ov093
+ *   gClientFirstPokeIds  0x021EFCF0  data  ov093
  *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
- *   d_021EFCF4  0x021EFCF4  data  ov093  a1
- *   d_021EFCFA  0x021EFCFA  data  ov093  a1
+ *   gViewPosOfSlotDouble  0x021EFCF4  data  ov093  a1
+ *   gViewPosOfSlotTriple  0x021EFCFA  data  ov093  a1
  *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
@@ -200,7 +200,7 @@
  *   func_02007C70 0x02007C70 thumb
  *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
- *   data_021EFD70  0x021EFD70  data  ov093
+ *   gBtlPosTables  0x021EFD70  data  ov093
  *   BTL_MAIN_GetEnemyLanePos 0x021B8C20 thumb ov093
  *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
@@ -352,11 +352,11 @@ extern struct BtlClient *BTL_CLIENT_Create(struct BtlMain *main, struct BtlSide 
 extern u32 BTL_CLIENT_GetNetChannel(struct BtlClient *client);
 extern void BTL_SERVER_SetClientAdapter(struct BtlServer *server, int clientRef, u8 clientId, u8 slotCount);
 extern void BTL_SERVER_Restart(struct BtlServer *server);
-extern void func_021E9034(struct BtlvCore *viewCore);
+extern void BTLV_CORE_Delete(struct BtlvCore *viewCore);
 extern void BTL_CLIENT_Delete(struct BtlClient *client);
 extern void BTL_SIDE_DeletePokeParams(struct BtlSide *side);
 extern void BTL_SERVER_Delete(struct BtlServer *server);
-extern int (*d_021EFD38[7])(struct BtlMain *, u32 *);
+extern int (*gSetupSeqKind1Steps[7])(struct BtlMain *, u32 *);
 extern int BTL_NET_SendEntry(u16 v);
 extern int BTL_NET_IsLeaderKnown(void);
 extern int BTL_NET_IsLeader(void);
@@ -410,7 +410,7 @@ extern u8 BTL_MAIN_GetPartnerClient(struct BtlMain *main, u8 clientId);
 extern int BTL_SERVER_Update(struct BtlServer *server);
 extern int BTL_CLIENT_RunTick(struct BtlClient *client);
 extern void BTL_CLIENT_GetCursor(struct BtlClient *client, void *buf);
-extern void func_021E908C(struct BtlvCore *viewCore);
+extern void BTLV_CORE_Update(struct BtlvCore *viewCore);
 extern void BTL_SERVER_GetFinalData(struct BtlServer *server, void *buf);
 extern void BTL_CLIENT_MarkCommandIssued(struct BtlClient *client);
 extern signed char func_02013080(u32 idx);
@@ -423,7 +423,7 @@ extern u16 func_0200CF28(void *zukanWork);
 extern void *BTL_POKEPARAM_GetMon(void *);
 extern void func_0200CFA0(void *zukanWork, void *mon);
 extern u8 ov231_id[];
-extern int (*d_021EFD54[7])(struct BtlMain *, u32 *);
+extern int (*gSetupSeqKind3Steps[7])(struct BtlMain *, u32 *);
 #include "btl_server_types.h"
 #include "../../matched/include/G_StateData.h"
 struct Blk34;
@@ -631,10 +631,10 @@ void BTL_CLIENT_StartMainStep(struct BtlClient *client);
 void BTL_CLIENT_AddPoints(struct BtlClient *client, u8 points);
 int BTL_CLIENT_IsWindowWaiting(struct BtlClient *client);
 u32 BTL_CLIENT_IsWindowDone(struct BtlClient *client);
-extern const u8 data_021EFCF0[4];
-extern u8 d_021EFCF4[2][3];
-extern u8 d_021EFCFA[2][3];
-extern struct BtlPosTable data_021EFD70[];
+extern const u8 gClientFirstPokeIds[4];
+extern u8 gViewPosOfSlotDouble[2][3];
+extern u8 gViewPosOfSlotTriple[2][3];
+extern struct BtlPosTable gBtlPosTables[];
 
 extern u8 BTL_MAIN_MapPosForRule(struct BtlMain *main, u8 basePos);
 extern u32 BTL_MAIN_IsBackRowPos(u32 basePos);
@@ -693,7 +693,7 @@ int BTL_MAIN_IsMultiMode(struct BtlMain *main);
 u16 BTL_MAIN_GetWinBgm(struct BtlMain *main);
 int BTL_MAIN_GetCompetitorKind(struct BtlMain *main);
 struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
-int func_021B871C(struct BtlMain *main);
+int BTL_MAIN_GetPlayerStatus(struct BtlMain *main);
 int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon);
 u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main);
 u32 BTL_MAIN_GetGameData(struct BtlMain *main);
@@ -1172,7 +1172,7 @@ int BTL_MAIN_TaskCleanup(u32 *unused, void *arg)
     u32 client;
 
     if (main->viewCore != 0) {
-        func_021E9034(main->viewCore);
+        BTLV_CORE_Delete(main->viewCore);
         main->viewCore = 0;
     }
     for (client = 0; client < 4; client++) {
@@ -1466,7 +1466,7 @@ int BTL_MAIN_RunSetupSeqKind1(u32 *step, void *arg)
         return 0;
     }
     if ((u32)*step < 7) {
-        if (d_021EFD38[*step](main, &main->subStep)) {
+        if (gSetupSeqKind1Steps[*step](main, &main->subStep)) {
             main->subStep = 0;
             *step = *step + 1;
         }
@@ -1498,7 +1498,7 @@ int BTL_MAIN_RunSetupSeqKind3(u32 *step, void *arg)
         return 0;
     }
     if ((u32)*step < 7) {
-        if (d_021EFD54[*step](main, &main->subStep)) {
+        if (gSetupSeqKind3Steps[*step](main, &main->subStep)) {
             main->subStep = 0;
             *step = *step + 1;
         }
@@ -2007,7 +2007,7 @@ int BTL_MAIN_StepClientsSolo(struct BtlMain *main)
             found = 1;
         }
     }
-    func_021E908C(main->viewCore);
+    BTLV_CORE_Update(main->viewCore);
     return found;
 }
 
@@ -2040,7 +2040,7 @@ int BTL_MAIN_StepParent(struct BtlMain *main)
         BTL_CLIENT_GetCursor(main->clients[main->ownClientId], &main->defeatedClients);
         r = 1;
     }
-    func_021E908C(main->viewCore);
+    BTLV_CORE_Update(main->viewCore);
     return r;
 }
 
@@ -2068,7 +2068,7 @@ int BTL_MAIN_StepChild(struct BtlMain *main)
             r = 1;
         }
     }
-    func_021E908C(main->viewCore);
+    BTLV_CORE_Update(main->viewCore);
     return r;
 }
 
@@ -2251,7 +2251,7 @@ struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main)
 
 
 
-int func_021B871C(struct BtlMain *main)
+int BTL_MAIN_GetPlayerStatus(struct BtlMain *main)
 {
     return (int)main->playerStatus;
 }
@@ -2677,7 +2677,7 @@ u8 BTL_MAIN_PokeIdToClientId(u32 pokeId)
 {
     u8 clientId;
     for (clientId = 0; clientId < 4; clientId++) {
-        u8 first = data_021EFCF0[clientId];
+        u8 first = gClientFirstPokeIds[clientId];
         u8 last = first + 5;
         if (pokeId >= first && pokeId <= last) return clientId;
     }
@@ -2875,9 +2875,9 @@ u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 slot)
         return result;
     }
     if (rule == 1) {
-        return d_021EFCF4[side][(u8)(slot >> 1)];
+        return gViewPosOfSlotDouble[side][(u8)(slot >> 1)];
     }
-    return d_021EFCFA[side][(u8)(slot >> 1)];
+    return gViewPosOfSlotTriple[side][(u8)(slot >> 1)];
 }
 
 
@@ -3673,7 +3673,7 @@ void BTL_SIDE_SetupClientParty(struct BtlSide *side, struct BtlMain *main, u8 cl
     slotBase = (char *)side->slots;
     slotOffset = clientId * 0x1c;
     count = POKEPARTY_GetCount(party);
-    firstPokeId = data_021EFCF0[clientId];
+    firstPokeId = gClientFirstPokeIds[clientId];
     side->parties[clientId] = party;
     for (i = 0, pokeId = firstPokeId; i < count; i++, pokeId++) {
         mon = POKEPARTY_GetMember(party, i);
@@ -3848,7 +3848,7 @@ void BTL_SIDE_WriteBackPartyOrdered(struct BtlSide *side, struct BtlMain *main, 
     slot = BTL_SIDE_GetSlotOfClient(side, clientId);
     count = POKEPARTY_GetCount(party);
     POKEPARTY_Init(main->tempParty);
-    firstPokeId = data_021EFCF0[clientId];
+    firstPokeId = gClientFirstPokeIds[clientId];
     for (i = 0; i < count; i++) {
         for (j = 0; j < count; j++) {
             poke = BTL_SLOT_GetPoke(slot, (u8)j);
@@ -4123,7 +4123,7 @@ u8 BTL_MAIN_GetViewPositionsPerClient(struct BtlMain *main, u32 clientId)
 
 struct BtlPosTable *BTL_MAIN_GetPosTable(int tableIndex)
 {
-    return &data_021EFD70[tableIndex];
+    return &gBtlPosTables[tableIndex];
 }
 
 
@@ -5650,7 +5650,7 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
             group = BTL_SIDE_GetSlotOfClient(&main->sides[0], slot);
             count = BTL_SLOT_GetCount(group);
             total = maximum = 0;
-            base = data_021EFCF0[slot];
+            base = gClientFirstPokeIds[slot];
             for (j = 0; j < count; j++) {
                 poke = BTL_SLOT_GetPoke(group, (u8)j);
                 i = (u8)(BTL_POKEPARAM_GetPokeId(poke) - base);
@@ -6011,7 +6011,7 @@ void BTL_MAIN_RestartBattle(struct BtlMain *main, u16 stepArg)
             BTL_CLIENT_StartRemoteStep(main->clients[i], stepArg);
         }
     }
-    func_021E9034(main->viewCore);
+    BTLV_CORE_Delete(main->viewCore);
     BTLV_CORE_ResetDisplay((void *)0x13);
     main->viewCore = BTLV_CORE_Create(main, main->clients[main->setup->netId], &main->sides[0], isComm, 0x13);
     BTL_CLIENT_SetView(main->clients[main->setup->netId], main->viewCore);

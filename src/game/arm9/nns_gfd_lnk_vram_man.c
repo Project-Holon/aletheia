@@ -21,8 +21,8 @@
  * symbols:
  *   NNSi_GfdMergeAdjacentFreeBlocks  0x02061D0C  arm
  *   g_02146B94   0x02146B94  data
- *   g_020A8140   0x020A8140  data
- *   g_020A8144   0x020A8144  data
+ *   NNS_GfdDefaultFuncAllocTexVram   0x020A8140  data
+ *   NNS_GfdDefaultFuncFreeTexVram   0x020A8144  data
  *   g_02146B98     0x02146B98  data
  *   g_02146B9C     0x02146B9C  data
  *   func_02061EA4  0x02061EA4  arm
@@ -32,8 +32,8 @@
  *   NNSi_GfdInitBlockPool   0x02061DFC  arm
  *   NNSi_GfdAddBlock   0x02061E48  arm
  *   g_02146BB0       0x02146BB0  data
- *   g_020A8148       0x020A8148  data
- *   g_020A814C       0x020A814C  data
+ *   NNS_GfdDefaultFuncAllocPlttVram       0x020A8148  data
+ *   NNS_GfdDefaultFuncFreePlttVram       0x020A814C  data
  *   g_02146BB4      0x02146BB4  data
  *   g_02146BB0_blk  0x02146BB0  data
  */
@@ -131,8 +131,8 @@ extern u32 g_02146B98;
 extern u32 g_02146B9C;
 extern const struct Rgns g_020A17A8;
 extern struct HeapB g_02146BB0;
-extern u32 g_020A8148;
-extern u32 g_020A814C;
+extern u32 NNS_GfdDefaultFuncAllocPlttVram;
+extern u32 NNS_GfdDefaultFuncFreePlttVram;
 extern u32 g_02146BB4;
 extern struct HeapB g_02146BB0_blk;
 
@@ -342,13 +342,13 @@ int func_0206210C(int v){ return v << 4; }
 
 
 
-extern void (*g_020A8140)(void);
+extern void (*NNS_GfdDefaultFuncAllocTexVram)(void);
 
 
 
 
 
-extern void (*g_020A8144)(void);
+extern void (*NNS_GfdDefaultFuncFreeTexVram)(void);
 
 
 
@@ -382,8 +382,8 @@ void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e)
     func_02062270(a, b, c, d);
 
     if (e != 0) {
-        g_020A8140 = (void (*)(void))func_0206216C;
-        g_020A8144 = (void (*)(void))func_020621FC;
+        NNS_GfdDefaultFuncAllocTexVram = (void (*)(void))func_0206216C;
+        NNS_GfdDefaultFuncFreeTexVram = (void (*)(void))func_020621FC;
     }
 }
 
@@ -594,8 +594,8 @@ void func_02062474(u32 a, u32 b, u32 c, u32 d)
     if (d == 0) {
         return;
     }
-    g_020A8148 = (u32)func_020624C8;
-    g_020A814C = (u32)func_02062594;
+    NNS_GfdDefaultFuncAllocPlttVram = (u32)func_020624C8;
+    NNS_GfdDefaultFuncFreePlttVram = (u32)func_02062594;
 }
 
 

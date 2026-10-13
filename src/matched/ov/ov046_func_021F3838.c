@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_InitModel
+ * function: FIELD_GIMMICK_ROTATING_ROOM_InitModel
  * address:  0x021F3838
  * packet:   pkt_ov046_021F3838
  * region:   ov046
@@ -39,7 +39,7 @@ extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern void  FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, u16 j, u16 k, int flag);
 extern void  func_0207AF1C(void *m, int a, int b);
 
-void GIMMICK46_InitModel(void *a0, int a1, V *a2, u16 *a3, int a4, int a5)
+void FIELD_GIMMICK_ROTATING_ROOM_InitModel(void *a0, int a1, V *a2, u16 *a3, int a4, int a5)
 {
     char *e;
     void *b;

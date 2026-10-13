@@ -19,8 +19,8 @@
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   FIELD_G3D_MAP_Reset  0x0216990C  thumb  ov010
  *   d_02172A40     0x02172A40  data
- *   g_020A8140     0x020A8140  data
- *   g_020A8148     0x020A8148  data
+ *   NNS_GfdDefaultFuncAllocTexVram     0x020A8140  data
+ *   NNS_GfdDefaultFuncAllocPlttVram     0x020A8148  data
  */
 
 typedef unsigned char u8;
@@ -76,8 +76,8 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16
 extern int G3D_SYSTEM_GetResourceSize(void);
 extern void FIELD_G3D_MAP_Reset(u8 *p);
 extern const char d_02172A40[];
-extern u32 (*g_020A8140)(u32 size, u32 is4x4, u32 opt);
-extern u32 (*g_020A8148)(u32 size, u32 is4pltt, u32 opt);
+extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 size, u32 is4x4, u32 opt);
+extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 size, u32 is4pltt, u32 opt);
 
 Mgr *FIELD_G3D_MAP_Create(const Cfg *cfg, u32 heap)
 {
@@ -111,8 +111,8 @@ Mgr *FIELD_G3D_MAP_Create(const Cfg *cfg, u32 heap)
     m->f94 = 0;
     if (cfg->texSize != 0) {
         m->texSize = cfg->texSize;
-        m->texKey = g_020A8140(cfg->texSize, 0, 0);
-        m->plttKey = g_020A8148(0x200, 0, 0);
+        m->texKey = NNS_GfdDefaultFuncAllocTexVram(cfg->texSize, 0, 0);
+        m->plttKey = NNS_GfdDefaultFuncAllocPlttVram(0x200, 0, 0);
     } else {
         m->texSize = 0;
         m->texKey = 0;

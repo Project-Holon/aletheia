@@ -1,5 +1,5 @@
 /*
- * function: func_02198C08
+ * function: FLDMMDL_ACMD_WalkTableInit
  * address:  0x02198C08
  * packet:   pkt_ov021_02198C08
  * region:   ov021
@@ -31,7 +31,7 @@ extern u32 FLDMMDL_SetDrawStatus(u32, u32);
 extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-void func_02198C08(u32 a, u32 b, u32 c, u32 d)
+void FLDMMDL_ACMD_WalkTableInit(u32 a, u32 b, u32 c, u32 d)
 {
     u16 *p;
 

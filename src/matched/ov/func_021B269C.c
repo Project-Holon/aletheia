@@ -13,7 +13,7 @@
  *
  * symbols:
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
- *   GIMMICK44_SnapLiftToBottom  0x021F3970  thumb  ov044
+ *   FIELD_GIMMICK_LIFT_SnapLiftToBottom  0x021F3970  thumb  ov044
  * Addresses are Black-image addresses.
  */
 
@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
-extern void GIMMICK44_SnapLiftToBottom(void *a);
+extern void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *a);
 
 int SCRCMD_GIMMICK44_Cleanup(u32 a, u32 b, u32 c, u32 d)
 {
-GIMMICK44_SnapLiftToBottom(SCRCMD_WORK_GetGameSystem((void *)b));
+FIELD_GIMMICK_LIFT_SnapLiftToBottom(SCRCMD_WORK_GetGameSystem((void *)b));
 return 0;
 }
 

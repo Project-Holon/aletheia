@@ -1,5 +1,5 @@
 /*
- * function: func_02179394
+ * function: WIH_GetSharedDataAdr
  * address: 0x02179394
  * packet: pkt_ov014_02179394
  * region: ov014
@@ -10,7 +10,7 @@
  * status: EXACT
  * extent: existing matched 021793B8 follows the 36-byte leaf.
  * symbols:
- *   g_021797A8 0x021797A8 data a4
+ *   gWihWork 0x021797A8 data a4
  *   WM_GetSharedDataAddress 0x02090B18 arm
  */
 
@@ -18,9 +18,9 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern struct S *g_021797A8;
+extern struct S *gWihWork;
 extern int WM_GetSharedDataAddress(void *info, void *buffer, u16 slot);
-int func_02179394(u16 slot)
+int WIH_GetSharedDataAdr(u16 slot)
 {
-    return WM_GetSharedDataAddress(((u8 *)g_021797A8) + 0x1444, ((u8 *)g_021797A8) + 0x1C64, slot);
+    return WM_GetSharedDataAddress(((u8 *)gWihWork) + 0x1444, ((u8 *)gWihWork) + 0x1C64, slot);
 }

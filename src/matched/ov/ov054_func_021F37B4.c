@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK54_CreateSoundObjs
+ * function: FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs
  * address:  0x021F37B4
  * packet:   pkt_ov054_021F37B4
  * region:   ov054
@@ -20,7 +20,7 @@
  *   SOUND_OBJ_Create  0x021C4D14  thumb  ov021
  *   SOUND_OBJ_SetAnime  0x021C4DC0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
- *   GIMMICK54_LoadWaitLimits  0x021F3874  thumb  ov054
+ *   FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits  0x021F3874  thumb  ov054
  */
 
 typedef unsigned short u16;
@@ -46,9 +46,9 @@ extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 extern void *SOUND_OBJ_Create(int a, int b, int c, int d, int e);
 extern void SOUND_OBJ_SetAnime(int, int, int, int);
 extern u32 func_020307B0(void *p);
-extern void GIMMICK54_LoadWaitLimits(char *p);
+extern void FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits(char *p);
 
-void GIMMICK54_CreateSoundObjs(O *o, u32 q)
+void FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs(O *o, u32 q)
 {
     int i;
     int t8;
@@ -74,5 +74,5 @@ void GIMMICK54_CreateSoundObjs(O *o, u32 q)
     func_020307B0(p);
     for (i = 0; i < 2; i++)
         o->w[i] = 0;
-    GIMMICK54_LoadWaitLimits((char *)o);
+    FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits((char *)o);
 }

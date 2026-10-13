@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021EAE24",
-    "func_021EAE34"
+    "BTLV_CORE_ClearWaitWindow",
+    "BTLV_CORE_GetWaitState"
+   ],
+   "addresses": [
+    "0x021EAE24",
+    "0x021EAE34"
    ]
   }
  ]

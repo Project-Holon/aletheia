@@ -1,5 +1,5 @@
 /*
- * function: func_021C6EA8
+ * function: FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone
  * address:  0x021C6EA8
  * packet:   pkt_ov021_021C6EA8
  * region:   ov021
@@ -21,7 +21,7 @@ typedef struct Q Q;
 typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R;
 extern u32 FIELD_TASK_GetState(u8 *p);
 extern void FIELD_TASK_Start(u32 *a0);
-void func_021C6EA8(R *r, int i)
+void FIELD_TASK_MANAGER_StartSlotIfPrerequisiteDone(R *r, int i)
 {
     if (r->f4[i] != 0 && r->f8[i] != 0) {
         if (FIELD_TASK_GetState((u8 *)r->f4[i]) == 0 && FIELD_TASK_GetState((u8 *)r->f8[i]) == 2)

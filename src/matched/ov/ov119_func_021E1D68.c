@@ -21,7 +21,7 @@
  *   func_021E5998 0x021E5998 thumb ov119
  *   func_021E3F30 0x021E3F30 thumb ov119
  *   func_021E2A98 0x021E2A98 thumb ov119
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  */
 #include "../include/Obj03775.h"
 typedef unsigned int   u32;
@@ -39,7 +39,7 @@ extern void func_021E5998(char *p);
 extern void func_021E3F30(char *p);
 extern void func_021E2A98(void *a, char *p);
 extern void func_020056A0(void (*)(void *,void *),void *,int);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 void func_021E1D68(char *p,void *a)
 {
     func_02040588(3,0);
@@ -58,5 +58,5 @@ void func_021E1D68(char *p,void *a)
         p[0x11f9]=1;
         func_020056A0((void (*)(void *, void *))func_021E2A98,p,0);
     }
-    func_021B6558((unsigned char *)(((struct Obj03775 *)p)->f9C0),1,1);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj03775 *)p)->f9C0),1,1);
 }

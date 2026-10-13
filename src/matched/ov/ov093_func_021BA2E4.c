@@ -33,7 +33,7 @@
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
- *   data_021EFCF0 0x021EFCF0 data ov093 a1
+ *   gClientFirstPokeIds 0x021EFCF0 data ov093 a1
  *   _u32_div_f 0x0209C2B0 arm
  */
 #include "../include/Obj00324.h"
@@ -71,7 +71,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021D59B4(u8 *p, int k);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
-extern const u8 data_021EFCF0[];
+extern const u8 gClientFirstPokeIds[];
 extern u32 _u32_div_f(u32, u32);
 void BTL_MAIN_WriteBackResults(char *p)
 {
@@ -116,7 +116,7 @@ void BTL_MAIN_WriteBackResults(char *p)
             group = BTL_SIDE_GetSlotOfClient(p + 0xc8, slot);
             count = BTL_SLOT_GetCount((struct Q1 *)group);
             total = maximum = 0;
-            base = data_021EFCF0[slot];
+            base = gClientFirstPokeIds[slot];
             for (j = 0; j < count; j++) {
                 m = (u8 *)BTL_SLOT_GetPoke((struct S2 *)group, (u8)j);
                 i = (u8)(BTL_POKEPARAM_GetPokeId(m) - base);

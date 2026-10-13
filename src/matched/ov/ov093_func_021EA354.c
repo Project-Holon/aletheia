@@ -1,5 +1,5 @@
 /*
- * function: func_021EA354
+ * function: BTLV_CORE_SetMonShown
  * address:  0x021EA354
  * packet:   pkt_ov093_021EA354
  * region:   ov093
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern void func_021F7E74(u32 a);
 extern void func_021F7E84(u32 a);
 
-void func_021EA354(void *ctx, int a, int b)
+void BTLV_CORE_SetMonShown(void *ctx, int a, int b)
 {
     if (func_021F7F1C(a) != 0) {
         if (b != func_021F853C(a)) {

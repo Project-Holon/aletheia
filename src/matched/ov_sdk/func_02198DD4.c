@@ -14,19 +14,19 @@
  * returns whether it reports success (1).
  *
  * symbols:
- *   func_02198C4C       0x02198C4C  thumb
+ *   FLDMMDL_ACMD_WalkTableMove       0x02198C4C  thumb
  *   DWCca_ghttp_caList  0x021D4A80  data
  */
 
 typedef int BOOL;
 
 typedef unsigned int   u32;
-extern int func_02198C4C(u32 a, u32 *b);
+extern int FLDMMDL_ACMD_WalkTableMove(u32 a, u32 *b);
 extern char DWCca_ghttp_caList[];
 
 BOOL FLDMMDL_ACMD_Walk7FMove(char *url)
 {
-    if (func_02198C4C((u32)url, (u32 *)DWCca_ghttp_caList) == 1)
+    if (FLDMMDL_ACMD_WalkTableMove((u32)url, (u32 *)DWCca_ghttp_caList) == 1)
     {
         return 1;
     }

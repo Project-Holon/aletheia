@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3714",
+   "name": "FIELD_GIMMICK_MODELS_A_PlaceModels",
    "address": "0x021F3714",
    "kind": "game",
    "region": "ov049",

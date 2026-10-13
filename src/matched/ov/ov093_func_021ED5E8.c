@@ -1,5 +1,5 @@
 /*
- * function: func_021ED5E8
+ * function: BTLV_SCU_TaskMonFormChange
  * address:  0x021ED5E8
  * packet:   pkt_ov093_021ED5E8
  * region:   ov093
@@ -37,7 +37,7 @@ extern void func_021F803C(u32 a, void *m, u32 c);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
-void func_021ED5E8(u32 x, struct S *t)
+void BTLV_SCU_TaskMonFormChange(u32 x, struct S *t)
 {
     void *r;
 

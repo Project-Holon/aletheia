@@ -1,5 +1,5 @@
 /*
- * function: func_021E7320
+ * function: HAND_WAZA_AddSoak
  * address: 0x021E7320
  * packet: pkt_ov093_021E7320
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F282C 0x021F282C data ov093 a4
  */
 
-int *func_021E7320(int *p);
+int *HAND_WAZA_AddSoak(int *p);
 extern int d_021F282C[];
 
-int *func_021E7320(int *p)
+int *HAND_WAZA_AddSoak(int *p)
 {
     *p = 1;
     return d_021F282C;

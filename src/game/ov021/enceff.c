@@ -1,7 +1,7 @@
 /*
  * file:     enceff.c
  * unit:     yes
- * function: ENCEFF_Create, ENCEFF_Delete, ENCEFF_Start, ENCEFF_GetEffect, ENCEFF_RunUpdate, ENCEFF_AllocWork, ENCEFF_FreeWork, ENCEFF_GetWork, ENCEFF_LoadOverlay, ENCEFF_LoadOverlays4B4D, ENCEFF_LoadOverlay4B, ENCEFF_UnloadOverlays, func_021CF5D8, func_021CF748, func_021CF7DC, func_021CF844, func_021CF8E4, func_021CF940, func_021CF9AC, func_021CFA04, func_021CFA1C, SCRCMD_StartSubProcOv057, SCRCMD_GetPlayerLocationValue, INTRUDE_FindOfferSlotAt, INTRUDE_TakeOfferSlot, INTRUDE_GetNextOfferSpot, INTRUDE_OfferEventMain, INTRUDE_StartOfferEvent, SCRCMD_FillPartnerCandidates, SCRCMD_CollectPartnersByLanguage, SCRCMD_GetPartnerCandidateHistoryIndex, SCRCMD_GetPartnerGreetingMessage, SCRCMD_CalcPartnerGreetingIndex, SCRCMD_SetPartnerWords, SCRCMD_GetWifiHistoryCountryCount, SCRCMD_GetWifiHistoryEntryCount, SCRCMD_MarkPartnerCandidate, SCRCMD_IsPartnerCandidateMarked, SCRCMD_SetWifiHistoryRatingLevel, SCRCMD_SetWifiHistoryGreetingSet, SCRCMD_GetWifiHistoryGreetingSet, SCRCMD_FillPartnerCandidatesFromScript, SCRCMD_GetPartnerGreetingMessageFromScript, SCRCMD_HasPlayerLanguage
+ * function: ENCEFF_Create, ENCEFF_Delete, ENCEFF_Start, ENCEFF_GetEffect, ENCEFF_RunUpdate, ENCEFF_AllocWork, ENCEFF_FreeWork, ENCEFF_GetWork, ENCEFF_LoadOverlay, ENCEFF_LoadOverlays4B4D, ENCEFF_LoadOverlay4B, ENCEFF_UnloadOverlays, ENCEFF_SelectEffectAndBgm, ENCEFF_SelectEffectAndBgmForTrainer, SCRCMD_StartCountOtherOtIdsTask, SCRCMD_CountOtherOtIdsTaskMain, SCRCMD_CountPartyOtherOtIds, SCRCMD_CountBoxOtherOtIds, SCRCMD_CountBattleBoxOtherOtIds, SCRCMD_AddOtherOtId, SCRCMD_AddUniqueOtId, SCRCMD_StartSubProcOv057, SCRCMD_GetPlayerLocationValue, INTRUDE_FindOfferSlotAt, INTRUDE_TakeOfferSlot, INTRUDE_GetNextOfferSpot, INTRUDE_OfferEventMain, INTRUDE_StartOfferEvent, SCRCMD_FillPartnerCandidates, SCRCMD_CollectPartnersByLanguage, SCRCMD_GetPartnerCandidateHistoryIndex, SCRCMD_GetPartnerGreetingMessage, SCRCMD_CalcPartnerGreetingIndex, SCRCMD_SetPartnerWords, SCRCMD_GetWifiHistoryCountryCount, SCRCMD_GetWifiHistoryEntryCount, SCRCMD_MarkPartnerCandidate, SCRCMD_IsPartnerCandidateMarked, SCRCMD_SetWifiHistoryRatingLevel, SCRCMD_SetWifiHistoryGreetingSet, SCRCMD_GetWifiHistoryGreetingSet, SCRCMD_FillPartnerCandidatesFromScript, SCRCMD_GetPartnerGreetingMessageFromScript, SCRCMD_HasPlayerLanguage
  * address:  0x021CF45C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -75,7 +75,7 @@
  *   d_021F3900     0x021F3900  data  ov057  a4
  *   func_02008854  0x02008854  thumb
  *   func_02008990  0x02008990  thumb
- *   d_021DB834  0x021DB834  data  a4
+ *   gIntrudeOfferTilePositions  0x021DB834  data  a4
  *   SCRIPT_SYS_ChangeScriptEvent  0x021587B0  thumb  ov010
  *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
@@ -317,7 +317,7 @@ extern const u16 d_021DB7E0[];
 extern const u8 d_021DB7F6[];
 extern char abs_id_39[];
 extern char d_021F3900[];
-extern const IntrudeOfferSpot d_021DB834[];
+extern const IntrudeOfferSpot gIntrudeOfferTilePositions[];
 
 EncEffWork *ENCEFF_Create(u32 heapId, struct FieldMap *fieldMap);
 int ENCEFF_Delete(EncEffWork *eff);
@@ -331,15 +331,15 @@ void ENCEFF_LoadOverlay(EncEffWork *eff, u32 overlayId);
 void ENCEFF_LoadOverlays4B4D(EncEffWork *eff);
 void ENCEFF_LoadOverlay4B(EncEffWork *eff);
 void ENCEFF_UnloadOverlays(EncEffWork *eff);
-void func_021CF5D8(int species, int effectId, int hasWildOpponent, struct FieldMap *fieldMap, u32 *outEffectKind, u16 *outBgmId);
-void func_021CF748(void *trainerData, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId);
-int func_021CF7DC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021CF844(struct GameEvent *event, int *seq, OtCountTask *task);
-int func_021CF8E4(u32 playerId, struct GameData *gameData, OtIdList *list);
-int func_021CF940(u32 playerId, struct GameData *gameData, u32 box, OtIdList *list);
-int func_021CF9AC(u32 playerId, struct GameData *gameData, u32 team, OtIdList *list);
-int func_021CFA04(int playerId, int otId, OtIdList *list);
-int func_021CFA1C(int otId, OtIdList *list);
+void ENCEFF_SelectEffectAndBgm(int species, int effectId, int hasWildOpponent, struct FieldMap *fieldMap, u32 *outEffectKind, u16 *outBgmId);
+void ENCEFF_SelectEffectAndBgmForTrainer(void *trainerData, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId);
+int SCRCMD_StartCountOtherOtIdsTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_CountOtherOtIdsTaskMain(struct GameEvent *event, int *seq, OtCountTask *task);
+int SCRCMD_CountPartyOtherOtIds(u32 playerId, struct GameData *gameData, OtIdList *list);
+int SCRCMD_CountBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32 box, OtIdList *list);
+int SCRCMD_CountBattleBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32 team, OtIdList *list);
+int SCRCMD_AddOtherOtId(int playerId, int otId, OtIdList *list);
+int SCRCMD_AddUniqueOtId(int otId, OtIdList *list);
 int SCRCMD_StartSubProcOv057(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_GetPlayerLocationValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int INTRUDE_FindOfferSlotAt(IntrudeOfferLog *log, int zoneId, int x, int y, int z);
@@ -474,7 +474,7 @@ void ENCEFF_UnloadOverlays(EncEffWork *eff)
  * for a battle against a wild or scripted opponent. Legendary species have
  * their own kinds; other battles depend on the tile the player stands on.
  */
-void func_021CF5D8(int species, int effectId, int hasWildOpponent, struct FieldMap *fieldMap, u32 *outEffectKind, u16 *outBgmId)
+void ENCEFF_SelectEffectAndBgm(int species, int effectId, int hasWildOpponent, struct FieldMap *fieldMap, u32 *outEffectKind, u16 *outBgmId)
 {
     u32 attr;
     u16 tileType;
@@ -574,7 +574,7 @@ void func_021CF5D8(int species, int effectId, int hasWildOpponent, struct FieldM
  * trainer's two class groups when the first is below 11, otherwise from the
  * tile and the area the player stands in.
  */
-void func_021CF748(void *trainerData, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId)
+void ENCEFF_SelectEffectAndBgmForTrainer(void *trainerData, struct FieldMap *fieldMap, int *outEffectKind, u16 *outBgmId)
 {
     int areaIsInner = 1;
     u32 trainerClass = func_0202A230(trainerData, 1);
@@ -614,7 +614,7 @@ void func_021CF748(void *trainerData, struct FieldMap *fieldMap, int *outEffectK
  * the player's Pokemon other than the player, and stores the count in a
  * script variable when the task ends.
  */
-int func_021CF7DC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_StartCountOtherOtIdsTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -624,7 +624,7 @@ int func_021CF7DC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     struct MyStatus *myStatus;
     OtCountTask *task;
 
-    taskEvent = func_020122C0(gameSystem, 0, func_021CF844, 0xd8);
+    taskEvent = func_020122C0(gameSystem, 0, SCRCMD_CountOtherOtIdsTaskMain, 0xd8);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     task = func_020124E8(taskEvent);
     task->playerId = func_02008530(myStatus);
@@ -639,7 +639,7 @@ int func_021CF7DC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
  * Task body: scans the party, then two PC boxes per frame, then the battle
  * box. Ends when all are scanned or the list is full.
  */
-int func_021CF844(struct GameEvent *event, int *seq, OtCountTask *task)
+int SCRCMD_CountOtherOtIdsTaskMain(struct GameEvent *event, int *seq, OtCountTask *task)
 {
     OtIdList *list;
     int finished = 0;
@@ -649,14 +649,14 @@ int func_021CF844(struct GameEvent *event, int *seq, OtCountTask *task)
     gameData = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(event));
     switch (*seq) {
     case 0:
-        func_021CF8E4(task->playerId, gameData, &task->list);
+        SCRCMD_CountPartyOtherOtIds(task->playerId, gameData, &task->list);
         (*seq)++;
         break;
     case 1: {
         int firstBox = task->nextBox;
         list = &task->list;
         for (i = finished; i < 2; i++) {
-            func_021CF940(task->playerId, gameData, firstBox + i, list);
+            SCRCMD_CountBoxOtherOtIds(task->playerId, gameData, firstBox + i, list);
             task->nextBox++;
             if (task->nextBox >= BOX_COUNT) {
                 (*seq)++;
@@ -666,7 +666,7 @@ int func_021CF844(struct GameEvent *event, int *seq, OtCountTask *task)
         break;
     }
     case 2:
-        func_021CF9AC(task->playerId, gameData, finished, &task->list);
+        SCRCMD_CountBattleBoxOtherOtIds(task->playerId, gameData, finished, &task->list);
         finished = 1;
         break;
     }
@@ -681,7 +681,7 @@ int func_021CF844(struct GameEvent *event, int *seq, OtCountTask *task)
 }
 
 /* Adds the original trainers of the non-egg party Pokemon to the list. */
-int func_021CF8E4(u32 playerId, struct GameData *gameData, OtIdList *list)
+int SCRCMD_CountPartyOtherOtIds(u32 playerId, struct GameData *gameData, OtIdList *list)
 {
     struct PokeParty *party = GAME_DATA_GetMyParty(gameData);
     int partyCount = POKEPARTY_GetCount(party);
@@ -692,7 +692,7 @@ int func_021CF8E4(u32 playerId, struct GameData *gameData, OtIdList *list)
         struct PokemonParam *mon = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(mon, MON_DATA_IS_EGG, 0) == 0) {
             u32 otId = POKE_TOOL_GetPartyValue(mon, MON_DATA_OT_ID, 0);
-            if (func_021CFA04(playerId, otId, list) != 0) {
+            if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
                 added++;
             }
         }
@@ -701,7 +701,7 @@ int func_021CF8E4(u32 playerId, struct GameData *gameData, OtIdList *list)
 }
 
 /* Adds the original trainers of the non-egg Pokemon of one PC box to the list. */
-int func_021CF940(u32 playerId, struct GameData *gameData, u32 box, OtIdList *list)
+int SCRCMD_CountBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32 box, OtIdList *list)
 {
     struct BoxData *boxData = GAME_DATA_GetBoxManager(gameData);
     int added = 0;
@@ -711,7 +711,7 @@ int func_021CF940(u32 playerId, struct GameData *gameData, u32 box, OtIdList *li
         if (func_020079BC(boxData, box, i, MON_DATA_HAS_SPECIES, 0) != 0) {
             if (func_020079BC(boxData, box, i, MON_DATA_IS_EGG, 0) == 0) {
                 u32 otId = func_020079BC(boxData, box, i, MON_DATA_OT_ID, 0);
-                if (func_021CFA04(playerId, otId, list) != 0) {
+                if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
                     added++;
                 }
             }
@@ -721,7 +721,7 @@ int func_021CF940(u32 playerId, struct GameData *gameData, u32 box, OtIdList *li
 }
 
 /* Adds the original trainers of one battle box team to the list. */
-int func_021CF9AC(u32 playerId, struct GameData *gameData, u32 team, OtIdList *list)
+int SCRCMD_CountBattleBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32 team, OtIdList *list)
 {
     struct BattleBoxSave *battleBox;
     int i;
@@ -733,7 +733,7 @@ int func_021CF9AC(u32 playerId, struct GameData *gameData, u32 team, OtIdList *l
         struct PokemonParam *mon = func_0200BBEC(battleBox, team, i);
         if (func_02017E88(mon, MON_DATA_HAS_SPECIES, 0) != 0) {
             u32 otId = func_02017E88(mon, MON_DATA_OT_ID, 0);
-            if (func_021CFA04(playerId, otId, list) != 0) {
+            if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
                 added++;
             }
         }
@@ -742,18 +742,18 @@ int func_021CF9AC(u32 playerId, struct GameData *gameData, u32 team, OtIdList *l
 }
 
 /* Adds an original trainer id to the list unless it is the player's own. */
-int func_021CFA04(int playerId, int otId, OtIdList *list)
+int SCRCMD_AddOtherOtId(int playerId, int otId, OtIdList *list)
 {
     int added = 0;
 
     if (playerId != otId) {
-        added = func_021CFA1C(otId, list);
+        added = SCRCMD_AddUniqueOtId(otId, list);
     }
     return added;
 }
 
 /* Adds an id to the list when it is not in there yet and the list has room. */
-int func_021CFA1C(int otId, OtIdList *list)
+int SCRCMD_AddUniqueOtId(int otId, OtIdList *list)
 {
     int i;
 
@@ -812,7 +812,7 @@ int INTRUDE_FindOfferSlotAt(IntrudeOfferLog *log, int zoneId, int x, int y, int 
         if (slot->offerId == 0) {
             return 0xff;
         }
-        spot = &d_021DB834[slot->spotIndex];
+        spot = &gIntrudeOfferTilePositions[slot->spotIndex];
         if (spot->zoneId == zoneId && spot->x == x && spot->z == z && spot->y - 1 <= y && y <= spot->y + 1) {
             return i;
         }
@@ -838,7 +838,7 @@ const IntrudeOfferSpot *INTRUDE_GetNextOfferSpot(IntrudeOfferLog *log, int *inde
     if (i < INTRUDE_OFFER_SLOT_COUNT) {
         do {
             if (log->slot[i].offerId != 0) {
-                const IntrudeOfferSpot *spot = &d_021DB834[log->slot[i].spotIndex];
+                const IntrudeOfferSpot *spot = &gIntrudeOfferTilePositions[log->slot[i].spotIndex];
                 (*index)++;
                 return spot;
             }

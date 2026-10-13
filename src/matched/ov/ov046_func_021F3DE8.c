@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_PlayAnimEventProc
+ * function: FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc
  * address:  0x021F3DE8
  * packet:   pkt_ov046_021F3DE8
  * region:   ov046
@@ -53,7 +53,7 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void GFL_USE_StopAllSe(void);
 
-int GIMMICK46_PlayAnimEventProc(void *a, int *st)
+int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(void *a, int *st)
 {
     void *s;
     u32 t;

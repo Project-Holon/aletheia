@@ -24,7 +24,7 @@
  *   id67 0x00000043 data
  *   id194 0x000000C2 data
  *   id129 0x00000081 data
- *   d_021F5580 0x021F5580 data ov194 a4
+ *   gNameInProcData 0x021F5580 data ov194 a4
  *   d_021DA62C 0x021DA62C data ov129 a4
  *   CODEIN_PARAM_Create  0x0202E4EC  thumb  arm9
  * interface: 02031324 forwards heap to 02031354 and returns its node;
@@ -58,7 +58,7 @@ extern void func_021C6438(u8 *p, u8 a, u8 b);
 extern void func_021C6440(u8 *p, void *a, void *b);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern char id67[], id194[], id129[];
-extern char d_021F5580[], d_021DA62C[];
+extern char gNameInProcData[], d_021DA62C[];
 int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
 {
     u32 sizes[3];
@@ -70,7 +70,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         p[2] = CODEIN_PARAM_Create(heap, 0, 0, 12, sizes);
         func_021C6390(a);
         p[0] = PROCSYS_Create(heap);
-        PROCSYS_Push(p[0], (u32)id194, d_021F5580, p[1]);
+        PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);
         b[8] = 1;
         break;
     case 1:
@@ -104,7 +104,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         p[1] = func_021C8DA0(p, (char *)b, 0, heap);
         func_021C6390(a);
         p[0] = PROCSYS_Create(heap);
-        PROCSYS_Push(p[0], (u32)id194, d_021F5580, p[1]);
+        PROCSYS_Push(p[0], (u32)id194, gNameInProcData, p[1]);
         b[8] = 5;
         break;
     case 5:

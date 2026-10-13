@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sPalAnmColorCodeTable  0x0209E968  data
+ *   sItemBerryTable  0x0209E968  data
  *   sPalAnmCodePairTable  0x0209E904  data
- *   g_palAnmTimer  0x02146788  data
+ *   sPalAnmTimer  0x02146788  data
  *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv    0x0209C00C  arm
  *   func_02030734      0x02030734  arm
@@ -107,9 +107,9 @@ void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *palSlots, u32 arcId, u32 fil
 void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
 void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *palSlots, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset);
 void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size);
-extern u16 sPalAnmColorCodeTable[];
+extern u16 sItemBerryTable[];
 extern u16 sPalAnmCodePairTable[][2];
-extern struct PalAnmTimer g_palAnmTimer;
+extern struct PalAnmTimer sPalAnmTimer;
 extern const char sPalAnmFileName[];
 extern const char sPalAnmFileName[];
 
@@ -246,7 +246,7 @@ int ITEM_IsBerry(u32 colorCode)
     u32 i;
 
     for (i = 0; i < 0x40; i++)
-        if (sPalAnmColorCodeTable[i] == colorCode)
+        if (sItemBerryTable[i] == colorCode)
             return 1;
     return 0;
 }
@@ -287,7 +287,7 @@ unsigned short PALANM_GetPairedCodeForFirst(int value)
  */
 void PALANM_StopTimer(void)
 {
-    g_palAnmTimer.active = 0;
+    sPalAnmTimer.active = 0;
 }
 
 /*
@@ -308,14 +308,14 @@ void PALANM_StopTimer(void)
  */
 void PALANM_StartTimer(void)
 {
-    g_palAnmTimer.active = 1;
-    g_palAnmTimer.lastTick = 0;
-    g_palAnmTimer.doneUnits = 0;
-    g_palAnmTimer.baseTick = OS_GetTick();
+    sPalAnmTimer.active = 1;
+    sPalAnmTimer.lastTick = 0;
+    sPalAnmTimer.doneUnits = 0;
+    sPalAnmTimer.baseTick = OS_GetTick();
 }
 
 /*
- * Palette-animation tick pump.  g_palAnmTimer is the same state block
+ * Palette-animation tick pump.  sPalAnmTimer is the same state block
  * PALANM_StartTimer resets; unk_04, unk_0c and tick are 4-aligned u64 fields
  * (docs/idioms/long-long-aligns-to-four.md).  The divisor 0x01FF6210 is the
  * OS tick-to-unit scale applied after a <<6, through _ll_udiv
@@ -334,27 +334,27 @@ void PALANM_UpdateTimer(u8 *target)
     u64 now;
     u64 units;
 
-    if (g_palAnmTimer.active == 0) {
+    if (sPalAnmTimer.active == 0) {
         return;
     }
     now = OS_GetTick();
-    if (now < g_palAnmTimer.lastTick) {
-        now = now + g_palAnmTimer.lastTick;
+    if (now < sPalAnmTimer.lastTick) {
+        now = now + sPalAnmTimer.lastTick;
     } else {
-        g_palAnmTimer.lastTick = now;
+        sPalAnmTimer.lastTick = now;
     }
-    units = ((now - g_palAnmTimer.baseTick) << 6) / 0x01FF6210;
-    if (g_palAnmTimer.doneUnits >= units) {
+    units = ((now - sPalAnmTimer.baseTick) << 6) / 0x01FF6210;
+    if (sPalAnmTimer.doneUnits >= units) {
         return;
     }
-    GAME_DATA_CheckPlayTime(target, (u32)(units - g_palAnmTimer.doneUnits));
-    if (g_palAnmTimer.lastTick == now) {
-        g_palAnmTimer.doneUnits = units;
+    GAME_DATA_CheckPlayTime(target, (u32)(units - sPalAnmTimer.doneUnits));
+    if (sPalAnmTimer.lastTick == now) {
+        sPalAnmTimer.doneUnits = units;
     } else {
         now = OS_GetTick();
-        g_palAnmTimer.baseTick = now;
-        g_palAnmTimer.doneUnits = (now << 6) / 0x01FF6210;
-        g_palAnmTimer.lastTick = now;
+        sPalAnmTimer.baseTick = now;
+        sPalAnmTimer.doneUnits = (now << 6) / 0x01FF6210;
+        sPalAnmTimer.lastTick = now;
     }
 }
 

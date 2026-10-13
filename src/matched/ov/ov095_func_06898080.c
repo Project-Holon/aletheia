@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_06898080, func_06898088, func_06898094, func_06898098, func_068980A4, func_068980B0, func_068980BC
+ * function: HAND_FIELD_RemoveFactor, HAND_FIELD_GetHandlersWeatherMarker, HAND_FIELD_WeatherMarkerNoop, HAND_FIELD_GetHandlersTrickRoom, HAND_FIELD_TrickRoomReverseSpeed, HAND_FIELD_GetHandlersGravity, HAND_FIELD_GravityBoostAccuracy
  * address:  0x06898080
  * packet:   pkt_ov095_06898080
  * region:   ov095
@@ -14,62 +14,62 @@
  * to 0x021D6F0C (ARM linker stub, not compilable); the seven functions after
  * it (0x06898080..0x068980CC) are this unit. Two of them (0x06898094,
  * 0x06898088) are entries of the {key, fn} table at 0x0689D630 that
- * func_06898020 walks.
+ * HAND_FIELD_AddFactor walks.
  *
  * symbols:
  *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
- *   d_0689D638     0x0689D638  data   ov095  a4
- *   d_0689D630     0x0689D630  data   ov095  a4
- *   d_0689D640     0x0689D640  data   ov095  a4
+ *   gHandFieldWeatherMarkerHandlers     0x0689D638  data   ov095  a4
+ *   gHandFieldTrickRoomHandlers     0x0689D630  data   ov095  a4
+ *   gHandFieldGravityHandlers     0x0689D640  data   ov095  a4
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 d_0689D638[];
-extern u8 d_0689D630[];
-extern u8 d_0689D640[];
+extern u8 gHandFieldWeatherMarkerHandlers[];
+extern u8 gHandFieldTrickRoomHandlers[];
+extern u8 gHandFieldGravityHandlers[];
 struct Node;
 extern void BTL_EVENT_RemoveFactor(struct Node *n);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void BTL_EVENT_MultiplyVar(int key, int m);
 
-void func_06898080(void *n)
+void HAND_FIELD_RemoveFactor(void *n)
 {
     BTL_EVENT_RemoveFactor(n);
 }
 
-u8 *func_06898088(u32 *p)
+u8 *HAND_FIELD_GetHandlersWeatherMarker(u32 *p)
 {
     *p = 1;
-    return d_0689D638;
+    return gHandFieldWeatherMarkerHandlers;
 }
 
-void func_06898094(void)
+void HAND_FIELD_WeatherMarkerNoop(void)
 {
 }
 
-u8 *func_06898098(u32 *p)
+u8 *HAND_FIELD_GetHandlersTrickRoom(u32 *p)
 {
     *p = 1;
-    return d_0689D630;
+    return gHandFieldTrickRoomHandlers;
 }
 
-void func_068980A4(void)
+void HAND_FIELD_TrickRoomReverseSpeed(void)
 {
     BTL_EVENT_OverwriteVar(0x4a, 1);
 }
 
-u8 *func_068980B0(u32 *p)
+u8 *HAND_FIELD_GetHandlersGravity(u32 *p)
 {
     *p = 2;
-    return d_0689D640;
+    return gHandFieldGravityHandlers;
 }
 
-void func_068980BC(void)
+void HAND_FIELD_GravityBoostAccuracy(void)
 {
     BTL_EVENT_MultiplyVar(0x35, 0x1ab8);
 }

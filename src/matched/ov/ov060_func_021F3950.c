@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK60_SetupEffect
+ * function: FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect
  * address:  0x021F3950
  * packet:   pkt_ov060_021F3950
  * region:   ov060
@@ -26,7 +26,7 @@ extern u8 *FLD_EXP_OBJ_GetAnime(void *p, int i, int j, u16 k);
 extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 
-void GIMMICK60_SetupEffect(void *unused, void *p)
+void FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect(void *unused, void *p)
 {
     int i;
     u8 *e;

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E732C",
-    "func_021E737C"
+    "HAND_WAZA_SoakSetWaterType",
+    "HAND_WAZA_AddSimpleBeam"
+   ],
+   "addresses": [
+    "0x021E732C",
+    "0x021E737C"
    ],
    "evidence": {
     "sole-ref": [

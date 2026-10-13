@@ -1,5 +1,5 @@
 /*
- * function: func_068990E8
+ * function: HAND_SIDE_MistNoticeStatDrop
  * address:  0x068990E8
  * packet:   pkt_ov095_068990E8
  * region:   ov095
@@ -29,7 +29,7 @@ extern void func_06899174(u8 *p, int n, int c);
 extern void func_06899184(u8 *p, int v);
 extern void func_06899194(int p, u8 *q);
 
-void func_068990E8(int a0, int p, int a2, int *s)
+void HAND_SIDE_MistNoticeStatDrop(int a0, int p, int a2, int *s)
 {
     int k;
     u8 v;

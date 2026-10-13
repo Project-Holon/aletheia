@@ -1,5 +1,5 @@
 /*
- * function: func_0220985C
+ * function: BTLV_BG_IsScrolling
  * address:  0x0220985C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0220985C   0x0220985C  thumb
+ *   BTLV_BG_IsScrolling   0x0220985C  thumb
  *
  * lane O10 candidate
  */
@@ -20,7 +20,7 @@ typedef struct {
     unsigned int f : 1;
 } S985C;
 
-unsigned int func_0220985C(S985C *p)
+unsigned int BTLV_BG_IsScrolling(S985C *p)
 {
     return p->f != 0;
 }

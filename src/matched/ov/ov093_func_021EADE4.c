@@ -1,5 +1,5 @@
 /*
- * function: func_021EADE4
+ * function: BTLV_CORE_StartBallWindowClose
  * address: 0x021EADE4
  * packet: pkt_ov093_021EADE4
  * region: ov093
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct O;
 extern void BTLV_SCU_StartBallWindowClose(struct O *);
-void func_021EADE4(u8 *p)
+void BTLV_CORE_StartBallWindowClose(u8 *p)
 {
     BTLV_SCU_StartBallWindowClose(*(struct O * *)&((struct Obj21575 *)p)->f17C);
 }

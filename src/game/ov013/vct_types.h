@@ -180,7 +180,7 @@ typedef struct VctAudioFrame {
     u8 data[VCT_PACKET_SLOT_BYTES - 0xC];
 } VctAudioFrame;
 
-/* d_021B42C0: send side. Frames are produced into frames[], then sent to
+/* gVctSendBuffer: send side. Frames are produced into frames[], then sent to
  * the peers in pendingMask a few at a time per tick. */
 typedef struct VctSendBuffer {
     VctAudioFrame frames[2];
@@ -251,7 +251,7 @@ typedef struct VctGroupCount {
     int peerMask;
 } VctGroupCount;
 
-/* Per-sender receive state (one per slot, three slots at d_021B3CBC).
+/* Per-sender receive state (one per slot, three slots at gVctReceiveSources).
  * The sequence, jitter and drift fields follow RFC 3550 receiver state. */
 typedef struct VctReceiveSource {
     u32 latency;
@@ -293,7 +293,7 @@ typedef struct VctReceiveSource {
     u32 lowCount;
 } VctReceiveSource;
 
-/* d_021B3AD0 rows: a packet carries blocks of 0x44 bytes plus extra bytes after its 12 byte header. */
+/* gVctFrameSpecs rows: a packet carries blocks of 0x44 bytes plus extra bytes after its 12 byte header. */
 typedef struct VctFrameSpec {
     u8 blocks;
     u8 extraBytes;
@@ -382,10 +382,10 @@ extern VctSession gVctSession;
 extern VctPeerPool gVctPeerPool;
 extern VctFramePool gVoiceFramePool;
 extern VctSendState gVctSendState;
-extern VctSendBuffer d_021B42C0;
-extern VctReceiveSource d_021B3CBC[3];
-extern const VctFrameSpec d_021B3AD0[];
-extern int d_021B3C24;
+extern VctSendBuffer gVctSendBuffer;
+extern VctReceiveSource gVctReceiveSources[3];
+extern const VctFrameSpec gVctFrameSpecs[];
+extern int gVctSendEnabled;
 extern VctRxPacketList gVctPendingList;
 extern int gVctPendingCount[3];
 

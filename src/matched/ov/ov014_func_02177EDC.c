@@ -10,12 +10,12 @@
  * status: EXACT
  * evidence: 79328 stores its r0 payload unchanged; caller passes a function pointer.
  * symbols:
- *   func_02179328 0x02179328 thumb ov014
+ *   WIH_SetJudgeAcceptFunc 0x02179328 thumb ov014
  *   NET_WHPIPE_AcceptChild 0x02177ED4 thumb ov014
  *   NET_WHPIPE_RejectChild 0x02177ED8 thumb ov014
  */
 
-extern void func_02179328(void *v);
+extern void WIH_SetJudgeAcceptFunc(void *v);
 extern int NET_WHPIPE_AcceptChild(void);
 extern int NET_WHPIPE_RejectChild(void);
-void NET_WHPIPE_SetAcceptChild(int a) { if (a != 0) func_02179328(NET_WHPIPE_AcceptChild); else func_02179328(NET_WHPIPE_RejectChild); }
+void NET_WHPIPE_SetAcceptChild(int a) { if (a != 0) WIH_SetJudgeAcceptFunc(NET_WHPIPE_AcceptChild); else WIH_SetJudgeAcceptFunc(NET_WHPIPE_RejectChild); }

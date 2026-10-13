@@ -71,7 +71,7 @@
  *   func_021B6364 0x021B6364 thumb ov098
  *   func_021B6504 0x021B6504 thumb ov098
  *   func_021B6988 0x021B6988 thumb ov098
- *   IRC_COMPATIBLE_ProcExit 0x021B69C4 thumb ov098
+ *   PDC_MSG_PrintMessageA 0x021B69C4 thumb ov098
  *   func_021B6A3C 0x021B6A3C thumb ov098
  *   func_021B6B74 0x021B6B74 thumb ov098
  *   func_022025D8 0x022025D8 thumb ov094
@@ -112,7 +112,7 @@ extern int func_021B6140(void *);
 extern void func_021B6364(u8 *, u32);
 extern int func_021B6504(char *);
 extern void func_021B6988(int, int);
-extern void IRC_COMPATIBLE_ProcExit(int, int);
+extern void PDC_MSG_PrintMessageA(int, int);
 extern int func_021B6A3C(u8 *);
 extern int func_021B6B74(u8 *);
 extern void func_022025D8(char *, int);
@@ -187,7 +187,7 @@ int func_021B6578(struct P *p)
         break;
     case 6:
         if (!func_021F7EB4()) {
-            IRC_COMPATIBLE_ProcExit((int)p->object, (int)p->parent);
+            PDC_MSG_PrintMessageA((int)p->object, (int)p->parent);
             (p->state)++;
         }
         break;

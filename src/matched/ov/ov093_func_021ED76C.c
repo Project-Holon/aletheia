@@ -1,5 +1,5 @@
 /*
- * function: func_021ED76C
+ * function: BTLV_SCU_InitMsgWinFade
  * address:  0x021ED76C
  * packet:   pkt_ov093_021ED76C
  * region:   ov093
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 struct S { int a; int x4; int x8; int xc; int x10; u8 state; u8 b15; };
 extern void func_0207D63C(int, int, int, int, int);
-void func_021ED76C(struct S *s, int a)
+void BTLV_SCU_InitMsgWinFade(struct S *s, int a)
 {
     s->a = a;
     s->state = 0;

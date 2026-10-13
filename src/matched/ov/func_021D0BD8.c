@@ -1,5 +1,5 @@
 /*
- * function: func_021D0BD8
+ * function: TRIAL_HOUSE_CreateTrainerMsgEvent
  * address:  0x021D0BD8
  * packet:   pkt_021D0BD8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(u32, u32, u32, u32);
 
-int func_021D0BD8(u32 a, u32 b, u32 c, u32 d)
+int TRIAL_HOUSE_CreateTrainerMsgEvent(u32 a, u32 b, u32 c, u32 d)
 {
 return FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(a, b, c, ((d << 16) >> 16));
 }

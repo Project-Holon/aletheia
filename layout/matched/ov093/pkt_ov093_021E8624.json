@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E8624",
+   "name": "HAND_COMMON_IsLastToAct",
    "address": "0x021E8624",
    "kind": "game",
    "region": "ov093",

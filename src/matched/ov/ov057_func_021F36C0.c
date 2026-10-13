@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_MODEL_SCENE_Load
  * address:  0x021F36C0
  * packet:   pkt_ov057_021F36C0
  * region:   ov057
@@ -27,10 +27,10 @@
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   d_021F38A8     0x021F38A8  data  a4
- *   d_021F387C     0x021F387C  data  a4
- *   d_021F3888     0x021F3888  data  a4
- *   d_021F3898     0x021F3898  data  a4
+ *   sModelSceneResourceFileIds     0x021F38A8  data  a4
+ *   sModelSceneRenderModelIndices     0x021F387C  data  a4
+ *   sModelSceneAnimeRenderIndices     0x021F3888  data  a4
+ *   sModelSceneAnimeResourceIndices     0x021F3898  data  a4
  */
 
 typedef unsigned short u16;
@@ -60,12 +60,12 @@ extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern const u32 d_021F38A8[];
-extern const u32 d_021F387C[];
-extern const u32 d_021F3888[];
-extern const u32 d_021F3898[];
+extern const u32 sModelSceneResourceFileIds[];
+extern const u32 sModelSceneRenderModelIndices[];
+extern const u32 sModelSceneAnimeRenderIndices[];
+extern const u32 sModelSceneAnimeResourceIndices[];
 
-void func_021F36C0(int a, int b, Res *p)
+void FIELD_GIMMICK_MODEL_SCENE_Load(int a, int b, Res *p)
 {
     void *h;
     int i;
@@ -73,12 +73,12 @@ void func_021F36C0(int a, int b, Res *p)
 
     h = func_020490F4(0xbe, (u16)((FIELDMAP_GetHeapId((u8 *)b) & 0x7fff) | 0x8000));
     for (i = 0; i < 7; i++) {
-        if (G3D_SYSTEM_CheckResourceType((struct Tagged *)(p->res[i] = (u32)G3D_SYSTEM_CreateResourceArcHandle((u32)h, d_021F38A8[i])), 2)) {
+        if (G3D_SYSTEM_CheckResourceType((struct Tagged *)(p->res[i] = (u32)G3D_SYSTEM_CreateResourceArcHandle((u32)h, sModelSceneResourceFileIds[i])), 2)) {
             G3D_SYSTEM_TransVramTexture((int *)p->res[i]);
         }
     }
     for (i = 0; i < 3; i++) {
-        t = d_021F387C[i];
+        t = sModelSceneRenderModelIndices[i];
         if (G3D_SYSTEM_CheckResourceType((struct Tagged *)p->res[t], 2)) {
             p->tex[i] = (u32)G3D_SYSTEM_CreateRender((void *)p->res[t], 0, (void *)p->res[t]);
         } else {
@@ -86,7 +86,7 @@ void func_021F36C0(int a, int b, Res *p)
         }
     }
     for (i = 0; i < 4; i++) {
-        p->anm[i] = (u32)G3D_SYSTEM_CreateAnime((struct G3dOwner *)p->tex[d_021F3888[i]], (const struct G3dOwner *)p->res[d_021F3898[i]], 0);
+        p->anm[i] = (u32)G3D_SYSTEM_CreateAnime((struct G3dOwner *)p->tex[sModelSceneAnimeRenderIndices[i]], (const struct G3dOwner *)p->res[sModelSceneAnimeResourceIndices[i]], 0);
     }
     for (i = 0; i < 3; i++) {
         p->obj[i] = (u32)G3D_SYSTEM_CreateObject(p->tex[i], p->anm, 4);

@@ -13,7 +13,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   GIMMICK46_StartLeverEvent  0x021F3AD0  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent  0x021F3AD0  thumb  ov046
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
@@ -21,7 +21,7 @@
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
-extern int GIMMICK46_StartLeverEvent(void *a, int b, int c);
+extern int FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(void *a, int b, int c);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
 int SCRCMD_GIMMICK46_CallSecondEvent(int a, int b)
@@ -30,7 +30,7 @@ int SCRCMD_GIMMICK46_CallSecondEvent(int a, int b)
     void *y = SCRCMD_WORK_GetGameSystem((void *)b);
     int p = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     int q = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
-    int r = GIMMICK46_StartLeverEvent(y, p, q);
+    int r = FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(y, p, q);
 
     if (r == 0) {
         return 1;

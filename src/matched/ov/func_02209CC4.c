@@ -1,5 +1,5 @@
 /*
- * function: func_02209CC4
+ * function: BTLV_FINGER_CURSOR_TaskHideAfterDelay
  * address:  0x02209CC4
  * packet:   pkt_02209CC4
  * region:   ov094
@@ -32,7 +32,7 @@ typedef struct {
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
-void func_02209CC4(int a0, S09CC4 *p)
+void BTLV_FINGER_CURSOR_TaskHideAfterDelay(int a0, S09CC4 *p)
 {
     if (p->f04 == 0)
         return;

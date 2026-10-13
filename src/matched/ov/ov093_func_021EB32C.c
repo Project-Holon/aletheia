@@ -19,8 +19,8 @@
  *   BTLV_SCU_ProcEntryDoubleLinkComm 0x021EBE88 thumb ov093
  *   BTLV_SCU_ProcEntryDoubleTrainerLocal 0x021EBD90 thumb ov093
  *   BTLV_SCU_ProcEntryDoubleTrainerComm 0x021EBDDC thumb ov093
- *   func_021EBED4 0x021EBED4 thumb ov093
- *   func_021EBF20 0x021EBF20 thumb ov093
+ *   BTLV_SCU_ProcEntryTriple 0x021EBED4 thumb ov093
+ *   BTLV_SCU_ProcEntryTripleLink 0x021EBF20 thumb ov093
  */
 #include "../include/Obj05227.h"
 #include "../include/Obj07850.h"
@@ -38,8 +38,8 @@ extern int BTLV_SCU_ProcEntryDoubleLinkLocal(int *, u8 *);
 extern int BTLV_SCU_ProcEntryDoubleLinkComm(int *, u8 *);
 extern int BTLV_SCU_ProcEntryDoubleTrainerLocal(int *, u8 *);
 extern int BTLV_SCU_ProcEntryDoubleTrainerComm(int *, u8 *);
-extern int func_021EBED4(int *, u8 *);
-extern int func_021EBF20(int *, u8 *);
+extern int BTLV_SCU_ProcEntryTriple(int *, u8 *);
+extern int BTLV_SCU_ProcEntryTripleLink(int *, u8 *);
 static inline void set(u8 *p, Cb cb)
 {
     ((struct Obj07850 *)p)->fE0 = 0;
@@ -73,12 +73,12 @@ void BTLV_SCU_StartEntryScene(u8 *p, u32 flag)
         }
         break;
     case 2:
-        if (type != 3) set(p, func_021EBED4);
-        else set(p, func_021EBF20);
+        if (type != 3) set(p, BTLV_SCU_ProcEntryTriple);
+        else set(p, BTLV_SCU_ProcEntryTripleLink);
         return;
     case 3:
-        if (type != 3) set(p, func_021EBED4);
-        else set(p, func_021EBF20);
+        if (type != 3) set(p, BTLV_SCU_ProcEntryTriple);
+        else set(p, BTLV_SCU_ProcEntryTripleLink);
         return;
     }
 }

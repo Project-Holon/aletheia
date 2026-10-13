@@ -1,5 +1,5 @@
 /*
- * function: func_021F3758
+ * function: RAIL_SLIPDOWN_Delete
  * address:  0x021F3758
  * packet:   pkt_021F3758
  * region:   ov063
@@ -22,7 +22,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern u32 func_020307B0(void *p);
 
-void func_021F3758(u8 *p)
+void RAIL_SLIPDOWN_Delete(u8 *p)
 {
     func_02030EAC((struct Node *)(((struct Obj20594 *)p)->f80));
     func_020307B0((void *)((u32)p));

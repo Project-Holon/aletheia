@@ -11,17 +11,17 @@
  *
  * symbols:
  *   d_0220AF20     0x0220AF20  data   ov094  a4
- *   func_02208DAC  0x02208DAC  thumb  ov094
+ *   BTLV_B_GAUGE_CreatePartyBallBar  0x02208DAC  thumb  ov094
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
-extern u32 func_02208DAC(u32 *p, u32 v);
+extern u32 BTLV_B_GAUGE_CreatePartyBallBar(u32 *p, u32 v);
 
 void func_021F823C(u32 *p)
 {
-    u32 r = func_02208DAC(p, *(u16 *)(d_0220AF20 + 0x1F0));
+    u32 r = BTLV_B_GAUGE_CreatePartyBallBar(p, *(u16 *)(d_0220AF20 + 0x1F0));
 
     *(u32 *)(d_0220AF20 + p[0] * 4 + 0x1A8) = r;
 }

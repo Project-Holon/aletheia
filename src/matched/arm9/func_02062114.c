@@ -27,8 +27,8 @@
  *
  * symbols:
  *   g_02146B94   0x02146B94  data
- *   g_020A8140   0x020A8140  data
- *   g_020A8144   0x020A8144  data
+ *   NNS_GfdDefaultFuncAllocTexVram   0x020A8140  data
+ *   NNS_GfdDefaultFuncFreeTexVram   0x020A8144  data
  *   func_02062270   0x02062270  arm
  *   func_0206216C   0x0206216C  arm
  *   func_020621FC   0x020621FC  arm
@@ -41,8 +41,8 @@ typedef unsigned int u32;
 
 extern struct Cfg g_02146B94;
 
-extern void (*g_020A8140)(void);
-extern void (*g_020A8144)(void);
+extern void (*NNS_GfdDefaultFuncAllocTexVram)(void);
+extern void (*NNS_GfdDefaultFuncFreeTexVram)(void);
 
 extern void func_02062270(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0206216C(u32 size, u32 flag);
@@ -58,7 +58,7 @@ void func_02062114(u32 a, u32 b, u32 c, u32 d, u32 e)
     func_02062270(a, b, c, d);
 
     if (e != 0) {
-        g_020A8140 = (void (*)(void))func_0206216C;
-        g_020A8144 = (void (*)(void))func_020621FC;
+        NNS_GfdDefaultFuncAllocTexVram = (void (*)(void))func_0206216C;
+        NNS_GfdDefaultFuncFreeTexVram = (void (*)(void))func_020621FC;
     }
 }

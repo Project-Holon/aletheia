@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_GetRotateAnim
+ * function: FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim
  * address:  0x021F3BE8
  * packet:   pkt_ov046_021F3BE8
  * region:   ov046
@@ -17,7 +17,7 @@
 
 extern int sGimmick46RotateAnimTable[][4];
 
-int GIMMICK46_GetRotateAnim(int *p, int i)
+int FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim(int *p, int i)
 {
     return sGimmick46RotateAnimTable[*p][i] - 5;
 }

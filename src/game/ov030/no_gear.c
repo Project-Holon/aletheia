@@ -1,7 +1,7 @@
 /*
  * file:     no_gear.c
  * unit:     yes
- * function: func_021EFEC0, NO_GEAR_SetStepFunc, NO_GEAR_LoadGraphics, NO_GEAR_SetupBackgrounds, NO_GEAR_Init, NO_GEAR_ReleaseGraphics, NO_GEAR_Step, NO_GEAR_Create, NO_GEAR_Update, func_021F0118
+ * function: NO_GEAR_StoreStepFunc, NO_GEAR_SetStepFunc, NO_GEAR_LoadGraphics, NO_GEAR_SetupBackgrounds, NO_GEAR_Init, NO_GEAR_ReleaseGraphics, NO_GEAR_Step, NO_GEAR_Create, NO_GEAR_Update, NO_GEAR_Destroy
  * address:  0x021EFEC0
  * region:   ov030
  * compiler: dsi/1.1p1
@@ -99,7 +99,7 @@ extern void func_020403F4(u32 bgId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_GetWifiList(struct GameData *gameData);
 extern u32 WIH_DWC_PollStatus(void *key);
-void func_021EFEC0(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *));
+void NO_GEAR_StoreStepFunc(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *));
 void NO_GEAR_SetStepFunc(NoGearWork *work, void (*stepFunc)(NoGearWork *), int line);
 void NO_GEAR_LoadGraphics(NoGearWork *work);
 void NO_GEAR_SetupBackgrounds(void);
@@ -122,7 +122,7 @@ extern void NO_GEAR_ReleaseGraphics(struct NoGearWork *work);
 extern u32 func_020307B0(void *block);
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
-void func_021EFEC0(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *))
+void NO_GEAR_StoreStepFunc(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *))
 {
     *slot = stepFunc;
 }
@@ -130,12 +130,12 @@ void func_021EFEC0(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *))
 
 
 /*
- * Tail call to the unlabelled ov030 leaf func_021EFEC0; its ABS32 pool word
- * is now witnessed by the EXACT shard entry for func_021EFEC0 (matched x1).
+ * Tail call to the unlabelled ov030 leaf NO_GEAR_StoreStepFunc; its ABS32 pool word
+ * is now witnessed by the EXACT shard entry for NO_GEAR_StoreStepFunc (matched x1).
  */
 void NO_GEAR_SetStepFunc(NoGearWork *work, void (*stepFunc)(NoGearWork *), int line)
 {
-    func_021EFEC0(&work->stepFunc, stepFunc);
+    NO_GEAR_StoreStepFunc(&work->stepFunc, stepFunc);
 }
 
 
@@ -259,7 +259,7 @@ void NO_GEAR_Hook(void)
 }
 
 /* Frees the BG resources of the panel, clears the sub screen blend, frees the work. */
-void func_021F0118(struct NoGearWork *work)
+void NO_GEAR_Destroy(struct NoGearWork *work)
 {
     NO_GEAR_ReleaseGraphics(work);
     REG_DB_BLDCNT_SUB = 0;

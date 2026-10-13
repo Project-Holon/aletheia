@@ -1,5 +1,5 @@
 /*
- * function: func_021E908C
+ * function: BTLV_CORE_Update
  * address:  0x021E908C
  * packet:   pkt_ov093_021E908C
  * region:   ov093
@@ -18,7 +18,7 @@ struct Tcbl;
 extern void TCBL_Main(struct Tcbl *p);
 extern void func_021F78E4(void);
 
-void func_021E908C(char *p)
+void BTLV_CORE_Update(char *p)
 {
     TCBL_Main(((struct Obj21551 *)p)->f178);
     func_021F78E4();

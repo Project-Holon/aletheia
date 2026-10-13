@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK43_CallLiftEvent
+ * function: FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent
  * address:  0x021F398C
  * packet:   pkt_ov043_021F398C
  * region:   ov043
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK43_CallLiftEvent  0x021F398C  thumb
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent  0x021F398C  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
@@ -18,7 +18,7 @@
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   func_020122C0  0x020122C0  thumb
- *   GIMMICK43_LiftEventMain  0x021F3AC0  thumb
+ *   FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain  0x021F3AC0  thumb
  *   sGimmick43LiftHeights    0x021F4490  data  a4
  */
 
@@ -45,9 +45,9 @@ typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK43_LiftEventMain(void *a, int *b);
+extern int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *a, int *b);
 
-int GIMMICK43_CallLiftEvent(void *a, int b)
+int FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *a, int b)
 {
     void *s;
     int *q;
@@ -81,5 +81,5 @@ int GIMMICK43_CallLiftEvent(void *a, int b)
         p[3] = step;
     }
     p[16] = 0;
-    return (int)func_020122C0(a, 0, GIMMICK43_LiftEventMain, 0);
+    return (int)func_020122C0(a, 0, FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain, 0);
 }

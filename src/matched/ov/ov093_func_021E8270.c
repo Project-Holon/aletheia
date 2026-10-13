@@ -1,5 +1,5 @@
 /*
- * function: func_021E8270
+ * function: HAND_WAZA_GrowthBoostInSun
  * address:  0x021E8270
  * packet:   pkt_ov093_021E8270
  * region:   ov093
@@ -23,7 +23,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(u8 *p);
 
-void func_021E8270(int a, void *b, int c)
+void HAND_WAZA_GrowthBoostInSun(int a, void *b, int c)
 {
     int v;
 

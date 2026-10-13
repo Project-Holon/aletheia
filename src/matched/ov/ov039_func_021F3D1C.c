@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_SaveCartFrames
+ * function: FIELD_GIMMICK_CART_LANES_SaveCartFrames
  * address:  0x021F3D1C
  * packet:   pkt_ov039_021F3D1C
  * region:   ov039
@@ -17,7 +17,7 @@
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
- *   GIMMICK39_GetAnimeFrame 0x021F3DE4 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_GetAnimeFrame 0x021F3DE4 thumb ov039
  */
 
 typedef unsigned char  u8;
@@ -34,9 +34,9 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern void FLD_EXP_OBJ_UpdateAnimes(int);
 typedef unsigned short u16;
-extern int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i);
+extern int FIELD_GIMMICK_CART_LANES_GetAnimeFrame(void *p, u16 delta, u16 i);
 
-void GIMMICK39_SaveCartFrames(int a)
+void FIELD_GIMMICK_CART_LANES_SaveCartFrames(int a)
 {
     int *r7;
     int r6;
@@ -48,5 +48,5 @@ void GIMMICK39_SaveCartFrames(int a)
     r7 = GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem(a))), 2);
     FLD_EXP_OBJ_UpdateAnimes(r6);
     for (i = 0; i < 4; i++)
-        r7[i] = GIMMICK39_GetAnimeFrame((void *)r6, (unsigned char)i, (unsigned char)(r5[i + 0x21EC] + 1));
+        r7[i] = FIELD_GIMMICK_CART_LANES_GetAnimeFrame((void *)r6, (unsigned char)i, (unsigned char)(r5[i + 0x21EC] + 1));
 }

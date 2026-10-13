@@ -13,7 +13,7 @@
  *   func_02207960  0x02207960  thumb  ov094
  *   func_0220778C  0x0220778C  thumb  ov094
  *   GFL_USE_PopBgm  0x02005E9C  thumb
- *   func_02208D24  0x02208D24  thumb  ov094
+ *   BTLV_GAUGE_SetBgmPlayerParam  0x02208D24  thumb  ov094
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
@@ -36,7 +36,7 @@ typedef struct {
 extern void func_02207960(char *p, int i);
 extern void func_0220778C(char *p, int i);
 extern int GFL_USE_PopBgm(void);
-extern void func_02208D24(int a);
+extern void BTLV_GAUGE_SetBgmPlayerParam(int a);
 struct Node;
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -60,7 +60,7 @@ void func_02206E28(char *p)
     }
     if (((Bf *)(p + 0x440))->b2) {
         GFL_USE_PopBgm();
-        func_02208D24(0);
+        BTLV_GAUGE_SetBgmPlayerParam(0);
     }
     for (j = 0; j < 6; j++)
         CLACT_ReleasePalette(*(int *)(p + j * 4 + 0x18));

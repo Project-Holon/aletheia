@@ -11,15 +11,15 @@
  *
  * symbols:
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
- *   func_021EA384  0x021EA384  thumb  ov093
- *   func_021EA3A0  0x021EA3A0  thumb  ov093
+ *   BTLV_CORE_StartMonSpriteUpdate  0x021EA384  thumb  ov093
+ *   BTLV_CORE_WaitMonSpriteUpdate  0x021EA3A0  thumb  ov093
  */
 #include "../include/Obj07784.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int BTL_MAIN_GetTrainerSlotOfPoke(void *p, void *a, u32 b);
-extern void func_021EA384(char *ctx, int a);
-extern int func_021EA3A0(u32 *p);
+extern void BTLV_CORE_StartMonSpriteUpdate(char *ctx, int a);
+extern int BTLV_CORE_WaitMonSpriteUpdate(u32 *p);
 
 int BTL_CLIENT_StepUpdateMonGaugeCopy(u8 *p, int *st, u32 *c)
 {
@@ -27,11 +27,11 @@ int BTL_CLIENT_StepUpdateMonGaugeCopy(u8 *p, int *st, u32 *c)
 
     switch (*st) {
     case 0:
-        func_021EA384(((struct Obj07784 *)p)->f54, BTL_MAIN_GetTrainerSlotOfPoke(((struct Obj07784 *)p)->f0, ((struct Obj07784 *)p)->f4, id));
+        BTLV_CORE_StartMonSpriteUpdate(((struct Obj07784 *)p)->f54, BTL_MAIN_GetTrainerSlotOfPoke(((struct Obj07784 *)p)->f0, ((struct Obj07784 *)p)->f4, id));
         (*st)++;
         break;
     case 1:
-        if (func_021EA3A0(((struct Obj07784 *)p)->f54))
+        if (BTLV_CORE_WaitMonSpriteUpdate(((struct Obj07784 *)p)->f54))
             return 1;
         break;
     }

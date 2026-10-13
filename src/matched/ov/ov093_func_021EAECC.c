@@ -1,5 +1,5 @@
 /*
- * function: func_021EAECC
+ * function: BTLV_CORE_SetCounterValueMode
  * address:  0x021EAECC
  * packet:   pkt_ov093_021EAECC
  * region:   ov093
@@ -15,7 +15,7 @@
 #include "../include/Obj07849.h"
 typedef unsigned char u8;
 extern void func_021EAEF0(void *, void *);
-void func_021EAECC(u8 *p, int v, int w)
+void BTLV_CORE_SetCounterValueMode(u8 *p, int v, int w)
 {
     ((struct Obj07849 *)p)->f160 = v;
     ((struct Obj07849 *)p)->f164 = v;

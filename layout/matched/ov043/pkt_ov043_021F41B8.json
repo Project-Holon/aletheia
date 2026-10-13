@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK43_StartCameraShake",
+   "name": "FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake",
    "address": "0x021F41B8",
    "kind": "game",
    "region": "ov043",

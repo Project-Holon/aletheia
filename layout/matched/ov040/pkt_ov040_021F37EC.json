@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK40_CreateEvent",
+   "name": "FIELD_GIMMICK_FLAG_ANIME_CreateEvent",
    "address": "0x021F37EC",
    "kind": "game",
    "region": "ov040",

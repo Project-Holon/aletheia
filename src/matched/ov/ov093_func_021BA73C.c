@@ -22,7 +22,7 @@
  *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
  *   BTL_SIDE_SetupClientParty  0x021B9460  thumb  ov093
  *   BTL_CLIENT_StartRemoteStep  0x021CD984  thumb  ov093
- *   func_021E9034  0x021E9034  thumb  ov093
+ *   BTLV_CORE_Delete  0x021E9034  thumb  ov093
  *   BTLV_CORE_ResetDisplay  0x021E8E28  thumb  ov093
  *   BTLV_CORE_Create  0x021E8F20  thumb  ov093
  *   BTL_CLIENT_SetView  0x021CD95C  thumb  ov093
@@ -46,7 +46,7 @@ extern void BTL_SIDE_SetupClientParty(char *a, char *b, u8 c);
 extern void BTL_CLIENT_StartRemoteStep(void *, int);
 typedef unsigned short u16;
 struct Scene;
-extern void func_021E9034(char *p);
+extern void BTLV_CORE_Delete(char *p);
 extern void BTLV_CORE_ResetDisplay(void *p);
 extern struct Scene *BTLV_CORE_Create(void *a, void *b, u32 c, int d, u16 heap);
 extern void BTL_CLIENT_SetView(struct QA *p, u32 v);
@@ -69,7 +69,7 @@ void BTL_MAIN_RestartBattle(char *p, int x)
             BTL_CLIENT_StartRemoteStep(*(void **)(p + i * 4 + 0x10), x);
         }
     }
-    func_021E9034((char *)(((struct Obj02131 *)p)->f4));
+    BTLV_CORE_Delete((char *)(((struct Obj02131 *)p)->f4));
     BTLV_CORE_ResetDisplay((void *)0x13);
     ((struct Obj02131 *)p)->f4 = (int)BTLV_CORE_Create(p, *(void **)(p + (((struct Obj21020 *)(*(char * *)&((struct Obj02131 *)p)->f0))->f21) * 4 + 0x10), (u32)(p + 0xc8), t, 0x13);
     BTL_CLIENT_SetView(*(void **)(p + (((struct Obj21021 *)(*(char * *)&((struct Obj02131 *)p)->f0))->f21) * 4 + 0x10), ((struct Obj02131 *)p)->f4);

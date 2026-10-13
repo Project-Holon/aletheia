@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK50_HideModel1
+ * function: FIELD_GIMMICK_MODELS_B_HideModel1
  * address: 0x021F3788
  * packet: pkt_ov050_021F3788
  * region: ov050
@@ -18,4 +18,4 @@
 extern int FIELDMAP_GetExpObj(int *);
 extern void FLD_EXP_OBJ_SetModelHidden(char *,int,int,int);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
-void GIMMICK50_HideModel1(int *p) { int i; char *q; q=(char *)FIELDMAP_GetExpObj(p); FLD_EXP_OBJ_SetModelHidden(q,0,1,1); for(i=0;i<2;i++) FLD_EXP_OBJ_SetAnimeEnabled(q,0,1,(unsigned short)i,0); }
+void FIELD_GIMMICK_MODELS_B_HideModel1(int *p) { int i; char *q; q=(char *)FIELDMAP_GetExpObj(p); FLD_EXP_OBJ_SetModelHidden(q,0,1,1); for(i=0;i<2;i++) FLD_EXP_OBJ_SetAnimeEnabled(q,0,1,(unsigned short)i,0); }

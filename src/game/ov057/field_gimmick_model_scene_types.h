@@ -41,7 +41,7 @@ typedef struct ModelScene {
 } ModelScene;
 
 /* The position, scale and rotation the three objects are drawn with. */
-extern G3dObjectStatus d_021F38C4;
+extern G3dObjectStatus sModelSceneDrawStatus;
 
 extern void G3D_SYSTEM_DrawObject(G3dObject *object, G3dObjectStatus *status);
 

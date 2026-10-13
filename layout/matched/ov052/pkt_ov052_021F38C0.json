@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_GIMMICK_BSUBWAY_InitTrainSway",
-    "func_021F38E4"
+    "FIELD_GIMMICK_BSUBWAY_ExitTrainSway"
    ],
    "addresses": [
     "0x021F38C0",

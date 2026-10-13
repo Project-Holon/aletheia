@@ -1,5 +1,5 @@
 /*
- * function: func_021E9034
+ * function: BTLV_CORE_Delete
  * address:  0x021E9034
  * packet:   pkt_ov093_021E9034
  * region:   ov093
@@ -30,7 +30,7 @@ extern unsigned int GF_FONT_Delete(void *ptr);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021E9034(char *p)
+void BTLV_CORE_Delete(char *p)
 {
     BTL_MSG_Exit();
     func_021E907C(((struct Obj05223 *)p)->f180);

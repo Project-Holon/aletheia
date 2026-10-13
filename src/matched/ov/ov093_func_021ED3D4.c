@@ -1,5 +1,5 @@
 /*
- * function: func_021ED3D4
+ * function: BTLV_SCU_StartMonSendOut
  * address:  0x021ED3D4
  * packet:   pkt_ov093_021ED3D4
  * region:   ov093
@@ -21,7 +21,7 @@
  *   func_021F7A28  0x021F7A28  thumb  ov094
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
- *   func_021ED460  0x021ED460  thumb  ov093
+ *   BTLV_SCU_TaskMonSendOut  0x021ED460  thumb  ov093
  */
 #include "../include/Obj10119.h"
 
@@ -39,15 +39,15 @@ struct S02030FB4;
 extern void func_021F7A28(int a, u32 b);
 extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
-extern void func_021ED460(void *task, struct Q *q);
+extern void BTLV_SCU_TaskMonSendOut(void *task, struct Q *q);
 
-void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag)
+void BTLV_SCU_StartMonSendOut(char *p, u8 k, int a, u8 b, int flag)
 {
     struct T *t;
     u8 *m;
     u8 y;
 
-    t = (struct T *)TCBL_GetWork(TCBL_AddTask(((struct Obj10119 *)p)->f2C, (void *)func_021ED460, 0xc, 1));
+    t = (struct T *)TCBL_GetWork(TCBL_AddTask(((struct Obj10119 *)p)->f2C, (void *)BTLV_SCU_TaskMonSendOut, 0xc, 1));
     t->e = p + 0x48 + k * 0xc;
     t->cnt = (u8 *)p + 0x41;
     t->st = 0;

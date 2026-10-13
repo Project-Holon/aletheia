@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021E7080",
-    "func_021E70D8"
+    "HAND_WAZA_StoredPowerAddPowerPerStage",
+    "HAND_WAZA_AddHeavySlam"
+   ],
+   "addresses": [
+    "0x021E7080",
+    "0x021E70D8"
    ],
    "evidence": {
     "sole-ref": [

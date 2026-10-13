@@ -15,7 +15,7 @@
  * into one tail) and the 0x12C store after it: that puts the two stores in
  * different blocks when constants are derived, so the second offset is
  * rematerialised (`movs #0x4b; lsls`) instead of `adds r0,#8`.
- * Extent runs into func_021D0AB8 (filed separately).
+ * Extent runs into TRIAL_HOUSE_SetUseDeliveredTrainers (filed separately).
  */
 
 typedef unsigned int u32;

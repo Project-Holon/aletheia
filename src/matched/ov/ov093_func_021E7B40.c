@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E7B40, func_021E7B8C
+ * function: HAND_WAZA_SynchronoiseFailWithoutSharedType, HAND_WAZA_AddBestow
  * address:  0x021E7B40
  * packet:   pkt_ov093_021E7B40
  * region:   ov093
@@ -31,7 +31,7 @@ extern int BTLV_CORE_BytesOverlap(int a, int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int d_021F283C[];
 
-void func_021E7B40(int a, int b, int c)
+void HAND_WAZA_SynchronoiseFailWithoutSharedType(int a, int b, int c)
 {
     u8 k;
     void *x, *y;
@@ -47,7 +47,7 @@ void func_021E7B40(int a, int b, int c)
     }
 }
 
-int *func_021E7B8C(int *p)
+int *HAND_WAZA_AddBestow(int *p)
 {
     *p = 1;
     return d_021F283C;

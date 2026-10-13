@@ -1,5 +1,5 @@
 /*
- * function: func_02207D04
+ * function: BTLV_GAUGE_SetSlotVisible
  * address:  0x02207D04
  * packet:   pkt_ov094_02207D04
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02208D50  0x02208D50  thumb  ov094
+ *   BTLV_GAUGE_SetSlotBarsVisible  0x02208D50  thumb  ov094
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  */
@@ -34,17 +34,17 @@ typedef struct O {
     E e[8];
 } O;
 
-extern void func_02208D50(O *obj, int idx, int a);
+extern void BTLV_GAUGE_SetSlotBarsVisible(O *obj, int idx, int a);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 typedef unsigned short u16;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 
-void func_02207D04(O *obj, int a, int idx)
+void BTLV_GAUGE_SetSlotVisible(O *obj, int a, int idx)
 {
     obj->e[idx].flag = a;
     CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].f0, a);
-    func_02208D50(obj, idx, a);
+    BTLV_GAUGE_SetSlotBarsVisible(obj, idx, a);
     if (obj->e[idx].f10 != 0) {
         CLACT_SetActorDrawEnable((struct Obj *)obj->e[idx].f10, a);
     }

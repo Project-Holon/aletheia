@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK64_PlayerEffectEvent
+ * function: FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent
  * address:  0x021F384C
  * packet:   pkt_ov064_021F384C
  * region:   ov064
@@ -42,7 +42,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
 
-int GIMMICK64_PlayerEffectEvent(void *task, int *st)
+int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *task, int *st)
 {
     void *sys;
     int s;

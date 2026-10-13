@@ -1,5 +1,5 @@
 /*
- * function: func_021ED118
+ * function: BTLV_SCU_StartWazaEffect
  * address:  0x021ED118
  * packet:   pkt_ov093_021ED118
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ED158  0x021ED158  thumb  ov093
+ *   BTLV_SCU_ProcWazaEffect  0x021ED158  thumb  ov093
  */
 #include "../include/Obj06290.h"
 
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021ED158(int *, u8 *);
+extern int BTLV_SCU_ProcWazaEffect(int *, u8 *);
 
 struct T {
     u16 h;
@@ -29,7 +29,7 @@ struct T {
     u32 d;
 };
 
-void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f)
+void BTLV_SCU_StartWazaEffect(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f)
 {
     struct T *q = (struct T *)(p + 0xf0);
 
@@ -40,7 +40,7 @@ void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f)
     q->f = f;
     q->d = d;
     ((struct Obj06290 *)p)->fE0 = 0;
-    *(int (**)(int *, u8 *))(p + 0xe4) = func_021ED158;
+    *(int (**)(int *, u8 *))(p + 0xe4) = BTLV_SCU_ProcWazaEffect;
     *(u8 * *)&((struct Obj06290 *)p)->fE8 = p;
     ((struct Obj06290 *)p)->fEC = 0;
 }

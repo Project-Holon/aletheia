@@ -11,8 +11,8 @@
  *
  * symbols:
  *   BTL_SERVER_CMD_ReadU8Wrapper  0x021CD644  thumb  ov093
- *   func_021EA280  0x021EA280  thumb  ov093
- *   func_021EA2BC  0x021EA2BC  thumb  ov093
+ *   BTLV_CORE_StartMultiDamageEffect  0x021EA280  thumb  ov093
+ *   BTLV_CORE_ProcMultiDamageEffect  0x021EA2BC  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -27,8 +27,8 @@ typedef struct {
 } Seq;
 
 extern u8 BTL_SERVER_CMD_ReadU8Wrapper(u8 *p);
-extern void func_021EA280(char *ctx, u32 n, int b, const u8 *c, u16 e);
-extern int func_021EA2BC(char *ctx);
+extern void BTLV_CORE_StartMultiDamageEffect(char *ctx, u32 n, int b, const u8 *c, u16 e);
+extern int BTLV_CORE_ProcMultiDamageEffect(char *ctx);
 
 int BTL_CLIENT_StepPlayMultiMonAnim(Seq *s, int *state, u32 *a)
 {
@@ -46,11 +46,11 @@ int BTL_CLIENT_StepPlayMultiMonAnim(Seq *s, int *state, u32 *a)
         for (i = 0; i < n; i++) {
             buf[i] = BTL_SERVER_CMD_ReadU8Wrapper((u8 *)s->unk134);
         }
-        func_021EA280(s->win, n, p1, buf, p2);
+        BTLV_CORE_StartMultiDamageEffect(s->win, n, p1, buf, p2);
         *state = *state + 1;
         break;
     case 1:
-        if (func_021EA2BC(s->win)) {
+        if (BTLV_CORE_ProcMultiDamageEffect(s->win)) {
             return 1;
         }
         break;

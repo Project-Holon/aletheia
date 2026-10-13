@@ -1,5 +1,5 @@
 /*
- * function: func_021EA7FC
+ * function: BTLV_CORE_StartWaitMessage
  * address:  0x021EA7FC
  * packet:   pkt_ov093_021EA7FC
  * region:   ov093
@@ -18,7 +18,7 @@ extern void func_021F8A40(int a);
 typedef unsigned char  u8;
 extern void BTLV_SCU_PrintWaitMessage(u8 *p);
 
-void func_021EA7FC(char *p)
+void BTLV_CORE_StartWaitMessage(char *p)
 {
     func_021F8A40(3);
     BTLV_SCU_PrintWaitMessage((u8 *)(*(char * *)&((struct Obj21566 *)p)->f17C));

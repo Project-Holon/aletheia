@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled-record helper reached from the five ov093 packets that name it
- * (HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / BTL_CALC_IntimidateOnEnter / func_021E7388 /
+ * (HAND_ITEM_RockyHelmetDamageReaction / HAND_WAZA_MementoOnUncategorizedMove / BTL_CALC_IntimidateOnEnter / HAND_WAZA_SimpleBeamSetAbility /
  * HAND_ITEM_DestinyKnot_Infatuate).  Runs the battle-command dispatcher on (`a`, `b`), then
  * dispatches the same command through the record `a + 0x1D74`.
  *

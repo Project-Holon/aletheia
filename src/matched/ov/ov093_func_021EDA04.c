@@ -1,5 +1,5 @@
 /*
- * function: func_021EDA04
+ * function: BTLV_SCU_ShowMonSlot
  * address:  0x021EDA04
  * packet:   pkt_ov093_021EDA04
  * region:   ov093
@@ -22,7 +22,7 @@ struct E { u8 *a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
 extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern int BTL_POKEPARAM_IsFainted(void *m);
 extern void func_021F803C(u32 a, void *m, u32 c);
-void func_021EDA04(struct E *e)
+void BTLV_SCU_ShowMonSlot(struct E *e)
 {
     if (e->fb != 0) {
         e->a0 = BTL_SIDE_GetPokeAtPos(*(char *const * *)&((struct Obj21607 *)(e->owner))->f138, e->k8);

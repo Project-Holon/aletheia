@@ -16,7 +16,7 @@
  *   BTL_POKEPARAM_GetItem 0x021D5B40 thumb ov093
  *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   BTLV_CORE_CheckPartySlotCondition 0x021E86C8 thumb ov093
- *   func_021E8638 0x021E8638 thumb ov093
+ *   HAND_COMMON_IsItemBoundToSpecies 0x021E8638 thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
  *   BTL_SERVER_FLOW_InitMsgRecord 0x021C8838 thumb ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg 0x021C8860 thumb ov093
@@ -32,7 +32,7 @@ struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern int BTLV_CORE_CheckPartySlotCondition(void *, int);
-extern int func_021E8638(int, int);
+extern int HAND_COMMON_IsItemBoundToSpecies(int, int);
 extern u32 func_0202136C(u16 v);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
@@ -61,10 +61,10 @@ void HAND_WAZA_TrickOnWazaExecute(void *a, void *b, int c)
     u = BTL_POKEPARAM_GetSpecies(n);
     if (func_0202136C(x) != 0) return;
     if (func_0202136C(y) != 0) return;
-    if (func_021E8638(t, y) != 0) return;
-    if (func_021E8638(u, x) != 0) return;
-    if (func_021E8638(t, x) != 0) return;
-    if (func_021E8638(u, y) != 0) return;
+    if (HAND_COMMON_IsItemBoundToSpecies(t, y) != 0) return;
+    if (HAND_COMMON_IsItemBoundToSpecies(u, x) != 0) return;
+    if (HAND_COMMON_IsItemBoundToSpecies(t, x) != 0) return;
+    if (HAND_COMMON_IsItemBoundToSpecies(u, y) != 0) return;
     p = BTL_SERVER_FLOW_AllocCmdRecord(b, 36, c);
     p[4] = k;
     BTL_SERVER_FLOW_InitMsgRecord(p + 8, 2, 682);

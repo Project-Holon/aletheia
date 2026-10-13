@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_UnlockLaneFromScript
+ * function: FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript
  * address: 0x021F4134
  * packet: pkt_ov039_021F4134
  * region: ov039
@@ -14,7 +14,7 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
- *   GIMMICK39_UnlockLane 0x021F4184 thumb ov039
+ *   FIELD_GIMMICK_CART_LANES_UnlockLane 0x021F4184 thumb ov039
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,5 +28,5 @@ extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
-extern void GIMMICK39_UnlockLane(u8 *p, u8 i);
-void GIMMICK39_UnlockLaneFromScript(void *p, u32 i) { GIMMICK39_UnlockLane((u8 *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)((u32)GAMESYSTEM_GetFieldMap(p))))), 2), i); }
+extern void FIELD_GIMMICK_CART_LANES_UnlockLane(u8 *p, u8 i);
+void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(void *p, u32 i) { FIELD_GIMMICK_CART_LANES_UnlockLane((u8 *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)((u32)GAMESYSTEM_GetFieldMap(p))))), 2), i); }

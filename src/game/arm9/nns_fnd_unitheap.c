@@ -23,8 +23,8 @@
  *   g_020A8150     0x020A8150  data
  *   g_020A816C     0x020A816C  data
  *   g_02146B70      0x02146B70  data
- *   g_020A8140      0x020A8140  data
- *   g_020A8144      0x020A8144  data
+ *   NNS_GfdDefaultFuncAllocTexVram      0x020A8140  data
+ *   NNS_GfdDefaultFuncFreeTexVram      0x020A8144  data
  *   g_020A8158  0x020A8158  data
  */
 struct ExpHeap;
@@ -129,8 +129,8 @@ extern u8 g_020A1708[];
 extern struct Slot g_020A816C[5];
 extern struct Slot *g_020A8150[7];
 extern u16 g_02146B70;
-extern u32 g_020A8140;
-extern u32 g_020A8144;
+extern u32 NNS_GfdDefaultFuncAllocTexVram;
+extern u32 NNS_GfdDefaultFuncFreeTexVram;
 extern struct Slot *g_020A8158[5];
 
 
@@ -563,8 +563,8 @@ void func_020613D8(u32 mode, u32 flag)
         return;
     }
 
-    g_020A8140 = (u32)func_020614D4;
-    g_020A8144 = (u32)func_02061644;
+    NNS_GfdDefaultFuncAllocTexVram = (u32)func_020614D4;
+    NNS_GfdDefaultFuncFreeTexVram = (u32)func_02061644;
 }
 
 

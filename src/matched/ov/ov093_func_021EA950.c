@@ -1,5 +1,5 @@
 /*
- * function: func_021EA950
+ * function: BTLV_CORE_WaitRotation
  * address:  0x021EA950
  * packet:   pkt_ov093_021EA950
  * region:   ov093
@@ -22,7 +22,7 @@ typedef struct {
     u32 obj;                   /* 0x28 */
 } CbSlot;
 
-int func_021EA950(CbSlot *s)
+int BTLV_CORE_WaitRotation(CbSlot *s)
 {
     if (s->cb1 != 0) {
         if (s->cb1(&s->obj, s->arg) != 0) {

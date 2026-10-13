@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK54_ExitSoundObjs
+ * function: FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs
  * address: 0x021F38E4
  * packet: pkt_ov054_021F38E4
  * region: ov054
@@ -27,4 +27,4 @@ typedef unsigned int   u32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern int SOUND_OBJ_SetAnimeFrame(void *,int);
-void GIMMICK54_ExitSoundObjs(char *p,int a) { int *q=GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))),11); int i; for(i=0;i<2;i++) SOUND_OBJ_SetAnimeFrame(*(void **)(p+8+4*i),(int)((unsigned)q[i]<<12)); }
+void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(char *p,int a) { int *q=GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))),11); int i; for(i=0;i<2;i++) SOUND_OBJ_SetAnimeFrame(*(void **)(p+8+4*i),(int)((unsigned)q[i]<<12)); }

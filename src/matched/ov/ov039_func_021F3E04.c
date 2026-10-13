@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK39_SetAnimeFrame
+ * function: FIELD_GIMMICK_CART_LANES_SetAnimeFrame
  * address: 0x021F3E04
  * packet: pkt_ov039_021F3E04
  * region: ov039
@@ -19,4 +19,4 @@ extern int FLD_EXP_OBJ_GetModelObject(void *p, u32 i, int delta);
 typedef signed int     s32;
 struct AnmCtl;
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
-void GIMMICK39_SetAnimeFrame(void *p, u8 delta, u16 i, int frame) { G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)FLD_EXP_OBJ_GetModelObject(p, 0, delta), i, &frame); }
+void FIELD_GIMMICK_CART_LANES_SetAnimeFrame(void *p, u8 delta, u16 i, int frame) { G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)FLD_EXP_OBJ_GetModelObject(p, 0, delta), i, &frame); }

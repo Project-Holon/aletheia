@@ -12,7 +12,7 @@
  *   BTL_SERVER_CompareFlowOutput 0x021BB570 thumb ov093
  *   BTL_MAIN_SetRecordInvalid 0x021B9184 thumb ov093
  *   func_02082A90 0x02082A90 arm
- *   func_021EA824 0x021EA824 thumb ov093
+ *   BTLV_CORE_EndWaitMessage 0x021EA824 thumb ov093
  *   func_021D3F4C 0x021D3F4C thumb ov093
  *   BTL_SERVER_CMD_ReadNext 0x021CD5E0 thumb ov093
  *   gServerCommandHandlers 0x021F00DC data a4
@@ -30,7 +30,7 @@ extern int BTL_ADAPTER_GetRecvData(int, u8 **);
 extern int BTL_SERVER_CompareFlowOutput(u8 *, int, void *, u32);
 extern void BTL_MAIN_SetRecordInvalid(void *);
 extern void func_02082A90(const void *, void *, u32);
-extern void func_021EA824(char *p);
+extern void BTLV_CORE_EndWaitMessage(char *p);
 extern int func_021D3F4C(void *);
 extern int BTL_SERVER_CMD_ReadNext(Buf *, int *);
 int BTL_CLIENT_StepRunServerCommands(u8 *p, int *state, void *a2)
@@ -59,7 +59,7 @@ again:
         buf->rpos = 0;
         if (p[0x1A9] != 0) {
             p[0x1A9] = 0;
-            func_021EA824(((struct Obj01237 *)p)->f54);
+            BTLV_CORE_EndWaitMessage(((struct Obj01237 *)p)->f54);
         }
         (*state)++;
     case 1:

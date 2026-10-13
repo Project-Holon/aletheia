@@ -43,7 +43,7 @@
  *   func_021DD0CC 0x021DD0CC thumb ov119
  *   func_021DA110 0x021DA110 thumb ov119
  *   func_021D9E54 0x021D9E54 thumb ov119
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   func_021DD2A8 0x021DD2A8 thumb ov119
  *   func_021DA27C 0x021DA27C thumb ov119
  *   func_021DA1DC 0x021DA1DC thumb ov119
@@ -78,7 +78,7 @@ extern int func_021D9548(char *,int,int);
 extern int func_021DD0CC(char *,int);
 extern int func_021DD2A8(char *);
 extern void func_021DF7AC(void *,int);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021DBB6C(char *);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_021E5EF8(void *);
@@ -162,17 +162,17 @@ void func_021DA318(char *p)
                 I(0xf84)=I(0xf94);
                 I(0xf88)=I(0xf98);
                 func_021D8E84(p,(int)func_021D9E54);
-                func_021B6558((unsigned char *)I(0x9c0),7,0);
-                func_021B6558((unsigned char *)I(0x9c0),8,0);
-                func_021B6558((unsigned char *)I(0x9c0),9,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),7,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),8,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),9,0);
                 keep=0;
             } else if(func_021DD2A8(p) && !func_020355C4()) {
                 I(0xf84)=I(0xf94);
                 I(0xf88)=I(0xf98);
                 func_021D8E84(p,(int)func_021DA27C);
-                func_021B6558((unsigned char *)I(0x9c0),7,0);
-                func_021B6558((unsigned char *)I(0x9c0),8,0);
-                func_021B6558((unsigned char *)I(0x9c0),9,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),7,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),8,0);
+                TOUCHBAR_SetButtonVisible((unsigned char *)I(0x9c0),9,0);
                 keep=0;
             } else {
                 I(0xf84)=I(0xf94);

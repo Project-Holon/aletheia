@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_Update
+ * function: FIELD_GIMMICK_SOUND_OBJS_Update
  * address:  0x021F3778
  * packet:   pkt_ov053_021F3778
  * region:   ov053
@@ -15,15 +15,15 @@
  *   FIELD_CAMERA_GetEyeRaw  0x0218ECE4  thumb  ov021
  *   FIELD_CAMERA_GetTargetRaw  0x0218ECB4  thumb  ov021
  *   ISS_3DS_SYS_SetCamera  0x0202B93C  thumb
- *   GIMMICK53_RestartAnime  0x021F3A5C  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_RestartAnime  0x021F3A5C  thumb  ov053
  *   SOUND_OBJ_AdvanceAnime  0x021C4DE4  thumb  ov021
- *   GIMMICK53_StartWait  0x021F3A38  thumb  ov053
- *   GIMMICK53_UpdateBgmFade  0x021F3A7C  thumb  ov053
- *   GIMMICK53_ApplyBgmVolume  0x021F3A6C  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_StartWait  0x021F3A38  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_UpdateBgmFade  0x021F3A7C  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_ApplyBgmVolume  0x021F3A6C  thumb  ov053
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   GIMMICK53_UpdateSlideSe  0x021F3B40  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe  0x021F3B40  thumb  ov053
  */
 
 typedef unsigned char  u8;
@@ -33,18 +33,18 @@ extern void *FIELDMAP_GetCamera(void *p);
 extern void FIELD_CAMERA_GetEyeRaw(int, int *);
 extern void FIELD_CAMERA_GetTargetRaw(int, int *);
 extern void ISS_3DS_SYS_SetCamera(int a, void *b, void *c);
-extern int GIMMICK53_RestartAnime(char *p, int i);
+extern int FIELD_GIMMICK_SOUND_OBJS_RestartAnime(char *p, int i);
 extern int SOUND_OBJ_AdvanceAnime(int, int);
-extern void GIMMICK53_StartWait(char *a, int i);
-extern void GIMMICK53_UpdateBgmFade(char *p, int a);
-extern void GIMMICK53_ApplyBgmVolume(int *);
+extern void FIELD_GIMMICK_SOUND_OBJS_StartWait(char *a, int i);
+extern void FIELD_GIMMICK_SOUND_OBJS_UpdateBgmFade(char *p, int a);
+extern void FIELD_GIMMICK_SOUND_OBJS_ApplyBgmVolume(int *);
 extern int FIELDMAP_GetExpObj(int *p);
 extern void FLD_EXP_OBJ_UpdateAnimes(int);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
-extern void GIMMICK53_UpdateSlideSe(struct Obj *o, int h, u8 *a2);
+extern void FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe(struct Obj *o, int h, u8 *a2);
 
-void GIMMICK53_Update(int a)
+void FIELD_GIMMICK_SOUND_OBJS_Update(int a)
 {
     int i;
     int h;
@@ -62,7 +62,7 @@ void GIMMICK53_Update(int a)
         int *q = p + i;
         if (q[7] > 0) {
             if (--q[7] <= 0) {
-                GIMMICK53_RestartAnime((char *)p, i);
+                FIELD_GIMMICK_SOUND_OBJS_RestartAnime((char *)p, i);
                 switch (i) {
                 case 0:
                     p[8] = 1;
@@ -73,11 +73,11 @@ void GIMMICK53_Update(int a)
                 }
             }
         } else if (SOUND_OBJ_AdvanceAnime(q[2], 0x1000)) {
-            GIMMICK53_StartWait((char *)p, i);
+            FIELD_GIMMICK_SOUND_OBJS_StartWait((char *)p, i);
         }
     }
-    GIMMICK53_UpdateBgmFade((char *)p, a);
-    GIMMICK53_ApplyBgmVolume(p);
+    FIELD_GIMMICK_SOUND_OBJS_UpdateBgmFade((char *)p, a);
+    FIELD_GIMMICK_SOUND_OBJS_ApplyBgmVolume(p);
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj((int *)a));
-    GIMMICK53_UpdateSlideSe((struct Obj *)(p + 0x1a), h, (u8 *)FIELDMAP_GetFieldPlayer((struct Obj00020 *)a));
+    FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe((struct Obj *)(p + 0x1a), h, (u8 *)FIELDMAP_GetFieldPlayer((struct Obj00020 *)a));
 }

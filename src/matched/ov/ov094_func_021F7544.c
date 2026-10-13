@@ -33,8 +33,8 @@
  *   func_021F6E3C  0x021F6E3C  thumb  ov094
  *   func_02201A8C  0x02201A8C  thumb  ov094
  *   func_02206BC8  0x02206BC8  thumb  ov094
- *   func_02209224  0x02209224  thumb  ov094
- *   func_0220975C  0x0220975C  thumb  ov094
+ *   BTLV_TIMER_Create  0x02209224  thumb  ov094
+ *   BTLV_BG_Create  0x0220975C  thumb  ov094
  *   func_021FF16C  0x021FF16C  thumb  ov094
  *   PARTICLE_InitManager  0x02050B80  arm
  *   func_020056A0  0x020056A0  thumb
@@ -129,8 +129,8 @@ extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void *func_021F6E3C(void *a, u16 b);
 extern struct Res *func_02201A8C(void *owner, u16 heap);
 extern void *func_02206BC8(int, u16);
-extern void *func_02209224(u16 heap);
-extern void *func_0220975C(void *a, u16 heap);
+extern void *BTLV_TIMER_Create(u16 heap);
+extern void *BTLV_BG_Create(void *a, u16 heap);
 extern void func_021FF16C(void *);
 extern void PARTICLE_InitManager(u32);
 extern void *func_020056A0(void (*cb)(void), void *ctx, int pri);
@@ -183,8 +183,8 @@ void func_021F7544(Param *p, int arg, u16 heap)
     d_0220AF20->h19c = func_021F6E3C(d_0220AF20->owner, heap);
     d_0220AF20->h1a0 = func_02201A8C(d_0220AF20->owner, heap);
     d_0220AF20->h1a4 = func_02206BC8(arg, heap);
-    d_0220AF20->h1b0 = func_02209224(heap);
-    d_0220AF20->h1b4 = func_0220975C(d_0220AF20->owner, heap);
+    d_0220AF20->h1b0 = BTLV_TIMER_Create(heap);
+    d_0220AF20->h1b4 = BTLV_BG_Create(d_0220AF20->owner, heap);
     func_021FF16C(d_0220AF20->h190);
     PARTICLE_InitManager(heap);
     for (i = 0; i < 8; i++) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK43_ShowElevatorIdleAnime",
+   "name": "FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime",
    "address": "0x021F4174",
    "kind": "game",
    "region": "ov043",

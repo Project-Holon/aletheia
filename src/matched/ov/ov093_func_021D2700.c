@@ -14,8 +14,8 @@
  *   BTL_MAIN_GetViewPosOfSlot 0x021B8E70 thumb ov093
  *   BTL_SIDE_GetSlotOfClient 0x021B9AEC thumb ov093
  *   BTL_SLOT_Swap 0x021B9C10 thumb ov093
- *   func_021EA904 0x021EA904 thumb ov093
- *   func_021EA950 0x021EA950 thumb ov093
+ *   BTLV_CORE_StartRotation 0x021EA904 thumb ov093
+ *   BTLV_CORE_WaitRotation 0x021EA950 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,8 +26,8 @@ extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *, u32, u8);
 extern u8 BTL_MAIN_GetViewPosOfSlot(u8 *, u32);
 extern char *BTL_SIDE_GetSlotOfClient(char *, int);
 extern void BTL_SLOT_Swap(u32 *p, int a, int b);
-extern void func_021EA904(u32 *, u32, u32, u32, u8, u8);
-extern int func_021EA950(void *);
+extern void BTLV_CORE_StartRotation(u32 *, u32, u32, u32, u8, u8);
+extern int BTLV_CORE_WaitRotation(void *);
 int BTL_CLIENT_StepRotatePositionsTwice(u32 *p, int *st, u32 *c)
 {
     switch (*st) {
@@ -44,12 +44,12 @@ int BTL_CLIENT_StepRotatePositionsTwice(u32 *p, int *st, u32 *c)
             v = BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], x);
             w = BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], y);
             BTL_SLOT_Swap((u32 *)BTL_SIDE_GetSlotOfClient((char *)p[1], a), b, 1);
-            func_021EA904((u32 *)p[21], a, v, w, b, 1);
+            BTLV_CORE_StartRotation((u32 *)p[21], a, v, w, b, 1);
             (*st)++;
         }
         break;
     case 2:
-        if (func_021EA950((void *)p[21])) {
+        if (BTLV_CORE_WaitRotation((void *)p[21])) {
             u8 a = c[2], b = c[3];
             u32 x, y, v, w;
             x = BTL_MAIN_GetClientTrainerIndex((u8 *)p[0], a, b);
@@ -57,12 +57,12 @@ int BTL_CLIENT_StepRotatePositionsTwice(u32 *p, int *st, u32 *c)
             v = BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], x);
             w = BTL_MAIN_GetViewPosOfSlot((u8 *)p[0], y);
             BTL_SLOT_Swap((u32 *)BTL_SIDE_GetSlotOfClient((char *)p[1], a), b, 1);
-            func_021EA904((u32 *)p[21], a, v, w, b, 1);
+            BTLV_CORE_StartRotation((u32 *)p[21], a, v, w, b, 1);
             (*st)++;
         }
         break;
     case 3:
-        if (func_021EA950((void *)p[21])) return 1;
+        if (BTLV_CORE_WaitRotation((void *)p[21])) return 1;
         break;
     }
     return 0;

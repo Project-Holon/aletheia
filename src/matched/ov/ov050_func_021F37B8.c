@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK50_ShowModel1
+ * function: FIELD_GIMMICK_MODELS_B_ShowModel1
  * address:  0x021F37B8
  * packet:   pkt_ov050_021F37B8
  * region:   ov050
@@ -24,7 +24,7 @@ extern void FLD_EXP_OBJ_SetAnimeEnabled(int a, int b, int c, unsigned short d, i
 extern int FLD_EXP_OBJ_GetAnime(int a, int b, int c, unsigned short d);
 extern void FLD_EXP_OBJ_SetAnimeLoop(int a, int b);
 
-void GIMMICK50_ShowModel1(int a)
+void FIELD_GIMMICK_MODELS_B_ShowModel1(int a)
 {
     int r6;
     int i;

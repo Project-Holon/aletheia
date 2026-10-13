@@ -1,5 +1,5 @@
 /*
- * function: func_021EDF7C
+ * function: BTLV_SCU_RefreshNamePlate
  * address:  0x021EDF7C
  * packet:   pkt_ov093_021EDF7C
  * region:   ov093
@@ -13,7 +13,7 @@
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   func_021EDE54  0x021EDE54  thumb  ov093
+ *   BTLV_SCU_DrawNamePlate  0x021EDE54  thumb  ov093
  *   func_021F8AE8  0x021F8AE8  thumb  ov094
  */
 #include "../include/Obj05234.h"
@@ -26,10 +26,10 @@ typedef unsigned int u32;
 extern u8 *BTL_SIDE_GetPokeAtPos(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern void func_021EDE54(u8 *p);
+extern void BTLV_SCU_DrawNamePlate(u8 *p);
 extern void func_021F8AE8(int i, u32 v);
 
-void func_021EDF7C(u8 *p, u8 b)
+void BTLV_SCU_RefreshNamePlate(u8 *p, u8 b)
 {
     u8 *r;
     u16 h;
@@ -41,7 +41,7 @@ void func_021EDF7C(u8 *p, u8 b)
     if (h != ((struct Obj05234 *)p)->f8 || t != p[0xc]) {
         p[0xc] = t;
         ((struct Obj05234 *)p)->f8 = h;
-        func_021EDE54(p);
+        BTLV_SCU_DrawNamePlate(p);
     }
     p[0xd] = 0;
     func_021F8AE8(b, h);

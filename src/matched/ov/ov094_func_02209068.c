@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02209068, func_022090A4
+ * function: BTLV_B_GAUGE_DeletePartyBallBar, BTLV_B_GAUGE_IsPartyBallBarActive
  * address:  0x02209068
  * packet:   pkt_ov094_02209068
  * region:   ov094
@@ -37,7 +37,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
 
-void func_02209068(W *w)
+void BTLV_B_GAUGE_DeletePartyBallBar(W *w)
 {
     int i;
 
@@ -50,7 +50,7 @@ void func_02209068(W *w)
     func_020307B0(w);
 }
 
-int func_022090A4(int *p)
+int BTLV_B_GAUGE_IsPartyBallBarActive(int *p)
 {
     if (p[0xd8 / 4 + 0] != 0)
         return 1;

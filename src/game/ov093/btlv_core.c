@@ -1,23 +1,33 @@
 /*
  * file:     btlv_core.c
  * unit:     yes
- * function: BTLV_CORE_CheckPartySlotPair, BTLV_CORE_CheckPartySlotCondition, BTLV_CORE_CheckEitherSlotPair, BTLV_CORE_EventRedirectMove, BTLV_CORE_EventCounterMove, BTLV_CORE_EventQueueMoveNotice, BTLV_CORE_EventScaleDamage, BTLV_CORE_EventSetFlagIfAttacker, BTLV_CORE_EventTrySetFlagIfAttacker, BTLV_CORE_LoadDsiOverlay, BTLV_CORE_UnloadDsiOverlay, BTLV_CORE_GetZeroMasked, BTLV_CORE_IsSlotKindNone, BTLV_CORE_MakeSlotKind2Index, BTLV_CORE_MakeSlotKind2, BTLV_CORE_MakeSlotKind3, BTLV_CORE_MakeSlotKind1Empty, BTLV_CORE_MakeSlotKind1Value, BTLV_CORE_MakeSlotKind1, BTLV_CORE_MakeSlotKind4, BTLV_CORE_MakeSlotKind1Index15, BTLV_CORE_IsSlotKind1Index15, BTLV_CORE_GetSlotPosition, BTLV_CORE_SetSlotPosition, BTLV_CORE_GetSlotLow, BTLV_CORE_SetSlotValue, BTLV_CORE_GetSlotValue, BTLV_CORE_SetSlotFlag, BTLV_CORE_GetSlotFlag, BTLV_CORE_AddSlotIndex, BTLV_CORE_SetSlotIndex, BTLV_CORE_PackBytes, BTLV_CORE_PackByteTwice, BTLV_CORE_GetHighByte, BTLV_CORE_GetLowByte, BTLV_CORE_SplitBytes, BTLV_CORE_HasByte, BTLV_CORE_BytesOverlap, BTLV_CORE_BytesEqual, BTLV_CORE_LoadOverlays, BTLV_CORE_UnloadOverlays, BTLV_CORE_ResetDisplay, BTLV_CORE_InitDisplay, BTLV_CORE_ExitDisplay, BTLV_CORE_Create
+ * function: BTLV_CORE_CheckPartySlotPair, BTLV_CORE_CheckPartySlotCondition, BTLV_CORE_CheckEitherSlotPair, BTLV_CORE_EventRedirectMove, BTLV_CORE_EventCounterMove, BTLV_CORE_EventQueueMoveNotice, BTLV_CORE_EventScaleDamage, BTLV_CORE_EventSetFlagIfAttacker, BTLV_CORE_EventTrySetFlagIfAttacker, BTLV_CORE_LoadDsiOverlay, BTLV_CORE_UnloadDsiOverlay, BTLV_CORE_GetZeroMasked, BTLV_CORE_IsSlotKindNone, BTLV_CORE_MakeSlotKind2Index, BTLV_CORE_MakeSlotKind2, BTLV_CORE_MakeSlotKind3, BTLV_CORE_MakeSlotKind1Empty, BTLV_CORE_MakeSlotKind1Value, BTLV_CORE_MakeSlotKind1, BTLV_CORE_MakeSlotKind4, BTLV_CORE_MakeSlotKind1Index15, BTLV_CORE_IsSlotKind1Index15, BTLV_CORE_GetSlotPosition, BTLV_CORE_SetSlotPosition, BTLV_CORE_GetSlotLow, BTLV_CORE_SetSlotValue, BTLV_CORE_GetSlotValue, BTLV_CORE_SetSlotFlag, BTLV_CORE_GetSlotFlag, BTLV_CORE_AddSlotIndex, BTLV_CORE_SetSlotIndex, BTLV_CORE_PackBytes, BTLV_CORE_PackByteTwice, BTLV_CORE_GetHighByte, BTLV_CORE_GetLowByte, BTLV_CORE_SplitBytes, BTLV_CORE_HasByte, BTLV_CORE_BytesOverlap, BTLV_CORE_BytesEqual, BTLV_CORE_LoadOverlays, BTLV_CORE_UnloadOverlays, BTLV_CORE_ResetDisplay, BTLV_CORE_InitDisplay, BTLV_CORE_ExitDisplay, BTLV_CORE_Create, BTLV_CORE_Delete, BTLV_CORE_Update, BTLV_CORE_StartOpening, BTLV_CORE_PollOpening, BTLV_CORE_GetTaskWork, BTLV_CORE_StepOpeningEntry, BTLV_CORE_StepOpeningDemo, BTLV_CORE_GetPokeParamAtViewPos, BTLV_CORE_StepActionMenu, BTLV_CORE_StepTargetMenu, BTLV_CORE_SetStep, BTLV_CORE_ClearStep, BTLV_CORE_RunStep, BTLV_CORE_StartActionMenu, BTLV_CORE_AbortActionMenu, BTLV_CORE_PollActionMenu, BTLV_CORE_StartMoveMenu, BTLV_CORE_StartMoveMenuForEntry, BTLV_CORE_ReopenMoveMenu, BTLV_CORE_StepMoveMenu, BTLV_CORE_AbortMoveMenu, BTLV_CORE_PollMoveMenu, BTLV_CORE_StartTargetMenu, BTLV_CORE_PollTargetMenu, BTLV_CORE_AbortTargetMenu, BTLV_CORE_AbortInput, BTLV_CORE_CloseMenu, BTLV_CORE_CloseMenuToReselect, BTLV_CORE_IsMenuClosed, BTLV_CORE_InitPartyWork, BTLV_CORE_StartPartyMenu, BTLV_CORE_LockPartyChoice, BTLV_CORE_PollPartyMenu, BTLV_CORE_StartMoveHighlight, BTLV_CORE_StartBagMenu, BTLV_CORE_SkipBagPartyPrompt, BTLV_CORE_PollBagMenu, BTLV_CORE_GetSelectedItem, BTLV_CORE_GetSelectedItemPocket, BTLV_CORE_GetInputTargetSlot, BTLV_CORE_GetInputResultFlag, BTLV_CORE_SaveBagCursors, BTLV_CORE_StartSceneEffect, BTLV_CORE_WaitSceneEffect, BTLV_CORE_StartDamageEffect, BTLV_CORE_WaitDamageEffect, BTLV_CORE_ProcDamageEffect, BTLV_CORE_StartHitAnim, BTLV_CORE_WaitHitAnim, BTLV_CORE_ProcHitAnim, BTLV_CORE_StartMultiDamageEffect, BTLV_CORE_ProcMultiDamageEffect, BTLV_CORE_PlayEffectivenessSe, BTLV_CORE_SetMonShown, BTLV_CORE_StartMonSpriteUpdate, BTLV_CORE_WaitMonSpriteUpdate, BTLV_CORE_StartViewEffect, BTLV_CORE_WaitViewEffect, BTLV_CORE_StartViewEffectEx, BTLV_CORE_WaitViewEffectEx, BTLV_CORE_StartMonReset, BTLV_CORE_WaitMonReset, BTLV_CORE_StartMonRefresh, BTLV_CORE_WaitMonRefresh, BTLV_CORE_StartMonEffectTask, BTLV_CORE_WaitMonEffectTask, BTLV_CORE_StartMonSwap, BTLV_CORE_WaitMonSwap, BTLV_CORE_ProcMonSwap, BTLV_CORE_BuildMessage, BTLV_CORE_CopyMessageBuffer, BTLV_CORE_BuildMessageToBuffer, BTLV_CORE_PrintMessageBuffer, BTLV_CORE_BuildAndPrintMessage, BTLV_CORE_BuildAndPrintMessageFlag, BTLV_CORE_BuildAndPrintMessageNow, BTLV_CORE_PrintSideMessage, BTLV_CORE_PrintTaggedMessage, BTLV_CORE_PrintTrainerMessage, BTLV_CORE_PrintItemUseMessage, BTLV_CORE_WaitMessage, BTLV_CORE_ConsumeMessageFlag, BTLV_CORE_StartPrintMessage, BTLV_CORE_PrintMessageNow, BTLV_CORE_ShowPortrait, BTLV_CORE_UpdatePortraitSlideIn, BTLV_CORE_StartPortraitSlideOut, BTLV_CORE_WaitPortraitSlideOut, BTLV_CORE_ReloadPortrait, BTLV_CORE_UpdatePortraitMosaic, BTLV_CORE_StartViewEffect262, BTLV_CORE_StartViewEffect261, BTLV_CORE_WaitViewEffectDone, BTLV_CORE_StartWaitMessage, BTLV_CORE_UpdateWaitMessage, BTLV_CORE_EndWaitMessage, BTLV_CORE_StartSlotEffect25F, BTLV_CORE_WaitSlotEffect25F, BTLV_CORE_StartMonSpriteLoad, BTLV_CORE_WaitMonSpriteLoad, BTLV_CORE_StartMonSpriteChange, BTLV_CORE_WaitMonSpriteChange, BTLV_CORE_StartMonSpriteChangeAt, BTLV_CORE_WaitMonSpriteChangeAt, BTLV_CORE_StartMonSpriteUnload, BTLV_CORE_WaitMonSpriteUnload, BTLV_CORE_StartRotation, BTLV_CORE_WaitRotation, BTLV_CORE_ProcRotation, BTLV_CORE_InitInputWork, BTLV_CORE_PollWindowModeSelect, BTLV_CORE_CancelWindowModeSelect, BTLV_CORE_StartClearSidePosition, BTLV_CORE_RunProc, BTLV_CORE_ProcClearSidePosition, BTLV_CORE_StartYesNoMenu, BTLV_CORE_PollYesNoMenu, BTLV_CORE_StartMoveForgetScreen, BTLV_CORE_ProcMoveForgetScreen, BTLV_CORE_StartBallWindowOpen, BTLV_CORE_UpdateBallWindowOpen, BTLV_CORE_StartBallWindowRefresh, BTLV_CORE_UpdateBallWindowRefresh, BTLV_CORE_StartBallWindowClose, BTLV_CORE_UpdateBallWindowClose, BTLV_CORE_StartFadeIn, BTLV_CORE_PollFadeInDone, BTLV_CORE_ClearWaitWindow, BTLV_CORE_GetWaitState, BTLV_CORE_StartAutoSelectNotice, BTLV_CORE_PollAutoSelectNotice, BTLV_CORE_PollCounterInput, BTLV_CORE_SetCounterDisplay, BTLV_CORE_ShowCounterValue, BTLV_CORE_SetCounterValueMode
  * address:  0x021E869C
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ * note (2026-10-03, wave B3 lane 01): every instruction, branch and pool word
+ * matches (972 bytes, jump table included). The verdict is capped by the 8
+ * calls to 0x021E95B4/95C4/95D4/95E4/95F4/9604/9614/9624: these are Thumb
+ * bx-pc interworking veneers (bx pc; nop; ldr ip,[pc]; bx ip; .word) that the
+ * linker placed right after this function. They have no label and no witness
+ * outside this range, and C cannot produce them, so no witness file is
+ * possible. The trailing star is the same 128 veneer bytes counted in the
+ * listing extent (1100 = 972 + 8*16). It becomes EXACT when the Thumb bx-pc
+ * veneer class is attested by the tools (out of scope for lanes).
+ *
  * symbols:
- *   func_06899AF0  0x06899AF0  thumb
+ *   BTLV_SCD_Create  0x06899AF0  thumb
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
- *   func_021E8638  0x021E8638  thumb  ov093
+ *   HAND_COMMON_IsItemBoundToSpecies  0x021E8638  thumb  ov093
  *   BTL_SERVER_FLOW_GetCompetitor  0x021C8168  thumb  ov093
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
@@ -69,20 +79,190 @@
  *   BTLV_SCU_Create 0x021EAF7C thumb ov093
  *   BTL_MSG_Init 0x021EEC78 thumb ov093
  *   gBtlvCoreFileName 0x021F3AC4 data a4
+ *   func_06899DD8  0x06899DD8  thumb
+ *   BTL_MSG_Exit  0x021EECD8  thumb  ov093
+ *   BTLV_SCU_Delete  0x021EB234  thumb  ov093
+ *   TCBL_Destroy  0x02031140  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   GF_FONT_Delete  0x0201D83C  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_06899BE0  0x06899BE0  thumb
+ *   func_0689B780  0x0689B780  thumb
+ *   TCBL_Main  0x020310C4  arm
+ *   func_021F78E4  0x021F78E4  thumb  ov094
+ *   gBtlvOpeningStepTable  0x021F3840  data  a4
+ *   d_021F3844  0x021F3844  data  a4
+ *   func_021F745C  0x021F745C  thumb  ov094
+ *   func_021F7544  0x021F7544  thumb  ov094
+ *   BTLV_SCU_SetupDisplay  0x021EB028  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
+ *   BTLV_SCU_StartEntryScene  0x021EB32C  thumb  ov093
+ *   BTLV_SCU_RunProc  0x021EB52C  thumb  ov093
+ *   BTL_CLIENT_IsRemote  0x021CD9C8  thumb  ov093
+ *   BTL_CLIENT_GetQueuedCommandWord  0x021CD9DC  thumb  ov093
+ *   func_06899D64  0x06899D64  thumb
+ *   func_06899DB0  0x06899DB0  thumb
+ *   func_06899F00  0x06899F00  thumb
+ *   func_06899F28  0x06899F28  thumb
+ *   func_06899FE8  0x06899FE8  thumb
+ *   func_021F7C0C  0x021F7C0C  thumb  ov094
+ *   func_021F7C2C  0x021F7C2C  thumb  ov094
+ *   func_021F7CFC  0x021F7CFC  thumb  ov094
+ *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ *   func_021F80FC  0x021F80FC  thumb  ov094
+ *   func_02045B38  0x02045B38  arm
+ *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   func_0209C0A4  0x0209C0A4  arm
+ *   WAZA_TOOL_GetParam  0x0201BD28  thumb
+ *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
+ *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
+ *   func_021EAF00  0x021EAF00  thumb  ov093
+ *   func_021EAF18  0x021EAF18  thumb  ov093
+ *   func_021EAF50  0x021EAF50  thumb  ov093
+ *   func_021EAF78  0x021EAF78  thumb  ov093
+ *   BTLV_SCU_StartWazaEffect  0x021ED118  thumb  ov093
+ *   BTLV_SCU_RunWazaProc  0x021ED1B0  thumb  ov093
+ *   BTLV_SCU_IsMonDamageAnimDone  0x021ED250  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   func_06899ED0  0x06899ED0  thumb
+ *   BTL_MAIN_GetSlotFromViewPos  0x021B8ED8  thumb  ov093
+ *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
+ *   func_021D3D90  0x021D3D90  thumb  ov093
+ *   func_0689A008  0x0689A008  thumb
+ *   func_0689A020  0x0689A020  thumb
+ *   func_06899F40  0x06899F40  thumb
+ *   func_06899F64  0x06899F64  thumb
+ *   func_06899FD4  0x06899FD4  thumb
+ *   func_06899FDC  0x06899FDC  thumb
+ *   func_0689B0CC  0x0689B0CC  thumb
+ *   func_0689A028  0x0689A028  thumb
+ *   func_021F8A78  0x021F8A78  thumb  ov094
+ *   func_0689B66C  0x0689B66C  thumb
+ *   func_06899D3C 0x06899D3C thumb ov095
+ *   BTL_MAIN_SyncSideParty 0x021B8F5C thumb ov093
+ *   BTL_MAIN_IsCommMulti 0x021B8F38 thumb ov093
+ *   BTL_MAIN_SyncPartnerSideParty 0x021B8F7C thumb ov093
+ *   BTL_MAIN_IsSecondTeamClient 0x021B8FC0 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetPositionsPerClientThunk 0x021B99B8 thumb ov093
+ *   func_021F86D4 0x021F86D4 thumb ov094
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   BTL_MAIN_GetGameData 0x021B8748 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
+ *   func_0689CB18  0x0689CB18  thumb
+ *   func_0689CB2C  0x0689CB2C  thumb
+ *   func_06899CA4  0x06899CA4  thumb
+ *   func_06899CDC  0x06899CDC  thumb
+ *   func_06899D04  0x06899D04  thumb
+ *   func_06899D2C  0x06899D2C  thumb
+ *   func_06899D30  0x06899D30  thumb
+ *   func_0689CAEC  0x0689CAEC  thumb
+ *   func_0220F3E8 0x0220F3E8 thumb ov198
+ *   ov196_id 0x000000C4 data
+ *   ov198_id 0x000000C6 data
+ *   BTL_MAIN_GetMyItem 0x021B90E8 thumb ov093
+ *   BTL_MAIN_GetMapMatrix 0x021B90F0 thumb ov093
+ *   BTL_MAIN_GetRegulationRules 0x021BA1E4 thumb ov093
+ *   BTL_MAIN_CheckSetupStatusFlag 0x021BA1A8 thumb ov093
+ *   BTL_SIDE_CountLivingOfClient 0x021B9B04 thumb ov093
+ *   func_021D3D7C 0x021D3D7C thumb ov093
+ *   BTL_SLOT_GetCount 0x021B9B94 thumb ov093
+ *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
+ *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
+ *   func_0689C90C  0x0689C90C  thumb
+ *   func_0220C834 0x0220C834 thumb ov197
+ *   ov197_id 0x000000C5 data
+ *   func_0689B514  0x0689B514  thumb
+ *   MYITEM_SAVEDATA_SetBattlePocketCursors  0x020082B8  thumb
+ *   MYITEM_SAVEDATA_SetLastBattleItem  0x020082D4  thumb
+ *   BTL_MAIN_GetViewPosOfSlot  0x021B8E70  thumb  ov093
+ *   BTLV_SCU_StartMonDamageAnim  0x021ED208  thumb  ov093
+ *   BTLV_SCU_StartMonMotion  0x021ED268  thumb  ov093
+ *   BTLV_SCU_IsMonMotionDone  0x021ED280  thumb  ov093
+ *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
+ *   BTLV_SCU_UpdateMessage  0x021ECF68  thumb  ov093
+ *   func_021F7F1C  0x021F7F1C  thumb  ov094
+ *   func_021F853C  0x021F853C  thumb  ov094
+ *   func_021F7E74  0x021F7E74  thumb  ov094
+ *   func_021F7E84  0x021F7E84  thumb  ov094
+ *   BTLV_SCU_StartHpGaugeUpdate  0x021ED494  thumb  ov093
+ *   BTLV_SCU_IsHpGaugeIdle   0x021ED4D0  thumb  ov093
+ *   func_021F7A28  0x021F7A28  thumb  ov094
+ *   func_021F7AAC  0x021F7AAC  thumb  ov094
+ *   BTLV_SCU_StartMonExit  0x021ED294  thumb  ov093
+ *   BTLV_SCU_IsMonExitDone   0x021ED2BC  thumb  ov093
+ *   BTLV_SCU_LoadAndShowMon   0x021ED2D0  thumb  ov093
+ *   BTLV_SCU_IsMonLoadDone   0x021ED304  thumb  ov093
+ *   BTLV_SCU_StartMonWithdraw  0x021ED318  thumb  ov093
+ *   BTLV_SCU_IsMonWithdrawDone   0x021ED374  thumb  ov093
+ *   BTLV_SCU_StartMonSendOut  0x021ED3D4  thumb  ov093
+ *   BTLV_SCU_IsMonSendOutDone  0x021ED450  thumb  ov093
+ *   BTL_MSG_FormatWithSide  0x021EEE80  thumb  ov093
+ *   BTL_MSG_DispatchTagged  0x021EEEF4  thumb  ov093
+ *   BTL_MSG_GetUiString  0x021EF694  thumb  ov093
+ *   BTL_MSG_BuildUiString  0x021EF6A8  thumb  ov093
+ *   BTL_MSG_BuildTrainerString  0x021EF6E8  thumb  ov093
+ *   BTL_MSG_BuildItemUse  0x021EF5E8  thumb  ov093
+ *   BTL_MSG_BuildPlainEntry  0x021EF664  thumb  ov093
+ *   STRBUF_Copy  0x02045838  arm
+ *   func_0202A298  0x0202A298  thumb
+ *   func_0202A310  0x0202A310  thumb
+ *   BTLV_SCU_ConsumeMessageEnded   0x021ECF50  thumb  ov093
+ *   BTLV_SCU_StartMessage  0x021ECEB8  thumb  ov093
+ *   BTLV_SCU_PrintMessageInstant   0x021ECE60  thumb  ov093
+ *   BTLV_SCU_StartNamePlate   0x021EDA5C  thumb  ov093
+ *   BTLV_SCU_ProcNamePlateAt   0x021EDA94  thumb  ov093
+ *   BTLV_SCU_HideNamePlateAt   0x021EDAB0  thumb  ov093
+ *   BTLV_SCU_IsNamePlateHiddenAt   0x021EDAE0  thumb  ov093
+ *   BTLV_SCU_RefreshNamePlateAt   0x021EDB00  thumb  ov093
+ *   BTLV_SCU_ProcNamePlateMosaicAt   0x021EDB20  thumb  ov093
+ *   func_021F8A40  0x021F8A40  thumb  ov094
+ *   BTLV_SCU_PrintWaitMessage  0x021EE200  thumb  ov093
+ *   BTLV_SCU_UpdateWaitMessage   0x021EE21C  thumb  ov093
+ *   BTLV_SCU_NoOp  0x021EE224  thumb  ov093
+ *   BTLV_SCU_StartPosCueEffect   0x021ED56C  thumb  ov093
+ *   BTLV_SCU_IsPosCueEffectDone   0x021ED57C  thumb  ov093
+ *   BTLV_SCU_StartMonFormChange   0x021ED590  thumb  ov093
+ *   BTLV_SCU_IsMonFormChangeDone   0x021ED5D8  thumb  ov093
+ *   BTLV_SCU_StartMonGraphicSwap  0x021ED6BC  thumb  ov093
+ *   BTLV_SCU_IsMonGraphicSwapDone   0x021ED714  thumb  ov093
+ *   BTLV_SCU_StartMonGraphicSwapFrom  0x021ED660  thumb  ov093
+ *   BTLV_SCU_StartMsgWinFadeOutTask   0x021ED8AC  thumb  ov093
+ *   BTLV_SCU_IsMsgWinFadeOutTaskDone   0x021ED8D8  thumb  ov093
+ *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
+ *   func_021F84B4  0x021F84B4  thumb  ov094
+ *   BTLV_SCU_HideMonPair  0x021ED4E4  thumb  ov093
+ *   BTLV_SCU_ShowMonPair  0x021ED510  thumb  ov093
+ *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
+ *   func_0689B524  0x0689B524  thumb
+ *   func_0689B5A4  0x0689B5A4  thumb
+ *   func_0689B558  0x0689B558  thumb
+ *   func_021F8414  0x021F8414  thumb  ov094
+ *   BTLV_SCU_HideMon  0x021ED53C  thumb  ov093
+ *   BTLV_SCU_ShowMon  0x021ED554  thumb  ov093
+ *   func_0689B5CC   0x0689B5CC  thumb  ov095
+ *   BTLV_SCU_StartBallWindowOpen 0x021EE264 thumb ov093
+ *   BTLV_SCU_UpdateBallWindowOpen 0x021EE2A0 thumb ov093
+ *   BTLV_SCU_StartBallWindowRefresh 0x021EE2F8 thumb ov093
+ *   BTLV_SCU_UpdateBallWindowRefresh 0x021EE318 thumb ov093
+ *   BTLV_SCU_StartBallWindowClose 0x021EE370 thumb ov093
+ *   BTLV_SCU_UpdateBallWindowClose 0x021EE390 thumb ov093
+ *   BTLV_SCU_StartFadeIn   0x021EE228  thumb  ov093
+ *   BTLV_SCU_GetWaitState   0x021EE25C  thumb  ov093
+ *   BTLV_SCU_ClearWaitWindow 0x021EE23C thumb ov093
+ *   func_0689B670   0x0689B670  thumb  ov095
+ *   func_0689B69C   0x0689B69C  thumb  ov095
+ *   func_0689B790   0x0689B790  thumb  ov095
  */
+#include "btlv_core_types.h"
+
 #define BLDCNT (*(volatile u16 *)0x04000050)
 #define SBLDCNT (*(volatile u16 *)0x04001050)
 #define POWCNT (*(volatile u16 *)0x04000304)
 #define DISP3DCNT (*(volatile u16 *)0x04000060)
 #define BG0CNT (*(volatile u16 *)0x04000008)
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-typedef signed int s32;
-
 struct QF;
 struct QI;
 struct UtilWork;
@@ -92,7 +272,10 @@ struct Cfg;
 struct GfFont;
 struct Tcbl;
 struct U16Vec;
-
+struct S02031140;
+struct MsgBank;
+struct Rec;
+struct BtlExpResult;
 /*
  * One packed battle slot word.  Bits 0..2 hold the kind (1..4); the rest of
  * the word depends on the kind, so each accessor reads the variant it needs.
@@ -114,26 +297,21 @@ struct BtlvEventRec {
     u8 list[];
 };
 
-/* Work area of the battle view core (0x188 bytes). */
-struct BtlvCore {
-    void *mainWork;
-    void *netCtx;
-    u32 mainRegion;
-    u8 clientIndex, padAfterIndex[3];
-    int state, counterA, counterB;
-    u8 padAfterCounters[0x90];
-    void *msgBuffer, *fontMain, *fontSub;
-    u8 padAfterFonts[0xbc];
-    u8 busy, padAfterBusy[3];
-    void *taskList, *sceneUnit, *auxView;
-    u16 heapId;
-    u8 padTail[2];
+struct BtlvStateEntry {
+    u32 state;
+    BtlvCoreStepFn step;
 };
+
+/* Work of the scripted demo scene, kept in the task work area of the core. */
+typedef struct BtlvDemoWork {
+    void *msgBank;
+    int timer;
+} BtlvDemoWork;
 
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
-extern int func_021E8638(int a, int b);
+extern int HAND_COMMON_IsItemBoundToSpecies(int a, int b);
 extern int BTL_SERVER_FLOW_GetCompetitor(void *p);
 extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 x);
 extern int BTL_EVENT_GetVar(int key);
@@ -170,13 +348,184 @@ extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void G3D_SYSTEM_Exit(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u8 func_021D3D70(u8 *p);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern u8 func_021D3D70(void *client);
+extern struct MsgBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u8 *BTLV_SCU_Create(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u8 e2, int heap);
-extern void *func_06899AF0(struct BtlvCore *, void *, u32, void *, void *, void *, int, u16);
-extern void BTL_MSG_Init(u32, u32, u32, u32);
+extern struct BtlvScu *BTLV_SCU_Create(u32 core, u32 context, u32 monTable, u32 taskList, u32 fontMain, u32 fontSub, u8 clientIndex, int heapId);
+extern void *BTLV_SCD_Create(struct BtlvCore *core, void *context, u32 monTable, void *taskList, void *fontMain, void *client, int param, u16 heapId);
+extern void BTL_MSG_Init(u32 context, u32 clientIndex, u32 monTable, u32 heapId);
+extern void BTL_MSG_Exit(void);
+extern void func_06899DD8(struct BtlvAuxView *auxView);
+extern void BTLV_SCU_Delete(struct BtlvScu *scu);
+extern void TCBL_Destroy(struct S02031140 *p);
+extern void STRBUF_Delete(struct MsgBuf *msgBuffer);
+extern unsigned int GF_FONT_Delete(void *ptr);
+extern u32 func_020307B0(void *p);
+extern void TCBL_Main(struct Tcbl *p);
+extern void func_021F78E4(void);
+extern void *func_021F745C(struct BtlContext *context, struct BtlvScu *scu, u16 heapId);
+extern void func_021F7544(void *p, void *fontSub, u16 heapId);
+extern void BTLV_SCU_SetupDisplay(struct BtlvScu *scu);
+extern void func_06899BE0(struct BtlvAuxView *auxView);
+extern u32 BTL_CLIENT_IsMainStepActive(struct BtlClient *client);
+extern void BTLV_SCU_StartEntryScene(struct BtlvScu *scu, u32 flag);
+extern int BTLV_SCU_RunProc(struct BtlvScu *scu);
+extern u32 BTL_CLIENT_IsRemote(struct BtlClient *client);
+extern u16 BTL_CLIENT_GetQueuedCommandWord(struct BtlClient *client);
+extern void func_0689B780(struct BtlvAuxView *auxView, BtlvCounterCmd *cmd);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_021EAF18(struct BtlvMessage *msg, int kind, int id);
+extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *pokeParam);
+extern void func_021EAF50(struct BtlvMessage *msg, u32 val);
+extern void func_021EAF78(struct BtlvMessage *msg, u8 param);
+extern void func_06899F00(struct BtlvAuxView *auxView, struct BtlPokeParam *pokeParam, u8 canBack, u32 actionCursor);
+extern int func_06899F28(struct BtlvAuxView *auxView);
+extern void func_06899FE8(struct BtlvAuxView *auxView, struct BtlPokeParam *pokeParam, u32 actionCursor);
+extern void func_06899D64(struct BtlvAuxView *auxView);
+extern int func_06899DB0(struct BtlvAuxView *auxView);
+extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
+extern void BTLV_SCU_StartWazaEffect(struct BtlvScu *scu, int viewPosA, int viewPosB, u32 sceneId, u32 argA, int argB, u8 flags);
+extern int BTLV_SCU_RunWazaProc(struct BtlvScu *scu);
+extern int func_021D59B4(struct BtlPokeParam *pokeParam, int valueId);
+extern int func_0209C0A4(int a, int b);
+extern void func_021F80FC(u32 a, u32 b);
+extern void func_021F7C2C(int a, int b);
+extern void func_021EAF00(struct BtlvCore *core, int seId);
+extern int BTLV_SCU_IsMonDamageAnimDone(struct BtlvScu *scu);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern int func_021F7EB4(void);
+extern void func_021F7CFC(u32 a, u16 b, u8 c, int d, int e);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
+extern int GFL_USE_IsBgmPlaying(void);
+extern void func_021F7C0C(void);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u8 BTL_MAIN_GetSlotFromViewPos(struct BtlContext *context, u8 viewPos);
+extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(struct BtlMonTable *monTable, u8 slot);
+extern u8 func_021D3D90(struct BtlClient *client);
+extern void func_06899ED0(struct BtlvAuxView *auxView, struct BtlPokeParam *pokeParam, int canBack, int clientSlot, u8 *actionCursor);
+extern void func_0689A008(struct BtlvAuxView *auxView, struct BtlPokeParam *pokeParam, u8 *actionCursor);
+extern int func_0689A020(struct BtlvAuxView *auxView);
+extern void func_06899F40(struct BtlvAuxView *auxView, struct BtlPokeParam *pokeParam, u8 *cursor);
+extern void func_06899F64(struct BtlvAuxView *auxView, u32 *entry, u8 *cursor);
+extern int func_06899FD4(struct BtlvAuxView *auxView);
+extern void func_06899FDC(struct BtlvAuxView *auxView);
+extern int func_0689B0CC(struct BtlvAuxView *auxView);
+extern void func_021F8A78(void);
+extern void func_0689A028(struct BtlvAuxView *auxView);
+extern void func_06899D3C(struct BtlvAuxView *auxView);
+extern void *BTL_MAIN_SyncSideParty(void *context, u32 clientIndex);
+extern int BTL_MAIN_IsCommMulti(void *context);
+extern void *BTL_MAIN_SyncPartnerSideParty(void *context, u32 clientIndex);
+extern u8 BTL_MAIN_IsSecondTeamClient(void *context, u32 clientIndex);
+extern u32 BTL_MAIN_GetRule(void *context);
+extern int BTL_MAIN_GetPositionsPerClientThunk(void *context, u32 clientIndex);
+extern int func_0689B66C(struct BtlvAuxView *auxView);
+extern void *func_021F86D4(void);
+extern void *func_021F86E0(void);
+extern void *BTL_MAIN_GetGameData(void *context);
+extern int BTL_MAIN_GetCompetitor(void *context);
+extern u32 func_0689CB18(u8 *choiceFlags);
+extern u8 func_0689CB2C(u8 *choiceFlags, u8 index);
+extern void func_06899CA4(struct BtlvAuxView *auxView, int mode);
+extern int func_06899D04(struct BtlvAuxView *auxView);
+extern void func_06899D2C(struct BtlvAuxView *auxView);
+extern void func_0689CAEC(u8 *choiceFlags, u8 index, u8 slot);
+extern void func_06899CDC(struct BtlvAuxView *auxView);
+extern void func_06899D30(struct BtlvAuxView *auxView);
+extern void func_0220F3E8(BtlvPlistWork *plist);
+extern void *BTL_MAIN_GetMyItem(void *context);
+extern void *BTL_MAIN_GetMapMatrix(void *context);
+extern void *BTL_MAIN_GetRegulationRules(void *context);
+extern int BTL_MAIN_CheckSetupStatusFlag(void *context, int flag);
+extern u8 BTL_SIDE_CountLivingOfClient(struct BtlMonTable *monTable, int clientId);
+extern void *func_021D3D7C(void *client);
+extern u8 BTL_SLOT_GetCount(void *pokeList);
+extern void *BTL_SLOT_GetPokeParam(void *pokeList, u32 index);
+extern int BTL_POKEPARAM_HasSick(void *pokeParam, int sickId);
+extern int func_0689C90C(u16 itemId, u8 itemUseKind);
+extern void func_0220C834(BtlvBagWork *bag);
+extern void MYITEM_SAVEDATA_SetBattlePocketCursors(struct MyItemSave *save, const s16 *cursorPos, const s16 *scrollPos);
+extern void MYITEM_SAVEDATA_SetLastBattleItem(struct MyItemSave *save, u16 item, u16 page);
+extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlContext *context, u32 slot);
+extern void BTLV_SCU_StartMonDamageAnim(struct BtlvScu *scu, u8 slot, u16 animId, int mainStepActive);
+extern void BTLV_SCU_StartMonMotion(struct BtlvScu *scu, u8 slot, u32 animId);
+extern int BTLV_SCU_IsMonMotionDone(struct BtlvScu *scu);
+extern int BTL_MAIN_GetTrainerSlotOfPoke(struct BtlContext *context, struct BtlMonTable *monTable, u32 pokeId);
+extern int BTLV_SCU_UpdateMessage(struct BtlvScu *scu);
+extern int func_021F7F1C(int viewPos);
+extern int func_021F853C(int viewPos);
+extern void func_021F7E74(u32 viewPos);
+extern void func_021F7E84(u32 viewPos);
+extern void BTLV_SCU_StartHpGaugeUpdate(struct BtlvScu *scu, int slot, u32 mainStepActive);
+extern void func_021F7A28(int viewPos, u32 effectId);
+extern void func_021F7AAC(int viewPos, int effectId, u32 param);
+extern void BTLV_SCU_StartMonExit(struct BtlvScu *scu, int slot, u32 mainStepActive);
+extern void BTLV_SCU_StartMonWithdraw(struct BtlvScu *scu, u16 viewPos, u16 effectId, int mainStepActive);
+extern void BTLV_SCU_StartMonSendOut(struct BtlvScu *scu, u8 slot, int clientId, u8 pokeIdx, int mainStepActive);
+extern int BTLV_SCU_IsMonSendOutDone(struct BtlvScu *scu);
+extern void BTL_MSG_FormatWithSide(struct MsgBuf *buf, u16 msgId, u32 *args);
+extern void BTL_MSG_DispatchTagged(struct MsgBuf *buf, u16 msgId, u32 *args);
+extern void BTL_MSG_GetUiString(struct MsgBuf *buf, u32 msgId);
+extern void BTL_MSG_BuildUiString(struct MsgBuf *buf, u32 msgId, u32 *args);
+extern void BTL_MSG_BuildTrainerString(struct MsgBuf *buf, u32 msgId, u32 *args);
+extern void BTL_MSG_BuildItemUse(struct MsgBuf *buf, u8 clientId, u16 item);
+extern void BTL_MSG_BuildPlainEntry(struct MsgBuf *buf, u16 msgId, int arg);
+void STRBUF_Copy(struct MsgBuf *dst, struct MsgBuf *src);
+extern u32 func_0202A298(u32 trainerId, u32 msgIndex, u32 heapId);
+extern void func_0202A310(int trainerId, int msgIndex, struct MsgBuf *dest, u32 heapId);
+extern void BTLV_SCU_StartMessage(struct BtlvScu *scu, struct MsgBuf *buf, u16 speed, u32 flag);
+extern void func_021F8A40(int a);
+extern void BTLV_SCU_PrintWaitMessage(struct BtlvScu *scu);
+extern int BTLV_SCU_UpdateWaitMessage(struct BtlvScu *scu);
+extern void BTLV_SCU_NoOp(struct BtlvScu *scu);
+extern void BTLV_SCU_StartPosCueEffect(struct BtlvScu *scu, int viewPos);
+extern int BTLV_SCU_IsPosCueEffectDone(struct BtlvScu *scu, int viewPos);
+extern void BTLV_SCU_StartMonGraphicSwap(struct BtlvScu *scu, u32 viewPos, u32 mode);
+extern void BTLV_SCU_StartMonGraphicSwapFrom(struct BtlvScu *scu, u32 viewPos, u32 srcViewPos, u32 mode);
+extern u8 BTL_MAIN_GetClientTrainerIndex(struct BtlContext *context, u32 clientId, u8 pos);
+extern void func_021F84B4(u32 rotateA, u32 rotateB);
+extern void BTLV_SCU_HideMonPair(struct BtlvScu *scu, int monSlotA, int monSlotB);
+extern int BTLV_SCU_ShowMonPair(struct BtlvScu *scu, int monSlotA, int monSlotB);
+extern struct BtlMonTable *BTL_SIDE_GetSlotOfClientThunk(struct BtlMonTable *monTable, int clientIndex);
+extern void func_0689B514(void *auxView, u8 *work);
+extern int BTLV_SCU_IsHpGaugeIdle(struct BtlvScu *scu);
+extern int BTLV_SCU_IsMonExitDone(struct BtlvScu *scu);
+extern void BTLV_SCU_LoadAndShowMon(struct BtlvScu *scu, u32 slot);
+extern int BTLV_SCU_IsMonLoadDone(struct BtlvScu *scu);
+extern int BTLV_SCU_IsMonWithdrawDone(struct BtlvScu *scu);
+extern void BTLV_SCU_StartMonFormChange(struct BtlvScu *scu, u32 slot, u32 mode);
+extern int BTLV_SCU_IsMonFormChangeDone(struct BtlvScu *scu);
+extern int BTLV_SCU_IsMonGraphicSwapDone(struct BtlvScu *scu);
+extern void BTLV_SCU_StartMsgWinFadeOutTask(struct BtlvScu *scu);
+extern int BTLV_SCU_IsMsgWinFadeOutTaskDone(struct BtlvScu *scu);
+extern int BTLV_SCU_ConsumeMessageEnded(struct BtlvScu *scu);
+extern void BTLV_SCU_PrintMessageInstant(struct BtlvScu *scu, struct MsgBuf *buf);
+extern void BTLV_SCU_StartNamePlate(struct BtlvScu *scu, u32 slot, u32 flag);
+extern int BTLV_SCU_ProcNamePlateAt(struct BtlvScu *scu, u32 slot);
+extern void BTLV_SCU_HideNamePlateAt(struct BtlvScu *scu, u32 slot);
+extern int BTLV_SCU_IsNamePlateHiddenAt(struct BtlvScu *scu, u32 slot);
+extern void BTLV_SCU_RefreshNamePlateAt(struct BtlvScu *scu, u32 slot);
+extern int BTLV_SCU_ProcNamePlateMosaicAt(struct BtlvScu *scu, u32 slot);
+extern int func_0689B524(struct BtlvAuxView *auxView, u8 *outMode);
+extern void func_0689B558(struct BtlvAuxView *auxView);
+extern void func_021F8414(int kind, int side, int flag);
+extern void BTLV_SCU_HideMon(struct BtlvScu *scu, int monSlot);
+extern int BTLV_SCU_ShowMon(struct BtlvScu *scu, int monSlot);
+extern void func_0689B5A4(struct BtlvAuxView *auxView, BtlvYesNoWork *work);
+extern int func_0689B5CC(struct BtlvAuxView *auxView, int *outResult);
+extern void func_0689B670(struct BtlvAuxView *auxView);
+extern int func_0689B69C(struct BtlvAuxView *auxView);
+extern int func_0689B790(struct BtlvAuxView *auxView);
+extern void BTLV_SCU_StartBallWindowOpen(struct BtlvScu *scu, int pokeParam, struct BtlExpResult *result);
+extern int BTLV_SCU_UpdateBallWindowOpen(struct BtlvScu *scu);
+extern void BTLV_SCU_StartBallWindowRefresh(struct BtlvScu *scu);
+extern int BTLV_SCU_UpdateBallWindowRefresh(struct BtlvScu *scu);
+extern void BTLV_SCU_StartBallWindowClose(struct BtlvScu *scu);
+extern int BTLV_SCU_UpdateBallWindowClose(struct BtlvScu *scu);
+extern void BTLV_SCU_StartFadeIn(struct BtlvScu *scu);
+extern void BTLV_SCU_ClearWaitWindow(struct BtlvScu *scu);
+extern int BTLV_SCU_GetWaitState(struct BtlvScu *scu);
 int BTLV_CORE_CheckPartySlotPair(void *party, int slot);
 int BTLV_CORE_CheckPartySlotCondition(void *party, int slot);
 int BTLV_CORE_CheckEitherSlotPair(void *party, int slotA, int slotB);
@@ -221,7 +570,142 @@ void BTLV_CORE_UnloadOverlays(void);
 void BTLV_CORE_ResetDisplay(u16 heapId);
 void BTLV_CORE_InitDisplay(u16 heapId);
 void BTLV_CORE_ExitDisplay(void);
-struct BtlvCore *BTLV_CORE_Create(void *mainWork, void *netCtx, u32 mainRegion, int param, u16 heapId);
+struct BtlvCore *BTLV_CORE_Create(void *context, void *client, u32 monTable, int param, u16 heapId);
+void BTLV_CORE_Delete(struct BtlvCore *core);
+void BTLV_CORE_Update(struct BtlvCore *core);
+void BTLV_CORE_StartOpening(struct BtlvCore *core, u32 state);
+int BTLV_CORE_PollOpening(struct BtlvCore *core);
+void *BTLV_CORE_GetTaskWork(struct BtlvCore *core, int size);
+int BTLV_CORE_StepOpeningEntry(struct BtlvCore *core, int *state, void *work);
+int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w);
+struct BtlPokeParam *BTLV_CORE_GetPokeParamAtViewPos(struct BtlvCore *core, u32 viewPos);
+int BTLV_CORE_StepActionMenu(struct BtlvCore *core, int *state, void *work);
+int BTLV_CORE_StepTargetMenu(struct BtlvCore *core, int *state, void *work);
+void BTLV_CORE_SetStep(struct BtlvCore *core, BtlvCoreStepFn stepFn);
+void BTLV_CORE_ClearStep(struct BtlvCore *core);
+int BTLV_CORE_RunStep(struct BtlvCore *core);
+void BTLV_CORE_StartActionMenu(struct BtlvCore *core, struct BtlPokeParam *pokeParam, int canBack, u8 *cursor);
+void BTLV_CORE_AbortActionMenu(struct BtlvCore *core);
+int BTLV_CORE_PollActionMenu(struct BtlvCore *core);
+void BTLV_CORE_StartMoveMenu(struct BtlvCore *core, struct BtlPokeParam *pokeParam, u8 *cursor);
+void BTLV_CORE_StartMoveMenuForEntry(struct BtlvCore *core, u32 *entry, u8 *cursor);
+void BTLV_CORE_ReopenMoveMenu(struct BtlvCore *core);
+int BTLV_CORE_StepMoveMenu(struct BtlvCore *core, int *state, void *work);
+void BTLV_CORE_AbortMoveMenu(struct BtlvCore *core);
+u32 BTLV_CORE_PollMoveMenu(struct BtlvCore *core);
+void BTLV_CORE_StartTargetMenu(struct BtlvCore *core, struct BtlPokeParam *pokeParam, u8 *cursor);
+int BTLV_CORE_PollTargetMenu(struct BtlvCore *core);
+void BTLV_CORE_AbortTargetMenu(struct BtlvCore *core);
+void BTLV_CORE_AbortInput(struct BtlvCore *core);
+void BTLV_CORE_CloseMenu(struct BtlvCore *core);
+void BTLV_CORE_CloseMenuToReselect(struct BtlvCore *core);
+void BTLV_CORE_IsMenuClosed(struct BtlvCore *core);
+void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mode, u8 slot, int modeParam);
+void BTLV_CORE_StartPartyMenu(struct BtlvCore *core, const u8 *slotChoices, int slot, int canCancel, u8 *choiceFlags);
+void BTLV_CORE_LockPartyChoice(struct BtlvCore *core);
+int BTLV_CORE_PollPartyMenu(struct BtlvCore *core);
+void BTLV_CORE_StartMoveHighlight(struct BtlvCore *core, u8 slot, u8 kind);
+void BTLV_CORE_StartBagMenu(struct BtlvCore *core, int isComm, u8 pointCounter, u8 itemId, u8 isLastSlot, u8 foeSemiInvulnerable);
+void BTLV_CORE_SkipBagPartyPrompt(struct BtlvCore *core);
+int BTLV_CORE_PollBagMenu(struct BtlvCore *core);
+u16 BTLV_CORE_GetSelectedItem(struct BtlvCore *core);
+u8 BTLV_CORE_GetSelectedItemPocket(struct BtlvCore *core);
+u8 BTLV_CORE_GetInputTargetSlot(struct BtlvCore *core);
+u8 BTLV_CORE_GetInputResultFlag(struct BtlvCore *core);
+void BTLV_CORE_SaveBagCursors(struct BtlvCore *core);
+void BTLV_CORE_StartSceneEffect(struct BtlvCore *core, u32 slotFrom, u32 slotTo, u32 sceneId, u32 argA, u32 argB, u8 flags);
+int BTLV_CORE_WaitSceneEffect(struct BtlvCore *core);
+void BTLV_CORE_StartDamageEffect(struct BtlvCore *core, u32 animId, u32 slot, u32 effectiveness);
+int BTLV_CORE_WaitDamageEffect(struct BtlvCore *core);
+int BTLV_CORE_ProcDamageEffect(int *state, struct BtlvCore *core);
+void BTLV_CORE_StartHitAnim(struct BtlvCore *core, u32 animId, int slot, int effectiveness);
+int BTLV_CORE_WaitHitAnim(struct BtlvCore *core);
+int BTLV_CORE_ProcHitAnim(int *state, struct BtlvCore *core);
+void BTLV_CORE_StartMultiDamageEffect(struct BtlvCore *core, u32 count, int effectiveness, const u8 *pokeIds, u16 animId);
+int BTLV_CORE_ProcMultiDamageEffect(struct BtlvCore *core);
+void BTLV_CORE_PlayEffectivenessSe(struct BtlvCore *core, int effectiveness);
+void BTLV_CORE_SetMonShown(struct BtlvCore *core, int viewPos, int shown);
+void BTLV_CORE_StartMonSpriteUpdate(struct BtlvCore *core, int slot);
+int BTLV_CORE_WaitMonSpriteUpdate(struct BtlvCore *core);
+void BTLV_CORE_StartViewEffect(struct BtlvCore *core, int viewPos, int effectId);
+int BTLV_CORE_WaitViewEffect(void);
+void BTLV_CORE_StartViewEffectEx(struct BtlvCore *core, int viewPos, int effectId, u32 param);
+int BTLV_CORE_WaitViewEffectEx(int viewPos);
+void BTLV_CORE_StartMonReset(struct BtlvCore *core, int slot);
+int BTLV_CORE_WaitMonReset(struct BtlvCore *core);
+void BTLV_CORE_StartMonRefresh(struct BtlvCore *core, u32 slot);
+int BTLV_CORE_WaitMonRefresh(struct BtlvCore *core);
+void BTLV_CORE_StartMonEffectTask(struct BtlvCore *core, u16 viewPos, u16 effectId);
+int BTLV_CORE_WaitMonEffectTask(struct BtlvCore *core);
+void BTLV_CORE_StartMonSwap(struct BtlvCore *core, u8 slot, u8 clientId, u8 pokeIdx);
+int BTLV_CORE_WaitMonSwap(struct BtlvCore *core);
+int BTLV_CORE_ProcMonSwap(int *state, struct BtlvCore *core);
+void BTLV_CORE_BuildMessage(struct BtlvMessage *msg, struct MsgBuf *buf);
+void BTLV_CORE_CopyMessageBuffer(struct BtlvCore *core, struct MsgBuf *src);
+void BTLV_CORE_BuildMessageToBuffer(struct BtlvCore *core, struct BtlvMessage *msg);
+void BTLV_CORE_PrintMessageBuffer(struct BtlvCore *core);
+void BTLV_CORE_BuildAndPrintMessage(struct BtlvCore *core, struct BtlvMessage *msg);
+void BTLV_CORE_BuildAndPrintMessageFlag(struct BtlvCore *core, struct BtlvMessage *msg, int flag);
+void BTLV_CORE_BuildAndPrintMessageNow(struct BtlvCore *core, struct BtlvMessage *msg);
+void BTLV_CORE_PrintSideMessage(struct BtlvCore *core, u16 msgId, u32 *args);
+void BTLV_CORE_PrintTaggedMessage(struct BtlvCore *core, u16 msgId, u32 *args);
+int BTLV_CORE_PrintTrainerMessage(struct BtlvCore *core, u16 trainerId, u16 msgIndex);
+void BTLV_CORE_PrintItemUseMessage(struct BtlvCore *core, u8 clientId, u16 item);
+int BTLV_CORE_WaitMessage(struct BtlvCore *core);
+int BTLV_CORE_ConsumeMessageFlag(struct BtlvCore *core);
+void BTLV_CORE_StartPrintMessage(struct BtlvCore *core, struct MsgBuf *buf, u16 speed, u32 flag);
+void BTLV_CORE_PrintMessageNow(struct BtlvCore *core, struct MsgBuf *buf);
+void BTLV_CORE_ShowPortrait(struct BtlvCore *core, u32 slot, u32 flag);
+int BTLV_CORE_UpdatePortraitSlideIn(struct BtlvCore *core, u32 slot);
+void BTLV_CORE_StartPortraitSlideOut(struct BtlvCore *core, u32 slot);
+int BTLV_CORE_WaitPortraitSlideOut(struct BtlvCore *core, u32 slot);
+void BTLV_CORE_ReloadPortrait(struct BtlvCore *core, u32 slot);
+int BTLV_CORE_UpdatePortraitMosaic(struct BtlvCore *core, u32 slot);
+void BTLV_CORE_StartViewEffect262(struct BtlvCore *core, int viewPos);
+void BTLV_CORE_StartViewEffect261(struct BtlvCore *core, int viewPos);
+int BTLV_CORE_WaitViewEffectDone(struct BtlvCore *core, int viewPos);
+void BTLV_CORE_StartWaitMessage(struct BtlvCore *core);
+int BTLV_CORE_UpdateWaitMessage(struct BtlvCore *core);
+void BTLV_CORE_EndWaitMessage(struct BtlvCore *core);
+void BTLV_CORE_StartSlotEffect25F(struct BtlvCore *core, u32 slot);
+int BTLV_CORE_WaitSlotEffect25F(struct BtlvCore *core, u32 slot);
+void BTLV_CORE_StartMonSpriteLoad(struct BtlvCore *core, u32 slot, u32 mode);
+int BTLV_CORE_WaitMonSpriteLoad(struct BtlvCore *core);
+void BTLV_CORE_StartMonSpriteChange(struct BtlvCore *core, int viewPos);
+int BTLV_CORE_WaitMonSpriteChange(struct BtlvCore *core);
+void BTLV_CORE_StartMonSpriteChangeAt(struct BtlvCore *core, u32 viewPos, u32 srcViewPos);
+int BTLV_CORE_WaitMonSpriteChangeAt(struct BtlvCore *core);
+void BTLV_CORE_StartMonSpriteUnload(struct BtlvCore *core);
+int BTLV_CORE_WaitMonSpriteUnload(struct BtlvCore *core);
+void BTLV_CORE_StartRotation(struct BtlvCore *core, u32 clientId, u32 rotateA, u32 rotateB, u8 posA, u8 posB);
+int BTLV_CORE_WaitRotation(struct BtlvCore *core);
+int BTLV_CORE_ProcRotation(int *state, struct BtlvCore *core);
+void BTLV_CORE_InitInputWork(struct BtlvCore *core, u8 unused);
+int BTLV_CORE_PollWindowModeSelect(struct BtlvCore *core, u8 *outMode);
+void BTLV_CORE_CancelWindowModeSelect(struct BtlvCore *core);
+void BTLV_CORE_StartClearSidePosition(struct BtlvCore *core, u32 clientId, u32 kind);
+int BTLV_CORE_RunProc(struct BtlvCore *core);
+int BTLV_CORE_ProcClearSidePosition(int *state, struct BtlvCore *core);
+void BTLV_CORE_StartYesNoMenu(struct BtlvCore *core, struct BtlvMessage *yesMsg, struct BtlvMessage *noMsg, u32 mode);
+int BTLV_CORE_PollYesNoMenu(struct BtlvCore *core, int *outResult);
+void BTLV_CORE_StartMoveForgetScreen(struct BtlvCore *core, u8 pokeSlot, int moveId);
+int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot);
+void BTLV_CORE_StartBallWindowOpen(struct BtlvCore *core, int pokeParam, struct BtlExpResult *result);
+int BTLV_CORE_UpdateBallWindowOpen(struct BtlvCore *core);
+void BTLV_CORE_StartBallWindowRefresh(struct BtlvCore *core);
+int BTLV_CORE_UpdateBallWindowRefresh(struct BtlvCore *core);
+void BTLV_CORE_StartBallWindowClose(struct BtlvCore *core);
+int BTLV_CORE_UpdateBallWindowClose(struct BtlvCore *core);
+void BTLV_CORE_StartFadeIn(struct BtlvCore *core);
+int BTLV_CORE_PollFadeInDone(struct BtlvCore *core);
+void BTLV_CORE_ClearWaitWindow(struct BtlvCore *core);
+int BTLV_CORE_GetWaitState(struct BtlvCore *core);
+void BTLV_CORE_StartAutoSelectNotice(struct BtlvCore *core);
+int BTLV_CORE_PollAutoSelectNotice(struct BtlvCore *core);
+int BTLV_CORE_PollCounterInput(struct BtlvCore *core);
+void BTLV_CORE_SetCounterDisplay(struct BtlvCore *core, u32 current, u32 target);
+void BTLV_CORE_ShowCounterValue(struct BtlvCore *core, int value);
+void BTLV_CORE_SetCounterValueMode(struct BtlvCore *core, int value, int mode);
 extern u8 ov140_id[];
 extern int gBtlvCoreDsiOverlayLoaded;
 extern char ov094_id[], ov095_id[], ov096_id[];
@@ -229,6 +713,11 @@ extern const struct DispVram gBtlvCoreVramBanks;
 extern struct DispConfig gBtlvCoreDispConfig;
 extern const struct Cfg gBtlvCoreBgConfig;
 extern const char gBtlvCoreFileName[];
+extern const struct BtlvStateEntry gBtlvOpeningStepTable[];
+extern u8 ov196_id[];
+extern u8 ov198_id[];
+extern u8 ov197_id[];
+
 
 
 int BTLV_CORE_CheckPartySlotPair(void *party, int slot)
@@ -240,10 +729,11 @@ int BTLV_CORE_CheckPartySlotPair(void *party, int slot)
     entry = BTL_SERVER_FLOW_GetPokeParam(party, slot);
     typeId = BTL_POKEPARAM_GetSpecies(entry);
     level = (int)BTL_POKEPARAM_GetItem(entry);
-    if (func_021E8638(typeId, level) != 0)
+    if (HAND_COMMON_IsItemBoundToSpecies(typeId, level) != 0)
         return 1;
     return 0;
 }
+
 
 
 /*
@@ -264,6 +754,7 @@ int BTLV_CORE_CheckPartySlotCondition(void *party, int slot)
 }
 
 
+
 int BTLV_CORE_CheckEitherSlotPair(void *party, int slotA, int slotB)
 {
     void *entryA;
@@ -279,10 +770,11 @@ int BTLV_CORE_CheckEitherSlotPair(void *party, int slotA, int slotB)
     entryB = BTL_SERVER_FLOW_GetPokeParam(party, slotB);
     typeId = BTL_POKEPARAM_GetSpecies(entryA);
     level = (int)BTL_POKEPARAM_GetItem(entryB);
-    if (func_021E8638(typeId, level) != 0)
+    if (HAND_COMMON_IsItemBoundToSpecies(typeId, level) != 0)
         return 1;
     return 0;
 }
+
 
 
 void BTLV_CORE_EventRedirectMove(int unusedArg0, void *eventCtx, int pokeId, int unusedArg1)
@@ -301,6 +793,7 @@ void BTLV_CORE_EventRedirectMove(int unusedArg0, void *eventCtx, int pokeId, int
         }
     }
 }
+
 
 
 void BTLV_CORE_EventCounterMove(int unusedArg0, void *eventCtx, int pokeId, int unusedArg1)
@@ -328,6 +821,7 @@ void BTLV_CORE_EventCounterMove(int unusedArg0, void *eventCtx, int pokeId, int 
 }
 
 
+
 void BTLV_CORE_EventQueueMoveNotice(int unusedArg0, void *eventCtx, int pokeId, int unusedArg1)
 {
     struct BtlvEventRec *rec;
@@ -346,6 +840,7 @@ void BTLV_CORE_EventQueueMoveNotice(int unusedArg0, void *eventCtx, int pokeId, 
 }
 
 
+
 void BTLV_CORE_EventScaleDamage(int factor)
 {
     factor *= BTL_EVENT_GetVar(0x30);
@@ -353,11 +848,13 @@ void BTLV_CORE_EventScaleDamage(int factor)
 }
 
 
+
 void BTLV_CORE_EventSetFlagIfAttacker(int unusedArg0, int unusedArg1, int pokeId, int unusedArg2)
 {
     if (BTL_MAIN_IsPokeSamePair((u8)BTL_EVENT_GetVar(2), pokeId) != 0)
         BTL_EVENT_OverwriteVar(0x51, 1);
 }
+
 
 
 int BTLV_CORE_EventTrySetFlagIfAttacker(int unusedArg0, int unusedArg1, int pokeId)
@@ -368,6 +865,7 @@ int BTLV_CORE_EventTrySetFlagIfAttacker(int unusedArg0, int unusedArg1, int poke
     }
     return 0;
 }
+
 
 
 void BTLV_CORE_LoadDsiOverlay(void)
@@ -381,6 +879,7 @@ void BTLV_CORE_LoadDsiOverlay(void)
 }
 
 
+
 void BTLV_CORE_UnloadDsiOverlay(void)
 {
     if (gBtlvCoreDsiOverlayLoaded != 0) {
@@ -390,11 +889,13 @@ void BTLV_CORE_UnloadDsiOverlay(void)
 }
 
 
+
 /*
  * Returns 0 with a 4-byte frame that nothing ever stores to.  Taking the address of a local array forces the slot, and the optimizer then removes both the store and the reload (nothing outside can alias it), so the frame and the register-resident value both survive.  A scalar `u32 v = 0; v &= ~7u;` folds to 4 bytes, which is why O28's residue could not reach this; the address-taken local is the missing form.
  * stand-in: the word is reached through a cast of the byte array; a u32 array, a union or an address-taken u32 each change the bytes.
  */
 u32 BTLV_CORE_GetZeroMasked(void) { u8 bytes[4]; *(u32 *)bytes = 0; return *(u32 *)bytes & ~7u; }
+
 
 
 int BTLV_CORE_IsSlotKindNone(BtlvSlot slot)
@@ -403,6 +904,7 @@ int BTLV_CORE_IsSlotKindNone(BtlvSlot slot)
         return 1;
     return 0;
 }
+
 
 
 /*
@@ -421,6 +923,7 @@ int BTLV_CORE_MakeSlotKind2Index(u32 index)
 }
 
 
+
 int BTLV_CORE_MakeSlotKind2(u32 index, u32 value)
 {
     BtlvSlot slot = {0};
@@ -430,6 +933,7 @@ int BTLV_CORE_MakeSlotKind2(u32 index, u32 value)
     slot.param.value = value;
     return slot.word;
 }
+
 
 
 /*
@@ -452,6 +956,7 @@ int BTLV_CORE_MakeSlotKind3(u32 index)
 }
 
 
+
 int BTLV_CORE_MakeSlotKind1Empty(void)
 {
     BtlvSlot slot = {0};
@@ -461,6 +966,7 @@ int BTLV_CORE_MakeSlotKind1Empty(void)
 }
 
 
+
 int BTLV_CORE_MakeSlotKind1Value(u32 value)
 {
     BtlvSlot slot = {0};
@@ -468,6 +974,7 @@ int BTLV_CORE_MakeSlotKind1Value(u32 value)
     slot.param.value = value;
     return slot.word;
 }
+
 
 
 /*
@@ -485,6 +992,7 @@ int BTLV_CORE_MakeSlotKind1(u32 index, u32 value)
 }
 
 
+
 int BTLV_CORE_MakeSlotKind4(u32 hi, u32 lo)
 {
     BtlvSlot slot = {0};
@@ -494,6 +1002,7 @@ int BTLV_CORE_MakeSlotKind4(u32 hi, u32 lo)
     slot.pos.hi = hi & 0x3f;
     return slot.word;
 }
+
 
 
 int BTLV_CORE_MakeSlotKind1Index15(void)
@@ -506,12 +1015,14 @@ int BTLV_CORE_MakeSlotKind1Index15(void)
 }
 
 
+
 int BTLV_CORE_IsSlotKind1Index15(BtlvSlot slot)
 {
     if (slot.pos.kind == 1 && slot.pos.lo == 0xf)
         return 1;
     return 0;
 }
+
 
 
 u8 BTLV_CORE_GetSlotPosition(BtlvSlot slot)
@@ -524,6 +1035,7 @@ u8 BTLV_CORE_GetSlotPosition(BtlvSlot slot)
 }
 
 
+
 void BTLV_CORE_SetSlotPosition(BtlvSlot *slot, u8 pos)
 {
     if (slot->pos.kind == 3)
@@ -531,6 +1043,7 @@ void BTLV_CORE_SetSlotPosition(BtlvSlot *slot, u8 pos)
     else if (slot->pos.kind == 4)
         slot->pos.hi = pos;
 }
+
 
 
 u8 BTLV_CORE_GetSlotLow(BtlvSlot slot)
@@ -541,6 +1054,7 @@ u8 BTLV_CORE_GetSlotLow(BtlvSlot slot)
 }
 
 
+
 void BTLV_CORE_SetSlotValue(BtlvSlot *slot, u16 value)
 {
     if (slot->param.kind == 1) slot->param.value = value;
@@ -548,6 +1062,7 @@ void BTLV_CORE_SetSlotValue(BtlvSlot *slot, u16 value)
     else if (slot->param.kind == 4) slot->wideParam.value = value;
     else if (slot->param.kind == 2) slot->param.value = value;
 }
+
 
 
 u16 BTLV_CORE_GetSlotValue(BtlvSlot slot)
@@ -560,6 +1075,7 @@ u16 BTLV_CORE_GetSlotValue(BtlvSlot slot)
 }
 
 
+
 void BTLV_CORE_SetSlotFlag(BtlvSlot *slot, int flag)
 {
     if (slot->flagMid.kind == 1) slot->flagMid.flag = flag;
@@ -567,6 +1083,7 @@ void BTLV_CORE_SetSlotFlag(BtlvSlot *slot, int flag)
     else if (slot->flagMid.kind == 4) slot->flagHigh.flag = flag;
     else if (slot->flagMid.kind == 2) slot->flagMid.flag = flag;
 }
+
 
 
 u32 BTLV_CORE_GetSlotFlag(BtlvSlot slot)
@@ -579,11 +1096,13 @@ u32 BTLV_CORE_GetSlotFlag(BtlvSlot slot)
 }
 
 
+
 void BTLV_CORE_AddSlotIndex(BtlvSlot *slot, u32 delta)
 {
     if (slot->indexOnly.kind == 2 && slot->indexOnly.index < 8) slot->indexOnly.index = slot->indexOnly.index + delta;
     if (slot->indexOnly.kind == 4 && slot->indexOnly.index < 8) slot->indexOnly.index = slot->indexOnly.index + delta;
 }
+
 
 
 void BTLV_CORE_SetSlotIndex(BtlvSlot *slot, int count)
@@ -593,6 +1112,7 @@ void BTLV_CORE_SetSlotIndex(BtlvSlot *slot, int count)
 }
 
 
+
 /* 021E8CE0  ((high & 0xff) << 8) | (low & 0xff) as u16 */
 /*
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: lsls r0, r0, #0x18; lsrs r2, r0, #0x10; lsls r0, r1, #0x18; lsrs r0, r0, #0x18; orrs r0, r2; lsls r0, r0, #0x10; lsrs r0, r0, #0x10; bx lr.
@@ -600,10 +1120,12 @@ void BTLV_CORE_SetSlotIndex(BtlvSlot *slot, int count)
 u16 BTLV_CORE_PackBytes(u32 high, u32 low) { return (u16)(((high & 0xff) << 8) | (low & 0xff)); }
 
 
+
 int BTLV_CORE_PackByteTwice(int byte)
 {
     return BTLV_CORE_PackBytes(byte, byte);
 }
+
 
 
 /* 021E8CFC  asrs r0,r0,#8; lsls #0x18; lsrs #0x18 */
@@ -613,10 +1135,12 @@ int BTLV_CORE_PackByteTwice(int byte)
 u8 BTLV_CORE_GetHighByte(s32 word) { return (u8)(word >> 8); }
 
 
+
 int BTLV_CORE_GetLowByte(int word)
 {
     return (unsigned char)word;
 }
+
 
 
 void BTLV_CORE_SplitBytes(int word, unsigned char *high, unsigned char *low)
@@ -624,6 +1148,7 @@ void BTLV_CORE_SplitBytes(int word, unsigned char *high, unsigned char *low)
     *high = BTLV_CORE_GetHighByte(word);
     *low = BTLV_CORE_GetLowByte(word);
 }
+
 
 
 int BTLV_CORE_HasByte(int word, int byte)
@@ -638,6 +1163,7 @@ int BTLV_CORE_HasByte(int word, int byte)
 }
 
 
+
 int BTLV_CORE_BytesOverlap(int wordA, int wordB)
 {
     if (BTLV_CORE_GetHighByte(wordA) == BTLV_CORE_GetHighByte(wordB)) return 1;
@@ -648,6 +1174,7 @@ int BTLV_CORE_BytesOverlap(int wordA, int wordB)
 }
 
 
+
 int BTLV_CORE_BytesEqual(int word)
 {
     if (BTLV_CORE_GetHighByte(word) == BTLV_CORE_GetLowByte(word)) {
@@ -655,6 +1182,7 @@ int BTLV_CORE_BytesEqual(int word)
     }
     return 0;
 }
+
 
 
 void BTLV_CORE_LoadOverlays(unsigned short heapId)
@@ -669,6 +1197,7 @@ void BTLV_CORE_LoadOverlays(unsigned short heapId)
 }
 
 
+
 void BTLV_CORE_UnloadOverlays(void)
 {
     BTLV_CORE_ExitDisplay();
@@ -680,6 +1209,7 @@ void BTLV_CORE_UnloadOverlays(void)
 }
 
 
+
 /*
  * wrapper over BTLV_CORE_ExitDisplay, BTLV_CORE_InitDisplay
  */
@@ -688,6 +1218,7 @@ void BTLV_CORE_ResetDisplay(u16 heapId)
     BTLV_CORE_ExitDisplay();
     BTLV_CORE_InitDisplay(heapId);
 }
+
 
 
 /*
@@ -716,6 +1247,7 @@ void BTLV_CORE_InitDisplay(u16 heapId)
 }
 
 
+
 void BTLV_CORE_ExitDisplay(void)
 {
     func_021F7808();
@@ -726,25 +1258,1777 @@ void BTLV_CORE_ExitDisplay(void)
 }
 
 
-struct BtlvCore *BTLV_CORE_Create(void *mainWork, void *netCtx, u32 mainRegion, int param, u16 heapId)
+
+struct BtlvCore *BTLV_CORE_Create(void *context, void *client, u32 monTable, int param, u16 heapId)
 {
     struct BtlvCore *core;
     core = func_02030734(heapId, 0x188, 0, gBtlvCoreFileName, 0x12d);
-    core->mainWork = mainWork;
-    core->netCtx = netCtx;
-    core->mainRegion = mainRegion;
-    core->clientIndex = func_021D3D70(netCtx);
+    core->context = context;
+    core->client = client;
+    core->monTable = (struct BtlMonTable *)monTable;
+    core->clientIndex = func_021D3D70(client);
     core->state = 4;
     core->heapId = heapId;
     core->msgBuffer = STRBUF_Create(0x200, heapId);
     core->fontMain = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     core->fontSub = GF_FONT_Create(0x17, 2, 0, 0, heapId);
     core->taskList = TCBL_Create(heapId, heapId, 0x40, 0x80);
-    core->sceneUnit = BTLV_SCU_Create((u32)core, (u32)core->mainWork, mainRegion, (u32)core->taskList, (u32)core->fontMain, (u32)core->fontSub, core->clientIndex, heapId);
-    core->auxView = func_06899AF0(core, core->mainWork, mainRegion, core->taskList, core->fontMain, core->netCtx, param, heapId);
-    core->counterA = 0;
-    core->counterB = 0;
-    core->busy = 0;
-    BTL_MSG_Init((u32)mainWork, core->clientIndex, mainRegion, heapId);
+    core->sceneUnit = BTLV_SCU_Create((u32)core, (u32)core->context, monTable, (u32)core->taskList, (u32)core->fontMain, (u32)core->fontSub, core->clientIndex, heapId);
+    core->auxView = BTLV_SCD_Create(core, core->context, monTable, core->taskList, core->fontMain, core->client, param, heapId);
+    core->stepFn = 0;
+    core->stepState = 0;
+    core->subStep = 0;
+    BTL_MSG_Init((u32)context, core->clientIndex, monTable, heapId);
     return core;
+}
+
+
+/* Destroys the battle view core: message system, aux view, scene unit, task list, message buffer, fonts and the core itself. */
+void BTLV_CORE_Delete(struct BtlvCore *core)
+{
+    BTL_MSG_Exit();
+    func_06899DD8(core->auxView);
+    BTLV_SCU_Delete(core->sceneUnit);
+    TCBL_Destroy(core->taskList);
+    STRBUF_Delete(core->msgBuffer);
+    GF_FONT_Delete(core->fontMain);
+    GF_FONT_Delete(core->fontSub);
+    func_020307B0(core);
+}
+
+
+
+/* Runs the task list of the view core and the effect system once per frame. */
+void BTLV_CORE_Update(struct BtlvCore *core)
+{
+    TCBL_Main(core->taskList);
+    func_021F78E4();
+}
+
+
+
+/* Starts the opening step of the battle view: state 0 is the normal entry scene, state 1 the scripted demo scene. */
+void BTLV_CORE_StartOpening(struct BtlvCore *core, u32 state)
+{
+    u32 i;
+
+    for (i = 0; i < 2; i++) {
+        if (state == gBtlvOpeningStepTable[i].state) {
+            core->state = state;
+            core->stepFn = gBtlvOpeningStepTable[i].step;
+            core->stepState = 0;
+            return;
+        }
+    }
+}
+
+
+
+/* Runs the opening step; nonzero once it has finished (state 4 marks the idle core). */
+int BTLV_CORE_PollOpening(struct BtlvCore *core)
+{
+    if (core->state != 4) {
+        if (core->stepFn(core, &core->stepState, core->task.work) != 0) {
+            core->state = 4;
+            core->stepFn = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+
+/* 021E9100  adds r0,#0x2c */
+/*
+ * Leaf with no calls and no pool; 2 instructions, 4 bytes: adds r0, #0x2c; bx lr.
+ */
+void *BTLV_CORE_GetTaskWork(struct BtlvCore *core, int size) { return core->task.work; }
+
+
+
+/* Opening step 0: builds the scene, shows the entry scene, and in a remote client shows the queued command counter. */
+int BTLV_CORE_StepOpeningEntry(struct BtlvCore *core, int *state, void *work)
+{
+    void *scene;
+
+    switch (*state) {
+    case 0:
+        scene = func_021F745C(core->context, core->sceneUnit, core->heapId);
+        func_021F7544(scene, core->fontSub, core->heapId);
+        func_020307B0(scene);
+        BTLV_SCU_SetupDisplay(core->sceneUnit);
+        func_06899BE0(core->auxView);
+        (*state)++;
+        break;
+    case 1:
+        BTLV_SCU_StartEntryScene(core->sceneUnit, BTL_CLIENT_IsMainStepActive(core->client));
+        (*state)++;
+        break;
+    case 2:
+        if (BTLV_SCU_RunProc(core->sceneUnit) != 0) {
+            if (BTL_CLIENT_IsRemote(core->client) != 0) {
+                core->counterCmd.current = 1;
+                core->counterCmd.target = 1;
+                core->counterCmd.commandWord = BTL_CLIENT_GetQueuedCommandWord(core->client);
+                core->counterCmd.mode = 0;
+                if (BTL_CLIENT_IsMainStepActive(core->client) == 0) {
+                    func_0689B780(core->auxView, &core->counterCmd);
+                }
+            }
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+/*
+ * Opening step 1: the scripted demo scene. The first Pokemon uses move 1 and the second one move 43
+ * with their use messages, then the messages of the demo text bank are shown and the music is changed.
+ */
+int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *w)
+{
+    switch (*state) {
+    case 0: {
+        void *scene = func_021F745C(core->context, core->sceneUnit, core->heapId);
+        func_021F7544(scene, core->fontSub, core->heapId);
+        func_020307B0(scene);
+        BTLV_SCU_SetupDisplay(core->sceneUnit);
+        func_06899BE0(core->auxView);
+        w->msgBank = func_02045B38(0, 2, 0x14, core->heapId);
+        w->timer = 0;
+        (*state)++;
+        break;
+    }
+    case 1:
+        BTLV_SCU_StartEntryScene(core->sceneUnit, 0);
+        (*state)++;
+        break;
+    case 2:
+        if (BTLV_SCU_RunProc(core->sceneUnit)) {
+            struct BtlvMessage msg;
+            struct BtlPokeParam *pokeParam = BTLV_CORE_GetPokeParamAtViewPos(core, 0);
+            func_021EAF18(&msg, 1, 0x45);
+            func_021EAF50(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
+            func_021EAF78(&msg, 0);
+            BTLV_CORE_BuildAndPrintMessageNow(core, &msg);
+            (*state)++;
+        }
+        break;
+    case 3:
+        core->pokeParam = BTLV_CORE_GetPokeParamAtViewPos(core, 0);
+        core->pokeId = BTL_POKEPARAM_GetPokeId(core->pokeParam);
+        core->actionCursor = 0;
+        core->actionResult = 0;
+        core->canBack = 0;
+        func_06899F00(core->auxView, core->pokeParam, core->canBack, 0);
+        (*state)++;
+        break;
+    case 4:
+        if (func_06899F28(core->auxView)) {
+            func_06899FE8(core->auxView, core->pokeParam, (u32)core->actionCursor);
+            (*state)++;
+        }
+        break;
+    case 5:
+        if (func_06899F28(core->auxView)) {
+            BTLV_CORE_PrintItemUseMessage(core, BTL_POKEPARAM_GetPokeId(BTLV_CORE_GetPokeParamAtViewPos(core, 0)), 1);
+            func_06899D64(core->auxView);
+            (*state)++;
+        }
+        break;
+    case 6:
+        if (BTLV_CORE_WaitMessage(core) && func_06899DB0(core->auxView)) {
+            BTLV_SCU_StartWazaEffect(core->sceneUnit, 0, 1, 1, WAZA_TOOL_GetParam(1, 0x1B), 0, 0);
+            (*state)++;
+        }
+        break;
+    case 7:
+        if (BTLV_SCU_RunWazaProc(core->sceneUnit)) {
+            func_021F80FC(1, func_0209C0A4(func_021D59B4(BTLV_CORE_GetPokeParamAtViewPos(core, 1), 0xE), 6));
+            func_021F7C2C(1, 1);
+            func_021EAF00(core, 0x564);
+            (*state)++;
+        }
+        break;
+    case 8:
+        if (BTLV_SCU_IsMonDamageAnimDone(core->sceneUnit)) {
+            BTLV_CORE_PrintItemUseMessage(core, BTL_POKEPARAM_GetPokeId(BTLV_CORE_GetPokeParamAtViewPos(core, 1)), 0x2B);
+            (*state)++;
+        }
+        break;
+    case 9:
+        if (BTLV_CORE_WaitMessage(core)) {
+            BTLV_SCU_StartWazaEffect(core->sceneUnit, 1, 0, 0x2B, WAZA_TOOL_GetParam(0x2B, 0x1B), 0, 0);
+            (*state)++;
+        }
+        break;
+    case 10:
+        if (BTLV_SCU_RunWazaProc(core->sceneUnit)) {
+            BTLV_CORE_StartViewEffect262(core, 0);
+            (*state)++;
+        }
+        break;
+    case 11:
+        if (BTLV_CORE_WaitViewEffectDone(core, 0)) {
+            struct BtlvMessage msg;
+            struct BtlPokeParam *pokeParam = BTLV_CORE_GetPokeParamAtViewPos(core, 0);
+            func_021EAF18(&msg, 2, 0x5D);
+            func_021EAF50(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
+            func_021EAF78(&msg, 0);
+            BTLV_CORE_BuildAndPrintMessage(core, &msg);
+            (*state)++;
+        }
+        break;
+    case 12:
+        if (BTLV_CORE_WaitMessage(core)) {
+            func_02045CAC(w->msgBank, 0, core->msgBuffer);
+            BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0, 0);
+            w->timer = 0x3C;
+            (*state)++;
+        }
+        break;
+    case 13:
+        if (BTLV_CORE_WaitMessage(core) && --w->timer == 0) {
+            func_06899F00(core->auxView, core->pokeParam, core->canBack, (u32)core->actionCursor);
+            (*state)++;
+        }
+        break;
+    case 14:
+        if (func_06899F28(core->auxView)) {
+            BTLV_CORE_StartBagMenu(core, 2, 0, 0, 1, 0);
+            (*state)++;
+        }
+        break;
+    case 15:
+        if (BTLV_CORE_PollBagMenu(core)) {
+            func_02045CAC(w->msgBank, 1, core->msgBuffer);
+            BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0, 0);
+            func_06899D64(core->auxView);
+            (*state)++;
+        }
+        break;
+    case 16:
+        if (BTLV_CORE_WaitMessage(core) && !func_021F7EB4()) {
+            func_021F7CFC(1, 4, 3, 1, 0);
+            (*state)++;
+        }
+        break;
+    case 17:
+        if (!func_021F7EB4()) {
+            struct BtlvMessage msg;
+            struct BtlPokeParam *pokeParam = BTLV_CORE_GetPokeParamAtViewPos(core, 1);
+            func_021EAF18(&msg, 1, 0x41);
+            func_021EAF50(&msg, BTL_POKEPARAM_GetPokeId(pokeParam));
+            BTLV_CORE_BuildAndPrintMessage(core, &msg);
+            (*state)++;
+        }
+        break;
+    case 18:
+        if (BTLV_CORE_ConsumeMessageFlag(core)) {
+            GFL_USE_CancelChangeAndPlayBgm(0x518, 0xFFFF);
+        }
+        if (BTLV_CORE_WaitMessage(core)) {
+            (*state)++;
+        }
+        break;
+    case 19:
+        if (!GFL_USE_IsBgmPlaying()) {
+            func_021F7C0C();
+            MSGDATA_Delete((struct Rec *)w->msgBank);
+            (*state)++;
+        }
+        break;
+    case 20:
+        return 1;
+    }
+    return 0;
+}
+
+
+
+/* The battle Pokemon on a view position of the core's client side. */
+struct BtlPokeParam *BTLV_CORE_GetPokeParamAtViewPos(struct BtlvCore *core, u32 viewPos)
+{
+    return BTL_SIDE_GetPokeAtPos(core->monTable, BTL_MAIN_GetSlotFromViewPos(core->context, viewPos));
+}
+
+
+
+/* Step of the action menu (Fight, Bag, Pokemon, Run): opens it on the aux view, then waits for the choice. */
+int BTLV_CORE_StepActionMenu(struct BtlvCore *core, int *state, void *work)
+{
+    switch (*state) {
+    case 0:
+        func_06899ED0(core->auxView, core->pokeParam, core->canBack, func_021D3D90(core->client), core->actionCursor);
+        (*state)++;
+    case 1:
+        core->actionResult = func_06899F28(core->auxView);
+        if (core->actionResult)
+            return 1;
+    }
+    return 0;
+}
+
+
+/* Step of the target menu: opens it on the aux view, then waits for the choice. */
+int BTLV_CORE_StepTargetMenu(struct BtlvCore *core, int *state, void *work)
+{
+    switch (*state) {
+    case 0:
+        func_0689A008(core->auxView, core->pokeParam, core->actionCursor);
+        (*state)++;
+        break;
+    case 1:
+        if (func_0689A020(core->auxView))
+            return 1;
+        break;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_SetStep(struct BtlvCore *core, BtlvCoreStepFn stepFn)
+{
+    core->stepFn = stepFn;
+    core->stepState = 0;
+}
+
+
+
+void BTLV_CORE_ClearStep(struct BtlvCore *core)
+{
+    core->stepFn = 0;
+    core->stepState = 0;
+}
+
+
+
+int BTLV_CORE_RunStep(struct BtlvCore *core)
+{
+    if (core->stepFn != 0) {
+        if (core->stepFn(core, &core->stepState, core->task.work) != 0) {
+            core->stepFn = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+
+void BTLV_CORE_StartActionMenu(struct BtlvCore *core, struct BtlPokeParam *pokeParam, int canBack, u8 *cursor)
+{
+    core->pokeParam = pokeParam;
+    core->pokeId = BTL_POKEPARAM_GetPokeId(pokeParam);
+    core->actionCursor = cursor;
+    core->actionResult = 0;
+    core->canBack = canBack;
+    BTLV_CORE_SetStep(core, BTLV_CORE_StepActionMenu);
+}
+
+
+
+void BTLV_CORE_AbortActionMenu(struct BtlvCore *core) { BTLV_CORE_AbortInput(core); }
+
+
+
+int BTLV_CORE_PollActionMenu(struct BtlvCore *core)
+{
+    if (BTLV_CORE_RunStep(core) != 0) {
+        return core->actionResult;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartMoveMenu(struct BtlvCore *core, struct BtlPokeParam *pokeParam, u8 *cursor)
+{
+    core->pokeParam = pokeParam;
+    core->pokeId = BTL_POKEPARAM_GetPokeId(pokeParam);
+    core->actionCursor = cursor;
+    func_06899F40(core->auxView, core->pokeParam, cursor);
+    BTLV_CORE_SetStep(core, BTLV_CORE_StepMoveMenu);
+}
+
+
+
+void BTLV_CORE_StartMoveMenuForEntry(struct BtlvCore *core, u32 *entry, u8 *cursor)
+{
+    struct BtlPokeParam *pokeParam = (struct BtlPokeParam *)*entry;
+
+    core->pokeParam = pokeParam;
+    core->pokeId = BTL_POKEPARAM_GetPokeId(pokeParam);
+    core->entry = entry;
+    core->actionCursor = cursor;
+    func_06899F64(core->auxView, entry, cursor);
+    BTLV_CORE_SetStep(core, BTLV_CORE_StepMoveMenu);
+}
+
+
+
+void BTLV_CORE_ReopenMoveMenu(struct BtlvCore *core)
+{
+    func_06899FDC(core->auxView);
+    BTLV_CORE_SetStep(core, BTLV_CORE_StepMoveMenu);
+}
+
+
+
+int BTLV_CORE_StepMoveMenu(struct BtlvCore *core, int *state, void *work) { return func_06899FD4(core->auxView) != 0; }
+
+
+/*
+ * leaf: only-blocker of ov093 021CEA94; parent expanded scope.
+ * interface: eight-byte ldr-r3/bx-r3 stub forwards only live r0;
+ * target body reads only r0. Original caller does not read result.
+ */
+void BTLV_CORE_AbortMoveMenu(struct BtlvCore *core)
+{
+    BTLV_CORE_AbortInput(core);
+}
+
+
+/*
+ * leaf: only-blocker of ov093 021CEA94; parent expanded scope.
+ * interface: eight-byte ldr-r3/bx-r3 stub forwards only live r0;
+ * target body reads only r0. Original caller compares returned r0 with zero.
+ */
+u32 BTLV_CORE_PollMoveMenu(struct BtlvCore *core)
+{
+    return BTLV_CORE_RunStep(core);
+}
+
+
+
+void BTLV_CORE_StartTargetMenu(struct BtlvCore *core, struct BtlPokeParam *pokeParam, u8 *cursor)
+{
+    core->pokeParam = pokeParam;
+    core->pokeId = BTL_POKEPARAM_GetPokeId(pokeParam);
+    core->actionCursor = cursor;
+    BTLV_CORE_SetStep(core, BTLV_CORE_StepTargetMenu);
+}
+
+
+
+int BTLV_CORE_PollTargetMenu(struct BtlvCore *core)
+{
+    if (BTLV_CORE_RunStep(core) != 0) {
+        if (func_0689B0CC(core->auxView) != 0) {
+            return 1;
+        }
+        return 2;
+    }
+    return 0;
+}
+
+
+/*
+ * leaf: only-blocker of ov093 021CEA94; parent expanded scope.
+ * interface: eight-byte ldr-r3/bx-r3 stub forwards only live r0;
+ * target body reads only r0. Original caller does not read result.
+ */
+void BTLV_CORE_AbortTargetMenu(struct BtlvCore *core)
+{
+    BTLV_CORE_AbortInput(core);
+}
+
+
+
+void BTLV_CORE_AbortInput(struct BtlvCore *core)
+{
+    func_021F8A78();
+    func_0689A028(core->auxView);
+    BTLV_CORE_ClearStep(core);
+}
+
+
+/*
+ * Indexed-dispatch thunk, sibling of BTLV_CORE_CloseMenuToReselect (same shape, other tail target).
+ * Tail call T(core->auxView) with the index materialised as a scaled immediate.
+ * Unlabelled leaf filed as the witness for the call in BTL_CLIENT_StepSelectAction.
+ */
+void BTLV_CORE_CloseMenu(struct BtlvCore *core) { func_06899D3C(core->auxView); }
+
+
+
+/*
+ * Indexed-dispatch thunk (o18's 23-member shape): the member's whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base; only the scratch register, the index constant and the tail target differ. Tail call T(core->auxView) with the index materialised as a scaled immediate.
+ */
+void BTLV_CORE_CloseMenuToReselect(struct BtlvCore *core) { func_06899D64(core->auxView); }
+
+
+
+void BTLV_CORE_IsMenuClosed(struct BtlvCore *core) { func_06899DB0(core->auxView); }
+
+
+
+void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mode, u8 slot, int modeParam)
+{
+    u32 clientIndex;
+    int isNotComm;
+    int hasPartner;
+    clientIndex = func_021D3D70(core->client);
+    plist->party = BTL_MAIN_SyncSideParty(core->context, clientIndex);
+    if (mode != 3) hasPartner = BTL_MAIN_IsCommMulti(core->context);
+    else hasPartner = 0;
+    plist->isCommMulti = hasPartner;
+    if (hasPartner) {
+        plist->partnerParty = BTL_MAIN_SyncPartnerSideParty(core->context, clientIndex);
+        plist->isSecondTeam = BTL_MAIN_IsSecondTeamClient(core->context, clientIndex);
+    } else {
+        plist->partnerParty = 0;
+        plist->isSecondTeam = 0;
+    }
+    plist->mode = mode;
+    if (BTL_MAIN_GetRule(core->context) != 3) plist->positionsPerClient = BTL_MAIN_GetPositionsPerClientThunk(core->context, clientIndex);
+    else plist->positionsPerClient = 3;
+    switch (mode) {
+    case 4:
+    case 5: hasPartner = slot; break;
+    default: hasPartner = 0; break;
+    }
+    plist->modeSlot = hasPartner;
+    plist->slot = slot;
+    plist->modeParam = modeParam;
+    plist->result = 0;
+    plist->heapId = core->heapId;
+    plist->fontMain = core->fontMain;
+    plist->rule = BTL_MAIN_GetRule(core->context);
+    plist->auxViewHandle = func_0689B66C(core->auxView);
+    plist->effectSys = func_021F86D4();
+    plist->effectSysAux = func_021F86E0();
+    plist->gameData = BTL_MAIN_GetGameData(core->context);
+    plist->choiceLocked = 0;
+    isNotComm = 0;
+    if (BTL_MAIN_GetCompetitor(core->context) != 3) isNotComm = 1;
+    plist->allowBag = isNotComm;
+    plist->exitFlag = 0;
+    plist->done = 0;
+}
+
+
+void BTLV_CORE_StartPartyMenu(struct BtlvCore *core, const u8 *slotChoices, int slot, int canCancel, u8 *choiceFlags)
+{
+    u32 i;
+    u32 count;
+
+    if (slot < 0) slot = 0;
+    BTLV_CORE_InitPartyWork(core, &core->plist, slotChoices[0xb], slot, canCancel);
+    count = func_0689CB18(choiceFlags);
+    for (i = 0; i < count; i++) {
+        if (i >= 2) break;
+        core->plist.chosenSlots[i] = func_0689CB2C(choiceFlags, i);
+    }
+    for (; i < 2; i++)
+        core->plist.chosenSlots[i] = 6;
+    choiceFlags[8] = 1;
+    core->choiceFlags = choiceFlags;
+    core->subStep = 0;
+}
+
+
+
+void BTLV_CORE_LockPartyChoice(struct BtlvCore *core)
+{
+    core->plist.choiceLocked = 1;
+}
+
+
+
+/*
+ * note: 2026-10-03 EXACT*: the calls go through Thumb-entry linker veneers
+ *   (bx pc; nop; ldr ip,[pc]; bx ip; .word <ov095 function>), attested by the
+ *   match.py `veneer` class. The listing extent includes the veneers.
+ * extent: lead is 320 bytes; eight 16-byte Thumb veneers follow.
+ */
+int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
+{
+    u32 i;
+    switch (core->subStep) {
+    case 0:
+        if ((u8)(core->plist.mode + 0xff) <= 1) func_06899CA4(core->auxView, 0);
+        else func_06899CA4(core->auxView, 1);
+        func_02034AC4(ov196_id);
+        core->subStep++;
+        break;
+    case 1:
+        if (func_06899D04(core->auxView)) {
+            func_06899D2C(core->auxView);
+            func_02034AC4(ov198_id);
+            func_0220F3E8(&core->plist);
+            core->subStep++;
+        }
+        break;
+    case 2:
+        if (core->plist.done) {
+            if (core->plist.mode != 5 && core->plist.choiceLocked == 0) {
+                for (i = 0; i < 3; i++) {
+                    if (core->plist.pickedSlots[i] != 0xff) {
+                        func_0689CAEC(core->choiceFlags, i, core->plist.pickedSlots[i]);
+                        func_0689CB18(core->choiceFlags);
+                        core->choiceFlags[8] = 0;
+                    }
+                }
+            }
+            func_02034A5C(ov198_id);
+            func_06899CDC(core->auxView);
+            func_06899D30(core->auxView);
+            core->subStep++;
+        }
+        break;
+    case 3:
+        if (func_06899D04(core->auxView)) core->subStep++;
+        break;
+    default:
+        func_02034A5C(ov196_id);
+        core->subStep = 0;
+        return 1;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartMoveHighlight(struct BtlvCore *core, u8 slot, u8 kind)
+{
+    BTLV_CORE_InitPartyWork(core, &core->plist, 5, slot, 0);
+    core->plist.result = kind;
+    core->subStep = 0;
+}
+
+
+
+void BTLV_CORE_StartBagMenu(struct BtlvCore *core, int isComm, u8 pointCounter, u8 itemId, u8 isLastSlot, u8 foeSemiInvulnerable)
+{
+    u32 i;
+    u32 count;
+    void *pokeList;
+    int flag;
+    if (core->subStep) return;
+    core->bag.myItem = BTL_MAIN_GetMyItem(core->context);
+    core->bag.myItemSave = BTL_MAIN_GetMapMatrix(core->context);
+    core->bag.isComm = isComm;
+    core->bag.fontMain = core->fontMain;
+    core->bag.heapId = core->heapId;
+    core->bag.pointCounter = pointCounter;
+    core->bag.lastItem = itemId;
+    core->bag.selectedItem = 0;
+    core->bag.auxViewHandle = func_0689B66C(core->auxView);
+    core->bag.skipPartyPrompt = 0;
+    core->bag.regulationRules = BTL_MAIN_GetRegulationRules(core->context);
+    flag = 0;
+    if (BTL_MAIN_GetCompetitor(core->context) != 3) flag = 1;
+    core->bag.allowBag = flag;
+    core->bag.cursorPos = 0;
+    flag = 0;
+    if (BTL_MAIN_GetCompetitor(core->context) == 0) flag = 1;
+    core->bag.isWildBattle = flag;
+    core->bag.done = 0;
+    flag = 0;
+    if (isLastSlot == 0) flag = 3;
+    else if (BTL_MAIN_CheckSetupStatusFlag(core->context, 0x40)) flag = 1;
+    else if (BTL_MAIN_GetCompetitor(core->context) == 0) {
+        if (BTL_SIDE_CountLivingOfClient(core->monTable, 1) > 1) flag = 2;
+        else if (foeSemiInvulnerable) flag = 4;
+    }
+    core->bag.buttonMode = flag;
+    BTLV_CORE_InitPartyWork(core, &core->plist, 3, 0, 0);
+    pokeList = func_021D3D7C(core->client);
+    count = BTL_SLOT_GetCount(pokeList);
+    for (i = 0; i < count; i++)
+        core->plist.sickFlags[i] = BTL_POKEPARAM_HasSick(BTL_SLOT_GetPokeParam(pokeList, (u8)i), 0x13);
+    for (; i < 6; i++) core->plist.sickFlags[i] = 0;
+    core->subStep = 1;
+}
+
+
+
+void BTLV_CORE_SkipBagPartyPrompt(struct BtlvCore *core)
+{
+    core->bag.skipPartyPrompt = 1;
+    core->plist.choiceLocked = 1;
+}
+
+
+
+/*
+ * note: 2026-10-03 EXACT*: the calls go through Thumb-entry linker veneers
+ *   (bx pc; nop; ldr ip,[pc]; bx ip; .word <ov095 function>), attested by the
+ *   match.py `veneer` class. The listing extent includes the veneers.
+ * extent: lead is 300 bytes; seven 16-byte Thumb veneers follow.
+ */
+int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
+{
+    switch (core->subStep) {
+    case 0: break;
+    case 1:
+        func_06899CA4(core->auxView, 1);
+        func_02034AC4(ov196_id);
+        core->subStep = 2;
+        break;
+    case 2:
+        if (func_06899D04(core->auxView)) {
+            func_06899D2C(core->auxView);
+            func_02034AC4(ov197_id);
+            func_0220C834(&core->bag);
+            core->subStep = 3;
+        }
+        break;
+    case 3:
+        if (core->bag.done) {
+            func_02034A5C(ov197_id);
+            if (core->bag.skipPartyPrompt == 0) core->subStep = 4;
+            else core->subStep = 6;
+        }
+        break;
+    case 4:
+        if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !func_0689C90C(core->bag.selectedItem, core->bag.selectedItemPage)) {
+            core->plist.itemId = core->bag.selectedItem;
+            func_02034AC4(ov198_id);
+            func_0220F3E8(&core->plist);
+            core->subStep = 5;
+        } else core->subStep = 6;
+        break;
+    case 5:
+        if (core->plist.done) {
+            func_02034A5C(ov198_id);
+            core->subStep = 6;
+        }
+        break;
+    case 6:
+        func_06899CDC(core->auxView);
+        func_06899D30(core->auxView);
+        core->subStep = 7;
+        break;
+    case 7:
+        if (func_06899D04(core->auxView)) {
+            func_02034A5C(ov196_id);
+            core->subStep = 0;
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+/* Selected bag item, valid only after the bag returned a choice. */
+u16 BTLV_CORE_GetSelectedItem(struct BtlvCore *core)
+{
+    if (core->bag.done != 0)
+        return core->bag.selectedItem;
+    return 0;
+}
+
+
+
+u8 BTLV_CORE_GetSelectedItemPocket(struct BtlvCore *core)
+{
+    if (core->bag.done != 0)
+        return core->bag.selectedItemPocket;
+    return 0;
+}
+
+
+
+u8 BTLV_CORE_GetInputTargetSlot(struct BtlvCore *core) { return core->plist.modeSlot; }
+
+
+
+u8 BTLV_CORE_GetInputResultFlag(struct BtlvCore *core)
+{
+    return core->plist.result;
+}
+
+
+
+/* Stores the bag cursors and the last used item into the save. */
+void BTLV_CORE_SaveBagCursors(struct BtlvCore *core)
+{
+    if (core->bag.selectedItem != 0 && core->plist.modeSlot != 6 && core->bag.isComm != 1) {
+        MYITEM_SAVEDATA_SetBattlePocketCursors(core->bag.myItemSave, core->bag.pocketCursorPos, core->bag.pocketScrollPos);
+        MYITEM_SAVEDATA_SetLastBattleItem(core->bag.myItemSave, core->bag.selectedItem, core->bag.selectedItemPage);
+    }
+}
+
+
+
+void BTLV_CORE_StartSceneEffect(struct BtlvCore *core, u32 slotFrom, u32 slotTo, u32 sceneId, u32 argA, u32 argB, u8 flags)
+{
+    u32 viewPosFrom;
+    u32 viewPosTo;
+
+    viewPosFrom = BTL_MAIN_GetViewPosOfSlot(core->context, slotFrom);
+    if (slotTo != 6) {
+        viewPosTo = BTL_MAIN_GetViewPosOfSlot(core->context, slotTo);
+    } else {
+        viewPosTo = 0xff;
+    }
+    BTLV_SCU_StartWazaEffect(core->sceneUnit, viewPosFrom, viewPosTo, sceneId, argA, argB, flags);
+}
+
+
+
+int BTLV_CORE_WaitSceneEffect(struct BtlvCore *core) { return BTLV_SCU_RunWazaProc(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartDamageEffect(struct BtlvCore *core, u32 animId, u32 slot, u32 effectiveness)
+{
+    struct BtlvCoreDamageWork *work;
+
+    work = (struct BtlvCoreDamageWork *)BTLV_CORE_GetTaskWork(core, 0xc);
+    work->effectiveness = effectiveness;
+    work->slot = slot;
+    work->step = 0;
+    work->animId = animId;
+    core->task.preProc = 0;
+    core->task.mainProc = BTLV_CORE_ProcDamageEffect;
+    core->task.procCore = core;
+    core->task.procState = 0;
+}
+
+
+
+int BTLV_CORE_WaitDamageEffect(struct BtlvCore *core)
+{
+    if (core->task.preProc != 0) {
+        if (core->task.preProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.preProc = 0;
+            core->task.procState = 0;
+        }
+        return 0;
+    }
+    if (core->task.mainProc != 0) {
+        if (core->task.mainProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.mainProc = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+
+int BTLV_CORE_ProcDamageEffect(int *state, struct BtlvCore *core)
+{
+    struct BtlvCoreDamageWork *work;
+
+    work = (struct BtlvCoreDamageWork *)BTLV_CORE_GetTaskWork(core, 0xc);
+    switch (*state) {
+    case 0:
+        BTLV_SCU_StartMonDamageAnim(core->sceneUnit, work->slot, work->animId, BTL_CLIENT_IsMainStepActive(core->client));
+        BTLV_CORE_PlayEffectivenessSe(core, work->effectiveness);
+        *state = *state + 1;
+        break;
+    case 1:
+        if (BTLV_SCU_IsMonDamageAnimDone(core->sceneUnit) != 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartHitAnim(struct BtlvCore *core, u32 animId, int slot, int effectiveness)
+{
+    struct BtlvCoreDamageWork *work;
+
+    if (BTL_CLIENT_IsMainStepActive(core->client) == 0) {
+        work = (struct BtlvCoreDamageWork *)BTLV_CORE_GetTaskWork(core, 0xc);
+        work->effectiveness = effectiveness;
+        work->slot = slot;
+        work->step = 0;
+        work->animId = animId;
+        core->task.preProc = 0;
+        core->task.mainProc = BTLV_CORE_ProcHitAnim;
+        core->task.procCore = core;
+        core->task.procState = 0;
+    }
+}
+
+
+
+int BTLV_CORE_WaitHitAnim(struct BtlvCore *core)
+{
+    if (core->task.preProc != 0) {
+        if (core->task.preProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.preProc = 0;
+            core->task.procState = 0;
+        }
+        return 0;
+    }
+    if (core->task.mainProc != 0) {
+        if (core->task.mainProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.mainProc = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+
+int BTLV_CORE_ProcHitAnim(int *state, struct BtlvCore *core)
+{
+    struct BtlvCoreDamageWork *work;
+
+    work = (struct BtlvCoreDamageWork *)BTLV_CORE_GetTaskWork(core, 0xc);
+    switch (*state) {
+    case 0:
+        BTLV_SCU_StartMonMotion(core->sceneUnit, work->slot, work->animId);
+        BTLV_CORE_PlayEffectivenessSe(core, work->effectiveness);
+        *state = *state + 1;
+        break;
+    case 1:
+        if (BTLV_SCU_IsMonMotionDone(core->sceneUnit) != 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartMultiDamageEffect(struct BtlvCore *core, u32 count, int effectiveness, const u8 *pokeIds, u16 animId)
+{
+    struct BtlvCoreMultiDamageWork *work;
+    u32 i;
+
+    work = (struct BtlvCoreMultiDamageWork *)BTLV_CORE_GetTaskWork(core, 0x14);
+    work->effectiveness = effectiveness;
+    work->count = count;
+    work->animId = animId;
+    work->step = 0;
+    for (i = 0; i < count; i++) {
+        work->slots[i] = BTL_MAIN_GetTrainerSlotOfPoke(core->context, core->monTable, pokeIds[i]);
+    }
+}
+
+
+
+int BTLV_CORE_ProcMultiDamageEffect(struct BtlvCore *core)
+{
+    struct BtlvCoreMultiDamageWork *work;
+    u32 mainStepActive;
+    u32 i;
+
+    work = (struct BtlvCoreMultiDamageWork *)BTLV_CORE_GetTaskWork(core, 0x14);
+    switch (work->step) {
+    case 0:
+        mainStepActive = BTL_CLIENT_IsMainStepActive(core->client);
+        for (i = 0; i < work->count; i++) {
+            BTLV_SCU_StartMonDamageAnim(core->sceneUnit, work->slots[i], work->animId, mainStepActive);
+        }
+        BTLV_CORE_PlayEffectivenessSe(core, work->effectiveness);
+        work->step = work->step + 1;
+        break;
+    case 1:
+        if (BTLV_SCU_IsMonDamageAnimDone(core->sceneUnit) != 0) {
+            if (BTLV_SCU_UpdateMessage(core->sceneUnit) != 0) {
+                return 1;
+            }
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+/* Plays the sound that matches the damage effectiveness. */
+void BTLV_CORE_PlayEffectivenessSe(struct BtlvCore *core, int effectiveness)
+{
+    int seId;
+
+    switch (effectiveness) {
+    case 2:
+        seId = 0x563;
+        break;
+    case 3:
+        seId = 0x565;
+        break;
+    default:
+        seId = 0x564;
+        break;
+    }
+    func_021EAF00(core, seId);
+}
+
+
+
+/*
+ * note:     2026-10-03: byte-correct. The three callees are unlabelled Thumb tail-call stubs in
+ *           ov094 (ov093 window does not hold them; the ov094 hint is right). Witnesses filed
+ *           EXACT: src/matched/ov/ov094_func_021F853C.c, ov094_func_021F7E74.c,
+ *           ov094_func_021F7E84.c. Once the integrator creates their shards, the `matched`
+ *           class resolves the three sites through the ov094 hint; re-verify and file EXACT.
+ */
+void BTLV_CORE_SetMonShown(struct BtlvCore *core, int viewPos, int shown)
+{
+    if (func_021F7F1C(viewPos) != 0) {
+        if (shown != func_021F853C(viewPos)) {
+            if (shown == 1) {
+                func_021F7E74(viewPos);
+            } else {
+                func_021F7E84(viewPos);
+            }
+        }
+    }
+}
+
+
+
+void BTLV_CORE_StartMonSpriteUpdate(struct BtlvCore *core, int slot)
+{
+    BTLV_SCU_StartHpGaugeUpdate(core->sceneUnit, slot, BTL_CLIENT_IsMainStepActive(core->client));
+}
+
+
+
+int BTLV_CORE_WaitMonSpriteUpdate(struct BtlvCore *core) { return BTLV_SCU_IsHpGaugeIdle(core->sceneUnit) != 0; }
+
+
+
+void BTLV_CORE_StartViewEffect(struct BtlvCore *core, int viewPos, int effectId)
+{
+    if (BTL_CLIENT_IsMainStepActive(core->client) == 0) {
+        func_021F7A28(viewPos, effectId);
+    }
+}
+
+
+
+int BTLV_CORE_WaitViewEffect(void)
+{
+    if (func_021F7EB4() == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartViewEffectEx(struct BtlvCore *core, int viewPos, int effectId, u32 param)
+{
+    func_021F7AAC(viewPos, effectId, param);
+}
+
+
+
+int BTLV_CORE_WaitViewEffectEx(int viewPos)
+{
+    if (func_021F7EB4() == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartMonReset(struct BtlvCore *core, int slot)
+{
+    BTLV_SCU_StartMonExit(core->sceneUnit, slot, BTL_CLIENT_IsMainStepActive(core->client));
+}
+
+
+
+int BTLV_CORE_WaitMonReset(struct BtlvCore *core) { return BTLV_SCU_IsMonExitDone(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartMonRefresh(struct BtlvCore *core, u32 slot) { BTLV_SCU_LoadAndShowMon(core->sceneUnit, slot); }
+
+
+
+int BTLV_CORE_WaitMonRefresh(struct BtlvCore *core) { return BTLV_SCU_IsMonLoadDone(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartMonEffectTask(struct BtlvCore *core, u16 viewPos, u16 effectId)
+{
+    BTLV_SCU_StartMonWithdraw(core->sceneUnit, viewPos, effectId, BTL_CLIENT_IsMainStepActive(core->client));
+}
+
+
+
+int BTLV_CORE_WaitMonEffectTask(struct BtlvCore *core) { return BTLV_SCU_IsMonWithdrawDone(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartMonSwap(struct BtlvCore *core, u8 slot, u8 clientId, u8 pokeIdx)
+{
+    struct BtlvCoreSwapWork *work;
+    struct BtlPokeParam *mon;
+
+    work = (struct BtlvCoreSwapWork *)BTLV_CORE_GetTaskWork(core, 4);
+    mon = BTL_SIDE_GetPokeAtPos(core->monTable, slot);
+    work->clientId = clientId;
+    work->pokeIdx = pokeIdx;
+    work->slot = slot;
+    work->pokeId = BTL_POKEPARAM_GetPokeId(mon);
+    core->task.preProc = 0;
+    core->task.mainProc = BTLV_CORE_ProcMonSwap;
+    core->task.procCore = core;
+    core->task.procState = 0;
+}
+
+
+
+int BTLV_CORE_WaitMonSwap(struct BtlvCore *core)
+{
+    if (core->task.preProc != 0) {
+        if (core->task.preProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.preProc = 0;
+            core->task.procState = 0;
+        }
+        return 0;
+    }
+    if (core->task.mainProc != 0) {
+        if (core->task.mainProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.mainProc = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+
+int BTLV_CORE_ProcMonSwap(int *state, struct BtlvCore *core)
+{
+    struct BtlvCoreSwapWork *work;
+
+    work = (struct BtlvCoreSwapWork *)BTLV_CORE_GetTaskWork(core, 4);
+    switch (*state) {
+    case 0:
+        BTLV_SCU_StartMonSendOut(core->sceneUnit, work->slot, work->clientId, work->pokeIdx, BTL_CLIENT_IsMainStepActive(core->client));
+        *state = *state + 1;
+        break;
+    case 1:
+        if (BTLV_SCU_IsMonSendOutDone(core->sceneUnit) != 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+/* Formats a message record into the buffer, by kind. */
+void BTLV_CORE_BuildMessage(struct BtlvMessage *msg, struct MsgBuf *buf)
+{
+    switch (msg->kind) {
+    case BTLV_MSG_KIND_SIDE:
+        BTL_MSG_FormatWithSide(buf, msg->msgId, msg->args);
+        break;
+    case BTLV_MSG_KIND_TAGGED:
+        BTL_MSG_DispatchTagged(buf, msg->msgId, msg->args);
+        break;
+    case BTLV_MSG_KIND_UI:
+        BTL_MSG_GetUiString(buf, msg->msgId);
+        break;
+    case BTLV_MSG_KIND_UI_ARGS:
+        BTL_MSG_BuildUiString(buf, msg->msgId, msg->args);
+        break;
+    case BTLV_MSG_KIND_TRAINER:
+        BTL_MSG_BuildTrainerString(buf, msg->msgId, msg->args);
+        break;
+    case BTLV_MSG_KIND_ITEM_USE:
+        BTL_MSG_BuildItemUse(buf, msg->args[0], msg->args[1]);
+        break;
+    case BTLV_MSG_KIND_PLAIN:
+        BTL_MSG_BuildPlainEntry(buf, msg->args[0], msg->args[1]);
+        break;
+    }
+}
+
+
+
+void BTLV_CORE_CopyMessageBuffer(struct BtlvCore *core, struct MsgBuf *src)
+{
+    STRBUF_Copy(core->msgBuffer, src);
+}
+
+
+
+void BTLV_CORE_BuildMessageToBuffer(struct BtlvCore *core, struct BtlvMessage *msg)
+{
+    BTLV_CORE_BuildMessage(msg, core->msgBuffer);
+}
+
+
+
+void BTLV_CORE_PrintMessageBuffer(struct BtlvCore *core)
+{
+    BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0x50, 0);
+}
+
+
+
+void BTLV_CORE_BuildAndPrintMessage(struct BtlvCore *core, struct BtlvMessage *msg)
+{
+    BTLV_CORE_BuildMessage(msg, core->msgBuffer);
+    BTLV_CORE_StartPrintMessage(core, core->msgBuffer, msg->param, 0);
+}
+
+
+
+void BTLV_CORE_BuildAndPrintMessageFlag(struct BtlvCore *core, struct BtlvMessage *msg, int flag)
+{
+    BTLV_CORE_BuildMessage(msg, core->msgBuffer);
+    BTLV_CORE_StartPrintMessage(core, core->msgBuffer, msg->param, flag);
+}
+
+
+
+void BTLV_CORE_BuildAndPrintMessageNow(struct BtlvCore *core, struct BtlvMessage *msg)
+{
+    BTLV_CORE_BuildMessage(msg, core->msgBuffer);
+    BTLV_CORE_PrintMessageNow(core, core->msgBuffer);
+}
+
+
+
+void BTLV_CORE_PrintSideMessage(struct BtlvCore *core, u16 msgId, u32 *args)
+{
+    BTL_MSG_FormatWithSide(core->msgBuffer, msgId, args);
+    BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0x50, 0);
+}
+
+
+
+void BTLV_CORE_PrintTaggedMessage(struct BtlvCore *core, u16 msgId, u32 *args)
+{
+    BTL_MSG_DispatchTagged(core->msgBuffer, msgId, args);
+    BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0x50, 0);
+}
+
+
+
+int BTLV_CORE_PrintTrainerMessage(struct BtlvCore *core, u16 trainerId, u16 msgIndex)
+{
+    if (func_0202A298(trainerId, msgIndex, core->heapId) != 0) {
+        func_0202A310(trainerId, msgIndex, core->msgBuffer, core->heapId);
+        BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0x50, 0);
+    } else {
+        return 0;
+    }
+    return 1;
+}
+
+
+
+void BTLV_CORE_PrintItemUseMessage(struct BtlvCore *core, u8 clientId, u16 item)
+{
+    BTL_MSG_BuildItemUse(core->msgBuffer, clientId, item);
+    BTLV_CORE_StartPrintMessage(core, core->msgBuffer, 0x50, 0);
+}
+
+
+
+int BTLV_CORE_WaitMessage(struct BtlvCore *core) { return BTLV_SCU_UpdateMessage(core->sceneUnit); }
+
+
+
+int BTLV_CORE_ConsumeMessageFlag(struct BtlvCore *core) { return BTLV_SCU_ConsumeMessageEnded(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartPrintMessage(struct BtlvCore *core, struct MsgBuf *buf, u16 speed, u32 flag)
+{
+    if (BTL_CLIENT_IsMainStepActive(core->client) == 0) {
+        BTLV_SCU_StartMessage(core->sceneUnit, buf, speed, flag);
+    }
+}
+
+
+
+void BTLV_CORE_PrintMessageNow(struct BtlvCore *core, struct MsgBuf *buf) { BTLV_SCU_PrintMessageInstant(core->sceneUnit, buf); }
+
+
+
+void BTLV_CORE_ShowPortrait(struct BtlvCore *core, u32 slot, u32 flag) { BTLV_SCU_StartNamePlate(core->sceneUnit, slot, flag); }
+
+
+
+int BTLV_CORE_UpdatePortraitSlideIn(struct BtlvCore *core, u32 slot) { return BTLV_SCU_ProcNamePlateAt(core->sceneUnit, slot); }
+
+
+
+void BTLV_CORE_StartPortraitSlideOut(struct BtlvCore *core, u32 slot) { BTLV_SCU_HideNamePlateAt(core->sceneUnit, slot); }
+
+
+
+int BTLV_CORE_WaitPortraitSlideOut(struct BtlvCore *core, u32 slot) { return BTLV_SCU_IsNamePlateHiddenAt(core->sceneUnit, slot); }
+
+
+
+void BTLV_CORE_ReloadPortrait(struct BtlvCore *core, u32 slot) { BTLV_SCU_RefreshNamePlateAt(core->sceneUnit, slot); }
+
+
+
+int BTLV_CORE_UpdatePortraitMosaic(struct BtlvCore *core, u32 slot) { return BTLV_SCU_ProcNamePlateMosaicAt(core->sceneUnit, slot); }
+
+
+
+void BTLV_CORE_StartViewEffect262(struct BtlvCore *core, int viewPos)
+{
+    func_021F7A28(viewPos, 0x262);
+}
+
+
+
+void BTLV_CORE_StartViewEffect261(struct BtlvCore *core, int viewPos)
+{
+    func_021F7A28(viewPos, 0x261);
+}
+
+
+
+int BTLV_CORE_WaitViewEffectDone(struct BtlvCore *core, int viewPos)
+{
+    if (func_021F7EB4() == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartWaitMessage(struct BtlvCore *core)
+{
+    func_021F8A40(3);
+    BTLV_SCU_PrintWaitMessage(core->sceneUnit);
+}
+
+
+
+int BTLV_CORE_UpdateWaitMessage(struct BtlvCore *core) { return BTLV_SCU_UpdateWaitMessage(core->sceneUnit); }
+
+
+
+void BTLV_CORE_EndWaitMessage(struct BtlvCore *core)
+{
+    func_021F8A78();
+    BTLV_SCU_NoOp(core->sceneUnit);
+}
+
+
+
+void BTLV_CORE_StartSlotEffect25F(struct BtlvCore *core, u32 slot) { BTLV_SCU_StartPosCueEffect(core->sceneUnit, BTL_MAIN_GetViewPosOfSlot(core->context, slot)); }
+
+
+
+int BTLV_CORE_WaitSlotEffect25F(struct BtlvCore *core, u32 slot) { return BTLV_SCU_IsPosCueEffectDone(core->sceneUnit, BTL_MAIN_GetViewPosOfSlot(core->context, slot)); }
+
+
+
+void BTLV_CORE_StartMonSpriteLoad(struct BtlvCore *core, u32 slot, u32 mode) { BTLV_SCU_StartMonFormChange(core->sceneUnit, slot, mode); }
+
+
+
+int BTLV_CORE_WaitMonSpriteLoad(struct BtlvCore *core) { return BTLV_SCU_IsMonFormChangeDone(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartMonSpriteChange(struct BtlvCore *core, int viewPos)
+{
+    BTLV_SCU_StartMonGraphicSwap(core->sceneUnit, viewPos, BTL_CLIENT_IsMainStepActive(core->client));
+}
+
+
+
+int BTLV_CORE_WaitMonSpriteChange(struct BtlvCore *core) { return BTLV_SCU_IsMonGraphicSwapDone(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartMonSpriteChangeAt(struct BtlvCore *core, u32 viewPos, u32 srcViewPos)
+{
+    BTLV_SCU_StartMonGraphicSwapFrom(core->sceneUnit, viewPos, srcViewPos, BTL_CLIENT_IsMainStepActive(core->client));
+}
+
+
+
+int BTLV_CORE_WaitMonSpriteChangeAt(struct BtlvCore *core) { return BTLV_SCU_IsMonGraphicSwapDone(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartMonSpriteUnload(struct BtlvCore *core) { BTLV_SCU_StartMsgWinFadeOutTask(core->sceneUnit); }
+
+
+
+int BTLV_CORE_WaitMonSpriteUnload(struct BtlvCore *core) { return BTLV_SCU_IsMsgWinFadeOutTaskDone(core->sceneUnit); }
+
+
+
+void BTLV_CORE_StartRotation(struct BtlvCore *core, u32 clientId, u32 rotateA, u32 rotateB, u8 posA, u8 posB)
+{
+    struct BtlvCoreRotationWork *work;
+
+    work = (struct BtlvCoreRotationWork *)BTLV_CORE_GetTaskWork(core, 7);
+    work->clientId = clientId;
+    work->rotateA = rotateA;
+    work->rotateB = rotateB;
+    work->posA = posA;
+    work->posB = posB;
+    work->monSlotA = BTL_MAIN_GetClientTrainerIndex(core->context, clientId, posA);
+    work->monSlotB = BTL_MAIN_GetClientTrainerIndex(core->context, clientId, posB);
+    core->task.preProc = 0;
+    core->task.mainProc = BTLV_CORE_ProcRotation;
+    core->task.procCore = core;
+    core->task.procState = 0;
+}
+
+
+
+int BTLV_CORE_WaitRotation(struct BtlvCore *core)
+{
+    if (core->task.preProc != 0) {
+        if (core->task.preProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.preProc = 0;
+            core->task.procState = 0;
+        }
+        return 0;
+    }
+    if (core->task.mainProc != 0) {
+        if (core->task.mainProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.mainProc = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+
+int BTLV_CORE_ProcRotation(int *state, struct BtlvCore *core)
+{
+    struct BtlvCoreRotationWork *work = (struct BtlvCoreRotationWork *)BTLV_CORE_GetTaskWork(core, 7);
+
+    switch (*state) {
+    case 0:
+        func_021F84B4(work->rotateA, work->rotateB);
+        func_021EAF00(core, 0x57b);
+        *state = *state + 1;
+        break;
+    case 1:
+        if (func_021F7EB4() == 0) {
+            BTLV_SCU_HideMonPair(core->sceneUnit, work->monSlotA, work->monSlotB);
+            *state = *state + 1;
+        }
+        break;
+    case 2:
+        if (BTLV_SCU_ShowMonPair(core->sceneUnit, work->monSlotA, work->monSlotB) != 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+/* Hands the work area to the input view; the slot lookup result is not used. */
+void BTLV_CORE_InitInputWork(struct BtlvCore *core, u8 unused)
+{
+    u8 *work;
+
+    work = BTLV_CORE_GetTaskWork(core, 0x3c);
+    BTL_SIDE_GetSlotOfClientThunk(core->monTable, core->clientIndex);
+    func_0689B514(core->auxView, work);
+}
+
+
+int BTLV_CORE_PollWindowModeSelect(struct BtlvCore *core, u8 *outMode)
+{
+    if (func_0689B524(core->auxView, outMode) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_CancelWindowModeSelect(struct BtlvCore *core)
+{
+    func_0689B558(core->auxView);
+}
+
+
+
+void BTLV_CORE_StartClearSidePosition(struct BtlvCore *core, u32 clientId, u32 kind)
+{
+    BtlvClearSideWork *work;
+
+    if (kind != 1) {
+        work = (BtlvClearSideWork *)BTLV_CORE_GetTaskWork(core, 8);
+        work->clientId = clientId;
+        work->kind = kind;
+        work->monSlot[0] = BTL_MAIN_GetClientTrainerIndex(core->context, clientId, 0);
+        work->monSlot[1] = BTL_MAIN_GetClientTrainerIndex(core->context, clientId, 1);
+        work->monSlot[2] = BTL_MAIN_GetClientTrainerIndex(core->context, clientId, 2);
+        work->viewPos[0] = BTL_MAIN_GetViewPosOfSlot(core->context, work->monSlot[0]);
+        work->viewPos[1] = BTL_MAIN_GetViewPosOfSlot(core->context, work->monSlot[1]);
+        work->viewPos[2] = BTL_MAIN_GetViewPosOfSlot(core->context, work->monSlot[2]);
+        core->task.preProc = 0;
+        core->task.mainProc = BTLV_CORE_ProcClearSidePosition;
+        core->task.procCore = core;
+        core->task.procState = 0;
+    }
+}
+
+
+
+int BTLV_CORE_RunProc(struct BtlvCore *core)
+{
+    if (core->task.preProc != 0) {
+        if (core->task.preProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.preProc = 0;
+            core->task.procState = 0;
+        }
+        return 0;
+    }
+    if (core->task.mainProc != 0) {
+        if (core->task.mainProc(&core->task.procState, core->task.procCore) != 0) {
+            core->task.mainProc = 0;
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+
+
+int BTLV_CORE_ProcClearSidePosition(int *state, struct BtlvCore *core)
+{
+    BtlvClearSideWork *work = (BtlvClearSideWork *)BTLV_CORE_GetTaskWork(core, 8);
+    int allDone;
+
+    switch (*state) {
+    case 0:
+        func_021F8414(work->kind, work->viewPos[0] & 1, BTL_CLIENT_IsMainStepActive(core->client) == 0);
+        *state = *state + 1;
+        break;
+    case 1:
+        if (func_021F7EB4() == 0) {
+            BTLV_SCU_HideMon(core->sceneUnit, work->monSlot[0]);
+            BTLV_SCU_HideMon(core->sceneUnit, work->monSlot[1]);
+            BTLV_SCU_HideMon(core->sceneUnit, work->monSlot[2]);
+            *state = *state + 1;
+        }
+        break;
+    case 2:
+        allDone = 1;
+        if (BTLV_SCU_ShowMon(core->sceneUnit, work->monSlot[0]) == 0) {
+            allDone = 0;
+        }
+        if (BTLV_SCU_ShowMon(core->sceneUnit, work->monSlot[1]) == 0) {
+            allDone = 0;
+        }
+        if (BTLV_SCU_ShowMon(core->sceneUnit, work->monSlot[2]) == 0) {
+            allDone = 0;
+        }
+        if (allDone != 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartYesNoMenu(struct BtlvCore *core, struct BtlvMessage *yesMsg, struct BtlvMessage *noMsg, u32 mode)
+{
+    BtlvYesNoWork *work = BTLV_CORE_GetTaskWork(core, 12);
+
+    work->yesText = STRBUF_Create(0x20, (u16)((core->heapId & 0x7fff) | 0x8000));
+    work->noText = STRBUF_Create(0x20, (u16)((core->heapId & 0x7fff) | 0x8000));
+    work->mode = mode;
+    BTLV_CORE_BuildMessage(yesMsg, work->yesText);
+    BTLV_CORE_BuildMessage(noMsg, work->noText);
+    func_0689B5A4(core->auxView, work);
+    func_020307B0(work->yesText);
+    func_020307B0(work->noText);
+}
+
+
+
+int BTLV_CORE_PollYesNoMenu(struct BtlvCore *core, int *outResult)
+{
+    return func_0689B5CC(core->auxView, outResult);
+}
+
+
+
+void BTLV_CORE_StartMoveForgetScreen(struct BtlvCore *core, u8 pokeSlot, int moveId)
+{
+    BTLV_CORE_InitPartyWork(core, &core->plist, 4, pokeSlot, moveId);
+    core->subStep = 0;
+}
+
+
+
+/*
+ * The calls go through Thumb-entry linker veneers (bx pc; nop; ldr ip,[pc];
+ * bx ip; .word <ov095 function>), attested by the match.py `veneer` class.
+ * The listing extent includes six veneers at 021EAD44..021EADA4, then six
+ * tail stubs 021EADA4/ADB4/ADC4/ADD4/ADE4/ADF4. No C unit may span veneers.
+ */
+int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
+{
+    switch (core->subStep) {
+    case 0:
+        func_06899CA4(core->auxView, 0);
+        func_02034AC4(ov196_id);
+        core->subStep++;
+        break;
+    case 1:
+        if (func_06899D04(core->auxView)) {
+            func_06899D2C(core->auxView);
+            func_02034AC4(ov198_id);
+            func_0220F3E8(&core->plist);
+            core->subStep++;
+        }
+        break;
+    case 2:
+        if (core->plist.done) {
+            func_02034A5C(ov198_id);
+            func_06899CDC(core->auxView);
+            func_06899D30(core->auxView);
+            core->subStep++;
+        }
+        break;
+    case 3:
+        if (func_06899D04(core->auxView)) core->subStep++;
+        break;
+    default:
+        *outSlot = core->plist.result;
+        func_02034A5C(ov196_id);
+        core->subStep = 0;
+        return 1;
+    }
+    return 0;
+}
+
+
+
+void BTLV_CORE_StartBallWindowOpen(struct BtlvCore *core, int pokeParam, struct BtlExpResult *result)
+{
+    BTLV_SCU_StartBallWindowOpen(core->sceneUnit, pokeParam, result);
+}
+
+
+
+int BTLV_CORE_UpdateBallWindowOpen(struct BtlvCore *core)
+{
+    return BTLV_SCU_UpdateBallWindowOpen(core->sceneUnit);
+}
+
+
+
+void BTLV_CORE_StartBallWindowRefresh(struct BtlvCore *core)
+{
+    BTLV_SCU_StartBallWindowRefresh(core->sceneUnit);
+}
+
+
+
+int BTLV_CORE_UpdateBallWindowRefresh(struct BtlvCore *core)
+{
+    return BTLV_SCU_UpdateBallWindowRefresh(core->sceneUnit);
+}
+
+
+
+void BTLV_CORE_StartBallWindowClose(struct BtlvCore *core)
+{
+    BTLV_SCU_StartBallWindowClose(core->sceneUnit);
+}
+
+
+
+int BTLV_CORE_UpdateBallWindowClose(struct BtlvCore *core)
+{
+    return BTLV_SCU_UpdateBallWindowClose(core->sceneUnit);
+}
+
+
+
+void BTLV_CORE_StartFadeIn(struct BtlvCore *core) { BTLV_SCU_StartFadeIn(core->sceneUnit); }
+
+
+
+int BTLV_CORE_PollFadeInDone(struct BtlvCore *core) { return BTLV_SCU_GetWaitState(core->sceneUnit); }
+
+
+
+void BTLV_CORE_ClearWaitWindow(struct BtlvCore *core)
+{
+    BTLV_SCU_ClearWaitWindow(core->sceneUnit);
+}
+
+
+
+int BTLV_CORE_GetWaitState(struct BtlvCore *core)
+{
+    return BTLV_SCU_GetWaitState(core->sceneUnit);
+}
+
+
+
+void BTLV_CORE_StartAutoSelectNotice(struct BtlvCore *core) { func_0689B670(core->auxView); }
+
+
+
+int BTLV_CORE_PollAutoSelectNotice(struct BtlvCore *core) { return func_0689B69C(core->auxView); }
+
+
+
+int BTLV_CORE_PollCounterInput(struct BtlvCore *core) { return func_0689B790(core->auxView); }
+
+
+
+void BTLV_CORE_SetCounterDisplay(struct BtlvCore *core, u32 current, u32 target)
+{
+    core->counterCmd.current = current;
+    core->counterCmd.target = target;
+    core->counterCmd.mode = 0;
+    func_0689B780(core->auxView, &core->counterCmd);
+}
+
+
+void BTLV_CORE_ShowCounterValue(struct BtlvCore *core, int value)
+{
+    core->counterCmd.current = value;
+    core->counterCmd.target = value;
+    core->counterCmd.mode = 3;
+    func_0689B780(core->auxView, &core->counterCmd);
+}
+
+
+void BTLV_CORE_SetCounterValueMode(struct BtlvCore *core, int value, int mode)
+{
+    core->counterCmd.current = value;
+    core->counterCmd.target = value;
+    core->counterCmd.mode = mode;
+    func_0689B780(core->auxView, &core->counterCmd);
 }

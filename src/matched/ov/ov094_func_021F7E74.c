@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call stub, filed as a witness for the caller ov093 func_021EA354 (wave B3 lane 17).
+ * Unlabelled tail-call stub, filed as a witness for the caller ov093 BTLV_CORE_SetMonShown (wave B3 lane 17).
  *
  * symbols:
  *   func_021F7A28  0x021F7A28  thumb  ov094

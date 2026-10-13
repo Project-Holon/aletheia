@@ -16,7 +16,7 @@
  *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
  *   RAIL_ATTR_IsSignBoard  0x021BB188  thumb
  *   FLDMMDL_RAIL_GetHitBitsDirNoAttr  0x0219E418  thumb
- *   FIELD_OV063_StartAtPlayer  0x021C46F8  thumb
+ *   RAIL_SLIPDOWN_StartAtPlayer  0x021C46F8  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09449.h"
@@ -31,7 +31,7 @@ extern u16 FIELD_PLAYER_ChooseMoveDirFromKeys(u8 *p, u32 a1);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern int RAIL_ATTR_IsSignBoard(u16 a);
 extern int FLDMMDL_RAIL_GetHitBitsDirNoAttr(u32 a, u32 b);
-extern u32 FIELD_OV063_StartAtPlayer(u32 a, u32 b, u32 c);
+extern u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c);
 
 int FIELD_EVENT_CHECK_CheckRailSignBoard(char *p, void *q, void *x)
 {
@@ -44,7 +44,7 @@ int FIELD_EVENT_CHECK_CheckRailSignBoard(char *p, void *q, void *x)
         if (t == 0 || t == 3) {
             if (RAIL_ATTR_IsSignBoard(MAP_ATTR_GetTerrainId(((struct Obj09449 *)p)->f38))) {
                 if (FLDMMDL_RAIL_GetHitBitsDirNoAttr((u32)o, r) & 3)
-                    return FIELD_OV063_StartAtPlayer((u32)q, (u32)x, r);
+                    return RAIL_SLIPDOWN_StartAtPlayer((u32)q, (u32)x, r);
             }
         }
     }

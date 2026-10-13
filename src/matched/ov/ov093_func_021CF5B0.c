@@ -21,8 +21,8 @@
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetSickParam 0x021D62D8 thumb ov093
  *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
- *   func_021EFCE4 0x021EFCE4 thumb ov093
- *   func_021EFC1C 0x021EFC1C thumb ov093
+ *   BTL_FIELD_IsSlotInUse 0x021EFCE4 thumb ov093
+ *   BTL_FIELD_IsMoveSealedBySlot 0x021EFC1C thumb ov093
  */
 #include "../include/Obj01894.h"
 typedef unsigned char u8;
@@ -46,8 +46,8 @@ extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *p);
 extern u16 BTL_POKEPARAM_GetSickParam(struct UtilSlots *p, int i);
 extern int WAZA_TOOL_GetFlag(u32, int);
-extern void *func_021EFCE4(char *arg0, int arg1);
-extern int func_021EFC1C(int, int, void *, u32);
+extern void *BTL_FIELD_IsSlotInUse(char *arg0, int arg1);
+extern int BTL_FIELD_IsMoveSealedBySlot(int, int, void *, u32);
 int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out)
 {
     u32 k;
@@ -109,7 +109,7 @@ int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out)
         }
         return 1;
     }
-    if (func_021EFCE4((char *)(*(int *)&((struct Obj01894 *)g)->f34), 3) && func_021EFC1C(*(int *)&((struct Obj01894 *)g)->f34, *(int *)&((struct Obj01894 *)g)->f4, m, move)) {
+    if (BTL_FIELD_IsSlotInUse((char *)(*(int *)&((struct Obj01894 *)g)->f34), 3) && BTL_FIELD_IsMoveSealedBySlot(*(int *)&((struct Obj01894 *)g)->f34, *(int *)&((struct Obj01894 *)g)->f4, m, move)) {
         if (out) {
             func_021EAF18(out, 2, 0x24d);
             func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
@@ -117,7 +117,7 @@ int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out)
         }
         return 1;
     }
-    if (func_021EFCE4((char *)(*(int *)&((struct Obj01894 *)g)->f34), 2) && WAZA_TOOL_GetFlag(move, 9)) {
+    if (BTL_FIELD_IsSlotInUse((char *)(*(int *)&((struct Obj01894 *)g)->f34), 2) && WAZA_TOOL_GetFlag(move, 9)) {
         if (out) {
             func_021EAF18(out, 2, 0x43e);
             func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));

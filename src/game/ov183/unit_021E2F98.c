@@ -11,14 +11,14 @@
  * status:   EXACT
  *
  * symbols:
- *   SOCLi_Resource  0x021E3910  data  ov183
+ *   gBrCodeinDefaultPair  0x021E3910  data  ov183
  */
 
 #include "soc_types.h"
 
-extern SOCLResource SOCLi_Resource;
+extern SOCLResource gBrCodeinDefaultPair;
 
 void func_021E2F98(SOCLResource *resource)
 {
-    *resource = SOCLi_Resource;
+    *resource = gBrCodeinDefaultPair;
 }

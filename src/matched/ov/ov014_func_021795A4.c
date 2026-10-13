@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data ov014 a4
+ *   gWihWork 0x021797A8 data ov014 a4
  */
 typedef unsigned char u8;
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 unsigned short WIH_GetOwnAid(void)
 {
-    if (g_021797A8 != 0) return *(unsigned short *)(g_021797A8 + 0x1EA8);
+    if (gWihWork != 0) return *(unsigned short *)(gWihWork + 0x1EA8);
     return 0;
 }

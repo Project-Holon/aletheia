@@ -60,7 +60,7 @@
  *   INTRUDE_SUBDISP_EventCheck  0x0217D4DC  thumb  ov018
  *   NO_GEAR_Create  0x021F00C8  thumb  ov030
  *   abs_id_1e      0x0000001E  data
- *   func_021F0118  0x021F0118  thumb  ov030
+ *   NO_GEAR_Destroy  0x021F0118  thumb  ov030
  *   NO_GEAR_Hook  0x021F0114  thumb  ov030
  *   NO_GEAR_Update  0x021F00F8  thumb  ov030
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
@@ -108,7 +108,7 @@
  *   func_02210124  0x021F0124  thumb  ov033
  *   DOWSING_Update 0x021F0174 thumb ov033
  *   DOWSING_UpdateDisplay 0x021F05A4 thumb ov033
- *   func_021EFEC0  0x021EFEC0  thumb  ov034
+ *   REPORT_Create  0x021EFEC0  thumb  ov034
  *   abs_id_22      0x00000022  data
  *   REPORT_Delete  0x021EFF34  thumb  ov034
  *   REPORT_ShowPartyIcons  0x021EFF5C  thumb  ov034
@@ -175,7 +175,7 @@ extern void *GAMESYSTEM_GetMyPlayerWork(void *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(void *playerLocation);
 extern void *GAME_DATA_GetEventWork(void *gameData);
 extern void *NO_GEAR_Create(void *cgearSave, FieldSubscreen *work, void *gameSystem);
-extern void func_021F0118(void *noGear);
+extern void NO_GEAR_Destroy(void *noGear);
 extern void NO_GEAR_Hook(void *noGear);
 extern void NO_GEAR_Update(void *noGear);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *template, u32 type);
@@ -243,7 +243,7 @@ extern void *DOWSING_Create(u32 heapId, u32 owner, void *work, void *fieldSystem
 extern void func_02210124(void *dowsing);
 extern int DOWSING_Update(void *dowsing);
 extern int DOWSING_UpdateDisplay(void *dowsing);
-extern void *func_021EFEC0(void *gameSystem, u32 heapId);
+extern void *REPORT_Create(void *gameSystem, u32 heapId);
 extern void REPORT_Delete(void *report);
 extern void REPORT_ShowPartyIcons(void *report);
 extern void REPORT_UpdateWindows(void *report);
@@ -586,7 +586,7 @@ void FIELD_SUBSCREEN_InitNoGear(FieldSubscreen *work)
 /* Mode 5 exit. */
 void FIELD_SUBSCREEN_ExitNoGear(FieldSubscreen *work)
 {
-    func_021F0118(work->cgear);
+    NO_GEAR_Destroy(work->cgear);
     func_02034A5C(FIELD_SUBSCREEN_OVERLAY_NO_GEAR);
 }
 
@@ -807,7 +807,7 @@ int FIELD_SUBSCREEN_UpdateDowsingNoTransition(FieldSubscreen *work) { return DOW
 void FIELD_SUBSCREEN_InitReport(FieldSubscreen *work)
 {
     func_02034AC4((int)abs_id_22);
-    work->cgear = func_021EFEC0(FIELDMAP_GetGameSystem(work->fieldMap), work->heapId);
+    work->cgear = REPORT_Create(FIELDMAP_GetGameSystem(work->fieldMap), work->heapId);
 }
 
 /* Mode 7 exit: delete the report panel and unload its overlay. */

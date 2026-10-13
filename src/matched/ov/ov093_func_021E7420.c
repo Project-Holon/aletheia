@@ -1,5 +1,5 @@
 /*
- * function: func_021E7420
+ * function: HAND_WAZA_EntrainmentCopyAbility
  * address:  0x021E7420
  * packet:   pkt_ov093_021E7420
  * region:   ov093
@@ -37,7 +37,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E7420(int a, int b, int c)
+void HAND_WAZA_EntrainmentCopyAbility(int a, int b, int c)
 {
     u16 k;
     u32 i;

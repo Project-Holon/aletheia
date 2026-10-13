@@ -15,7 +15,7 @@
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
- *   func_021B79E4 0x021B79E4 thumb ov067
+ *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0200CED4 0x0200CED4 thumb
  *   func_0200D064 0x0200D064 thumb
@@ -44,7 +44,7 @@ struct Tmpl;
 extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, u32 heap);
 extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
-extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
+extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_0200CED4(struct Blk37 *p, u16 id);
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
@@ -82,15 +82,15 @@ void func_021BC9A8(struct Context *p)
             str=func_02045EC0(data_020A7370,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
             *(void **)((u32)p+i*4+0x4c)=STRBUF_Clone(str,107);
             STRBUF_Delete(str);
-            func_021B79E4(p->list,0,0x20000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
+            FRAME_LIST_AddItem(p->list,0,0x20000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
         }else if(func_0200D064((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
             str=func_02045EC0(data_020A7370,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
             *(void **)((u32)p+i*4+0x4c)=STRBUF_Clone(str,107);
             STRBUF_Delete(str);
-            func_021B79E4(p->list,1,0x10000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
+            FRAME_LIST_AddItem(p->list,1,0x10000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
         }else{
             *(void **)((u32)p+i*4+0x4c)=func_02045EC0(((struct Obj00123 *)p)->f3C,7);
-            func_021B79E4(p->list,2,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
+            FRAME_LIST_AddItem(p->list,2,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
         }
     }
 }

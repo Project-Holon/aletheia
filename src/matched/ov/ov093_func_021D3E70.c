@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021EFF94  0x021EFF94  data  ov093  a1
+ *   gAiMoveStageCheckPairs  0x021EFF94  data  ov093  a1
  *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
  *   func_021D5D14  0x021D5D14  thumb  ov093
  *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
@@ -25,7 +25,7 @@ typedef struct {
     u8 b;
 } Pair;
 
-extern Pair d_021EFF94[];
+extern Pair gAiMoveStageCheckPairs[];
 typedef signed char    s8;
 struct UtilWork;
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
@@ -37,7 +37,7 @@ int func_021D3E70(void *s, void *m)
     u32 i;
 
     for (i = 0; i < 6; i++) {
-        if (BTL_CALC_GetMonParamWithHeap(s, d_021EFF94[i].a) != 0 && func_021D5D14(m, d_021EFF94[i].b, 1) != 0)
+        if (BTL_CALC_GetMonParamWithHeap(s, gAiMoveStageCheckPairs[i].a) != 0 && func_021D5D14(m, gAiMoveStageCheckPairs[i].b, 1) != 0)
             return 1;
     }
     if (BTL_CALC_GetMonParamWithHeap(s, 0x24) != 0 && BTL_POKEPARAM_GetCritStage(m) == 0)

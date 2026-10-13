@@ -10,12 +10,12 @@
  * Leaf blocking ov093 BTLV_SCU_ProcEntrySingleTrainer.
  * symbols:
  *   d_0220AF20 0x0220AF20 data ov094 a4
- *   func_02209068 0x02209068 thumb ov094
+ *   BTLV_B_GAUGE_DeletePartyBallBar 0x02209068 thumb ov094
  */
 typedef unsigned int u32;
 extern char *d_0220AF20;
-extern void func_02209068(void *);
+extern void BTLV_B_GAUGE_DeletePartyBallBar(void *);
 void func_021F8260(u32 i)
 {
-    func_02209068(*(void **)(d_0220AF20 + i * 4 + 0x1a8));
+    BTLV_B_GAUGE_DeletePartyBallBar(*(void **)(d_0220AF20 + i * 4 + 0x1a8));
 }

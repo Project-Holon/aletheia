@@ -28,7 +28,7 @@
  *   func_022018A8  0x022018A8  thumb  ov094
  *   func_022019F4  0x022019F4  thumb  ov094
  *   func_021F86B4  0x021F86B4  thumb  ov094
- *   func_022089BC  0x022089BC  thumb  ov094
+ *   BTLV_GAUGE_HideSlot  0x022089BC  thumb  ov094
  *   func_021F89BC  0x021F89BC  thumb  ov094
  */
 typedef unsigned int u32;
@@ -80,7 +80,7 @@ extern void func_021FF4C0(char *p, int key, int b, Vec *v, int d, int e, int f);
 extern void func_022018A8(char *p, Vec *out, int key);
 extern int func_022019F4(char *p, int key);
 extern int func_021F86B4(void);
-extern void func_022089BC(char *p, int i);
+extern void BTLV_GAUGE_HideSlot(char *p, int i);
 extern void func_021F89BC(void *task);
 
 #define MUL(a, b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
@@ -140,7 +140,7 @@ void func_02201408(void *task, Work *w)
             return;
         for (i = 0; i < 3; i++) {
             idx[i] = func_022019F4(w->p, keys.v[w->idx][i]);
-            func_022089BC((char *)func_021F86B4(), keys.v[w->idx][i]);
+            BTLV_GAUGE_HideSlot((char *)func_021F86B4(), keys.v[w->idx][i]);
         }
         for (i = 0; i < 3; i++) {
             if (idx[i] != -1)

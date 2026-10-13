@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_LoadBgmFade
+ * function: FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade
  * address: 0x021F39BC
  * packet: pkt_ov053_021F39BC
  * region: ov053
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 
-void GIMMICK53_LoadBgmFade(char *a)
+void FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade(char *a)
 {
     ARC_TOOL_ReadMemberRange(a + 0x58, 0x94, 0, 0, (u32 *)12);
 }

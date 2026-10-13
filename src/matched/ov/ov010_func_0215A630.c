@@ -1,5 +1,5 @@
 /*
- * function: func_0215A630
+ * function: SCRCMD_WORK_GetTimeIcon
  * address:  0x0215A630
  * packet:   pkt_ov010_0215A630
  * region:   ov010
@@ -20,7 +20,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-u32 func_0215A630(u8 *p)
+u32 SCRCMD_WORK_GetTimeIcon(u8 *p)
 {
     return *(u32 *)((u8 *)((struct Obj18788 *)p)->f20 + 0x100);
 }

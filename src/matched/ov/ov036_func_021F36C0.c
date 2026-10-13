@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: DAILY_LAYOUT_Generate
  * address:  0x021F36C0
  * packet:   pkt_ov036_021F36C0
  * region:   ov036
@@ -18,9 +18,9 @@
  *   DAILY_LAYOUT_ResetDeck  0x021F38F4  thumb  ov036
  *   DAILY_LAYOUT_DealCells  0x021F3980  thumb  ov036
  *   DAILY_LAYOUT_PickDistinct  0x021F38AC  thumb  ov036
- *   d_021F3AD4     0x021F3AD4  data  a4
+ *   gDailyLayoutCellFlags     0x021F3AD4  data  a4
  *   gDailyLayoutMainDefs     0x021F3B4C  data  a4
- *   d_021F3A98     0x021F3A98  data  a4
+ *   gDailyLayoutBonusDefs     0x021F3A98  data  a4
  *   gDailyLayoutFillerDefs     0x021F3BEC  data  a4
  */
 
@@ -84,9 +84,9 @@ typedef struct {
     int c;
 } P12;
 
-extern const P8 d_021F3AD4[];
+extern const P8 gDailyLayoutCellFlags[];
 extern const P16 gDailyLayoutMainDefs[];
-extern const P12 d_021F3A98[];
+extern const P12 gDailyLayoutBonusDefs[];
 extern const P12 gDailyLayoutFillerDefs[];
 
 struct RtcDate;
@@ -95,7 +95,7 @@ extern void DAILY_LAYOUT_ResetDeck(unsigned char *p);
 extern int DAILY_LAYOUT_DealCells(u8 *p);
 extern void DAILY_LAYOUT_PickDistinct(int n, int m, u8 *buf, u8 *out);
 
-void func_021F36C0(W *w)
+void DAILY_LAYOUT_Generate(W *w)
 {
     RTCDate date;
     Deck d;
@@ -146,11 +146,11 @@ void func_021F36C0(W *w)
     DAILY_LAYOUT_PickDistinct(15, 15 - (v + 2), tc, d.c);
     for (i = 0; i < v; i++) {
         s = d.order[i];
-        if (d_021F3AD4[s].a == 0)
+        if (gDailyLayoutCellFlags[s].a == 0)
             w->c0++;
         else
             w->c1++;
-        if (d_021F3AD4[s].b == 0)
+        if (gDailyLayoutCellFlags[s].b == 0)
             w->c2++;
         else
             w->c3++;
@@ -172,10 +172,10 @@ void func_021F36C0(W *w)
         x = d.b[i];
         w->ent[y].id = i;
         w->ent[y].sub = 0;
-        w->ent[y].a = d_021F3A98[x].a;
+        w->ent[y].a = gDailyLayoutBonusDefs[x].a;
         w->ent[y].type = 2;
-        w->ent[y].c = d_021F3A98[x].b;
-        w->ent[y].d = d_021F3A98[x].c;
+        w->ent[y].c = gDailyLayoutBonusDefs[x].b;
+        w->ent[y].d = gDailyLayoutBonusDefs[x].c;
         n++;
     }
     cnt = 15u - (v + 2);

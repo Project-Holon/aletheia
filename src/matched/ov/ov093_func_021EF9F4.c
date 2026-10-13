@@ -19,7 +19,7 @@
  * symbols:
  *   func_021EFA84  0x021EFA84  thumb  ov093
  *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
- *   func_021EFAD8  0x021EFAD8  thumb  ov093
+ *   BTL_FIELD_AddSlotHolder  0x021EFAD8  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern u32 func_021EFA84(u32 a, int b);
 typedef struct { u32 v; } Slot;
 extern u32 BTLV_CORE_GetSlotPosition(Slot a);
-extern int func_021EFAD8(char *p, u32 i, u32 v);
+extern int BTL_FIELD_AddSlotHolder(char *p, u32 i, u32 v);
 
 typedef struct {
     u32 pad00[2];       /* 0x000 */
@@ -60,7 +60,7 @@ int BTL_FIELD_RegisterSlot(S *a, u32 b, Slot c, int d)
             a->w[b][i] = 0x1f;
         x = BTLV_CORE_GetSlotPosition(c);
         if (x != 0x1f)
-            func_021EFAD8((char *)a, b, x);
+            BTL_FIELD_AddSlotHolder((char *)a, b, x);
         return 1;
     }
     return 0;

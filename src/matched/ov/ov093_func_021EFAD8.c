@@ -1,5 +1,5 @@
 /*
- * function: func_021EFAD8
+ * function: BTL_FIELD_AddSlotHolder
  * address:  0x021EFAD8
  * packet:   pkt_ov093_021EFAD8
  * region:   ov093
@@ -15,21 +15,21 @@
  * one trailing `return 0` shares the exit.
  *
  * symbols:
- *   func_021EFCE4  0x021EFCE4  thumb  ov093
+ *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void *func_021EFCE4(char *arg0, int arg1);
+void *BTL_FIELD_IsSlotInUse(char *arg0, int arg1);
 
-int func_021EFAD8(char *a, u32 b, u32 c)
+int BTL_FIELD_AddSlotHolder(char *a, u32 b, u32 c)
 {
     u32 n;
     u32 i;
 
-    if (func_021EFCE4(a, b) != 0) {
+    if (BTL_FIELD_IsSlotInUse(a, b) != 0) {
         n = *(u32 *)(a + 0x128 + b * 4);
         if (n < 6) {
             for (i = 0; i < n; i++) {

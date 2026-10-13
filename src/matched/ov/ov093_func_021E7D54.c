@@ -1,5 +1,5 @@
 /*
- * function: func_021E7D54
+ * function: HAND_WAZA_RoundRegisterUse
  * address:  0x021E7D54
  * packet:   pkt_ov093_021E7D54
  * region:   ov093
@@ -31,7 +31,7 @@ extern int func_021E7DA0(int a, int b, int c);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E7D54(void *a, void *b, int c)
+void HAND_WAZA_RoundRegisterUse(void *a, void *b, int c)
 {
     int x;
     u16 y;

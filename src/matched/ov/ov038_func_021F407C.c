@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_EventBumpClosedDoor
+ * function: FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor
  * address:  0x021F407C
  * packet:   pkt_ov038_021F407C
  * region:   ov038
@@ -53,7 +53,7 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-int GIMMICK38_EventBumpClosedDoor(int a0, int *a1)
+int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(int a0, int *a1)
 {
     void *sys;
     char *h;

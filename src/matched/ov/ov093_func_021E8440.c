@@ -1,5 +1,5 @@
 /*
- * function: func_021E8440
+ * function: HAND_WAZA_PledgeShowWaitMessage
  * address:  0x021E8440
  * packet:   pkt_ov093_021E8440
  * region:   ov093
@@ -25,7 +25,7 @@ extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E8440(int a, void *b, int c, int *d)
+void HAND_WAZA_PledgeShowWaitMessage(int a, void *b, int c, int *d)
 {
     u8 *m;
 

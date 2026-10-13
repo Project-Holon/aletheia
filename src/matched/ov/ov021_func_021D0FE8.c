@@ -1,5 +1,5 @@
 /*
- * function: func_021D0FE8
+ * function: TRIAL_HOUSE_CreateSaveTask
  * address:  0x021D0FE8
  * packet:   pkt_ov021_021D0FE8
  * region:   ov021
@@ -12,7 +12,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   func_021D10A8  0x021D10A8  thumb  ov021
+ *   TRIAL_HOUSE_SaveTaskMain  0x021D10A8  thumb  ov021
  *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
  *   FIELD_SAVEANIME_Start  0x021D11B0  thumb  ov021
  */
@@ -31,17 +31,17 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern int func_021D10A8(u32 a, u32 *b, u32 *c);
+extern int TRIAL_HOUSE_SaveTaskMain(u32 a, u32 *b, u32 *c);
 extern void *FIELD_SAVEANIME_Create(u32 heap, u32 v);
 extern void FIELD_SAVEANIME_Start(u32 *p);
 
-void *func_021D0FE8(void *a, int unused, int c)
+void *TRIAL_HOUSE_CreateSaveTask(void *a, int unused, int c)
 {
     void *task;
     Work *w;
     int v;
 
-    task = func_020122C0(a, 0, func_021D10A8, 0x10);
+    task = func_020122C0(a, 0, TRIAL_HOUSE_SaveTaskMain, 0x10);
     w = func_020124E8(task);
     w->f00 = a;
     w->f04 = 0;

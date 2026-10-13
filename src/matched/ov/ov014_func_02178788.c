@@ -13,13 +13,13 @@
  * the NitroSDK demo wh.c's scan callback).  arg is a WMStartScanExCallback:
  * errcode +2, state +8, bssDescCount +0xE, bssDesc[] +0x10, linkLevel[]
  * +0x50.  Each found BSS is copied to +0xF40 of the work block behind
- * g_021797A8 and offered to the hooks at +0x1E88 and +0x1E94.
+ * gWihWork and offered to the hooks at +0x1E88 and +0x1E94.
  *
  * symbols:
- *   g_021797A8          0x021797A8  data   ov014  a4
+ *   gWihWork          0x021797A8  data   ov014  a4
  *   sWihAssertText          0x0217979C  data   a1
- *   func_0217814C       0x0217814C  thumb  ov014
- *   func_02178138       0x02178138  thumb  ov014
+ *   WIH_SetError       0x0217814C  thumb  ov014
+ *   WIH_ChangeSysState       0x02178138  thumb  ov014
  *   func_02178964       0x02178964  thumb  ov014
  *   WIH_IsMatchingParent       0x0217873C  thumb  ov014
  *   WIH_DWC_RequestAlertLevel       0x02010864  thumb
@@ -34,11 +34,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *g_021797A8;
+extern u8 *gWihWork;
 extern char sWihAssertText[];
 
-extern void func_0217814C(int err);
-extern void func_02178138(int state);
+extern void WIH_SetError(int err);
+extern void WIH_ChangeSysState(int state);
 extern int func_02178964(void);
 extern int WIH_IsMatchingParent(u8 *p);
 extern void WIH_DWC_RequestAlertLevel(u32 v);
@@ -72,21 +72,21 @@ void DWCi_MOV_WH_StateOutStartScan(void *arg)
     int i;
     u8 *w;
 
-    *(u16 *)(g_021797A8 + 0x1EBC) += 1;
-    *(u16 *)(g_021797A8 + 0x1EBE) = 0;
+    *(u16 *)(gWihWork + 0x1EBC) += 1;
+    *(u16 *)(gWihWork + 0x1EBE) = 0;
 
     if (cb->errcode != 0) {
-        func_0217814C(cb->errcode);
-        func_02178138(9);
+        WIH_SetError(cb->errcode);
+        WIH_ChangeSysState(9);
         return;
     }
-    if (*(int *)(g_021797A8 + 0x1E70) != 2) {
-        *(u16 *)(g_021797A8 + 0x1EB4) = 0;
+    if (*(int *)(gWihWork + 0x1E70) != 2) {
+        *(u16 *)(gWihWork + 0x1EB4) = 0;
         if (func_02178964() == 0)
-            func_02178138(9);
+            WIH_ChangeSysState(9);
         return;
     }
-    *(u16 *)(g_021797A8 + 0x1EBE) = *(u16 *)(g_021797A8 + 0x1EC2);
+    *(u16 *)(gWihWork + 0x1EBE) = *(u16 *)(gWihWork + 0x1EC2);
 
     switch (state) {
     case 4:
@@ -94,26 +94,26 @@ void DWCi_MOV_WH_StateOutStartScan(void *arg)
         return;
     case 5:
         if (cb->bssDescCount != 0)
-            DC_InvalidateRange(g_021797A8 + 0x1000, 0x400);
+            DC_InvalidateRange(gWihWork + 0x1000, 0x400);
         found = 0;
         for (i = 0; i < cb->bssDescCount; i++) {
-            w = g_021797A8;
+            w = gWihWork;
             MI_CpuCopy8(cb->bssDesc[i], w + 0xF40, 0xC0);
             WIH_DWC_RequestAlertLevel((u8)cb->linkLevel[i]);
-            if (*(FoundFn *)(g_021797A8 + 0x1E88) != 0)
-                (*(FoundFn *)(g_021797A8 + 0x1E88))(w + 0xF40, GFL_NET_GetUserArg(),
+            if (*(FoundFn *)(gWihWork + 0x1E88) != 0)
+                (*(FoundFn *)(gWihWork + 0x1E88))(w + 0xF40, GFL_NET_GetUserArg(),
                                                     cb->linkLevel[i]);
             if (WIH_IsMatchingParent(w + 0xF40) != 0) {
-                if (*(FilterFn *)(g_021797A8 + 0x1E94) == 0)
+                if (*(FilterFn *)(gWihWork + 0x1E94) == 0)
                     func_02034714(sWihAssertText, 0, sWihAssertText);
-                if ((*(FilterFn *)(g_021797A8 + 0x1E94))(w + 0xF40) != 0)
+                if ((*(FilterFn *)(gWihWork + 0x1E94))(w + 0xF40) != 0)
                     found = 1;
             }
         }
-        if (*(u16 *)(g_021797A8 + 0x1EB4) != 0 && found != 0) {
-            *(u16 *)(g_021797A8 + 0x1EBE) = 0;
+        if (*(u16 *)(gWihWork + 0x1EB4) != 0 && found != 0) {
+            *(u16 *)(gWihWork + 0x1EBE) = 0;
             if (func_02178964() == 0)
-                func_02178138(9);
+                WIH_ChangeSysState(9);
         }
         break;
     }

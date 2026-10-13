@@ -15,7 +15,7 @@
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
  *   FIELDMAP_GetZoneEffectWork  0x02189A70  thumb  ov021
- *   GIMMICK53_RaiseBgmVolume  0x021F3B10  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume  0x021F3B10  thumb  ov053
  *   FIELD_EVENT_CHECK_StopSoundAfterEvent  0x0218A6E8  thumb  ov021
  */
 
@@ -28,7 +28,7 @@ void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 u32 FIELDMAP_GetPlaceName(u8 *p);
 int FIELD_PLACE_NAME_Cancel(u8 *a);
 u32 FIELDMAP_GetZoneEffectWork(u8 *p);
-void GIMMICK53_RaiseBgmVolume(void);
+void FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume(void);
 void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *p, void *h);
 
 int FIELD_EVENT_CHECK_RunRail(void *p, struct Obj00020 *pos)
@@ -39,7 +39,7 @@ int FIELD_EVENT_CHECK_RunRail(void *p, struct Obj00020 *pos)
         h = GAMESYSTEM_GetFieldMap(p);
         FIELD_PLACE_NAME_Cancel((u8 *)FIELDMAP_GetPlaceName(h));
         if (FIELDMAP_GetZoneEffectWork(h) != 0)
-            GIMMICK53_RaiseBgmVolume();
+            FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume();
         FIELD_EVENT_CHECK_StopSoundAfterEvent(p, h);
     }
     return r;

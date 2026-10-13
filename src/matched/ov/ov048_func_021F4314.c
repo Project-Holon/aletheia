@@ -20,7 +20,7 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
  *   func_0201ED04  0x0201ED04  thumb
- *   d_021F50C0     0x021F50C0  data  a4
+ *   gElboardLayout     0x021F50C0  data  a4
  */
 
 #include "../include/G_T.h"
@@ -40,7 +40,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
 extern u32 func_0201ED04(struct WordSet *p);
-extern struct T d_021F50C0;
+extern struct T gElboardLayout;
 
 void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(int *p)
 {
@@ -68,9 +68,9 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(int *p)
     for (i = 0; i < cnt; i++)
         func_0201EE60(h, i, buf[i]);
     func_0201F02C(h, 6, GAME_DATA_GetMyStatus((void *)p[2]));
-    s.a = *(u16 *)(((u8 *)&d_021F50C0) + 0xa);
-    s.b = *(int *)(((u8 *)&d_021F50C0) + 0x38);
-    s.c = *(int *)(((u8 *)&d_021F50C0) + 0x54);
+    s.a = *(u16 *)(((u8 *)&gElboardLayout) + 0xa);
+    s.b = *(int *)(((u8 *)&gElboardLayout) + 0x38);
+    s.c = *(int *)(((u8 *)&gElboardLayout) + 0x54);
     s.d = 2;
     s.e = 0x26;
     s.f = f;

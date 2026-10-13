@@ -1,8 +1,8 @@
 /*
  * file:     btlv_bg.c
  * unit:     yes
- * function: func_02209224, func_022092E8, func_02209318, func_02209458, func_022094BC, func_02209500, func_02209540, func_02209744, func_0220975C, func_0220977C, func_02209784, func_022097CC, func_0220985C, func_0220986C, func_022099E8, func_02209A40, func_02209A54
- * address:  0x02209224
+ * function: BTLV_BG_Create, BTLV_BG_Delete, BTLV_BG_SetScroll, BTLV_BG_StartScroll, BTLV_BG_IsScrolling, BTLV_BG_StartScrollJob, BTLV_BG_ScrollTask, BTLV_BG_OnScrollJobEnd, BTLV_BG_ApplyScrollTask
+ * address:  0x0220975C
  * region:   ov094
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,629 +10,256 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from btlv_effvm.c, btlv_b_gauge.c, btlv_bg.c, btlv_finger_cursor.c by tools/splitfile.py.
  *
  * symbols:
- *   func_02030734  0x02030734  arm
- *   d_0220AEE0     0x0220AEE0  data  ov094
- *   func_020490F4  0x020490F4  arm
- *   CLACT_CreateUnit  0x0204B100  arm
- *   CLACT_RegisterCharacter  0x0204A6C8  arm
- *   CLACT_RegisterCellAnim  0x0204AF28  arm
- *   CLACT_RegisterPalette  0x0204ABF0  arm
- *   func_021F86E0  0x021F86E0  thumb  ov094
- *   CLACT_GetPaletteVramAddress  0x0204AEF4  arm
- *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
- *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   CLACT_CreateActor 0x0204B294 arm
- *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   func_020870D0 0x020870D0 arm
- *   func_021F86D4 0x021F86D4 thumb ov094
- *   func_02030DA8 0x02030DA8 arm
- *   d_0220ABC0 0x0220ABC0 data a4
- *   d_0220ABC8 0x0220ABC8 data a4
- *   d_0220ABE0 0x0220ABE0 data a4
- *   CLACT_DeleteActor  0x0204B3B4  arm
- *   func_02030EAC  0x02030EAC  arm
- *   CLACT_SetUnitDrawEnable  0x0204B22C  arm
- *   _ll_udiv       0x0209C00C  arm
- *   d_0220ABB8  0x0220ABB8  data  a4
- *   d_0220AEF0     0x0220AEF0  data  ov094
  *   func_020307B0  0x020307B0  arm
+ *   _fflt          0x0209BDBC  arm
+ *   _fadd          0x0209C95C  arm
+ *   _fsub          0x0209CB8C  arm
+ *   _ffix          0x0209C494  arm
+ *   func_0207C768  0x0207C768  arm
+ *   BTLV_BG_Create  0x0220975C  thumb  ov094
  *   func_020056A0  0x020056A0  thumb
- *   func_021F896C  0x021F896C  thumb  ov094
+ *   BTLV_BG_Delete 0x0220977C thumb ov094
+ *   func_02030DA8  0x02030DA8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   func_02030734  0x02030734  arm
  *   func_020407E8  0x020407E8  arm
  *   func_02040804  0x02040804  arm
- *   func_0207C768 0x0207C768 arm
+ *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
+ *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
+ *   func_02040618 0x02040618 arm
+ *   BTLV_BG_IsScrolling 0x0220985C thumb ov094
+ *   func_021F896C 0x021F896C thumb ov094
+ *   func_021F89BC 0x021F89BC thumb ov094
+ *   sBtlvBgSiteName     0x0220AEF0  data  ov094
  *   func_021F918C 0x021F918C thumb ov094
- *   _fflt 0x0209BDBC arm
- *   _fadd 0x0209C95C arm
- *   _fsub 0x0209CB8C arm
- *   _ffix 0x0209C494 arm
  *   func_021F9260  0x021F9260  thumb  ov094
- *   func_021F89BC  0x021F89BC  thumb  ov094
- *   TCBL_IsDeletePending  0x02030EE8  arm
- *   func_02040618  0x02040618  arm
- *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
- *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
- *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
- *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
- *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
- *   CLACT_SetActorDrawEnable  0x0204B3DC  arm  arm9
  */
-#include "../../matched/include/Obj13628.h"
-
-struct PalAnmSlot;
-struct Bank;
-struct Obj;
-struct Node;
-struct Timer;
-struct S02030EE8;
-typedef unsigned char u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int u32;
-
-typedef struct {
-    int h0;                 /* 0x00 */
-    int h4;                 /* 0x04 */
-    char pad08[0x40 - 0x08];
-    int h40;                /* 0x40 */
-    int h44;                /* 0x44 */
-    int h48;                /* 0x48 */
-    char pad4c[0x74 - 0x4c];
-    u16 heap;               /* 0x74 */
-} W_02209224;
-
-typedef signed int     s32;
-
-typedef struct {
-    int h0;
-    int h4;
-    char pad08[0x40 - 0x08];
-    int h40;
-    int h44;
-    int h48;
-} W_022092E8;
-
-typedef unsigned long long u64;
-
-typedef short s16;
-
-typedef struct { s16 x, y, z, rest; } Pos;
-
-typedef struct { int v[2]; } Pair_02209224;
-
-typedef struct { int v[6]; } Six;
-
-typedef struct { int v[2][6]; } Twelve;
-
-typedef struct { u32 h[7]; } Entry;
-
-typedef struct {
-    u32 h[2]; Entry e[2]; u32 obj40, obj44, obj48;
-    int left[2]; u64 time[2]; int state[2]; void *task;
-    char pad70[4]; u16 heap;
-} Work;
-
-typedef struct {
-    int f[7];
-} Row;
-
-typedef struct {
-    Row r[2];
-    char pad[0x6c - 0x38];
-    void *m6c;
-    void *m70;
-} W;
-
-typedef struct {
-    int h[2];
-    char pad8[0x4c - 8];
-    int x4c[2];
-    u64 t[2];
-    int x64[2];
-} W_022094BC;
-
-typedef struct {
-    int h[2];
-    char pad8[0x4c - 8];
-    int x4c[2];
-    u64 t[2];
-} W_02209500;
-
-typedef struct Digits { void *icon; void *m10; void *m1; void *colon; void *s10; void *s1; void *pad; } Digits;
-
-typedef struct Timer {
-    int pad0;
-    int pad4;
-    Digits d[2];
-    int pad40[3];
-    int limit[2];
-    u64 start[2];
-    int base[2];
-} Timer;
-
-typedef enum { B_FALSE, B_TRUE } Bool;
-
-typedef struct Pair_022094BC { int v[2]; } Pair_022094BC;
-
-typedef struct {
-    void *f0;
-    int f4;
-    u16 f8;
-} W_0220975C;
-
-typedef struct {
-    char pad[8];
-    u16 heap;               /* 0x08 */
-} W_02209784;
-
-typedef struct { int x, y, z; } Vec;
-
-typedef struct {
-    void *f0;
-    u32 b0 : 1;
-    u32 rest : 31;
-} O;
-
-typedef struct {
-    char pad[4];
-    unsigned int f : 1;
-} S985C;
-
-typedef struct { void *owner; Vec start; int mode; Vec a, b, delta; int n1, n2, zero, s2, s3; } Job;
-
-typedef struct {
-    void *w;                /* 0x00 */
-    int x;                  /* 0x04 */
-    int y;                  /* 0x08 */
-    int pad0c;
-    int mv[4];              /* 0x10 */
-    int dx;                 /* 0x20 */
-    int dy;                 /* 0x24 */
-    char pad28[0x38 - 0x28];
-    int n;                  /* 0x38 */
-} S;
+#include "btlv_effvm_types.h"
+#include "btlv_clact_shared_types.h"
+#include "btlv_timer_shared_types.h"
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(u32 id, u32 heap);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int func_021F86E0(void);
-extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void ARC_TOOL_DeleteHandle(void * h);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern u32 func_020307B0(void *p);
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern u64 func_020870D0(void);
-extern void *func_021F86D4(void);
-extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void CLACT_DeleteActor(struct Obj *p);
-extern void func_02030EAC(struct Node *n);
-extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void *func_020056A0(void (*cb)(void *), void *ctx, int pri);
-extern void func_021F896C(void *h, void (*cb)(void *), int arg);
+
 extern u32 func_020407E8(u32 layer);
+
 extern u32 func_02040804(u32 layer);
-extern u32 func_0207C768(u32, u32);
-extern void func_021F918C(const Vec *, const Vec *, Vec *, int);
+
 extern float _fflt(int);
+
 extern float _fadd(float, float);
+
 extern float _fsub(float, float);
+
 extern int _ffix(float);
-extern int func_021F9260(void *m, int *out);
-extern void func_021F89BC(void *h);
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
-extern void func_02040618(u32 layer, u32 a, u32 b);
-W_02209224 *func_02209224(u16 heap);
-void func_022092E8(W_022092E8 *w);
-void func_02209318(Work *m, int a, int b);
-void func_02209458(W *w);
-void func_022094BC(u8 *p, int i, int a, int b);
-int func_02209500(W_02209500 *w, int i);
-void func_02209540(Timer *p, int idx);
-void func_02209744(int unused, int x);
-W_0220975C *func_0220975C(void *a, u16 heap);
-void func_0220977C(void *p);
-void func_02209784(W_02209784 *w, u32 a, u32 b);
-void func_022097CC(O *o, int a, u32 mode, int x, int y, int s1, int s2, int s3);
-unsigned int func_0220985C(S985C *p);
-void func_0220986C(char *o, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3, void (*f1)(void *, void *));
-void func_022099E8(void *h, void *arg);
-void func_02209A40(void *h);
-void func_02209A54(void *h);
-extern char d_0220AEE0[];
-extern const Pair_02209224 d_0220ABC0;
-extern const Six d_0220ABC8;
-extern const Twelve d_0220ABE0;
-extern const Pair_022094BC d_0220ABB8;
-extern char d_0220AEF0[];
 
+extern void func_021F896C(void *task, void (*onDelete)(void *), int arg);
 
+extern void func_021F89BC(void *task);
 
+/* Battle background: scroll state of BG layer 3 (0x0c bytes). */
+typedef struct BtlvBg {
+    void *taskSystem;               /* 0x00 */
+    u32 scrolling : 1;              /* 0x04: set while a scroll job runs */
+    u32 reservedFlags : 31;
+    u16 heapId;                     /* 0x08 */
+} BtlvBg;
 
+/* One scroll animation job (0x4c bytes). */
+typedef struct BtlvBgScrollJob {
+    BtlvBg *bg;                     /* 0x00 */
+    Vec pos;                        /* 0x04: current scroll offset, 20.12 fixed */
+    int mode;                       /* 0x10 */
+    Vec origin;                     /* 0x14 */
+    Vec amount;                     /* 0x20: target, or per-frame step in mode 4 */
+    Vec delta;                      /* 0x2c: per-frame step for modes 1 to 3 */
+    int framesLeft;                 /* 0x38 */
+    int framesTotal;                /* 0x3c */
+    int elapsed;                    /* 0x40 */
+    int phaseFrames;                /* 0x44 */
+    int cycleFrames;                /* 0x48 */
+} BtlvBgScrollJob;
 
+/* Two arguments carried to the deferred scroll apply task. */
+typedef struct { int scrollX, scrollY; } BtlvBgScrollArgs;
 
-/*
- * Lever: the `lsls #15 / lsrs #16` argument is `(u16)(v >> 1)`; `& 0x7fff`
- * or `& 0x1ffff` forms pool the mask and shift the registers.
- */
-W_02209224 *func_02209224(u16 heap)
+extern u32 func_020307B0(void *block);
+
+extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
+
+extern void *func_020056A0(void (*callback)(void *), void *context, int priority);
+
+extern u32 func_0207C768(u32 value, u32 divisor);
+
+extern void func_021F918C(const Vec *from, const Vec *to, Vec *outDelta, int frames);
+
+extern int func_021F9260(void *mover, int *outPos);
+
+extern u32 TCBL_IsDeletePending(struct Task *task);
+
+extern void func_02040618(u32 layer, u32 param, u32 value);
+
+BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId);
+
+void BTLV_BG_Delete(BtlvBg *bg);
+
+void BTLV_BG_SetScroll(BtlvBg *bg, u32 scrollX, u32 scrollY);
+
+void BTLV_BG_StartScroll(BtlvBg *bg, int flipFlags, u32 mode, int x, int y, int frames, int phaseFrames, int cycleFrames);
+
+unsigned int BTLV_BG_IsScrolling(BtlvBg *bg);
+
+void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, Vec *origin, Vec *amount, int frames, int phaseFrames, int cycleFrames, void (*onTick)(void *, void *));
+
+void BTLV_BG_ScrollTask(void *task, void *arg);
+
+void BTLV_BG_OnScrollJobEnd(void *task);
+
+void BTLV_BG_ApplyScrollTask(void *task);
+
+extern char sBtlvBgSiteName[];
+
+BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId)
 {
-    W_02209224 *w;
-    void *a;
-    void *s;
-
-    w = func_02030734(heap, 0x78, 1, d_0220AEE0, 0x81);
-    w->heap = heap;
-    a = func_020490F4(0xb, (u16)((w->heap & 0x7fff) | 0x8000));
-    w->h0 = (int)CLACT_CreateUnit(6, 0, w->heap);
-    w->h4 = (int)CLACT_CreateUnit(6, 0, w->heap);
-    w->h40 = CLACT_RegisterCharacter(a, 0x7a, 0, 0, w->heap);
-    w->h44 = CLACT_RegisterCellAnim(a, 0x7b, 0x7c, w->heap);
-    w->h48 = CLACT_RegisterPalette(a, 0xa2, 0, 0xe0, w->heap);
-    s = (void *)func_021F86E0();
-    PALANM_CopyHwPaletteToSlot(s, 2, (u16)(CLACT_GetPaletteVramAddress(w->h48, 0) >> 1), 0x20);
-    ARC_TOOL_DeleteHandle(a);
-    return w;
+    BtlvBg *bg = func_02030734(heapId, 0xc, 1, sBtlvBgSiteName, 0x48);
+    bg->taskSystem = taskSystem;
+    bg->heapId = heapId;
+    return bg;
 }
 
-
-
-
-
-
-void func_022092E8(W_022092E8 *w)
+void BTLV_BG_Delete(BtlvBg *bg)
 {
-    func_02209458((W *)w);
-    CLACT_ReleaseCharacter(w->h40);
-    CLACT_ReleaseCellAnim(w->h44);
-    CLACT_ReleasePalette(w->h48);
-    CLACT_DeleteUnit((struct Bank *)w->h0);
-    CLACT_DeleteUnit((struct Bank *)w->h4);
-    func_020307B0(w);
+    func_020307B0(bg);
 }
 
-
-
-
-
-/*
- * lever: y is a full int, narrowed by assignment to pos.y; s16 y sinks
- *   its home store and swaps it with the explicit handle-offset spill.
- *   Aggregate locals are declared icons, values, pos, types in that order.
- */
-void func_02209318(Work *m, int a, int b)
+void BTLV_BG_SetScroll(BtlvBg *bg, u32 scrollX, u32 scrollY)
 {
-    Six icons;
-    Twelve values;
-    Pos pos = {0, 0, 0, 0};
-    Pair_02209224 types;
-    int y;
-    int off;
-    int i, j;
-    int *row;
-    icons = d_0220ABC8;
-    types = d_0220ABC0;
-    values = d_0220ABE0;
-    for (i = 0; i < 2; i++) {
-        if ((i == 0 && a != 0) || (i == 1 && b != 0)) {
-            off = i * 4;
-            y = types.v[i];
-            row = values.v[i];
-            for (j = 0; j < 6; j++) {
-                pos.x = icons.v[j];
-                pos.y = y;
-                pos.z = row[j];
-                m->e[i].h[j] = (u32)CLACT_CreateActor((void *)*(u32 *)((char *)m + off), m->obj40, m->obj48, m->obj44, &pos, 0, m->heap);
-                CLACT_SetActorAutoAnim((struct Obj *)m->e[i].h[j], 1);
-            }
-        }
-    }
-    if (a > 5999) a = 5999;
-    if (b > 5999) b = 5999;
-    m->left[0] = a;
-    m->left[1] = b;
-    m->time[1] = func_020870D0();
-    m->time[0] = m->time[1];
-    func_022094BC((u8 *)m, 0, 0, 0);
-    func_022094BC((u8 *)m, 1, 0, 0);
-    m->task = func_02030DA8(func_021F86D4(), (void (*)(void *, void *))func_02209744, m, 0);
+    BtlvBgScrollArgs *args;
+
+    args = func_02030734((u16)((bg->heapId & 0x7fff) | 0x8000), 8, 0, sBtlvBgSiteName, 0x67);
+    args->scrollX = scrollX;
+    args->scrollY = scrollY;
+    func_021F896C(func_020056A0(BTLV_BG_ApplyScrollTask, args, 0), 0, 0);
 }
 
-
-
-
-
-
-void func_02209458(W *w)
+void BTLV_BG_StartScroll(BtlvBg *bg, int flipFlags, u32 mode, int x, int y, int frames, int phaseFrames, int cycleFrames)
 {
-    int i;
-    int j;
+    Vec origin;
+    Vec amount;
 
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 6; j++) {
-            if (w->r[i].f[j + 2] != 0) {
-                CLACT_DeleteActor((struct Obj *)w->r[i].f[j + 2]);
-                w->r[i].f[j + 2] = 0;
-            }
-        }
-    }
-    if (w->m6c != 0) {
-        func_02030EAC(w->m6c);
-        w->m6c = 0;
-    }
-    if (w->m70 != 0) {
-        func_02030EAC(w->m70);
-        w->m70 = 0;
-    }
-}
-
-
-
-
-
-void func_022094BC(u8 *p, int i, int a, int b)
-{
-    W_022094BC *w = (W_022094BC *)p;
-
-    if (*(int *)(p + i * 0x1c + 8) != 0) {
-        if (a == 1 && b == 1) {
-            w->t[i] = func_020870D0();
-            w->x64[i] = 0;
-            func_02209540((struct Timer *)w, i);
-        }
-        CLACT_SetUnitDrawEnable((struct Bank *)w->h[i], a);
-    }
-}
-
-
-
-
-
-int func_02209500(W_02209500 *w, int i)
-{
-    u64 d;
-
-    d = func_020870D0() - w->t[i];
-    d = (d << 6) / 33514000ULL;
-    return w->x4c[i] - (int)d <= 0;
-}
-
-
-
-
-
-/*
- * note: the 0/1 icon offset is an enum-constant ternary (an int spelling flips the bne polarity).
- */
-void func_02209540(Timer *p, int idx)
-{
-    Pair_022094BC tbl = d_0220ABB8;
-    int icon = idx == 0 ? B_FALSE : B_TRUE;
-    int r = p->limit[idx] - (int)(((func_020870D0() - p->start[idx]) * 64) / 33514000);
-    int min, sec, m10, m1, s10, s1;
-    if (p->d[idx].icon == 0)
-        return;
-    if (r < 0)
-        r = 0;
-    min = r / 60;
-    sec = r % 60;
-    m10 = min / 10;
-    m1 = min % 10;
-    s10 = sec / 10;
-    s1 = sec % 10;
-    if (r == tbl.v[idx])
-        p->base[idx] = 13;
-    CLACT_SetActorAnimSeq(p->d[idx].icon, icon + p->base[idx]);
-    if (m10 == 0) {
-        CLACT_SetActorDrawEnable(p->d[idx].m10, 0);
-    } else {
-        CLACT_SetActorDrawEnable(p->d[idx].m10, 1);
-        CLACT_SetActorAnimSeq(p->d[idx].m10, m10 + 3 + p->base[idx]);
-    }
-    if (m10 == 0 && m1 == 0) {
-        CLACT_SetActorDrawEnable(p->d[idx].m1, 0);
-        CLACT_SetActorDrawEnable(p->d[idx].colon, 0);
-    } else {
-        CLACT_SetActorDrawEnable(p->d[idx].m1, 1);
-        CLACT_SetActorDrawEnable(p->d[idx].colon, 1);
-        CLACT_SetActorAnimSeq(p->d[idx].m1, m1 + 3 + p->base[idx]);
-        CLACT_SetActorAnimSeq(p->d[idx].colon, p->base[idx] + 2);
-    }
-    if (m10 == 0 && m1 == 0 && s10 == 0) {
-        CLACT_SetActorDrawEnable(p->d[idx].s10, 0);
-    } else {
-        CLACT_SetActorDrawEnable(p->d[idx].s10, 1);
-        CLACT_SetActorAnimSeq(p->d[idx].s10, s10 + 3 + p->base[idx]);
-    }
-    CLACT_SetActorAnimSeq(p->d[idx].s1, s1 + 3 + p->base[idx]);
-}
-
-
-
-
-
-/*
- * lane O10 candidate
- */
-void func_02209744(int unused, int x)
-{
-    func_02209540((struct Timer *)x, 0);
-    func_02209540((struct Timer *)x, 1);
-}
-
-
-
-
-W_0220975C *func_0220975C(void *a, u16 heap)
-{
-    W_0220975C *w = func_02030734(heap, 0xc, 1, d_0220AEF0, 0x48);
-    w->f0 = a;
-    w->f8 = heap;
-    return w;
-}
-
-
-
-
-void func_0220977C(void *p)
-{
-    func_020307B0(p);
-}
-
-
-
-
-void func_02209784(W_02209784 *w, u32 a, u32 b)
-{
-    u32 *o;
-
-    o = func_02030734((u16)((w->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEF0, 0x67);
-    o[0] = a;
-    o[1] = b;
-    func_021F896C(func_020056A0(func_02209A54, o, 0), 0, 0);
-}
-
-
-
-
-void func_022097CC(O *o, int a, u32 mode, int x, int y, int s1, int s2, int s3)
-{
-    Vec w;
-    Vec v;
-
-    v.x = x << 12;
-    v.y = y << 12;
-    v.z = 0;
-    w.x = func_020407E8(3) << 12;
-    w.y = func_02040804(3) << 12;
-    w.z = 0;
-    if (mode == 4 && (a & 1))
-        v.x *= -1;
+    amount.x = x << 12;
+    amount.y = y << 12;
+    amount.z = 0;
+    origin.x = func_020407E8(3) << 12;
+    origin.y = func_02040804(3) << 12;
+    origin.z = 0;
+    if (mode == 4 && (flipFlags & 1))
+        amount.x *= -1;
     if (mode == 1) {
-        v.x += w.x;
-        v.y += w.y;
-        v.z += w.z;
+        amount.x += origin.x;
+        amount.y += origin.y;
+        amount.z += origin.z;
     }
-    func_0220986C((char *)o, mode, &w, &v, s1, s2, s3, func_022099E8);
-    o->b0 = 1;
+    BTLV_BG_StartScrollJob(bg, mode, &origin, &amount, frames, phaseFrames, cycleFrames, BTLV_BG_ScrollTask);
+    bg->scrolling = 1;
 }
 
-
-
-unsigned int func_0220985C(S985C *p)
+unsigned int BTLV_BG_IsScrolling(BtlvBg *bg)
 {
-    return p->f != 0;
+    return bg->scrolling != 0;
 }
 
-
-static inline int Round(int x)
+static inline int BTLV_BG_ToFixedRounded(int value)
 {
-    if (x > 0) return _ffix(_fadd(0.5f, _fflt(x << 12)));
-    else return _ffix(_fsub(_fflt(x << 12), 0.5f));
+    if (value > 0) return _ffix(_fadd(0.5f, _fflt(value << 12)));
+    else return _ffix(_fsub(_fflt(value << 12), 0.5f));
 }
-
 
 /*
  * lever: matched twin 02201E04 with its unused idx slot removed; this
  *   caller registers fixed callback 02209A40, not a ninth parameter.
  */
-void func_0220986C(char *o, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3,
-                   void (*f1)(void *, void *))
+void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, Vec *origin, Vec *amount, int frames, int phaseFrames, int cycleFrames,
+                   void (*onTick)(void *, void *))
 {
-    Job *p;
-    p = func_02030734(((struct Obj13628 *)o)->f8, 0x4c, 0, d_0220AEF0, 0xb8);
-    p->owner = o;
-    p->start.x = v->x;
-    p->start.y = v->y;
-    p->start.z = v->z;
-    p->mode = mode;
-    p->n1 = s1;
-    p->n2 = s1;
-    p->zero = 0;
-    p->s2 = s2;
-    p->s3 = s3 * 2;
-    p->a.x = v->x;
-    p->a.y = v->y;
-    p->a.z = v->z;
-    p->b.x = w->x;
-    p->b.y = w->y;
-    p->b.z = w->z;
+    BtlvBgScrollJob *job;
+    job = func_02030734(bg->heapId, 0x4c, 0, sBtlvBgSiteName, 0xb8);
+    job->bg = bg;
+    job->pos.x = origin->x;
+    job->pos.y = origin->y;
+    job->pos.z = origin->z;
+    job->mode = mode;
+    job->framesLeft = frames;
+    job->framesTotal = frames;
+    job->elapsed = 0;
+    job->phaseFrames = phaseFrames;
+    job->cycleFrames = cycleFrames * 2;
+    job->origin.x = origin->x;
+    job->origin.y = origin->y;
+    job->origin.z = origin->z;
+    job->amount.x = amount->x;
+    job->amount.y = amount->y;
+    job->amount.z = amount->z;
     switch (mode) {
     case 1:
-        func_021F918C(&p->a, w, &p->delta, Round(s1));
+        func_021F918C(&job->origin, amount, &job->delta, BTLV_BG_ToFixedRounded(frames));
         break;
     case 3:
-        p->n2 *= 2;
-        p->s3 *= 2;
+        job->framesTotal *= 2;
+        job->cycleFrames *= 2;
     case 2:
-        p->delta.x = func_0207C768(w->x, Round(s1));
-        p->delta.y = func_0207C768(w->y, Round(s1));
-        p->delta.z = func_0207C768(w->z, Round(s1));
+        job->delta.x = func_0207C768(amount->x, BTLV_BG_ToFixedRounded(frames));
+        job->delta.y = func_0207C768(amount->y, BTLV_BG_ToFixedRounded(frames));
+        job->delta.z = func_0207C768(amount->z, BTLV_BG_ToFixedRounded(frames));
         break;
     case 0:
     default:
         break;
     }
-    func_021F896C(func_02030DA8(((struct Obj13628 *)o)->f0, f1, p, 0), func_02209A40, 0);
+    func_021F896C(func_02030DA8(bg->taskSystem, onTick, job, 0), BTLV_BG_OnScrollJobEnd, 0);
 }
 
-
-
-void func_022099E8(void *h, void *arg)
+void BTLV_BG_ScrollTask(void *task, void *arg)
 {
-    S *s = (S *)arg;
-    void *w = s->w;
+    BtlvBgScrollJob *job = (BtlvBgScrollJob *)arg;
+    BtlvBg *bg = job->bg;
     int done;
 
-    if (s->mv[0] == 4) {
-        s->x += s->dx;
-        s->y += s->dy;
-        if (s->n == 0) {
+    if (job->mode == 4) {
+        job->pos.x += job->amount.x;
+        job->pos.y += job->amount.y;
+        if (job->framesLeft == 0) {
             done = 1;
         } else {
-            s->n--;
+            job->framesLeft--;
             done = 0;
         }
     } else {
-        done = func_021F9260(s->mv, &s->x);
+        done = func_021F9260(&job->mode, &job->pos.x);
     }
-    func_02209784(w, s->x >> 12, s->y >> 12);
+    BTLV_BG_SetScroll(bg, job->pos.x >> 12, job->pos.y >> 12);
     if (done == 1)
-        func_021F89BC(h);
+        func_021F89BC(task);
 }
 
-
-
-void func_02209A40(void *h)
+void BTLV_BG_OnScrollJobEnd(void *task)
 {
-    int *w = *((int **)TCBL_IsDeletePending(h));
-    w[1] &= ~1;
+    BtlvBg *bg = *((BtlvBg **)TCBL_IsDeletePending(task));
+    bg->scrolling = 0;
 }
-
-
 
 /*
- * Task callback passed to func_020056A0 by func_02209784 (leaf of that
+ * Task callback passed to func_020056A0 by BTLV_BG_SetScroll (leaf of that
  * caller: its pool word 0x02209A55 names this unlabelled Thumb function).
+ * Applies the queued scroll values to BG layer 3, then ends the task.
  */
-void func_02209A54(void *h)
+void BTLV_BG_ApplyScrollTask(void *task)
 {
-    int *p = (int *)TCBL_IsDeletePending(h);
+    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_IsDeletePending(task);
 
-    func_02040618(3, 0, p[0]);
-    func_02040618(3, 3, p[1]);
-    func_021F89BC(h);
+    func_02040618(3, 0, args->scrollX);
+    func_02040618(3, 3, args->scrollY);
+    func_021F89BC(task);
 }

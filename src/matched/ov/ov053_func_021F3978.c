@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_LoadWaitLimits
+ * function: FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits
  * address:  0x021F3978
  * packet:   pkt_ov053_021F3978
  * region:   ov053
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern u32 func_020307B0(void *p);
 
-void GIMMICK53_LoadWaitLimits(char *a)
+void FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits(char *a)
 {
     T5 t = sGimmick53WaitMembers;
     int i;

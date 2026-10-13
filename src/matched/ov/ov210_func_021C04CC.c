@@ -14,7 +14,7 @@
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
  *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   func_021B79E4 0x021B79E4 thumb ov067
+ *   FRAME_LIST_AddItem 0x021B79E4 thumb ov067
  *   d_021C0CC0 0x021C0CC0 data a4
  */
 #include "../include/Obj06699.h"
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
+extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
 void func_021C04CC(char *ctx)
 {
     void *archive = func_020490F4(159, 0x807b);
@@ -45,5 +45,5 @@ void func_021C04CC(char *ctx)
     FRAME_LIST_CopyMapToBuffer(((struct Obj06699 *)ctx)->f1E0, (unsigned int)archive, 98, 0, 0);
     FRAME_LIST_LoadPalettes(((struct Obj06699 *)ctx)->f1E0, archive, 73, 2, 3);
     ARC_TOOL_DeleteHandle(archive);
-    for (i = 0; i < 14; i++) func_021B79E4(((struct Obj06699 *)ctx)->f1E0, 0, i);
+    for (i = 0; i < 14; i++) FRAME_LIST_AddItem(((struct Obj06699 *)ctx)->f1E0, 0, i);
 }

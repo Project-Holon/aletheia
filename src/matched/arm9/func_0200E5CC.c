@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled arm9 leaf: true when bit 15 of the halfword at +0x5C4 is clear.
- * Filed as the relocation witness for ov021 func_021D09D0 (wave A1).
+ * Filed as the relocation witness for ov021 TRIAL_HOUSE_LoadDeliveryState (wave A1).
  */
 #include "../include/Obj15607.h"
 

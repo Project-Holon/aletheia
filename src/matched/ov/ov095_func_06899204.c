@@ -1,5 +1,5 @@
 /*
- * function: func_06899204
+ * function: HAND_SIDE_GetHandlersLuckyChant
  * address: 0x06899204
  * packet: pkt_ov095_06899204
  * region: ov095
@@ -10,11 +10,11 @@
  * status: EXACT
  * follower: store-return leaf after non-C veneer 0x068991F4.
  * symbols:
- *   d_0689D730 0x0689D730 data a4
+ *   gHandSideLuckyChantHandlers 0x0689D730 data a4
  */
-extern unsigned int d_0689D730;
-unsigned int *func_06899204(unsigned int *out)
+extern unsigned int gHandSideLuckyChantHandlers;
+unsigned int *HAND_SIDE_GetHandlersLuckyChant(unsigned int *out)
 {
     *out = 1;
-    return &d_0689D730;
+    return &gHandSideLuckyChantHandlers;
 }

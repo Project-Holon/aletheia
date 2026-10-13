@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E7CAC",
+   "name": "HAND_WAZA_AfterYouMoveTargetNext",
    "address": "0x021E7CAC",
    "kind": "game",
    "region": "ov093",

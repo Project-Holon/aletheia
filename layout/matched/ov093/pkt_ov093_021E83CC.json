@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E83CC",
+   "name": "HAND_WAZA_PledgeCheckCombo",
    "address": "0x021E83CC",
    "kind": "game",
    "region": "ov093",

@@ -15,8 +15,8 @@
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
- *   func_021EA614  0x021EA614  thumb  ov093
- *   func_021EA710  0x021EA710  thumb  ov093
+ *   BTLV_CORE_BuildAndPrintMessage  0x021EA614  thumb  ov093
+ *   BTLV_CORE_WaitMessage  0x021EA710  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -38,8 +38,8 @@ struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
 extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EA614(char *p, struct H *h);
-extern int func_021EA710(u32 *p);
+extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 
 int BTL_CLIENT_StepShowPrizeMoneyMessage(BattleSeq *s, int *state)
 {
@@ -55,12 +55,12 @@ int BTL_CLIENT_StepShowPrizeMoneyMessage(BattleSeq *s, int *state)
                 func_021EAF18((struct L *)s->msg, 1, 0x3b);
                 func_021EAF50((struct L *)s->msg, b);
                 func_021EAF50((struct L *)s->msg, a);
-                func_021EA614(s->msgWin, (struct H *)s->msg);
+                BTLV_CORE_BuildAndPrintMessage(s->msgWin, (struct H *)s->msg);
             }
         }
         (*state)++;
     case 1:
-        if (func_021EA710(s->msgWin) != 0)
+        if (BTLV_CORE_WaitMessage(s->msgWin) != 0)
             return 1;
         break;
     }

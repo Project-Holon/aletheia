@@ -1,5 +1,5 @@
 /*
- * function: func_021ED814
+ * function: BTLV_SCU_UpdateMsgWinFade
  * address:  0x021ED814
  * packet:   pkt_ov093_021ED814
  * region:   ov093
@@ -24,7 +24,7 @@ struct S { int h; int x; int y; int dx; int dy; u8 state; u8 cnt; };
 
 extern void func_0207D63C(void *, int, int, int, int);
 
-int func_021ED814(struct S *s)
+int BTLV_SCU_UpdateMsgWinFade(struct S *s)
 {
     switch (s->state) {
     case 2:

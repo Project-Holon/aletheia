@@ -21,7 +21,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   g_WeatherSourceName     0x021DDE74  data
  *   gWeatherBillboardDescs     0x021D8850  data
- *   d_021D8840     0x021D8840  data
+ *   gWeatherSurfaceInits     0x021D8840  data
  *   func_02030734  0x02030734  arm
  *   FIELD_3DBG_CreateBillboard  0x021A15A4  thumb  ov021
  *   func_02030EAC  0x02030EAC  arm
@@ -88,7 +88,7 @@ void WEATHER_TASK_ForceEnd(struct WeatherTaskSys *task);
 int WEATHER_TASK_GetPhase(struct WeatherTaskSys *task);
 extern char g_WeatherSourceName[];
 extern Field3dbgBillboardDesc gWeatherBillboardDescs[];
-extern u8 d_021D8840[];
+extern u8 gWeatherSurfaceInits[];
 extern void (*const gWeatherTransitionHandlers[])(WeatherSys *sys, int frames);
 typedef struct WeatherEntry {
     u32 taskParam;
@@ -119,7 +119,7 @@ WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weath
     sys->queuedWeatherId = 0xFFFF;
     sys->loadedOverlayId = -1;
     sys->textureBank = CLACT_CreateUnit(0x40, 8, heapId);
-    sys->textureList = CLACT_CreateRenderer(d_021D8840, 1, heapId);
+    sys->textureList = CLACT_CreateRenderer(gWeatherSurfaceInits, 1, heapId);
     CLACT_SetUnitRenderer(sys->textureBank, sys->textureList);
     for (j = 0; j < 2; j++) {
         sys->tasks[j] = WEATHER_TASK_Create(sys->textureBank, obj10, obj14, obj18, obj1C, sys, weatherParam, zoneId, heapId);

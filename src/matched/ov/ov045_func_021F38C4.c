@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK45_ReplacePlayerIfRequirementMet
+ * function: FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet
  * address:  0x021F38C4
  * packet:   pkt_ov045_021F38C4
  * region:   ov045
@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
- *   GIMMICK45_IsRequirementMet  0x021F3908  thumb
+ *   FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet  0x021F3908  thumb
  *   FIELDMAP_GetCtrlWork  0x02188CA4  thumb  ov021
  *   FIELDMAP_CTRL_HYBRID_ReplacePlayer  0x021A6DC4  thumb  ov021
  */
@@ -33,11 +33,11 @@ extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
-extern int GIMMICK45_IsRequirementMet(char *a0, int a1);
+extern int FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet(char *a0, int a1);
 extern u32 FIELDMAP_GetCtrlWork(u8 *p);
 extern void FIELDMAP_CTRL_HYBRID_ReplacePlayer(u32 *b, void *a);
 
-void GIMMICK45_ReplacePlayerIfRequirementMet(void *a0, int a1)
+void FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(void *a0, int a1)
 {
     void *r6;
     int r4;
@@ -47,7 +47,7 @@ void GIMMICK45_ReplacePlayerIfRequirementMet(void *a0, int a1)
     r4 = FIELDMAP_GetCtrlType((u32)r6);
     p = GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(r6))), 9);
     if (a1 < 8 && r4 == 2) {
-        if (GIMMICK45_IsRequirementMet(p, a1)) {
+        if (FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet(p, a1)) {
             FIELDMAP_CTRL_HYBRID_ReplacePlayer((u32 *)FIELDMAP_GetCtrlWork(r6), r6);
         }
     }

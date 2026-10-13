@@ -1,5 +1,5 @@
 /*
- * function: func_021E822C
+ * function: HAND_WAZA_GetMiracleEyeHandlers
  * address: 0x021E822C
  * packet: pkt_ov093_021E822C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E8200.c and filed here.
  *
  * symbols:
- *   d_021F2958 0x021F2958 data ov093 a4
+ *   gMiracleEyeHandlers 0x021F2958 data ov093 a4
  */
 
-int *func_021E822C(int *p);
-extern int d_021F2958[];
+int *HAND_WAZA_GetMiracleEyeHandlers(int *p);
+extern int gMiracleEyeHandlers[];
 
-int *func_021E822C(int *p)
+int *HAND_WAZA_GetMiracleEyeHandlers(int *p)
 {
     *p = 2;
-    return d_021F2958;
+    return gMiracleEyeHandlers;
 }

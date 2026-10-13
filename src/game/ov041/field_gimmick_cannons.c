@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_cannons.c
  * unit:     yes
- * function: GIMMICK41_Init, GIMMICK41_Exit, GIMMICK41_Update, GIMMICK41_CreateLaunchEvent, GIMMICK41_EventLaunch, GIMMICK41_FindCannonAt, GIMMICK41_GetFirstAnimeSlot, GIMMICK41_FacingToRingIndex, GIMMICK41_TurnRingDirection, GIMMICK41_GetCannonDirection, GIMMICK41_StartBounce, GIMMICK41_ResetBounce, GIMMICK41_UpdateBounce
+ * function: FIELD_GIMMICK_CANNONS_Init, FIELD_GIMMICK_CANNONS_Exit, FIELD_GIMMICK_CANNONS_Update, FIELD_GIMMICK_CANNONS_CreateLaunchEvent, FIELD_GIMMICK_CANNONS_EventLaunch, FIELD_GIMMICK_CANNONS_FindCannonAt, FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot, FIELD_GIMMICK_CANNONS_FacingToRingIndex, FIELD_GIMMICK_CANNONS_TurnRingDirection, FIELD_GIMMICK_CANNONS_GetCannonDirection, FIELD_GIMMICK_CANNONS_StartBounce, FIELD_GIMMICK_CANNONS_ResetBounce, FIELD_GIMMICK_CANNONS_UpdateBounce
  * address:  0x021F36C0
  * region:   ov041
  * compiler: dsi/1.1p1
@@ -39,7 +39,7 @@
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   GIMMICK41_UpdateBounce  0x021F4000  thumb  ov041
+ *   FIELD_GIMMICK_CANNONS_UpdateBounce  0x021F4000  thumb  ov041
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
@@ -82,7 +82,7 @@
  *   gGimmick41LandingFrames     0x021F4094  data  a2
  *   gGimmick41FlightStartFrames     0x021F409C  data  a2
  *   gGimmick41LandSeFramesBeforeEnd     0x021F40B4  data  a2
- *   d_021F4080     0x021F4080  data  a1
+ *   gGimmick41DirectionRing     0x021F4080  data  a1
  *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  */
 #include "../ov021/fld_exp_obj_types.h"
@@ -122,11 +122,11 @@ typedef struct Gimmick41CameraRequest {
 
 /* Cannon positions: the table is read in full. */
 typedef struct Gimmick41PosTable {
-    VecFx32 pos[GIMMICK41_CANNON_COUNT];
+    VecFx32 pos[FIELD_GIMMICK_CANNONS_CANNON_COUNT];
 } Gimmick41PosTable;
 
 typedef struct Gimmick41DirTable {
-    u8 direction[GIMMICK41_DIRECTION_COUNT];
+    u8 direction[FIELD_GIMMICK_CANNONS_DIRECTION_COUNT];
 } Gimmick41DirTable;
 
 extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
@@ -186,22 +186,22 @@ extern void FIELD_CAMERA_StartFreeMove(struct FieldCamera *camera, VecFx32 *eyeG
 extern Gimmick41CameraView *FIELD_CAMERA_GetMoveGoal(struct FieldCamera *camera);
 extern void FIELD_CAMERA_StartMoveToSaved(struct FieldCamera *camera, Gimmick41CameraChannels *channels, u16 frames);
 
-void GIMMICK41_Init(struct FieldMap *fieldMap);
-void GIMMICK41_Exit(struct FieldMap *fieldMap);
-void GIMMICK41_Update(struct FieldMap *fieldMap);
-struct GameEvent *GIMMICK41_CreateLaunchEvent(struct GameSystem *gameSystem);
-int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork);
-u8 GIMMICK41_FindCannonAt(int cellX, int cellZ);
-u16 GIMMICK41_GetFirstAnimeSlot(int direction);
-int GIMMICK41_FacingToRingIndex(int facing);
-int GIMMICK41_TurnRingDirection(int direction, int turns);
-int GIMMICK41_GetCannonDirection(unsigned int facing, int cannonIndex);
+void FIELD_GIMMICK_CANNONS_Init(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_CANNONS_Exit(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_CANNONS_Update(struct FieldMap *fieldMap);
+struct GameEvent *FIELD_GIMMICK_CANNONS_CreateLaunchEvent(struct GameSystem *gameSystem);
+int FIELD_GIMMICK_CANNONS_EventLaunch(struct GameEvent *event, int *seq, void *eventWork);
+u8 FIELD_GIMMICK_CANNONS_FindCannonAt(int cellX, int cellZ);
+u16 FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(int direction);
+int FIELD_GIMMICK_CANNONS_FacingToRingIndex(int facing);
+int FIELD_GIMMICK_CANNONS_TurnRingDirection(int direction, int turns);
+int FIELD_GIMMICK_CANNONS_GetCannonDirection(unsigned int facing, int cannonIndex);
 
 extern int gGimmick41UnitSetup;
 extern Gimmick41PosTable gGimmick41CannonPos;
 extern const u8 gGimmick41CannonQuarterTurns[];
 extern s16 FX_SinCosTable_[];
-extern Gimmick41Flight gGimmick41Flights[][GIMMICK41_DIRECTION_COUNT];
+extern Gimmick41Flight gGimmick41Flights[][FIELD_GIMMICK_CANNONS_DIRECTION_COUNT];
 extern Gimmick41CameraInfo gGimmick41CameraInfos[];
 extern Gimmick41CannonCell gGimmick41CannonCells[];
 extern u16 gGimmick41FireSeFrames[];
@@ -209,10 +209,10 @@ extern u16 gGimmick41FireDoneFrames[];
 extern u16 gGimmick41LandingFrames[];
 extern u16 gGimmick41FlightStartFrames[];
 extern u16 gGimmick41LandSeFramesBeforeEnd[];
-extern Gimmick41DirTable d_021F4080;
+extern Gimmick41DirTable gGimmick41DirectionRing;
 
 /* Load the cannon models, place and turn them, and stop their animations. */
-void GIMMICK41_Init(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_CANNONS_Init(struct FieldMap *fieldMap)
 {
     G3dObjectStatus *status;
     unsigned int i;
@@ -226,20 +226,20 @@ void GIMMICK41_Init(struct FieldMap *fieldMap)
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, (const G3dUtilSetup *)&gGimmick41UnitSetup, 0);
     i = 0;
     cannonPos = gGimmick41CannonPos;
-    for (; i < GIMMICK41_CANNON_COUNT; i = (u8)(i + 1)) {
+    for (; i < FIELD_GIMMICK_CANNONS_CANNON_COUNT; i = (u8)(i + 1)) {
         status = FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u16)i);
         FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, i, 1);
         status->trans = cannonPos.pos[i];
         sinCosIndex = ((gGimmick41CannonQuarterTurns[i] << 14) >> 4) * 2;
         func_0207AF1C(&status->rotate, FX_SinCosTable_[sinCosIndex], FX_SinCosTable_[sinCosIndex + 1]);
-        for (j = 0; j < GIMMICK41_DIRECTION_COUNT; j++) {
+        for (j = 0; j < FIELD_GIMMICK_CANNONS_DIRECTION_COUNT; j++) {
             FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)i, (u16)(j * 2)), 0);
             FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)i, (u16)(j * 2 + 1)), 0);
         }
     }
 }
 
-void GIMMICK41_Exit(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_CANNONS_Exit(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj = FIELDMAP_GetExpObj(fieldMap);
 
@@ -247,7 +247,7 @@ void GIMMICK41_Exit(struct FieldMap *fieldMap)
     FLD_EXP_OBJ_RemoveUnit(expObj, 0);
 }
 
-void GIMMICK41_Update(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_CANNONS_Update(struct FieldMap *fieldMap)
 {
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
 }
@@ -256,7 +256,7 @@ void GIMMICK41_Update(struct FieldMap *fieldMap)
  * Field event check: the player faces the cell two steps before a cannon.
  * Create the launch event for that cannon; null when no cannon stands there.
  */
-struct GameEvent *GIMMICK41_CreateLaunchEvent(struct GameSystem *gameSystem)
+struct GameEvent *FIELD_GIMMICK_CANNONS_CreateLaunchEvent(struct GameSystem *gameSystem)
 {
     struct FieldMap *fieldMap;
     struct FieldPlayer *player;
@@ -290,11 +290,11 @@ struct GameEvent *GIMMICK41_CreateLaunchEvent(struct GameSystem *gameSystem)
         cellX += 2;
         break;
     }
-    cannonIndex = GIMMICK41_FindCannonAt(cellX, cellZ);
-    if (cannonIndex >= GIMMICK41_CANNON_COUNT) {
+    cannonIndex = FIELD_GIMMICK_CANNONS_FindCannonAt(cellX, cellZ);
+    if (cannonIndex >= FIELD_GIMMICK_CANNONS_CANNON_COUNT) {
         return 0;
     }
-    event = func_020122C0(gameSystem, 0, GIMMICK41_EventLaunch, 0);
+    event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_CANNONS_EventLaunch, 0);
     work->cannonIndex = cannonIndex;
     work->facing = facing;
     return event;
@@ -321,7 +321,7 @@ struct GameEvent *GIMMICK41_CreateLaunchEvent(struct GameSystem *gameSystem)
  *   - the tail uses its own local tailPlayerMmdl (declared between direction and ringIndex) for its
  *     spill slot.
  */
-int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
+int FIELD_GIMMICK_CANNONS_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
@@ -352,14 +352,14 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
     switch (*seq) {
     case 0:
         FIELD_CAMERA_EndDelay(camera);
-        GIMMICK41_ResetBounce(&work->bounce);
+        FIELD_GIMMICK_CANNONS_ResetBounce(&work->bounce);
         (*seq)++;
         break;
     case 1:
         if ((int)FIELD_CAMERA_IsDelayEnabled(camera) != 0)
             break;
         cannonRow = work->cannonIndex;
-        ringIndex = GIMMICK41_FacingToRingIndex(work->facing);
+        ringIndex = FIELD_GIMMICK_CANNONS_FacingToRingIndex(work->facing);
         animeValue = gGimmick41Flights[work->cannonIndex][ringIndex].icaDataId;
         if (animeValue == -1)
             return 1;
@@ -378,7 +378,7 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
         }
         work->cameraArrived = 0;
         cannonIndex = work->cannonIndex;
-        initAnimeSlot = GIMMICK41_GetFirstAnimeSlot(GIMMICK41_GetCannonDirection(work->facing, cannonIndex));
+        initAnimeSlot = FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(FIELD_GIMMICK_CANNONS_GetCannonDirection(work->facing, cannonIndex));
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, (u16)cannonIndex, (u16)initAnimeSlot, 1);
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, (u16)cannonIndex, (u16)(initAnimeSlot + 1), 1);
         FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, cannonIndex, initAnimeSlot, 0);
@@ -388,17 +388,17 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
         break;
     case 2:
         cannonIndex = work->cannonIndex;
-        direction = GIMMICK41_GetCannonDirection(work->facing, cannonIndex);
-        animeValue = FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, (u16)cannonIndex, (u16)GIMMICK41_GetFirstAnimeSlot(direction));
+        direction = FIELD_GIMMICK_CANNONS_GetCannonDirection(work->facing, cannonIndex);
+        animeValue = FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, (u16)cannonIndex, (u16)FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(direction));
         if (animeValue / 4096 == gGimmick41FireSeFrames[direction])
             GFL_USE_PlaySeDefaultVolume(0x698);
         if (animeValue / 4096 < gGimmick41FireDoneFrames[direction])
             break;
-        pauseAnimeSlot = GIMMICK41_GetFirstAnimeSlot(direction);
+        pauseAnimeSlot = FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(direction);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)cannonIndex, (u16)pauseAnimeSlot), 1);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)cannonIndex, (u16)(pauseAnimeSlot + 1)), 1);
         SCRIPT_SYS_CallScriptEvent(event, 2, 0, 0, 0x8015);
-        cameraInfoIndex = gGimmick41Flights[work->cannonIndex][GIMMICK41_FacingToRingIndex(work->facing)].cameraInfoIndex;
+        cameraInfoIndex = gGimmick41Flights[work->cannonIndex][FIELD_GIMMICK_CANNONS_FacingToRingIndex(work->facing)].cameraInfoIndex;
         {
         Gimmick41CameraRequest request;
         request.goal.pitch = gGimmick41CameraInfos[cameraInfoIndex].pitch;
@@ -421,7 +421,7 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
         FLDMMDL_SetStatusBit(playerMmdl, 0x200);
         FLDMMDL_SetMoveBit(playerMmdl, 0x8000);
         cannonIndex = work->cannonIndex;
-        playAnimeSlot = GIMMICK41_GetFirstAnimeSlot(GIMMICK41_GetCannonDirection(work->facing, cannonIndex));
+        playAnimeSlot = FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(FIELD_GIMMICK_CANNONS_GetCannonDirection(work->facing, cannonIndex));
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)cannonIndex, (u16)playAnimeSlot), 0);
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)cannonIndex, (u16)(playAnimeSlot + 1)), 0);
         GFL_USE_PlaySeDefaultVolume(0x699);
@@ -429,8 +429,8 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
         break;
     case 4:
         cannonIndex = work->cannonIndex;
-        direction = GIMMICK41_GetCannonDirection(work->facing, cannonIndex);
-        animeValue = FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, (u16)cannonIndex, (u16)GIMMICK41_GetFirstAnimeSlot(direction));
+        direction = FIELD_GIMMICK_CANNONS_GetCannonDirection(work->facing, cannonIndex);
+        animeValue = FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, (u16)cannonIndex, (u16)FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(direction));
         if (animeValue / 4096 < gGimmick41FlightStartFrames[direction])
             break;
         GFL_USE_PlaySeDefaultVolume(0x6A0);
@@ -440,12 +440,12 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
         break;
     case 5:
         cannonIndex = work->cannonIndex;
-        direction = GIMMICK41_GetCannonDirection(work->facing, cannonIndex);
-        animeValue = FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, (u16)cannonIndex, (u16)GIMMICK41_GetFirstAnimeSlot(direction));
+        direction = FIELD_GIMMICK_CANNONS_GetCannonDirection(work->facing, cannonIndex);
+        animeValue = FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, (u16)cannonIndex, (u16)FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(direction));
         if (animeValue / 4096 == gGimmick41LandingFrames[direction]) {
             GFL_USE_PlaySeDefaultVolume(0x696);
             if (work->cameraArrived == 0) {
-                GIMMICK41_StartBounce(work);
+                FIELD_GIMMICK_CANNONS_StartBounce(work);
                 FIELD_CAMERA_SetMode(camera, 1);
             }
             FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 0);
@@ -455,7 +455,7 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
         player = FIELDMAP_GetFieldPlayer(fieldMap);
         {
             VecFx32 pos = {0, 0, 0};
-            Gimmick41Flight *flight = &gGimmick41Flights[work->cannonIndex][GIMMICK41_FacingToRingIndex(work->facing)];
+            Gimmick41Flight *flight = &gGimmick41Flights[work->cannonIndex][FIELD_GIMMICK_CANNONS_FacingToRingIndex(work->facing)];
             pos.x = (flight->landX << 16) + 0x8000;
             pos.y = flight->landY << 16;
             pos.z = (flight->landZ << 16) + 0x8000;
@@ -467,7 +467,7 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
         FLDMMDL_ClearStatusBit(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 0x200);
         ICA_ANIME_Delete(work->flightAnime);
         cannonIndex = work->cannonIndex;
-        endAnimeSlot = GIMMICK41_GetFirstAnimeSlot(GIMMICK41_GetCannonDirection(work->facing, cannonIndex));
+        endAnimeSlot = FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(FIELD_GIMMICK_CANNONS_GetCannonDirection(work->facing, cannonIndex));
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, (u16)cannonIndex, (u16)endAnimeSlot, 0);
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, (u16)cannonIndex, (u16)(endAnimeSlot + 1), 0);
         FIELD_CAMERA_RestartDelay(camera);
@@ -523,7 +523,7 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
             work->cameraArrived = 1;
         }
         cannonRow = work->cannonIndex;
-        cameraInfoIndex = gGimmick41Flights[cannonRow][GIMMICK41_FacingToRingIndex(work->facing)].cameraInfoIndex;
+        cameraInfoIndex = gGimmick41Flights[cannonRow][FIELD_GIMMICK_CANNONS_FacingToRingIndex(work->facing)].cameraInfoIndex;
         tailPlayerMmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
         if (work->frame == work->frameCount - 1 - gGimmick41LandSeFramesBeforeEnd[cameraInfoIndex] && cameraInfoIndex != 11) {
             FLDMMDL_ClearMoveBit(tailPlayerMmdl, 0x8000);
@@ -540,17 +540,17 @@ int GIMMICK41_EventLaunch(struct GameEvent *event, int *seq, void *eventWork)
         work->frame += 1;
         if (work->frame >= work->frameCount)
             work->flying = 0;
-        GIMMICK41_UpdateBounce(&work->bounce, camera);
+        FIELD_GIMMICK_CANNONS_UpdateBounce(&work->bounce, camera);
     }
     return 0;
 }
 
-/* Find the cannon whose cell is (cellX, cellZ); GIMMICK41_CANNON_COUNT when none. */
-u8 GIMMICK41_FindCannonAt(int cellX, int cellZ)
+/* Find the cannon whose cell is (cellX, cellZ); FIELD_GIMMICK_CANNONS_CANNON_COUNT when none. */
+u8 FIELD_GIMMICK_CANNONS_FindCannonAt(int cellX, int cellZ)
 {
     u8 i;
 
-    for (i = 0; i < GIMMICK41_CANNON_COUNT; i++) {
+    for (i = 0; i < FIELD_GIMMICK_CANNONS_CANNON_COUNT; i++) {
         if (cellX == gGimmick41CannonCells[i].x && cellZ == gGimmick41CannonCells[i].z) {
             return i;
         }
@@ -559,10 +559,10 @@ u8 GIMMICK41_FindCannonAt(int cellX, int cellZ)
 }
 
 /*
- * An unlabelled leaf (no lr save) next to GIMMICK41_FacingToRingIndex: the first animation
- * slot of a direction (two slots per direction). Callee of GIMMICK41_EventLaunch.
+ * An unlabelled leaf (no lr save) next to FIELD_GIMMICK_CANNONS_FacingToRingIndex: the first animation
+ * slot of a direction (two slots per direction). Callee of FIELD_GIMMICK_CANNONS_EventLaunch.
  */
-u16 GIMMICK41_GetFirstAnimeSlot(int direction)
+u16 FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot(int direction)
 {
     switch (direction) {
     case 0: return 0;
@@ -574,7 +574,7 @@ u16 GIMMICK41_GetFirstAnimeSlot(int direction)
 }
 
 /* Player facing (0 up, 1 down, 2 left, 3 right) to the index in the direction ring. */
-int GIMMICK41_FacingToRingIndex(int facing)
+int FIELD_GIMMICK_CANNONS_FacingToRingIndex(int facing)
 {
     switch (facing) {
     case 0: return 0;
@@ -586,13 +586,13 @@ int GIMMICK41_FacingToRingIndex(int facing)
 }
 
 /* Turn a ring direction by a number of quarter turns. */
-int GIMMICK41_TurnRingDirection(int direction, int turns)
+int FIELD_GIMMICK_CANNONS_TurnRingDirection(int direction, int turns)
 {
-    Gimmick41DirTable ring = d_021F4080;
+    Gimmick41DirTable ring = gGimmick41DirectionRing;
     u8 i;
     u8 turned;
 
-    for (i = 0; i < GIMMICK41_DIRECTION_COUNT; i++) {
+    for (i = 0; i < FIELD_GIMMICK_CANNONS_DIRECTION_COUNT; i++) {
         if (ring.direction[i] == direction) {
             turned = (i + turns) % 4;
             return ring.direction[turned];
@@ -602,22 +602,22 @@ int GIMMICK41_TurnRingDirection(int direction, int turns)
 }
 
 /* The direction of a cannon as the player sees it: facing turned by the cannon rotation. */
-int GIMMICK41_GetCannonDirection(unsigned int facing, int cannonIndex)
+int FIELD_GIMMICK_CANNONS_GetCannonDirection(unsigned int facing, int cannonIndex)
 {
-    return GIMMICK41_TurnRingDirection(GIMMICK41_FacingToRingIndex(facing), gGimmick41CannonQuarterTurns[cannonIndex]);
+    return FIELD_GIMMICK_CANNONS_TurnRingDirection(FIELD_GIMMICK_CANNONS_FacingToRingIndex(facing), gGimmick41CannonQuarterTurns[cannonIndex]);
 }
 
 /* Start the camera bounce. */
-void GIMMICK41_StartBounce(Gimmick41Work *work)
+void FIELD_GIMMICK_CANNONS_StartBounce(Gimmick41Work *work)
 {
-    GIMMICK41_ResetBounce(&work->bounce);
+    FIELD_GIMMICK_CANNONS_ResetBounce(&work->bounce);
     work->bounce.active = 1;
 }
 
 /*
  * extent: 18 bytes of code followed by two zero alignment bytes.
  */
-void GIMMICK41_ResetBounce(Gimmick41Bounce *bounce)
+void FIELD_GIMMICK_CANNONS_ResetBounce(Gimmick41Bounce *bounce)
 {
     bounce->active = 0;
     bounce->finished = 0;
@@ -629,7 +629,7 @@ void GIMMICK41_ResetBounce(Gimmick41Bounce *bounce)
 }
 
 /* One step of the camera bounce: raise the camera eye a half unit, then lower it, twice. */
-void GIMMICK41_UpdateBounce(Gimmick41Bounce *bounce, struct FieldCamera *camera)
+void FIELD_GIMMICK_CANNONS_UpdateBounce(Gimmick41Bounce *bounce, struct FieldCamera *camera)
 {
     int step;
     VecFx32 eye;

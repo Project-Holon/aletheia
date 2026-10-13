@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_EventReturnDoor
+ * function: FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor
  * address:  0x021F3DFC
  * packet:   pkt_ov038_021F3DFC
  * region:   ov038
@@ -59,7 +59,7 @@ struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 
-int GIMMICK38_EventReturnDoor(int a0, int *a1)
+int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(int a0, int *a1)
 {
     void *sys;
     int h;

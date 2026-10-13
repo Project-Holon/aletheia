@@ -12,7 +12,7 @@
  * symbols:
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   GIMMICK64_ShowArcModelAt  0x021F3A44  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt  0x021F3A44  thumb  ov064
  * Addresses are Black-image addresses.
  */
 
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
-extern void GIMMICK64_ShowArcModelAt(void *a, int *v);
+extern void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *a, int *v);
 
 u32 SCRCMD_SetEffectPosition(u32 a, u32 b)
 {
@@ -37,6 +37,6 @@ u32 SCRCMD_SetEffectPosition(u32 a, u32 b)
     v[0] = (r6 << 16) + 0x8000;
     v[1] = r7 << 15;
     v[2] = (z << 16) + 0x8000;
-    GIMMICK64_ShowArcModelAt(s0, v);
+    FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(s0, v);
     return 0;
 }

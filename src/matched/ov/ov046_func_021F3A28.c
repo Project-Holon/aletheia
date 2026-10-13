@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_Update
+ * function: FIELD_GIMMICK_ROTATING_ROOM_Update
  * address:  0x021F3A28
  * packet:   pkt_ov046_021F3A28
  * region:   ov046
@@ -19,8 +19,8 @@
  *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   GIMMICK46_IsPosInside  0x021F40D8  thumb  ov046
- *   GIMMICK46_SetExteriorHidden  0x021F3FA8  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_IsPosInside  0x021F40D8  thumb  ov046
+ *   FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden  0x021F3FA8  thumb  ov046
  */
 
 typedef unsigned int u32;
@@ -40,10 +40,10 @@ struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
-extern int GIMMICK46_IsPosInside(int *);
-extern void GIMMICK46_SetExteriorHidden(char *a, u32 b, u32 c);
+extern int FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(int *);
+extern void FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(char *a, u32 b, u32 c);
 
-void GIMMICK46_Update(void *a)
+void FIELD_GIMMICK_ROTATING_ROOM_Update(void *a)
 {
     int v[3];
     u32 r7 = FIELDMAP_GetExpObj(a);
@@ -53,10 +53,10 @@ void GIMMICK46_Update(void *a)
     GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a))), 10);
     FLD_EXP_OBJ_UpdateAnimes(r7);
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((void *)a), (struct VecFx32 *)v);
-    if (GIMMICK46_IsPosInside(v) == 0)
+    if (FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(v) == 0)
         r4 = 0;
     if (r6[9] != r4) {
-        GIMMICK46_SetExteriorHidden((char *)r7, (u32)a, r4);
+        FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden((char *)r7, (u32)a, r4);
         r6[9] = r4;
     }
 }

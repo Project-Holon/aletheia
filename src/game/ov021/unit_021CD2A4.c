@@ -31,7 +31,7 @@
  *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   abs_id_C2      0x000000C2  data
- *   d_021F5580     0x021F5580  data  ov194  a4
+ *   gNameInProcData     0x021F5580  data  ov194  a4
  *   func_0200C1F8  0x0200C1F8  thumb
  *   GAME_BEACON_UpdateGreeting  0x02027198  thumb
  *   func_0200C210  0x0200C210  thumb
@@ -107,7 +107,7 @@ void EVENT_NAMEIN_StoreResult(NameInEvent *work, NameInParam *param);
 
 /* Maximum name length per mode 5..7. */
 extern const u8 d_021DB44C[];
-extern char d_021F5580;
+extern char gNameInProcData;
 extern unsigned char abs_id_C2[];
 
 /*
@@ -158,7 +158,7 @@ int EVENT_NAMEIN_Main(struct Evt *event, int *seq, NameInEvent *work)
 
     switch (*seq) {
     case 0:
-        proc = (int)FIELD_STATUS_CreateSubProcEvent(work->gsys, (int)work->fieldmap, (int)abs_id_C2, (int)(&d_021F5580), (int)&work->param);
+        proc = (int)FIELD_STATUS_CreateSubProcEvent(work->gsys, (int)work->fieldmap, (int)abs_id_C2, (int)(&gNameInProcData), (int)&work->param);
         GAME_EVENT_CallEvent(event, (struct Evt **)proc);
         (*seq)++;
         break;

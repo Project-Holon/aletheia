@@ -1,5 +1,5 @@
 /*
- * function: func_021E798C
+ * function: HAND_WAZA_AddWonderRoom
  * address: 0x021E798C
  * packet: pkt_ov093_021E798C
  * region: ov093
@@ -15,7 +15,7 @@
  *   d_021F269C 0x021F269C data ov093 a4
  */
 
-int *func_021E798C(int *p);
+int *HAND_WAZA_AddWonderRoom(int *p);
 
 /*
  * BTLV_CORE_MakeSlotKind2Index returns a one-word struct: that is the `push {r3,..}; sub sp, #4`
@@ -23,7 +23,7 @@ int *func_021E798C(int *p);
  */
 extern int d_021F269C[];
 
-int *func_021E798C(int *p)
+int *HAND_WAZA_AddWonderRoom(int *p)
 {
     *p = 1;
     return d_021F269C;

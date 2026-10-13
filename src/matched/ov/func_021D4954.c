@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_NET_AllocRelayedPlayerInfoBuf   0x021D4954  thumb ov093
  *   FIELD_GIMMICK_D06_AttachStone   0x021F3B88  data
- *   FIELD_GIMMICK_GATE_IsSaveBlockListOn   0x021F3A98  data
+ *   gBtlNetSourceName   0x021F3A98  data
  *   func_02030734   0x02030734  arm
  *
  * Read the 0x7fff-wide field at +4 of the structure the global pointer

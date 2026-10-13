@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK58_PlaceLaneTrains
+ * function: FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains
  * address:  0x021F391C
  * packet:   pkt_ov058_021F391C
  * region:   ov058
@@ -44,7 +44,7 @@ extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 extern void  FLD_EXP_OBJ_SetModelCullDraw(void *p, int i, u16 j, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
 
-void GIMMICK58_PlaceLaneTrains(void *unused, void *a, int i, int j)
+void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(void *unused, void *a, int i, int j)
 {
     void *s;
     V *e;

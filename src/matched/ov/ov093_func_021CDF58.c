@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EAA00  0x021EAA00  thumb  ov093
+ *   BTLV_CORE_InitInputWork  0x021EAA00  thumb  ov093
  *   BTL_CLIENT_StartTimeLimit  0x021CE068  thumb  ov093
  *   BTL_CLIENT_PollTimeLimitReady  0x021CE08C  thumb  ov093
- *   func_021EAA5C  0x021EAA5C  thumb  ov093
- *   func_021EAA34  0x021EAA34  thumb  ov093
+ *   BTLV_CORE_CancelWindowModeSelect  0x021EAA5C  thumb  ov093
+ *   BTLV_CORE_PollWindowModeSelect  0x021EAA34  thumb  ov093
  *   BTL_CLIENT_PickWindowMode  0x021CDFE4  thumb  ov093
  *   BTL_CLIENT_StopTimeLimit  0x021CE0E0  thumb  ov093
  */
@@ -22,11 +22,11 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021EAA00(u8 *p, u8 v);
+extern void BTLV_CORE_InitInputWork(u8 *p, u8 v);
 extern void BTL_CLIENT_StartTimeLimit(u8 *p);
 extern int BTL_CLIENT_PollTimeLimitReady(u8 *p);
-extern void func_021EAA5C(u8 *o);
-extern int func_021EAA34(u8 *o, u8 *out);
+extern void BTLV_CORE_CancelWindowModeSelect(u8 *o);
+extern int BTLV_CORE_PollWindowModeSelect(u8 *o, u8 *out);
 extern u32 BTL_CLIENT_PickWindowMode(u32 mode);
 extern void BTL_CLIENT_StopTimeLimit(u8 *p);
 
@@ -36,15 +36,15 @@ int BTL_CLIENT_StepWindowModeSelect(u8 *p, int *st)
 
     switch (*st) {
     case 0:
-        func_021EAA00(((struct Obj01892 *)p)->f54, p[0xc4]);
+        BTLV_CORE_InitInputWork(((struct Obj01892 *)p)->f54, p[0xc4]);
         BTL_CLIENT_StartTimeLimit(p);
         *st = *st + 1;
         break;
     case 1:
         if (BTL_CLIENT_PollTimeLimitReady(p) != 0) {
-            func_021EAA5C(((struct Obj01892 *)p)->f54);
+            BTLV_CORE_CancelWindowModeSelect(((struct Obj01892 *)p)->f54);
             *st = 2;
-        } else if (func_021EAA34(((struct Obj01892 *)p)->f54, &buf) != 0) {
+        } else if (BTLV_CORE_PollWindowModeSelect(((struct Obj01892 *)p)->f54, &buf) != 0) {
             p[0xc4] = buf;
             *st = 3;
         }

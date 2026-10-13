@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK40_EventPlayAnime
+ * function: FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime
  * address:  0x021F381C
  * packet:   pkt_ov040_021F381C
  * region:   ov040
@@ -48,7 +48,7 @@ extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 
-int GIMMICK40_EventPlayAnime(void *a, int *st)
+int FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime(void *a, int *st)
 {
     void *s;
     u32 t;

@@ -1,5 +1,5 @@
 /*
- * function: func_02209744
+ * function: BTLV_TIMER_TickTask
  * address:  0x02209744
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02209744   0x02209744  thumb
- *   func_02209540 0x02209540 thumb ov094
+ *   BTLV_TIMER_TickTask   0x02209744  thumb
+ *   BTLV_TIMER_Redraw 0x02209540 thumb ov094
 
  *
  * lane O10 candidate
  */
 
 struct Timer;
-extern void func_02209540(struct Timer *p, int idx);
+extern void BTLV_TIMER_Redraw(struct Timer *p, int idx);
 
-void func_02209744(int unused, int x)
+void BTLV_TIMER_TickTask(int unused, int x)
 {
-    func_02209540((struct Timer *)x, 0);
-    func_02209540((struct Timer *)x, 1);
+    BTLV_TIMER_Redraw((struct Timer *)x, 0);
+    BTLV_TIMER_Redraw((struct Timer *)x, 1);
 }
 

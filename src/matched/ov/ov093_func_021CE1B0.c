@@ -13,8 +13,8 @@
  *   func_021D3F54 0x021D3F54 thumb ov093
  *   func_021D3FD0 0x021D3FD0 thumb ov093
  *   func_021EAF18 0x021EAF18 thumb ov093
- *   func_021EA614 0x021EA614 thumb ov093
- *   func_021EA710 0x021EA710 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
+ *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
  */
 #include "../include/Obj01893.h"
 typedef unsigned char u8;
@@ -29,8 +29,8 @@ typedef unsigned short u16;
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
 struct H;
-extern void func_021EA614(char *p, struct H *h);
-extern int func_021EA710(u32 *p);
+extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
+extern int BTLV_CORE_WaitMessage(u32 *p);
 int BTL_CLIENT_StepPlaybackRecordedAction(u8 *p,int *state)
 {
     u8 count;
@@ -50,7 +50,7 @@ int BTL_CLIENT_StepPlaybackRecordedAction(u8 *p,int *state)
             func_021D3FD0(p+0x18);
             if (((struct Obj01893 *)p)->f54) {
                 func_021EAF18((struct L *)(p+0x58),1,0xb7);
-                func_021EA614(((struct Obj01893 *)p)->f54,(struct H *)(p+0x58));
+                BTLV_CORE_BuildAndPrintMessage(((struct Obj01893 *)p)->f54,(struct H *)(p+0x58));
                 (*state)++;
             } else {
                 BTL_CLIENT_ResetActionCursor(p);
@@ -62,7 +62,7 @@ int BTL_CLIENT_StepPlaybackRecordedAction(u8 *p,int *state)
             func_021D3FD0(p+0x18);
             if (((struct Obj01893 *)p)->f54) {
                 func_021EAF18((struct L *)(p+0x58),1,0xb8);
-                func_021EA614(((struct Obj01893 *)p)->f54,(struct H *)(p+0x58));
+                BTLV_CORE_BuildAndPrintMessage(((struct Obj01893 *)p)->f54,(struct H *)(p+0x58));
                 *state += 2;
             } else {
                 BTL_CLIENT_ResetActionCursor(p);
@@ -71,14 +71,14 @@ int BTL_CLIENT_StepPlaybackRecordedAction(u8 *p,int *state)
         } else return 1;
         break;
     case 1:
-        if (func_021EA710(((struct Obj01893 *)p)->f54)) {
+        if (BTLV_CORE_WaitMessage(((struct Obj01893 *)p)->f54)) {
             BTL_CLIENT_ResetActionCursor(p);
             p[0x1b2] |= 0x10;
             return 1;
         }
         break;
     case 2:
-        if (func_021EA710(((struct Obj01893 *)p)->f54)) {
+        if (BTLV_CORE_WaitMessage(((struct Obj01893 *)p)->f54)) {
             BTL_CLIENT_ResetActionCursor(p);
             return 1;
         }

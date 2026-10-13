@@ -1,5 +1,5 @@
 /*
- * function: func_02209214
+ * function: BTLV_B_GAUGE_PartyBallBarTaskDeleted
  * address:  0x02209214
  * packet:   pkt_ov094_02209214
  * region:   ov094
@@ -16,7 +16,7 @@
 typedef struct { char pad[0xd8]; int fd8; } W;
 extern W **TCBL_IsDeletePending(void *h);
 
-void func_02209214(void *h)
+void BTLV_B_GAUGE_PartyBallBarTaskDeleted(void *h)
 {
     (*TCBL_IsDeletePending(h))->fd8 = 0;
 }

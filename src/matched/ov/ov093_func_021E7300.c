@@ -1,5 +1,5 @@
 /*
- * function: func_021E7300
+ * function: HAND_WAZA_FoulPlayUseTargetAttack
  * address:  0x021E7300
  * packet:   pkt_ov093_021E7300
  * region:   ov093
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E7300(int a, int b, int c)
+void HAND_WAZA_FoulPlayUseTargetAttack(int a, int b, int c)
 {
     u8 k;
 

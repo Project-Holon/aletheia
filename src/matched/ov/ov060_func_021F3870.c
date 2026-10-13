@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK60_ToGaugeStep
+ * function: FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep
  * address:  0x021F3870
  * packet:   pkt_ov060_021F3870
  * region:   ov060
@@ -16,7 +16,7 @@
  *   _s32_div_f  0x0209C0A4  arm
  */
 
-int GIMMICK60_ToGaugeStep(int x)
+int FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep(int x)
 {
     int r = x / 3;
 

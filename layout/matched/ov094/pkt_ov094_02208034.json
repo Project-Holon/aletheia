@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02208034",
+   "name": "BTLV_GAUGE_CalcTileFill",
    "address": "0x02208034",
    "kind": "game",
    "region": "ov094",

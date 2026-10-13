@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_SaveAnimeFrames
+ * function: FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames
  * address: 0x021F39D0
  * packet: pkt_ov053_021F39D0
  * region: ov053
@@ -28,7 +28,7 @@ struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern unsigned SOUND_OBJ_GetAnimeFrame(void *);
 
-void GIMMICK53_SaveAnimeFrames(char *a, int b)
+void FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames(char *a, int b)
 {
     int i;
     int *p = (int *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)b))), 1);

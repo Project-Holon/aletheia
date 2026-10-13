@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_ripple.c
  * unit:     yes
- * function: SCRCMD_PLAYER_GRID_EVENT_WaitA, SCRCMD_PLAYER_GRID_EVENT_StartA, SCRCMD_PLAYER_GRID_EVENT_WaitB, SCRCMD_PLAYER_GRID_EVENT_StartB, SCRCMD_IAIGIRI_StartOnPlayer, SCRCMD_SAVEANIME_Start, FIELD_OV063_StartAtPlayer, FIELD_OV063_Start, FIELD_OV063_TaskUpdate, FLDEFF_RIPPLE_Create, FLDEFF_RIPPLE_Delete, FLDEFF_RIPPLE_AddActor, FLDEFF_RIPPLE_RemoveActor, FLDEFF_RIPPLE_Start, FLDEFF_RIPPLE_InitObj, FLDEFF_RIPPLE_ExitObj, FLDEFF_RIPPLE_UpdateObj, FLDEFF_RIPPLE_DrawObj
+ * function: SCRCMD_PLAYER_GRID_EVENT_WaitA, SCRCMD_PLAYER_GRID_EVENT_StartA, SCRCMD_PLAYER_GRID_EVENT_WaitB, SCRCMD_PLAYER_GRID_EVENT_StartB, SCRCMD_IAIGIRI_StartOnPlayer, SCRCMD_SAVEANIME_Start, RAIL_SLIPDOWN_StartAtPlayer, RAIL_SLIPDOWN_Start, RAIL_SLIPDOWN_UpdateTask, FLDEFF_RIPPLE_Create, FLDEFF_RIPPLE_Delete, FLDEFF_RIPPLE_AddActor, FLDEFF_RIPPLE_RemoveActor, FLDEFF_RIPPLE_Start, FLDEFF_RIPPLE_InitObj, FLDEFF_RIPPLE_ExitObj, FLDEFF_RIPPLE_UpdateObj, FLDEFF_RIPPLE_DrawObj
  * address:  0x021C457C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -45,10 +45,10 @@
  *   func_020124E8  0x020124E8  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   FIELD_PLAYER_SetDirDisp  0x021A305C  thumb  ov021
- *   func_021F36C0  0x021F36C0  thumb  ov037
+ *   RAIL_SLIPDOWN_Create  0x021F36C0  thumb  ov063
  *   ov063_id       0x0000003F  data
- *   func_021F3758  0x021F3758  thumb  ov063
- *   func_021F376C  0x021F376C  thumb  ov063
+ *   RAIL_SLIPDOWN_Delete  0x021F3758  thumb  ov063
+ *   RAIL_SLIPDOWN_IsDone  0x021F376C  thumb  ov063
  *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
  *   FIELDMAP_GetGroundBbdAct  0x02188C90  thumb  ov021
  *   sFldeffRippleFileName     0x021DE468  data  ov021
@@ -175,10 +175,10 @@ extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(void *p);
 extern int func_02034AC4(int a);
 extern void FIELD_PLAYER_SetDirDisp(void *p, u32 b);
-extern void *func_021F36C0(void *a, u32 b, u32 c, u32 d);
+extern void *RAIL_SLIPDOWN_Create(void *a, u32 b, u32 c, u32 d);
 extern void func_02034A5C(s32 handle);
-extern int func_021F376C(int *p);
-extern void func_021F3758(u8 *p);
+extern int RAIL_SLIPDOWN_IsDone(int *p);
+extern void RAIL_SLIPDOWN_Delete(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
 extern struct BbActSys *FIELDMAP_GetGroundBbdAct(struct FieldMap *fieldMap);
@@ -198,9 +198,9 @@ int SCRCMD_PLAYER_GRID_EVENT_WaitB(void *vm, void *scriptWork);
 u32 SCRCMD_PLAYER_GRID_EVENT_StartB(u32 vm, void *scriptWork);
 int SCRCMD_IAIGIRI_StartOnPlayer(void *vm, void *scriptWork);
 int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork);
-u32 FIELD_OV063_StartAtPlayer(u32 a, u32 b, u32 c);
-void *FIELD_OV063_Start(void *a, u32 b, u32 c);
-int FIELD_OV063_TaskUpdate(void *task);
+u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c);
+void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c);
+int RAIL_SLIPDOWN_UpdateTask(void *task);
 RippleWork *FLDEFF_RIPPLE_Create(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_RIPPLE_Delete(u32 unused, RippleWork *work);
 void FLDEFF_RIPPLE_AddActor(RippleWork *work);
@@ -344,9 +344,9 @@ int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork)
  * Starts the ov063 effect for the player's grid event with the player's
  * data and spawns the task that drives it.
  */
-u32 FIELD_OV063_StartAtPlayer(u32 a, u32 b, u32 c)
+u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
 {
-    u32 task = (u32)func_020122C0((void *)a, 0, FIELD_OV063_TaskUpdate, 4);
+    u32 task = (u32)func_020122C0((void *)a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
     u32 *effectSlot = func_020124E8((void *)task);
     void *fieldMap;
     void *player;
@@ -355,20 +355,20 @@ u32 FIELD_OV063_StartAtPlayer(u32 a, u32 b, u32 c)
     fieldMap = FIELDMAP_GetFieldPlayer((void *)b);
     player = FIELD_PLAYER_GetMmdl((void *)fieldMap);
     FIELD_PLAYER_SetDirDisp(fieldMap, c);
-    *effectSlot = (u32)func_021F36C0((void *)a, b, (u32)player, 1);
+    *effectSlot = (u32)RAIL_SLIPDOWN_Create((void *)a, b, (u32)player, 1);
     return task;
 }
 
 /*
  * Loads ov063 and spawns the task that drives its effect.
  */
-void *FIELD_OV063_Start(void *a, u32 b, u32 c)
+void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c)
 {
-    void *task = func_020122C0(a, 0, FIELD_OV063_TaskUpdate, 4);
+    void *task = func_020122C0(a, 0, RAIL_SLIPDOWN_UpdateTask, 4);
     void **effectSlot = func_020124E8(task);
 
     func_02034AC4((u32)ov063_id);
-    *effectSlot = func_021F36C0(a, b, c, 0);
+    *effectSlot = RAIL_SLIPDOWN_Create(a, b, c, 0);
     return task;
 }
 
@@ -376,12 +376,12 @@ void *FIELD_OV063_Start(void *a, u32 b, u32 c)
  * Task callback: when the ov063 effect reports done, frees it and unloads
  * ov063.
  */
-int FIELD_OV063_TaskUpdate(void *task)
+int RAIL_SLIPDOWN_UpdateTask(void *task)
 {
     void **effectSlot = func_020124E8(task);
 
-    if (func_021F376C(*effectSlot) != 0) {
-        func_021F3758(*effectSlot);
+    if (RAIL_SLIPDOWN_IsDone(*effectSlot) != 0) {
+        RAIL_SLIPDOWN_Delete(*effectSlot);
         func_02034A5C((u32)ov063_id);
         return 1;
     }

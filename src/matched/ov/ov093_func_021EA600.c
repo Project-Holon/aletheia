@@ -1,5 +1,5 @@
 /*
- * function: func_021EA600
+ * function: BTLV_CORE_PrintMessageBuffer
  * address:  0x021EA600
  * packet:   pkt_ov093_021EA600
  * region:   ov093
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EA730  0x021EA730  thumb  ov093
+ *   BTLV_CORE_StartPrintMessage  0x021EA730  thumb  ov093
  */
 #include "../include/Obj01899.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
+extern void BTLV_CORE_StartPrintMessage(char *p, u32 a, u16 b, u32 c);
 
-void func_021EA600(char *p)
+void BTLV_CORE_PrintMessageBuffer(char *p)
 {
-    func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
+    BTLV_CORE_StartPrintMessage(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }

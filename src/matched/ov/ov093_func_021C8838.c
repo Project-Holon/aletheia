@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Named by the parked ov093 files (HAND_ITEM_DestinyKnot_Infatuate / HAND_ITEM_RockyHelmetDamageReaction /
- * func_021E7388).  Low byte of the +2 halfword <- (u8)a; +0 halfword <- b;
+ * HAND_WAZA_SimpleBeamSetAbility).  Low byte of the +2 halfword <- (u8)a; +0 halfword <- b;
  * then bits 8..14 of the +2 halfword are cleared.  `(u8)(u16)a` and the
  * `(int)` cast before `~0x7F00` are both load-bearing: the first gives the
  * double narrowing, the second keeps the mask sign-extended (0xFFFF80FF) so

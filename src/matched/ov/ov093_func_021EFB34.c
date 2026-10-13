@@ -1,5 +1,5 @@
 /*
- * function: func_021EFB34
+ * function: BTL_FIELD_RemoveHolderFromSlots
  * address: 0x021EFB34
  * packet: pkt_ov093_021EFB34
  * region: ov093
@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: unsigned long outer index closes register rotation and missing base spill.
  * symbols:
- *   func_021EFCE4 0x021EFCE4 thumb ov093
+ *   BTL_FIELD_IsSlotInUse 0x021EFCE4 thumb ov093
  *   func_021EFC0C 0x021EFC0C thumb ov093
  *   BTL_FIELD_ResetSlot 0x021EF83C thumb ov093
  *   BTLV_CORE_GetSlotPosition 0x021E8A98 thumb ov093
@@ -27,19 +27,19 @@ typedef struct {
     u32 z128[8];
     u32 used[8];
 } S;
-extern void *func_021EFCE4(char *, int);
+extern void *BTL_FIELD_IsSlotInUse(char *, int);
 extern void func_021EFC0C(u32);
 extern void BTL_FIELD_ResetSlot(char *, u32);
 extern u32 BTLV_CORE_GetSlotPosition(Slot);
 union Slot;
 extern void BTLV_CORE_SetSlotPosition(union Slot *p, u8 v);
-void func_021EFB34(S *a, u32 v)
+void BTL_FIELD_RemoveHolderFromSlots(S *a, u32 v)
 {
     unsigned long i;
     u32 j;
     int found;
     for (i = 0; i < 8; i++) {
-        if (func_021EFCE4((char *)a, i) && a->z128[i]) {
+        if (BTL_FIELD_IsSlotInUse((char *)a, i) && a->z128[i]) {
             found = 0;
             for (j = 0; j < a->z128[i]; j++) {
                 if (v == a->w[i][j]) { found = 1; break; }

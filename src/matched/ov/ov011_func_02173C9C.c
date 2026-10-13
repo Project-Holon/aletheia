@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_COMM_RecvRemoteRecord
+ * function: DWCi_GetAIDBitmask
  * address: 0x02173C9C
  * packet: pkt_ov011_02173C9C
  * region: ov011
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 w[4]; } Rec16_02173C9C;
 
-void INTRUDE_COMM_RecvRemoteRecord(int a, int b, Rec16_02173C9C *src, u8 *p)
+void DWCi_GetAIDBitmask(int a, int b, Rec16_02173C9C *src, u8 *p)
 {
     *(Rec16_02173C9C *)(p + 0x914) = *src;
 }

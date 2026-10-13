@@ -19,8 +19,8 @@
  *   func_021F6EC0 0x021F6EC0 thumb ov094
  *   func_02201AC4 0x02201AC4 thumb ov094
  *   func_02206E28 0x02206E28 thumb ov094
- *   func_022092E8 0x022092E8 thumb ov094
- *   func_0220977C 0x0220977C thumb ov094
+ *   BTLV_TIMER_Delete 0x022092E8 thumb ov094
+ *   BTLV_BG_Delete 0x0220977C thumb ov094
  *   PARTICLE_ExitManager 0x02050ED4 arm
  *   func_021F94D8 0x021F94D8 thumb ov094
  *   func_02030EAC 0x02030EAC arm
@@ -42,8 +42,8 @@ extern void func_021F6CF0(void *);
 extern void func_021F6EC0(void **p);
 extern void func_02201AC4(struct Res *r);
 extern void func_02206E28(char *p);
-extern void func_022092E8(void *);
-extern void func_0220977C(void *);
+extern void BTLV_TIMER_Delete(void *);
+extern void BTLV_BG_Delete(void *);
 extern void PARTICLE_ExitManager(void);
 extern void func_021F94D8(void *);
 extern void func_02030EAC(struct Node *n);
@@ -67,8 +67,8 @@ void func_021F7808(void)
         func_021F6EC0(FIELD(0x19c));
         func_02201AC4(FIELD(0x1a0));
         func_02206E28(FIELD(0x1a4));
-        func_022092E8(FIELD(0x1b0));
-        func_0220977C(FIELD(0x1b4));
+        BTLV_TIMER_Delete(FIELD(0x1b0));
+        BTLV_BG_Delete(FIELD(0x1b4));
         PARTICLE_ExitManager();
         func_021F94D8(FIELD(0x188));
         func_02030EAC(FIELD(0x1b8));

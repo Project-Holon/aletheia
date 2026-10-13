@@ -10,7 +10,7 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  *   TOUCHBAR_SetAllButtonsPriority 0x021B6520 thumb ov067
  *   d_021E7C0C 0x021E7C0C data a4
  */
@@ -24,7 +24,7 @@ extern const Template d_021E7C0C;
 extern void MI_CpuFill8(void *, int, int);
 extern void *TOUCHBAR_Create(Config *, int);
 typedef unsigned char  u8;
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 extern void TOUCHBAR_SetAllButtonsPriority(u8 *p, u32 v);
 void func_021E3C20(char *p)
 {
@@ -55,7 +55,7 @@ void func_021E3C20(char *p)
     t.e[3].fE = 22; t.e[3].f10 = 21; t.e[3].f12 = 20;
     t.e[3].f18 = 48; t.e[3].f1C = 0x54C;
     ((struct Obj00252 *)p)->f9C0 = TOUCHBAR_Create(&c, ((struct Obj00252 *)p)->f5F4);
-    func_021B6558(((struct Obj00252 *)p)->f9C0, 9, 0);
-    func_021B6558(((struct Obj00252 *)p)->f9C0, 8, 0);
+    TOUCHBAR_SetButtonVisible(((struct Obj00252 *)p)->f9C0, 9, 0);
+    TOUCHBAR_SetButtonVisible(((struct Obj00252 *)p)->f9C0, 8, 0);
     TOUCHBAR_SetAllButtonsPriority(((struct Obj00252 *)p)->f9C0, 2);
 }

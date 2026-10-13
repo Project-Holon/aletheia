@@ -1,5 +1,5 @@
 /*
- * function: func_021ED450
+ * function: BTLV_SCU_IsMonSendOutDone
  * address:  0x021ED450
  * packet:   pkt_021ED450
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ED450   0x021ED450  thumb
+ *   BTLV_SCU_IsMonSendOutDone   0x021ED450  thumb
  *
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: adds r0, #0x41; ldrb r0, [r0]; cmp r0, #0; bne loc_021ED45C; movs r0, #1; bx lr; movs r0, #0; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021ED450  adds r0,#0x41; ldrb; cmp #0; bne ->0 else 1 */
-int func_021ED450(u8 *p) { return ((struct Obj18521 *)p)->f41 == 0; }
+int BTLV_SCU_IsMonSendOutDone(u8 *p) { return ((struct Obj18521 *)p)->f41 == 0; }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021E74D8
+ * function: HAND_WAZA_AddClearSmog
  * address: 0x021E74D8
  * packet: pkt_ov093_021E74D8
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F24E4[];
-int *func_021E74D8(int *p);
+int *HAND_WAZA_AddClearSmog(int *p);
 
-int *func_021E74D8(int *p)
+int *HAND_WAZA_AddClearSmog(int *p)
 {
     *p = 1;
     return d_021F24E4;

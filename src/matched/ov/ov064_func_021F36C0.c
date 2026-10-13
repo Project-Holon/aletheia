@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_ARC_EFFECT_Init
  * address:  0x021F36C0
  * packet:   pkt_ov064_021F36C0
  * region:   ov064
@@ -42,7 +42,7 @@ extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(int a, int b, int c, u16 d, int e);
 
-void func_021F36C0(int a)
+void FIELD_GIMMICK_ARC_EFFECT_Init(int a)
 {
     int s;
     int *o;

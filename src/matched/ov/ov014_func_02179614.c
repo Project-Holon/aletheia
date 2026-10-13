@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   g_021797A8 0x021797A8 data ov014 a4
+ *   gWihWork 0x021797A8 data ov014 a4
  */
 typedef unsigned char u8;
-extern u8 *g_021797A8;
-unsigned short WIH_GetBeaconSendCount(void) { return *(unsigned short *)(g_021797A8 + 0x1EBA); }
+extern u8 *gWihWork;
+unsigned short WIH_GetBeaconSendCount(void) { return *(unsigned short *)(gWihWork + 0x1EBA); }

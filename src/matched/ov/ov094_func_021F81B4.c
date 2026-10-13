@@ -11,15 +11,15 @@
  *
  * symbols:
  *   d_0220AF20     0x0220AF20  data   ov094  a4
- *   func_02207D04  0x02207D04  thumb  ov094
+ *   BTLV_GAUGE_SetSlotVisible  0x02207D04  thumb  ov094
  */
 typedef unsigned int u32;
 
 extern char *d_0220AF20;
 struct O;
-extern void func_02207D04(struct O *obj, int a, int idx);
+extern void BTLV_GAUGE_SetSlotVisible(struct O *obj, int a, int idx);
 
 void func_021F81B4(u32 a, u32 b)
 {
-    func_02207D04((struct O *)(*(u32 *)(d_0220AF20 + 0x1A4)), a, b);
+    BTLV_GAUGE_SetSlotVisible((struct O *)(*(u32 *)(d_0220AF20 + 0x1A4)), a, b);
 }

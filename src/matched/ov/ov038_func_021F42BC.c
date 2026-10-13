@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_EventPressPlate
+ * function: FIELD_GIMMICK_PLATE_DOORS_EventPressPlate
  * address:  0x021F42BC
  * packet:   pkt_ov038_021F42BC
  * region:   ov038
@@ -73,7 +73,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern const s8 gGimmick38PlatePrerequisite[];
 extern const u8 gGimmick38PlateDoor[];
 
-int GIMMICK38_EventPressPlate(int a0, int *a1)
+int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(int a0, int *a1)
 {
     void *sys;
     int h;

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "TOUCHBAR_SetButtonActorPriority",
-    "func_021B6A1C"
+    "TOUCHBAR_SetButtonActorBgPriority"
    ],
    "addresses": [
     "0x021B6A10",

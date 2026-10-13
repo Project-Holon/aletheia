@@ -12,19 +12,19 @@
  * symbols:
  *   func_021F86B4  0x021F86B4  thumb  ov094
  *   func_021F8694  0x021F8694  thumb  ov094
- *   func_02207D78  0x02207D78  thumb  ov094
+ *   BTLV_GAUGE_TakeSlotEvent  0x02207D78  thumb  ov094
  *   func_022005C4  0x022005C4  thumb  ov094
  */
 #include "../include/Obj10159.h"
 
 extern int func_021F86B4(void);
 extern int func_021F8694(void);
-extern int func_02207D78(char *p, int i);
+extern int BTLV_GAUGE_TakeSlotEvent(char *p, int i);
 extern int func_022005C4(void *w, int key);
 
 void func_0220680C(char *p)
 {
-    int a = func_02207D78((char *)func_021F86B4(), ((struct Obj10159 *)p)->f278);
+    int a = BTLV_GAUGE_TakeSlotEvent((char *)func_021F86B4(), ((struct Obj10159 *)p)->f278);
     int b = func_022005C4((void *)func_021F8694(), ((struct Obj10159 *)p)->f278);
     int i;
 

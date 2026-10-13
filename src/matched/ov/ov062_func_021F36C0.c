@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_62_Init
  * address:  0x021F36C0
  * packet:   pkt_ov062_021F36C0
  * region:   ov062
@@ -50,7 +50,7 @@ extern void FLD_EXP_OBJ_SetModelCullDraw(char *p, int i, int j, int v);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 
-void func_021F36C0(int a)
+void FIELD_GIMMICK_62_Init(int a)
 {
     int *q;
     int s;

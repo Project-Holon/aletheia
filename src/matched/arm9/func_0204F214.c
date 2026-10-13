@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_020A8144      0x020A8144  data
- *   g_020A814C      0x020A814C  data
+ *   NNS_GfdDefaultFuncFreeTexVram      0x020A8144  data
+ *   NNS_GfdDefaultFuncFreePlttVram      0x020A814C  data
  *
  * The unguarded entry teardown: it runs the two function-pointer globals over
  * the entry's +0x20 and +0x24 words unconditionally (their addresses in the
@@ -29,15 +29,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void (*g_020A8144)(u32 v);
-extern void (*g_020A814C)(u32 v);
+extern void (*NNS_GfdDefaultFuncFreeTexVram)(u32 v);
+extern void (*NNS_GfdDefaultFuncFreePlttVram)(u32 v);
 
 void BILLBOARD_ReleaseImageVram(u8 *a0, int i)
 {
     u32 off = i * 0x28;
 
-    g_020A8144(*(u32 *)(((struct Obj06988 *)a0)->f4 + off + 0x20));
-    g_020A814C(*(u32 *)(((struct Obj06988 *)a0)->f4 + off + 0x24));
+    NNS_GfdDefaultFuncFreeTexVram(*(u32 *)(((struct Obj06988 *)a0)->f4 + off + 0x20));
+    NNS_GfdDefaultFuncFreePlttVram(*(u32 *)(((struct Obj06988 *)a0)->f4 + off + 0x24));
     *(u32 *)(((struct Obj06988 *)a0)->f4 + off) = 0;
     *(u32 *)(((struct Obj06988 *)a0)->f4 + off + 0x14) = 5;
 }

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK38_EventBumpDoorSide
+ * function: FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide
  * address:  0x021F3F40
  * packet:   pkt_ov038_021F3F40
  * region:   ov038
@@ -69,7 +69,7 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(int p, int i, int j, int k, int flag);
 extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
-int GIMMICK38_EventBumpDoorSide(int a0, int *a1)
+int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(int a0, int *a1)
 {
     void *sys;
     int h;

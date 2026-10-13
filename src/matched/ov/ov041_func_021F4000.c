@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_UpdateBounce
+ * function: FIELD_GIMMICK_CANNONS_UpdateBounce
  * address:  0x021F4000
  * packet:   pkt_ov041_021F4000
  * region:   ov041
@@ -20,7 +20,7 @@ typedef struct { u32 a, b, c; } Vec3;
 extern void FIELD_CAMERA_GetEyeRaw(u8 *a, Vec3 *out);
 extern void FIELD_CAMERA_SetEyeRaw(u8 *a, const Vec3 *p);
 
-void GIMMICK41_UpdateBounce(u8 *p, u8 *obj)
+void FIELD_GIMMICK_CANNONS_UpdateBounce(u8 *p, u8 *obj)
 {
     int step;
     Vec3 v;

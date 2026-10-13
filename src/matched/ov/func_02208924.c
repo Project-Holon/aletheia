@@ -1,5 +1,5 @@
 /*
- * function: func_02208924
+ * function: BTLV_GAUGE_SetBgmReplaced
  * address:  0x02208924
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02208924   0x02208924  thumb
+ *   BTLV_GAUGE_SetBgmReplaced   0x02208924  thumb
  *
  * lane O10 candidate
  */
@@ -21,7 +21,7 @@ typedef struct {
     unsigned int b : 1;
 } S8924;
 
-void func_02208924(S8924 *p, int v)
+void BTLV_GAUGE_SetBgmReplaced(S8924 *p, int v)
 {
     p->b = v;
 }

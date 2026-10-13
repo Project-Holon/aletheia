@@ -11,7 +11,7 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
- *   func_021B64F8 0x021B64F8 thumb ov067
+ *   TOUCHBAR_SetAllButtonsBgPriority 0x021B64F8 thumb ov067
  *   TOUCHBAR_SetButtonSound 0x021B6568 thumb ov067
  *   d_021BAC20 0x021BAC20 data a4
  */
@@ -23,7 +23,7 @@ typedef struct R R;
 extern const Table d_021BAC20;
 extern void MI_CpuFill8(void *, u32, u32);
 extern R *TOUCHBAR_Create(A *, int);
-extern void func_021B64F8(u8 *, u32);
+extern void TOUCHBAR_SetAllButtonsBgPriority(u8 *, u32);
 extern void TOUCHBAR_SetButtonSound(unsigned char *p, unsigned int id, int v);
 R *func_021B9820(int heap, int id)
 {
@@ -39,7 +39,7 @@ R *func_021B9820(int heap, int id)
     config.f14 = 0;
     config.f18 = 0;
     p = TOUCHBAR_Create(&config, id);
-    func_021B64F8((u8 *)p, 1);
+    TOUCHBAR_SetAllButtonsBgPriority((u8 *)p, 1);
     TOUCHBAR_SetButtonSound((unsigned char *)p, 4, 0);
     TOUCHBAR_SetButtonSound((unsigned char *)p, 5, 0);
     return p;

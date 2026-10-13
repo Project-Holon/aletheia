@@ -11,17 +11,17 @@
  * symbols:
  *   KEY_GetTrg 0x020362DC arm
  *   func_021F8710 0x021F8710 thumb ov094
- *   func_02208D50 0x02208D50 thumb ov094
- *   func_02207F6C 0x02207F6C thumb ov094
- *   func_022082FC 0x022082FC thumb ov094
- *   func_02207E1C 0x02207E1C thumb ov094
+ *   BTLV_GAUGE_SetSlotBarsVisible 0x02208D50 thumb ov094
+ *   BTLV_GAUGE_StepValue 0x02207F6C thumb ov094
+ *   BTLV_GAUGE_DrawBar 0x022082FC thumb ov094
+ *   BTLV_GAUGE_UpdateHpAnim 0x02207E1C thumb ov094
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   func_02207EF0 0x02207EF0 thumb ov094
+ *   BTLV_GAUGE_UpdateExpAnim 0x02207EF0 thumb ov094
  *   GFL_USE_StopAllSe 0x02006210 thumb
- *   func_022086F8 0x022086F8 thumb ov094
- *   func_022087C4 0x022087C4 thumb ov094
+ *   BTLV_GAUGE_UpdateLevelUp 0x022086F8 thumb ov094
+ *   BTLV_GAUGE_BobSlot 0x022087C4 thumb ov094
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_022089D4 0x022089D4 thumb ov094
+ *   BTLV_GAUGE_UpdateLowHpBgm 0x022089D4 thumb ov094
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -43,18 +43,18 @@ typedef struct W {
 typedef struct O O;
 extern u32 KEY_GetTrg(void);
 extern int func_021F8710(void);
-extern void func_02208D50(W *, int, int);
+extern void BTLV_GAUGE_SetSlotBarsVisible(W *, int, int);
 typedef unsigned char  u8;
-extern int func_02207F6C(int n, int target, int delta, int *cur, u8 x, int speed);
-extern void func_022082FC(struct O *o, int idx, int k);
-extern void func_02207E1C(struct O *obj, int idx);
+extern int BTLV_GAUGE_StepValue(int n, int target, int delta, int *cur, u8 x, int speed);
+extern void BTLV_GAUGE_DrawBar(struct O *o, int idx, int k);
+extern void BTLV_GAUGE_UpdateHpAnim(struct O *obj, int idx);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_02207EF0(struct O *obj, int idx);
+extern void BTLV_GAUGE_UpdateExpAnim(struct O *obj, int idx);
 extern void GFL_USE_StopAllSe(void);
-extern void func_022086F8(O *, int);
-extern void func_022087C4(char *, int);
+extern void BTLV_GAUGE_UpdateLevelUp(O *, int);
+extern void BTLV_GAUGE_BobSlot(char *, int);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_022089D4(W *);
+extern void BTLV_GAUGE_UpdateLowHpBgm(W *);
 void func_02206EB4(W *p)
 {
     int mode, i, found;
@@ -74,9 +74,9 @@ void func_02206EB4(W *p)
                 p->flags.b4 ^= 1;
                 for (i = 0; i < 8; i++) {
                     if (!(i & 1) && p->rows[i].b29 == 1 && p->rows[i].b3) {
-                        func_02208D50(p, i, 1);
-                        func_02207F6C(p->rows[i].b, p->rows[i].a, 0, &p->rows[i].f90, 6, 1);
-                        func_022082FC((O *)p, i, 0);
+                        BTLV_GAUGE_SetSlotBarsVisible(p, i, 1);
+                        BTLV_GAUGE_StepValue(p->rows[i].b, p->rows[i].a, 0, &p->rows[i].f90, 6, 1);
+                        BTLV_GAUGE_DrawBar((O *)p, i, 0);
                     }
                 }
             }
@@ -84,11 +84,11 @@ void func_02206EB4(W *p)
     }
     for (i = 0; i < 8; i++) {
         if (p->rows[i].b0)
-            func_02207E1C((O *)p, i);
+            BTLV_GAUGE_UpdateHpAnim((O *)p, i);
         if (p->rows[i].b1) {
             if (p->rows[i].count == 0)
                 GFL_USE_PlaySeDefaultVolume(0x56d);
-            func_02207EF0((O *)p, i);
+            BTLV_GAUGE_UpdateExpAnim((O *)p, i);
         }
         if (p->rows[i].b28) {
             if (p->rows[i].count < 16)
@@ -100,9 +100,9 @@ void func_02206EB4(W *p)
             }
         }
         if (p->rows[i].b2)
-            func_022086F8((O *)p, i);
+            BTLV_GAUGE_UpdateLevelUp((O *)p, i);
         if (p->rows[i].b20)
-            func_022087C4((char *)p, i);
+            BTLV_GAUGE_BobSlot((char *)p, i);
         if (p->rows[i].h != 0 && p->rows[i].b26) {
             if (p->rows[i].flash == 0 || !p->rows[i].b3 || !p->rows[i].b29) {
                 CLACT_SetActorDrawEnable(p->rows[i].h, 0);
@@ -116,5 +116,5 @@ void func_02206EB4(W *p)
         }
     }
     if (!p->flags.b21)
-        func_022089D4(p);
+        BTLV_GAUGE_UpdateLowHpBgm(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK44_ShowIdleAnime
+ * function: FIELD_GIMMICK_LIFT_ShowIdleAnime
  * address:  0x021F392C
  * packet:   pkt_ov044_021F392C
  * region:   ov044
@@ -21,7 +21,7 @@ extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 
-void GIMMICK44_ShowIdleAnime(void *p)
+void FIELD_GIMMICK_LIFT_ShowIdleAnime(void *p)
 {
     FLD_EXP_OBJ_SetAnimeEnabled(p, 0, 0, 1, 1);
     FLD_EXP_OBJ_SetAnimeEnabled(p, 0, 0, 0, 0);

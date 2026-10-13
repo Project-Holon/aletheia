@@ -13,7 +13,7 @@
  *   APP_TASKMENU_WIN_CreateEx 0x0202800C thumb
  *   STRBUF_Delete 0x02045808 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   func_021B6558 0x021B6558 thumb ov067
+ *   TOUCHBAR_SetButtonVisible 0x021B6558 thumb ov067
  */
 #include "../include/Obj02172.h"
 typedef unsigned short u16;
@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 extern u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 void *func_021E2984(char *p,int a) {
     void *t;
     t=STRBUF_Create(100,((struct Obj02172 *)p)->f5F4);
@@ -38,6 +38,6 @@ void *func_021E2984(char *p,int a) {
     ((struct Obj02172 *)p)->f648=APP_TASKMENU_WIN_CreateEx((u32)(((struct Obj02172 *)p)->f6B0),(u32)(p+0x650),8,21,16,3,0,1,((struct Obj02172 *)p)->f5F4);
     STRBUF_Delete(((struct Obj02172 *)p)->f650);
     CLACT_SetActorDrawEnable(((struct Obj02172 *)p)->fF04,0);
-    func_021B6558((unsigned char *)(((struct Obj02172 *)p)->f9C0),8,0);
+    TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj02172 *)p)->f9C0),8,0);
     return ((struct Obj02172 *)p)->f648;
 }

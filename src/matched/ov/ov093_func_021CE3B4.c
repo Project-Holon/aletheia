@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021EA614 0x021EA614 thumb ov093
+ *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  */
 #include "../include/Obj13356.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct H;
-extern void func_021EA614(char *p, struct H *h);
-void BTL_CLIENT_ShowMessage(u8 *p, void *q) { func_021EA614(((struct Obj13356 *)p)->f54,q); p[0x120]=1; }
+extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
+void BTL_CLIENT_ShowMessage(u8 *p, void *q) { BTLV_CORE_BuildAndPrintMessage(((struct Obj13356 *)p)->f54,q); p[0x120]=1; }

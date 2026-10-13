@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK53_Init
+ * function: FIELD_GIMMICK_SOUND_OBJS_Init
  * address:  0x021F36C0
  * packet:   pkt_ov053_021F36C0
  * region:   ov053
@@ -18,8 +18,8 @@
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
- *   GIMMICK53_CreateSoundObjs  0x021F3828  thumb  ov053
- *   GIMMICK53_RestoreAnimeFrames  0x021F3A04  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs  0x021F3828  thumb  ov053
+ *   FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames  0x021F3A04  thumb  ov053
  *   ISS_3DS_SYS_SetVolume  0x0202B914  thumb
  *   sGimmick53UnitSetup     0x021F3D60  data  a4
  */
@@ -40,11 +40,11 @@ extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *p, int v);
 extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
 struct O;
-extern void GIMMICK53_CreateSoundObjs(struct O *o, u32 q);
-extern void GIMMICK53_RestoreAnimeFrames(char *a, int b);
+extern void FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs(struct O *o, u32 q);
+extern void FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames(char *a, int b);
 extern void ISS_3DS_SYS_SetVolume(struct Obj *o, u32 v);
 
-void GIMMICK53_Init(u32 a)
+void FIELD_GIMMICK_SOUND_OBJS_Init(u32 a)
 {
     u32 r6;
     u32 r5;
@@ -59,7 +59,7 @@ void GIMMICK53_Init(u32 a)
     FLD_EXP_OBJ_SetAnimePaused(e, 0);
     FLD_EXP_OBJ_SetAnimeLoop(e, 1);
     p = FIELDMAP_AllocCommonWork((unsigned char *)a, 0, r6, 0xf8);
-    GIMMICK53_CreateSoundObjs((struct O *)p, a);
-    GIMMICK53_RestoreAnimeFrames((char *)p, a);
+    FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs((struct O *)p, a);
+    FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames((char *)p, a);
     ISS_3DS_SYS_SetVolume((struct Obj *)p[1], 0x7f);
 }

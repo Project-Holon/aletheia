@@ -1,5 +1,5 @@
 /*
- * function: func_02208B10
+ * function: BTLV_GAUGE_TaskSlideSlot
  * address: 0x02208B10
  * packet: pkt_ov094_02208B10
  * region: ov094
@@ -32,7 +32,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Node;
 extern void func_02030EAC(struct Node *n);
-void func_02208B10(void *h, E *e)
+void BTLV_GAUGE_TaskSlideSlot(void *h, E *e)
 {
     int step;
     s16 v[2];

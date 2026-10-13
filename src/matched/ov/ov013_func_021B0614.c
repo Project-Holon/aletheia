@@ -13,8 +13,8 @@
  * symbols:
  *   gVctSendState     0x021B3C84  data  ov013  a4
  *   gVctMembers     0x021B3CB0  data  ov013  a4
- *   d_021B3CBC     0x021B3CBC  data  ov013  a4
- *   d_021B42C0     0x021B42C0  data  ov013  a4
+ *   gVctReceiveSources     0x021B3CBC  data  ov013  a4
+ *   gVctSendBuffer     0x021B42C0  data  ov013  a4
  *   func_02087170  0x02087170  arm
  *   VCT_AUDIO_ClearReadyQueue  0x021B16E4  arm  ov013
  *   VCT_AUDIO_InitReceiveSource  0x021B19BC  arm  ov013
@@ -64,8 +64,8 @@ typedef struct {
 
 extern Ctx3C84 gVctSendState;
 extern Req *gVctMembers[3];
-extern Slot d_021B3CBC[3];
-extern struct Ctx42C0 d_021B42C0;
+extern Slot gVctReceiveSources[3];
+extern struct Ctx42C0 gVctSendBuffer;
 
 extern u16 func_02087170(void);
 extern void VCT_AUDIO_ClearReadyQueue(u32 i);
@@ -99,7 +99,7 @@ int VCT_SESSION_AddMember(Req *p)
     }
     gVctSendState.f20++;
     gVctSendState.f4 |= p->f8;
-    VCT_AUDIO_InitReceiveSource((char *)&d_021B3CBC[i], i, p->f5);
+    VCT_AUDIO_InitReceiveSource((char *)&gVctReceiveSources[i], i, p->f5);
     VCT_AUDIO_ClearReadyQueue(i);
     if (p->fC != 2) {
         return 1;
@@ -110,12 +110,12 @@ int VCT_SESSION_AddMember(Req *p)
         gVctSendState.f10 = 0;
         gVctSendState.f12 = 0;
         gVctSendState.f14 = 1;
-        d_021B42C0.f8C0 = 0;
-        d_021B42C0.f8C4 = 0;
-        d_021B42C0.f8CC = 0;
-        d_021B42C0.f8C8 = 0;
-        d_021B42C0.f8D0 = 0;
-        d_021B42C0.f8D4 = 0;
+        gVctSendBuffer.f8C0 = 0;
+        gVctSendBuffer.f8C4 = 0;
+        gVctSendBuffer.f8CC = 0;
+        gVctSendBuffer.f8C8 = 0;
+        gVctSendBuffer.f8D0 = 0;
+        gVctSendBuffer.f8D4 = 0;
     }
     return 1;
 }

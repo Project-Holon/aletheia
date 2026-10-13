@@ -62,7 +62,7 @@ extern u32 func_02005728(u32 range);
 extern short func_0203F684(unsigned short degrees);
 extern void MI_CpuFill8(void *dst, int value, int size);
 
-void func_021F36C0(FieldMap *fieldMap);
+void FIELD_GIMMICK_BRIDGE_Init(FieldMap *fieldMap);
 void FIELD_GIMMICK_BRIDGE_Exit(FieldMap *fieldMap);
 void FIELD_GIMMICK_BRIDGE_Update(FieldMap *fieldMap);
 void FIELD_GIMMICK_BRIDGE_ResetSave(struct GameSystem *gameSystem);

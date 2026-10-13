@@ -1,5 +1,5 @@
 /*
- * function: func_021F37B8
+ * function: FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect
  * address:  0x021F37B8
  * packet:   pkt_ov064_021F37B8
  * region:   ov064
@@ -21,7 +21,7 @@
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   GIMMICK64_PlayerEffectEvent  0x021F384C  thumb  ov064
+ *   FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent  0x021F384C  thumb  ov064
  */
 
 typedef unsigned char  u8;
@@ -49,9 +49,9 @@ extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(int a, int b, int c, u16 d, int e);
 extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, u16 d, int e);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int GIMMICK64_PlayerEffectEvent(void *task, int *st);
+extern int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *task, int *st);
 
-void *func_021F37B8(int a)
+void *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(int a)
 {
     int i;
     void *sys;
@@ -68,5 +68,5 @@ void *func_021F37B8(int a)
         FLD_EXP_OBJ_SetAnimeEnabled(s, 0, 0, i, 1);
         FLD_EXP_OBJ_SetAnimeFrame(s, 0, 0, i, 0);
     }
-    return func_020122C0((void *)a, 0, (void *)GIMMICK64_PlayerEffectEvent, 0);
+    return func_020122C0((void *)a, 0, (void *)FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021ECA60
+ * function: BTLV_SCU_RunOwnSendOutDoublePartner
  * address: 0x021ECA60
  * packet: pkt_ov093_021ECA60
  * region: ov093
@@ -20,14 +20,14 @@
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_MAIN_IsTrainerSlotNpc 0x021B9F70 thumb ov093
  *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
- *   func_021ECEB8 0x021ECEB8 thumb ov093
- *   func_021ECF68 0x021ECF68 thumb ov093
+ *   BTLV_SCU_StartMessage 0x021ECEB8 thumb ov093
+ *   BTLV_SCU_UpdateMessage 0x021ECF68 thumb ov093
  *   func_021F8260 0x021F8260 thumb ov094
- *   func_021ED798 0x021ED798 thumb ov093
- *   func_021ED814 0x021ED814 thumb ov093
+ *   BTLV_SCU_StartMsgWinFadeOut 0x021ED798 thumb ov093
+ *   BTLV_SCU_UpdateMsgWinFade 0x021ED814 thumb ov093
  *   BTL_POKEPARAM_GetDisplayMon 0x021D5864 thumb ov093
  *   func_021F7EE8 0x021F7EE8 thumb ov094
- *   func_021EDA04 0x021EDA04 thumb ov093
+ *   BTLV_SCU_ShowMonSlot 0x021EDA04 thumb ov093
  */
 #include "../include/Obj00027.h"
 #include "../include/Obj01523.h"
@@ -47,18 +47,18 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct Work;
 extern int BTL_MAIN_IsTrainerSlotNpc(u8 *p, int i);
 extern void BTL_MSG_FormatArgs(u32, u16, u32, ...);
-extern void func_021ECEB8(u8 *, u32, u16, u32);
+extern void BTLV_SCU_StartMessage(u8 *, u32, u16, u32);
 struct E;
 struct S;
 struct T;
-extern int func_021ECF68(struct T *p);
+extern int BTLV_SCU_UpdateMessage(struct T *p);
 extern void func_021F8260(u32 i);
-extern void func_021ED798(struct S *s);
-extern int func_021ED814(struct S *s);
+extern void BTLV_SCU_StartMsgWinFadeOut(struct S *s);
+extern int BTLV_SCU_UpdateMsgWinFade(struct S *s);
 extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern void func_021F7EE8(void *, int);
-extern void func_021EDA04(struct E *e);
-int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
+extern void BTLV_SCU_ShowMonSlot(struct E *e);
+int BTLV_SCU_RunOwnSendOutDoublePartner(u8 *p, int *state, u32 a, u8 c)
 {
     u8 *b = p + 0xf0;
     unsigned long i;
@@ -92,38 +92,38 @@ int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
             }
             msg = BTL_MAIN_IsTrainerSlotNpc(((struct Obj00027 *)p)->f134, c) ? 14 : 17;
             BTL_MSG_FormatArgs(((struct Obj00027 *)p)->f34, msg, 2, c, (b + side)[12]);
-            func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
+            BTLV_SCU_StartMessage(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }
         break;
     case 3:
-        if (func_021ECF68((struct T *)p)) {
+        if (BTLV_SCU_UpdateMessage((struct T *)p)) {
             func_021F8260(0);
-            func_021ED798((struct S *)(p + 0x154));
+            BTLV_SCU_StartMsgWinFadeOut((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
     case 4:
-        if (func_021ED814((struct S *)(p + 0x154))) {
+        if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154))) {
             winner = BTL_MAIN_IsOwnClientSecondTeam(*(u8 * *)&((struct Obj00027 *)p)->f134);
             func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(*(void **)b), b[10]);
             func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj01523 *)b)->f4), b[11]);
             func_021F7998(0x234);
             BTL_MSG_FormatArgs(((struct Obj00027 *)p)->f34, 11, 1, (b + winner)[12]);
-            func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
+            BTLV_SCU_StartMessage(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }
         break;
     case 5:
-        if (func_021ECF68((struct T *)p)) {
-            func_021ED798((struct S *)(p + 0x154));
+        if (BTLV_SCU_UpdateMessage((struct T *)p)) {
+            BTLV_SCU_StartMsgWinFadeOut((struct S *)(p + 0x154));
             (*state)++;
         }
         break;
     case 6:
-        if (func_021ED814((struct S *)(p + 0x154)) && !func_021F7EB4()) {
-            func_021EDA04((struct E *)(p + 0x48 + b[8] * 12));
-            func_021EDA04((struct E *)(p + 0x48 + b[9] * 12));
+        if (BTLV_SCU_UpdateMsgWinFade((struct S *)(p + 0x154)) && !func_021F7EB4()) {
+            BTLV_SCU_ShowMonSlot((struct E *)(p + 0x48 + b[8] * 12));
+            BTLV_SCU_ShowMonSlot((struct E *)(p + 0x48 + b[9] * 12));
             return 1;
         }
         break;

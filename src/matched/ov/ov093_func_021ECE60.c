@@ -1,5 +1,5 @@
 /*
- * function: func_021ECE60
+ * function: BTLV_SCU_PrintMessageInstant
  * address:  0x021ECE60
  * packet:   pkt_ov093_021ECE60
  * region:   ov093
@@ -29,7 +29,7 @@ extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 struct Descriptor;
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-void func_021ECE60(u8 *a, int b)
+void BTLV_SCU_PrintMessageInstant(u8 *a, int b)
 {
     BMP_Clear((struct CharBuf *)(((struct Obj02796 *)a)->f4), 0xc);
     GF_FONT_SetTextColor(1, 9, 0xc);

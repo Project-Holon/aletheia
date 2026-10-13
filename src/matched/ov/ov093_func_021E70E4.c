@@ -1,5 +1,5 @@
 /*
- * function: func_021E70E4
+ * function: HAND_WAZA_HeavySlamSetPowerByWeight
  * address:  0x021E70E4
  * packet:   pkt_ov093_021E70E4
  * region:   ov093
@@ -27,7 +27,7 @@ extern u32 BTL_SERVER_FLOW_CalcPokeWeight(u8 *p, int i);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E70E4(int x, int a, int c)
+void HAND_WAZA_HeavySlamSetPowerByWeight(int x, int a, int c)
 {
     void *m;
     int p;

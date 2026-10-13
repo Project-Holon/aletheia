@@ -1,5 +1,5 @@
 /*
- * function: func_02209C30
+ * function: BTLV_FINGER_CURSOR_AnimCallback
  * address:  0x02209C30
  * packet:   pkt_ov094_02209C30
  * region:   ov094
@@ -50,7 +50,7 @@ struct Actor;
 struct Cmd;
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 
-void func_02209C30(P *p)
+void BTLV_FINGER_CURSOR_AnimCallback(P *p)
 {
     Msg m0;
     Msg m1;
@@ -63,7 +63,7 @@ void func_02209C30(P *p)
             m0.p = p;
             m0.a = 1;
             m0.b = p->f20;
-            m0.cb = (void *)func_02209C30;
+            m0.cb = (void *)BTLV_FINGER_CURSOR_AnimCallback;
             CLACT_ApplyActorAnimCommand(p->h, (const struct Cmd *)(&m0));
             return;
         }
@@ -74,7 +74,7 @@ void func_02209C30(P *p)
         m1.p = p;
         m1.a = 2;
         m1.b = 0;
-        m1.cb = (void *)func_02209C30;
+        m1.cb = (void *)BTLV_FINGER_CURSOR_AnimCallback;
         CLACT_ApplyActorAnimCommand(p->h, (const struct Cmd *)(&m1));
         return;
     case 2:

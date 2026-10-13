@@ -11,8 +11,8 @@
  *
  * symbols:
  *   g_02146BB0       0x02146BB0  data
- *   g_020A8148       0x020A8148  data
- *   g_020A814C       0x020A814C  data
+ *   NNS_GfdDefaultFuncAllocPlttVram       0x020A8148  data
+ *   NNS_GfdDefaultFuncFreePlttVram       0x020A814C  data
  *   func_020625D8    0x020625D8  arm
  *   func_020624C8    0x020624C8  arm
  *   func_02062594    0x02062594  arm
@@ -33,8 +33,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern struct Hdr02062474 g_02146BB0;
-extern u32 g_020A8148;
-extern u32 g_020A814C;
+extern u32 NNS_GfdDefaultFuncAllocPlttVram;
+extern u32 NNS_GfdDefaultFuncFreePlttVram;
 extern void func_020625D8(void);
 extern u32 func_020624C8(u32 size, u32 flag);
 extern int func_02062594(u32 id);
@@ -48,6 +48,6 @@ void func_02062474(u32 a, u32 b, u32 c, u32 d)
     if (d == 0) {
         return;
     }
-    g_020A8148 = (u32)func_020624C8;
-    g_020A814C = (u32)func_02062594;
+    NNS_GfdDefaultFuncAllocPlttVram = (u32)func_020624C8;
+    NNS_GfdDefaultFuncFreePlttVram = (u32)func_02062594;
 }

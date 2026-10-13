@@ -28,7 +28,7 @@
  *   SCRCMD_PROC_OnMoveRelearnDone 0x0215C870 thumb ov010
  *   sAllocSiteScrcmdProc 0x021728F0 data a1
  *   ov173_id 0x000000AD data
- *   d_021B81D0 0x021B81D0 data ov173 a4
+ *   gMoveRelearnProcData 0x021B81D0 data ov173 a4
  */
 
 typedef unsigned char u8;
@@ -63,7 +63,7 @@ extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, i
 extern void SCRIPT_SYS_CallEvent(void *p, void *v);
 extern int SCRCMD_PROC_OnMoveRelearnDone(int a0, int a1);
 extern const char sAllocSiteScrcmdProc[];
-extern const u8 d_021B81D0[];
+extern const u8 gMoveRelearnProcData[];
 extern u8 ov173_id[];
 
 static inline void init_record(Relearn *r, void *mon, void *sess, void *sys, void *moves)
@@ -105,6 +105,6 @@ int SCRCMD_PROC_CallMoveRelearn(void *c, void *vm)
     h = func_02030734(4, 8, 0, sAllocSiteScrcmdProc, 0x19B);
     h[0] = (u32)r;
     h[1] = a;
-    SCRIPT_SYS_CallEvent(slot, FIELD_STATUS_CreateSubProcCallbackEvent(sys, (int)x, (u32)ov173_id, (int)d_021B81D0, (int)r, (int)((void *)SCRCMD_PROC_OnMoveRelearnDone), (int)h));
+    SCRIPT_SYS_CallEvent(slot, FIELD_STATUS_CreateSubProcCallbackEvent(sys, (int)x, (u32)ov173_id, (int)gMoveRelearnProcData, (int)r, (int)((void *)SCRCMD_PROC_OnMoveRelearnDone), (int)h));
     return 1;
 }

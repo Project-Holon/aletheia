@@ -1,5 +1,5 @@
 /*
- * function: func_022080F4
+ * function: BTLV_GAUGE_DrawNickname
  * address: 0x022080F4
  * packet: pkt_ov094_022080F4
  * region: ov094
@@ -52,7 +52,7 @@ extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Delete(struct Obj020437AC *p);
-void func_022080F4(char *o, E *e, void *data)
+void BTLV_GAUGE_DrawNickname(char *o, E *e, void *data)
 {
     void *v, *bmp;
     char *pixels;

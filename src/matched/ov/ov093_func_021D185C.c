@@ -18,12 +18,12 @@
  *   BTL_MAIN_GetTrainerSentence  0x021BA02C  thumb  ov093
  *   PMSI_PARAM_IsEnabled  0x02024450  thumb
  *   PMSI_PARAM_ToString  0x0202435C  thumb
- *   func_021EA5E4  0x021EA5E4  thumb  ov093
+ *   BTLV_CORE_CopyMessageBuffer  0x021EA5E4  thumb  ov093
  *   STRBUF_Delete   0x02045808  arm
  *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
- *   func_021EA5F0  0x021EA5F0  thumb  ov093
+ *   BTLV_CORE_BuildMessageToBuffer  0x021EA5F0  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -45,12 +45,12 @@ extern int PMSI_PARAM_IsEnabled(const u16 *p);
 struct H;
 struct L;
 extern void *PMSI_PARAM_ToString(void *slots, unsigned int heap);
-extern void func_021EA5E4(unsigned char *p, void *src);
+extern void BTLV_CORE_CopyMessageBuffer(unsigned char *p, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u16 BTL_MAIN_GetTrainerId(char *p, int i);
 extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
-extern void func_021EA5F0(char *p, struct H *h);
+extern void BTLV_CORE_BuildMessageToBuffer(char *p, struct H *h);
 
 void BTL_CLIENT_ShowEndSpeech(BattleSeq *s, int a, int b)
 {
@@ -63,7 +63,7 @@ void BTL_CLIENT_ShowEndSpeech(BattleSeq *s, int a, int b)
     p = BTL_MAIN_GetTrainerSentence(s->battle, idx, a);
     if (p != 0 && PMSI_PARAM_IsEnabled(p) != 0) {
         r = PMSI_PARAM_ToString(p, (u16)((*(u16 *)((u8 *)s + 0x19a) & 0x7fff) | 0x8000));
-        func_021EA5E4(s->msgWin, r);
+        BTLV_CORE_CopyMessageBuffer(s->msgWin, r);
         STRBUF_Delete(r);
         return;
     }
@@ -72,6 +72,6 @@ void BTL_CLIENT_ShowEndSpeech(BattleSeq *s, int a, int b)
         func_021EAF18((struct L *)s->msg, 7, (int)0);
         func_021EAF50((struct L *)s->msg, (int)v);
         func_021EAF50((struct L *)s->msg, (int)a);
-        func_021EA5F0(s->msgWin, (struct H *)s->msg);
+        BTLV_CORE_BuildMessageToBuffer(s->msgWin, (struct H *)s->msg);
     }
 }

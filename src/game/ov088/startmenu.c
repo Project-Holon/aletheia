@@ -1,7 +1,7 @@
 /*
  * file:     startmenu.c
  * unit:     yes
- * function: STARTMENU_TitleDemoInit, STARTMENU_TitleDemoUpdateTimer, STARTMENU_TitleDemoCheckInput, STARTMENU_TitleDemoMain, STARTMENU_TitleDemoExit, STARTMENU_ResetDisplayState, STARTMENU_SetupDisplayBanks, STARTMENU_TitleDemoUpdateParts, STARTMENU_CaptureVblankTask, STARTMENU_CaptureInit, STARTMENU_CaptureRunTasks, STARTMENU_CaptureDelete, STARTMENU_CaptureSetBlend, STARTMENU_LogoInit, STARTMENU_LogoUpdate, STARTMENU_LogoDelete, STARTMENU_Demo3dInit, STARTMENU_Demo3dUpdate, STARTMENU_Demo3dDelete, STARTMENU_Demo3dSetFrame, STARTMENU_SpritesInit, STARTMENU_SpritesUpdate, STARTMENU_SpritesDelete, STARTMENU_MenuInit, STARTMENU_MenuMain, STARTMENU_MenuExit, STARTMENU_StateSetup, STARTMENU_StateWaitStart, STARTMENU_StateWaitFade, STARTMENU_StateSelectAnim, STARTMENU_StateWaitPrint, STARTMENU_StateSelectRow, STARTMENU_StateScroll, STARTMENU_StateConnectPrompt, STARTMENU_StateConfirmPrompt, STARTMENU_StateInfoMessage, func_021BA880, STARTMENU_VblankTask, STARTMENU_AddVblankTask, STARTMENU_RemoveVblankTask, STARTMENU_ClearGraphics, STARTMENU_SetupBackgrounds, STARTMENU_TeardownBackgrounds, STARTMENU_LoadGraphics, STARTMENU_CreateBlinkPalette, STARTMENU_DeleteBlinkPalette, STARTMENU_CreateTextSystem, STARTMENU_DeleteTextSystem, STARTMENU_CreateRowWindows, STARTMENU_DeleteRowWindows, STARTMENU_CreateActors, STARTMENU_DeleteActors, STARTMENU_CreateFrameManager, STARTMENU_DeleteFrameManager, STARTMENU_StartBrightnessEffect, STARTMENU_BuildRowList, STARTMENU_LoadRowBuffers, STARTMENU_FreeRowBuffers, STARTMENU_SetRowActorY, STARTMENU_LayoutRows, STARTMENU_DrawRowFrame, STARTMENU_PaintRowPalette, STARTMENU_RowTileY, STARTMENU_ScrollRowActors, STARTMENU_MoveCursor, STARTMENU_ShowRowActors, STARTMENU_DrawFrameBox, STARTMENU_ClearFrameBox, STARTMENU_OpenConfirmWindow, STARTMENU_CloseDescWindow, STARTMENU_OpenInfoWindow, STARTMENU_CloseInfoWindow, STARTMENU_OpenNoticeWindow, STARTMENU_StartMessage, STARTMENU_HideMessageWindow, STARTMENU_UpdateMessage, STARTMENU_OpenYesNoMenu, STARTMENU_BeginFadeOut, STARTMENU_BeginFadeIn, STARTMENU_BeginSelectAnim, STARTMENU_RefreshSaveStatus, STARTMENU_ChangeToIntroProc, func_021BC0FC, func_021BC114, STARTMENU_NewGameIntroInit, STARTMENU_NewGameIntroMain, STARTMENU_NewGameIntroEnd, STARTMENU_BattleFlagProcInit, STARTMENU_BattleFlagProcMain, STARTMENU_BattleFlagProcEnd, STARTMENU_SetNewPlayerNameAndGender, STARTMENU_ConfigPromptInit, STARTMENU_ConfigPromptEnd, STARTMENU_ConfigPromptMain, STARTMENU_ConfigPromptSetupGraphics, STARTMENU_InitBgLayer, STARTMENU_ConfigPromptDrawQuestion, STARTMENU_ConfigPromptDeleteWindows, STARTMENU_ConfigPromptHighlightChoice, STARTMENU_ConfigPromptReadInput, STARTMENU_ConfigPromptPulseColor, STARTMENU_LogoScreenInit, STARTMENU_LogoScreenMain, STARTMENU_LogoScreenEnd, STARTMENU_SaveEraseInit, STARTMENU_SaveEraseMain, STARTMENU_SaveEraseEnd, STARTMENU_SaveEraseStepSetup, STARTMENU_SaveEraseStepShowPrompt, STARTMENU_SaveEraseStepOpenFirstYesNo, STARTMENU_SaveEraseStepFirstConfirm, STARTMENU_SaveEraseStepOpenSecondYesNo, STARTMENU_SaveEraseStepSecondConfirm, STARTMENU_SaveEraseUpdateTimeIcon, STARTMENU_SaveEraseStepErase, STARTMENU_SaveEraseStepTeardown, STARTMENU_SaveEraseClearVram, STARTMENU_SaveEraseSetupGraphics, STARTMENU_SaveEraseExitGraphics, STARTMENU_SaveEraseAllocResources, STARTMENU_SaveEraseFreeResources, STARTMENU_SaveEraseCreateWindow, STARTMENU_SaveEraseDeleteWindow, STARTMENU_SaveEraseVblankTask, STARTMENU_SaveEraseStartVblankTask, STARTMENU_SaveEraseStopVblankTask, STARTMENU_SaveEraseStartMessage, STARTMENU_SaveEraseUpdateMessage, STARTMENU_SaveEraseOpenYesNo, STARTMENU_SaveEraseStartFadeIn, STARTMENU_SaveEraseStartFadeOut
+ * function: STARTMENU_TitleDemoInit, STARTMENU_TitleDemoUpdateTimer, STARTMENU_TitleDemoCheckInput, STARTMENU_TitleDemoMain, STARTMENU_TitleDemoExit, STARTMENU_ResetDisplayState, STARTMENU_SetupDisplayBanks, STARTMENU_TitleDemoUpdateParts, STARTMENU_CaptureVblankTask, STARTMENU_CaptureInit, STARTMENU_CaptureRunTasks, STARTMENU_CaptureDelete, STARTMENU_CaptureSetBlend, STARTMENU_LogoInit, STARTMENU_LogoUpdate, STARTMENU_LogoDelete, STARTMENU_Demo3dInit, STARTMENU_Demo3dUpdate, STARTMENU_Demo3dDelete, STARTMENU_Demo3dSetFrame, STARTMENU_SpritesInit, STARTMENU_SpritesUpdate, STARTMENU_SpritesDelete, STARTMENU_MenuInit, STARTMENU_MenuMain, STARTMENU_MenuExit, STARTMENU_StateSetup, STARTMENU_StateWaitStart, STARTMENU_StateWaitFade, STARTMENU_StateSelectAnim, STARTMENU_StateWaitPrint, STARTMENU_StateSelectRow, STARTMENU_StateScroll, STARTMENU_StateConnectPrompt, STARTMENU_StateConfirmPrompt, STARTMENU_StateInfoMessage, func_021BA880, STARTMENU_VblankTask, STARTMENU_AddVblankTask, STARTMENU_RemoveVblankTask, STARTMENU_ClearGraphics, STARTMENU_SetupBackgrounds, STARTMENU_TeardownBackgrounds, STARTMENU_LoadGraphics, STARTMENU_CreateBlinkPalette, STARTMENU_DeleteBlinkPalette, STARTMENU_CreateTextSystem, STARTMENU_DeleteTextSystem, STARTMENU_CreateRowWindows, STARTMENU_DeleteRowWindows, STARTMENU_CreateActors, STARTMENU_DeleteActors, STARTMENU_CreateFrameManager, STARTMENU_DeleteFrameManager, STARTMENU_StartBrightnessEffect, STARTMENU_BuildRowList, STARTMENU_LoadRowBuffers, STARTMENU_FreeRowBuffers, STARTMENU_SetRowActorY, STARTMENU_LayoutRows, STARTMENU_DrawRowFrame, STARTMENU_PaintRowPalette, STARTMENU_RowTileY, STARTMENU_ScrollRowActors, STARTMENU_MoveCursor, STARTMENU_ShowRowActors, STARTMENU_DrawFrameBox, STARTMENU_ClearFrameBox, STARTMENU_OpenConfirmWindow, STARTMENU_CloseDescWindow, STARTMENU_OpenInfoWindow, STARTMENU_CloseInfoWindow, STARTMENU_OpenNoticeWindow, STARTMENU_StartMessage, STARTMENU_HideMessageWindow, STARTMENU_UpdateMessage, STARTMENU_OpenYesNoMenu, STARTMENU_BeginFadeOut, STARTMENU_BeginFadeIn, STARTMENU_BeginSelectAnim, STARTMENU_RefreshSaveStatus, STARTMENU_ChangeToIntroProc, STARTMENU_ReplaceWithBattleFlagProcWithSave, STARTMENU_ReplaceWithBattleFlagProcNoSave, STARTMENU_NewGameIntroInit, STARTMENU_NewGameIntroMain, STARTMENU_NewGameIntroEnd, STARTMENU_BattleFlagProcInit, STARTMENU_BattleFlagProcMain, STARTMENU_BattleFlagProcEnd, STARTMENU_SetNewPlayerNameAndGender, STARTMENU_ConfigPromptInit, STARTMENU_ConfigPromptEnd, STARTMENU_ConfigPromptMain, STARTMENU_ConfigPromptSetupGraphics, STARTMENU_InitBgLayer, STARTMENU_ConfigPromptDrawQuestion, STARTMENU_ConfigPromptDeleteWindows, STARTMENU_ConfigPromptHighlightChoice, STARTMENU_ConfigPromptReadInput, STARTMENU_ConfigPromptPulseColor, STARTMENU_LogoScreenInit, STARTMENU_LogoScreenMain, STARTMENU_LogoScreenEnd, STARTMENU_SaveEraseInit, STARTMENU_SaveEraseMain, STARTMENU_SaveEraseEnd, STARTMENU_SaveEraseStepSetup, STARTMENU_SaveEraseStepShowPrompt, STARTMENU_SaveEraseStepOpenFirstYesNo, STARTMENU_SaveEraseStepFirstConfirm, STARTMENU_SaveEraseStepOpenSecondYesNo, STARTMENU_SaveEraseStepSecondConfirm, STARTMENU_SaveEraseUpdateTimeIcon, STARTMENU_SaveEraseStepErase, STARTMENU_SaveEraseStepTeardown, STARTMENU_SaveEraseClearVram, STARTMENU_SaveEraseSetupGraphics, STARTMENU_SaveEraseExitGraphics, STARTMENU_SaveEraseAllocResources, STARTMENU_SaveEraseFreeResources, STARTMENU_SaveEraseCreateWindow, STARTMENU_SaveEraseDeleteWindow, STARTMENU_SaveEraseVblankTask, STARTMENU_SaveEraseStartVblankTask, STARTMENU_SaveEraseStopVblankTask, STARTMENU_SaveEraseStartMessage, STARTMENU_SaveEraseUpdateMessage, STARTMENU_SaveEraseOpenYesNo, STARTMENU_SaveEraseStartFadeIn, STARTMENU_SaveEraseStartFadeOut
  * address:  0x021B95A0
  * region:   ov088
  * compiler: dsi/1.1p1
@@ -274,15 +274,15 @@
  *   PM_VOICE_Prepare  0x020069D4  thumb
  *   ov194_id       0x000000C2  data
  *   ov204_id       0x000000CC  data
- *   d_021F557C     0x021F557C  data  ov194  a4
- *   d_021F558C     0x021F558C  data  ov194  a4
- *   d_021BFD20     0x021BFD20  data  ov204  a4
- *   d_021BFD30     0x021BFD30  data  ov204  a4
+ *   gNameInWaveArcCount     0x021F557C  data  ov194  a4
+ *   gNameInWaveArcIds     0x021F558C  data  ov194  a4
+ *   gIntroWaveArcCount     0x021BFD20  data  ov204  a4
+ *   gIntroWaveArcIds     0x021BFD30  data  ov204  a4
  *   SAVE_CONTROL_INTR_Update  0x021BD2F4  thumb  ov088
  *   PROCSYS_Main  0x02031330  arm
  *   PROCSYS_Push  0x02031348  arm
- *   d_021BFD24     0x021BFD24  data  ov204  a4
- *   d_021F5580     0x021F5580  data  ov194  a4
+ *   gIntroProcData     0x021BFD24  data  ov204  a4
+ *   gNameInProcData     0x021F5580  data  ov194  a4
  *   func_02005B04  0x02005B04  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_0200873C  0x0200873C  thumb
@@ -610,8 +610,8 @@ extern void *func_0200C0F0(void *sys);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0);
 extern void GAME_BEACON_RegisterClearCallback(void);
-extern void func_021BC114(void);
-extern void func_021BC0FC(void);
+extern void STARTMENU_ReplaceWithBattleFlagProcNoSave(void);
+extern void STARTMENU_ReplaceWithBattleFlagProcWithSave(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
@@ -993,12 +993,12 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
 extern const struct ProcData gStartMenuBattleFlagProcData;
 extern u8 ov194_id[];
 extern u8 ov204_id[];
-extern u32 d_021F557C;
-extern u32 d_021F558C[];
-extern u32 d_021BFD20;
-extern u32 d_021BFD30[];
-extern const struct ProcData d_021BFD24;
-extern const struct ProcData d_021F5580;
+extern u32 gNameInWaveArcCount;
+extern u32 gNameInWaveArcIds[];
+extern u32 gIntroWaveArcCount;
+extern u32 gIntroWaveArcIds[];
+extern const struct ProcData gIntroProcData;
+extern const struct ProcData gNameInProcData;
 extern void SAVE_CONTROL_INTR_Delete(void *p);
 
 
@@ -1719,9 +1719,9 @@ int STARTMENU_MenuExit(int procCtx, int unusedArg1, int unusedArg2, StartMenuWor
     case 0:
         GAME_BEACON_RegisterClearCallback();
         if (hasSave == 0)
-            func_021BC114();
+            STARTMENU_ReplaceWithBattleFlagProcNoSave();
         else
-            func_021BC0FC();
+            STARTMENU_ReplaceWithBattleFlagProcWithSave();
         break;
     case 1:
         GAME_BEACON_RegisterClearCallback();
@@ -3345,13 +3345,13 @@ void STARTMENU_ChangeToIntroProc(void)
 
 
 
-void func_021BC0FC(void)
+void STARTMENU_ReplaceWithBattleFlagProcWithSave(void)
 {
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)&gStartMenuBattleFlagProcData, 1);
 }
 
 
-void func_021BC114(void)
+void STARTMENU_ReplaceWithBattleFlagProcNoSave(void)
 {
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)&gStartMenuBattleFlagProcData, 2);
 }
@@ -3385,15 +3385,15 @@ int STARTMENU_NewGameIntroInit(struct Proc *proc)
 
     nameInOverlayId = ov194_id;
     func_02034AC4((int)nameInOverlayId);
-    nameInCount = d_021F557C;
+    nameInCount = gNameInWaveArcCount;
     for (i = 0; i < nameInCount; i++)
-        waveArcIds[i] = d_021F558C[i];
+        waveArcIds[i] = gNameInWaveArcIds[i];
     func_02034A5C((int)nameInOverlayId);
 
     func_02034AC4((int)ov204_id);
-    introCount = d_021BFD20;
+    introCount = gIntroWaveArcCount;
     for (i = 0; i < introCount; i++)
-        waveArcIds[nameInCount + i] = d_021BFD30[i];
+        waveArcIds[nameInCount + i] = gIntroWaveArcIds[i];
     func_02034A5C((int)ov204_id);
 
     work->waveArcSet = GFL_USE_LoadWaveArcSet(waveArcIds, nameInCount + introCount);
@@ -3422,7 +3422,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
     busy = PROCSYS_Main(work->procSys);
     switch (*seq) {
     case 0:
-        PROCSYS_Push(work->procSys, (u32)ov204_id, &d_021BFD24, &work->introParam);
+        PROCSYS_Push(work->procSys, (u32)ov204_id, &gIntroProcData, &work->introParam);
         *seq = 1;
         break;
     case 1:
@@ -3432,7 +3432,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
     case 2:
         work->nameInArgs->playerGender = func_02008550(work->startArg.myStatus);
         work->nameInArgs->saveIntr = work->saveIntr;
-        PROCSYS_Push(work->procSys, (u32)ov194_id, &d_021F5580, work->nameInArgs);
+        PROCSYS_Push(work->procSys, (u32)ov194_id, &gNameInProcData, work->nameInArgs);
         *seq = 3;
         break;
     case 3:
@@ -3442,7 +3442,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
     case 4:
         STARTMENU_SetNewPlayerNameAndGender(work->myStatus, work->nameInArgs->name, func_02008550(work->myStatus));
         work->introParam.phase = 7;
-        PROCSYS_Push(work->procSys, (u32)ov204_id, &d_021BFD24, &work->introParam);
+        PROCSYS_Push(work->procSys, (u32)ov204_id, &gIntroProcData, &work->introParam);
         *seq = 6;
         break;
     case 6:

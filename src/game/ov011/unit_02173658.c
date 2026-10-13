@@ -453,9 +453,6 @@ int INTRUDE_COMM_SendAnswer(int destNetId, int value)
 }
 
 
-/*
- * sdk:      DWCi_CheckDWCServer (dwc_match.o)
- */
 void INTRUDE_COMM_RecvNoticeBytes(int netId, int size, const u8 *data, IntrudeCommSys *work)
 {
     work->notice.value[0] = data[0];

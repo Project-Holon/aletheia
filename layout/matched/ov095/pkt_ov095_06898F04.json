@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_06898F04",
+   "name": "HAND_SIDE_GetHandlersSafeguard",
    "address": "0x06898F04",
    "kind": "game",
    "region": "ov095",

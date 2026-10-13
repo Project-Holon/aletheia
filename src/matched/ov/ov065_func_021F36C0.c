@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK65_Init
+ * function: FIELD_GIMMICK_TIME_EFFECT_Init
  * address:  0x021F36C0
  * packet:   pkt_ov065_021F36C0
  * region:   ov065
@@ -72,7 +72,7 @@ extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v);
 extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 extern void  FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, u16 j, u16 k, int flag);
 
-void GIMMICK65_Init(void *a0)
+void FIELD_GIMMICK_TIME_EFFECT_Init(void *a0)
 {
     u32 sv;
     int *q;

@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK46_HopEventProc
+ * function: FIELD_GIMMICK_ROTATING_ROOM_HopEventProc
  * address:  0x021F3EFC
  * packet:   pkt_ov046_021F3EFC
  * region:   ov046
@@ -50,7 +50,7 @@ extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 extern int sGimmick46HopHeights[];
 
-int GIMMICK46_HopEventProc(u32 a, int *b)
+int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(u32 a, int *b)
 {
     void *x;
     int *w;

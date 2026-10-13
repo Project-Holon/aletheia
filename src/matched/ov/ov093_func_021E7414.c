@@ -1,5 +1,5 @@
 /*
- * function: func_021E7414
+ * function: HAND_WAZA_AddEntrainment
  * address: 0x021E7414
  * packet: pkt_ov093_021E7414
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F27DC 0x021F27DC data ov093 a4
  */
 
-int *func_021E7414(int *p);
+int *HAND_WAZA_AddEntrainment(int *p);
 extern int d_021F27DC[];
 
-int *func_021E7414(int *p)
+int *HAND_WAZA_AddEntrainment(int *p)
 {
     *p = 1;
     return d_021F27DC;

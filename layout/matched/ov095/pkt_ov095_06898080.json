@@ -18,13 +18,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_06898080",
-    "func_06898088",
-    "func_06898094",
-    "func_06898098",
-    "func_068980A4",
-    "func_068980B0",
-    "func_068980BC"
+    "HAND_FIELD_RemoveFactor",
+    "HAND_FIELD_GetHandlersWeatherMarker",
+    "HAND_FIELD_WeatherMarkerNoop",
+    "HAND_FIELD_GetHandlersTrickRoom",
+    "HAND_FIELD_TrickRoomReverseSpeed",
+    "HAND_FIELD_GetHandlersGravity",
+    "HAND_FIELD_GravityBoostAccuracy"
+   ],
+   "addresses": [
+    "0x06898080",
+    "0x06898088",
+    "0x06898094",
+    "0x06898098",
+    "0x068980A4",
+    "0x068980B0",
+    "0x068980BC"
    ],
    "evidence": {
     "sole-ref": [

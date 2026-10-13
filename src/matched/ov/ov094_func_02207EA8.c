@@ -1,5 +1,5 @@
 /*
- * function: func_02207EA8
+ * function: BTLV_GAUGE_StartExpChange
  * address:  0x02207EA8
  * packet:   pkt_ov094_02207EA8
  * region:   ov094
@@ -29,7 +29,7 @@ typedef struct S {
     unsigned int f70;
 } S;
 
-void func_02207EA8(S *p, int a)
+void BTLV_GAUGE_StartExpChange(S *p, int a)
 {
     int t;
     int x;

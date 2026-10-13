@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_MSG_BuildUiStringFlagged  0x021EF6B0  thumb  ov093
  *
- * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildUiStringFlagged; callee of func_021EA55C case 5.
+ * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildUiStringFlagged; callee of BTLV_CORE_BuildMessage case 5.
  */
 
 typedef unsigned int u32;

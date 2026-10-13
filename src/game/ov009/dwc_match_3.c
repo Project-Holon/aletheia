@@ -1,7 +1,7 @@
 /*
  * file:     dwc_match_3.c
  * unit:     yes
- * function: func_0216F014, func_0216F058, func_0216F0A0, func_0216F1E8, func_0216F20C, func_0216F334, func_0216F370, func_0216F388, func_0216F5FC, func_0216F6C0, func_0216F770, func_0216FAD4, func_0216FBB8, func_0216FC34, func_0216FE34, func_0216FEF0, func_0216FF2C, func_021700C8, func_02170168, func_02170200, func_021702A0, func_021713CC, func_02171524, func_02171884, func_021719A4, DWCi_SendResvCommand, DWCi_SendResvCommandToFriend, func_02171E34, func_02171F68, func_02171FD4, func_021720D8, func_02172124, DWCi_PostProcessConnection, DWCi_PostProcessConnectionSYNFinish, func_0217253C, func_021725EC, func_02172604, func_0217273C, func_021728B8, func_02172A58, func_02172B08, func_02172BB8, DWCi_RestartFromTimeout, DWCi_ResumeMatch, func_02172E18, func_02172E7C, func_02172EAC, DWCi_SendMatchSynPacket, func_021732F8, func_0217352C, func_021735A4, func_02173614, func_021736AC, func_021738EC, func_02173AD8, func_02173B18, func_02173B74, INTRUDE_COMM_RecvNoticeBytes, func_02173C84, INTRUDE_COMM_RecvRemoteRecord, func_02173CFC, func_02173D28, func_02173D9C, func_02173E30, func_02173EF8, func_02173F54, func_02173FB4, func_02174058
+ * function: func_0216F014, func_0216F058, func_0216F0A0, func_0216F1E8, func_0216F20C, func_0216F334, func_0216F370, func_0216F388, func_0216F5FC, func_0216F6C0, func_0216F770, func_0216FAD4, func_0216FBB8, func_0216FC34, func_0216FE34, func_0216FEF0, func_0216FF2C, func_021700C8, func_02170168, func_02170200, func_021702A0, func_021713CC, func_02171524, func_02171884, func_021719A4, DWCi_SendResvCommand, DWCi_SendResvCommandToFriend, func_02171E34, func_02171F68, func_02171FD4, func_021720D8, func_02172124, DWCi_PostProcessConnection, DWCi_PostProcessConnectionSYNFinish, func_0217253C, func_021725EC, func_02172604, func_0217273C, func_021728B8, func_02172A58, func_02172B08, func_02172BB8, DWCi_RestartFromTimeout, DWCi_ResumeMatch, func_02172E18, func_02172E7C, func_02172EAC, DWCi_SendMatchSynPacket, func_021732F8, func_0217352C, func_021735A4, func_02173614, func_021736AC, func_021738EC, func_02173AD8, func_02173B18, func_02173B74, DWCi_CheckDWCServer, func_02173C84, DWCi_GetAIDBitmask, func_02173CFC, func_02173D28, func_02173D9C, func_02173E30, func_02173EF8, func_02173F54, func_02173FB4, func_02174058
  * address:  0x0216F014
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -138,7 +138,6 @@
  *   DWCi_TempNewNodeInfo_IsValid                 0x02176554 arm ov009
  *   gpIsBuddy                                    0x021861a8 arm ov009
  *   gt2CloseAllConnectionsHard                   0x02195de4 arm ov009
- *   INTRUDE_COMM_IsJoinRequestValid                0x02175FB8 arm   ov009
  *   DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID 0x02176500 arm   ov009
  *   func_02176344                0x02176344 arm   ov009
  *   func_02171524                0x02171524 arm   ov009
@@ -397,7 +396,6 @@ extern u8 DWCi_GetAIDFromProfileID(int profileID, int idx);
 extern void DWCi_ResetLastSomeDataRecvTimeByAidAll(void);
 extern int DWC_CloseAllConnectionsHard(void);
 extern int DWCi_ProcessRequestMatch(u8 AID, int suspend, int immediate);
-extern unsigned char INTRUDE_COMM_IsJoinRequestValid(void);
 extern int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID);
 extern char *func_02176344(void);
 extern u8 func_02171524(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int connectGroupID, u32 topologyType, u8 *newClientUserData, int meshReserve);
@@ -449,7 +447,6 @@ extern void DWCi_ServerSynTimeoutExec(void);
 extern void DWCi_SendTypeMatchAck(void);
 extern int func_021720D8(int id);
 extern int DWCi_SendCancelMatchSynCommand(int profileID, u8 command);
-extern u32 DWCi_GetAIDBitmask(int valid);
 extern int DWCi_CloseShutdownClientSC(u32_021738EC bitmap);
 extern int func_02168FF0(int idx);
 extern int func_0219E120(struct SBServer *server, char *key, int idefault);
@@ -529,9 +526,9 @@ int DWCi_ProcessCancelMatchSynTimeout(void);
 u8 func_02173AD8(void);
 void func_02173B18(void);
 int func_02173B74(int profileID);
-int INTRUDE_COMM_RecvNoticeBytes(void *server);
+int DWCi_CheckDWCServer(void *server);
 u8 func_02173C84(int profileID, int idxOnly);
-unsigned int INTRUDE_COMM_RecvRemoteRecord(int valid);
+unsigned int DWCi_GetAIDBitmask(int valid);
 void func_02173CFC(void);
 int func_02173D28(int error);
 int func_02173D9C(int error);
@@ -2250,7 +2247,7 @@ u8 func_021713CC(int profileID, u32 qr2IP, u16 qr2Port, u32 matchType, int conne
     u64 tick;
 
     ((DWCstMatchControl *)func_02175F3C())->denyReason = 1;
-    switch (INTRUDE_COMM_IsJoinRequestValid()) {
+    switch (DWCi_GetHostStatus()) {
     case 1:
         if (DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(profileID)) {
             if (((DWCstMatchControl *)func_02175F3C())->inMeshMaking == 0) {
@@ -2794,7 +2791,7 @@ int func_02171FD4(int clientPid, int resetLevel)
         ((DWCstMatchControl *)func_02175F3C())->nnInfo.cookie = 0;
     }
     ((DWCstMatchControl *)func_02175F3C())->reqProfileID = 0;
-    if (INTRUDE_COMM_IsJoinRequestValid() == 2) {
+    if (DWCi_GetHostStatus() == 2) {
         ((DWCstMatchControl *)func_02175F3C())->qr2Flag18 = 0;
         ((DWCstMatchControl *)func_02175F3C())->serverProfileID = 0;
         func_02175F4C(0x11);
@@ -3770,7 +3767,7 @@ void func_021735A4(void)
 {
     int i;
 
-    if (INTRUDE_COMM_IsJoinRequestValid() != 2)
+    if (DWCi_GetHostStatus() != 2)
         return;
     for (i = 1; i < func_0217603C(); i++)
         func_02173064(*(unsigned char *)((char *)func_0217637C(i) + 0x16), 4);
@@ -3988,7 +3985,7 @@ int func_02173B74(int profileID)
 /*
  * sdk:      DWCi_CheckDWCServer (dwc_match.o)
  */
-int INTRUDE_COMM_RecvNoticeBytes(void *server)
+int DWCi_CheckDWCServer(void *server)
 {
     if (func_0219E120(server, g_021A21A4, -1) == -1)
         return 0;
@@ -4019,7 +4016,7 @@ u8 func_02173C84(int profileID, int idxOnly)
 /*
  * sdk:      DWCi_GetAIDBitmask (dwc_match.o)
  */
-unsigned int INTRUDE_COMM_RecvRemoteRecord(int valid)
+unsigned int DWCi_GetAIDBitmask(int valid)
 {
     unsigned int bitmask = 0;
     int i;

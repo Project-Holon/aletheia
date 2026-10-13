@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   data_021EFF14  0x021EFF14  data
- *   data_021F3B44  0x021F3B44  data
+ *   gBtlServerCmdLayouts  0x021EFF14  data
+ *   gBtlServerCmdArgBuffer  0x021F3B44  data
  *   BTL_SERVER_CMD_WriteCommand  0x021CCC0C  thumb  ov093
  *   BTL_SERVER_CMD_WriteU16  0x021CCAE0  thumb  ov093
  *   BTL_SERVER_CMD_WriteU8  0x021CCAA8  thumb  ov093
@@ -24,8 +24,8 @@ typedef struct {
     u32 rpos;
 } Buf;
 
-extern u8 data_021EFF14[];
-extern int data_021F3B44[];
+extern u8 gBtlServerCmdLayouts[];
+extern int gBtlServerCmdArgBuffer[];
 extern void BTL_SERVER_CMD_WriteCommand(void *w, u32 id, int cmd, s32 *a);
 extern void BTL_SERVER_CMD_WriteU16(void *w, u16 v);
 extern void BTL_SERVER_CMD_WriteU8(void *w, u8 v);
@@ -38,17 +38,17 @@ u32 BTL_SERVER_CMD_Reserve(Buf *w, u32 id)
     u8 len;
     u16 pos;
 
-    cmd = data_021EFF14[id];
+    cmd = gBtlServerCmdLayouts[id];
     n = cmd & 0xf;
     i = 0;
     if (n != 0) {
         do {
-            data_021F3B44[i] = 0;
+            gBtlServerCmdArgBuffer[i] = 0;
             i++;
         } while (i < n);
     }
     pos = w->wpos;
-    BTL_SERVER_CMD_WriteCommand(w, id, cmd, data_021F3B44);
+    BTL_SERVER_CMD_WriteCommand(w, id, cmd, gBtlServerCmdArgBuffer);
     len = w->wpos - pos;
     w->wpos = pos;
     BTL_SERVER_CMD_WriteU16(w, 0x5f);

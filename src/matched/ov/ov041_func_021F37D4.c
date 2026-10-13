@@ -1,5 +1,5 @@
 /*
- * function: GIMMICK41_Update
+ * function: FIELD_GIMMICK_CANNONS_Update
  * address:  0x021F37D4
  * packet:   pkt_021F37D4
  * region:   ov041
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GIMMICK41_Update 0x021F37D4 thumb
+ *   FIELD_GIMMICK_CANNONS_Update 0x021F37D4 thumb
  *   FIELDMAP_GetExpObj 0x02188D2C thumb  ov021
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
 */
@@ -18,7 +18,7 @@
 extern int FIELDMAP_GetExpObj(int *p);
 extern void FLD_EXP_OBJ_UpdateAnimes(void *p);
 
-void GIMMICK41_Update(int *p)
+void FIELD_GIMMICK_CANNONS_Update(int *p)
 {
     FLD_EXP_OBJ_UpdateAnimes((void *)FIELDMAP_GetExpObj(p));
 }

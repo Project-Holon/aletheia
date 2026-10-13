@@ -1,5 +1,5 @@
 /*
- * function: func_021E7CAC
+ * function: HAND_WAZA_AfterYouMoveTargetNext
  * address:  0x021E7CAC
  * packet:   pkt_ov093_021E7CAC
  * region:   ov093
@@ -25,7 +25,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *l, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void func_021E7CAC(int a, u8 *b, int c)
+void HAND_WAZA_AfterYouMoveTargetNext(int a, u8 *b, int c)
 {
     u8 *p;
     if (c == BTL_EVENT_GetVar(3)) {

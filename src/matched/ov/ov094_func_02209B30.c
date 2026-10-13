@@ -1,5 +1,5 @@
 /*
- * function: func_02209B30
+ * function: BTLV_FINGER_CURSOR_Delete
  * address:  0x02209B30
  * packet:   pkt_ov094_02209B30
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02209C18  0x02209C18  thumb  ov094
+ *   BTLV_FINGER_CURSOR_DeleteActor  0x02209C18  thumb  ov094
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
@@ -29,7 +29,7 @@ typedef struct {
 typedef unsigned int   u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_02209C18(char *p);
+extern void BTLV_FINGER_CURSOR_DeleteActor(char *p);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
@@ -37,10 +37,10 @@ struct Bank;
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
 
-void func_02209B30(P *p)
+void BTLV_FINGER_CURSOR_Delete(P *p)
 {
     func_02030EAC(p->f8);
-    func_02209C18((char *)p);
+    BTLV_FINGER_CURSOR_DeleteActor((char *)p);
     CLACT_ReleaseCharacter(p->fc);
     CLACT_ReleaseCellAnim(p->f14);
     CLACT_ReleasePalette(p->f10);

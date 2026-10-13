@@ -1,5 +1,5 @@
 /*
- * function: func_021E8264
+ * function: HAND_WAZA_GetGrowthHandlers
  * address: 0x021E8264
  * packet: pkt_ov093_021E8264
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021E8200.c and filed here.
  *
  * symbols:
- *   d_021F26A4 0x021F26A4 data ov093 a4
+ *   gGrowthHandlers 0x021F26A4 data ov093 a4
  */
 
-int *func_021E8264(int *p);
-extern int d_021F26A4[];
+int *HAND_WAZA_GetGrowthHandlers(int *p);
+extern int gGrowthHandlers[];
 
-int *func_021E8264(int *p)
+int *HAND_WAZA_GetGrowthHandlers(int *p)
 {
     *p = 1;
-    return d_021F26A4;
+    return gGrowthHandlers;
 }

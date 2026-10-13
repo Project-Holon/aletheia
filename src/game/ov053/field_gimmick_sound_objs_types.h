@@ -32,25 +32,25 @@ struct Iss3dsSys;
 struct SoundObj;
 
 /* Archive of the sound data of this gimmick. */
-#define GIMMICK53_ARC_ID 0x94
-#define GIMMICK53_SOUND_OBJ_COUNT 5
+#define FIELD_GIMMICK_SOUND_OBJS_ARC_ID 0x94
+#define FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT 5
 
 /* The gimmick work slot that keeps the animation frames. */
-#define GIMMICK53_SAVE_SLOT 1
+#define FIELD_GIMMICK_SOUND_OBJS_SAVE_SLOT 1
 
 /* Largest volume of a background music track. */
-#define GIMMICK53_BGM_VOLUME_MAX 0x7f
+#define FIELD_GIMMICK_SOUND_OBJS_BGM_VOLUME_MAX 0x7f
 
 /* Volume step of the music fade, per frame. */
-#define GIMMICK53_BGM_VOLUME_STEP 16
+#define FIELD_GIMMICK_SOUND_OBJS_BGM_VOLUME_STEP 16
 
 /* Number of camera heights kept by the sliding sound. */
-#define GIMMICK53_SLIDE_HISTORY 32
+#define FIELD_GIMMICK_SOUND_OBJS_SLIDE_HISTORY 32
 
 /* Phases of the sliding sound. */
-#define GIMMICK53_SLIDE_IDLE 0
-#define GIMMICK53_SLIDE_PLAYING 1
-#define GIMMICK53_SLIDE_FADING 2
+#define FIELD_GIMMICK_SOUND_OBJS_SLIDE_IDLE 0
+#define FIELD_GIMMICK_SOUND_OBJS_SLIDE_PLAYING 1
+#define FIELD_GIMMICK_SOUND_OBJS_SLIDE_FADING 2
 
 /* The music track that fades with the camera height, and the heights where the fade starts and ends. */
 typedef struct Gimmick53BgmFade {
@@ -63,11 +63,11 @@ typedef struct Gimmick53BgmFade {
 /* State of the sliding sound effect (0x90 bytes). */
 typedef struct Gimmick53SlideSe {
     int prevZ;                              /* 0x00: camera z of the last frame */
-    int cameraY[GIMMICK53_SLIDE_HISTORY];   /* 0x04: ring of camera heights while z changes */
+    int cameraY[FIELD_GIMMICK_SOUND_OBJS_SLIDE_HISTORY];   /* 0x04: ring of camera heights while z changes */
     short head;                               /* 0x84: oldest entry of the ring */
     short count;                              /* 0x86: entries in the ring */
     short volume;                             /* 0x88: volume of the fade out */
-    u16 state;                              /* 0x8A: GIMMICK53_SLIDE_* */
+    u16 state;                              /* 0x8A: FIELD_GIMMICK_SOUND_OBJS_SLIDE_* */
     u16 seId;                               /* 0x8C: sound effect that plays */
     u8 reserved8E[2];
 } Gimmick53SlideSe;
@@ -77,10 +77,10 @@ typedef struct Gimmick53Work {
     u16 heapId;                                             /* 0x00 */
     u16 reserved02;
     struct Iss3dsSys *iss3ds;                               /* 0x04 */
-    struct SoundObj *soundObj[GIMMICK53_SOUND_OBJ_COUNT];   /* 0x08 */
-    int waitFrames[GIMMICK53_SOUND_OBJ_COUNT];              /* 0x1C: frames left before the animation starts again; 0 while it plays */
-    int minWait[GIMMICK53_SOUND_OBJ_COUNT];                 /* 0x30: shortest wait */
-    int maxWait[GIMMICK53_SOUND_OBJ_COUNT];                 /* 0x44: longest wait */
+    struct SoundObj *soundObj[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];   /* 0x08 */
+    int waitFrames[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];              /* 0x1C: frames left before the animation starts again; 0 while it plays */
+    int minWait[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];                 /* 0x30: shortest wait */
+    int maxWait[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];                 /* 0x44: longest wait */
     Gimmick53BgmFade bgmFade;                               /* 0x58 */
     int bgmVolume;                                          /* 0x64 */
     Gimmick53SlideSe slideSe;                               /* 0x68 */
@@ -88,12 +88,12 @@ typedef struct Gimmick53Work {
 
 /* The animation frames (in whole frames) in the gimmick work. */
 typedef struct Gimmick53Save {
-    int animeFrame[GIMMICK53_SOUND_OBJ_COUNT];
+    int animeFrame[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];
 } Gimmick53Save;
 
 /* Archive members that hold the wait limits of each object. */
 typedef struct Gimmick53WaitMembers {
-    int member[GIMMICK53_SOUND_OBJ_COUNT];
+    int member[FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT];
 } Gimmick53WaitMembers;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
@@ -135,6 +135,6 @@ extern unsigned func_02005728(unsigned limit);
 extern void func_02082A7C(int value, void *dst, unsigned int size);
 extern void func_021BE580(FldExpObjCnt *expObj);
 
-void GIMMICK53_UpdateSlideSe(Gimmick53SlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer);
+void FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe(Gimmick53SlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer);
 
 #endif

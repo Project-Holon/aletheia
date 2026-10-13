@@ -12,7 +12,7 @@
  * Unlabelled arm9 function: loads save block 5 into a 0x1000 byte heap buffer,
  * copies its first 0x5C8 bytes to dst, then starts a save of block 5 and spins
  * on OS_WaitIrq until it reports done. Filed as the relocation witness for
- * ov021 func_021D0C58 (wave A1).
+ * ov021 TRIAL_HOUSE_DeliveryTaskMain (wave A1).
  *
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb

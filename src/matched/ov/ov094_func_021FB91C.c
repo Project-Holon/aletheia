@@ -16,7 +16,7 @@
  *   func_021F8198  0x021F8198  thumb  ov094
  *   func_021F7F1C  0x021F7F1C  thumb  ov094
  *   func_021F86B4  0x021F86B4  thumb  ov094
- *   func_022079C0  0x022079C0  thumb  ov094
+ *   BTLV_GAUGE_PlaceSlot  0x022079C0  thumb  ov094
  *
  * The last loop reads the list through `((int *)ids)[i]`. The cast stops
  * the element address folding into sp-relative form, so the compiler hoists
@@ -44,7 +44,7 @@ extern int func_021FCA04(State *s, int id, int *out);
 extern void func_021F8198(int a, int b);
 extern int func_021F7F1C(int i);
 extern int func_021F86B4(void);
-extern void func_022079C0(char *p, int i, Pt *pt);
+extern void BTLV_GAUGE_PlaceSlot(char *p, int i, Pt *pt);
 
 int func_021FB91C(void *r, State *s)
 {
@@ -115,7 +115,7 @@ int func_021FB91C(void *r, State *s)
                 pt.x = (a == 2) ? 0x80 : -0x10;
                 if (((int *)ids)[i] & 1)
                     pt.x *= -1;
-                func_022079C0((char *)func_021F86B4(), ((int *)ids)[i], &pt);
+                BTLV_GAUGE_PlaceSlot((char *)func_021F86B4(), ((int *)ids)[i], &pt);
             }
         }
     }

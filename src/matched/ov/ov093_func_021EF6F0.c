@@ -15,7 +15,7 @@
  *   func_0201F250  0x0201F250  thumb
  *   gBtlMsgState     0x021F6398  data   a4
  *
- * Unlabelled leaf, callee of the tail stub 0x021EF6E8 that func_021EA55C calls.
+ * Unlabelled leaf, callee of the tail stub 0x021EF6E8 that BTLV_CORE_BuildMessage calls.
  * Twin of BTL_MSG_BuildUiStringFlagged without the +0x5a flag stores, using the +0x28 slot.
  */
 

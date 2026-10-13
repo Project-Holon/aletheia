@@ -10,22 +10,22 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Two accessors over the result of GIMMICK51_Init.
+ * Two accessors over the result of FIELD_GIMMICK_D06_FindStoneTableRow.
  *
  * symbols:
- *   GIMMICK51_Init  0x021F36C0  thumb  ov051
+ *   FIELD_GIMMICK_D06_FindStoneTableRow  0x021F36C0  thumb  ov051
  */
 #include "../include/Obj20552.h"
 #include "../include/Obj20553.h"
 
 int FIELD_GIMMICK_D06_GetStonePositions(int a)
 {
-    void *GIMMICK51_Init(int a);
-    return ((struct Obj20552 *)((char *)GIMMICK51_Init(a)))->f8;
+    void *FIELD_GIMMICK_D06_FindStoneTableRow(int a);
+    return ((struct Obj20552 *)((char *)FIELD_GIMMICK_D06_FindStoneTableRow(a)))->f8;
 }
 
 int GIMMICK49_Exit(int a)
 {
-    void *GIMMICK51_Init(int a);
-    return ((struct Obj20553 *)((char *)GIMMICK51_Init(a)))->f4;
+    void *FIELD_GIMMICK_D06_FindStoneTableRow(int a);
+    return ((struct Obj20553 *)((char *)FIELD_GIMMICK_D06_FindStoneTableRow(a)))->f4;
 }

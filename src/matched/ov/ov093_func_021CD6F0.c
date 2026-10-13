@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021F3A88 0x021F3A88 data a4
+ *   gBtlClientFileName 0x021F3A88 data a4
  *   BTL_ADAPTER_Create 0x021EEA58 thumb ov093
  *   BTL_SIDE_GetSlotOfClientThunk 0x021B9AF8 thumb ov093
  *   BTL_CLIENT_StepMain 0x021CDA18 thumb ov093
@@ -35,7 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 f0:1,f1:1,f2:1,f3:1,f4:1,f5:1,rest:2; } Flags;
 struct Copy24 { int x[6]; };
-extern u8 d_021F3A88[];
+extern u8 gBtlClientFileName[];
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *BTL_ADAPTER_Create(u32, int, u32, u32);
 extern char *BTL_SIDE_GetSlotOfClientThunk(char *, int);
@@ -56,7 +56,7 @@ u8 *BTL_CLIENT_Create(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f
     u8 *p;
     u32 i;
     int flag, k;
-    p = func_02030734(heap, 0x1b8, 1, (const char *)d_021F3A88, 0x209);
+    p = func_02030734(heap, 0x1b8, 1, (const char *)gBtlClientFileName, 0x209);
     flag = 1;
     if (c == 0 || e != 0)
         flag = 0;
@@ -73,7 +73,7 @@ u8 *BTL_CLIENT_Create(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f
     p[0xc4] = 0;
     *(int *)(p + 0x54) = 0;
     *(u16 *)(p + 0x19c) = 0;
-    *(void **)(p + 0x134) = func_02030734(heap, 0xbc0, 1, (const char *)d_021F3A88, 0x21a);
+    *(void **)(p + 0x134) = func_02030734(heap, 0xbc0, 1, (const char *)gBtlClientFileName, 0x21a);
     *(void **)(p + 0x28) = (void *)BTL_CLIENT_StepMain;
     p[0x1a8] = 0;
     *(int *)(p + 0xa0) = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E9984
+ * function: BTLV_CORE_InitPartyWork
  * address: 0x021E9984
  * packet: pkt_ov093_021E9984
  * region: ov093
@@ -39,7 +39,7 @@ extern int func_021F86E0(void);
 extern u32 BTL_MAIN_GetGameData(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***);
 
-void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
+void BTLV_CORE_InitPartyWork(u8 *p, u8 *q, int mode, u8 x, int y)
 {
     u32 k;
     int zero;

@@ -1,5 +1,5 @@
 /*
- * function: func_02208870
+ * function: BTLV_GAUGE_SelectSlot
  * address:  0x02208870
  * packet:   pkt_ov094_02208870
  * region:   ov094
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_0220AAB8     0x0220AAB8  data  ov094  a2
- *   func_022079C0  0x022079C0  thumb  ov094
+ *   sGaugeHomeOffset     0x0220AAB8  data  ov094  a2
+ *   BTLV_GAUGE_PlaceSlot  0x022079C0  thumb  ov094
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,20 +47,20 @@ typedef struct {
     } flags;                /* 0x440 */
 } W;
 
-extern const Pt d_0220AAB8;
-extern void func_022079C0(W *w, int i, Pt *p);
+extern const Pt sGaugeHomeOffset;
+extern void BTLV_GAUGE_PlaceSlot(W *w, int i, Pt *p);
 
-void func_02208870(W *w, int sel)
+void BTLV_GAUGE_SelectSlot(W *w, int sel)
 {
     Pt b;
-    Pt a = d_0220AAB8;
+    Pt a = sGaugeHomeOffset;
     int i;
 
     for (i = 0; i < 8; i++) {
         if (w->r[i].f00 != 0 && w->r[i].flags.b20) {
             b = a;
             w->r[i].flags.b20 = 0;
-            func_022079C0(w, i, &b);
+            BTLV_GAUGE_PlaceSlot(w, i, &b);
         }
     }
     if (sel != 8) {

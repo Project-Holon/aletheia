@@ -1,5 +1,5 @@
 ﻿/*
- * function: GIMMICK60_IsEffectActive
+ * function: FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive
  * address:  0x021F37D8
  * packet:   pkt_021F37D8
  * region:   ov060
@@ -18,7 +18,7 @@
  * code home (ov009 is ARM gpiRecvToBuffer there).
  */
 
-int GIMMICK60_IsEffectActive(void *p)
+int FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(void *p)
 {
     void *FIELDMAP_GetCommonWork(void *, int);
     return *(unsigned char *)((char *)FIELDMAP_GetCommonWork(p, 0) + 1);

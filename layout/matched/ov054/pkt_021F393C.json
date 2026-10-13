@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GIMMICK54_RestartAnime",
+   "name": "FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime",
    "address": "0x021F393C",
    "kind": "game",
    "region": "ov054",

@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_button_states.c
  * unit:     yes
- * function: func_021F36C0, GIMMICK42_Exit, GIMMICK42_Update, GIMMICK42_CreateStateEvent, GIMMICK42_CreateOneShotEvent, GIMMICK42_EventSetState, GIMMICK42_EventPlayOneShot
+ * function: FIELD_GIMMICK_BUTTON_STATES_Init, FIELD_GIMMICK_BUTTON_STATES_Exit, FIELD_GIMMICK_BUTTON_STATES_Update, FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent, FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent, FIELD_GIMMICK_BUTTON_STATES_EventSetState, FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot
  * address:  0x021F36C0
  * region:   ov042
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   gGimmick42UnitSetup     0x021F3A58  data  a4
- *   d_021F3AD4     0x021F3AD4  data  a4
+ *   gGimmick42StatePos     0x021F3AD4  data  a4
  *   gGimmick42OneShotPos     0x021F3A68  data  a4
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
@@ -38,31 +38,32 @@
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_020122C0  0x020122C0  thumb
- *   GIMMICK42_EventPlayOneShot  0x021F3980  thumb
+ *   FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot  0x021F3980  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  */
 #include "../ov021/fld_exp_obj_types.h"
+#include "../ov037/gimmick_save_types.h"
 #include "field_gimmick_button_states_types.h"
 
-void func_021F36C0(struct FieldMap *fieldMap);
-void GIMMICK42_Exit(struct FieldMap *fieldMap);
-void GIMMICK42_Update(struct FieldMap *fieldMap);
-struct GameEvent *GIMMICK42_CreateStateEvent(struct GameSystem *gameSystem, u32 stateModel, u32 showLastFrame);
-struct GameEvent *GIMMICK42_CreateOneShotEvent(struct GameSystem *gameSystem, u32 oneShotIndex);
-int GIMMICK42_EventSetState(struct GameEvent *event, int *seq, void *work);
+void FIELD_GIMMICK_BUTTON_STATES_Init(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_BUTTON_STATES_Exit(struct FieldMap *fieldMap);
+void FIELD_GIMMICK_BUTTON_STATES_Update(struct FieldMap *fieldMap);
+struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem *gameSystem, u32 stateModel, u32 showLastFrame);
+struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(struct GameSystem *gameSystem, u32 oneShotIndex);
+int FIELD_GIMMICK_BUTTON_STATES_EventSetState(struct GameEvent *event, int *seq, void *work);
 
 /* Model positions; the tables are read in full, the gimmick uses a prefix of them. */
 typedef struct Gimmick42PosTable {
-    VecFx32 pos[GIMMICK42_STATE_MODEL_COUNT];
+    VecFx32 pos[FIELD_GIMMICK_BUTTON_STATES_STATE_MODEL_COUNT];
 } Gimmick42PosTable;
 
 extern G3dUtilSetup gGimmick42UnitSetup;
-extern Gimmick42PosTable d_021F3AD4;
+extern Gimmick42PosTable gGimmick42StatePos;
 extern Gimmick42PosTable gGimmick42OneShotPos;
 
 /* Load the models, place them, and show the one-shot models at their last frame when they were played. */
-void func_021F36C0(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_BUTTON_STATES_Init(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj;
     Gimmick42Save *save;
@@ -76,19 +77,19 @@ void func_021F36C0(struct FieldMap *fieldMap)
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), 4);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gGimmick42UnitSetup, 0);
-    statePos = d_021F3AD4;
-    for (i = 0; i < GIMMICK42_STATE_MODEL_COUNT; i = (u8)(i + 1)) {
+    statePos = gGimmick42StatePos;
+    for (i = 0; i < FIELD_GIMMICK_BUTTON_STATES_STATE_MODEL_COUNT; i = (u8)(i + 1)) {
         FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u8)i)->trans = statePos.pos[i];
         FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u8)i, 1);
     }
     oneShotPos = gGimmick42OneShotPos;
-    for (i = 0; i < GIMMICK42_ONE_SHOT_COUNT; i = (u8)(i + 1)) {
-        FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u8)(i + GIMMICK42_ONE_SHOT_FIRST_MODEL))->trans = oneShotPos.pos[i];
-        FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u8)(i + GIMMICK42_ONE_SHOT_FIRST_MODEL), 1);
+    for (i = 0; i < FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_COUNT; i = (u8)(i + 1)) {
+        FLD_EXP_OBJ_GetModelStatus(expObj, 0, (u8)(i + FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL))->trans = oneShotPos.pos[i];
+        FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u8)(i + FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL), 1);
     }
-    for (i = 0; i < GIMMICK42_ONE_SHOT_COUNT; i = (u8)(i + 1)) {
+    for (i = 0; i < FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_COUNT; i = (u8)(i + 1)) {
         if (save->oneShotPlayed[i]) {
-            modelIndex = i + GIMMICK42_ONE_SHOT_FIRST_MODEL;
+            modelIndex = i + FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL;
             FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, modelIndex, 0, 1);
             anime = FLD_EXP_OBJ_GetAnime(expObj, 0, modelIndex, 0);
             FLD_EXP_OBJ_SetAnimePaused(anime, 0);
@@ -98,7 +99,7 @@ void func_021F36C0(struct FieldMap *fieldMap)
     }
 }
 
-void GIMMICK42_Exit(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_BUTTON_STATES_Exit(struct FieldMap *fieldMap)
 {
     FldExpObjCnt *expObj = FIELDMAP_GetExpObj(fieldMap);
 
@@ -106,13 +107,13 @@ void GIMMICK42_Exit(struct FieldMap *fieldMap)
     FLD_EXP_OBJ_RemoveUnit(expObj, 0);
 }
 
-void GIMMICK42_Update(struct FieldMap *fieldMap)
+void FIELD_GIMMICK_BUTTON_STATES_Update(struct FieldMap *fieldMap)
 {
     FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(fieldMap));
 }
 
 /* Create the event that sets the state of one of the first nine models; null for an unknown model. */
-struct GameEvent *GIMMICK42_CreateStateEvent(struct GameSystem *gameSystem, u32 stateModel, u32 showLastFrame)
+struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem *gameSystem, u32 stateModel, u32 showLastFrame)
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
@@ -124,9 +125,9 @@ struct GameEvent *GIMMICK42_CreateStateEvent(struct GameSystem *gameSystem, u32 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
-    if (stateModel >= GIMMICK42_STATE_MODEL_COUNT)
+    if (stateModel >= FIELD_GIMMICK_BUTTON_STATES_STATE_MODEL_COUNT)
         return 0;
-    event = func_020122C0(gameSystem, 0, GIMMICK42_EventSetState, 0);
+    event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventSetState, 0);
     if (event != 0) {
         work->stateModel = stateModel;
         work->showLastFrame = showLastFrame;
@@ -135,7 +136,7 @@ struct GameEvent *GIMMICK42_CreateStateEvent(struct GameSystem *gameSystem, u32 
 }
 
 /* Create the event that plays the animation of one one-shot model. */
-struct GameEvent *GIMMICK42_CreateOneShotEvent(struct GameSystem *gameSystem, u32 oneShotIndex)
+struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(struct GameSystem *gameSystem, u32 oneShotIndex)
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
@@ -147,15 +148,15 @@ struct GameEvent *GIMMICK42_CreateOneShotEvent(struct GameSystem *gameSystem, u3
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
-    if (oneShotIndex > GIMMICK42_ONE_SHOT_COUNT)
+    if (oneShotIndex > FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_COUNT)
         return 0;
-    event = func_020122C0(gameSystem, 0, GIMMICK42_EventPlayOneShot, 0);
+    event = func_020122C0(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
     work->oneShotIndex = oneShotIndex;
     return event;
 }
 
 /* Event: show the model in its first or last animation frame. */
-int GIMMICK42_EventSetState(struct GameEvent *event, int *seq, void *eventWork)
+int FIELD_GIMMICK_BUTTON_STATES_EventSetState(struct GameEvent *event, int *seq, void *eventWork)
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
@@ -191,7 +192,7 @@ int GIMMICK42_EventSetState(struct GameEvent *event, int *seq, void *eventWork)
 }
 
 /* Event: play the animation of a one-shot model once, then record it in the save area. */
-int GIMMICK42_EventPlayOneShot(struct GameEvent *event, int *seq, void *eventWork)
+int FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot(struct GameEvent *event, int *seq, void *eventWork)
 {
     struct FieldMap *fieldMap;
     FldExpObjCnt *expObj;
@@ -206,7 +207,7 @@ int GIMMICK42_EventPlayOneShot(struct GameEvent *event, int *seq, void *eventWor
     save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     switch (*seq) {
     case 0:
-        modelIndex = work->oneShotIndex + GIMMICK42_ONE_SHOT_FIRST_MODEL;
+        modelIndex = work->oneShotIndex + FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL;
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, modelIndex, 0, 1);
         anime = FLD_EXP_OBJ_GetAnime(expObj, 0, modelIndex, 0);
         FLD_EXP_OBJ_SetAnimePaused(anime, 0);
@@ -215,7 +216,7 @@ int GIMMICK42_EventPlayOneShot(struct GameEvent *event, int *seq, void *eventWor
         (*seq)++;
         break;
     case 1:
-        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, (u8)(work->oneShotIndex + GIMMICK42_ONE_SHOT_FIRST_MODEL), 0))) {
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, (u8)(work->oneShotIndex + FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL), 0))) {
             save->oneShotPlayed[work->oneShotIndex] = 1;
             return 1;
         }

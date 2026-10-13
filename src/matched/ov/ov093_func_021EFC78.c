@@ -1,5 +1,5 @@
 /*
- * function: func_021EFC78
+ * function: BTL_FIELD_TickSlots
  * address:  0x021EFC78
  * packet:   pkt_ov093_021EFC78
  * region:   ov093
@@ -14,7 +14,7 @@
  * setup is that struct copy, not a plain u32 load.
  *
  * symbols:
- *   func_021EFCE4  0x021EFCE4  thumb  ov093
+ *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
  *   BTLV_CORE_GetSlotLow  0x021E8AFC  thumb  ov093
  *   WEATHER_LIGHTNING_GetFlashColor  0x021EFCD4  thumb  ov093
  *   BTL_FIELD_ResetSlot  0x021EF83C  thumb  ov093
@@ -25,13 +25,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_021EFCE4(char *a, int b);
+extern void *BTL_FIELD_IsSlotInUse(char *a, int b);
 typedef struct { u32 v; } Slot;
 extern u8 BTLV_CORE_GetSlotLow(Slot s);
 extern void WEATHER_LIGHTNING_GetFlashColor(u32 a);
 extern void BTL_FIELD_ResetSlot(char *a, u32 b);
 
-void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg)
+void BTL_FIELD_TickSlots(char *a, void (*cb)(u32, u32), u32 arg)
 {
     u32 k;
 
@@ -39,7 +39,7 @@ void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg)
         char *e;
         u32 lim;
 
-        if (func_021EFCE4(a, k) == 0)
+        if (BTL_FIELD_IsSlotInUse(a, k) == 0)
             continue;
         e = a + k * 4;
         lim = BTLV_CORE_GetSlotLow(*(Slot *)(e + 0x28));
