@@ -46,9 +46,12 @@ The .rodata, .data and .bss of every file (and of the companion files
 but linked as the overlay's data tail: one segment with the .rodata of all files
 in link order, ALIGN(4), the static-initialiser terminator (WRITEW 0), ALIGN(32);
 one segment with the .data; one with the .bss.  A companion is linked right after
-its code file; its anchor function goes outside the overlay.  DIR/datalink.json
-(from datagen) gives the tail borders and the linker aliases (second names of an
-object, names inside an object).  Output is in build/gamelink_data/ovNNN/.
+its code file (a <stem>.zpre.c companion right before it); its anchor function goes
+outside the overlay.  DIR/datalink.json (from datagen) gives the tail borders, the
+linker aliases (second names of an object, names inside an object) and the files'
+own data sections with their original addresses ("own"): those link in address
+order, and one at a multiple of 4 is given 4-byte alignment.  Output is in
+build/gamelink_data/ovNNN/.
 """
 
 from __future__ import annotations
@@ -599,6 +602,8 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
     work = os.path.join(OUT, region_name(ovid))
     data_tail = bss = None
     data_aliases = {}
+    data_renames = {}
+    own_tail = {}
     if data:
         # --data: the data sections of all files form the data tail (see the docstring)
         dl = os.path.join(extra or "", "datalink.json")
@@ -608,6 +613,12 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
         data_tail = tuple(int(x, 16) for x in dj["tail"])        # rodata start, sinit start, data start, end
         bss = tuple(int(x, 16) for x in dj["bss"]) if dj.get("bss") else None
         data_aliases = dj.get("aliases", {})
+        data_renames = dj.get("renames", {})     # file stem -> {name: its own name for another object}
+        # the files' own data sections and their addresses in the original
+        # (datagen.py from the plain link): they link in address order, and one
+        # at a multiple of 4 gets that alignment (local array templates are
+        # 1-aligned here but 4-aligned in the game's objects)
+        own_tail = {stem: [(i, int(a, 16)) for i, a in v] for stem, v in dj.get("own", {}).items()}
         data_sinit = dj.get("sinit", [])
         work = os.path.join(OUT + "_data", region_name(ovid))
     shutil.rmtree(work, ignore_errors=True)
@@ -676,6 +687,15 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
     unplaced = []
     dead_at = 0x0F000000  # unreferenced data sections go here, outside every region
     dead = 0
+    # data mode: own sections of several files at one address (ov009
+    # unit_02157280 has 0x78 bytes of the network statics that unit_021573C4
+    # defines in 0xBC): the largest one links, the others are copies
+    own_keep = {}
+    for ti, t in enumerate(tus):
+        sz = {x["idx"]: x["size"] for x in t["secs"]}
+        for si, oa in own_tail.get(t["stem"], []):
+            if si in sz and (oa not in own_keep or sz[si] > own_keep[oa][0]):
+                own_keep[oa] = (sz[si], ti)
     for ti, t in enumerate(tus):
         t["dsecs"] = [x for x in t["secs"] if x["name"] != ".text"]
         t["secs"] = [x for x in t["secs"] if x["name"] == ".text"]
@@ -684,6 +704,12 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
             # data mode: every data section goes to the tail segments, in link order
             t["tail_secs"], t["dsecs"] = t["dsecs"], []
         used = referenced_sections(t["odata"], t["obj"])
+        if data_tail:
+            # a dead section (see below) stays out of the tail too (ov016
+            # unit_021C7768: the unused template @58 of `AREA a = {...}`)
+            t["dsecs"] = [x for x in t["tail_secs"] if x["idx"] not in used and not any(
+                y["shndx"] == x["idx"] and (y["info"] >> 4) == 1 for y in t["osyms"])]
+            t["tail_secs"] = [x for x in t["tail_secs"] if x not in t["dsecs"]]
         for x in t["dsecs"]:
             if x["idx"] not in used and not any(y["shndx"] == x["idx"] and (y["info"] >> 4) == 1
                                                 for y in t["osyms"]):
@@ -744,6 +770,23 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
             nm = ".d%d_%d" % (ti, x["idx"])
             t["secren"][x["idx"]] = nm
             dgroups.append((ti, nm, x["addr"], x["addr"] + x["size"], x["type"] == 8))
+        if data_tail:
+            # data mode: a copy of another file's own section (own_keep) links
+            # once, as in the plain link
+            bysi = {x["idx"]: x for x in t["tail_secs"]}
+            for si, oa in own_tail.get(t["stem"], []):
+                x = bysi.get(si)
+                if x is None:
+                    continue
+                if own_keep.get(oa, (0, ti))[1] != ti:
+                    # references go to the kept copy; this one is parked
+                    # outside every region (-nodeadstrip places every section)
+                    t["dupsec"][si] = oa
+                    t["tail_secs"].remove(x)
+                    nm = ".d%d_%d" % (ti, si)
+                    t["secren"][si] = nm
+                    dgroups.append((ti, nm, dead_at, dead_at + x["size"], x["type"] == 8))
+                    dead_at += (x["size"] + 7) & ~7
     for t in tus:
         t["defs"] = set(y["name"] for y in t["osyms"] if y["name"] and y["shndx"] != 0)
         t["pieces"] = [] if is_companion(t["stem"]) else \
@@ -773,7 +816,7 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
     first = {}
     gsyms = {}
     for t in tus:
-        t["rename"] = {}
+        t["rename"] = dict(data_renames.get(t["stem"], {}))
         for n, v in t["syms"].items():
             gsyms.setdefault(n, v)
     # one name defined by two files (the original had two functions of that name):
@@ -961,6 +1004,15 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
             for k, p in enumerate(t["pieces"]):
                 if k:
                     ren.update({x: p["sec"] for x in p["idxs"]})
+            t["own_tail"] = []          # data mode: (address, section kind, new name)
+            kinds = {x["idx"]: (x["name"], x["align"]) for x in t["tail_secs"]}
+            for si, oa in own_tail.get(t["stem"], []):
+                if si in kinds:
+                    ren[si] = ".own%d_%d" % (i, si)
+                    t["own_tail"].append((oa, kinds[si][0], ren[si]))
+                    if oa % 4 == 0 and kinds[si][1] < 4:
+                        set_align(os.path.join(work, "t%d.o" % i), {si: 4})
+            t["own_tail"].sort()
             if ren:
                 rename_sections(os.path.join(work, "t%d.o" % i), ren)
             if is_companion(t["stem"]):
@@ -979,8 +1031,13 @@ def link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, ski
             t0, s0, s1, e0 = data_tail
 
             def tail_of(sname):
-                return " ".join("t%d.o (%s)" % (i, sname) for i, t in enumerate(tus)
-                                if any(x["name"] == sname for x in t["tail_secs"]))
+                out_ = []
+                for i, t in enumerate(tus):
+                    mine = [nm for _a, k, nm in t["own_tail"] if k == sname]
+                    out_ += ["t%d.o (%s)" % (i, nm) for nm in mine]
+                    if sum(1 for x in t["tail_secs"] if x["name"] == sname) > len(mine):
+                        out_.append("t%d.o (%s)" % (i, sname))
+                return " ".join(out_)
             # .rodata in link order, the static-initialiser table (the entries of
             # datalink.json "sinit", then the terminator), .data at ALIGN(32)
             sinit = "".join(" WRITEW %s;" % x for x in data_sinit)

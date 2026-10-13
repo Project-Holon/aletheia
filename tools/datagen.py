@@ -9,6 +9,8 @@ values come from the image at run time; nothing generated is committed.
   python tools/datagen.py gen   [--region arm9 ...]   write build/data/<region>_data.c
   python tools/datagen.py check [--region arm9 ...]   gen + compile with mwccarm + compare
                                                       every object with the image
+  python tools/datagen.py companions 12 [--out=DIR]   companion files <stem>.zdata.c for
+                                                      tools/gamelink.py --data (see below)
 
 Pointers are written as (char *)&name + addend where name is the registry name
 of the target (a defined object of the same file, or an extern from the
@@ -208,11 +210,598 @@ def check_region(layout, reg, region, version="1.1p1", flags=("-O4,p",)):
     return res, fails
 
 
+# ---------------------------------------------------------------------------
+# companions: the data tail of an overlay as C next to its src/game files
+#
+#   python tools/datagen.py companions 12 13 [--out=DIR]
+#   python tools/gamelink.py 12 --data --extra=build/datac/ov012
+#
+# For overlay ovNNN:
+#   1. cut the data tail (registry range, or the end of the files' code when
+#      that is later, .. overlay end) into objects at every known start: registry starts, literal-pool targets of the overlay code,
+#      data names of the file headers, the borders of the data sections the
+#      code files define themselves (string literals, statics: they stay in
+#      their file), the static-initialiser table;
+#   2. .rodata = tail start .. table, .data = ALIGN(32) after it .. end;
+#      an all-zero piece of .data is merged into its neighbour (mwccarm puts a
+#      zero object in .bss), its names become linker aliases at an offset; an
+#      unnamed all-zero piece at the end is the ALIGN(32) padding of the overlay;
+#      .bss is cut the same way at code references;
+#   3. owner of an object = the file whose code refers to it (else the file of
+#      a function it points at, else the file of an object that points at it,
+#      else the file of an own section just passed, else its neighbour); owners must rise in link
+#      order per section, otherwise a blocker is noted; a run of one owner
+#      that starts below the alignment of its types goes to the owner before;
+#   4. every owner file gets a companion <stem>.zdata.c with the header of the
+#      file (same address, compiler, flags) and the definitions in layout order
+#      after an anchor function (mwccarm keeps definition order after a function;
+#      before one it sorts data by size).  Initialisers are #included from
+#      build/gen/datac/ovNNN/*.inc, made here from the user's own extract.
+#      Objects below an own section of the owner file that lies inside their
+#      run go to <stem>.zpre.c, which links before the file;
+#   5. DIR/datalink.json holds the tail borders, the linker aliases (every
+#      other name a file uses for an object address) and the entries of the
+#      static-initialiser table (function names, or addresses of gap code),
+#      and "own": per file its own data sections (object section index,
+#      address), from the .lcf regions dN of the plain link.
+# A function pointer is written as the plain function name: the linker sets the
+# Thumb bit itself.  Nothing written here is committed (build/ is gitignored).
+
+SCALAR = {
+    "char": (1, True), "signed char": (1, True), "unsigned char": (1, False),
+    "s8": (1, True), "u8": (1, False),
+    "short": (2, True), "signed short": (2, True), "unsigned short": (2, False),
+    "s16": (2, True), "u16": (2, False),
+    "int": (4, True), "signed int": (4, True), "unsigned int": (4, False), "unsigned": (4, False),
+    "long": (4, True), "unsigned long": (4, False), "s32": (4, True), "u32": (4, False),
+    "fx32": (4, True), "fx16": (2, True),
+}
+PLAIN = ("char", "signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int",
+         "unsigned", "long", "unsigned long", "signed short", "signed int")
+FP_RE = r"^[ \t]*extern\s+(?P<ret>[^;()=]*?)\(\s*\*\s*(?P<c>const\s+)?%s\s*\[[^\]]*\]\s*\)\s*(?P<args>\([^;]*\))\s*;[ \t]*$"
+DECL_RE = r"^[ \t]*extern\s+(?P<pre>[^;()=]*?)\b%s\s*(?P<arr>\[[^\]]*\])?\s*;[ \t]*$"
+DATAC_OUT = os.path.join(ROOT, "build", "datac")
+DATAC_GEN = os.path.join(ROOT, "build", "gen", "datac")
+
+
+def _gl():
+    import gamelink
+    return gamelink
+
+
+def _file_list(rg):
+    import gamebuild
+    gl = _gl()
+    d = os.path.join(ROOT, "src", "game", rg)
+    res = []
+    for f in sorted(os.listdir(d)):
+        fp = os.path.join(d, f)
+        if not f.endswith(".c") or f.startswith("_") or not os.path.isfile(fp):
+            continue
+        raw = open(fp, encoding="latin1").read()
+        h, _st = gamebuild._settings(raw)
+        res.append(dict(name=f, path=fp, raw=raw, addr=int(h["address"], 16), hsyms=gl.header_symbols(raw)))
+    res.sort(key=lambda x: x["addr"])
+    return res
+
+
+def _base_elf(rg, relink=False):
+    """The plain gamelink link of the unchanged files (function names, and the
+    data sections the code files define themselves)."""
+    gl = _gl()
+    elf = os.path.join(gl.OUT, rg, "ov.elf")
+    if relink or not os.path.exists(elf):
+        r = gl.link_overlay(int(rg[2:]), verbose=False)
+        if not os.path.exists(elf):
+            raise RuntimeError("plain link of %s failed: %s" % (rg, r.get("why")))
+    return gl.read_elf(elf)
+
+
+def _names_in(raw, lo, hi):
+    """name_XXXXXXXX tokens of a file that point into [lo, hi)."""
+    for m in re.finditer(r"\b([A-Za-z_]\w*_([0-9A-Fa-f]{8}))\b", raw):
+        a = int(m.group(2), 16)
+        if lo <= a < hi and not m.group(1).startswith(("func_", "sub_")):
+            yield m.group(1), a
+
+
+def companions(rg, out=None, relink=False):
+    import bisect
+    import match
+    gl = _gl()
+    layout = datareg.load_layout()
+    o = [x for x in layout["overlays"] if "ov%03d" % x["id"] == rg][0]
+    base, img, lst = datareg.region_image(layout, rg)
+    reg = load_registry()[rg]
+    t0 = int(reg["range"][0], 16)
+    end = base + o["code_size"]
+    s0, s1 = o["static_init_start"], o["static_init_end"]
+    if not (t0 <= s0 < s1 <= end):
+        raise RuntimeError("static-initialiser table %X..%X outside the tail %X..%X" % (s0, s1, t0, end))
+    # the static-initialiser table: code addresses (the linker collects them from
+    # the objects), then a zero terminator; gamelink writes the entries itself
+    sinit = list(struct.unpack("<%dI" % ((s1 - s0) // 4), img[s0 - base:s1 - base])) if (s1 - s0) % 4 == 0 else [1]
+    if sinit[-1] or not all(base <= w < t0 for w in sinit[:-1]):
+        raise RuntimeError("static-initialiser table %X..%X is not code addresses and a terminator" % (s0, s1))
+    # .data starts at ALIGN(32) after the terminator (the overlay .lcf); the
+    # zero bytes in between are linker padding, not an object
+    ds = (s1 + 31) & ~31
+    if ds <= end and img[s1 - base:ds - base] == bytes(ds - s1):
+        s1 = ds
+    files = _file_list(rg)
+    fstarts = [f["addr"] for f in files]
+    _d, bsecs, bsyms = _base_elf(rg, relink)
+    # the tail starts after the code of the files: the registry range can begin
+    # at the literal pool of the last function (pointer words into the tail)
+    cend = max([x["addr"] + x["size"] for x in bsecs
+                if re.fullmatch(r"t\d+(_\d+)?", x["name"]) and base <= x["addr"] < end] + [t0])
+    if t0 < cend <= s0:
+        t0 = cend
+    fnames = {}             # address -> (name, thumb)
+    for y in bsyms:
+        if y["name"] and not y["name"].startswith("$") and y["shndx"] and (y["info"] & 15) == 2 \
+                and "__" not in y["name"]:
+            fnames.setdefault(y["value"] & ~1, (y["name"], y["value"] & 1))
+    fbyname = {}
+    for a, (n, _th) in fnames.items():
+        fbyname.setdefault(n, a)
+    blockers = []
+    # a table entry is the function name when a file defines it, else its address
+    # (code in a gap of the plain link)
+    sinit = [fnames[w & ~1][0] if (w & ~1) in fnames and fnames[w & ~1][1] == (w & 1) else "0x%08X" % w
+             for w in sinit[:-1]]
+
+    # ---- object starts
+    starts = set(int(x["addr"], 16) for x in reg["objects"])
+    _ce, _data, _labels, words = datareg.scan_listing(lst)
+    pool_refs = {}          # target -> set(file index)
+    hdr_names = {}          # addr -> {file index: [names]}
+
+    def refs_into(lo, hi, acc):
+        for site, v in words:
+            if site < t0 and lo <= v < hi:
+                fi = bisect.bisect_right(fstarts, site) - 1
+                if fi >= 0:
+                    pool_refs.setdefault(v, set()).add(fi)
+                acc.add(v)
+        for fi, f in enumerate(files):
+            for n, (a, k) in f["hsyms"].items():
+                if k == "data" and lo <= a < hi and re.fullmatch(r"[A-Za-z_]\w*", n):
+                    hdr_names.setdefault(a, {}).setdefault(fi, []).append(n)
+                    acc.add(a)
+            for n, a in _names_in(f["raw"], lo, hi):
+                lstn = hdr_names.setdefault(a, {}).setdefault(fi, [])
+                if n not in lstn:
+                    lstn.append(n)
+                acc.add(a)
+
+    refs_into(t0, end, starts)
+
+    # the data sections the code files define themselves, as the plain link
+    # placed them: its .lcf regions dN (the output ELF names a section after
+    # its region and gives a .bss section size 0, so the .lcf is the source)
+    lcf = open(os.path.join(gl.OUT, rg, "ov.lcf")).read()
+    own_regions = [(int(m.group(1), 16), int(m.group(2), 16)) for m in
+                   re.finditer(r"^\s*d\d+ : ORIGIN = 0x([0-9A-Fa-f]+), LENGTH = 0x([0-9A-Fa-f]+)", lcf, re.M)]
+    # region start -> file index (the plain link names the files t0.. in address order),
+    # and per file its own sections (object section index, address) for gamelink --data
+    own_file = {}
+    own_secs = {}
+    for m in re.finditer(r"^\s*(d\d+) : ORIGIN = 0x([0-9A-Fa-f]+)", lcf, re.M):
+        t = re.search(r"^\s*\.%s : \{ t(\d+)\.o \(\.d\d+_(\d+)\)" % m.group(1), lcf, re.M)
+        if t:
+            a_ = int(m.group(2), 16)
+            own_file[a_] = int(t.group(1))
+            if int(t.group(1)) < len(files) and (t0 <= a_ < end or o["bss_start"] <= a_ < o["bss_end"]):
+                own_secs.setdefault(files[int(t.group(1))]["name"][:-2], []).append([int(t.group(2)), "%08X" % a_])
+
+    def own_sections(lo, hi):
+        return [(a, a + n) for a, n in own_regions if n and lo <= a < hi]
+    own_occ = own_sections(t0, end)
+    for a, b in own_occ:
+        starts.add(a)
+        starts.add(b)
+    starts |= {t0, s1}
+    cuts = sorted(set([a for a in starts if t0 <= a < end and not (s0 <= a < s1)] + [s0, s1, end]))
+    objs = []
+    for i, a in enumerate(cuts[:-1]):
+        b = cuts[i + 1]
+        if s0 <= a < s1 or any(x <= a < y for x, y in own_occ):
+            continue
+        if b - a < 4 and any(y == a for _x, y in own_occ) and (b == s0 or any(x == b for x, _y in own_occ)) \
+                and img[a - base:b - base] == bytes(b - a) \
+                and not any(pool_refs.get(k) or hdr_names.get(k) for k in range(a, b)):
+            continue          # alignment padding after an own section, before another one or the
+            #                       static-initialiser table: the link makes it (gamelink --data aligns
+            #                       an own section that starts at a multiple of 4)
+        objs.append(dict(addr=a, size=b - a, sec=".rodata" if a < s0 else ".data",
+                         data=img[a - base:b - base], inner=[]))
+    # zero merge: an all-zero piece of .data joins the previous .data object
+    # (a leading one, or one after a file's own section, joins the next)
+    merged = []
+    for ob in objs:
+        if ob["sec"] == ".data" and ob["data"] == bytes(ob["size"]) and merged and merged[-1]["sec"] == ".data"                 and merged[-1]["addr"] + merged[-1]["size"] == ob["addr"]:
+            p = merged[-1]
+            p["inner"] += [ob["addr"]] + ob["inner"]
+            p["size"] += ob["size"]
+            p["data"] += ob["data"]
+            continue
+        if merged and merged[-1]["sec"] == ".data" and merged[-1].get("lead_zero") \
+                and merged[-1]["addr"] + merged[-1]["size"] == ob["addr"]:
+            p = merged.pop()
+            ob = dict(ob, addr=p["addr"], size=p["size"] + ob["size"], data=p["data"] + ob["data"],
+                      inner=[ob["addr"]] + p["inner"] + ob["inner"])
+        elif ob["sec"] == ".data" and ob["data"] == bytes(ob["size"]):
+            ob["lead_zero"] = True
+        merged.append(ob)
+    objs = merged
+    # an unnamed all-zero piece at the end of .data, after the last object the
+    # files define themselves, is the ALIGN(32) padding of the overlay end
+    if objs and objs[-1]["sec"] == ".data" and objs[-1].get("lead_zero") and not objs[-1]["inner"] \
+            and objs[-1]["addr"] + objs[-1]["size"] == end and (objs[-1]["addr"] + 31) & ~31 == end \
+            and objs[-1]["addr"] not in hdr_names and objs[-1]["addr"] not in pool_refs:
+        objs.pop()
+    # .bss after the image
+    bs, be = o["bss_start"], o["bss_end"]
+    bocc = []
+    if be > bs:
+        bocc = own_sections(bs, be)
+        bstarts = {bs}
+        refs_into(bs, be, bstarts)
+        for a, b in bocc:
+            bstarts |= {a, b}
+        bc = sorted(x for x in bstarts | {be} if bs <= x <= be)
+        for i, a in enumerate(bc[:-1]):
+            if not any(x <= a < y for x, y in bocc):
+                b = bc[i + 1]
+                if b - a < 4 and any(y == a for _x, y in bocc) and any(x == b for x, _y in bocc) and not any(
+                        pool_refs.get(k) or hdr_names.get(k) for k in range(a, b)):
+                    continue      # alignment padding between two own .bss sections: the link makes it
+                objs.append(dict(addr=a, size=b - a, sec=".bss", data=None, inner=[]))
+
+    # ---- pointer words
+    match.load_all_regions()
+    objstart = [x["addr"] for x in objs]
+    for ob in objs:
+        ob["ptrs"] = {}
+        if ob["data"] is None or ob["addr"] % 4 or ob["size"] % 4:
+            continue
+        for k in range(ob["size"] // 4):
+            w = struct.unpack_from("<I", ob["data"], 4 * k)[0]
+            if base <= w < t0 and (w & ~1) in fnames:
+                n, th = fnames[w & ~1]
+                if th == (w & 1):
+                    ob["ptrs"][k] = ("func", n, 0)
+            elif t0 <= w < end and not (s0 <= w < s1):
+                j = bisect.bisect_right(objstart, w) - 1
+                if j >= 0 and objs[j]["data"] is not None:
+                    ob["ptrs"][k] = ("obj", j, w - objs[j]["addr"])
+            elif bs <= w < be:
+                j = bisect.bisect_right(objstart, w) - 1
+                if j >= 0 and objs[j]["sec"] == ".bss" and w < objs[j]["addr"] + objs[j]["size"]:
+                    ob["ptrs"][k] = ("obj", j, w - objs[j]["addr"])
+            elif 0x02000000 <= w < 0x02400000 and not (base <= w < end):
+                ev = match.isa_evidence(w & ~1, "arm9")
+                if ev and ((ev[0] == "thumb") == bool(w & 1)):
+                    ob["ptrs"][k] = ("ext", "func_%08X" % (w & ~1), 0)
+
+    # ---- owners and link order
+    for ob in objs:
+        own = set()
+        for a in range(ob["addr"], ob["addr"] + ob["size"]):
+            own |= pool_refs.get(a, set())
+        own |= set(hdr_names.get(ob["addr"], {}))
+        ob["direct"] = sorted(own)
+        ob["ptrown"] = sorted(set(bisect.bisect_right(fstarts, fbyname[nm]) - 1
+                                  for kind, nm, _off in ob["ptrs"].values() if kind == "func"))
+    # an object only another object points at (ov114: rodata strings listed by
+    # a .data table of nhttp_rap.c) belongs to the file of that object
+    for ob in objs:
+        ob["refown"] = []
+    for ob in objs:
+        for kind, j, _off in ob["ptrs"].values():
+            if kind == "obj" and j < len(objs):
+                objs[j]["refown"] = sorted(set(objs[j]["refown"]) | set(ob["direct"] or ob["ptrown"]))
+    for sec in (".rodata", ".data", ".bss"):
+        lst_ = [ob for ob in objs if ob["sec"] == sec]
+        lo_, hi_ = {".rodata": (t0, s0), ".data": (s1, end), ".bss": (bs, be)}[sec]
+        cur = None
+        prev = {".rodata": t0, ".data": s1, ".bss": bs}[sec] - 1
+        for ob in lst_:
+            # a file's own section passed on the way: later objects without a
+            # candidate are that file's (ov114: a string after a local array
+            # template of unit_021C3A38.c)
+            for a in sorted(own_file):
+                if prev < a <= ob["addr"] and (cur is None or own_file[a] >= cur):
+                    cur = own_file[a]
+            prev = ob["addr"]
+            cand = ob["direct"] or ob["ptrown"] or ob["refown"]
+            # an own section of file F later in this section: the object links
+            # before it, so its owner is F or an earlier file (ov016: objects
+            # 021DA4B0..021DA4E8 of unit_021C2D74/2E6C lie below the own sections
+            # of unit_021C2A3C, the first file that uses them)
+            cap = min([fi_ for a_, fi_ in own_file.items() if lo_ <= a_ < hi_ and a_ > ob["addr"]], default=None)
+            if cand:
+                ok = [c for c in cand if (cur is None or c >= cur) and (cap is None or c <= cap)]
+                if not ok and cap is not None and (cur is None or cap >= cur) and max(cand) > cap:
+                    ok = [cap]
+                if not ok:
+                    blockers.append("%s %08X: owner %s before current file %d (link order)" % (sec, ob["addr"], cand, cur))
+                    ob["owner"] = cur
+                    continue
+                if len(ok) > 1:
+                    blockers.append("%s %08X: several owner files %s, took the first" % (sec, ob["addr"], ok))
+                cur = ok[0]
+            ob["owner"] = cur
+        nxt = None
+        for ob in reversed(lst_):
+            if ob["owner"] is None:
+                ob["owner"] = nxt if nxt is not None else 0
+            nxt = ob["owner"]
+
+    # ---- section alignment: a companion section starts at a multiple of the
+    # largest alignment of the types emitted for it (see emit).  A run of one
+    # owner that starts lower (a 2-aligned u16 table, then a pointer struct)
+    # cannot begin there: its first objects go to the owner of the contiguous
+    # object before it (that file then defines them; the user refers by extern)
+    def obj_name(ob, fi):
+        nms = hdr_names.get(ob["addr"], {}).get(fi, [])
+        return nms[0] if nms else "dg_%08X" % ob["addr"]
+
+    def obj_align(ob, fi):
+        if ob["data"] is None:
+            return 1
+        text = files[fi]["raw"]
+        name = obj_name(ob, fi)
+        if ob["addr"] % 4 == 0 and ob["size"] % 4 == 0 and \
+                (ob["ptrs"] or re.compile(FP_RE % re.escape(name), re.M).search(text)):
+            return 4
+        m = re.compile(DECL_RE % re.escape(name), re.M).search(text)
+        if m and m.group("arr") is not None:
+            bt = re.sub(r"\s+", " ", re.sub(r"\b(const|volatile)\b", "", m.group("pre")).strip())
+            if bt in SCALAR:
+                sz = SCALAR[bt][0]
+                if ob["size"] % sz == 0 and ob["addr"] % sz == 0:
+                    return sz
+        return 1
+
+    for sec in (".rodata", ".data"):
+        lst_ = [ob for ob in objs if ob["sec"] == sec]
+        for i in range(1, len(lst_)):
+            ob, pv = lst_[i], lst_[i - 1]
+            if ob["owner"] == pv["owner"]:
+                continue
+            j = i + 1
+            while j < len(lst_) and lst_[j]["owner"] == ob["owner"] and \
+                    lst_[j - 1]["addr"] + lst_[j - 1]["size"] == lst_[j]["addr"]:
+                j += 1
+            al = max(obj_align(x, ob["owner"]) for x in lst_[i:j])
+            if ob["addr"] % al == 0:
+                continue
+            if pv["addr"] + pv["size"] == ob["addr"]:
+                ob["owner"] = pv["owner"]
+            else:
+                blockers.append("%s %08X: section of %s starts below its alignment %d"
+                                % (sec, ob["addr"], files[ob["owner"]]["name"], al))
+
+    # ---- names
+    for ob in objs:
+        names = hdr_names.get(ob["addr"], {})
+        ob["names"] = names
+        own_names = names.get(ob["owner"], [])
+        ob["name"] = own_names[0] if own_names else "dg_%08X" % ob["addr"]
+        ob["inner_names"] = [(n, a - ob["addr"]) for a in ob["inner"]
+                             for nms in hdr_names.get(a, {}).values() for n in nms]
+
+    # ---- emit
+    out = out or os.path.join(DATAC_OUT, rg)
+    gen = os.path.join(DATAC_GEN, rg)
+    for dd in (out, gen):
+        if os.path.isdir(dd):
+            for f in os.listdir(dd):
+                if f.endswith((".c", ".inc", ".json")):
+                    os.remove(os.path.join(dd, f))
+        os.makedirs(dd, exist_ok=True)
+    stats = dict(objects=len(objs), bytes=sum(x["size"] for x in objs), typed=0, raw=0, bss=0)
+    aliases = {}
+    by_owner = {}
+    defined = Counter(ob["name"] for ob in objs)
+    # one name for several objects (file statics of the same name in several
+    # files: ov016 CN_BTN, apci_bssid_buf): the first object keeps it, each
+    # later one is name__ADDR, and its files get that name (renames below)
+    seen_n = set()
+    for ob in objs:
+        ob["src_name"] = ob["name"]
+        if defined[ob["name"]] > 1:
+            if ob["name"] in seen_n:
+                ob["name"] = "%s__%X" % (ob["name"], ob["addr"])
+            seen_n.add(ob["src_name"])
+    # a file whose own data section lies inside the run of its companion
+    # objects (ov119 pokemontrade_3d.c defines the table d_021E8190 between
+    # objects it only declares): the objects below that section go to a
+    # second companion <stem>.zpre.c, which links before the file
+    for fi in set(ob["owner"] for ob in objs):
+        for sec in (".rodata", ".data", ".bss"):
+            mine = [ob for ob in objs if ob["owner"] == fi and ob["sec"] == sec]
+            if not mine:
+                continue
+            lo, hi = mine[0]["addr"], mine[-1]["addr"]
+            inner = sorted(a for a, b in own_occ + (bocc if sec == ".bss" else []) if lo < a and b <= hi)
+            # also the file's own section above all of its objects (ov016
+            # unit_021C2A3C: its objects end below its own sections)
+            inner += sorted(a for a, fo in own_file.items() if fo == fi and a > hi
+                            and mine[0]["addr"] < a < {".rodata": s0, ".data": end, ".bss": be}[sec]
+                            and not (sec != ".bss" and bs <= a < be))
+            for ob in mine:
+                ob["pre"] = bool(inner) and ob["addr"] < inner[0]
+    renames = {}            # file stem -> {name: name of its own}
+
+    def name_for(fi_, n, target, a):
+        if n not in defined and aliases.get(n, target) == target:
+            aliases[n] = target
+            return
+        stem_ = files[fi_]["name"][:-2]
+        if n in renames.get(stem_, {}):
+            blockers.append("name %s means two objects in %s" % (n, files[fi_]["name"]))
+            return
+        en = "%s__%X" % (n, a)
+        renames.setdefault(stem_, {})[n] = en
+        if en != target:
+            aliases[en] = target
+
+    for ob in objs:
+        by_owner.setdefault((ob["owner"], ".zpre" if ob.get("pre") else ".zdata"), []).append(ob)
+        # a name that another file (or a definition) uses for another object
+        # (ov021: DWCca_ghttp_caList of dwc_ghttp and of the CA list file; ov016:
+        # file statics KEY_CHR, FILE_NAME): this file gets a name of its own,
+        # renamed in its object by gamelink --data
+        for fi_, nms in ob["names"].items():
+            for n in nms:
+                if n != ob["name"]:
+                    name_for(fi_, n, ob["name"], ob["addr"])
+        for a in ob["inner"]:
+            for fi_, nms in hdr_names.get(a, {}).items():
+                for n in nms:
+                    name_for(fi_, n, "%s + %d" % (ob["name"], a - ob["addr"]), a)
+    stats["aliases"] = len(aliases)
+    stats["companions"] = len(by_owner)
+
+    def inc(ob):
+        return ("%s/%08X.inc" % (gen, ob["addr"])).replace("\\", "/")
+
+    def write_inc(ob, vals):
+        with open(inc(ob), "w", newline="\n") as fh:
+            for k in range(0, len(vals), 16):
+                fh.write("    " + ", ".join(vals[k:k + 16]) + ",\n")
+
+    for (fi, suffix), lst_ in sorted(by_owner.items()):
+        f = files[fi]
+        text = f["raw"]
+        hdr = re.match(r"\s*/\*.*?\*/", text, re.S).group(0)
+        # -ipa file and -inline deferred make mwccarm emit the data in another
+        # order (one section per object, sorted by size): the companion holds
+        # data only and must keep the address order of its definitions
+        # (ov016 atermset.c, ov009 unit_021573C4.c)
+        hdr = re.sub(r"^(\s*\*\s*flags:.*?)\s+-(?:ipa\s+\w+|inline\s+deferred)\b", r"\1", hdr, flags=re.M)
+        fwd, defs, ext, bdefs = [], [], set(), []
+        own_names = set(ob["name"] for ob in lst_)
+        for ob in lst_:
+            name = ob["name"]
+            cq = "const " if ob["sec"] == ".rodata" else ""
+            if ob["sec"] == ".bss":
+                fwd.append("extern unsigned char %s[%d];" % (name, ob["size"]))
+                bdefs.append("unsigned char %s[%d];" % (name, ob["size"]))
+                stats["bss"] += 1
+                continue
+            m = re.compile(DECL_RE % re.escape(ob["src_name"]), re.M).search(text)
+            fp = re.compile(FP_RE % re.escape(ob["src_name"]), re.M).search(text)
+            base_t = None
+            if m and m.group("arr") is not None:
+                bt = re.sub(r"\s+", " ", re.sub(r"\b(const|volatile)\b", "", m.group("pre")).strip())
+                if bt in SCALAR:
+                    base_t = bt
+
+            def ref(k):
+                kind, nm, off = ob["ptrs"][k]
+                if kind == "obj":
+                    nm = objs[nm]["name"]
+                    if nm not in own_names:
+                        ext.add("extern char %s[];" % nm)
+                    return "((char *)&%s + %d)" % (nm, off) if off else "&%s" % nm
+                ext.add("extern char %s[];" % nm)
+                stats["ptr_" + kind] = stats.get("ptr_" + kind, 0) + 1
+                return nm
+
+            words = [struct.unpack_from("<I", ob["data"], 4 * k)[0] for k in range(ob["size"] // 4)] \
+                if ob["addr"] % 4 == 0 and ob["size"] % 4 == 0 else None
+            if fp and words is not None:
+                et = "void (*)(void)"
+                vals = []
+                for k, w in enumerate(words):
+                    if k in ob["ptrs"]:
+                        vals.append("(%s)%s" % (et, ref(k)))
+                    elif w:
+                        blockers.append("%s[%d]: 0x%08X has no symbol (code outside every file)" % (name, k, w))
+                        vals.append("(%s)0x%X" % (et, w))
+                    else:
+                        vals.append("0")
+                write_inc(ob, vals)
+                decl = "void (*%s%s[%d])(void)" % (cq, name, len(words))
+                fwd.append("extern %s;" % decl)
+                defs.append("%s = {\n#include \"%s\"\n};" % (decl, inc(ob)))
+                stats["typed"] += 1
+            elif ob["ptrs"] and words is not None:
+                fields, vals = [], []
+                for k, w in enumerate(words):
+                    if k in ob["ptrs"]:
+                        fields.append("void *w%d;" % k)
+                        vals.append("(void *)%s" % ref(k))
+                    else:
+                        fields.append("unsigned long w%d;" % k)
+                        vals.append("0x%08X" % w)
+                write_inc(ob, vals)
+                fwd.append("struct %s_t { %s };" % (name, " ".join(fields)))
+                fwd.append("extern %sstruct %s_t %s;" % (cq, name, name))
+                defs.append("%sstruct %s_t %s = {\n#include \"%s\"\n};" % (cq, name, name, inc(ob)))
+                stats["raw"] += 1
+            elif base_t and ob["size"] % SCALAR[base_t][0] == 0 and ob["addr"] % SCALAR[base_t][0] == 0:
+                sz, sg = SCALAR[base_t]
+                fmt = {1: "b", 2: "h", 4: "i"}[sz]
+                fmt = fmt if sg else fmt.upper()
+                vals = [str(v) if sg else "0x%X" % v for v in struct.unpack("<%d%s" % (ob["size"] // sz, fmt), ob["data"])]
+                write_inc(ob, vals)
+                bt2 = base_t if base_t in PLAIN else (
+                    {1: "signed char", 2: "short", 4: "long"}[sz] if sg else
+                    {1: "unsigned char", 2: "unsigned short", 4: "unsigned long"}[sz])
+                fwd.append("extern %s%s %s[%d];" % (cq, bt2, name, ob["size"] // sz))
+                defs.append("%s%s %s[%d] = {\n#include \"%s\"\n};" % (cq, bt2, name, ob["size"] // sz, inc(ob)))
+                stats["typed"] += 1
+            else:
+                if ob["data"] == bytes(len(ob["data"])) and not cq:
+                    blockers.append("%s: all-zero object in .data (mwccarm would put it in .bss)" % name)
+                write_inc(ob, ["0x%02X" % c for c in ob["data"]])
+                fwd.append("extern %sunsigned char %s[%d];" % (cq, name, ob["size"]))
+                defs.append("%sunsigned char %s[%d] = {\n#include \"%s\"\n};" % (cq, name, ob["size"], inc(ob)))
+                stats["raw"] += 1
+        stem = f["name"][:-2]
+        body = hdr + "\n/* companion of %s: its data, initialisers generated by tools/datagen.py from the ROM */\n\n" % f["name"]
+        body += "\n".join(sorted(ext - set("extern char %s[];" % n for n in own_names))) + "\n"
+        body += "\n".join(fwd) + "\n\nvoid %s__%s_anchor(void) { }\n\n" % (stem, suffix[1:])
+        body += "\n\n".join(defs) + "\n"
+        if bdefs:
+            body += "\n/* .bss: mwccarm emits uninitialised definitions in reverse order */\n"
+            body += "\n".join(reversed(bdefs)) + "\n"
+        with open(os.path.join(out, stem + suffix + ".c"), "w", encoding="latin1", newline="\n") as fh:
+            fh.write(body)
+    plan = [("%08X" % ob["addr"], ob["size"], ob["sec"], files[ob["owner"]]["name"], ob["name"]) for ob in objs]
+    dl = dict(region=rg, tail=["%08X" % v for v in (t0, s0, s1, end)], sinit=sinit,
+              bss=["%08X" % bs, "%08X" % be] if be > bs else None,
+              aliases=aliases, renames=renames, own=own_secs, stats=stats, blockers=blockers, plan=plan)
+    with open(os.path.join(out, "datalink.json"), "w", newline="\n") as fh:
+        json.dump(dl, fh, indent=1)
+    return dict(out=out, stats=stats, blockers=blockers)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["gen", "check"])
+    ap.add_argument("cmd", choices=["gen", "check", "companions"])
+    ap.add_argument("ids", nargs="*", help="companions: overlay ids (12 or ov012)")
     ap.add_argument("--region", action="append")
+    ap.add_argument("--out", help="companions: output directory (one overlay)")
+    ap.add_argument("--relink", action="store_true", help="companions: redo the plain gamelink link first")
     a = ap.parse_args()
+    if a.cmd == "companions":
+        rc = 0
+        for i in a.ids or [r[2:] for r in (a.region or [])]:
+            rg = i if i.startswith("ov") else "ov%03d" % int(i)
+            try:
+                r = companions(rg, a.out if len(a.ids) == 1 else None, a.relink)
+            except Exception as e:      # noqa: BLE001
+                print("%s FAIL %s: %s" % (rg, type(e).__name__, e))
+                rc = 1
+                continue
+            print("%s -> %s %s, %d blockers" % (rg, os.path.relpath(r["out"], ROOT), r["stats"], len(r["blockers"])))
+        sys.exit(rc)
     layout = datareg.load_layout()
     reg = load_registry()
     regions = a.region or list(reg)

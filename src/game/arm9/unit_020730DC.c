@@ -19,18 +19,18 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct Sub {
+typedef struct SndSeqPlayer {
     u8  pad00[0x2c];
-    u8  b2c;
+    u8  state;
     u8  pad2d[0x34 - 0x2d];
-    u16 h34;
-    u16 h36;
-    u16 h38;
-    u16 h3a;
-    u8  b3c;
-};
+    u16 sweepMode;
+    u16 pad36;
+    u16 sweepPitch;
+    u16 sweepFrames;
+    u8  playerNo;
+} SndSeqPlayer;
 
-struct Obj { struct Sub * volatile p; };
+typedef struct SndHandle { SndSeqPlayer * volatile player; } SndHandle;
 
 extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
@@ -42,12 +42,12 @@ extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackIn
  *  * func_020730B8, byte for byte otherwise, is if-converted instead (see
  *  * docs/notes/pkt_02072EA8.c.txt).
  */
-void func_020730DC(struct Obj *o, u32 a, u32 b)
+void func_020730DC(SndHandle *handle, u32 pitch, u32 frames)
 {
-    if (o->p == 0) return;
-    o->p->h34 = 2;
-    o->p->h38 = a;
-    o->p->h3a = b;
+    if (handle->player == 0) return;
+    handle->player->sweepMode = 2;
+    handle->player->sweepPitch = pitch;
+    handle->player->sweepFrames = frames;
 }
 
 
@@ -56,8 +56,8 @@ void func_020730DC(struct Obj *o, u32 a, u32 b)
  *  * own v and w to the callee (they are already in r1/r2, so the call sets only
  *  * r0).
  */
-int func_02073108(struct Obj *o, int trackNo, struct SNDTrackInfo *trackInfo)
+int func_02073108(SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo)
 {
-    if (o->p == 0) return 0;
-    return func_02072894(o->p->b3c, trackNo, trackInfo);
+    if (handle->player == 0) return 0;
+    return func_02072894(handle->player->playerNo, trackNo, trackInfo);
 }

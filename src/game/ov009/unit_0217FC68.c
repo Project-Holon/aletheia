@@ -10,12 +10,13 @@
  * isa:      arm
  * status:   EXACT
  *
- * Stores the three argument words at the object.
+ * Initialises a base64 encode stream: stores input pointer, input length
+ * and the current position (home: gsplatformutil.o, just before B64EncodeStream).
  */
 
-void func_0217FC68(int *p, int a, int b, int c)
+void func_0217FC68(int *stream, int input, int inputLength, int position)
 {
-    p[0] = a;
-    p[1] = b;
-    p[2] = c;
+    stream[0] = input;
+    stream[1] = inputLength;
+    stream[2] = position;
 }

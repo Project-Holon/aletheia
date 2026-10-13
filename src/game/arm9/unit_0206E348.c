@@ -16,42 +16,75 @@
  *   func_02069C14    0x02069C14  arm
  *   func_02061330    0x02061330  arm
  */
-struct Obj02061330;
-struct Node;
+struct NNSFndAllocator;
 typedef unsigned int   u32;
-
 typedef unsigned char  u8;
-
 typedef unsigned short u16;
 
-typedef struct { u8 unk00[4]; u8 unk04; u8 count05; u8 unk06[4]; u16 off0A; } Bank;
+/* NNSG3dResMat: two list offsets, then the material dictionary. */
+typedef struct {
+    u16 ofsDictTexToMatList;
+    u16 ofsDictPlttToMatList;
+    u8  revision;
+    u8  numEntry;
+    u16 sizeDictBlk;
+    u16 dummy;
+    u16 ofsEntry;
+} ResMat;
 
-typedef struct { u32 unk00; u32 unk04; u32 off08; u8 unk0C[0xC]; u8 count18; } Root;
+/* NNSG3dResMdl: block offsets, then the model info (numMat at +0x18). */
+typedef struct {
+    u32 size;
+    u32 ofsSbc;
+    u32 ofsMat;
+    u8  unused0c[0xC];
+    u8  numMat;
+} ResMdl;
 
-typedef struct { u32 rel00; } Ent;
+/* Dictionary data record: offset of the material relative to ResMat. */
+typedef struct {
+    u32 ofsMatData;
+} ResDictData;
 
-typedef struct { u32 unk00[3]; u32 attr0C; } Node;
+/* NNSG3dResMatData: polygon attribute word at +0x0C. */
+typedef struct {
+    u32 unused00[3];
+    u32 polyAttr;
+} ResMatData;
 
-extern void func_02061330(struct Obj02061330 *o, u32 x);
-extern void func_02061344(struct Obj02061330 *o, u32 x);
-extern u32 func_02069C14(const u8 *tag, const struct Node *n);
-void func_0206E348(int a0, int a1, int a2, int a3);
-void func_0206E358(struct Obj02061330 *ctx, int field);
-void func_0206E364(u32 a, u32 b, u32 c);
-void func_0206E388(struct Obj02061330 *ctx, int field);
-void func_0206E394(Root *r, u32 idx, u32 v);
-void func_0206E40C(Root *r, u32 idx, u32 v);
-void func_0206E484(Root *r, u32 idx, u32 v);
-void func_0206E4FC(Root *r, u32 idx, u32 v);
-void func_0206E574(Root *r, u32 idx, u32 v);
-void func_0206E5EC(Root *p, u32 a);
+/* GXPOLYGONATTR fields */
+#define POLYATTR_LIGHT_MASK    0x0000000fu
+#define POLYATTR_MODE_SHIFT    4
+#define POLYATTR_MODE_MASK     0x00000030u
+#define POLYATTR_CULL_SHIFT    6
+#define POLYATTR_CULL_MASK     0x000000c0u
+#define POLYATTR_ALPHA_SHIFT   16
+#define POLYATTR_ALPHA_MASK    0x001f0000u
+#define POLYATTR_ID_SHIFT      24
+#define POLYATTR_ID_MASK       0x3f000000u
 
-void func_0206E348(int a0, int a1, int a2, int a3){ func_02061330((struct Obj02061330 *)((int)a0), (int)0x54); }
+extern void *func_02061330(struct NNSFndAllocator *pAllocator, u32 size);
+extern void func_02061344(struct NNSFndAllocator *pAllocator, void *pBlock);
+extern u32 func_02069C14(const u8 *pAnm, const ResMdl *pMdl);
+void *func_0206E348(struct NNSFndAllocator *pAllocator);
+void func_0206E358(struct NNSFndAllocator *pAllocator, void *pRenderObj);
+void *func_0206E364(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl);
+void func_0206E388(struct NNSFndAllocator *pAllocator, void *pAnmObj);
+void func_0206E394(ResMdl *pMdl, u32 matIdx, u32 lightMask);
+void func_0206E40C(ResMdl *pMdl, u32 matIdx, u32 polygonMode);
+void func_0206E484(ResMdl *pMdl, u32 matIdx, u32 cullMode);
+void func_0206E4FC(ResMdl *pMdl, u32 matIdx, u32 polygonId);
+void func_0206E574(ResMdl *pMdl, u32 matIdx, u32 alpha);
+void func_0206E5EC(ResMdl *pMdl, u32 polygonId);
 
-void func_0206E358(struct Obj02061330 *ctx, int field){ func_02061344(ctx, field); }
+/* NNS_G3dAllocRenderObj: 0x54 bytes from the allocator. */
+void *func_0206E348(struct NNSFndAllocator *pAllocator){ return func_02061330(pAllocator, 0x54); }
+
+/* NNS_G3dFreeRenderObj */
+void func_0206E358(struct NNSFndAllocator *pAllocator, void *pRenderObj){ func_02061344(pAllocator, pRenderObj); }
 
 /*
- * Forwards the two tail arguments through func_02069C14 and hands the result,
+ * NNS_G3dAllocAnmObj: forwards the two tail arguments through func_02069C14 and hands the result,
  * with the first argument, to func_02061330 -- the argument shuffle is why the
  * first parameter moves into r4 before either call.
  *
@@ -59,12 +92,13 @@ void func_0206E358(struct Obj02061330 *ctx, int field){ func_02061344(ctx, field
  *   python tools/match.py one --src src/matched/func_0206E364.c \
  *       --func func_0206E364 --addr 0x0206E364 --cc 1.1p1 --arm
  */
-void func_0206E364(u32 a, u32 b, u32 c)
+void *func_0206E364(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl)
 {
-    func_02061330((struct Obj02061330 *)a, func_02069C14((const u8 *)b, (const struct Node *)c));
+    return func_02061330(pAllocator, func_02069C14(pAnm, pMdl));
 }
 
-void func_0206E388(struct Obj02061330 *ctx, int field){ func_02061344(ctx, field); }
+/* NNS_G3dFreeAnmObj */
+void func_0206E388(struct NNSFndAllocator *pAllocator, void *pAnmObj){ func_02061344(pAllocator, pAnmObj); }
 
 /*
  * A family of five near-identical bitfield setters over the same inlined
@@ -96,129 +130,129 @@ void func_0206E388(struct Obj02061330 *ctx, int field){ func_02061344(ctx, field
  *   python tools/match.py tu --src src/matched/unit_0206E394.c \
  *       --addr 0x0206E394 --arm
  */
-void func_0206E394(Root *r, u32 idx, u32 v)
+void func_0206E394(ResMdl *pMdl, u32 matIdx, u32 lightMask)
 {
-    Bank *b;
-    Node *n;
-    u8 *base;
+    ResMat *pMat;
+    ResMatData *pMatData;
+    u8 *pDict;
 
-    b = (r != 0 && r->off08 != 0) ? (Bank *)((u8 *)r + r->off08) : 0;
-    if (b == 0) goto none;
-    base = (u8 *)b + 4;
-    if (base == 0) goto nullent;
-    if (idx >= b->count05) goto nullent;
-    idx = (u32)(base + b->off0A + 4 + (*(u16 *)(base + b->off0A)) * idx);
+    pMat = (pMdl != 0 && pMdl->ofsMat != 0) ? (ResMat *)((u8 *)pMdl + pMdl->ofsMat) : 0;
+    if (pMat == 0) goto none;
+    pDict = (u8 *)pMat + 4;
+    if (pDict == 0) goto nullent;
+    if (matIdx >= pMat->numEntry) goto nullent;
+    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
-    idx = 0;
+    matIdx = 0;
 have:
-    if (idx == 0) goto none;
-    n = (Node *)((u8 *)b + ((Ent *)idx)->rel00);
+    if (matIdx == 0) goto none;
+    pMatData = (ResMatData *)((u8 *)pMat + ((ResDictData *)matIdx)->ofsMatData);
     goto set;
 none:
-    n = 0;
+    pMatData = 0;
 set:
-    n->attr0C = (n->attr0C & ~0xf) | v;
+    pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_LIGHT_MASK) | lightMask;
 }
 
-void func_0206E40C(Root *r, u32 idx, u32 v)
+void func_0206E40C(ResMdl *pMdl, u32 matIdx, u32 polygonMode)
 {
-    Bank *b;
-    Node *n;
-    u8 *base;
+    ResMat *pMat;
+    ResMatData *pMatData;
+    u8 *pDict;
 
-    b = (r != 0 && r->off08 != 0) ? (Bank *)((u8 *)r + r->off08) : 0;
-    if (b == 0) goto none;
-    base = (u8 *)b + 4;
-    if (base == 0) goto nullent;
-    if (idx >= b->count05) goto nullent;
-    idx = (u32)(base + b->off0A + 4 + (*(u16 *)(base + b->off0A)) * idx);
+    pMat = (pMdl != 0 && pMdl->ofsMat != 0) ? (ResMat *)((u8 *)pMdl + pMdl->ofsMat) : 0;
+    if (pMat == 0) goto none;
+    pDict = (u8 *)pMat + 4;
+    if (pDict == 0) goto nullent;
+    if (matIdx >= pMat->numEntry) goto nullent;
+    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
-    idx = 0;
+    matIdx = 0;
 have:
-    if (idx == 0) goto none;
-    n = (Node *)((u8 *)b + ((Ent *)idx)->rel00);
+    if (matIdx == 0) goto none;
+    pMatData = (ResMatData *)((u8 *)pMat + ((ResDictData *)matIdx)->ofsMatData);
     goto set;
 none:
-    n = 0;
+    pMatData = 0;
 set:
-    n->attr0C = (n->attr0C & ~0x30) | (v << 4);
+    pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_MODE_MASK) | (polygonMode << POLYATTR_MODE_SHIFT);
 }
 
-void func_0206E484(Root *r, u32 idx, u32 v)
+void func_0206E484(ResMdl *pMdl, u32 matIdx, u32 cullMode)
 {
-    Bank *b;
-    Node *n;
-    u8 *base;
+    ResMat *pMat;
+    ResMatData *pMatData;
+    u8 *pDict;
 
-    b = (r != 0 && r->off08 != 0) ? (Bank *)((u8 *)r + r->off08) : 0;
-    if (b == 0) goto none;
-    base = (u8 *)b + 4;
-    if (base == 0) goto nullent;
-    if (idx >= b->count05) goto nullent;
-    idx = (u32)(base + b->off0A + 4 + (*(u16 *)(base + b->off0A)) * idx);
+    pMat = (pMdl != 0 && pMdl->ofsMat != 0) ? (ResMat *)((u8 *)pMdl + pMdl->ofsMat) : 0;
+    if (pMat == 0) goto none;
+    pDict = (u8 *)pMat + 4;
+    if (pDict == 0) goto nullent;
+    if (matIdx >= pMat->numEntry) goto nullent;
+    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
-    idx = 0;
+    matIdx = 0;
 have:
-    if (idx == 0) goto none;
-    n = (Node *)((u8 *)b + ((Ent *)idx)->rel00);
+    if (matIdx == 0) goto none;
+    pMatData = (ResMatData *)((u8 *)pMat + ((ResDictData *)matIdx)->ofsMatData);
     goto set;
 none:
-    n = 0;
+    pMatData = 0;
 set:
-    n->attr0C = (n->attr0C & ~0xc0) | (v << 6);
+    pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_CULL_MASK) | (cullMode << POLYATTR_CULL_SHIFT);
 }
 
-void func_0206E4FC(Root *r, u32 idx, u32 v)
+void func_0206E4FC(ResMdl *pMdl, u32 matIdx, u32 polygonId)
 {
-    Bank *b;
-    Node *n;
-    u8 *base;
+    ResMat *pMat;
+    ResMatData *pMatData;
+    u8 *pDict;
 
-    b = (r != 0 && r->off08 != 0) ? (Bank *)((u8 *)r + r->off08) : 0;
-    if (b == 0) goto none;
-    base = (u8 *)b + 4;
-    if (base == 0) goto nullent;
-    if (idx >= b->count05) goto nullent;
-    idx = (u32)(base + b->off0A + 4 + (*(u16 *)(base + b->off0A)) * idx);
+    pMat = (pMdl != 0 && pMdl->ofsMat != 0) ? (ResMat *)((u8 *)pMdl + pMdl->ofsMat) : 0;
+    if (pMat == 0) goto none;
+    pDict = (u8 *)pMat + 4;
+    if (pDict == 0) goto nullent;
+    if (matIdx >= pMat->numEntry) goto nullent;
+    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
-    idx = 0;
+    matIdx = 0;
 have:
-    if (idx == 0) goto none;
-    n = (Node *)((u8 *)b + ((Ent *)idx)->rel00);
+    if (matIdx == 0) goto none;
+    pMatData = (ResMatData *)((u8 *)pMat + ((ResDictData *)matIdx)->ofsMatData);
     goto set;
 none:
-    n = 0;
+    pMatData = 0;
 set:
-    n->attr0C = (n->attr0C & ~0x3f000000) | (v << 24);
+    pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_ID_MASK) | (polygonId << POLYATTR_ID_SHIFT);
 }
 
-void func_0206E574(Root *r, u32 idx, u32 v)
+void func_0206E574(ResMdl *pMdl, u32 matIdx, u32 alpha)
 {
-    Bank *b;
-    Node *n;
-    u8 *base;
+    ResMat *pMat;
+    ResMatData *pMatData;
+    u8 *pDict;
 
-    b = (r != 0 && r->off08 != 0) ? (Bank *)((u8 *)r + r->off08) : 0;
-    if (b == 0) goto none;
-    base = (u8 *)b + 4;
-    if (base == 0) goto nullent;
-    if (idx >= b->count05) goto nullent;
-    idx = (u32)(base + b->off0A + 4 + (*(u16 *)(base + b->off0A)) * idx);
+    pMat = (pMdl != 0 && pMdl->ofsMat != 0) ? (ResMat *)((u8 *)pMdl + pMdl->ofsMat) : 0;
+    if (pMat == 0) goto none;
+    pDict = (u8 *)pMat + 4;
+    if (pDict == 0) goto nullent;
+    if (matIdx >= pMat->numEntry) goto nullent;
+    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
-    idx = 0;
+    matIdx = 0;
 have:
-    if (idx == 0) goto none;
-    n = (Node *)((u8 *)b + ((Ent *)idx)->rel00);
+    if (matIdx == 0) goto none;
+    pMatData = (ResMatData *)((u8 *)pMat + ((ResDictData *)matIdx)->ofsMatData);
     goto set;
 none:
-    n = 0;
+    pMatData = 0;
 set:
-    n->attr0C = (n->attr0C & ~0x1f0000) | (v << 16);
+    pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_ALPHA_MASK) | (alpha << POLYATTR_ALPHA_SHIFT);
 }
 
 /*
@@ -231,11 +265,10 @@ set:
  *   python tools/match.py one --src src/matched/func_0206E5EC.c \
  *       --func func_0206E5EC --addr 0x0206E5EC --cc 1.1p1 --arm
  */
-void func_0206E5EC(Root *p, u32 a)
+void func_0206E5EC(ResMdl *pMdl, u32 polygonId)
 {
-    u32 i = 0;
-
-    for (i = 0; i < p->count18; i++) {
-        func_0206E4FC(p, i, a);
+    u32 matIdx = 0;
+    for (matIdx = 0; matIdx < pMdl->numMat; matIdx++) {
+        func_0206E4FC(pMdl, matIdx, polygonId);
     }
 }

@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Tail-call wrapper: the image spells it `ldr ip, [pc]; bx ip; .word
+ * Handler for the ping message type: answers it with a pong. Tail-call wrapper: the image spells it `ldr ip, [pc]; bx ip; .word
  * target`, which this compiler emits for a tail call to a callee whose
  * address has to come from a pool.
  *
@@ -18,9 +18,12 @@
  *   func_02197BA4 0x02197BA4 arm
  */
 
-extern int func_02197BA4(void *connection, unsigned char *message, int len);
 
-int func_02196C28(void *connection, unsigned char *message, int len)
+#include "unit_02195B20_types.h"
+
+extern int func_02197BA4(GTI2Connection *connection, unsigned char *message, int len);
+
+int func_02196C28(GTI2Connection *connection, unsigned char *message, int len)
 {
     return func_02197BA4(connection, message, len);
 }

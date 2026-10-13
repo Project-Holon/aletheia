@@ -12,74 +12,100 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-#include "../../matched/include/Obj16615.h"
-#include "../../matched/include/Obj04802.h"
-#include "../../matched/include/Obj11639.h"
-#include "../../matched/include/Obj11640.h"
-#include "../../matched/include/Obj16616.h"
-#include "../../matched/include/Obj16617.h"
-
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
 typedef unsigned char  u8;
 
-int func_0206E954(int p0);
-unsigned char *func_0206E964(unsigned char *p);
-u8 *func_0206E9A4(u8 *p, u32 idx);
+/* NNSG3dResFileHeader: the part these functions read. */
+typedef struct {
+    u32 signature;
+    u8  unused04[8];
+    u16 headerSize;
+    u16 numDataBlocks;
+} ResFileHeader;
+
+/* Offsets of the data blocks, right after the file header. */
+typedef struct {
+    u32 ofsBlock0;
+    u32 ofsBlock1;
+} ResBlockOffsets;
+
+/* Block header (signature, size) followed by a resource dictionary. */
+typedef struct {
+    u8  unused00[9];
+    u8  numEntry;
+    u8  unused0a[4];
+    u16 ofsEntry;
+} ResDictBlock;
+
+/* Prefix of a dictionary data record: the offset of the resource. */
+typedef struct {
+    u32 ofsRes;
+} ResDictData;
+
+#define BTX0_SIGNATURE 0x30585442u
+
+int func_0206E954(int pFile);
+unsigned char *func_0206E964(unsigned char *pFile);
+u8 *func_0206E9A4(u8 *pFile, u32 resIdx);
 
 
-int func_0206E954(int p0){ return (p0 + *(int *)((p0 + (((struct Obj16615 *)p0)->fC << 0)))); }
+/* NNS_G3dGetMdlSet: the file header plus the offset of its first block. */
+int func_0206E954(int pFile){ return (pFile + *(int *)((pFile + (((ResFileHeader *)pFile)->headerSize << 0)))); }
 
 
 /*
- * BTX0 header walk: the halfword at +12 is the offset of the info block and
- * the halfword at +14 selects the entry form (1 = the 'BTX0' magic form).
+ * NNS_G3dGetTex: the texture block of a model file (BMD0) or texture file
+ * (BTX0). The halfword at +12 is the offset of the block offset table and
+ * the halfword at +14 is the block count (1 = a file that holds one block:
+ * the BTX0 form, when the magic matches).
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206E964.c \
- *       --func func_0206E964 --addr 0x0206E964 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0206E964.c  *       --func func_0206E964 --addr 0x0206E964 --cc 1.1p1 --arm
  */
-unsigned char *func_0206E964(unsigned char *p)
+unsigned char *func_0206E964(unsigned char *pFile)
 {
-    unsigned char *q = p + ((struct Obj04802 *)p)->fC;
+    unsigned char *pBlockOffsets = pFile + ((ResFileHeader *)pFile)->headerSize;
 
-    if (((struct Obj04802 *)p)->fE == 1) {
-        if (((struct Obj04802 *)p)->f0 == 0x30585442u)
-            return p + ((struct Obj11639 *)q)->f0;
+    if (((ResFileHeader *)pFile)->numDataBlocks == 1) {
+        if (((ResFileHeader *)pFile)->signature == BTX0_SIGNATURE)
+            return pFile + ((ResBlockOffsets *)pBlockOffsets)->ofsBlock0;
         return 0;
     }
-    return p + ((struct Obj11639 *)q)->f4;
+    return pFile + ((ResBlockOffsets *)pBlockOffsets)->ofsBlock1;
 }
 
 
 /*
+ * NNS_G3dGetAnmByIdx: look up the resource number resIdx of the first block
+ * of an animation file through its dictionary; resIdx is reused for the
+ * dictionary record address (the register allocation depends on it).
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206E9A4.c \
- *       --func func_0206E9A4 --addr 0x0206E9A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/func_0206E9A4.c  *       --func func_0206E9A4 --addr 0x0206E9A4 --cc 1.1p1 --arm
  */
-u8 *func_0206E9A4(u8 *p, u32 idx)
+u8 *func_0206E9A4(u8 *pFile, u32 resIdx)
 {
-    u8 *q;
-    u8 *h;
-    u32 off;
+    u8 *pBlock;
+    u8 *pDict;
+    u32 ofsEntry;
 
-    if (p == 0)
+    if (pFile == 0)
         goto ret0;
-    q = p + *(u32 *)(p + ((struct Obj16616 *)p)->fC);
-    h = q + 8;
-    if (h == 0)
+    pBlock = pFile + *(u32 *)(pFile + ((ResFileHeader *)pFile)->headerSize);
+    pDict = pBlock + 8;
+    if (pDict == 0)
         goto fail;
-    if (idx >= ((struct Obj11640 *)q)->f9)
+    if (resIdx >= ((ResDictBlock *)pBlock)->numEntry)
         goto fail;
-    off = ((struct Obj11640 *)q)->fE;
-    idx = *(u16 *)(h + off) * idx + ((u32)h + off + 4);
+    ofsEntry = ((ResDictBlock *)pBlock)->ofsEntry;
+    resIdx = *(u16 *)(pDict + ofsEntry) * resIdx + ((u32)pDict + ofsEntry + 4);
     goto end;
 fail:
-    idx = 0;
+    resIdx = 0;
 end:
-    if (idx != 0)
-        return q + ((struct Obj16617 *)idx)->f0;
+    if (resIdx != 0)
+        return pBlock + ((ResDictData *)resIdx)->ofsRes;
 ret0:
     return 0;
 }

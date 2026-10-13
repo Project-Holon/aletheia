@@ -20,331 +20,331 @@
 struct FSFile;
 typedef unsigned int u32;
 
-struct Table {
+struct SndArcInfoTable {
     u32 count;
     u32 entries[1];
 };
 
-struct Header {
+struct SndArcInfoHeader {
     char pad00[8];
-    u32  offset_08;
-    u32  offset_0c;
-    u32  offset_10;
-    u32  offset_14;
-    u32  offset_18;
-    u32  offset_1c;
+    u32  seqTableOffset;
+    u32  seqArcTableOffset;
+    u32  bankTableOffset;
+    u32  waveArcTableOffset;
+    u32  playerTableOffset;
+    u32  groupTableOffset;
 };
 
-struct TableEntry {
+struct SndArcFileEntry {
     u32 offset;
     u32 size;
-    u32 field8;
-    u32 fieldC;
+    u32 loadedData;
+    u32 pad0c;
 };
 
-struct TableHeader {
-    u32 unk0;
-    u32 unk4;
+struct SndArcFileTable {
+    u32 pad0;
+    u32 pad4;
     u32 count;
-    struct TableEntry entries[1];
+    struct SndArcFileEntry entries[1];
 };
 
 typedef signed int     s32;
 
-struct Context {
+struct SndArc {
     char pad[0x34];
     char file[0x54];
-    struct TableHeader *table;
-    u32 unk8c;
-    struct Header *header;
-    int chunk_size;
+    struct SndArcFileTable *fileTable;
+    u32 pad8c;
+    struct SndArcInfoHeader *infoHeader;
+    int readChunkSize;
 };
 
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-struct Context *func_020742E4(struct Context *val);
-struct Context *func_020742FC(void);
-void *func_0207430C(int index);
-void *func_02074324(int index);
-void *func_02074388(int index);
-void *func_020743EC(int index);
-void *func_02074450(int index);
-void *func_020744B4(int index);
-void *func_02074518(int index);
-u32 func_0207457C(u32 idx);
-int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
-u32 func_0207466C(u32 idx);
-void func_02074694(u32 idx, u32 val);
-void func_020746B0(int p0);
-extern struct Context *ptr_0214EA50;
+struct SndArc *func_020742E4(struct SndArc *newArc);
+struct SndArc *func_020742FC(void);
+void *func_0207430C(int entryNo);
+void *func_02074324(int entryNo);
+void *func_02074388(int entryNo);
+void *func_020743EC(int entryNo);
+void *func_02074450(int entryNo);
+void *func_020744B4(int entryNo);
+void *func_02074518(int entryNo);
+u32 func_0207457C(u32 fileId);
+int func_020745A4(u32 fileId, void *dst, int length, u32 offset);
+u32 func_0207466C(u32 fileId);
+void func_02074694(u32 fileId, u32 address);
+void func_020746B0(int chunkSize);
+extern struct SndArc *ptr_0214EA50;
 
-struct Context *func_020742E4(struct Context *val)
+struct SndArc *func_020742E4(struct SndArc *newArc)
 {
-    struct Context *old = ptr_0214EA50;
-    ptr_0214EA50 = val;
-    return old;
+    struct SndArc *previous = ptr_0214EA50;
+    ptr_0214EA50 = newArc;
+    return previous;
 }
 
-struct Context *func_020742FC(void)
+struct SndArc *func_020742FC(void)
 {
     return ptr_0214EA50;
 }
 
-void *func_0207430C(int index)
+void *func_0207430C(int entryNo)
 {
-    void *ptr = func_02074324(index);
+    void *ptr = func_02074324(entryNo);
     if (ptr == 0) {
         return 0;
     }
     return (char *)ptr + 4;
 }
 
-void *func_02074324(int index)
+void *func_02074324(int entryNo)
 {
-    struct Context *g = ptr_0214EA50;
-    struct Header *h = g->header;
-    struct Table *t;
-    u32 offset = h->offset_08;
-    void *base;
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcInfoHeader *infoHeader = arc->infoHeader;
+    struct SndArcInfoTable *infoTable;
+    u32 offset = infoHeader->seqTableOffset;
+    void *infoBase;
     if (offset == 0) {
-        t = 0;
+        infoTable = 0;
     } else {
-        t = (struct Table *)((char *)h + offset);
+        infoTable = (struct SndArcInfoTable *)((char *)infoHeader + offset);
     }
-    if (t == 0) {
+    if (infoTable == 0) {
         return 0;
     }
-    if (index < 0) {
+    if (entryNo < 0) {
         return 0;
     }
-    if ((u32)index >= t->count) {
+    if ((u32)entryNo >= infoTable->count) {
         return 0;
     }
-    offset = t->entries[index];
-    base = g->header;
+    offset = infoTable->entries[entryNo];
+    infoBase = arc->infoHeader;
     if (offset == 0) {
         return 0;
     }
-    return (char *)base + offset;
+    return (char *)infoBase + offset;
 }
 
-void *func_02074388(int index)
+void *func_02074388(int entryNo)
 {
-    struct Context *g = ptr_0214EA50;
-    struct Header *h = g->header;
-    struct Table *t;
-    u32 offset = h->offset_0c;
-    void *base;
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcInfoHeader *infoHeader = arc->infoHeader;
+    struct SndArcInfoTable *infoTable;
+    u32 offset = infoHeader->seqArcTableOffset;
+    void *infoBase;
     if (offset == 0) {
-        t = 0;
+        infoTable = 0;
     } else {
-        t = (struct Table *)((char *)h + offset);
+        infoTable = (struct SndArcInfoTable *)((char *)infoHeader + offset);
     }
-    if (t == 0) {
+    if (infoTable == 0) {
         return 0;
     }
-    if (index < 0) {
+    if (entryNo < 0) {
         return 0;
     }
-    if ((u32)index >= t->count) {
+    if ((u32)entryNo >= infoTable->count) {
         return 0;
     }
-    offset = t->entries[index];
-    base = g->header;
+    offset = infoTable->entries[entryNo];
+    infoBase = arc->infoHeader;
     if (offset == 0) {
         return 0;
     }
-    return (char *)base + offset;
+    return (char *)infoBase + offset;
 }
 
-void *func_020743EC(int index)
+void *func_020743EC(int entryNo)
 {
-    struct Context *g = ptr_0214EA50;
-    struct Header *h = g->header;
-    struct Table *t;
-    u32 offset = h->offset_10;
-    void *base;
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcInfoHeader *infoHeader = arc->infoHeader;
+    struct SndArcInfoTable *infoTable;
+    u32 offset = infoHeader->bankTableOffset;
+    void *infoBase;
     if (offset == 0) {
-        t = 0;
+        infoTable = 0;
     } else {
-        t = (struct Table *)((char *)h + offset);
+        infoTable = (struct SndArcInfoTable *)((char *)infoHeader + offset);
     }
-    if (t == 0) {
+    if (infoTable == 0) {
         return 0;
     }
-    if (index < 0) {
+    if (entryNo < 0) {
         return 0;
     }
-    if ((u32)index >= t->count) {
+    if ((u32)entryNo >= infoTable->count) {
         return 0;
     }
-    offset = t->entries[index];
-    base = g->header;
+    offset = infoTable->entries[entryNo];
+    infoBase = arc->infoHeader;
     if (offset == 0) {
         return 0;
     }
-    return (char *)base + offset;
+    return (char *)infoBase + offset;
 }
 
-void *func_02074450(int index)
+void *func_02074450(int entryNo)
 {
-    struct Context *g = ptr_0214EA50;
-    struct Header *h = g->header;
-    struct Table *t;
-    u32 offset = h->offset_14;
-    void *base;
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcInfoHeader *infoHeader = arc->infoHeader;
+    struct SndArcInfoTable *infoTable;
+    u32 offset = infoHeader->waveArcTableOffset;
+    void *infoBase;
     if (offset == 0) {
-        t = 0;
+        infoTable = 0;
     } else {
-        t = (struct Table *)((char *)h + offset);
+        infoTable = (struct SndArcInfoTable *)((char *)infoHeader + offset);
     }
-    if (t == 0) {
+    if (infoTable == 0) {
         return 0;
     }
-    if (index < 0) {
+    if (entryNo < 0) {
         return 0;
     }
-    if ((u32)index >= t->count) {
+    if ((u32)entryNo >= infoTable->count) {
         return 0;
     }
-    offset = t->entries[index];
-    base = g->header;
+    offset = infoTable->entries[entryNo];
+    infoBase = arc->infoHeader;
     if (offset == 0) {
         return 0;
     }
-    return (char *)base + offset;
+    return (char *)infoBase + offset;
 }
 
-void *func_020744B4(int index)
+void *func_020744B4(int entryNo)
 {
-    struct Context *g = ptr_0214EA50;
-    struct Header *h = g->header;
-    struct Table *t;
-    u32 offset = h->offset_18;
-    void *base;
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcInfoHeader *infoHeader = arc->infoHeader;
+    struct SndArcInfoTable *infoTable;
+    u32 offset = infoHeader->playerTableOffset;
+    void *infoBase;
     if (offset == 0) {
-        t = 0;
+        infoTable = 0;
     } else {
-        t = (struct Table *)((char *)h + offset);
+        infoTable = (struct SndArcInfoTable *)((char *)infoHeader + offset);
     }
-    if (t == 0) {
+    if (infoTable == 0) {
         return 0;
     }
-    if (index < 0) {
+    if (entryNo < 0) {
         return 0;
     }
-    if ((u32)index >= t->count) {
+    if ((u32)entryNo >= infoTable->count) {
         return 0;
     }
-    offset = t->entries[index];
-    base = g->header;
+    offset = infoTable->entries[entryNo];
+    infoBase = arc->infoHeader;
     if (offset == 0) {
         return 0;
     }
-    return (char *)base + offset;
+    return (char *)infoBase + offset;
 }
 
-void *func_02074518(int index)
+void *func_02074518(int entryNo)
 {
-    struct Context *g = ptr_0214EA50;
-    struct Header *h = g->header;
-    struct Table *t;
-    u32 offset = h->offset_1c;
-    void *base;
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcInfoHeader *infoHeader = arc->infoHeader;
+    struct SndArcInfoTable *infoTable;
+    u32 offset = infoHeader->groupTableOffset;
+    void *infoBase;
     if (offset == 0) {
-        t = 0;
+        infoTable = 0;
     } else {
-        t = (struct Table *)((char *)h + offset);
+        infoTable = (struct SndArcInfoTable *)((char *)infoHeader + offset);
     }
-    if (t == 0) {
+    if (infoTable == 0) {
         return 0;
     }
-    if (index < 0) {
+    if (entryNo < 0) {
         return 0;
     }
-    if ((u32)index >= t->count) {
+    if ((u32)entryNo >= infoTable->count) {
         return 0;
     }
-    offset = t->entries[index];
-    base = g->header;
+    offset = infoTable->entries[entryNo];
+    infoBase = arc->infoHeader;
     if (offset == 0) {
         return 0;
     }
-    return (char *)base + offset;
+    return (char *)infoBase + offset;
 }
 
-u32 func_0207457C(u32 idx)
+u32 func_0207457C(u32 fileId)
 {
-    struct Context *ctx = ptr_0214EA50;
-    struct TableHeader *tbl = ctx->table;
-    if (idx >= tbl->count) {
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcFileTable *fileTable = arc->fileTable;
+    if (fileId >= fileTable->count) {
         return 0;
     }
-    return tbl->entries[idx].size;
+    return fileTable->entries[fileId].size;
 }
 
-int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset)
+int func_020745A4(u32 fileId, void *dst, int length, u32 offset)
 {
-    struct Context *ctx = ptr_0214EA50;
-    struct TableHeader *tbl = ctx->table;
-    int read_bytes;
-    int chunk_size;
-    struct TableEntry *entry;
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcFileTable *fileTable = arc->fileTable;
+    int bytesRead;
+    int readChunkSize;
+    struct SndArcFileEntry *fileEntry;
 
-    if (idx >= tbl->count) {
+    if (fileId >= fileTable->count) {
         return -1;
     }
-    chunk_size = ctx->chunk_size;
-    entry = &tbl->entries[idx];
-    if (chunk_size == 0) {
-        chunk_size = total_len;
+    readChunkSize = arc->readChunkSize;
+    fileEntry = &fileTable->entries[fileId];
+    if (readChunkSize == 0) {
+        readChunkSize = length;
     }
-    read_bytes = 0;
-    if (total_len > 0) {
+    bytesRead = 0;
+    if (length > 0) {
         do {
-            u32 avail;
-            int rem = total_len - read_bytes;
-            int res;
-            if (rem > chunk_size) {
-                rem = chunk_size;
+            u32 entryRemaining;
+            int chunkLen = length - bytesRead;
+            int readResult;
+            if (chunkLen > readChunkSize) {
+                chunkLen = readChunkSize;
             }
-            avail = entry->size - offset;
-            if (rem > avail) {
-                rem = avail;
+            entryRemaining = fileEntry->size - offset;
+            if (chunkLen > entryRemaining) {
+                chunkLen = entryRemaining;
             }
-            if (rem == 0) {
+            if (chunkLen == 0) {
                 break;
             }
-            if (!func_02078B44((struct FSFile *)ctx->file, entry->offset + offset, 0)) {
+            if (!func_02078B44((struct FSFile *)arc->file, fileEntry->offset + offset, 0)) {
                 return -1;
             }
-            res = func_02078B70((struct FSFile *)ctx->file, dst_buf, rem);
-            if (res < 0) {
-                return res;
+            readResult = func_02078B70((struct FSFile *)arc->file, dst, chunkLen);
+            if (readResult < 0) {
+                return readResult;
             }
-            read_bytes += res;
-            offset += res;
-            dst_buf = (char *)dst_buf + res;
-        } while (read_bytes < total_len);
+            bytesRead += readResult;
+            offset += readResult;
+            dst = (char *)dst + readResult;
+        } while (bytesRead < length);
     }
-    return read_bytes;
+    return bytesRead;
 }
 
-u32 func_0207466C(u32 idx)
+u32 func_0207466C(u32 fileId)
 {
-    struct Context *ctx = ptr_0214EA50;
-    struct TableHeader *tbl = ctx->table;
-    if (idx >= tbl->count) {
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcFileTable *fileTable = arc->fileTable;
+    if (fileId >= fileTable->count) {
         return 0;
     }
-    return tbl->entries[idx].field8;
+    return fileTable->entries[fileId].loadedData;
 }
 
-void func_02074694(u32 idx, u32 val)
+void func_02074694(u32 fileId, u32 address)
 {
-    struct Context *ctx = ptr_0214EA50;
-    struct TableHeader *tbl = ctx->table;
-    tbl->entries[idx].field8 = val;
+    struct SndArc *arc = ptr_0214EA50;
+    struct SndArcFileTable *fileTable = arc->fileTable;
+    fileTable->entries[fileId].loadedData = address;
 }
 
-void func_020746B0(int p0){ *(int *)((*(int *)(0x214EA50) + 148)) = (int)p0; }
+void func_020746B0(int chunkSize){ *(int *)((*(int *)(0x214EA50) + 148)) = (int)chunkSize; }

@@ -7,8 +7,22 @@ the way: every function that has an EXACT/EXACT* verification entry (its own, or
 as a member of a verified unit) must be defined exactly once among the .c files
 of src/game/<region>/ (merged files and the member files in TU folders).
 
-A function is recognised by the address in its name (func_/sub_XXXXXXXX), or by
-its name in the verification entry (vendor names such as _start).
+The verified functions are found by address: entries' `address` fields, and the
+members of unit entries placed by tools/fnaddr.py (the entry's `addresses`, a
+func_XXXXXXXX name, or the unit's compiled layout), never only by a name that
+carries an address (restructure.shard_index).  A definition in the tree is
+recognised by the address in its name (func_/sub_XXXXXXXX), or by its name when
+the verification entries give that name one address in the region (a real name
+after a rename, a vendor name such as _start); doubles are found by address the
+same way.  A function
+that the tree defines under another name (an SDK name the verification entry
+does not carry, such as OSi_ReferSymbol at 0x02004EB0, entry func_02004EB0 of
+unit_02004EAC) is recognised by its place: the file of the region whose header
+address is the closest one at or below the address is compiled and laid out
+like `gameverify` does (match.layout_tu), and a function symbol of that object
+that lands on the address, and that the file defines at top level, counts.
+gameverify's EXACT for that file is what proves the bytes there.  Runtime-kind
+files (functions not contiguous) are not used for this.
 
 usage
   python tools/gamecheck.py [--tree src/game] [--region ovNNN] [--list N]
@@ -24,8 +38,14 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import protofix as pf  # noqa: E402
 import restructure as rs  # noqa: E402
+import fnaddr  # noqa: E402  (function addresses whatever the name)
 
 ADDR = re.compile(r'([0-9A-Fa-f]{8})$')
+# A top-level function definition or prototype of ANY name.  protofix.DECL_RE
+# matches only func_/sub_XXXXXXXX names, so a function renamed to a real name
+# would not be seen as defined at all.
+DEF_RE = re.compile(r'^[ \t]*((?:(?:extern|static)\s+)*)([A-Za-z_][\w\s\*]*?)\b([A-Za-z_]\w*)'
+                    r'\s*\(([^;{}]*)\)\s*([;{])', re.M)
 
 
 def tree_files(tree, region):
@@ -36,8 +56,25 @@ def tree_files(tree, region):
                 yield os.path.join(dp, f)
 
 
-def defined_in_tree(tree, region):
-    """({address or name: [files]}, all text) of the top-level definitions."""
+def region_names(idx, region):
+    """{name: address} for the names the verification entries of one region give
+    one address (an entry's own name, a unit member's name: restructure.shard_index,
+    which places members by address through tools/fnaddr.py).  A name given to
+    two addresses (static functions of two files) is left out."""
+    seen = {}
+    for (r, x), (_src, ent) in idx.items():
+        if r != region:
+            continue
+        for n in {ent.get('name')} - {None, ''}:
+            seen.setdefault(n, set()).add(x)
+    return {n: next(iter(xs)) for n, xs in seen.items() if len(xs) == 1}
+
+
+def defined_in_tree(tree, region, names=None):
+    """({address or name: [files]}, all text) of the top-level definitions.
+
+    A definition is keyed by the address in its name (func_/sub_XXXXXXXX), else
+    by the address `names` (region_names) gives its name, else by its name."""
     out = collections.defaultdict(list)
     texts = []
     for p in tree_files(tree, region):
@@ -49,12 +86,71 @@ def defined_in_tree(tree, region):
         m = pf.mask(raw)
         tab = pf.depth_table(m)
         rel = os.path.relpath(p, ROOT).replace(os.sep, '/')
-        for mm in pf.DECL_RE.finditer(m):
+        for mm in DEF_RE.finditer(m):
             if mm.group(5) != '{' or pf.depth_at(tab, mm.start()) != 0:
                 continue
-            am = ADDR.search(mm.group(3))
-            out[int(am.group(1), 16) if am else mm.group(3)].append(rel)
+            nm = mm.group(3)
+            # only a func_/sub_XXXXXXXX name is an address (not a helper such
+            # as rd8_021592D8 that only ends in one)
+            am = fnaddr.name_address(nm)
+            if am is not None:
+                key = am
+            elif names and nm in names:
+                key = names[nm]
+            else:
+                key = nm
+            out[key].append(rel)
     return out, '\n'.join(texts)
+
+
+_PLACED = {}
+
+
+def placed_functions(path, region):
+    """{address: name} of the function symbols of the file at `path`, laid out
+    from its header address the way gameverify compiles it ({} on any error)."""
+    if path in _PLACED:
+        return _PLACED[path]
+    out = {}
+    import shutil
+    import tempfile
+    import match
+    import gameverify as gv
+    work = tempfile.mkdtemp(prefix='bwgc_')
+    try:
+        raw = open(path, encoding='latin1').read()
+        h, st = gv.settings_of(raw)
+        addr = int(h.get('address', '0'), 16)
+        if addr and gv.runtime_kind(path, (h.get('region') or region).strip()) is None:
+            flags = st['flags'].split() if st['flags'] else ['-O4,p']
+            obj, _c, _l, _r = match.compile_tu(path, st['compiler'], flags, st['isa'] == 'thumb',
+                                               st['lang'] or None, work)
+            if obj is not None:
+                tl = match.layout_tu(obj)
+                for n in tl.local_isa:
+                    if n in tl.locals:
+                        out[addr + tl.locals[n]] = n
+    except (Exception, SystemExit):
+        out = {}
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+    _PLACED[path] = out
+    return out
+
+
+def file_starts(tree, region):
+    """Sorted [(header address, path)] of the top-level files of tree/region."""
+    out = []
+    base = os.path.join(tree, region)
+    for p in tree_files(tree, region):
+        if os.path.normpath(os.path.dirname(p)) != os.path.normpath(base):
+            continue
+        try:
+            h = pf.parse_header(open(p, encoding='latin1').read())
+            out.append((int(h.get('address', '0'), 16), p))
+        except (OSError, ValueError):
+            continue
+    return sorted(x for x in out if x[0])
 
 
 def is_veneer(region, x):
@@ -81,17 +177,47 @@ def main():
         # Linker veneers are linker output, not source: a src/matched entry
         # for one is not a function the restructured tree has to define.
         want = {x for (r, x) in idx if r == region and not is_veneer(region, x)}
-        have, blob = defined_in_tree(a.tree, region)
+        have, blob = defined_in_tree(a.tree, region, region_names(idx, region))
 
         def present(x):
-            nm = idx[(region, x)][1].get('name')
+            ent = idx[(region, x)][1]
+            nm = ent.get('name')
             if x in have or nm in have:
                 return True
+            # a unit entry is named after its file; its first listed
+            # function is the one at the entry's address (vendor names)
+            fl = ent.get('functions') or []
+            names = [nm or 'func_%08X' % x]
+            if str(ent.get('kind', '')).endswith('_unit') and fl:
+                names.append(fl[0])
+            if any(n in have for n in names):
+                return True
             # asm functions and other forms the declaration pattern misses
-            nm = nm or 'func_%08X' % x
-            return re.search(r'^[^;\n]*\b%s\s*\([^;]*$' % re.escape(nm), blob, re.M) is not None
+            return any(re.search(r'^[^;\n]*\b%s\s*\([^;]*$' % re.escape(n), blob, re.M) is not None
+                       for n in names)
 
         missing = sorted(x for x in want if not present(x))
+        if missing:
+            import bisect
+            starts = file_starts(a.tree, region)
+            keys = [st for st, _p in starts]
+
+            def placed(x):
+                i = bisect.bisect_right(keys, x) - 1
+                if i < 0:
+                    return False
+                p = starts[i][1]
+                n = placed_functions(p, region).get(x)
+                rel = os.path.relpath(p, ROOT).replace(os.sep, '/')
+                if n is None:
+                    return False
+                if rel in have.get(n, []):
+                    return True
+                # forms the declaration pattern misses (asm, empty bodies): a
+                # line of the file itself that opens a definition of n
+                txt = pf.mask(open(p, encoding='latin1').read())
+                return re.search(r'^[^;\n]*\b%s\s*\([^;]*$' % re.escape(n), txt, re.M) is not None
+            missing = [x for x in missing if not placed(x)]
         dup = sorted(x for x, fs in have.items() if isinstance(x, int) and len(fs) > 1 and x in want)
         tot_missing += len(missing)
         tot_dup += len(dup)

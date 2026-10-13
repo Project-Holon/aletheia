@@ -12,30 +12,32 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-void func_0219E9C0(int *p, int v);
-void func_0219E9C8(unsigned char *p, unsigned char v);
-unsigned char func_0219E9D0(const unsigned char *p);
+#include "unit_0219E1EC_types.h"
+
+void func_0219E9C0(SBServer *server, unsigned int icmpIp);
+void func_0219E9C8(SBServer *server, unsigned char state);
+unsigned char func_0219E9D0(const SBServer *server);
 
 /*
- * Stores a word at +0x10.
+ * Sets the address used for the ICMP ping of a server.
  */
-void func_0219E9C0(int *p, int v)
+void func_0219E9C0(SBServer *server, unsigned int icmpIp)
 {
-    p[4] = v;
+    server->icmpip = icmpIp;
 }
 
 /*
- * Stores a byte at +0x14.
+ * Sets the state bits of a server.
  */
-void func_0219E9C8(unsigned char *p, unsigned char v)
+void func_0219E9C8(SBServer *server, unsigned char state)
 {
-    p[0x14] = v;
+    server->state = state;
 }
 
 /*
- * Byte at +0x14.
+ * State bits of a server.
  */
-unsigned char func_0219E9D0(const unsigned char *p)
+unsigned char func_0219E9D0(const SBServer *server)
 {
-    return p[0x14];
+    return server->state;
 }

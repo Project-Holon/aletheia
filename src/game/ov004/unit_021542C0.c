@@ -36,87 +36,116 @@
  *   func_02009CC0  0x02009CC0  thumb
  *   func_02154390  0x02154390  thumb  ov004
  */
-struct Big;
-struct BigObj;
-struct Blk37;
-struct Comm;
-struct Ctx;
-struct Desc;
-struct Obj;
-struct Sub0200852CObj;
-struct Sub02008700Obj;
-struct Sub02008AECObj;
-struct Sub02008C20Obj;
-struct Sub02009470Obj;
+struct GameData;
+struct GameSystem;
+struct GameEvent;
+struct GameComm;
+struct SaveControl;
+struct BoxManager;
+struct MyItem;
+struct Config;
+struct MyStatus;
+struct WorldTradeSave;
 typedef struct Pair {
-    int a;
-    int b;
+    int fieldMap;
+    int unused;
 } Pair;
 
 typedef unsigned int   u32;
 
-void *func_020120F4(const struct Ctx *p);
-struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-unsigned int func_02012138(const struct Ctx *p);
-u32 func_02026454(void *obj);
-void func_02026400(struct Comm *p);
-void *func_020124E8(struct Obj *p);
-void func_02082BCC(void *p, int v, int n);
-void *func_02012EBC(struct Big *p);
-void *func_0200AD6C(void *sys);
-struct Sub02008AECObj *func_02008B08(void *sys);
-void *func_0201AD0C(void *sys);
-u32 func_0201293C(const struct BigObj *p);
-void *func_0200CA1C(void *a);
-u32 func_0201283C(const struct BigObj *p);
-struct Sub02009470Obj *func_02009470(void *sys);
-struct Sub0200852CObj *func_02008730(void *sys);
-struct Sub02008700Obj *func_0200873C(void *sys);
-struct Sub02008C20Obj *func_02008C58(void *sys);
-void *func_0201292C(const struct BigObj *p);
-u32 func_0200CA38(struct Blk37 *p);
-int func_02009CC0(void *a0);
-u32 func_02154390(void *obj, u32 *mode, u32 *args);
-int func_021542C0(int x, Pair *p);
-int func_021542CC(int a, int b, int c);
+/* Parameter block read by the world trade overlay (ov135): save data handles gathered when the event starts. */
+typedef struct WorldTradeParam {
+    void *regulationData;
+    void *trainerCardData;
+    void *mailBoxData;
+    struct BoxManager *boxManager;
+    struct WorldTradeSave *worldTradeSave;
+    u32 battleRecordData;
+    void *wifiFriendData;
+    void *myStatus;
+    struct Config *config;
+    void *pokedexData;
+    struct MyItem *myItem;
+    u32 worldTradeState;
+    int battleRecordValue;
+    int reserved;
+    int reserved2;
+} WorldTradeParam;
+
+/* Work of the world trade event (0x54 bytes). */
+typedef struct WorldTradeEventWork {
+    u32 savedBgmNo;
+    struct GameSystem *gameSystem;
+    int fieldMap;
+    WorldTradeParam param;
+    struct SaveControl *saveControl;
+    struct GameSystem *paramGameSystem;
+    u32 hideFieldObjects;
+} WorldTradeEventWork;
+
+void *func_020120F4(const struct GameSystem *gameSystem);
+void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+u32 func_02026454(void *gameComm);
+void func_02026400(struct GameComm *gameComm);
+void *func_020124E8(struct GameEvent *event);
+void func_02082BCC(void *dst, int value, int size);
+struct SaveControl *func_02012EBC(struct GameData *gameData);
+void *func_0200AD6C(void *saveControl);
+void *func_02008B08(void *saveControl);
+void *func_0201AD0C(void *saveControl);
+struct BoxManager *func_0201293C(const struct GameData *gameData);
+struct WorldTradeSave *func_0200CA1C(void *gameData);
+u32 func_0201283C(const struct GameData *gameData);
+void *func_02009470(void *saveControl);
+void *func_02008730(void *saveControl);
+struct Config *func_0200873C(void *saveControl);
+void *func_02008C58(void *saveControl);
+struct MyItem *func_0201292C(const struct GameData *gameData);
+u32 func_0200CA38(struct WorldTradeSave *worldTradeSave);
+int func_02009CC0(void *battleRecordData);
+u32 func_02154390(void *event, u32 *seq, WorldTradeEventWork *work);
+int func_021542C0(int gameSystem, Pair *request);
+int func_021542CC(int gameSystem, int fieldMap, int unused);
 
 
-int func_021542C0(int x, Pair *p)
+/* Overlay entry point: unpacks the request and creates the event. */
+int func_021542C0(int gameSystem, Pair *request)
 {
-    return func_021542CC(x, p->a, p->b);
+    return func_021542CC(gameSystem, request->fieldMap, request->unused);
 }
 
 
-int func_021542CC(int a, int b, int c)
+int func_021542CC(int gameSystem, int fieldMap, int unused)
 {
-    int r6;
-    int h;
-    int *p;
+    int gameData;
+    int event;
+    WorldTradeEventWork *work;
 
-    r6 = (int)func_020120F4((const struct Ctx *)a);
-    h = (int)func_020122C0((void *)a, 0, func_02154390, 0x54);
-    if (func_02026454((void *)func_02012138((const struct Ctx *)a)))
-        func_02026400((struct Comm *)func_02012138((const struct Ctx *)a));
-    p = func_020124E8((struct Obj *)h);
-    func_02082BCC(p, 0, 0x54);
-    p[1] = a;
-    p[2] = b;
-    p[18] = (int)func_02012EBC((struct Big *)r6);
-    p[3] = (int)func_0200AD6C((void *)p[18]);
-    p[4] = (int)func_02008B08((void *)p[18]);
-    p[5] = (int)func_0201AD0C((void *)p[18]);
-    p[6] = func_0201293C((const struct BigObj *)r6);
-    p[7] = (int)func_0200CA1C((void *)r6);
-    p[8] = func_0201283C((const struct BigObj *)r6);
-    p[9] = (int)func_02009470((void *)p[18]);
-    p[10] = (int)func_02008730((void *)p[18]);
-    p[11] = (int)func_0200873C((void *)p[18]);
-    p[12] = (int)func_02008C58((void *)p[18]);
-    *(void **)&p[13] = func_0201292C((const struct BigObj *)r6);
-    p[19] = a;
-    p[14] = func_0200CA38((struct Blk37 *)p[7]);
-    p[15] = func_02009CC0((void *)p[8]);
-    p[16] = 0;
-    p[17] = 0;
-    return h;
+    gameData = (int)func_020120F4((const struct GameSystem *)gameSystem);
+    event = (int)func_020122C0((void *)gameSystem, 0, func_02154390, 0x54);
+    if (func_02026454(func_02012138((const struct GameSystem *)gameSystem)))
+        func_02026400(func_02012138((const struct GameSystem *)gameSystem));
+    work = func_020124E8((struct GameEvent *)event);
+    func_02082BCC(work, 0, 0x54);
+    work->gameSystem = (struct GameSystem *)gameSystem;
+    work->fieldMap = fieldMap;
+    work->saveControl = func_02012EBC((struct GameData *)gameData);
+    work->param.regulationData = func_0200AD6C(work->saveControl);
+    work->param.trainerCardData = func_02008B08(work->saveControl);
+    work->param.mailBoxData = func_0201AD0C(work->saveControl);
+    work->param.boxManager = func_0201293C((const struct GameData *)gameData);
+    work->param.worldTradeSave = func_0200CA1C((void *)gameData);
+    work->param.battleRecordData = func_0201283C((const struct GameData *)gameData);
+    work->param.wifiFriendData = func_02009470(work->saveControl);
+    work->param.myStatus = func_02008730(work->saveControl);
+    work->param.config = func_0200873C(work->saveControl);
+    work->param.pokedexData = func_02008C58(work->saveControl);
+    work->param.myItem = func_0201292C((const struct GameData *)gameData);
+    work->paramGameSystem = (struct GameSystem *)gameSystem;
+    work->param.worldTradeState = func_0200CA38(work->param.worldTradeSave);
+    work->param.battleRecordValue = func_02009CC0((void *)work->param.battleRecordData);
+    work->param.reserved = 0;
+    work->param.reserved2 = 0;
+    return event;
 }

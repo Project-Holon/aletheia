@@ -14,27 +14,31 @@
  */
 typedef unsigned int u32;
 
-typedef struct Obj0206B780 Obj0206B780;
+/* Record with a callback at +0x0C and a call counter at +0x00. */
+typedef struct CountedCallback CountedCallback;
 
-struct Obj0206B780 {
-    u32   unk00;
-    u32   unk04;
-    u32   unk08;
-    void (*unk0c)(void *);
+struct CountedCallback {
+    u32   callCount;
+    u32   unused04;
+    u32   unused08;
+    void (*callback)(void *);
 };
 
-typedef struct Obj0206B7A8 Obj0206B7A8;
+/* Record with a callback at +0x10 and a status word at +0x08. */
+typedef struct FlaggedCallback FlaggedCallback;
 
-struct Obj0206B7A8 {
-    u32   unk00;
-    u32   unk04;
-    u32   unk08;
-    u32   unk0c;
-    void (*unk10)(void *);
+struct FlaggedCallback {
+    u32   unused00;
+    u32   unused04;
+    u32   status;
+    u32   unused0c;
+    void (*callback)(void *);
 };
 
-void func_0206B780(Obj0206B780 *p);
-void func_0206B7A8(Obj0206B7A8 *p);
+#define CALLBACK_STATUS_DONE 0x20
+
+void func_0206B780(CountedCallback *pRecord);
+void func_0206B7A8(FlaggedCallback *pRecord);
 
 
 /*
@@ -46,12 +50,12 @@ void func_0206B7A8(Obj0206B7A8 *p);
  *   python tools/match.py one --src src/matched/func_0206B780.c \
  *       --func func_0206B780 --addr 0x0206B780 --cc 1.1p1 --arm
  */
-void func_0206B780(Obj0206B780 *p)
+void func_0206B780(CountedCallback *pRecord)
 {
-    if (p->unk0c != 0) {
-        p->unk0c(p);
+    if (pRecord->callback != 0) {
+        pRecord->callback(pRecord);
     }
-    p->unk00++;
+    pRecord->callCount++;
 }
 
 
@@ -63,10 +67,10 @@ void func_0206B780(Obj0206B780 *p)
  *   python tools/match.py one --src src/matched/func_0206B7A8.c \
  *       --func func_0206B7A8 --addr 0x0206B7A8 --cc 1.1p1 --arm
  */
-void func_0206B7A8(Obj0206B7A8 *p)
+void func_0206B7A8(FlaggedCallback *pRecord)
 {
-    if (p->unk10 != 0) {
-        p->unk10(p);
+    if (pRecord->callback != 0) {
+        pRecord->callback(pRecord);
     }
-    p->unk08 |= 0x20;
+    pRecord->status |= CALLBACK_STATUS_DONE;
 }

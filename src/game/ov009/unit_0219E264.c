@@ -12,21 +12,23 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-void func_0219E264(int *p, int v);
-int func_0219E26C(const int *p);
+#include "unit_0219E1EC_types.h"
+
+void func_0219E264(SBServer *server, SBServer *next);
+SBServer *func_0219E26C(const SBServer *server);
 
 /*
- * Stores a word at +0x24.
+ * Sets the next server in a list.
  */
-void func_0219E264(int *p, int v)
+void func_0219E264(SBServer *server, SBServer *next)
 {
-    p[9] = v;
+    server->next = next;
 }
 
 /*
- * Word at +0x24.
+ * Next server in a list.
  */
-int func_0219E26C(const int *p)
+SBServer *func_0219E26C(const SBServer *server)
 {
-    return p[9];
+    return server->next;
 }

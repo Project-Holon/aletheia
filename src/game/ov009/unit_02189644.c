@@ -10,7 +10,8 @@
  * isa:      arm
  * status:   EXACT
  *
- * Constant zero.
+ * Constant zero: the compiled-out body of a three-argument buffer send
+ * helper (connection, peer, character); its caller only tests the result.
  */
 
 int func_02189644(void)

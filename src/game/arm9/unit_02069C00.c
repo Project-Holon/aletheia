@@ -18,20 +18,20 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-typedef struct Bits {
-    u8 *cur;
-    signed char have;
-    unsigned char acc;
-} Bits;
+typedef struct CharCursor {
+    u8 *pCur;
+    signed char pad_04;
+    unsigned char pad_05;
+} CharCursor;
 
-typedef struct Node {
-    u8 unk00[0x17];
-    u8 n17;
-    u8 n18;
-} Node;
+typedef struct TaggedNode {
+    u8 pad_00[0x17];
+    u8 entryCount;
+    u8 entryCountM;
+} TaggedNode;
 
-u16 func_02069C00(Bits *b);
-u32 func_02069C14(const u8 *tag, const Node *n);
+u16 func_02069C00(CharCursor *cursor);
+u32 func_02069C14(const u8 *tag, const TaggedNode *node);
 
 
 /*
@@ -41,11 +41,11 @@ u32 func_02069C14(const u8 *tag, const Node *n);
  * u8-pointer spelling `p = b->cur; b->cur = p + 2; return *(u16 *)p;`
  * schedules the store before the load (7 bytes).
  */
-u16 func_02069C00(Bits *b)
+u16 func_02069C00(CharCursor *cursor)
 {
-    u16 *p = (u16 *)b->cur;
+    u16 *p = (u16 *)cursor->pCur;
     u16 v = *p++;
-    b->cur = (u8 *)p;
+    cursor->pCur = (u8 *)p;
     return v;
 }
 
@@ -57,15 +57,15 @@ u16 func_02069C00(Bits *b)
  * two, plus the 0x1C header, rounded down to a word. 0x4D counts from the
  * byte at +0x18, 0x4A and 0x56 share the byte at +0x17.
  */
-u32 func_02069C14(const u8 *tag, const Node *n)
+u32 func_02069C14(const u8 *tag, const TaggedNode *node)
 {
-    if (tag == 0 || n == 0) return 0;
+    if (tag == 0 || node == 0) return 0;
     switch (*tag) {
     case 0x4d:
-        return ((n->n18 * 2) + 0x1c) & ~3;
+        return ((node->entryCountM * 2) + 0x1c) & ~3;
     case 0x4a:
     case 0x56:
-        return ((n->n17 * 2) + 0x1c) & ~3;
+        return ((node->entryCount * 2) + 0x1c) & ~3;
     }
     return 0;
 }

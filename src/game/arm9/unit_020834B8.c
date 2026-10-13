@@ -12,7 +12,7 @@
  */
 
 /* hand-written in the original: swp instruction */
-asm int func_020834B8(int val, int *ptr)
+asm int func_020834B8(int data, int *dest)
 {
     swp r0, r0, [r1]
     bx lr

@@ -56,22 +56,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-typedef struct WCMConfig {
-    long dmano;
-    void *pbdbuffer;
-    long nbdbuffer;
-    long nbdmode;
-} WCMConfig;
-
-typedef struct WCMPrivacy {
-    u8 key[80];
-    u8 mode;
-    union {
-        u8 keyId;
-        u8 keyLen;
-    } u;
-    u8 reserved[2];
-} WCMPrivacy;
+#include "wcm_types.h"
 
 typedef struct WCMWepDesc {
     u8 mode;
@@ -90,21 +75,6 @@ typedef struct WCMNotice {
     long para2;
 } WCMNotice;
 
-typedef struct WCMWork {
-    u8 pad0[0x1240];
-    WCMPrivacy privacyDesc;         /* +0x1240 */
-    u8 alarm[0x12C0 - 0x1294];      /* +0x1294 keep-alive alarm */
-    WCMConfig config;               /* +0x12C0 */
-    void (*notify)(void *);         /* +0x12D0 */
-    u32 option;                     /* +0x12D4 */
-    u16 maxScanTime;                /* +0x12D8 */
-    short notifyId;                 /* +0x12DA */
-    u8 apListLock;                  /* +0x12DC */
-    u8 resetting;                   /* +0x12DD */
-    u8 phase;                       /* +0x12DE */
-    u8 deviceId;                    /* +0x12DF */
-    u8 bssDesc[0xC0];               /* +0x12E0 */
-} WCMWork;
 
 extern void WCM_InitEx(void *buf, long len, unsigned char deviceId);
 extern unsigned long OS_DisableInterrupts(void);
@@ -146,9 +116,9 @@ long WCM_Finish(void);
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId);
 long func_02164F98(void *config, void (*notify)(void *));
 long func_02165088(void);
-void func_02165144(void *a, void *b, unsigned long a2);
+void func_02165144(void *bssid, void *essid, unsigned long option);
 long func_02165164(void *bssid, void *essid, unsigned long option);
-long func_02165204(void *a, void *b);
+long func_02165204(void *bssid, void *essid);
 long func_021652A4(void *bssDesc, void *wepDesc, unsigned long option);
 long func_02165478(void);
 long func_02165560(void);
@@ -423,14 +393,14 @@ long func_02165088(void)
 /*
  * Dispatches on whether either argument is missing.
  */
-void func_02165144(void *a, void *b, unsigned long a2)
+void func_02165144(void *bssid, void *essid, unsigned long option)
 {
-    if (a == 0 || b == 0) {
-        func_02165204(a, b);
+    if (bssid == 0 || essid == 0) {
+        func_02165204(bssid, essid);
         return;
     }
 
-    func_02165164(a, b, a2);
+    func_02165164(bssid, essid, option);
 }
 
 
@@ -467,7 +437,7 @@ long func_02165164(void *bssid, void *essid, unsigned long option)
  *
  * Ends an AP search: only valid in the search phases, moves to the search-ending phase and reports pending.
  */
-long func_02165204(void *a, void *b)
+long func_02165204(void *bssid, void *essid)
 {
     unsigned long e;
 
@@ -702,11 +672,11 @@ unsigned long func_021656D0(unsigned long option)
 {
     unsigned long e;
     unsigned long filter;
-    unsigned long old_option;
+    unsigned long oldOption;
 
     e = OS_DisableInterrupts();
     filter = 0;
-    old_option = wcmw->option;
+    oldOption = wcmw->option;
     if (wcmw == 0) {
         OS_RestoreInterrupts(e);
         return 0;
@@ -729,9 +699,9 @@ unsigned long func_021656D0(unsigned long option)
     if ((option & 0x800000) != 0) {
         filter |= 0x400000;
     }
-    wcmw->option = option | (old_option & ~filter);
+    wcmw->option = option | (oldOption & ~filter);
     OS_RestoreInterrupts(e);
-    return old_option;
+    return oldOption;
 }
 
 

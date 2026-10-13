@@ -18,7 +18,7 @@
  * symbols:
  *   func_020319C0    0x020319C0  arm
  *   func_020319F0    0x020319F0  arm
- *   veneer_020319E4  0x020319E4  arm
+ *   func_020319E4  0x020319E4  arm
  *
  * Eleven accessors on the save_control block, and eight of the eleven carry
  * no label at all: they are two and three instruction bodies ending in
@@ -77,7 +77,7 @@ struct Sub020071E4Ctrl {
 extern void *func_020319C0(void *p);
 struct Job;
 extern int func_020319F0(struct Job *job, u32 heap);
-extern void *veneer_020319E4(void *p);
+extern void *func_020319E4(void *p);
 
 u8 sub_020071E4(const struct Sub020071E4Ctrl *ctrl)
 {
@@ -136,5 +136,5 @@ void *sub_02007230(struct Sub020071E4Ctrl *ctrl)
 
 void *sub_0200723C(struct Sub020071E4Ctrl *ctrl)
 {
-    return veneer_020319E4(ctrl->unk10);
+    return func_020319E4(ctrl->unk10);
 }

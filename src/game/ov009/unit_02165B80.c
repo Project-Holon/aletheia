@@ -17,8 +17,7 @@
  *   WCMi_GetSystemWork     0x021657C8  arm
  *   OS_RestoreInterrupts   0x0208799C  arm
  *   MI_CpuFill8            0x02082BCC  arm
- *   func_02165CAC  0x02165CAC  arm  ov009
- *   func_021657C8  0x021657C8  arm  ov009
+ *   WCM_PointApListEx  0x02165CAC  arm  ov009
  *   func_02085D3C  0x02085D3C  arm
  *   WCM_CompareBssID       0x021666B8  arm
  *   func_02082AC0  0x02082AC0  arm
@@ -49,9 +48,6 @@ extern unsigned long OS_DisableInterrupts(void);
 extern WCMWork *WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void *func_02165CAC(long index);
-extern WCMWork *func_021657C8(void);
-extern int func_02085D3C(void);
 extern int WCM_CompareBssID(unsigned char *a, unsigned char *b);
 extern void func_02082AC0(u32 data, void *destp, u32 size);
 extern void func_02082B0C(const void *srcp, void *destp, u32 size);
@@ -137,7 +133,7 @@ long WCM_LockApList(long lock)
 
 void *func_02165CA0(long index)
 {
-    return func_02165CAC(index);
+    return WCM_PointApListEx(index);
 }
 
 static WCMApList *WcmGetOldestApList(void);
@@ -180,12 +176,12 @@ void func_02165D04(WMBssDesc *bssDesc, unsigned short linkLevel)
     WCMApList *aplist;
     WCMWork *w;
 
-    w = func_021657C8();
+    w = WCMi_GetSystemWork();
     if (w == 0)
         return;
     if (w->apListLock)
         return;
-    if (func_02085D3C() && w->deviceId == 2) {
+    if (OS_IsRunOnTwl() && w->deviceId == 2) {
         if (func_021661F0(bssDesc))
             return;
     }
@@ -218,7 +214,7 @@ WCMApList *func_02165DCC(void)
     WCMApListHeader *pHeader;
     WCMWork *w;
 
-    w = func_021657C8();
+    w = WCMi_GetSystemWork();
     pHeader = w->config.pbdbuffer;
     p = 0;
 
@@ -328,7 +324,7 @@ static WCMApList *WcmSearchIndexedApList(unsigned long index)
  */
 void func_02165F88(WCMApList *aplist)
 {
-    WCMWork *w = func_021657C8();
+    WCMWork *w = WCMi_GetSystemWork();
     WCMApListHeader *pHeader = w->config.pbdbuffer;
     WCMApList *p;
 
@@ -383,7 +379,7 @@ void func_02166040(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
     u8 id;
     u8 len;
 
-    w = func_021657C8();
+    w = WCMi_GetSystemWork();
     func_02082AC0(0, destBssDesc, sizeof(WMBssDesc));
     func_02082B0C(srcBssDesc, destBssDesc, 0x40);
     destBssDesc->elementCount = 0;
@@ -432,7 +428,7 @@ void func_02166040(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc)
  */
 WMGameInfo *func_021661F0(WMBssDesc *bssDesc)
 {
-    WCMWork *w = func_021657C8();
+    WCMWork *w = WCMi_GetSystemWork();
     NWMInfoElements *elem;
     WMGameInfo *gameInfo;
     unsigned char tag[4] = { 0x00, 0x09, 0xBF, 0x00 };

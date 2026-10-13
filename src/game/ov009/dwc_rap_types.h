@@ -1,4 +1,4 @@
-/* Work block of the DWC RAP module: the area d_021A8264 points to. */
+/* Types of the Wi-Fi session wrapper over the DWC library (dwc_rap.c). */
 #ifndef DWC_RAP_TYPES_H
 #define DWC_RAP_TYPES_H
 
@@ -6,96 +6,140 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-typedef void (*RapRecvCb)(u32, u8 *, u16);
+typedef void (*DwcRapRecvFunc)(u32 aid, u8 *data, u16 size);
 
+/*
+ * Work block of the Wi-Fi session state machine (0x7AC bytes), allocated by
+ * the create function and held in the file static _pRapWork.
+ */
 typedef struct DwcRapWork {
-    union { int hdr; u8 b[4]; } pkt;    /* 0x000 */
-    u8 pktdata[0xFC];                   /* 0x004 */
-    u8 *friend_list;                    /* 0x100 */
+    union { int word; u8 octet[4]; } sendHeader; /* 0x000 type | vchat flag << 8 | seq << 16 */
+    u8 sendPayload[0xFC];               /* 0x004 */
+    u8 *friendList;                     /* 0x100 DWCFriendData[], 12 bytes each; NULL when not used */
     u8 pad104[4];
-    void *userdata;                     /* 0x108 */
-    u8 x10C[0x174 - 0x10C];             /* 0x10C */
-    void *buf[2];                       /* 0x174 */
-    int arr[32];                        /* 0x17C */
-    int arr2[32];                       /* 0x1FC */
-    RapRecvCb cb0;                      /* 0x27C */
-    RapRecvCb cb1;                      /* 0x280 */
-    void (*cb284)(u32, u32);            /* 0x284 */
-    u32 arg288;                         /* 0x288 */
-    int (*cb28C)(u32, u32, u32, int);   /* 0x28C */
-    u32 arg290;                         /* 0x290 */
-    int (*cb294)(u32, u32, u32, int);   /* 0x294 */
-    u32 arg298;                         /* 0x298 */
-    void (*cb29C)(int, int);            /* 0x29C */
-    int arg2A0;                         /* 0x2A0 */
-    int (*cb2A4)(int, u32);             /* 0x2A4 */
-    void (*cb2A8)(int);                 /* 0x2A8 */
-    char name[0x80];                    /* 0x2AC */
-    u8 bytes[32];                       /* 0x32C */
-    u8 ent[32][0x20];                   /* 0x34C */
-    u32 w74C;                           /* 0x74C */
-    int w750;                           /* 0x750 */
-    int state;                          /* 0x754 */
-    int err;                            /* 0x758 */
-    int mode;                           /* 0x75C */
-    int f760;                           /* 0x760 */
-    int n;                              /* 0x764 */
-    int aid;                            /* 0x768 */
-    int f76c;                           /* 0x76C */
-    int idx;                            /* 0x770 */
-    int f774;                           /* 0x774 */
-    int f778;                           /* 0x778 */
-    int w77C;                           /* 0x77C */
-    short s780;                         /* 0x780 */
-    short s782;                         /* 0x782 */
-    int cnt[3];                         /* 0x784 */
-    int f790;                           /* 0x790 */
-    u16 h794;                           /* 0x794 */
-    u16 h796;                           /* 0x796 */
-    int f798;                           /* 0x798 */
-    u8 seq;                             /* 0x79C */
-    u8 b79d;
-    u8 b79e;
-    u8 b79f;
-    u8 b7a0;
-    u8 b7a1;
-    u8 b7a2;
-    u8 b7a3;
-    u8 b7a4;
-    u8 b7a5;
-    u8 b7a6;
-    u8 b7a7;
-    u8 b7a8;
-    u8 b7a9;
+    void *userData;                     /* 0x108 DWC account user data */
+    u8 inetWork[0x174 - 0x10C];         /* 0x10C work area of the DWC internet connect call */
+    void *recvBuffer[2];                /* 0x174 reliable receive buffer per peer (0x1000 bytes) */
+    int deletedFriendIndex[32];         /* 0x17C queued by the friend-delete callback, -1 when free */
+    int deletedFriendSrcIndex[32];      /* 0x1FC */
+    DwcRapRecvFunc serverRecvFunc;      /* 0x27C game receive callback while this node is the server */
+    DwcRapRecvFunc clientRecvFunc;      /* 0x280 game receive callback while this node is a client */
+    void (*connectionClosedFunc)(u32, u32); /* 0x284 (aid, connectionClosedArg) */
+    u32 connectionClosedArg;            /* 0x288 */
+    int (*errorFunc)(u32, u32, u32, int);   /* 0x28C (errorArg, errorCode, errorType, dwcError) */
+    u32 errorArg;                       /* 0x290 */
+    int (*errorHookFunc)(u32, u32, u32, int); /* 0x294 runs first; returning 1 swallows the error */
+    u32 errorHookArg;                   /* 0x298 */
+    void (*connectEventFunc)(int, int); /* 0x29C (aid, connectEventArg) after a match or a new client */
+    int connectEventArg;                /* 0x2A0 */
+    int (*acceptFriendFunc)(int, u32);  /* 0x2A4 (friendIndex, userArg); 0 rejects the peer */
+    void (*fatalErrorFunc)(int);        /* 0x2A8 called with the negated error code (error type 7) */
+    char matchFilter[0x80];             /* 0x2AC "a = value" filter string of the match search */
+    u8 friendStatus[32];                /* 0x32C status byte per friend index */
+    u8 friendStatusData[32][0x20];      /* 0x34C status string per friend index */
+    u32 friendPollCursor;               /* 0x74C counter; (cursor & 31) is the friend polled this frame */
+    int connectionUserData;             /* 0x750 handed to the DWC connect call */
+    int state;                          /* 0x754 DWC_RAP_STATE_* */
+    int result;                         /* 0x758 last result code reported to the game */
+    int connectMode;                    /* 0x75C 0 match anybody, 1 host a friend game, 2 join a friend */
+    int sendInFlight;                   /* 0x760 a reliable packet is still being sent */
+    int maxPlayers;                     /* 0x764 */
+    int vchatAidBitmap;                 /* 0x768 AID bitmap the voice chat last synchronised to */
+    int vchatActive;                    /* 0x76C voice chat is running */
+    int targetFriendIndex;              /* 0x770 friend to join (-1 when hosting), later the peer index */
+    int newClientAid;                   /* 0x774 AID of the last client that joined, -1 when none */
+    int connectPending;                 /* 0x778 a connect call has not reported back yet */
+    int vchatPlayerCount;               /* 0x77C picks the voice chat session size (2..5) */
+    short canceledPeerIndex;            /* 0x780 peer that cancelled the match, -1 when none */
+    short vchatEnabled;                 /* 0x782 the game asked for voice chat */
+    int peerCounter[3];                 /* 0x784 frames since the last send to peer 0 and 1; [2] counts connect retries */
+    int vchatPeerOn;                    /* 0x790 voice chat flag the peer sent in its header */
+    u16 vchatLocalOn;                   /* 0x794 voice chat flag this node sends in its header */
+    u16 vchatGateOpen;                  /* 0x796 third voice chat condition, set when the session starts */
+    int aidBitmapAtConnect;             /* 0x798 */
+    u8 sendSeq;                         /* 0x79C */
+    u8 lastRecvSeq;                     /* 0x79D */
+    u8 forceFatalError;                 /* 0x79E reported as the fatal result when set */
+    u8 vchatTalkLock;                   /* 0x79F */
+    u8 kickNewPeers;                    /* 0x7A0 close the connection of every peer that joins */
+    u8 connectArmed;                    /* 0x7A1 */
+    u8 userDataChanged;                 /* 0x7A2 the account data became dirty and must be saved */
+    u8 errorOnDisconnect;               /* 0x7A3 raise a game error when the connection closes */
+    u8 rejectStrangers;                 /* 0x7A4 reject a peer that is not in the friend list */
+    u8 allowConnect;                    /* 0x7A5 answer of the connect attempt callback */
+    u8 sendStateReady;                  /* 0x7A6 the peer acknowledged the last state packet */
+    u8 ackPending;                      /* 0x7A7 an acknowledge packet still has to be sent */
+    u8 peerAlive;                       /* 0x7A8 something was received from the peer */
+    u8 friendsMatchInit;                /* 0x7A9 DWC_InitFriendsMatch has run */
     u8 pad7AA[2];
 } DwcRapWork;
 
-/* The ov009 context block that func_0203D798 returns. */
-typedef struct RapCtx {
+/* Values of DwcRapWork.state. */
+enum {
+    DWC_RAP_STATE_START = 0,            /* start the internet connect */
+    DWC_RAP_STATE_WAIT_INET = 1,        /* waiting for the access point link */
+    DWC_RAP_STATE_INIT_LOGIN = 2,       /* init friends match and call login */
+    DWC_RAP_STATE_LOGIN = 3,            /* login running */
+    DWC_RAP_STATE_UPDATE_SERVERS = 4,   /* start the friend list update */
+    DWC_RAP_STATE_WAIT_UPDATE = 5,      /* friend list update running */
+    DWC_RAP_STATE_IDLE = 6,             /* logged in, no connection */
+    DWC_RAP_STATE_MATCHING = 7,         /* match search or join running */
+    DWC_RAP_STATE_CANCELING = 8,        /* closing connections for a cancel */
+    DWC_RAP_STATE_CONNECTED = 9,        /* match done, report it once */
+    DWC_RAP_STATE_IN_SESSION = 10,      /* connected, exchanging data */
+    DWC_RAP_STATE_CANCELED = 11,
+    DWC_RAP_STATE_MATCH_FAILING = 12,   /* connections closing after a failed match */
+    DWC_RAP_STATE_MATCH_FAILED = 13,
+    DWC_RAP_STATE_ERROR = 14,           /* error while logging in */
+    DWC_RAP_STATE_FATAL_DISCONNECT = 16,
+    DWC_RAP_STATE_FATAL_ERROR = 17,     /* error type 7 */
+    DWC_RAP_STATE_CLOSING = 18,         /* connection lost, closing */
+    DWC_RAP_STATE_CLOSED = 19,
+    DWC_RAP_STATE_TIMED_OUT = 20        /* receive timeout */
+};
+
+/* Results the state machine reports to the game (DwcRapWork.result, game error code). */
+enum {
+    DWC_RAP_RESULT_CONNECTED = 1000,
+    DWC_RAP_RESULT_CANCELED = 0x3E9,
+    DWC_RAP_RESULT_MATCH_FAILED = 0x3EA,
+    DWC_RAP_RESULT_TIMED_OUT = 0x3EB,
+    DWC_RAP_RESULT_CLOSED = 0x3EC,
+    DWC_RAP_RESULT_FATAL = 0x3EE,
+    DWC_RAP_RESULT_IDLE = 0x3EF,        /* nothing to report */
+    DWC_RAP_RESULT_TIMEOUT_ERROR = 0x3F0,
+    DWC_RAP_RESULT_DISCONNECT_ERROR = 0x3F1
+};
+
+/*
+ * The part of the GFLNetInitializeStruct (src/game/arm9/net_types.h) this file
+ * reads; func_0203D798 returns the live copy.
+ */
+typedef struct DwcRapNetInit {
     char pad0[0x3C];
-    void (*cb3C)(u32, u32, u32);        /* 0x3C */
+    void (*deleteFriendFunc)(u32 deletedIndex, u32 srcIndex, u32 userArg); /* 0x3C */
     char pad40[0x48 - 0x40];
-    int heap_size;                      /* 0x48 */
+    int heapSize;                       /* 0x48 */
     char pad4C[0x56 - 0x4C];
-    u16 heap;                           /* 0x56 */
-    u16 heap2;                          /* 0x58 */
+    u16 heapId;                         /* 0x56 */
+    u16 wifiHeapId;                     /* 0x58 */
     char pad5A[0x60 - 0x5A];
-    u8 b60;                             /* 0x60 */
-} RapCtx;
+    u8 maxConnectNum;                   /* 0x60 */
+} DwcRapNetInit;
 
-extern RapCtx *func_0203D798(void);
+extern DwcRapNetInit *func_0203D798(void);
 
-/* Heap object that d_021A8268 points to (the module's own allocation). */
-typedef struct RapHeap {
-    u32 heap;                           /* 0x00 handle of the main heap */
-    u32 mem;                            /* 0x04 its backing block */
-    u32 sub_heap;                       /* 0x08 secondary heap, 0 when none */
-    u32 sub_mem;                        /* 0x0C its backing block */
-    u32 sub_id;                         /* 0x10 owner id the secondary heap serves */
-    u32 sub_users;                      /* 0x14 live blocks in the secondary heap */
-    u32 sub_limit;                      /* 0x18 smallest request that is not served from it */
-    u32 failed;                         /* 0x1C set when an allocation failed */
+/* Heap object that _pRapHeap points to (the DWC allocator of this module). */
+typedef struct DwcRapHeap {
+    u32 mainHeap;                       /* 0x00 handle of the main heap */
+    u32 mainMem;                        /* 0x04 its backing block */
+    u32 subHeap;                        /* 0x08 secondary heap, 0 when none */
+    u32 subMem;                         /* 0x0C its backing block */
+    u32 subOwnerId;                     /* 0x10 owner id the secondary heap serves */
+    u32 subLiveBlocks;                  /* 0x14 live blocks in the secondary heap */
+    u32 subMinRequest;                  /* 0x18 smallest request that is not served from it */
+    u32 allocFailed;                    /* 0x1C set when an allocation failed */
     u16 tag;                            /* 0x20 */
-} RapHeap;
+} DwcRapHeap;
 
 #endif

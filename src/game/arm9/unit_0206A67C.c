@@ -38,47 +38,62 @@
  *   python tools/match.py one --src src/matched/func_0206A67C.c \
  *       --func func_0206A67C --addr 0x0206A67C --cc 1.1p1 --arm
  */
-#include "../../matched/include/Obj07044.h"
-#include "../../matched/include/Obj16557.h"
-
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
+/* Resource dictionary header (NNSG3dResDict shape). */
 typedef struct {
-    u8  f0;
-    u8  count;
-    u8  f2;
-    u8  flags;
-    u16 f4;
-    u16 tbl;
-} Ent;
+    u8  revision;
+    u8  numEntry;
+    u16 sizeDictBlk;
+    u16 dummy;
+    u16 ofsEntry;
+} ResDictHeader;
 
-void func_0206A67C(char *h)
+/* Prefix of one dictionary data record: the done bit is bit 0 of byte 3. */
+typedef struct {
+    u8 unused00[3];
+    u8 flags;
+} ResDictData;
+
+/* Prefix of a resource file header: the offset of the first block at +8. */
+typedef struct {
+    u8  unused00[8];
+    u32 ofsBlock;
+} ResFilePrefix;
+
+/* Prefix of the data block: the offset of the dictionary at +2. */
+typedef struct {
+    u8  unused00[2];
+    u16 ofsDict;
+} ResBlockPrefix;
+
+void func_0206A67C(char *pRes)
 {
-    char *base;
-    Ent  *e1;
-    u32   i;
+    char          *pBlock;
+    ResDictHeader *pDict;
+    u32            entryIdx;
 
-    base = (h != 0 && ((struct Obj07044 *)h)->f8 != 0) ? h + ((struct Obj07044 *)h)->f8 : 0;
-    e1 = (Ent *)(base + ((struct Obj16557 *)base)->f2);
+    pBlock = (pRes != 0 && ((ResFilePrefix *)pRes)->ofsBlock != 0) ? pRes + ((ResFilePrefix *)pRes)->ofsBlock : 0;
+    pDict = (ResDictHeader *)(pBlock + ((ResBlockPrefix *)pBlock)->ofsDict);
 
-    i = 0;
-    if (e1->count <= i)
+    entryIdx = 0;
+    if (pDict->numEntry <= entryIdx)
         return;
 
     do {
-        Ent *t;
-        if (e1 != 0 && i < *(volatile u8 *)&e1->count) {
-            u16 t2 = e1->tbl;
-            u16 st = *(u16 *)((char *)e1 + t2);
-            t = (Ent *)((char *)e1 + t2 + 4 + st * i);
+        ResDictData *pData;
+        if (pDict != 0 && entryIdx < *(volatile u8 *)&pDict->numEntry) {
+            u16 ofsEntry = pDict->ofsEntry;
+            u16 sizeUnit = *(u16 *)((char *)pDict + ofsEntry);
+            pData = (ResDictData *)((char *)pDict + ofsEntry + 4 + sizeUnit * entryIdx);
         } else {
-            t = 0;
+            pData = 0;
         }
-        i++;
-        if (t->flags & 1) {
-            t->flags = (u8)(t->flags & ~1u);
+        entryIdx++;
+        if (pData->flags & 1) {
+            pData->flags = (u8)(pData->flags & ~1u);
         }
-    } while (i < e1->count);
+    } while (entryIdx < pDict->numEntry);
 }

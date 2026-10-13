@@ -51,8 +51,9 @@ Complete (rule C).  A unit is complete when all of these hold:
       definitions()) is allowed only when
         H1  the comment block right above it says "hand-written in the original"
             (the ASM2C brief's marker), or
-        H2  it is SDK code: its address (from a func_XXXXXXXX name or the file's
-            `symbols:` header) is SDK by rule D3, or its name is a symbol of
+        H2  it is SDK code: its address (from a func_XXXXXXXX name, the file's
+            `symbols:` header, or the file's compiled layout, tools/fnaddr.py) is
+            SDK by rule D3, or its name is a symbol of
             layout/symbols_sdk.txt.  NitroSDK, NitroSystem and DWC write such
             routines as `asm` functions inside .c files (MI_CpuCopy32,
             OS_SaveContext, DC_StoreRange), so asm there is the original form;
@@ -253,6 +254,7 @@ def asm_report(path, region, sdk):
     except Exception:
         hsyms = {}
     stand, sdkasm, marked, ph = [], [], [], []
+    lay = []
     for name, is_asm, body, inc in placeholders.definitions(text):
         if not is_asm:
             continue
@@ -264,6 +266,12 @@ def asm_report(path, region, sdk):
             continue
         am = ADDR_NAME.search(name)
         a = int(am.group(1), 16) if am else hsyms.get(name)
+        if a is None and name not in sdk_names():
+            # any other name: its address in the file's compiled layout (tools/fnaddr.py)
+            if not lay:
+                import fnaddr
+                lay.append(fnaddr.layouts([path], {path: region}).get(path) or {})
+            a = lay[0].get(name)
         if (a is not None and a in sdk) or name in sdk_names():
             sdkasm.append(name)
         else:

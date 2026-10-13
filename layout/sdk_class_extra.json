@@ -1,0 +1,1112 @@
+{
+ "regions": {
+  "arm9": {
+   "02004EA8": {
+    "name": "func_02004EA8",
+    "size": 4,
+    "lib": "crt0.HYB.TWL.o",
+    "member": "crt0.HYB.TWL.o",
+    "method": "reclass"
+   },
+   "02004EAC": {
+    "name": "func_02004EAC",
+    "size": 4,
+    "lib": "crt0.HYB.TWL.o",
+    "member": "crt0.HYB.TWL.o",
+    "method": "reclass"
+   },
+   "02004EB0": {
+    "name": "func_02004EB0",
+    "size": 4,
+    "lib": "crt0.HYB.TWL.o",
+    "member": "crt0.HYB.TWL.o",
+    "method": "reclass"
+   },
+   "020588FC": {
+    "name": "writeDisable",
+    "size": 8,
+    "lib": "libdwcbm.TWL.HYB.a",
+    "member": "dwc_backup.o",
+    "method": "reclass"
+   },
+   "020589C4": {
+    "name": "DWCi_BACKUPlGetWifi",
+    "size": 8,
+    "lib": "libdwcbm.TWL.HYB.a",
+    "member": "dwc_backup.o|dwc_bm_init.o",
+    "method": "reclass"
+   },
+   "020590A4": {
+    "name": "DWCi_Acc_GetPlayerId",
+    "size": 8,
+    "lib": "libdwcaccount.TWL.HYB.a",
+    "member": "dwc_account.o",
+    "method": "reclass"
+   },
+   "020590C0": {
+    "name": "DWCi_Acc_GetGsProfileId",
+    "size": 8,
+    "lib": "libdwcaccount.TWL.HYB.a",
+    "member": "dwc_account.o",
+    "method": "reclass"
+   },
+   "020590F0": {
+    "name": "DWCi_Acc_SetPlayerId",
+    "size": 8,
+    "lib": "libdwcaccount.TWL.HYB.a",
+    "member": "dwc_account.o",
+    "method": "reclass"
+   },
+   "020590F8": {
+    "name": "DWCi_Acc_SetFriendKey",
+    "size": 8,
+    "lib": "libdwcaccount.TWL.HYB.a",
+    "member": "dwc_account.o",
+    "method": "reclass"
+   },
+   "02059100": {
+    "name": "DWCi_Acc_SetGsProfileId",
+    "size": 8,
+    "lib": "libdwcaccount.TWL.HYB.a",
+    "member": "dwc_account.o",
+    "method": "reclass"
+   },
+   "0205984C": {
+    "name": "DWC_CheckDirtyFlag",
+    "size": 8,
+    "lib": "libdwcaccount.TWL.HYB.a",
+    "member": "dwc_account.o",
+    "method": "reclass"
+   },
+   "0205A12C": {
+    "name": "DWCi_GetAllocateHeader",
+    "size": 8,
+    "lib": "libdwccommon.TWL.HYB.a",
+    "member": "dwc_init.o|dwc_memfunc.o",
+    "method": "reclass"
+   },
+   "0205CCD8": {
+    "name": "DWC_GetLinkLevel",
+    "size": 8,
+    "lib": "libdwcac.TWL.HYB.a",
+    "member": "dwc_connectinet.",
+    "method": "reclass"
+   },
+   "0205D010": {
+    "name": "DWC_GetParseWMBssDescWorkSize",
+    "size": 8,
+    "lib": "libdwcac.TWL.HYB.a",
+    "member": "dwc_connectinet.",
+    "method": "reclass"
+   },
+   "0205D1BC": {
+    "name": "GetIrregularError",
+    "size": 8,
+    "lib": "libdwcac.TWL.HYB.a",
+    "member": "error.o",
+    "method": "reclass"
+   },
+   "02061C44": {
+    "name": "NNS_GfdDoVramTransfer",
+    "size": 92,
+    "lib": "NitroSystem (not shipped)",
+    "member": "gfd_VramTransferManager/gfd_LnkVramMan (likely)",
+    "method": "reclass"
+   },
+   "02061CA4": {
+    "name": "NNS_GfdRegisterNewVramTransferTask",
+    "size": 100,
+    "lib": "NitroSystem (not shipped)",
+    "member": "gfd_VramTransferManager/gfd_LnkVramMan (likely)",
+    "method": "reclass"
+   },
+   "02061D0C": {
+    "name": "NNSi_GfdMergeAdjacentFreeBlocks",
+    "size": 228,
+    "lib": "NitroSystem (not shipped)",
+    "member": "gfd_VramTransferManager/gfd_LnkVramMan (likely)",
+    "method": "reclass"
+   },
+   "02061DF0": {
+    "name": "NNSi_GfdClearBlockListHead",
+    "size": 12,
+    "lib": "NitroSystem (not shipped)",
+    "member": "gfd_VramTransferManager/gfd_LnkVramMan (likely)",
+    "method": "reclass"
+   },
+   "02061DFC": {
+    "name": "NNSi_GfdInitBlockPool",
+    "size": 76,
+    "lib": "NitroSystem (not shipped)",
+    "member": "gfd_VramTransferManager/gfd_LnkVramMan (likely)",
+    "method": "reclass"
+   },
+   "02061E48": {
+    "name": "NNSi_GfdAddBlock",
+    "size": 92,
+    "lib": "NitroSystem (not shipped)",
+    "member": "gfd_VramTransferManager/gfd_LnkVramMan (likely)",
+    "method": "reclass"
+   },
+   "02061EA4": {
+    "name": "NNSi_GfdAllocBlockUnaligned",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "gfd_VramTransferManager/gfd_LnkVramMan (likely)",
+    "method": "reclass"
+   },
+   "02064C10": {
+    "name": "NNSi_G2dMCAnimUpdateBank",
+    "size": 172,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_MultiCellAnimation (likely)",
+    "method": "reclass"
+   },
+   "02064D70": {
+    "name": "NNSi_G2dMCEnumAnimBank",
+    "size": 204,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_MultiCellAnimation/g2d_Renderer (likely)",
+    "method": "reclass"
+   },
+   "02064E3C": {
+    "name": "NNSi_G2dRendererResetMtxSlot",
+    "size": 136,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_MultiCellAnimation/g2d_Renderer (likely)",
+    "method": "reclass"
+   },
+   "02064EDC": {
+    "name": "NNSi_G2dMCMLoadCurrentMtxToCache",
+    "size": 292,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_MultiCellAnimation/g2d_Renderer (likely)",
+    "method": "reclass"
+   },
+   "02065020": {
+    "name": "NNSi_G2dRendererBeforeDrawCell",
+    "size": 252,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_MultiCellAnimation/g2d_Renderer (likely)",
+    "method": "reclass"
+   },
+   "02065134": {
+    "name": "NNSi_G2dRendererAfterDrawCell",
+    "size": 108,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_MultiCellAnimation/g2d_Renderer (likely)",
+    "method": "reclass"
+   },
+   "02066878": {
+    "name": "NNSi_G2dGetCellTransferState",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_CellTransferManager (likely)",
+    "method": "reclass"
+   },
+   "02066890": {
+    "name": "func_02066890",
+    "size": 160,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_CellTransferManager (merge list of CL052)",
+    "method": "reclass"
+   },
+   "02066934": {
+    "name": "NNS_G2dInitCellTransferStateManager",
+    "size": 96,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_CellTransferManager (likely)",
+    "method": "reclass"
+   },
+   "02066998": {
+    "name": "func_02066998",
+    "size": 284,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_CellTransferManager (merge list of CL052)",
+    "method": "reclass"
+   },
+   "02066ABC": {
+    "name": "NNSi_G2dRequestCellTransferState",
+    "size": 36,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_CellTransferManager (likely)",
+    "method": "reclass"
+   },
+   "02066AE0": {
+    "name": "func_02066AE0",
+    "size": 84,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_CellTransferManager (merge list of CL052)",
+    "method": "reclass"
+   },
+   "02066B38": {
+    "name": "NNSi_G2dResetCellTransferState",
+    "size": 72,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_CellTransferManager (likely)",
+    "method": "reclass"
+   },
+   "02067EB0": {
+    "name": "NNSi_G2dFontGetGlyphIndexFromCMap",
+    "size": 196,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_Font (likely)",
+    "method": "reclass"
+   },
+   "02067F78": {
+    "name": "NNS_G2dFontInitUTF16",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_Font (likely)",
+    "method": "reclass"
+   },
+   "02067F9C": {
+    "name": "NNS_G2dFontGetGlyphIndex",
+    "size": 68,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g2d_Font (likely)",
+    "method": "reclass"
+   },
+   "0206A110": {
+    "name": "NNS_G3dPlttGetRequiredSize",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_tex (probable)",
+    "method": "reclass"
+   },
+   "0206A124": {
+    "name": "NNS_G3dPlttSetPlttKey",
+    "size": 8,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_tex (probable)",
+    "method": "reclass"
+   },
+   "0206A12C": {
+    "name": "NNS_G3dPlttLoad",
+    "size": 80,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_tex (probable)",
+    "method": "reclass"
+   },
+   "0206A9DC": {
+    "name": "NNS_G3dGlbBaseTrans",
+    "size": 40,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_glb (confident)",
+    "method": "reclass"
+   },
+   "0206AA0C": {
+    "name": "NNS_G3dGlbBaseScale",
+    "size": 40,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_glb (confident)",
+    "method": "reclass"
+   },
+   "0206AA3C": {
+    "name": "NNS_G3dGlbLightVector",
+    "size": 52,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_glb (confident)",
+    "method": "reclass"
+   },
+   "0206AA78": {
+    "name": "NNS_G3dGlbLightColor",
+    "size": 16,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_glb (confident)",
+    "method": "reclass"
+   },
+   "0206AA8C": {
+    "name": "NNS_G3dGlbMaterialColorDiffAmb",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_glb (confident)",
+    "method": "reclass"
+   },
+   "0206AAB0": {
+    "name": "NNS_G3dGlbMaterialColorSpecEmi",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_glb (confident)",
+    "method": "reclass"
+   },
+   "0206B3D0": {
+    "name": "NNSi_G3dAnmBlendVis",
+    "size": 136,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_anm (probable)",
+    "method": "reclass"
+   },
+   "0206DF14": {
+    "name": "NNS_G3dInit",
+    "size": 36,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_init (probable)",
+    "method": "reclass"
+   },
+   "0206E394": {
+    "name": "NNS_G3dMdlSetMdlLightEnableFlag",
+    "size": 120,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_mdl NNS_G3dMdlSet* (real NNS API names)",
+    "method": "reclass"
+   },
+   "0206E40C": {
+    "name": "NNS_G3dMdlSetMdlPolygonMode",
+    "size": 120,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_mdl NNS_G3dMdlSet* (real NNS API names)",
+    "method": "reclass"
+   },
+   "0206E484": {
+    "name": "NNS_G3dMdlSetMdlCullMode",
+    "size": 120,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_mdl NNS_G3dMdlSet* (real NNS API names)",
+    "method": "reclass"
+   },
+   "0206E4FC": {
+    "name": "NNS_G3dMdlSetMdlPolygonID",
+    "size": 120,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_mdl NNS_G3dMdlSet* (real NNS API names)",
+    "method": "reclass"
+   },
+   "0206E574": {
+    "name": "NNS_G3dMdlSetMdlAlpha",
+    "size": 120,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_mdl NNS_G3dMdlSet* (real NNS API names)",
+    "method": "reclass"
+   },
+   "0206E5EC": {
+    "name": "NNS_G3dMdlSetMdlPolygonIDAll",
+    "size": 64,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_mdl NNS_G3dMdlSet* (real NNS API names)",
+    "method": "reclass"
+   },
+   "0206E954": {
+    "name": "NNS_G3dGetMdlSet",
+    "size": 16,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_res_struct (probable)",
+    "method": "reclass"
+   },
+   "0206E964": {
+    "name": "NNS_G3dGetTex",
+    "size": 60,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_res_struct (probable)",
+    "method": "reclass"
+   },
+   "0206E9A4": {
+    "name": "NNS_G3dGetAnmByIdx",
+    "size": 92,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_res_struct (probable)",
+    "method": "reclass"
+   },
+   "02070C24": {
+    "name": "NNSi_G3dAnmCalcNsBva",
+    "size": 56,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_anm (probable)",
+    "method": "reclass"
+   },
+   "02071A24": {
+    "name": "NNSi_G3dTexMtxScaleRotTrans",
+    "size": 264,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_anm (probable)",
+    "method": "reclass"
+   },
+   "02071B2C": {
+    "name": "NNSi_G3dTexMtxRotTrans",
+    "size": 232,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_anm (probable)",
+    "method": "reclass"
+   },
+   "02071CDC": {
+    "name": "NNSi_G3dTexMtxScaleRot",
+    "size": 248,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_anm (probable)",
+    "method": "reclass"
+   },
+   "02071DD4": {
+    "name": "NNSi_G3dTexMtxRot",
+    "size": 216,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_anm (probable)",
+    "method": "reclass"
+   },
+   "02071EAC": {
+    "name": "NNSi_G3dTexMtxScale",
+    "size": 80,
+    "lib": "NitroSystem (not shipped)",
+    "member": "g3d_anm (probable)",
+    "method": "reclass"
+   },
+   "02072A08": {
+    "name": "NNS_SndWaveOutFreeChannel",
+    "size": 28,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_waveout (medium)",
+    "method": "reclass"
+   },
+   "02072A28": {
+    "name": "NNS_SndWaveOutInit",
+    "size": 24,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_waveout (medium)",
+    "method": "reclass"
+   },
+   "02072A44": {
+    "name": "NNS_SndWaveOutAllocChannel",
+    "size": 64,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_waveout (medium)",
+    "method": "reclass"
+   },
+   "02072C18": {
+    "name": "NNS_SndWaveOutSetVolume",
+    "size": 40,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_waveout (medium)",
+    "method": "reclass"
+   },
+   "02072C40": {
+    "name": "NNS_SndWaveOutSetSpeed",
+    "size": 124,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_waveout (medium)",
+    "method": "reclass"
+   },
+   "02072CC4": {
+    "name": "NNS_SndWaveOutIsPlaying",
+    "size": 92,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_waveout (medium)",
+    "method": "reclass"
+   },
+   "02072D98": {
+    "name": "NNS_SndPlayerSetPlayerVolume",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (high names)",
+    "method": "reclass"
+   },
+   "02072DB0": {
+    "name": "NNS_SndPlayerSetPlayableSeqCount",
+    "size": 28,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (high names)",
+    "method": "reclass"
+   },
+   "02072DD0": {
+    "name": "NNS_SndPlayerSetAllocatableChannel",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium-high)",
+    "method": "reclass"
+   },
+   "02072E9C": {
+    "name": "NNS_SndHandleInit",
+    "size": 12,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02072EC8": {
+    "name": "NNS_SndPlayerGetActiveSeqCount",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02072F34": {
+    "name": "NNS_SndHandleSetSeqPriority",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02072F48": {
+    "name": "NNS_SndHandleSetPlayerPriority",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02072F5C": {
+    "name": "NNS_SndHandleMoveVolume",
+    "size": 44,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02072F88": {
+    "name": "NNS_SndHandlePause",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02072FA8": {
+    "name": "NNS_SndHandleSetTrackPause",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02072FC8": {
+    "name": "NNS_SndHandleSetTrackMute",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02072FE8": {
+    "name": "NNS_SndHandleSetTrackVolume",
+    "size": 44,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02073018": {
+    "name": "NNS_SndHandleSetTrackPitch",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02073038": {
+    "name": "NNS_SndHandleSetTrackPan",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02073058": {
+    "name": "NNS_SndHandleSetTrackModDepth",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02073078": {
+    "name": "NNS_SndHandleSetTrackModSpeed",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "02073098": {
+    "name": "NNS_SndHandleStop",
+    "size": 32,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_player (medium)",
+    "method": "reclass"
+   },
+   "020742E4": {
+    "name": "NNS_SndArcSetCurrent",
+    "size": 20,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "020742FC": {
+    "name": "NNS_SndArcGetCurrent",
+    "size": 12,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "0207430C": {
+    "name": "NNS_SndArcGetSeqParam",
+    "size": 24,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "02074324": {
+    "name": "NNS_SndArcGetSeqInfo",
+    "size": 96,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "02074388": {
+    "name": "NNS_SndArcGetSeqArcInfo",
+    "size": 96,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "020743EC": {
+    "name": "NNS_SndArcGetBankInfo",
+    "size": 96,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "02074450": {
+    "name": "NNS_SndArcGetWaveArcInfo",
+    "size": 96,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "020744B4": {
+    "name": "NNS_SndArcGetPlayerInfo",
+    "size": 96,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "02074518": {
+    "name": "NNS_SndArcGetGroupInfo",
+    "size": 96,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "0207457C": {
+    "name": "NNS_SndArcGetFileSize",
+    "size": 36,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "020745A4": {
+    "name": "NNS_SndArcReadFile",
+    "size": 196,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "0207466C": {
+    "name": "NNS_SndArcGetFileAddress",
+    "size": 36,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "02074694": {
+    "name": "NNS_SndArcSetFileAddress",
+    "size": 24,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "020746B0": {
+    "name": "NNS_SndArcSetReadChunkSize",
+    "size": 16,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_arc (high)",
+    "method": "reclass"
+   },
+   "02075BD4": {
+    "name": "NNS_SndFaderGet",
+    "size": 52,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_util NNSSndFader (medium)",
+    "method": "reclass"
+   },
+   "02075C08": {
+    "name": "NNS_SndFaderUpdate",
+    "size": 24,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_util NNSSndFader (medium)",
+    "method": "reclass"
+   },
+   "02075C20": {
+    "name": "NNS_SndFaderIsFinished",
+    "size": 24,
+    "lib": "NitroSystem (not shipped)",
+    "member": "snd_util NNSSndFader (medium)",
+    "method": "reclass"
+   },
+   "02075FCC": {
+    "name": "CARDi_GetAccessLevel",
+    "size": 132,
+    "lib": "libcard.TWL.HYB.a",
+    "member": "card_common.o",
+    "method": "reclass"
+   },
+   "02076B80": {
+    "name": "CARD_WaitBackupAsync",
+    "size": 8,
+    "lib": "libcard.TWL.HYB.a",
+    "member": "card_backup.o",
+    "method": "reclass"
+   },
+   "02076B8C": {
+    "name": "CARD_TryWaitBackupAsync",
+    "size": 8,
+    "lib": "libcard.TWL.HYB.a",
+    "member": "card_backup.o",
+    "method": "reclass"
+   },
+   "020773C4": {
+    "name": "CARD_WaitRomAsync",
+    "size": 8,
+    "lib": "libcard.TWL.HYB.a",
+    "member": "card_rom.o|card_pullout.o",
+    "method": "reclass"
+   },
+   "020773D0": {
+    "name": "CARDi_GetRomCacheBuffer",
+    "size": 8,
+    "lib": "libcard.TWL.HYB.a",
+    "member": "card_rom.o|card_pullout.o",
+    "method": "reclass"
+   },
+   "02078C28": {
+    "name": "FS_GetLength",
+    "size": 8,
+    "lib": "libfs.TWL.HYB.a",
+    "member": "fs_file.o|fs_overlay.o",
+    "method": "reclass"
+   },
+   "02079BF4": {
+    "name": "FSi_NoOpCommandDefault",
+    "size": 8,
+    "lib": "libfs.TWL.HYB.a",
+    "member": "fs_proc_default.",
+    "method": "reclass"
+   },
+   "0207A7BC": {
+    "name": "FS_GetFileImageTop",
+    "size": 8,
+    "lib": "libfs.TWL.HYB.a",
+    "member": "fs_proc_default.|fs_proc_mem.o",
+    "method": "reclass"
+   },
+   "0207AAF8": {
+    "name": "FSi_ReadDummyCallback",
+    "size": 8,
+    "lib": "libfs.TWL.HYB.a",
+    "member": "fs_proc_rom.o",
+    "method": "reclass"
+   },
+   "0207AB00": {
+    "name": "FSi_WriteDummyCallback",
+    "size": 8,
+    "lib": "libfs.TWL.HYB.a",
+    "member": "fs_proc_rom.o",
+    "method": "reclass"
+   },
+   "0207AB08": {
+    "name": "FSi_SeekDummyCallback",
+    "size": 8,
+    "lib": "libfs.TWL.HYB.a",
+    "member": "fs_proc_rom.o",
+    "method": "reclass"
+   },
+   "0207C768": {
+    "name": "FX_Div",
+    "size": 16,
+    "lib": "libfx.TWL.HYB.a",
+    "member": "fx_mtx44.o|fx_cp.o",
+    "method": "reclass"
+   },
+   "0207C778": {
+    "name": "FX_Inv",
+    "size": 16,
+    "lib": "libfx.TWL.HYB.a",
+    "member": "fx_mtx44.o|fx_cp.o",
+    "method": "reclass"
+   },
+   "0207D148": {
+    "name": "FX_Init",
+    "size": 4,
+    "lib": "libfx.TWL.HYB.a",
+    "member": "fx_atanidx.o|fx.o",
+    "method": "reclass"
+   },
+   "02081E7C": {
+    "name": "func_02081E7C",
+    "size": 796,
+    "lib": "libmath.TWL.HYB.a|libmi.TWL.HYB.a",
+    "member": "qsort.o|mi_sharedwram.o",
+    "method": "reclass"
+   },
+   "02083250": {
+    "name": "func_02083250",
+    "size": 72,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_memory.o",
+    "method": "reclass"
+   },
+   "02083298": {
+    "name": "func_02083298",
+    "size": 156,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_memory.o",
+    "method": "reclass"
+   },
+   "02083334": {
+    "name": "func_02083334",
+    "size": 156,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_memory.o",
+    "method": "reclass"
+   },
+   "020833D0": {
+    "name": "func_020833D0",
+    "size": 216,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_memory.o",
+    "method": "reclass"
+   },
+   "020834B8": {
+    "name": "MI_SwapWord",
+    "size": 8,
+    "lib": "libmi.TWL.HYB.a",
+    "member": "mi_memory.o|mi_uncompress.o",
+    "method": "reclass"
+   },
+   "02084610": {
+    "name": "func_02084610",
+    "size": 4,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_irqhandler.o|os_irqtable.o",
+    "method": "reclass"
+   },
+   "020848EC": {
+    "name": "func_020848EC",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_interrupt.o",
+    "method": "reclass"
+   },
+   "02084D98": {
+    "name": "OS_UnLockCartridge",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_spinlock.o",
+    "method": "reclass"
+   },
+   "02084E2C": {
+    "name": "OS_UnLockCard",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_spinlock.o",
+    "method": "reclass"
+   },
+   "02084EB0": {
+    "name": "OS_ReadOwnerOfLockWord",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_spinlock.o",
+    "method": "reclass"
+   },
+   "02084FA8": {
+    "name": "OS_VSNPrintf",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_printf.o|os_thread.o",
+    "method": "reclass"
+   },
+   "02085A30": {
+    "name": "OS_GetThreadPriority",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_thread.o",
+    "method": "reclass"
+   },
+   "02085B20": {
+    "name": "func_02085B20",
+    "size": 16,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_thread.o",
+    "method": "reclass"
+   },
+   "02085B94": {
+    "name": "OS_SetThreadUserParameter",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_thread.o|os_context.o",
+    "method": "reclass"
+   },
+   "02085D88": {
+    "name": "OSi_IsRunOnTwl",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_emulator.o|os_message.o",
+    "method": "reclass"
+   },
+   "02086368": {
+    "name": "OS_Init",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_init.o",
+    "method": "reclass"
+   },
+   "02086D30": {
+    "name": "func_02086D30",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D38": {
+    "name": "func_02086D38",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D40": {
+    "name": "func_02086D40",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D48": {
+    "name": "func_02086D48",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D50": {
+    "name": "func_02086D50",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D58": {
+    "name": "func_02086D58",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D60": {
+    "name": "func_02086D60",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D68": {
+    "name": "func_02086D68",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D70": {
+    "name": "func_02086D70",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D78": {
+    "name": "func_02086D78",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D80": {
+    "name": "func_02086D80",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D88": {
+    "name": "func_02086D88",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D90": {
+    "name": "func_02086D90",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086D98": {
+    "name": "func_02086D98",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086DA0": {
+    "name": "func_02086DA0",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02086DA8": {
+    "name": "func_02086DA8",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_protectionreg",
+    "method": "reclass"
+   },
+   "02087D1C": {
+    "name": "OSi_GetOwnerInfoExBuffer",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_ownerinfo.o|os_ownerinfoex.o",
+    "method": "reclass"
+   },
+   "02087EA0": {
+    "name": "MATH_CountLeadingZeros",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_ownerinfoex.o|os_vramexclusive",
+    "method": "reclass"
+   },
+   "020882C0": {
+    "name": "OSi_DisableInterruptsAndHalt",
+    "size": 16,
+    "lib": "libos.TWL.HYB.a",
+    "member": "os_terminate_pro",
+    "method": "reclass"
+   },
+   "02088498": {
+    "name": "PXI_Init",
+    "size": 8,
+    "lib": "libos.TWL.HYB.a|libpxi.TWL.HYB.a",
+    "member": "os_application_j|pxi_fifo.o",
+    "method": "reclass"
+   },
+   "020889F8": {
+    "name": "RTCEXi_GetCommonCallback",
+    "size": 8,
+    "lib": "librtc.TWL.HYB.a",
+    "member": "external.o",
+    "method": "reclass"
+   },
+   "0208A638": {
+    "name": "SNDi_GetBankWaveArcTable",
+    "size": 8,
+    "lib": "libsnd.TWL.HYB.a",
+    "member": "snd_bank.o",
+    "method": "reclass"
+   },
+   "0208B7B0": {
+    "name": "MICEXi_GetLimitedSamplingCallback",
+    "size": 8,
+    "lib": "libspi.TWL.HYB.a",
+    "member": "mic.o|pm.o",
+    "method": "reclass"
+   }
+  }
+ }
+}

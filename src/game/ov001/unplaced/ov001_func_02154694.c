@@ -16,9 +16,10 @@
  *   func_0215466C  0x0215466C  thumb  ov001
  */
 
-extern void *func_0215466C(void *p, int a);
+extern void *func_0215466C(void *gameSystem, int a);
 
-void *func_02154694(void *p, int a)
+/* Overlay entry point: forwards to the event constructor. */
+void *func_02154694(void *gameSystem, int a)
 {
-    return func_0215466C(p, a);
+    return func_0215466C(gameSystem, a);
 }

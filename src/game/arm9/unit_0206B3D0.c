@@ -15,33 +15,43 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef struct Node0206B3D0 {
-    u8 pad00[0xc];
-    void (*f0c)(u32 *out, struct Node0206B3D0 *self, u32 arg);
-    struct Node0206B3D0 *f10;
-    u8 pad14[5];
-    u8 f19;
-    u16 f1a[1];
-} Node0206B3D0;
+#define ANMOBJ_MAPDATA_MASK  0x300
+#define ANMOBJ_MAPDATA_EXIST 0x100
+#define ANMOBJ_MAPDATA_ID    0xff
 
-int func_0206B3D0(u32 *out, Node0206B3D0 *node, unsigned index)
+/* NNSG3dAnmObj as far as the blend function reads it. */
+typedef struct AnmObj {
+    u8 unused00[0xc];
+    void (*funcAnm)(u32 *pResult, struct AnmObj *pAnmObj, u32 dataIdx);
+    struct AnmObj *next;
+    u8 unused14[5];
+    u8 numMapData;
+    u16 mapData[1];
+} AnmObj;
+
+/*
+ * NNSi_G3dAnmBlendVis shape: walk the chain of animation objects and OR the
+ * result of every object that maps this node into *pResult. Returns 1 when
+ * at least one object contributed.
+ */
+int func_0206B3D0(u32 *pResult, AnmObj *pAnmObj, unsigned nodeIdx)
 {
-    int result = 0;
-    u32 v;
+    int hasResult = 0;
+    u32 objResult;
 
-    *out = 0;
+    *pResult = 0;
     do {
-        if (index < node->f19) {
-            u16 f = *(u16 *)((char *)node + 0x1a + index * 2);
-            if ((f & 0x300) == 0x100) {
-                if (node->f0c != 0) {
-                    node->f0c(&v, node, f & 0xff);
-                    *out |= v;
-                    result = 1;
+        if (nodeIdx < pAnmObj->numMapData) {
+            u16 mapData = *(u16 *)((char *)pAnmObj + 0x1a + nodeIdx * 2);
+            if ((mapData & ANMOBJ_MAPDATA_MASK) == ANMOBJ_MAPDATA_EXIST) {
+                if (pAnmObj->funcAnm != 0) {
+                    pAnmObj->funcAnm(&objResult, pAnmObj, mapData & ANMOBJ_MAPDATA_ID);
+                    *pResult |= objResult;
+                    hasResult = 1;
                 }
             }
         }
-        node = node->f10;
-    } while (node != 0);
-    return result;
+        pAnmObj = pAnmObj->next;
+    } while (pAnmObj != 0);
+    return hasResult;
 }

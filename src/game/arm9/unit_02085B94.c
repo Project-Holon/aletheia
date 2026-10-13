@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj16692.h"
 
-void func_02085B94(char *p, int v)
+void func_02085B94(char *thread, int parameter)
 {
-    ((struct Obj16692 *)p)->fB4 = v;
+    ((struct Obj16692 *)thread)->fB4 = parameter;
 }

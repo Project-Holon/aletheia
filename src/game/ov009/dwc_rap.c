@@ -15,8 +15,8 @@
  * symbols:
  *   func_0203D798  0x0203D798  arm
  *   func_02030734  0x02030734  arm
- *   d_021A8260     0x021A8260  data  ov009  a4
- *   d_021A1C4C     0x021A1C4C  data  ov009  a1
+ *   _pSetupParam     0x021A8260  data  ov009  a4
+ *   _sNetDevwifiFile     0x021A1C4C  data  ov009  a1
  *   func_0203D5EC 0x0203D5EC arm
  *   func_0203D610 0x0203D610 arm
  *   func_020307B0  0x020307B0  arm
@@ -25,18 +25,18 @@
  *   func_02059E38  0x02059E38  arm
  *   func_0203C9AC  0x0203C9AC  arm
  *   func_0203CA98  0x0203CA98  arm
- *   g_021A1B80  0x021A1B80  data
- *   d_021A8264     0x021A8264  data  ov009  a4
- *   d_021A1C5C     0x021A1C5C  data  ov009  a1
- *   d_021A1C60     0x021A1C60  data  ov009  a1
+ *   _wifiDeviceTable  0x021A1B80  data
+ *   _pRapWork     0x021A8264  data  ov009  a4
+ *   _sAssertEmpty     0x021A1C5C  data  ov009  a1
+ *   _sDwcRapFile     0x021A1C60  data  ov009  a1
  *   func_0203D7C8  0x0203D7C8  arm
  *   func_02034714  0x02034714  arm
  *   func_020597C8  0x020597C8  arm
  *   func_02059760  0x02059760  arm
  *   func_0203D7FC 0x0203D7FC arm
  *   func_02059F18 0x02059F18 arm
- *   d_021A8264_obj 0x021A8264  data  ov009  a4
- *   d_021A1C6C     0x021A1C6C  data  ov009  a1
+ *   _pRapWorkAddr 0x021A8264  data  ov009  a4
+ *   _sGameName     0x021A1C6C  data  ov009  a1
  *   func_0205C6AC  0x0205C6AC  arm
  *   func_0205C758  0x0205C758  arm
  *   func_0205C88C  0x0205C88C  arm
@@ -48,8 +48,8 @@
  *   func_0216AE88  0x0216AE88  arm
  *   func_0216B1E0  0x0216B1E0  arm
  *   func_02168994  0x02168994  arm
- *   d_021A1C74     0x021A1C74  data  ov009  a1
- *   d_021A1974     0x021A1974  data  ov009  a1
+ *   _sMatchKey     0x021A1C74  data  ov009  a1
+ *   _sMatchFilterFormat     0x021A1974  data  ov009  a1
  *   func_0216CA04  0x0216CA04  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02094530  0x02094530  arm
@@ -99,9 +99,9 @@
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_021B6100  0x021B6100  thumb  ov017
- *   d_021A8268  0x021A8268  data  ov009  a4
- *   d_021A1C78  0x021A1C78  data  ov009  a1
- *   d_021A1C7C  0x021A1C7C  data  ov009  a1
+ *   _pRapHeap  0x021A8268  data  ov009  a4
+ *   _sAssertEmptyCommon  0x021A1C78  data  ov009  a1
+ *   _sDwcRapCommonFile  0x021A1C7C  data  ov009  a1
  *   func_02060C5C  0x02060C5C  arm
  *   func_02060F18  0x02060F18  arm
  *   func_02060F40  0x02060F40  arm
@@ -113,7 +113,7 @@
  *   func_0200FB6C  0x0200FB6C  thumb
  *   func_02060F98  0x02060F98  arm  arm9
  *   func_02060E30  0x02060E30  arm
- *   d_021A1C8C  0x021A1C8C  data  ov009  a1
+ *   _sDwcGameName  0x021A1C8C  data  ov009  a1
  *   func_02059F6C  0x02059F6C  arm
  *   MIi_CpuClearFast    0x02082AC0  arm
  *   func_02059718       0x02059718  arm
@@ -137,28 +137,28 @@ struct OSOwnerInfo;
 struct ExpHeap;
 typedef signed short   s16;
 
-typedef void (*Fn)(void);
+typedef void (*VoidFunc)(void);
 
 typedef struct {
     u8 language, favoriteColor, month, day;
     u16 nickName[11], nickNameLength, comment[27], commentLength;
 } OSOwnerInfo;
 
-typedef struct Status {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-} Status;
+typedef struct DwcRapErrorInfo {
+    int errorCode;
+    int errorType;
+    int dwcError;
+    int gameCode;
+} DwcRapErrorInfo;
 
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0203D5EC(void);
 extern u32 func_0203D610(void);
-u32 func_020307B0(void *p);
+u32 func_020307B0(void *block);
 extern int func_0216B908(void);
 extern int func_0205CCD8(void);
-int func_02059E38(int *a, int *b);
-void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+int func_02059E38(int *errorCode, int *errorType);
+void func_0203C9AC(int errorCode, u32 errorType, u32 dwcError, u32 gameCode);
 u32 func_0203CA98(void);
 void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
 void func_02034714(const char *expr, u32 line, const char *file);
@@ -166,35 +166,35 @@ int func_020597C8(struct DWCstAccUserData *userdata);
 int func_02059760(struct DWCstAccUserData *userdata);
 extern void func_0203D7FC(void *);
 extern void func_02059F18(void);
-void func_0205C6AC(void *p, u16 a, u16 b, u16 c);
+void func_0205C6AC(void *inetControl, u16 dmaNo, u16 powerMode, u16 priority);
 void func_0205C758(void);
 int func_0205C88C(void);
 int func_0205CA20(void);
 void func_0205C8E0(void);
-void func_0216AB20(void *a, int b, char *c, int d, int e, void *f, int g);
+void func_0216AB20(void *userData, int productId, char *gameName, int secretKey, int sakeAppId, void *friendList, int friendListLen);
 void func_02087C88(struct OSOwnerInfo *info);
 int func_0216B0E0(u16 *ingamesn, int reserved, void (*callback)(int, int, void *), void *param);
 void func_0216AE88(void);
 int func_0216B1E0(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
 int func_02168994(void (*callback)(int, void *), void *param);
 u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc);
-void func_02082BCC(void *p, int v, int n);
-u32 func_02094530(char *dst, u32 n, ...);
-u32 func_0203F004(const u8 *s);
+void func_02082BCC(void *dst, int value, int size);
+u32 func_02094530(char *dst, u32 format, ...);
+u32 func_0203F004(const u8 *str);
 u32 func_0203D650(void);
 int func_0216B284(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
-int func_02177138(int a, int b);
-int func_02177160(int a, int b);
-int func_0216B634(int a, int b);
-int func_02177188(int a, int b);
+int func_02177138(int callback, int param);
+int func_02177160(int callback, int param);
+int func_0216B634(int callback, int param);
+int func_02177188(int callback, int param);
 int func_0216B65C(void);
-void func_02082D44(void *src, void *dst, int n);
+void func_02082D44(void *src, void *dst, int size);
 unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
 unsigned char func_0216B838(void);
 int func_0205984C(void *userdata);
-void func_02059870(int h);
-int func_02177270(u8 a, int b);
-int func_021AEF44(int a, int b, int c);
+void func_02059870(int userData);
+int func_02177270(u8 aid, int timeoutMs);
+int func_021AEF44(int aid, int data, int size);
 extern int func_0216B804(void);
 extern void func_0203A338(u32);
 extern void func_0205CC20(void);
@@ -205,7 +205,7 @@ extern void DWC_GdbShutdown(void);
 extern int func_0216B94C(u8);
 extern int func_02176DEC(int a);
 void func_021AEE14(int);
-int func_021AF238(u32 mask, int n);
+int func_021AF238(u32 aidBitmap, int myAid);
 extern void func_021AEF6C(void *, int, int);
 extern void func_021AF18C(void (*cb)(void));
 extern void func_021AF1A0(void);
@@ -250,17 +250,17 @@ extern void func_0200FB4C(unsigned int x);
 extern void func_0200F7C0(u32 value);
 extern void func_0200FAAC(void);
 extern void func_0203C554(u32 a);
-void func_02155160(int a);
-int func_02155168(int a, int b);
-int func_021551B0(void (*cb)(int));
-int func_021551D4(int a);
-int func_021551DC(void *p);
-int func_02155204(void (*cb)(int));
-int func_02155234(void *a0, int n, int a2, int a3);
-int func_0215523C(int a, int b, int c);
-int func_02155244(int x);
-int func_02155264(int a, int b, int c, void (*cb)(int));
-int func_02155280(int a);
+void func_02155160(int heapId);
+int func_02155168(int heapId, int param);
+int func_021551B0(void (*doneCallback)(int));
+int func_021551D4(int cancelRequest);
+int func_021551DC(void *requestClose);
+int func_02155204(void (*doneCallback)(int));
+int func_02155234(void *matchValue, int maxPlayers, int useFilter, int unused);
+int func_0215523C(int friendIndex, int maxPlayers, int limitToTwo);
+int func_02155244(int requestClose);
+int func_02155264(int data, int size, int unused, void (*doneCallback)(int));
+int func_02155280(int callback);
 int func_0215528C(void);
 int func_02155294(void);
 int func_021552AC(void);
@@ -269,78 +269,78 @@ int func_021552CC(void);
 int func_021552D4(void);
 int func_021552DC(void);
 int func_021552E8(void);
-void func_02155330(u32 v);
-int func_02155338(int n);
+void func_02155330(u32 enabled);
+int func_02155338(int friendIndex);
 s16 func_0215534C(void);
 int func_02155354(void);
-void func_0215535C(u32 v);
+void func_0215535C(u32 allowed);
 int func_02155364(void);
 void *func_0215536C(void);
-void func_02155374(int v);
+void func_02155374(int state);
 int func_02155388(void);
-int func_0215539C(int a0, int a1);
+int func_0215539C(int userData, int friendList);
 void func_021554A0(void);
 int func_021554C8(void);
-void func_02155648(int a, int b);
-void func_02155664(void (*callback)(void));
+void func_02155648(int serverFunc, int clientFunc);
+void func_02155664(void (*acceptFunc)(void));
 void func_02155674(void);
 u8 func_02155678(void);
-int func_0215568C(void *a0, int n, int a2, int a3);
-int func_0215580C(int a0, int n, int a2, int a3);
+int func_0215568C(void *matchValue, int maxPlayers, int useFilter, int unused);
+int func_0215580C(int filter, int maxPlayers, int evalFunc, int evalParam);
 void func_02155904(void);
-int func_0215592C(int a);
-int func_02155A80(void *src, int len, int c);
-int func_02155B00(int a, int b);
-int func_02155B14(int a, int b);
+int func_0215592C(int cancelRequest);
+int func_02155A80(void *data, int size, int packetType);
+int func_02155B00(int data, int size);
+int func_02155B14(int data, int size);
 void func_02155B68(void);
-void func_02155B98(int a);
-void func_02155BDC(unsigned int n);
-void func_02155C0C(int a);
+void func_02155B98(int error);
+void func_02155BDC(unsigned int aid);
+void func_02155C0C(int error);
 void func_02155C24(void);
-void func_02155C28(int a, int b);
+void func_02155C28(int deletedIndex, int srcIndex);
 void func_02155C6C(void);
 void func_02155C70(void);
 void func_02155C8C(void);
-void func_02155D2C(int e);
-void func_02155D3C(int a, int b, int c, int d, int e);
+void func_02155D2C(int peerIndex);
+void func_02155D3C(int error, int cancel, int self, int isServer, int peerIndex);
 int func_02155D7C(void);
-void func_02155D80(int a, u32 i);
-void func_02155DA4(unsigned int v);
-void func_02155DCC(u32 a, u8 *p, int c);
-void func_02155E9C(int a, int b, int c, u32 d);
+void func_02155D80(int size, u32 aid);
+void func_02155DA4(unsigned int header);
+void func_02155DCC(u32 aid, u8 *data, int size);
+void func_02155E9C(int error, int isLocal, int isServer, u32 aid);
 int func_02155F58(void);
 int func_0215610C(void);
-int func_0215615C(u32 idx);
+int func_0215615C(u32 counterIndex);
 int func_021561C0(void);
 int func_021562EC(void);
 void func_0215631C(void);
 void func_02156330(void);
-void func_02156344(void *a);
-void func_021563C0(int a);
+void func_02156344(void *heapId);
+void func_021563C0(int unused);
 void func_021563D0(void);
 int func_021563EC(void);
 void func_02156400(void);
-void func_0215642C(int flag);
-int func_02156460(int err, int kind);
-int func_02156690(int a);
+void func_0215642C(int lock);
+int func_02156460(int errorCode, int errorType);
+int func_02156690(int pollOnly);
 int func_02156730(void);
 void func_0215677C(void);
 void func_021567B8(void);
-int func_0215683C(char *a, int b);
-int func_02156860(int i);
-unsigned char func_02156874(int i);
-int func_02156888(int a, int b, int c);
+int func_0215683C(char *data, int size);
+int func_02156860(int friendIndex);
+unsigned char func_02156874(int friendIndex);
+int func_02156888(int friendIndex, int maxPlayers, int limitToTwo);
 int func_02156A3C(void);
-void func_02156A58(int a, int b, int c, int d, int e);
-void func_02156B18(int a, int b, int c, int d, int e);
-void func_02156B3C(int a);
-int func_02156B68(char *a0);
+void func_02156A58(int error, int cancel, int self, int isServer, int peerIndex);
+void func_02156B18(int error, int cancel, int self, int isServer, int peerIndex);
+void func_02156B3C(int aid);
+int func_02156B68(char *unused);
 s16 func_02156B70(void);
 int func_02156B8C(void);
 int func_02156BA8(void);
-void func_02156BC4(int v);
-void func_02156BD8(u32 i);
-void func_02156C00(u32 a);
+void func_02156BC4(int enabled);
+void func_02156BD8(u32 aid);
+void func_02156C00(u32 aid);
 void func_02156C60(void);
 unsigned char func_02156C84(void);
 void func_02156C98(int unused);
@@ -348,41 +348,41 @@ int func_02156CAC(void);
 int func_02156CD0(void);
 void func_02156CF4(void);
 u32 func_02156D5C(void);
-void func_02156D70(u32 v);
+void func_02156D70(u32 allowed);
 int func_02156D84(void);
-void func_02156DB0(u32 v);
-void func_02156DC4(int (*cb)(u32, u32, u32, int), u32 arg);
-void func_02156DE0(int (*cb)(u32, u32, u32, int), u32 arg);
-void func_02156DFC(int a);
-void func_02156E24(int a, int b, int c);
-void func_02156E30(u32 a, u32 b, u32 c, u32 d);
+void func_02156DB0(u32 enabled);
+void func_02156DC4(int (*errorFunc)(u32, u32, u32, int), u32 errorArg);
+void func_02156DE0(int (*hookFunc)(u32, u32, u32, int), u32 hookArg);
+void func_02156DFC(int heapId);
+void func_02156E24(int ownerId, int size, int heapId);
+void func_02156E30(u32 ownerId, u32 size, u32 minRequestSize, u32 heapId);
 void func_02156ED0(void);
 void func_02156F14(void);
-void func_02156F50(int a);
-u32 func_02156F5C(u32 a, u32 b, u32 c);
-void func_02156FDC(u32 a, void *p, int b);
-void func_02157048(u32 a, u32 b);
+void func_02156F50(int tag);
+u32 func_02156F5C(u32 ownerId, u32 size, u32 align);
+void func_02156FDC(u32 ownerId, void *block, int unused);
+void func_02157048(u32 heapId, u32 size);
 void func_021570B8(void);
-int func_02157108(u16 a);
-void func_02157138(void *userdata);
+int func_02157108(u16 heapId);
+void func_02157138(void *userData);
 void func_02157160(void);
-int func_02157170(int a0, int a1);
-extern int *d_021A8260;
-extern char d_021A1C4C[];
-extern DwcRapWork *d_021A8264;
-extern char g_021A1B80[];
-extern char d_021A1C5C[];
-extern char d_021A1C60[];
-/* stand-in: second name for the address of d_021A8264; with one name the compiler shares the literal-pool word and the bytes change. */
-extern char d_021A8264_obj[];
-extern char d_021A1C6C[];
-extern char d_021A1C74[];
-extern char d_021A1974[];
+int func_02157170(int hasSession, int keepError);
+extern int *_pSetupParam;
+extern char _sNetDevwifiFile[];
+extern DwcRapWork *_pRapWork;
+extern char _wifiDeviceTable[];
+extern char _sAssertEmpty[];
+extern char _sDwcRapFile[];
+/* stand-in: second name for the address of _pRapWork; with one name the compiler shares the literal-pool word and the bytes change. */
+extern char _pRapWorkAddr[];
+extern char _sGameName[];
+extern char _sMatchKey[];
+extern char _sMatchFilterFormat[];
 extern unsigned char abs_id_11[];
-extern RapHeap *d_021A8268;
-extern char d_021A1C78[];
-extern char d_021A1C7C[];
-extern char d_021A1C8C[];
+extern DwcRapHeap *_pRapHeap;
+extern char _sAssertEmptyCommon[];
+extern char _sDwcRapCommonFile[];
+extern char _sDwcGameName[];
 
 
 
@@ -412,9 +412,9 @@ extern char d_021A1C8C[];
 
 
 
-void func_02155160(int a)
+void func_02155160(int heapId)
 {
-    func_02156DFC(a);
+    func_02156DFC(heapId);
 }
 
 
@@ -445,16 +445,16 @@ void func_02155160(int a)
 
 
 
-int func_02155168(int a, int b)
+int func_02155168(int heapId, int param)
 {
-    RapCtx *p;
+    DwcRapNetInit *netInit;
 
-    if (d_021A8260 != 0)
+    if (_pSetupParam != 0)
         return 0;
-    p = func_0203D798();
-    func_02157048(p->heap2, p->heap_size);
-    d_021A8260 = func_02030734(a, 8, 1, d_021A1C4C, 0xba);
-    *d_021A8260 = b;
+    netInit = func_0203D798();
+    func_02157048(netInit->wifiHeapId, netInit->heapSize);
+    _pSetupParam = func_02030734(heapId, 8, 1, _sNetDevwifiFile, 0xba);
+    *_pSetupParam = param;
     return 1;
 }
 
@@ -485,14 +485,14 @@ int func_02155168(int a, int b)
 
 
 
-int func_021551B0(void (*cb)(int))
+int func_021551B0(void (*doneCallback)(int))
 {
-    u32 a;
-    int r;
-    a = func_0203D5EC();
-    r = func_0215539C(a, func_0203D610());
-    if (cb) cb(1);
-    return r;
+    u32 userData;
+    int result;
+    userData = func_0203D5EC();
+    result = func_0215539C(userData, func_0203D610());
+    if (doneCallback) doneCallback(1);
+    return result;
 }
 
 
@@ -522,9 +522,9 @@ int func_021551B0(void (*cb)(int))
 
 
 
-int func_021551D4(int a)
+int func_021551D4(int cancelRequest)
 {
-    return func_0215592C(a);
+    return func_0215592C(cancelRequest);
 }
 
 
@@ -557,19 +557,19 @@ int func_021551D4(int a)
 /*
  * Null-pointer guard through func_02156690, then either func_02156730 or func_0215592C.
  */
-int func_021551DC(void *p)
+int func_021551DC(void *requestClose)
 {
     int func_02156690(int);
     int func_02156730(void);
-    int func_0215592C(int a);
-    int t;
-    if (p == 0) t = 1;
-    else t = 0;
-    if (func_02156690(t)) {
+    int func_0215592C(int cancelRequest);
+    int pollOnly;
+    if (requestClose == 0) pollOnly = 1;
+    else pollOnly = 0;
+    if (func_02156690(pollOnly)) {
         func_02156730();
         return 1;
     }
-    func_0215592C((int)p);
+    func_0215592C((int)requestClose);
     return 1;
 }
 
@@ -599,14 +599,14 @@ int func_021551DC(void *p)
 
 
 
-int func_02155204(void (*cb)(int))
+int func_02155204(void (*doneCallback)(int))
 {
-    if (d_021A8260 != 0) {
+    if (_pSetupParam != 0) {
         func_0215677C();
-        if (cb != 0)
-            cb(1);
-        func_020307B0(d_021A8260);
-        d_021A8260 = 0;
+        if (doneCallback != 0)
+            doneCallback(1);
+        func_020307B0(_pSetupParam);
+        _pSetupParam = 0;
     }
     func_021570B8();
     return 1;
@@ -639,9 +639,9 @@ int func_02155204(void (*cb)(int))
 
 
 
-int func_02155234(void *a0, int n, int a2, int a3)
+int func_02155234(void *matchValue, int maxPlayers, int useFilter, int unused)
 {
-    return func_0215568C(a0, n, a2, a3);
+    return func_0215568C(matchValue, maxPlayers, useFilter, unused);
 }
 
 
@@ -670,9 +670,9 @@ int func_02155234(void *a0, int n, int a2, int a3)
 
 
 
-int func_0215523C(int a, int b, int c)
+int func_0215523C(int friendIndex, int maxPlayers, int limitToTwo)
 {
-    return func_02156888(a, b, c);
+    return func_02156888(friendIndex, maxPlayers, limitToTwo);
 }
 
 
@@ -702,14 +702,14 @@ int func_0215523C(int a, int b, int c)
 
 
 
-int func_02155244(int x)
+int func_02155244(int requestClose)
 {
     int func_02156690(int);
     int func_02156730(void);
-    int t;
-    if (x == 0) t = 1;
-    else t = 0;
-    if (func_02156690(t)) {
+    int pollOnly;
+    if (requestClose == 0) pollOnly = 1;
+    else pollOnly = 0;
+    if (func_02156690(pollOnly)) {
         func_02156730();
         return 1;
     }
@@ -742,10 +742,10 @@ int func_02155244(int x)
 
 
 
-int func_02155264(int a, int b, int c, void (*cb)(int))
+int func_02155264(int data, int size, int unused, void (*doneCallback)(int))
 {
-    if (func_02155B14(a, b)) {
-        if (cb) cb(1);
+    if (func_02155B14(data, size)) {
+        if (doneCallback) doneCallback(1);
         return 1;
     }
     return 0;
@@ -780,9 +780,9 @@ int func_02155264(int a, int b, int c, void (*cb)(int))
 /*
  * Calls func_02155648 on the argument twice and returns 1.
  */
-int func_02155280(int a)
+int func_02155280(int callback)
 {
-    func_02155648(a, a);
+    func_02155648(callback, callback);
 
     return 1;
 }
@@ -881,15 +881,14 @@ int func_02155294(void)
 
 
 /*
- * Follower func_021552C4 resolves through the verified ov009 02156CAC leaf;
- * ov010's same-address allocator is a different function.
+ * True when no session is open or the state machine reports a lost connection.
  */
 int func_021552AC(void)
 {
-    int r;
-    r = func_02156D84();
-    if (!func_02155388()) r |= 1;
-    return r;
+    int offline;
+    offline = func_02156D84();
+    if (!func_02155388()) offline |= 1;
+    return offline;
 }
 
 
@@ -1044,19 +1043,19 @@ int func_021552DC(void)
 
 int func_021552E8(void)
 {
-    int a, b, r;
+    int errorCode, errorType, dwcError;
 
-    r = func_02059E38(&a, &b);
-    if (r != 0)
-        func_0203C9AC(a, b, r, 0);
-    if (r == 0)
+    dwcError = func_02059E38(&errorCode, &errorType);
+    if (dwcError != 0)
+        func_0203C9AC(errorCode, errorType, dwcError, 0);
+    if (dwcError == 0)
         return 0;
-    if (a == 0)
+    if (errorCode == 0)
         return -10000;
-    r = ((int *)func_0203CA98())[3];
-    if (r == 0)
-        r = a;
-    return r;
+    dwcError = ((int *)func_0203CA98())[3];
+    if (dwcError == 0)
+        dwcError = errorCode;
+    return dwcError;
 }
 
 
@@ -1084,9 +1083,9 @@ int func_021552E8(void)
 
 
 
-void func_02155330(u32 v)
+void func_02155330(u32 enabled)
 {
-    func_02156DB0(v);
+    func_02156DB0(enabled);
 }
 
 
@@ -1113,12 +1112,11 @@ void func_02155330(u32 v)
 
 
 /*
- * Follower func_0215535C resolves through the verified existing 02156CF4
- * unit after its function inventory was corrected to include 02156D70.
+ * True when the friend is in the waiting-for-a-partner status.
  */
-int func_02155338(int n)
+int func_02155338(int friendIndex)
 {
-    if (func_02156874(n) == 6) return 1;
+    if (func_02156874(friendIndex) == 6) return 1;
     return 0;
 }
 
@@ -1201,9 +1199,9 @@ int func_02155354(void)
 
 
 
-void func_0215535C(u32 v)
+void func_0215535C(u32 allowed)
 {
-    func_02156D70(v);
+    func_02156D70(allowed);
 }
 
 
@@ -1263,7 +1261,7 @@ int func_02155364(void)
  */
 void *func_0215536C(void)
 {
-    return g_021A1B80;
+    return _wifiDeviceTable;
 }
 
 
@@ -1293,9 +1291,9 @@ void *func_0215536C(void)
 /*
  * Stores a word at +0x754 of the block the pointer holds.
  */
-void func_02155374(int v)
+void func_02155374(int state)
 {
-    d_021A8264->state = v;
+    _pRapWork->state = state;
 }
 
 
@@ -1327,7 +1325,7 @@ void func_02155374(int v)
  */
 int func_02155388(void)
 {
-    return d_021A8264 != 0;
+    return _pRapWork != 0;
 }
 
 
@@ -1355,39 +1353,39 @@ int func_02155388(void)
 
 
 /*
- * Allocates the 0x7AC-byte ov009 work block into d_021A8264 (asserting it
+ * Allocates the 0x7AC-byte ov009 work block into _pRapWork (asserting it
  * was empty) and initialises it.  func_0203D7C8's last two arguments look
- * like a file/line pair (d_021A1C60, 302).
+ * like a file/line pair (_sDwcRapFile, 302).
  */
-int func_0215539C(int a0, int a1)
+int func_0215539C(int userData, int friendList)
 {
-    RapCtx *ctx;
-    int i;
+    DwcRapNetInit *netInit;
+    int slot;
 
-    ctx = func_0203D798();
-    if (d_021A8264 != 0)
-        func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    d_021A8264 = func_0203D7C8(ctx->heap, sizeof(DwcRapWork), d_021A1C60, 302);
-    for (i = 0; i < 32; i++)
-        d_021A8264->arr[i] = -1;
-    func_02155374(0);
-    d_021A8264->w77C = 0;
-    d_021A8264->idx = -1;
-    d_021A8264->n = ctx->b60;
-    d_021A8264->f774 = -1;
-    d_021A8264->s782 = 0;
-    d_021A8264->b79e = 0;
-    d_021A8264->h794 = 1;
-    d_021A8264->f790 = 1;
-    d_021A8264->h796 = 1;
-    d_021A8264->userdata = (void *)a0;
-    d_021A8264->friend_list = (u8 *)a1;
-    d_021A8264->b7a1 = 1;
-    for (i = 0; i < 32; i++)
-        d_021A8264->bytes[i] = 0;
-    if (func_020597C8((struct DWCstAccUserData *)d_021A8264->userdata) == 0)
+    netInit = func_0203D798();
+    if (_pRapWork != 0)
+        func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
+    _pRapWork = func_0203D7C8(netInit->heapId, sizeof(DwcRapWork), _sDwcRapFile, 302);
+    for (slot = 0; slot < 32; slot++)
+        _pRapWork->deletedFriendIndex[slot] = -1;
+    func_02155374(DWC_RAP_STATE_START);
+    _pRapWork->vchatPlayerCount = 0;
+    _pRapWork->targetFriendIndex = -1;
+    _pRapWork->maxPlayers = netInit->maxConnectNum;
+    _pRapWork->newClientAid = -1;
+    _pRapWork->vchatEnabled = 0;
+    _pRapWork->forceFatalError = 0;
+    _pRapWork->vchatLocalOn = 1;
+    _pRapWork->vchatPeerOn = 1;
+    _pRapWork->vchatGateOpen = 1;
+    _pRapWork->userData = (void *)userData;
+    _pRapWork->friendList = (u8 *)friendList;
+    _pRapWork->connectArmed = 1;
+    for (slot = 0; slot < 32; slot++)
+        _pRapWork->friendStatus[slot] = 0;
+    if (func_020597C8((struct DWCstAccUserData *)_pRapWork->userData) == 0)
         return 1;
-    if (func_02059760((struct DWCstAccUserData *)d_021A8264->userdata) == 0)
+    if (func_02059760((struct DWCstAccUserData *)_pRapWork->userData) == 0)
         return 2;
     return 0;
 }
@@ -1421,11 +1419,11 @@ int func_0215539C(int a0, int a1)
  */
 void func_021554A0(void)
 {
-    if (d_021A8264) {
+    if (_pRapWork) {
         func_0203D798();
         func_02156C60();
-        func_0203D7FC(d_021A8264);
-        d_021A8264 = 0;
+        func_0203D7FC(_pRapWork);
+        _pRapWork = 0;
     }
     func_02059F18();
 }
@@ -1454,73 +1452,73 @@ void func_021554A0(void)
 
 
 /*
- * checks: 1 SDK bodies confirm arities and payloads, case6 returns observed r0=0x3EF; 2 ov009 neighbours no complete twin; 3 u16/u8 flag both unchanged DIFF10; 4 block-local u16 name[2]={0,0} fixes address lifetime, MATCH384; 5 fresh idioms/neighbours and stack-storage idiom reread.
- * EXACT after verified ov009 leaves02155C24/02155C6C attest +170/+178. TU suggest-split diagnostic completed before leaf shards: MATCH, no viable cut. Prior once300 consumed, never repeated.
- * Fresh retry: 10 one runs plus TU; assignment-return85, constant local return10, raw name/pair/union and flag widths10; initializer closes concrete bytes. No volatile or input-domain restriction.
+ * Login half of the state machine (states START to MATCH idle): connect to
+ * the access point, init friends match, log in, update the friend list.
+ * Returns the result code to report, or the error handler result.
  */
 int func_021554C8(void)
 {
-    OSOwnerInfo info;
-    void *m;
-    int flag;
-    int ret;
+    OSOwnerInfo ownerInfo;
+    void *friendListArg;
+    int friendFlags;
+    int result;
 
-    switch (d_021A8264->state) {
-    case 0:
+    switch (_pRapWork->state) {
+    case DWC_RAP_STATE_START:
         func_0203D798();
-        func_0205C6AC(d_021A8264->x10C, 2, 1, 0x14);
+        func_0205C6AC(_pRapWork->inetWork, 2, 1, 0x14);
         func_0205C758();
-        func_02155374(1);
-        d_021A8264->f76c = 0;
-    case 1:
+        func_02155374(DWC_RAP_STATE_WAIT_INET);
+        _pRapWork->vchatActive = 0;
+    case DWC_RAP_STATE_WAIT_INET:
         if (func_0205C88C() != 0) {
             if (func_0205CA20() == 4)
-                func_02155374(2);
+                func_02155374(DWC_RAP_STATE_INIT_LOGIN);
             else
-                func_02155374(14);
+                func_02155374(DWC_RAP_STATE_ERROR);
         } else {
             func_0205C8E0();
             break;
         }
-    case 2:
-        ret = func_02155F58();
-        if (ret != 0)
-            return ret;
-        flag = 0;
-        m = d_021A8264->friend_list;
-        if (m != 0)
-            flag = 0x20;
-        func_0216AB20(d_021A8264->userdata, 0x2FC6, d_021A1C6C, 0, 0, m, flag);
-        d_021A8264->b7a9 = 1;
-        { u16 name[2] = {0, 0};
-        func_02087C88((struct OSOwnerInfo *)(&info));
-        func_0216B0E0(name, 0, (void (*)(int,  int,  void *))((Fn)func_02155B98), 0);
+    case DWC_RAP_STATE_INIT_LOGIN:
+        result = func_02155F58();
+        if (result != 0)
+            return result;
+        friendFlags = 0;
+        friendListArg = _pRapWork->friendList;
+        if (friendListArg != 0)
+            friendFlags = 0x20;
+        func_0216AB20(_pRapWork->userData, 0x2FC6, _sGameName, 0, 0, friendListArg, friendFlags);
+        _pRapWork->friendsMatchInit = 1;
+        { u16 ingameName[2] = {0, 0};
+        func_02087C88((struct OSOwnerInfo *)(&ownerInfo));
+        func_0216B0E0(ingameName, 0, (void (*)(int,  int,  void *))((VoidFunc)func_02155B98), 0);
         }
-        func_02155374(3);
-    case 3:
+        func_02155374(DWC_RAP_STATE_LOGIN);
+    case DWC_RAP_STATE_LOGIN:
         func_0216AE88();
         break;
-    case 4:
-        if (d_021A8264->friend_list != 0) {
-            if (func_0216B1E0(0, func_02155C0C, d_021A8264->userdata,
-                              func_02155C24, d_021A8264_obj, func_02155C28,
-                              d_021A8264_obj) == 0) {
-                func_0203C9AC(0, 0, 0, 0x3EE);
+    case DWC_RAP_STATE_UPDATE_SERVERS:
+        if (_pRapWork->friendList != 0) {
+            if (func_0216B1E0(0, func_02155C0C, _pRapWork->userData,
+                              func_02155C24, _pRapWorkAddr, func_02155C28,
+                              _pRapWorkAddr) == 0) {
+                func_0203C9AC(0, 0, 0, DWC_RAP_RESULT_FATAL);
             } else {
                 func_02168994((void (*)(int,  void *))func_02155C6C, 0);
                 func_0216AE88();
             }
         }
-        func_02155374(5);
+        func_02155374(DWC_RAP_STATE_WAIT_UPDATE);
         break;
-    case 5:
+    case DWC_RAP_STATE_WAIT_UPDATE:
         func_0216AE88();
-        if (d_021A8264->friend_list == 0)
-            func_02155374(6);
+        if (_pRapWork->friendList == 0)
+            func_02155374(DWC_RAP_STATE_IDLE);
         break;
-    case 6:
+    case DWC_RAP_STATE_IDLE:
         func_0216AE88();
-        { int code = 0x3EF; d_021A8264->err = code; return code; }
+        { int resultCode = DWC_RAP_RESULT_IDLE; _pRapWork->result = resultCode; return resultCode; }
     }
     return func_02155F58();
 }
@@ -1551,10 +1549,10 @@ int func_021554C8(void)
 /*
  * Stores two words at +0x27C and +0x280 of the block the module pointer holds.
  */
-void func_02155648(int a, int b)
+void func_02155648(int serverFunc, int clientFunc)
 {
-    d_021A8264->cb0 = (RapRecvCb)a;
-    d_021A8264->cb1 = (RapRecvCb)b;
+    _pRapWork->serverRecvFunc = (DwcRapRecvFunc)serverFunc;
+    _pRapWork->clientRecvFunc = (DwcRapRecvFunc)clientFunc;
 }
 
 
@@ -1580,12 +1578,11 @@ void func_02155648(int a, int b)
 
 
 /*
- * evidence: caller ov099021BEEC4 BL targets this word-run start; full
- *   Thumb decode stores the original callback R0 at global +0x2a4 and returns.
+ * Sets the callback that decides whether a joining friend is accepted.
  */
-void func_02155664(void (*callback)(void))
+void func_02155664(void (*acceptFunc)(void))
 {
-    d_021A8264->cb2A4 = (int (*)(int, u32))callback;
+    _pRapWork->acceptFriendFunc = (int (*)(int, u32))acceptFunc;
 }
 
 
@@ -1610,8 +1607,7 @@ void func_02155664(void (*callback)(void))
 
 
 /*
- * Unlabelled leaf (no lr save, so disasm.py never labels it); its address
- * is taken as a callback by func_0215568C / func_0215580C.
+ * New client callback of the match calls; nothing to do.
  */
 void func_02155674(void)
 {
@@ -1640,12 +1636,11 @@ void func_02155674(void)
 
 
 /*
- * Unlabelled leaf (no lr save, so disasm.py prints it as .word data); its
- * address is taken as a callback by func_02156888 / func_0215568C.
+ * Connect attempt callback of the match calls; answers with the allowConnect flag.
  */
 u8 func_02155678(void)
 {
-    return d_021A8264->b7a5;
+    return _pRapWork->allowConnect;
 }
 
 
@@ -1671,47 +1666,44 @@ u8 func_02155678(void)
 
 
 /*
- * Sibling of func_0215580C: in state 6, formats a 0x80-byte name at +0x2AC,
- * resets n slots, enters state 7 and hands func_0216B284 (mode 2) and three
- * registrars the ov009 callbacks.
- *
- * The four callback leaves it passes were unlabelled; their own EXACT
- * shards (wave 2) witness them.
+ * Starts a match search for any partner: builds the "key = value" filter string,
+ * resets the receive buffers, enters the matching state and registers the
+ * transport callbacks.
  */
-int func_0215568C(void *a0, int n, int a2, int a3)
+int func_0215568C(void *matchValue, int maxPlayers, int useFilter, int unused)
 {
-    int i;
+    int slot;
 
-    if (d_021A8264 == 0)
-        func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    if (d_021A8264->state != 6)
+    if (_pRapWork == 0)
+        func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
+    if (_pRapWork->state != DWC_RAP_STATE_IDLE)
         return 0;
     func_02156C60();
-    if (func_0216CA04(0, d_021A1C74, a0) == 0)
-        func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    func_02082BCC(d_021A8264->name, 0, 0x80);
-    func_02094530(d_021A8264->name, (u32)d_021A1974, d_021A1C74, a0);
-    if ((int)func_0203F004((const u8 *)d_021A8264->name) >= 0x80)
-        func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    if (a2)
-        func_0216CA04(1, d_021A8264->name, d_021A8264->name);
-    for (i = 0; i < n; i++)
-        func_02156C00(i);
-    func_02155374(7);
-    d_021A8264->n = n;
-    if (func_0216B284(2, n, d_021A8264->name, (Fn)func_02155D3C,
+    if (func_0216CA04(0, _sMatchKey, matchValue) == 0)
+        func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
+    func_02082BCC(_pRapWork->matchFilter, 0, 0x80);
+    func_02094530(_pRapWork->matchFilter, (u32)_sMatchFilterFormat, _sMatchKey, matchValue);
+    if ((int)func_0203F004((const u8 *)_pRapWork->matchFilter) >= 0x80)
+        func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
+    if (useFilter)
+        func_0216CA04(1, _pRapWork->matchFilter, _pRapWork->matchFilter);
+    for (slot = 0; slot < maxPlayers; slot++)
+        func_02156C00(slot);
+    func_02155374(DWC_RAP_STATE_MATCHING);
+    _pRapWork->maxPlayers = maxPlayers;
+    if (func_0216B284(2, maxPlayers, _pRapWork->matchFilter, (VoidFunc)func_02155D3C,
                       (void *)func_0203D650(), func_02155674,
-                      (void *)func_0203D650(), (Fn)func_02155D7C,
-                      (void *)func_0203D650(), (Fn)func_02155678,
-                      &d_021A8264->w750, (void *)func_0203D650()) == 0)
+                      (void *)func_0203D650(), (VoidFunc)func_02155D7C,
+                      (void *)func_0203D650(), (VoidFunc)func_02155678,
+                      &_pRapWork->connectionUserData, (void *)func_0203D650()) == 0)
         return 0;
-    d_021A8264->mode = 0;
-    func_02177138((int)((Fn)func_02155D80), 0);
-    func_02177160((int)((Fn)func_02155DCC), 0);
-    func_0216B634((int)((Fn)func_02155E9C), 0);
-    func_02177188((int)((Fn)func_02155BDC), 0);
-    d_021A8264->f760 = 0;
-    d_021A8264->b7a1 = 1;
+    _pRapWork->connectMode = 0;
+    func_02177138((int)((VoidFunc)func_02155D80), 0);
+    func_02177160((int)((VoidFunc)func_02155DCC), 0);
+    func_0216B634((int)((VoidFunc)func_02155E9C), 0);
+    func_02177188((int)((VoidFunc)func_02155BDC), 0);
+    _pRapWork->sendInFlight = 0;
+    _pRapWork->connectArmed = 1;
     return 1;
 }
 
@@ -1738,36 +1730,33 @@ int func_0215568C(void *a0, int n, int a2, int a3)
 
 
 /*
- * In state 6 of the ov009 work block: resets n slots, enters state 7 and
- * hands func_0216B284 and three registrars the ov009 callbacks.
- *
- * The two callback leaves it passes were unlabelled; their own EXACT
- * shards (wave 2) witness them.
+ * Starts a match search with a caller supplied filter string; otherwise like
+ * the key version.
  */
-int func_0215580C(int a0, int n, int a2, int a3)
+int func_0215580C(int filter, int maxPlayers, int evalFunc, int evalParam)
 {
-    int i;
+    int slot;
 
-    if (d_021A8264 == 0)
-        func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    if (d_021A8264->state != 6)
+    if (_pRapWork == 0)
+        func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
+    if (_pRapWork->state != DWC_RAP_STATE_IDLE)
         return 0;
     func_02156C60();
-    for (i = 0; i < n; i++)
-        func_02156C00(i);
-    func_02155374(7);
-    d_021A8264->n = n;
-    if (func_0216B284(1, n, (char *)a0, (Fn)func_02155D3C, 0, func_02155674, 0, (void *)a2, (void *)a3,
+    for (slot = 0; slot < maxPlayers; slot++)
+        func_02156C00(slot);
+    func_02155374(DWC_RAP_STATE_MATCHING);
+    _pRapWork->maxPlayers = maxPlayers;
+    if (func_0216B284(1, maxPlayers, (char *)filter, (VoidFunc)func_02155D3C, 0, func_02155674, 0, (void *)evalFunc, (void *)evalParam,
                       0, 0, 0) == 0)
         return 0;
-    d_021A8264->mode = 0;
-    func_02177138((int)((Fn)func_02155D80), 0);
-    func_02177160((int)((Fn)func_02155DCC), 0);
-    func_0216B634((int)((Fn)func_02155E9C), 0);
-    func_02177188((int)((Fn)func_02155BDC), 0);
-    d_021A8264->f760 = 0;
-    d_021A8264->b7a1 = 1;
-    d_021A8264->err = 0x3EF;
+    _pRapWork->connectMode = 0;
+    func_02177138((int)((VoidFunc)func_02155D80), 0);
+    func_02177160((int)((VoidFunc)func_02155DCC), 0);
+    func_0216B634((int)((VoidFunc)func_02155E9C), 0);
+    func_02177188((int)((VoidFunc)func_02155BDC), 0);
+    _pRapWork->sendInFlight = 0;
+    _pRapWork->connectArmed = 1;
+    _pRapWork->result = DWC_RAP_RESULT_IDLE;
     return 1;
 }
 
@@ -1797,12 +1786,12 @@ int func_0215580C(int a0, int n, int a2, int a3)
  */
 void func_02155904(void)
 {
-        void func_02155374(int v);
-    if (d_021A8264->state == 0xc) {
-        func_02155374(0xd);
+        void func_02155374(int state);
+    if (_pRapWork->state == DWC_RAP_STATE_MATCH_FAILING) {
+        func_02155374(DWC_RAP_STATE_MATCH_FAILED);
         return;
     }
-    func_02155374(0xb);
+    func_02155374(DWC_RAP_STATE_CANCELED);
 }
 
 
@@ -1824,10 +1813,10 @@ void func_02155904(void)
 
 
 
-static inline int SetErr(int e)
+static inline int SetResult(int result)
 {
-    d_021A8264->err = e;
-    return e;
+    _pRapWork->result = result;
+    return result;
 }
 
 
@@ -1849,60 +1838,60 @@ static inline int SetErr(int e)
 
 
 
-int func_0215592C(int a)
+int func_0215592C(int cancelRequest)
 {
     func_02155B68();
-    switch (d_021A8264->state) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
+    switch (_pRapWork->state) {
+    case DWC_RAP_STATE_START:
+    case DWC_RAP_STATE_WAIT_INET:
+    case DWC_RAP_STATE_INIT_LOGIN:
+    case DWC_RAP_STATE_LOGIN:
+    case DWC_RAP_STATE_UPDATE_SERVERS:
+    case DWC_RAP_STATE_WAIT_UPDATE:
         return func_021554C8();
-    case 7:
-        if (a != 0)
-            func_02155374(8);
-        if (d_021A8264->mode == 2 && d_021A8264->idx >= 0
-            && d_021A8264->bytes[d_021A8264->idx] != 6)
-            func_02155374(12);
+    case DWC_RAP_STATE_MATCHING:
+        if (cancelRequest != 0)
+            func_02155374(DWC_RAP_STATE_CANCELING);
+        if (_pRapWork->connectMode == 2 && _pRapWork->targetFriendIndex >= 0
+            && _pRapWork->friendStatus[_pRapWork->targetFriendIndex] != 6)
+            func_02155374(DWC_RAP_STATE_MATCH_FAILING);
         break;
-    case 8:
-    case 12:
+    case DWC_RAP_STATE_CANCELING:
+    case DWC_RAP_STATE_MATCH_FAILING:
         func_0216B65C();
         func_02155904();
         break;
-    case 9: {
-        RapCtx *p = func_0203D798();
-        if (d_021A8264->s782 != 0)
-            func_02156344((void *)p->heap);
-        d_021A8264->h794 = 0;
-        func_02155374(10);
-        return SetErr(1000);
+    case DWC_RAP_STATE_CONNECTED: {
+        DwcRapNetInit *netInit = func_0203D798();
+        if (_pRapWork->vchatEnabled != 0)
+            func_02156344((void *)netInit->heapId);
+        _pRapWork->vchatLocalOn = 0;
+        func_02155374(DWC_RAP_STATE_IN_SESSION);
+        return SetResult(DWC_RAP_RESULT_CONNECTED);
     }
-    case 11:
-        func_02155374(6);
-        d_021A8264->f760 = 0;
-        d_021A8264->f774 = -1;
-        return SetErr(0x3e9);
-    case 13:
-        func_02155374(6);
-        d_021A8264->f760 = 0;
-        d_021A8264->f774 = -1;
-        return SetErr(0x3ea);
-    case 14:
+    case DWC_RAP_STATE_CANCELED:
+        func_02155374(DWC_RAP_STATE_IDLE);
+        _pRapWork->sendInFlight = 0;
+        _pRapWork->newClientAid = -1;
+        return SetResult(DWC_RAP_RESULT_CANCELED);
+    case DWC_RAP_STATE_MATCH_FAILED:
+        func_02155374(DWC_RAP_STATE_IDLE);
+        _pRapWork->sendInFlight = 0;
+        _pRapWork->newClientAid = -1;
+        return SetResult(DWC_RAP_RESULT_MATCH_FAILED);
+    case DWC_RAP_STATE_ERROR:
         return func_02155F58();
-    case 18:
-        if (d_021A8264->f76c == 0) {
+    case DWC_RAP_STATE_CLOSING:
+        if (_pRapWork->vchatActive == 0) {
             func_0216B65C();
-            func_02155374(0x13);
+            func_02155374(DWC_RAP_STATE_CLOSED);
             break;
         }
-    case 6: {
-        int r = func_021561C0();
-        if (r == 0)
-            return SetErr(0x3ef);
-        return r;
+    case DWC_RAP_STATE_IDLE: {
+        int result = func_021561C0();
+        if (result == 0)
+            return SetResult(DWC_RAP_RESULT_IDLE);
+        return result;
     }
     }
     return func_021561C0();
@@ -1927,22 +1916,22 @@ int func_0215592C(int a)
 
 
 
-int func_02155A80(void *src, int len, int c)
+int func_02155A80(void *data, int size, int packetType)
 {
-    int r;
+    int aidBitmap;
 
-    if (len >= 0x100)
+    if (size >= 0x100)
         return 0;
-    if (d_021A8264->f760 != 0)
+    if (_pRapWork->sendInFlight != 0)
         return 0;
-    d_021A8264->pkt.hdr = c | (d_021A8264->h794 << 8);
-    d_021A8264->seq = d_021A8264->seq + 1;
-    d_021A8264->pkt.b[2] = d_021A8264->seq;
-    func_02082D44(src, d_021A8264->pktdata, len);
-    d_021A8264->f760 = 1;
-    r = (u16)func_0216B908();
-    if (r != func_02176FD4(r, d_021A8264, len + 4)) {
-        d_021A8264->f760 = 0;
+    _pRapWork->sendHeader.word = packetType | (_pRapWork->vchatLocalOn << 8);
+    _pRapWork->sendSeq = _pRapWork->sendSeq + 1;
+    _pRapWork->sendHeader.octet[2] = _pRapWork->sendSeq;
+    func_02082D44(data, _pRapWork->sendPayload, size);
+    _pRapWork->sendInFlight = 1;
+    aidBitmap = (u16)func_0216B908();
+    if (aidBitmap != func_02176FD4(aidBitmap, _pRapWork, size + 4)) {
+        _pRapWork->sendInFlight = 0;
         return 0;
     }
     return 1;
@@ -1970,9 +1959,9 @@ int func_02155A80(void *src, int len, int c)
 /*
  * Flag test on the three-argument call.
  */
-int func_02155B00(int a, int b)
+int func_02155B00(int data, int size)
 {
-    if (func_02155A80((void *)a, b, 3) != 0) {
+    if (func_02155A80((void *)data, size, 3) != 0) {
         return 1;
     }
 
@@ -1996,16 +1985,16 @@ int func_02155B00(int a, int b)
 
 
 
-int func_02155B14(int a, int b)
+int func_02155B14(int data, int size)
 {
-    if (d_021A8264->b7a6 == 0)
+    if (_pRapWork->sendStateReady == 0)
         return 0;
-    if (func_02155A80((void *)a, b, 1) == 0)
+    if (func_02155A80((void *)data, size, 1) == 0)
         return 0;
-    d_021A8264->b7a6 = 0;
-    if (d_021A8264->cb1 != 0) {
-        int r = func_0216B838();
-        d_021A8264->cb1(r, (u8 *)a, (u16)b);
+    _pRapWork->sendStateReady = 0;
+    if (_pRapWork->clientRecvFunc != 0) {
+        int myAid = func_0216B838();
+        _pRapWork->clientRecvFunc(myAid, (u8 *)data, (u16)size);
     }
     return 1;
 }
@@ -2027,11 +2016,11 @@ int func_02155B14(int a, int b)
 
 void func_02155B68(void)
 {
-    int value;
-    if (d_021A8264->b7a7) {
-        value = 0;
-        if (func_02155B00((int)&value, 4))
-            d_021A8264->b7a7 = 0;
+    int ackValue;
+    if (_pRapWork->ackPending) {
+        ackValue = 0;
+        if (func_02155B00((int)&ackValue, 4))
+            _pRapWork->ackPending = 0;
     }
 }
 
@@ -2050,16 +2039,16 @@ void func_02155B68(void)
 
 
 
-void func_02155B98(int a)
+void func_02155B98(int error)
 {
-    if (func_0205984C((void *)d_021A8264->userdata) != 0) {
-        func_02059870((int)d_021A8264->userdata);
-        d_021A8264->b7a2 = 1;
+    if (func_0205984C((void *)_pRapWork->userData) != 0) {
+        func_02059870((int)_pRapWork->userData);
+        _pRapWork->userDataChanged = 1;
     }
-    if (a == 0)
-        func_02155374(4);
+    if (error == 0)
+        func_02155374(DWC_RAP_STATE_UPDATE_SERVERS);
     else
-        func_02155374(14);
+        func_02155374(DWC_RAP_STATE_ERROR);
 }
 
 
@@ -2077,12 +2066,12 @@ void func_02155B98(int a)
 
 
 
-void func_02155BDC(unsigned int n)
+void func_02155BDC(unsigned int aid)
 {
-    if (n < 2 && d_021A8264->b7a8) {
+    if (aid < 2 && _pRapWork->peerAlive) {
         func_0216B65C();
-        d_021A8264->f774 = -1;
-        func_02155374(20);
+        _pRapWork->newClientAid = -1;
+        func_02155374(DWC_RAP_STATE_TIMED_OUT);
     }
 }
 
@@ -2102,14 +2091,14 @@ void func_02155BDC(unsigned int n)
 
 
 
-void func_02155C0C(int a)
+void func_02155C0C(int error)
 {
-    if (a == 0) {
-        func_02155374(6);
+    if (error == 0) {
+        func_02155374(DWC_RAP_STATE_IDLE);
         return;
     }
 
-    func_02155374(0xe);
+    func_02155374(DWC_RAP_STATE_ERROR);
 }
 
 
@@ -2128,7 +2117,7 @@ void func_02155C0C(int a)
 
 
 /*
- * Unlabelled empty callback leaf for func_021554C8. Reads no arguments.
+ * Friend status callback of the update call; nothing to do.
  */
 void func_02155C24(void)
 {
@@ -2153,15 +2142,15 @@ void func_02155C24(void)
 /*
  * Stores a and b into every one of 0x20 slots at +0x17C and +0x1FC whose first word is -1.
  */
-void func_02155C28(int a, int b)
+void func_02155C28(int deletedIndex, int srcIndex)
 {
-    int i;
+    int slot;
 
     func_0203D798();
-    for (i = 0; i < 0x20; i++) {
-        if (d_021A8264->arr[i] == -1) {
-            d_021A8264->arr[i] = a;
-            d_021A8264->arr2[i] = b;
+    for (slot = 0; slot < 0x20; slot++) {
+        if (_pRapWork->deletedFriendIndex[slot] == -1) {
+            _pRapWork->deletedFriendIndex[slot] = deletedIndex;
+            _pRapWork->deletedFriendSrcIndex[slot] = srcIndex;
         }
     }
 }
@@ -2204,7 +2193,7 @@ void func_02155C6C(void)
  */
 void func_02155C70(void)
 {
-    func_02082BCC((char *)d_021A8264->cnt, 0, 8);
+    func_02082BCC((char *)_pRapWork->peerCounter, 0, 8);
 }
 
 
@@ -2223,22 +2212,22 @@ void func_02155C70(void)
 
 void func_02155C8C(void)
 {
-    int i, j;
+    int aid, peer;
 
-    for (i = 0; i < 2; i++)
-        func_02177270(i, 0);
+    for (aid = 0; aid < 2; aid++)
+        func_02177270(aid, 0);
     if (func_0216B838() == 0) {
-        for (j = 0; j < d_021A8264->n; j++) {
-            if (j != func_0216B838() && (func_0216B908() & (1 << j)) != 0) {
-                if (func_02177270(j, 10000) == 0)
-                    func_02034714(d_021A1C5C, 0, d_021A1C5C);
+        for (peer = 0; peer < _pRapWork->maxPlayers; peer++) {
+            if (peer != func_0216B838() && (func_0216B908() & (1 << peer)) != 0) {
+                if (func_02177270(peer, 10000) == 0)
+                    func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
             }
         }
     } else {
         if (func_02177270(0, 10000) == 0)
-            func_02034714(d_021A1C5C, 0, d_021A1C5C);
+            func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
     }
-    d_021A8264->b7a8 = 1;
+    _pRapWork->peerAlive = 1;
     func_02155C70();
 }
 
@@ -2259,9 +2248,9 @@ void func_02155C8C(void)
 /*
  * Enables slot 9 then calls the wakeup.
  */
-void func_02155D2C(int e)
+void func_02155D2C(int peerIndex)
 {
-    func_02155374(9);
+    func_02155374(DWC_RAP_STATE_CONNECTED);
     func_02155C8C();
 }
 
@@ -2277,22 +2266,22 @@ void func_02155D2C(int e)
 
 
 
-void func_02155D3C(int a, int b, int c, int d, int e)
+void func_02155D3C(int error, int cancel, int self, int isServer, int peerIndex)
 {
-    DwcRapWork *g;
+    DwcRapWork *work;
 
-    if (a == 0) {
-        if (b == 0)
-            func_02155D2C(e);
+    if (error == 0) {
+        if (cancel == 0)
+            func_02155D2C(peerIndex);
         else
             func_02155904();
     } else {
-        func_02155374(14);
+        func_02155374(DWC_RAP_STATE_ERROR);
     }
-    g = d_021A8264;
-    if (g->cb29C != 0) {
-        int r = func_0216B838();
-        d_021A8264->cb29C(r, g->arg2A0);
+    work = _pRapWork;
+    if (work->connectEventFunc != 0) {
+        int myAid = func_0216B838();
+        _pRapWork->connectEventFunc(myAid, work->connectEventArg);
     }
 }
 
@@ -2308,8 +2297,7 @@ void func_02155D3C(int a, int b, int c, int d, int e)
 
 
 /*
- * Unlabelled leaf (no lr save, so disasm.py never labels it); its address
- * is taken as a callback by func_0215568C / func_0215580C.
+ * Evaluate callback of the match calls; accepts every candidate.
  */
 int func_02155D7C(void)
 {
@@ -2329,14 +2317,13 @@ int func_02155D7C(void)
 
 
 /*
- * Unlabelled leaf (no lr save, so disasm.py prints it as .word data); its
- * address is taken as a callback by func_02156888 / func_0215568C.
+ * User send callback of the transport: the packet went out.
  */
-void func_02155D80(int a, u32 i)
+void func_02155D80(int size, u32 aid)
 {
-    if (i < 2) {
-        d_021A8264->f760 = 0;
-        d_021A8264->cnt[i] = 0;
+    if (aid < 2) {
+        _pRapWork->sendInFlight = 0;
+        _pRapWork->peerCounter[aid] = 0;
     }
 }
 
@@ -2349,12 +2336,12 @@ void func_02155D80(int a, u32 i)
 
 
 
-void func_02155DA4(unsigned int v)
+void func_02155DA4(unsigned int header)
 {
-    if (v & 0x100) {
-        d_021A8264->f790 = 1;
+    if (header & 0x100) {
+        _pRapWork->vchatPeerOn = 1;
     } else {
-        d_021A8264->f790 = 0;
+        _pRapWork->vchatPeerOn = 0;
     }
 }
 
@@ -2368,32 +2355,32 @@ void func_02155DA4(unsigned int v)
 
 
 
-void func_02155DCC(u32 a, u8 *p, int c)
+void func_02155DCC(u32 aid, u8 *data, int size)
 {
-    u32 x = p[0] | ((p[3] << 24) | (p[2] << 16) | (p[1] << 8));
+    u32 header = data[0] | ((data[3] << 24) | (data[2] << 16) | (data[1] << 8));
 
-    if (a >= 2)
-        func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    if (a < 2) {
-        d_021A8264->b7a8 = 1;
-        if ((u8)x == 1) {
-            func_02155DA4(x);
-            d_021A8264->b79d = p[2];
-            d_021A8264->b7a7 = 1;
-        } else if ((u8)x == 3) {
-            d_021A8264->b7a6 = 1;
+    if (aid >= 2)
+        func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
+    if (aid < 2) {
+        _pRapWork->peerAlive = 1;
+        if ((u8)header == 1) {
+            func_02155DA4(header);
+            _pRapWork->lastRecvSeq = data[2];
+            _pRapWork->ackPending = 1;
+        } else if ((u8)header == 3) {
+            _pRapWork->sendStateReady = 1;
             return;
         } else {
-            if (func_021AEF44(a, (int)p, c) == 0)
+            if (func_021AEF44(aid, (int)data, size) == 0)
                 return;
             return;
         }
         if (func_0216B838() == 0) {
-            if (d_021A8264->cb0 != 0)
-                d_021A8264->cb0(a, p + 4, (u16)(c - 4));
+            if (_pRapWork->serverRecvFunc != 0)
+                _pRapWork->serverRecvFunc(aid, data + 4, (u16)(size - 4));
         } else {
-            if (d_021A8264->cb1 != 0)
-                d_021A8264->cb1(a, p + 4, (u16)(c - 4));
+            if (_pRapWork->clientRecvFunc != 0)
+                _pRapWork->clientRecvFunc(aid, data + 4, (u16)(size - 4));
         }
     }
 }
@@ -2408,36 +2395,36 @@ void func_02155DCC(u32 a, u8 *p, int c)
 
 
 
-void func_02155E9C(int a, int b, int c, u32 d)
+void func_02155E9C(int error, int isLocal, int isServer, u32 aid)
 {
-    if (d < 2) {
-        d_021A8264->f760 = 0;
-        d_021A8264->cnt[2] = 0;
-        d_021A8264->f778 = 0;
-        if (a == 0) {
-            if (d_021A8264->b7a1 == 1 && func_0216B804() == 1) {
-                if (d_021A8264->state != 8) {
-                    func_02155374(0x12);
+    if (aid < 2) {
+        _pRapWork->sendInFlight = 0;
+        _pRapWork->peerCounter[2] = 0;
+        _pRapWork->connectPending = 0;
+        if (error == 0) {
+            if (_pRapWork->connectArmed == 1 && func_0216B804() == 1) {
+                if (_pRapWork->state != DWC_RAP_STATE_CANCELING) {
+                    func_02155374(DWC_RAP_STATE_CLOSING);
                 }
-                if (d_021A8264->f76c != 0) {
+                if (_pRapWork->vchatActive != 0) {
                     func_02156400();
                 }
             }
-            if (b == 0) {
-                func_02155374(0x12);
+            if (isLocal == 0) {
+                func_02155374(DWC_RAP_STATE_CLOSING);
             }
         }
-        if (d_021A8264->b7a3 != 0) {
-            u32 *q = (u32 *)func_0203CA98();
-            if (q[3] == 0) {
-                func_0203C9AC(q[0], q[1], q[2], 0x3f1);
+        if (_pRapWork->errorOnDisconnect != 0) {
+            u32 *errorInfo = (u32 *)func_0203CA98();
+            if (errorInfo[3] == 0) {
+                func_0203C9AC(errorInfo[0], errorInfo[1], errorInfo[2], DWC_RAP_RESULT_DISCONNECT_ERROR);
             }
         }
-        func_0203A338(d);
+        func_0203A338(aid);
         {
-            void (*cb)(u32, u32) = d_021A8264->cb284;
-            if (cb != 0) {
-                cb(d, d_021A8264->arg288);
+            void (*closedFunc)(u32, u32) = _pRapWork->connectionClosedFunc;
+            if (closedFunc != 0) {
+                closedFunc(aid, _pRapWork->connectionClosedArg);
             }
         }
     }
@@ -2455,49 +2442,48 @@ void func_02155E9C(int a, int b, int c, u32 d)
 
 
 /*
- * Handle a network error: run the error callbacks, then react by error kind.
- * stand-in: `goto L` enters case 4's if-body; with the copy `ret = v` there the
- * r == 0 branch keeps the original short beq (accepted as the source form).
+ * Handles a DWC error: runs the error callbacks, then reacts by error type.
+ * The goto into the case 4 body keeps the short branch of the original.
  */
 int func_02155F58(void)
 {
-    int a, b;
-    int r;
-    u32 ret;
-    u32 v = 0;
-    int (*cb)(u32, u32, u32, int);
+    int errorCode, errorType;
+    int dwcError;
+    u32 result;
+    u32 code = 0;
+    int (*hookFunc)(u32, u32, u32, int);
 
-    r = func_02059E38(&a, &b);
-    if (r == 0) goto L;
-    cb = d_021A8264->cb294;
-    if (cb != 0) {
-        if (cb(d_021A8264->arg298, a, b, r) == 1)
-            return v;
+    dwcError = func_02059E38(&errorCode, &errorType);
+    if (dwcError == 0) goto useCode;
+    hookFunc = _pRapWork->errorHookFunc;
+    if (hookFunc != 0) {
+        if (hookFunc(_pRapWork->errorHookArg, errorCode, errorType, dwcError) == 1)
+            return code;
     }
-    cb = d_021A8264->cb28C;
-    if (cb != 0)
-        cb(d_021A8264->arg290, a, b, r);
-    v = a;
-    if (a == 0 || b == 1)
-        v = r;
-    ret = v;
-    switch (b) {
+    hookFunc = _pRapWork->errorFunc;
+    if (hookFunc != 0)
+        hookFunc(_pRapWork->errorArg, errorCode, errorType, dwcError);
+    code = errorCode;
+    if (errorCode == 0 || errorType == 1)
+        code = dwcError;
+    result = code;
+    switch (errorType) {
     case 1:
         func_02059F18();
-        if (d_021A8264 != 0 && d_021A8264->state == 0xE)
-            func_02155374(6);
+        if (_pRapWork != 0 && _pRapWork->state == DWC_RAP_STATE_ERROR)
+            func_02155374(DWC_RAP_STATE_IDLE);
         break;
     case 2:
-        if (a <= -40000 && a >= -41999)
+        if (errorCode <= -40000 && errorCode >= -41999)
             DWC_GdbShutdown();
-        if (d_021A8264 != 0 && d_021A8264->state == 0xE)
-            func_02155374(6);
+        if (_pRapWork != 0 && _pRapWork->state == DWC_RAP_STATE_ERROR)
+            func_02155374(DWC_RAP_STATE_IDLE);
         break;
     case 4:
-        if (a <= -40000 && a >= -41999) {
+        if (errorCode <= -40000 && errorCode >= -41999) {
             DWC_GdbShutdown();
-        L:
-            ret = v;
+        useCode:
+            result = code;
         }
         break;
     case 5:
@@ -2505,46 +2491,46 @@ int func_02155F58(void)
         break;
     case 3:
     case 6:
-        if (d_021A8264 != 0) {
-            switch (d_021A8264->state) {
-            case 3: case 6: case 7: case 8: case 9: case 10: case 11:
-            case 14: case 18: case 19: case 20:
-                if (d_021A8264->b7a9 == 1) {
+        if (_pRapWork != 0) {
+            switch (_pRapWork->state) {
+            case DWC_RAP_STATE_LOGIN: case DWC_RAP_STATE_IDLE: case DWC_RAP_STATE_MATCHING: case DWC_RAP_STATE_CANCELING: case DWC_RAP_STATE_CONNECTED: case DWC_RAP_STATE_IN_SESSION: case DWC_RAP_STATE_CANCELED:
+            case DWC_RAP_STATE_ERROR: case DWC_RAP_STATE_CLOSING: case DWC_RAP_STATE_CLOSED: case DWC_RAP_STATE_TIMED_OUT:
+                if (_pRapWork->friendsMatchInit == 1) {
                     func_0216AD50();
-                    d_021A8264->b7a9 = 0;
+                    _pRapWork->friendsMatchInit = 0;
                 }
                 /* fall through */
-            case 0: case 1: case 2:
+            case DWC_RAP_STATE_START: case DWC_RAP_STATE_WAIT_INET: case DWC_RAP_STATE_INIT_LOGIN:
                 func_0205CC20();
                 break;
             default:
                 break;
             }
         }
-        if (d_021A8264 != 0)
-            func_02155374(0x10);
+        if (_pRapWork != 0)
+            func_02155374(DWC_RAP_STATE_FATAL_DISCONNECT);
         break;
     case 7:
-        if (d_021A8264 != 0) {
-            func_02155374(0x11);
-            if (d_021A8264->cb2A8 != 0)
-                d_021A8264->cb2A8(-a);
+        if (_pRapWork != 0) {
+            func_02155374(DWC_RAP_STATE_FATAL_ERROR);
+            if (_pRapWork->fatalErrorFunc != 0)
+                _pRapWork->fatalErrorFunc(-errorCode);
         }
         break;
     default:
         break;
     }
-    if (d_021A8264->b79e != 0) {
-        ret = 0x3EE;
-        func_0203C9AC(a, b, r, ret);
-    } else if (d_021A8264->state == 0x14) {
-        ret = 0x3F0;
-        func_0203C9AC(a, b, r, ret);
-    } else if (r != 0) {
-        func_0203C9AC(a, b, r, 0);
+    if (_pRapWork->forceFatalError != 0) {
+        result = DWC_RAP_RESULT_FATAL;
+        func_0203C9AC(errorCode, errorType, dwcError, result);
+    } else if (_pRapWork->state == DWC_RAP_STATE_TIMED_OUT) {
+        result = DWC_RAP_RESULT_TIMEOUT_ERROR;
+        func_0203C9AC(errorCode, errorType, dwcError, result);
+    } else if (dwcError != 0) {
+        func_0203C9AC(errorCode, errorType, dwcError, 0);
         func_020111E8();
     }
-    return ret;
+    return result;
 }
 
 
@@ -2560,17 +2546,17 @@ int func_02155F58(void)
 
 int func_0215610C(void)
 {
-    int i;
-    int found = 0;
-    for (i = 0; i < d_021A8264->n; i++) {
-        if (i != func_0216B838() && func_0216B94C(i)) {
-            found = 1;
-            if (func_02176DEC((u8)i) == 0) {
+    int aid;
+    int hasPeer = 0;
+    for (aid = 0; aid < _pRapWork->maxPlayers; aid++) {
+        if (aid != func_0216B838() && func_0216B94C(aid)) {
+            hasPeer = 1;
+            if (func_02176DEC((u8)aid) == 0) {
                 return 0;
             }
         }
     }
-    return found;
+    return hasPeer;
 }
 
 
@@ -2584,14 +2570,14 @@ int func_0215610C(void)
 
 
 
-int func_0215615C(u32 idx)
+int func_0215615C(u32 counterIndex)
 {
-    if (d_021A8264->f760 == 0 && func_0215610C() != 0
+    if (_pRapWork->sendInFlight == 0 && func_0215610C() != 0
         && (func_0216B908() & 0xFFFE) != 0) {
-        d_021A8264->f760 = 1;
-        d_021A8264->pkt.hdr = ((u32)d_021A8264->h794 << 8) | 2;
-        func_02176FD4(func_0216B908(), d_021A8264, 4);
-        d_021A8264->cnt[idx] = 0;
+        _pRapWork->sendInFlight = 1;
+        _pRapWork->sendHeader.word = ((u32)_pRapWork->vchatLocalOn << 8) | 2;
+        func_02176FD4(func_0216B908(), _pRapWork, 4);
+        _pRapWork->peerCounter[counterIndex] = 0;
         return 1;
     }
     return 0;
@@ -2610,36 +2596,36 @@ int func_0215615C(u32 idx)
 
 int func_021561C0(void)
 {
-    DwcRapWork *g;
-    int i;
+    DwcRapWork *work;
+    int peer;
 
     func_02156CF4();
     func_0216AE88();
     func_021567B8();
-    if (d_021A8264->f76c != 0) {
-        int v;
-        if (d_021A8264->h794 == 1 && d_021A8264->f790 == 1 && d_021A8264->h796 == 1)
-            v = 0;
+    if (_pRapWork->vchatActive != 0) {
+        int muteVchat;
+        if (_pRapWork->vchatLocalOn == 1 && _pRapWork->vchatPeerOn == 1 && _pRapWork->vchatGateOpen == 1)
+            muteVchat = 0;
         else
-            v = 1;
-        func_021AEE14(v);
-        g = d_021A8264;
-        if (g->aid != func_0216B908() && g->b79f == 0 && g->s782 != 0) {
+            muteVchat = 1;
+        func_021AEE14(muteVchat);
+        work = _pRapWork;
+        if (work->vchatAidBitmap != func_0216B908() && work->vchatTalkLock == 0 && work->vchatEnabled != 0) {
             if (func_021AF238(func_0216B908(), func_0216B838()) != 0)
-                d_021A8264->aid = func_0216B908();
+                _pRapWork->vchatAidBitmap = func_0216B908();
         }
     }
-    if (d_021A8264->state == 0x14) {
-        int r = func_02155F58();
-        if (r == 0)
-            return 0x3eb;
-        return r;
+    if (_pRapWork->state == DWC_RAP_STATE_TIMED_OUT) {
+        int result = func_02155F58();
+        if (result == 0)
+            return DWC_RAP_RESULT_TIMED_OUT;
+        return result;
     }
-    if (d_021A8264->state == 0x13)
-        return 0x3ec;
-    if (d_021A8264->state == 9 || d_021A8264->state == 10) {
-        for (i = 0; i < d_021A8264->n; i++) {
-            if (d_021A8264->cnt[i]++ >= 0xf0 && d_021A8264->f760 == 0 && func_0215615C(i) != 0) {
+    if (_pRapWork->state == DWC_RAP_STATE_CLOSED)
+        return DWC_RAP_RESULT_CLOSED;
+    if (_pRapWork->state == DWC_RAP_STATE_CONNECTED || _pRapWork->state == DWC_RAP_STATE_IN_SESSION) {
+        for (peer = 0; peer < _pRapWork->maxPlayers; peer++) {
+            if (_pRapWork->peerCounter[peer]++ >= 0xf0 && _pRapWork->sendInFlight == 0 && func_0215615C(peer) != 0) {
                 func_02155C70();
                 break;
             }
@@ -2664,10 +2650,10 @@ int func_021561C0(void)
  */
 int func_021562EC(void)
 {
-    DwcRapWork *g = d_021A8264;
-    if (g != 0) {
-        u32 s = g->state;
-        if (s == 9 || s == 10 || s == 0x12) {
+    DwcRapWork *work = _pRapWork;
+    if (work != 0) {
+        u32 state = work->state;
+        if (state == DWC_RAP_STATE_CONNECTED || state == DWC_RAP_STATE_IN_SESSION || state == DWC_RAP_STATE_CLOSING) {
             return func_0216B838();
         }
     }
@@ -2687,7 +2673,7 @@ int func_021562EC(void)
 
 void func_0215631C(void)
 {
-    d_021A8264->f76c = 0;
+    _pRapWork->vchatActive = 0;
 }
 
 
@@ -2703,7 +2689,7 @@ void func_0215631C(void)
 
 void func_02156330(void)
 {
-    d_021A8264->h794 = 1;
+    _pRapWork->vchatLocalOn = 1;
 }
 
 
@@ -2720,34 +2706,34 @@ void func_02156330(void)
 /*
  * Start the session: set the ready flags and register the setter callback.
  */
-void func_02156344(void *a)
+void func_02156344(void *heapId)
 {
-    u32 v;
-    d_021A8264->h794 = 1;
-    d_021A8264->f790 = 1;
-    d_021A8264->h796 = 1;
-    if (d_021A8264->f76c == 0) {
-        v = 1;
-        switch (d_021A8264->w77C) {
+    u32 sessionSize;
+    _pRapWork->vchatLocalOn = 1;
+    _pRapWork->vchatPeerOn = 1;
+    _pRapWork->vchatGateOpen = 1;
+    if (_pRapWork->vchatActive == 0) {
+        sessionSize = 1;
+        switch (_pRapWork->vchatPlayerCount) {
         case 2:
-            v = 1;
+            sessionSize = 1;
             break;
         case 3:
-            v = 2;
+            sessionSize = 2;
             break;
         case 4:
-            v = 3;
+            sessionSize = 3;
             break;
         case 5:
-            v = 4;
+            sessionSize = 4;
             break;
         default:
-            v = 4;
+            sessionSize = 4;
             break;
         }
-        func_021AEF6C(a, v, 1);
+        func_021AEF6C(heapId, sessionSize, 1);
         func_021AF18C(func_0215631C);
-        d_021A8264->f76c = 1;
+        _pRapWork->vchatActive = 1;
     }
 }
 
@@ -2765,9 +2751,9 @@ void func_02156344(void *a)
 /*
  * Halfword at +0x56 of the block func_0203D798 returns, passed on.
  */
-void func_021563C0(int a)
+void func_021563C0(int unused)
 {
-    func_02156344((void *)func_0203D798()->heap);
+    func_02156344((void *)func_0203D798()->heapId);
 }
 
 
@@ -2781,12 +2767,12 @@ void func_021563C0(int a)
 
 
 /*
- * Calls the ov013 routine when the word at +0x76c of the module pointer is set.
+ * Asks the voice chat module to stop when it is running.
  */
 void func_021563D0(void)
 {
         void func_021AF13C(void);
-    if (d_021A8264->f76c) func_021AF13C();
+    if (_pRapWork->vchatActive) func_021AF13C();
 }
 
 
@@ -2799,10 +2785,10 @@ void func_021563D0(void)
 
 
 /*
- * Unlabelled accessor blocking owned ov099 caller 021BFDA8.
+ * True while the voice chat is running.
  */
 int func_021563EC(void) {
- return d_021A8264->f76c;
+ return _pRapWork->vchatActive;
 }
 
 
@@ -2817,10 +2803,10 @@ int func_021563EC(void) {
 void func_02156400(void)
 {
     func_021AF1A0();
-    if (d_021A8264) {
-        d_021A8264->f76c = 0;
-        d_021A8264->aid = 0;
-        d_021A8264->h794 = 0;
+    if (_pRapWork) {
+        _pRapWork->vchatActive = 0;
+        _pRapWork->vchatAidBitmap = 0;
+        _pRapWork->vchatLocalOn = 0;
     }
 }
 
@@ -2834,15 +2820,15 @@ void func_02156400(void)
 /*
  * Retains the live result of func_0216B838 as func_021AF2AC's argument.
  */
-void func_0215642C(int flag)
+void func_0215642C(int lock)
 {
-    if (flag) {
+    if (lock) {
         func_021AF2AC(func_0216B838());
-        d_021A8264->b79f = 1;
+        _pRapWork->vchatTalkLock = 1;
     } else {
-        d_021A8264->b79f = 0;
+        _pRapWork->vchatTalkLock = 0;
     }
-    func_021AF30C(d_021A8264->b79f);
+    func_021AF30C(_pRapWork->vchatTalkLock);
 }
 
 
@@ -2856,78 +2842,78 @@ void func_0215642C(int flag)
 /*
  * Classify a network error code (and its error kind) into a message class.
  */
-int func_02156460(int err, int kind)
+int func_02156460(int errorCode, int errorType)
 {
-    int d100 = err / 100;
-    int d1000 = err / 1000;
+    int errorGroup100 = errorCode / 100;
+    int errorGroup1000 = errorCode / 1000;
 
-    if (err == 20101)
+    if (errorCode == 20101)
         return 1;
-    if (d1000 == 23)
+    if (errorGroup1000 == 23)
         return 1;
-    if (err == 20108)
+    if (errorCode == 20108)
         return 2;
-    if (err == 20110)
+    if (errorCode == 20110)
         return 3;
-    if (d100 == 512)
+    if (errorGroup100 == 512)
         return 4;
-    if (d100 == 500)
+    if (errorGroup100 == 500)
         return 5;
-    if (err == 51103)
+    if (errorCode == 51103)
         return 6;
-    if (d100 == 510)
+    if (errorGroup100 == 510)
         return 6;
-    if (d100 == 511)
+    if (errorGroup100 == 511)
         return 6;
-    if (d100 == 513)
+    if (errorGroup100 == 513)
         return 6;
-    if (err >= 52000 && err <= 52003)
+    if (errorCode >= 52000 && errorCode <= 52003)
         return 8;
-    if (err >= 52010 && err <= 52012)
+    if (errorCode >= 52010 && errorCode <= 52012)
         return 8;
-    if (err >= 52100 && err <= 52103)
+    if (errorCode >= 52100 && errorCode <= 52103)
         return 8;
-    if (err >= 52110 && err <= 52112)
+    if (errorCode >= 52110 && errorCode <= 52112)
         return 8;
-    if (err >= 52200 && err <= 52203)
+    if (errorCode >= 52200 && errorCode <= 52203)
         return 8;
-    if (err >= 52210 && err <= 52212)
+    if (errorCode >= 52210 && errorCode <= 52212)
         return 8;
-    if (err >= 52400 && err <= 52403)
+    if (errorCode >= 52400 && errorCode <= 52403)
         return 8;
-    if (err >= 52410 && err <= 52412)
+    if (errorCode >= 52410 && errorCode <= 52412)
         return 8;
-    if (err >= 52500 && err <= 52503)
+    if (errorCode >= 52500 && errorCode <= 52503)
         return 8;
-    if (err >= 52510 && err <= 52512)
+    if (errorCode >= 52510 && errorCode <= 52512)
         return 8;
-    if (err >= 52700 && err <= 52703)
+    if (errorCode >= 52700 && errorCode <= 52703)
         return 8;
-    if (err >= 52710 && err <= 52712)
+    if (errorCode >= 52710 && errorCode <= 52712)
         return 8;
-    if (err == 80430)
+    if (errorCode == 80430)
         return 9;
-    if (d1000 == 20)
+    if (errorGroup1000 == 20)
         return 0;
-    if (d100 == 520)
+    if (errorGroup100 == 520)
         return 0;
-    if (d100 == 521)
+    if (errorGroup100 == 521)
         return 0;
-    if (d100 == 522)
+    if (errorGroup100 == 522)
         return 0;
-    if (d100 == 523)
+    if (errorGroup100 == 523)
         return 0;
-    if (d100 == 530)
+    if (errorGroup100 == 530)
         return 0;
-    if (d100 == 531)
+    if (errorGroup100 == 531)
         return 0;
-    if (d100 == 532)
+    if (errorGroup100 == 532)
         return 0;
-    if (err < 10000)
+    if (errorCode < 10000)
         return 14;
-    if (d1000 == 31)
+    if (errorGroup1000 == 31)
         return 12;
-    switch (kind) {
+    switch (errorType) {
     case 0:
     case 1:
         return 14;
@@ -2938,7 +2924,7 @@ int func_02156460(int err, int kind)
     case 6:
         return 11;
     default:
-        func_02034714(d_021A1C5C, 0, d_021A1C5C);
+        func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
         break;
     case 7:
         return 15;
@@ -2954,35 +2940,35 @@ int func_02156460(int err, int kind)
 
 
 
-int func_02156690(int a)
+int func_02156690(int pollOnly)
 {
-    u32 x, y;
-    if (func_02059E38((int *)(&x), (int *)(&y)) != 0) {
+    u32 errorCode, errorType;
+    if (func_02059E38((int *)(&errorCode), (int *)(&errorType)) != 0) {
         func_02059F18();
     }
-    if (a == 0) {
-        switch (d_021A8264->state) {
-        case 7:
-        case 9:
-        case 10:
-            if (d_021A8264->f76c != 0) {
+    if (pollOnly == 0) {
+        switch (_pRapWork->state) {
+        case DWC_RAP_STATE_MATCHING:
+        case DWC_RAP_STATE_CONNECTED:
+        case DWC_RAP_STATE_IN_SESSION:
+            if (_pRapWork->vchatActive != 0) {
                 func_021AF13C();
             }
-            func_02155374(0x12);
+            func_02155374(DWC_RAP_STATE_CLOSING);
             break;
-        case 6:
-        case 16:
-        case 19:
-        case 20:
+        case DWC_RAP_STATE_IDLE:
+        case DWC_RAP_STATE_FATAL_DISCONNECT:
+        case DWC_RAP_STATE_CLOSED:
+        case DWC_RAP_STATE_TIMED_OUT:
             return 1;
         default:
             break;
         }
     } else {
-        switch (d_021A8264->state) {
-        case 6:
-        case 0x13:
-        case 0x14:
+        switch (_pRapWork->state) {
+        case DWC_RAP_STATE_IDLE:
+        case DWC_RAP_STATE_CLOSED:
+        case DWC_RAP_STATE_TIMED_OUT:
             return 1;
         default:
             break;
@@ -3001,12 +2987,12 @@ int func_02156690(int a)
 
 int func_02156730(void)
 {
-    u32 s = d_021A8264->state;
-    if (s == 0x13 || s == 0x14 || s == 0x10 || s == 6) {
-        u32 v = 6;
-        func_02155374(v);
-        d_021A8264->err = 0x3ef;
-        d_021A8264->f774 = v - 7;
+    u32 state = _pRapWork->state;
+    if (state == DWC_RAP_STATE_CLOSED || state == DWC_RAP_STATE_TIMED_OUT || state == DWC_RAP_STATE_FATAL_DISCONNECT || state == DWC_RAP_STATE_IDLE) {
+        u32 idleState = 6;
+        func_02155374(idleState);
+        _pRapWork->result = DWC_RAP_RESULT_IDLE;
+        _pRapWork->newClientAid = idleState - 7;
         return 1;
     }
     return 0;
@@ -3021,11 +3007,11 @@ int func_02156730(void)
 
 void func_0215677C(void)
 {
-    if (d_021A8264 != 0) {
+    if (_pRapWork != 0) {
         func_02059F18();
-        if (d_021A8264->b7a9 != 0)
+        if (_pRapWork->friendsMatchInit != 0)
             func_0216AD50();
-        d_021A8264->b7a9 = 0;
+        _pRapWork->friendsMatchInit = 0;
         func_0205CC20();
         func_02156400();
         func_021554A0();
@@ -3042,21 +3028,21 @@ void func_0215677C(void)
 
 void func_021567B8(void)
 {
-    if (d_021A8264->friend_list != 0) {
-        u32 i = d_021A8264->w74C & 0x1f;
-        u32 o = i * 12;
-        int n;
-        if (func_0205912C(d_021A8264->friend_list + o) != 0) {
-            u32 r = func_02168848(d_021A8264->friend_list + o,
-                                  (int)d_021A8264->ent[i], (int)(&n));
-            if (n < 1) {
-                d_021A8264->bytes[i] = 0;
-                func_02082BCC(d_021A8264->ent[i], 0, 0x20);
+    if (_pRapWork->friendList != 0) {
+        u32 slot = _pRapWork->friendPollCursor & 0x1f;
+        u32 byteOffset = slot * 12;
+        int statusLen;
+        if (func_0205912C(_pRapWork->friendList + byteOffset) != 0) {
+            u32 status = func_02168848(_pRapWork->friendList + byteOffset,
+                                  (int)_pRapWork->friendStatusData[slot], (int)(&statusLen));
+            if (statusLen < 1) {
+                _pRapWork->friendStatus[slot] = 0;
+                func_02082BCC(_pRapWork->friendStatusData[slot], 0, 0x20);
             } else {
-                d_021A8264->bytes[i] = r;
+                _pRapWork->friendStatus[slot] = status;
             }
         }
-        d_021A8264->w74C += 1;
+        _pRapWork->friendPollCursor += 1;
     }
 }
 
@@ -3066,11 +3052,11 @@ void func_021567B8(void)
 
 
 
-int func_0215683C(char *a, int b)
+int func_0215683C(char *data, int size)
 {
-    if (b > 32)
-        func_02034714(d_021A1C5C, 0, d_021A1C5C);
-    return func_021688FC(a, b);
+    if (size > 32)
+        func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
+    return func_021688FC(data, size);
 }
 
 
@@ -3081,13 +3067,11 @@ int func_0215683C(char *a, int b)
 
 
 /*
- * Recursive MATCH unblocker: callee of the ov099 veneer func_021C23B8 +0004.
- * Coherent Thumb code only in ov009 (ov010 opens with adds r3,r7,#0 and an
- * immediate branch), so the ov009 shard makes that site attest as `matched`.
+ * Status string of one friend.
  */
-int func_02156860(int i)
+int func_02156860(int friendIndex)
 {
-    return (int)d_021A8264->ent[i];
+    return (int)_pRapWork->friendStatusData[friendIndex];
 }
 
 
@@ -3100,9 +3084,9 @@ int func_02156860(int i)
 /*
  * Byte at +0x32c past the index of the block the module pointer holds.
  */
-unsigned char func_02156874(int i)
+unsigned char func_02156874(int friendIndex)
 {
-    return d_021A8264->bytes[i];
+    return _pRapWork->friendStatus[friendIndex];
 }
 
 
@@ -3112,55 +3096,55 @@ unsigned char func_02156874(int i)
 
 
 
-int func_02156888(int a, int b, int c)
+int func_02156888(int friendIndex, int maxPlayers, int limitToTwo)
 {
-    int n = b;
-    int r;
-    int i;
+    int entryCount = maxPlayers;
+    int started;
+    int slot;
 
     if (func_02156C84() != 0)
         return -4;
-    if (d_021A8264->state != 6) {
-        d_021A8264->cnt[2]++;
-        if (d_021A8264->cnt[2] > 0x78)
+    if (_pRapWork->state != DWC_RAP_STATE_IDLE) {
+        _pRapWork->peerCounter[2]++;
+        if (_pRapWork->peerCounter[2] > 0x78)
             return -3;
         return -1;
     }
     func_02156C60();
-    d_021A8264->f798 = 0;
-    d_021A8264->b7a1 = 1;
-    d_021A8264->idx = a;
-    d_021A8264->n = b;
-    d_021A8264->s780 = -1;
-    if (c != 0)
-        n = 2;
-    d_021A8264->f778 = 1;
-    if (a < 0) {
-        r = func_0216B354(2, n, func_02156A58, (void *)func_0203D650(), func_02156B3C,
-                          (void *)func_0203D650(), func_02155678, &d_021A8264->w750,
+    _pRapWork->aidBitmapAtConnect = 0;
+    _pRapWork->connectArmed = 1;
+    _pRapWork->targetFriendIndex = friendIndex;
+    _pRapWork->maxPlayers = maxPlayers;
+    _pRapWork->canceledPeerIndex = -1;
+    if (limitToTwo != 0)
+        entryCount = 2;
+    _pRapWork->connectPending = 1;
+    if (friendIndex < 0) {
+        started = func_0216B354(2, entryCount, func_02156A58, (void *)func_0203D650(), func_02156B3C,
+                          (void *)func_0203D650(), func_02155678, &_pRapWork->connectionUserData,
                           (void *)func_0203D650());
-        d_021A8264->mode = 1;
+        _pRapWork->connectMode = 1;
     } else {
-        r = func_0216B408(2, a, func_02156B18, 0, func_02156B3C,
-                          func_0203D650(), func_02155678, &d_021A8264->w750,
+        started = func_0216B408(2, friendIndex, func_02156B18, 0, func_02156B3C,
+                          func_0203D650(), func_02155678, &_pRapWork->connectionUserData,
                           func_0203D650());
-        d_021A8264->mode = 2;
+        _pRapWork->connectMode = 2;
     }
-    if (r == 0) {
-        d_021A8264->cnt[2]++;
-        if (d_021A8264->cnt[2] > 0x78)
-            func_0203C9AC(0, 0, 0, 0x3f1);
+    if (started == 0) {
+        _pRapWork->peerCounter[2]++;
+        if (_pRapWork->peerCounter[2] > 0x78)
+            func_0203C9AC(0, 0, 0, DWC_RAP_RESULT_DISCONNECT_ERROR);
         return -2;
     }
-    d_021A8264->cnt[2] = 0;
-    for (i = 0; i < b; i++)
-        func_02156C00(i);
-    func_02155374(7);
+    _pRapWork->peerCounter[2] = 0;
+    for (slot = 0; slot < maxPlayers; slot++)
+        func_02156C00(slot);
+    func_02155374(DWC_RAP_STATE_MATCHING);
     func_02177138((int)func_02155D80, 0);
     func_02177160((int)func_02155DCC, 0);
     func_0216B634((int)func_02155E9C, 0);
     func_02177188((int)func_02155BDC, 0);
-    d_021A8264->f760 = 0;
+    _pRapWork->sendInFlight = 0;
     return 0;
 }
 
@@ -3173,8 +3157,8 @@ int func_02156888(int a, int b, int c)
 
 int func_02156A3C(void)
 {
-    if (d_021A8264 != 0)
-        return d_021A8264->idx;
+    if (_pRapWork != 0)
+        return _pRapWork->targetFriendIndex;
     return -1;
 }
 
@@ -3185,37 +3169,37 @@ int func_02156A3C(void)
 
 
 
-void func_02156A58(int a, int b, int c, int d, int e)
+void func_02156A58(int error, int cancel, int self, int isServer, int peerIndex)
 {
-    int flag = 0;
-    d_021A8264->f778 = 0;
-    if (a == 0) {
-        if (b == 0) {
-            if (d_021A8264->b7a4 != 0 && e == -1) {
-                flag = 1;
+    int reject = 0;
+    _pRapWork->connectPending = 0;
+    if (error == 0) {
+        if (cancel == 0) {
+            if (_pRapWork->rejectStrangers != 0 && peerIndex == -1) {
+                reject = 1;
             }
-            if (d_021A8264->cb2A4 != 0) {
-                if (d_021A8264->cb2A4(e, func_0203D650()) == 0) {
-                    flag = 1;
+            if (_pRapWork->acceptFriendFunc != 0) {
+                if (_pRapWork->acceptFriendFunc(peerIndex, func_0203D650()) == 0) {
+                    reject = 1;
                 }
             }
-            if (d_021A8264->b7a0 != 0 || flag != 0) {
-                if (e != -1) {
-                    func_0216B7E0(e);
+            if (_pRapWork->kickNewPeers != 0 || reject != 0) {
+                if (peerIndex != -1) {
+                    func_0216B7E0(peerIndex);
                 }
             }
-            d_021A8264->idx = e;
-            d_021A8264->f798 = func_0216B908();
-            if (d_021A8264->f798 == 1) {
-                func_02155374(8);
+            _pRapWork->targetFriendIndex = peerIndex;
+            _pRapWork->aidBitmapAtConnect = func_0216B908();
+            if (_pRapWork->aidBitmapAtConnect == 1) {
+                func_02155374(DWC_RAP_STATE_CANCELING);
                 return;
             }
-            func_02155D2C(e);
+            func_02155D2C(peerIndex);
             return;
         }
-        if (c == 0) {
-            d_021A8264->s780 = e;
-            d_021A8264->f774 = flag - 1;
+        if (self == 0) {
+            _pRapWork->canceledPeerIndex = peerIndex;
+            _pRapWork->newClientAid = reject - 1;
         }
     }
 }
@@ -3229,11 +3213,11 @@ void func_02156A58(int a, int b, int c, int d, int e)
 /*
  * The fifth input is visibly loaded into r0 before the call.
  */
-void func_02156B18(int a, int b, int c, int d, int e)
+void func_02156B18(int error, int cancel, int self, int isServer, int peerIndex)
 {
-    d_021A8264->f778 = 0;
-    if (a == 0 && b == 0)
-        func_02155D2C(e);
+    _pRapWork->connectPending = 0;
+    if (error == 0 && cancel == 0)
+        func_02155D2C(peerIndex);
 }
 
 
@@ -3243,13 +3227,13 @@ void func_02156B18(int a, int b, int c, int d, int e)
 
 
 /*
- * Extent follower 02156B68 already has its own matched file.
+ * New client callback of the host match: remembers the AID and tells the game.
  */
-void func_02156B3C(int a)
+void func_02156B3C(int aid)
 {
-    d_021A8264->f774 = a;
-    if (d_021A8264->cb29C != 0)
-        d_021A8264->cb29C((u16)a, d_021A8264->arg2A0);
+    _pRapWork->newClientAid = aid;
+    if (_pRapWork->connectEventFunc != 0)
+        _pRapWork->connectEventFunc((u16)aid, _pRapWork->connectEventArg);
 }
 
 
@@ -3259,9 +3243,9 @@ void func_02156B3C(int a)
 
 
 /*
- * extent: 8-byte thunk; larger accessor followers 02156B70 and 02156B8C excluded.
+ * Voice chat state query of the ov013 module (the argument is not used).
  */
-int func_02156B68(char *a0)
+int func_02156B68(char *unused)
 {
     return func_021AF210();
 }
@@ -3274,15 +3258,12 @@ int func_02156B68(char *a0)
 
 
 /*
- * Reads the signed halfword at +0x782 of the ov009 work block held in the
- * bss pointer at 0x021A8264, or 0 when no block is allocated.  A leaf with
- * no lr-saving prologue whose only caller is in arm9 (sub_0200F698), so
- * the listing emits it as data words.
+ * Voice chat enabled flag, 0 when no work block exists.
  */
 s16 func_02156B70(void)
 {
-    if (d_021A8264 != 0)
-        return d_021A8264->s782;
+    if (_pRapWork != 0)
+        return _pRapWork->vchatEnabled;
     return 0;
 }
 
@@ -3298,8 +3279,8 @@ s16 func_02156B70(void)
  */
 int func_02156B8C(void)
 {
-    if (d_021A8264 != 0)
-        return d_021A8264->f774;
+    if (_pRapWork != 0)
+        return _pRapWork->newClientAid;
     return 0;
 }
 
@@ -3312,13 +3293,12 @@ int func_02156B8C(void)
 
 
 /*
- * evidence: BL sites in ov099021BF6E0 target this Thumb word-run start;
- *   full body reads nullable global +0x780 as a signed halfword, else -1.
+ * Index of the peer that cancelled the match, -1 when none.
  */
 int func_02156BA8(void)
 {
-    if (d_021A8264)
-        return d_021A8264->s780;
+    if (_pRapWork)
+        return _pRapWork->canceledPeerIndex;
     return -1;
 }
 
@@ -3332,13 +3312,11 @@ int func_02156BA8(void)
 
 
 /*
- * Recursive MATCH unblocker: callee of the ov099 veneer func_021C0C7C +0008.
- * Coherent Thumb code only in ov009 (ov010 decodes to a pop with no push), so
- * the ov009 shard makes that site attest as `matched`.
+ * Sets the voice chat enabled flag.
  */
-void func_02156BC4(int v)
+void func_02156BC4(int enabled)
 {
-    d_021A8264->s782 = v;
+    _pRapWork->vchatEnabled = enabled;
 }
 
 
@@ -3348,13 +3326,13 @@ void func_02156BC4(int v)
 
 
 
-void func_02156BD8(u32 i)
+void func_02156BD8(u32 aid)
 {
-    void *p;
-    p = d_021A8264->buf[i];
-    if (p != 0) {
-        func_0203D7FC(p);
-        d_021A8264->buf[i] = 0;
+    void *buf;
+    buf = _pRapWork->recvBuffer[aid];
+    if (buf != 0) {
+        func_0203D7FC(buf);
+        _pRapWork->recvBuffer[aid] = 0;
     }
 }
 
@@ -3365,15 +3343,15 @@ void func_02156BD8(u32 i)
 
 
 
-void func_02156C00(u32 a)
+void func_02156C00(u32 aid)
 {
-    RapCtx *p = func_0203D798();
-    func_02156BD8(a);
-    if (d_021A8264->buf[a] == 0) {
-        u32 n = 0x1000;
-        d_021A8264->buf[a] =
-            func_0203D7C8(p->heap, n, (const char *)d_021A1C60, 0xb74);
-        func_021770EC(a, (u32)d_021A8264->buf[a], n);
+    DwcRapNetInit *netInit = func_0203D798();
+    func_02156BD8(aid);
+    if (_pRapWork->recvBuffer[aid] == 0) {
+        u32 bufSize = 0x1000;
+        _pRapWork->recvBuffer[aid] =
+            func_0203D7C8(netInit->heapId, bufSize, (const char *)_sDwcRapFile, 0xb74);
+        func_021770EC(aid, (u32)_pRapWork->recvBuffer[aid], bufSize);
     }
 }
 
@@ -3389,13 +3367,13 @@ void func_02156C00(u32 a)
  */
 void func_02156C60(void)
 {
-    int i;
+    int aid;
 
-    for (i = 0; i < 2; i++) {
-        func_02156BD8(i);
+    for (aid = 0; aid < 2; aid++) {
+        func_02156BD8(aid);
     }
 
-    d_021A8264->b7a6 = 1;
+    _pRapWork->sendStateReady = 1;
 }
 
 
@@ -3411,7 +3389,7 @@ void func_02156C60(void)
  */
 unsigned char func_02156C84(void)
 {
-    return d_021A8264->b7a2;
+    return _pRapWork->userDataChanged;
 }
 
 
@@ -3422,11 +3400,9 @@ unsigned char func_02156C84(void)
 
 
 /*
- * leaf: sole unresolved overlay blocker of concrete-correct ov115/021D43CC;
- * no ARM9 blocker. Parent confirmed no active assignment owns this leaf.
- * Caller leaves its previous integer result in r0; parameter retained.
+ * Clears the user data changed flag (the argument is not used).
  */
-void func_02156C98(int unused) { d_021A8264->b7a2 = 0; }
+void func_02156C98(int unused) { _pRapWork->userDataChanged = 0; }
 
 
 
@@ -3437,8 +3413,8 @@ void func_02156C98(int unused) { d_021A8264->b7a2 = 0; }
 
 int func_02156CAC(void)
 {
-    if (d_021A8264) {
-        if (d_021A8264->state == 6) return 1;
+    if (_pRapWork) {
+        if (_pRapWork->state == DWC_RAP_STATE_IDLE) return 1;
         return 0;
     }
     return 0;
@@ -3451,15 +3427,13 @@ int func_02156CAC(void)
 
 
 /*
- * Recursive MATCH unblocker: callee of func_021DA434 (ov175) +0002. Coherent
- * Thumb code only in ov009 (ov010 holds the tail of another function), so the
- * ov009 shard makes that site attest as `matched`.
+ * True in the connected and in-session states.
  */
 int func_02156CD0(void)
 {
 
-    if (d_021A8264 != 0) {
-        if ((u32)(d_021A8264->state - 9) <= 1)
+    if (_pRapWork != 0) {
+        if ((u32)(_pRapWork->state - 9) <= 1)
             return 1;
     }
     return 0;
@@ -3471,17 +3445,17 @@ int func_02156CD0(void)
 
 void func_02156CF4(void)
 {
-    int i;
+    int slot;
 
-    for (i = 0; i < 32; i++) {
-        if (d_021A8264->arr[i] != -1) {
-            RapCtx *p = func_0203D798();
-            if (p->cb3C != 0) {
-                DwcRapWork *q = (DwcRapWork *)((int *)d_021A8264 + i);
-                u32 r = func_0203D650();
-                p->cb3C(q->arr[0], q->arr2[0], r);
+    for (slot = 0; slot < 32; slot++) {
+        if (_pRapWork->deletedFriendIndex[slot] != -1) {
+            DwcRapNetInit *netInit = func_0203D798();
+            if (netInit->deleteFriendFunc != 0) {
+                DwcRapWork *entry = (DwcRapWork *)((int *)_pRapWork + slot);
+                u32 userArg = func_0203D650();
+                netInit->deleteFriendFunc(entry->deletedFriendIndex[0], entry->deletedFriendSrcIndex[0], userArg);
             }
-            d_021A8264->arr[i] = -1;
+            _pRapWork->deletedFriendIndex[slot] = -1;
         }
     }
 }
@@ -3492,16 +3466,16 @@ void func_02156CF4(void)
 
 u32 func_02156D5C(void)
 {
-    return d_021A8264->err;
+    return _pRapWork->result;
 }
 
 
 
 
 
-void func_02156D70(u32 v)
+void func_02156D70(u32 allowed)
 {
-    d_021A8264->b7a5 = v;
+    _pRapWork->allowConnect = allowed;
 }
 
 
@@ -3513,13 +3487,13 @@ void func_02156D70(u32 v)
  */
 int func_02156D84(void)
 {
-    DwcRapWork *g = d_021A8264;
-    if (g == 0) {
+    DwcRapWork *work = _pRapWork;
+    if (work == 0) {
         return 1;
     }
     {
-        u32 s = g->state;
-        if (s == 0x13 || s == 0x10 || s == 0x14) {
+        u32 state = work->state;
+        if (state == DWC_RAP_STATE_CLOSED || state == DWC_RAP_STATE_FATAL_DISCONNECT || state == DWC_RAP_STATE_TIMED_OUT) {
             return 1;
         }
     }
@@ -3530,9 +3504,9 @@ int func_02156D84(void)
 
 
 
-void func_02156DB0(u32 v)
+void func_02156DB0(u32 enabled)
 {
-    d_021A8264->b7a3 = v;
+    _pRapWork->errorOnDisconnect = enabled;
 }
 
 
@@ -3544,14 +3518,12 @@ void func_02156DB0(u32 v)
 
 
 /*
- * Recursive MATCH unblocker: callee of func_021DA5D0 (ov123) +004A. Coherent
- * Thumb code in ov009 (ov010 holds the tail of another function), so the ov009
- * shard makes that site attest as `matched`.
+ * Sets the error callback and its argument.
  */
-void func_02156DC4(int (*cb)(u32, u32, u32, int), u32 arg)
+void func_02156DC4(int (*errorFunc)(u32, u32, u32, int), u32 errorArg)
 {
-    d_021A8264->cb28C = cb;
-    d_021A8264->arg290 = arg;
+    _pRapWork->errorFunc = errorFunc;
+    _pRapWork->errorArg = errorArg;
 }
 
 
@@ -3562,13 +3534,12 @@ void func_02156DC4(int (*cb)(u32, u32, u32, int), u32 arg)
 
 
 /*
- * leaf: sole blocker of owned ov123 021D920C; parent ownership audit passed.
- * extent: next labelled function 02156DFC follows the 28-byte leaf.
+ * Sets the error hook callback and its argument; the hook runs before the error callback.
  */
-void func_02156DE0(int (*cb)(u32, u32, u32, int), u32 arg)
+void func_02156DE0(int (*hookFunc)(u32, u32, u32, int), u32 hookArg)
 {
-    d_021A8264->cb294 = cb;
-    d_021A8264->arg298 = arg;
+    _pRapWork->errorHookFunc = hookFunc;
+    _pRapWork->errorHookArg = hookArg;
 }
 
 
@@ -3580,13 +3551,13 @@ void func_02156DE0(int (*cb)(u32, u32, u32, int), u32 arg)
 
 
 /*
- * The pooled 0x11 is the overlay id of ov017 (absolute linker symbol, see
- * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md): load
- * ov017, run func_021B6100 there, unload it.
+ * Initialises the DWC library; when it reports that other settings were
+ * destroyed (result 3) the notice screen of overlay 17 runs (the pooled 0x11
+ * is the overlay id).
  */
-void func_02156DFC(int a)
+void func_02156DFC(int heapId)
 {
-    if (func_02157108(a) == 3) {
+    if (func_02157108(heapId) == 3) {
         func_02034AC4((int)abs_id_11);
         func_021B6100();
         func_02034A5C((int)abs_id_11);
@@ -3603,9 +3574,9 @@ void func_02156DFC(int a)
 /*
  * Calls func_02156E30 with a zero third argument.
  */
-void func_02156E24(int a, int b, int c)
+void func_02156E24(int ownerId, int size, int heapId)
 {
-    func_02156E30(a, b, 0, c);
+    func_02156E30(ownerId, size, 0, heapId);
 }
 
 
@@ -3615,40 +3586,27 @@ void func_02156E24(int a, int b, int c)
 
 
 /*
- * 2026-10-05 (wave D7 lane 18): the blocker func_02060F18 is now EXACT in
- *   src/matched/arm9/func_02060F18.c (old bit read first, two stores through a u16 pointer local).
- *   This file stays MATCH only until the integrator regenerates the matched-label layout; then the
- *   0x02060F18 relocation resolves and this file can be filed EXACT unchanged.
- * 2026-10-05 (wave D6 lane 19): still MATCH, blocked only by arm9 func_02060F18 (DIFF). New finding on
- *   that leaf: a u16 (or u8) RETURN type with `u32 old = *(u16 *)(p + 0x36); ... return old & 1;` stops the
- *   and-sink (gives `and; ...; mov r0,rX` as in the image), but the colours move (old in ip, v&1 in r2;
- *   image old r3, v&1 in r1). Early `old = x & 1` with u32 return still sinks. Compound `&= ~1` / `|=`
- *   on a u16 lvalue gives a 0xFFFE pool mask and lsl/lsr. Not filed.
- * 2026-10-05 (wave D5 lane 02): re-verified MATCH; the only open site is func_02060F18 (arm9), still DIFF by 13 bytes (see src/pending/arm9/func_02060F18.c).
- * 2026-10-04: 0x02060F40 now EXACT in src/matched/arm9/func_02060F40.c. 0x02060F18 (an
- * ARM setter, bit 0 of the halfword at +0x36) is parked DIFF in
- * src/pending/arm9/func_02060F18.c (13 bytes: and-sink scheduling). Bytes here are correct.
- *
- * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Only open reloc is THM_CALL func_02060F18 (arm9 setter, parked DIFF in
- * src/pending/arm9/func_02060F18.c); it needs that arm9 leaf filed EXACT.
+ * Creates the secondary expanded heap that serves allocations of one owner id
+ * (ownerId) above minRequestSize; the heap is tagged 0xEA so that the free
+ * function can tell its blocks from the main heap blocks.
  */
-void func_02156E30(u32 a, u32 b, u32 c, u32 d)
+void func_02156E30(u32 ownerId, u32 size, u32 minRequestSize, u32 heapId)
 {
-    if (d_021A8268 == 0) {
-        func_02034714(d_021A1C78, 0, d_021A1C78);
+    if (_pRapHeap == 0) {
+        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    if (d_021A8268->sub_mem != 0) {
-        func_02034714(d_021A1C78, 0, d_021A1C78);
+    if (_pRapHeap->subMem != 0) {
+        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    if (d_021A8268->sub_heap != 0) {
-        func_02034714(d_021A1C78, 0, d_021A1C78);
+    if (_pRapHeap->subHeap != 0) {
+        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    d_021A8268->sub_mem = (u32)func_02030734(d, b - 0x80, 0, d_021A1C7C, 0x62);
-    d_021A8268->sub_heap = (u32)func_02060C5C((void *)((d_021A8268->sub_mem + 0x1f) & ~0x1f), b - 0xc0, 0);
-    d_021A8268->sub_id = a;
-    func_02060F18((char *)d_021A8268->sub_heap, 1);
-    func_02060F40((char *)d_021A8268->sub_heap, 0xea);
-    d_021A8268->sub_limit = c;
+    _pRapHeap->subMem = (u32)func_02030734(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
+    _pRapHeap->subHeap = (u32)func_02060C5C((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->subOwnerId = ownerId;
+    func_02060F18((char *)_pRapHeap->subHeap, 1);
+    func_02060F40((char *)_pRapHeap->subHeap, 0xea);
+    _pRapHeap->subMinRequest = minRequestSize;
 }
 
 
@@ -3658,12 +3616,12 @@ void func_02156E30(u32 a, u32 b, u32 c, u32 d)
 
 void func_02156ED0(void)
 {
-    if (d_021A8268 == 0) {
-        func_02034714(d_021A1C78, 0, d_021A1C78);
+    if (_pRapHeap == 0) {
+        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    if (d_021A8268->sub_users != 0) {
-        func_0203C9AC(0, 0, 0, 0x3EE);
-        d_021A8268->failed = 1;
+    if (_pRapHeap->subLiveBlocks != 0) {
+        func_0203C9AC(0, 0, 0, DWC_RAP_RESULT_FATAL);
+        _pRapHeap->allocFailed = 1;
         return;
     }
     func_02156F14();
@@ -3675,14 +3633,14 @@ void func_02156ED0(void)
 
 void func_02156F14(void)
 {
-    if (d_021A8268->sub_mem != 0) {
-        func_02060C94((void *)d_021A8268->sub_heap);
-        func_020307B0((void *)d_021A8268->sub_mem);
-        d_021A8268->sub_heap = 0;
-        d_021A8268->sub_mem = 0;
-        if (d_021A8268->tag != 0) {
-            func_020306F0(d_021A8268->tag);
-            d_021A8268->tag = 0;
+    if (_pRapHeap->subMem != 0) {
+        func_02060C94((void *)_pRapHeap->subHeap);
+        func_020307B0((void *)_pRapHeap->subMem);
+        _pRapHeap->subHeap = 0;
+        _pRapHeap->subMem = 0;
+        if (_pRapHeap->tag != 0) {
+            func_020306F0(_pRapHeap->tag);
+            _pRapHeap->tag = 0;
         }
     }
 }
@@ -3694,12 +3652,12 @@ void func_02156F14(void)
 
 /*
  * Setter after the function ending at pool 0x02156F4C, which stores to the
- * same halfword: writes its argument to +0x20 of the object d_021A8268
+ * same halfword: writes its argument to +0x20 of the object _pRapHeap
  * points to. Called from the ov175 root func_021D7E18 (0x021D85E0).
  */
-void func_02156F50(int a)
+void func_02156F50(int tag)
 {
-    d_021A8268->tag = a;
+    _pRapHeap->tag = tag;
 }
 
 
@@ -3707,27 +3665,27 @@ void func_02156F50(int a)
 
 
 
-u32 func_02156F5C(u32 a, u32 b, u32 c)
+u32 func_02156F5C(u32 ownerId, u32 size, u32 align)
 {
-    u32 h;
-    u32 r;
+    u32 irqState;
+    u32 block;
 
-    if (d_021A8268->sub_heap != 0 && a == d_021A8268->sub_id && b > d_021A8268->sub_limit) {
-        h = func_02087988();
-        r = (u32)func_02060CA0((struct ExpHeap *)d_021A8268->sub_heap, b, c);
-        func_0208799C(h);
-        d_021A8268->sub_users++;
+    if (_pRapHeap->subHeap != 0 && ownerId == _pRapHeap->subOwnerId && size > _pRapHeap->subMinRequest) {
+        irqState = func_02087988();
+        block = (u32)func_02060CA0((struct ExpHeap *)_pRapHeap->subHeap, size, align);
+        func_0208799C(irqState);
+        _pRapHeap->subLiveBlocks++;
     } else {
-        h = func_02087988();
-        r = (u32)func_02060CA0((struct ExpHeap *)d_021A8268->heap, b, c);
-        func_0208799C(h);
+        irqState = func_02087988();
+        block = (u32)func_02060CA0((struct ExpHeap *)_pRapHeap->mainHeap, size, align);
+        func_0208799C(irqState);
     }
-    if (r == 0) {
+    if (block == 0) {
         func_0200FB6C();
-        func_0203C9AC(0, 0, 0, 0x3EE);
+        func_0203C9AC(0, 0, 0, DWC_RAP_RESULT_FATAL);
         return 0;
     }
-    return r;
+    return block;
 }
 
 
@@ -3737,41 +3695,41 @@ u32 func_02156F5C(u32 a, u32 b, u32 c)
  * witness:  callee 0x02060F98 is witnessed by its ARM9 entry
  *           (src/matched/arm9/func_02060F98.c, pkt_02060F98).
  */
-void func_02156FDC(u32 a, void *p, int b)
+void func_02156FDC(u32 ownerId, void *block, int unused)
 {
-    u32 h;
+    u32 irqState;
 
-    if (p == 0) {
+    if (block == 0) {
         return;
     }
-    if (func_02060F98(p) == 0xEA) {
-        if (d_021A8268->sub_heap != 0) {
-            h = func_02087988();
-            func_02060E30((struct ExpHeap *)d_021A8268->sub_heap, p);
-            func_0208799C(h);
-            d_021A8268->sub_users--;
+    if (func_02060F98(block) == 0xEA) {
+        if (_pRapHeap->subHeap != 0) {
+            irqState = func_02087988();
+            func_02060E30((struct ExpHeap *)_pRapHeap->subHeap, block);
+            func_0208799C(irqState);
+            _pRapHeap->subLiveBlocks--;
             return;
         }
-        func_0203C9AC(0, 0, 0, 0x3EE);
+        func_0203C9AC(0, 0, 0, DWC_RAP_RESULT_FATAL);
         return;
     }
-    h = func_02087988();
-    func_02060E30((struct ExpHeap *)d_021A8268->heap, p);
-    func_0208799C(h);
+    irqState = func_02087988();
+    func_02060E30((struct ExpHeap *)_pRapHeap->mainHeap, block);
+    func_0208799C(irqState);
 }
 
 
 
 
-void func_02157048(u32 a, u32 b)
+void func_02157048(u32 heapId, u32 size)
 {
-    if (d_021A8268 != 0) {
-        func_02034714(d_021A1C78, 0, d_021A1C78);
+    if (_pRapHeap != 0) {
+        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    d_021A8268 = (RapHeap *)func_02030734(0, 0x24, 1, d_021A1C7C, 0x14C);
-    d_021A8268->mem = (u32)func_02030734(a, b - 0x80, 0, d_021A1C7C, 0x14D);
-    d_021A8268->heap = (u32)func_02060C5C((void *)((d_021A8268->mem + 0x1f) & ~0x1f), b - 0xc0, 0);
-    d_021A8268->tag = 0;
+    _pRapHeap = (DwcRapHeap *)func_02030734(0, 0x24, 1, _sDwcRapCommonFile, 0x14C);
+    _pRapHeap->mainMem = (u32)func_02030734(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
+    _pRapHeap->mainHeap = (u32)func_02060C5C((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->tag = 0;
 }
 
 
@@ -3779,27 +3737,27 @@ void func_02157048(u32 a, u32 b)
 
 void func_021570B8(void)
 {
-    if (d_021A8268 == 0) {
-        func_02034714(d_021A1C78, 0, d_021A1C78);
+    if (_pRapHeap == 0) {
+        func_02034714(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    if (d_021A8268->failed == 1 || d_021A8268->sub_mem != 0) {
+    if (_pRapHeap->allocFailed == 1 || _pRapHeap->subMem != 0) {
         func_02156F14();
     }
-    func_02060C94((void *)d_021A8268->heap);
-    func_020307B0((void *)d_021A8268->mem);
-    func_020307B0(d_021A8268);
-    d_021A8268 = 0;
+    func_02060C94((void *)_pRapHeap->mainHeap);
+    func_020307B0((void *)_pRapHeap->mainMem);
+    func_020307B0(_pRapHeap);
+    _pRapHeap = 0;
 }
 
 
 
-int func_02157108(u16 a)
+int func_02157108(u16 heapId)
 {
-    int r;
-    func_02157048(a, 0x40000);
-    r = func_02059F6C(d_021A1C8C, 0x4952414A, func_02156F5C, func_02156FDC);
+    int initResult;
+    func_02157048(heapId, 0x40000);
+    initResult = func_02059F6C(_sDwcGameName, 0x4952414A, func_02156F5C, func_02156FDC);
     func_021570B8();
-    return r;
+    return initResult;
 }
 
 
@@ -3812,12 +3770,12 @@ int func_02157108(u16 a)
  * Called from arm9 sub_02009800 (bl at 0x0200982C), the save-table
  * constructor at 0x0209DB98.
  */
-void func_02157138(void *userdata)
+void func_02157138(void *userData)
 {
-    MIi_CpuClearFast(0, userdata, 0x40);
-    if (func_02059718(userdata) == 0) {
-        DWC_CreateUserData(userdata);
-        func_02059870((int)userdata);
+    MIi_CpuClearFast(0, userData, 0x40);
+    if (func_02059718(userData) == 0) {
+        DWC_CreateUserData(userData);
+        func_02059870((int)userData);
     }
 }
 
@@ -3834,41 +3792,24 @@ void func_02157160(void)
 
 
 /*
- * padding); the three THM_CALL sites to func_0200FB4C stay wildcarded
- * because 0x0200FB4C is an unlabelled arm9 Thumb leaf (it prints as .word
- * data after func_0200FB38), so no class attests it. The leaf verifies
- * EXACT (literal x2) as pkt_0200FB4C / src/matched/arm9/func_0200FB4C.c
- * with this body, outside this lane's write set:
- *
- *   typedef struct State { u8 pad00[0x2C]; int f2C; u8 pad30[0x29];
- *                          u8 f59; u8 f5A; u8 pad5B[5]; int f60; } State;
- *   extern State g_0214617C;           symbols: 0x0214617C data a4
- *   void func_0200FB4C(int x)
- *   {
- *       if (g_0214617C.f2C != 2) {
- *           g_0214617C.f60 = x;
- *           g_0214617C.f5A = 1;
- *           g_0214617C.f59 = 1;
- *           g_0214617C.f2C = 2;
- *       }
- *   }
- *
- * Filing that leaf makes this file (and ov135 func_022010BC) EXACT.
+ * Decides what the error screen does after a network error: returns 0 for
+ * nothing, 1 reset and show the connection lost screen, 2 show the message,
+ * 3 show the special message, 4 reset and return to the title.
  */
-int func_02157170(int a0, int a1)
+int func_02157170(int hasSession, int keepError)
 {
-    Status *st;
-    int v;
+    DwcRapErrorInfo *errorInfo;
+    int gameCode;
 
     if (func_0203CD98() != 0) {
-        st = (Status *)func_0203CA98();
+        errorInfo = (DwcRapErrorInfo *)func_0203CA98();
         if (func_0200FB24() != 0) {
-            switch (st->f4) {
+            switch (errorInfo->errorType) {
             case 0:
                 break;
             case 1:
             case 2:
-                if (a0 == 0) {
+                if (hasSession == 0) {
                     func_02157160();
                     func_0200F83C();
                     func_0200FBA0();
@@ -3889,9 +3830,9 @@ int func_02157170(int a0, int a1)
                 return 3;
             }
         }
-        v = st->fC;
-        if (v == 0x3F0 || v == 0x3F1) {
-            if (a1 != 0) {
+        gameCode = errorInfo->gameCode;
+        if (gameCode == DWC_RAP_RESULT_TIMEOUT_ERROR || gameCode == DWC_RAP_RESULT_DISCONNECT_ERROR) {
+            if (keepError != 0) {
                 func_0200FAAC();
                 func_02157160();
                 func_0203C554(1);
@@ -3905,8 +3846,8 @@ int func_02157170(int a0, int a1)
             func_0203C554(1);
             return 0;
         }
-        if (v == 0x3F2 || v == 0x3F3 || v == 0x3F4 || v == 0x3F6) {
-            if (a0 == 0) {
+        if (gameCode == 0x3F2 || gameCode == 0x3F3 || gameCode == 0x3F4 || gameCode == 0x3F6) {
+            if (hasSession == 0) {
                 func_02157160();
                 func_0200F83C();
                 func_0200FBA0();
@@ -3916,7 +3857,7 @@ int func_02157170(int a0, int a1)
             func_0200FB4C(13);
             return 2;
         }
-        if (v == 0x3EE || v == 0x3F7) {
+        if (gameCode == DWC_RAP_RESULT_FATAL || gameCode == 0x3F7) {
             func_0200FB38();
             func_0200FB4C(13);
             return 2;

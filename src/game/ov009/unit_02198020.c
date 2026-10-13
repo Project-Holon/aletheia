@@ -11,7 +11,9 @@
  * status:   EXACT
  */
 
-void func_02198020(int *p, int v)
+#include "unit_02195B20_types.h"
+
+void func_02198020(GTI2Socket *socket, void *connectAttemptCallback)
 {
-    p[8] = v;
+    socket->connectAttemptCallback = connectAttemptCallback;
 }

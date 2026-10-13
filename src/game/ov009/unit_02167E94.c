@@ -10,7 +10,8 @@
  * isa:      arm
  * status:   EXACT
  *
- * Address of the module state object.
+ * Returns the DWC login name prefix string, the text before the console id
+ * in the "%s:%016llu" name built by the GameSpy connect response (unit_0216A1F4).
  *
  * symbols:
  *   g_021A1F68  0x021A1F68  data

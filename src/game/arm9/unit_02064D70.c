@@ -57,25 +57,25 @@ typedef struct MCMMtxState {
 typedef struct NNSG2dRenderSurface NNSG2dRenderSurface;
 
 struct NNSG2dRenderSurface {
-    u8   pad_00[0x10];
-    int  f10;
-    int  f14;
+    u8   viewRect[0x10];
+    int  isActive;
+    int  isSoftwareSprite;
     u8   pad_18[0x10];
-    int  f28;
-    int  f2c;
+    int  viewOffsetX;
+    int  viewOffsetY;
     NNSG2dRenderSurface *pNextSurface;
-    int  (*fn34)(void *a, MtxFx32 *m, void *b);
-    void (*fn38)(void *a, void *b, void *c, MtxFx32 *m);
-    void (*fn3c)(void *a, void *b, void *c, MtxFx32 *m);
-    void (*fn40)(void *a, void *b, void *c, void *d, MtxFx32 *m);
-    void (*fn44)(void *a, void *b, void *c, void *d, MtxFx32 *m);
+    int  (*pFuncVisibilityCulling)(void *pCellData, MtxFx32 *pMtx, void *pSurface);
+    void (*pBeforeDrawCellBackFunc)(void *pRend, void *pSurface, void *pCellData, MtxFx32 *pMtx);
+    void (*pAfterDrawCellBackFunc)(void *pRend, void *pSurface, void *pCellData, MtxFx32 *pMtx);
+    void (*pBeforeDrawOamBackFunc)(void *pRend, void *pSurface, void *pCellData, void *pOam, MtxFx32 *pMtx);
+    void (*pAfterDrawOamBackFunc)(void *pRend, void *pSurface, void *pCellData, void *pOam, MtxFx32 *pMtx);
 };
 
 typedef struct NNSG2dRndCoreInstance {
     u8   pad_00[0x70];
     NNSG2dRenderSurface *pTargetSurfaceList;
     NNSG2dRenderSurface *pCurrentTargetSurface;
-    int  unk_78;
+    int  currentCell;
     u32  flag;
 } NNSG2dRndCoreInstance;
 
@@ -118,27 +118,27 @@ typedef struct MCRenderState {
 typedef struct {
     u16  count;
     u8   pad_02[2];
-    u8  *entries;      /* +0x04 */
-} Tab;
+    u8  *pEntries;     /* +0x04 */
+} MCNameTable;
 
 typedef struct {
-    Tab  *f00;
+    MCNameTable *pHeader;
     u8    pad_04[4];
-    u32   f08;
-    u8   *f0c;
-} S;
+    u32   kind;
+    u8   *pRecords;
+} MCAnimBank;
 
-struct Host {
+struct CellDrawState {
     u8  pad_00[0x30];
-    u32 f30;
+    u32 cullResult;
 };
 
 extern void func_02082AC0(u32 data, void *dest, u32 size);
-void func_02064D70(S *p, int (*fn)(void *, void *, void *, int), void *ctx);
+void func_02064D70(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx);
 void func_02064E3C(void);
 void func_02064EDC(void);
-void func_02065020(struct Host *h, void *a1);
-void func_02065134(void *a0, void *a1);
+void func_02065020(struct CellDrawState *pDrawState, void *pCellData);
+void func_02065134(void *pDrawState, void *pCellData);
 extern struct RendererBss g_02147B88;
 extern fx32 g_02147B98[];
 extern MtxFx32 g_02147D18[];
@@ -183,27 +183,27 @@ extern MCMMtxState g_02147C18[32];
  *   python3 tools/match.py one --src src/matched/func_02064D70.c \
  *       --func func_02064D70 --addr 0x02064D70 --arm --cc 1.1p1
  */
-void func_02064D70(S *p, int (*fn)(void *, void *, void *, int), void *ctx)
+void func_02064D70(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx)
 {
     u16  i;
-    Tab *tab = p->f00;
-    u16  n   = tab->count;
+    MCNameTable *table = bank->pHeader;
+    u16  count = table->count;
 
-    if (p->f08 == 1) {
-        u8 *base = p->f0c;
+    if (bank->kind == 1) {
+        u8 *records = bank->pRecords;
 
-        for (i = 0; i < n; i++) {
-            if (fn(ctx, tab->entries + i * 8,
-                   base + ((u32)((*(u16 *)(tab->entries + i * 8 + 6) & 0xff00) << 8) >> 16) * 0x5c,
+        for (i = 0; i < count; i++) {
+            if (visit(ctx, table->pEntries + i * 8,
+                   records + ((u32)((*(u16 *)(table->pEntries + i * 8 + 6) & 0xff00) << 8) >> 16) * 0x5c,
                    i) == 0)
                 return;
         }
     } else {
-        u8 *base = p->f0c;
+        u8 *records = bank->pRecords;
 
-        for (i = 0; i < n; i++) {
-            if (fn(ctx, tab->entries + i * 8,
-                   *(void **)(base + i * 0x28), i) == 0)
+        for (i = 0; i < count; i++) {
+            if (visit(ctx, table->pEntries + i * 8,
+                   *(void **)(records + i * 0x28), i) == 0)
                 return;
         }
     }
@@ -451,22 +451,22 @@ static inline MtxFx32 *GetMtxEarly(void)
  *     does, with no volatile casts.
  * EXACT under dsi/1.1p1; ../2.0/sp2 is 280 bytes (no predication).
  */
-void func_02065020(struct Host *h, void *a1)
+void func_02065020(struct CellDrawState *pDrawState, void *pCellData)
 {
     NNSG2dRenderSurface *v = g_02147B88.pCurrentInstance_->rendererCore.pCurrentTargetSurface;
 
-    if (v->fn34 != 0) {
-        if (v->fn34(a1, GetMtx(), v) == 0) {
-            h->f30 = 0;
+    if (v->pFuncVisibilityCulling != 0) {
+        if (v->pFuncVisibilityCulling(pCellData, GetMtx(), v) == 0) {
+            pDrawState->cullResult = 0;
             return;
         }
-        h->f30 = 1;
+        pDrawState->cullResult = 1;
     }
 
-    if (v->fn38 == 0)
+    if (v->pBeforeDrawCellBackFunc == 0)
         return;
 
-    v->fn38(g_02147B88.pCurrentInstance_, v, a1, GetMtx());
+    v->pBeforeDrawCellBackFunc(g_02147B88.pCurrentInstance_, v, pCellData, GetMtx());
 }
 
 
@@ -491,13 +491,13 @@ void func_02065020(struct Host *h, void *a1)
  * single mutation moves it) nor any other compiler build closed the
  * eq-first form; the else-first form is EXACT on the first compile.
  */
-void func_02065134(void *a0, void *a1)
+void func_02065134(void *pDrawState, void *pCellData)
 {
     NNSG2dRendererInstance *o = g_02147B88.pCurrentInstance_;
     NNSG2dRenderSurface *v = o->rendererCore.pCurrentTargetSurface;
 
-    if (v->fn3c == 0)
+    if (v->pAfterDrawCellBackFunc == 0)
         return;
 
-    v->fn3c(o, v, a1, GetMtxEarly());
+    v->pAfterDrawCellBackFunc(o, v, pCellData, GetMtxEarly());
 }

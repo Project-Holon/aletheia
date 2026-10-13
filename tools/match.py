@@ -73,6 +73,7 @@ from libmatch import (  # noqa: E402
 from cw import versions_dir, verkey  # noqa: E402
 import env as toolenv  # noqa: E402  (compiler location and wine runner)
 import stampcache  # noqa: E402  (stamp-validated pickle caches)
+import fnaddr  # noqa: E402  (function addresses whatever the name)
 
 SDK_INCLUDE = "sdk/TwlSDK/include"
 
@@ -3645,6 +3646,7 @@ def matched_index(entries):
     EXACT-only by construction.
     """
     out = {}
+    fnaddr.prefetch(entries)
     for e in entries:
         if e.get("kind") not in MATCHED_KINDS:
             continue
@@ -3654,11 +3656,17 @@ def matched_index(entries):
         who = (e["name"], e.get("source", ""), isa, e.get("region") or "arm9")
         addrs = [int(e["address"], 16)]
         # A unit entry records the functions its compared range covered; each
-        # of those addresses is pinned by the same byte comparison.
-        for n in e.get("functions") or []:
-            m = _ADDR_NAME_RE.match(n)
-            if m:
-                addrs.append(int(m.group(1), 16))
+        # of those addresses is pinned by the same byte comparison.  Members
+        # are resolved by address (tools/fnaddr.py: the entry's `addresses`
+        # list, a func_XXXXXXXX name, or the unit's compiled layout), so a
+        # member renamed to a real name keeps its witness.
+        if str(e.get("kind", "")).endswith("_unit"):
+            members = fnaddr.member_addresses(e)
+        else:
+            members = fnaddr.listed_functions(e)[1:]
+        for _n, a in members:
+            if a is not None:
+                addrs.append(a)
         # A runtime entry names its members by vendor name; `covers` holds
         # the runtime rows its per-function comparisons reproduced.
         for c in e.get("covers") or []:
@@ -6236,10 +6244,9 @@ def _member_index():
         reg = e.get("region", "")
         idx.setdefault((reg, a), (e, None))
         if str(e.get("kind", "")).endswith("_unit"):
-            for n in e.get("functions", []):
-                m = _ADDR_NAME_RE.match(n)
-                if m:
-                    idx.setdefault((reg, int(m.group(1), 16)), (e, a))
+            for _n, ma in fnaddr.member_addresses(e):
+                if ma is not None:
+                    idx.setdefault((reg, ma), (e, a))
     _MEMBER_INDEX["i"] = idx
     return idx
 
@@ -6435,11 +6442,14 @@ def manifest_function_addresses():
     """{address: (entry name, source path)} for every matched function."""
     out = {}
     for e in load_manifest_entries():
-        names = e.get("functions") or [e["name"]]
-        for n in names:
-            m = _ADDR_NAME_RE.match(n)
-            if m:
-                out.setdefault(int(m.group(1), 16), (e["name"], e.get("source", e.get("src", ""))))
+        if e.get("functions"):
+            got = (fnaddr.member_addresses(e) if str(e.get("kind", "")).endswith("_unit")
+                   else fnaddr.listed_functions(e)[1:])
+        else:
+            got = fnaddr.listed_functions(e)
+        for _n, a in got:
+            if a is not None:
+                out.setdefault(a, (e["name"], e.get("source", e.get("src", ""))))
     return out
 
 
@@ -7112,6 +7122,7 @@ def entry_from_source(path, header, kind, rel, verify=False):
     if runtime_kind:
         kind, is_unit = "runtime", False
     covers = None
+    unit_tl = None
     # The header's `status:` is never trusted (audit 2026-09-23, finding 4):
     # without --verify the entry records "unverified", which no coverage
     # reader counts (worklist.load_matched filters on MATCHED_STATUS).
@@ -7122,8 +7133,8 @@ def entry_from_source(path, header, kind, rel, verify=False):
         sole, sdk_ev = [], []
     elif verify:
         if is_unit:
-            r, _tl = run_tu(path, addr, h.get("compiler", "1.1p1"),
-                            flags.split(), thumb, lang, region=region)
+            r, unit_tl = run_tu(path, addr, h.get("compiler", "1.1p1"),
+                                flags.split(), thumb, lang, region=region)
         else:
             r = run_one(path, names[0], addr, h.get("compiler", "1.1p1"),
                         flags.split(), thumb, lang, region=region)
@@ -7161,6 +7172,14 @@ def entry_from_source(path, header, kind, rel, verify=False):
             entry["compared_bytes"] = r.size
     if is_unit:
         entry["functions"] = names
+        # Members whose names carry no address (renamed to real names) get
+        # their addresses recorded, parallel to `functions`, so the counting
+        # tools resolve them without compiling (tools/fnaddr.py).  A unit whose
+        # members are all func_XXXXXXXX records nothing: its shard stays as it was.
+        if any(fnaddr.name_address(n) is None for n in names):
+            rec = unit_member_record(names, addr, unit_tl, region, rel)
+            if rec:
+                entry["addresses"] = rec
     if runtime_kind:
         entry["functions"] = names
         if covers is not None:
@@ -7172,6 +7191,39 @@ def entry_from_source(path, header, kind, rel, verify=False):
         if sdk_ev:
             entry["evidence"]["sdk"] = sdk_ev
     return entry
+
+
+def unit_member_record(names, addr, tl, region, rel):
+    """["0xADDRESS", ...] parallel to a unit's member `names`, or None when one
+    of them cannot be placed.  Sources: the unit's compiled layout `tl` (the
+    function symbols, laid out from `addr`), a func_XXXXXXXX name, then the
+    `addresses` the unit's current manifest entry records for that name (a
+    member that is a label inside another function's bytes has no symbol)."""
+    prev = {}
+    try:
+        for e in load_manifest_entries():
+            if (e.get("source") == rel and (e.get("region") or "") == (region or "")
+                    and len(e.get("addresses") or []) == len(e.get("functions") or [])):
+                for n, a in zip(e["functions"], e["addresses"]):
+                    prev.setdefault(n, int(str(a), 16))
+    except (Exception, SystemExit):
+        prev = {}
+    fn = set()
+    if tl is not None:
+        for _b, _sz, _pad, pnames in tl.parts:
+            fn.update(pnames)
+    out = []
+    for n in names:
+        if tl is not None and n in fn and n in tl.locals:
+            a = addr + tl.locals[n]
+        else:
+            a = fnaddr.name_address(n)
+            if a is None:
+                a = prev.get(n)
+        if a is None:
+            return None
+        out.append("0x%08X" % a)
+    return out
 
 
 def write_shards(by_shard, only=None):
@@ -7884,6 +7936,29 @@ OV_MATCHED_CALLER_SRC = "src/pending/overlay_selftest.c"
 OV175_MATCHED = 0x021D4318
 OV175_CALLER_LO = 0x021DA6B8
 OV175_CALLER_HI = 0x021DADA8
+
+
+def _selftest_member_record():
+    """unit_member_record() with a stand-in layout: Foo_Init is a function
+    symbol at +0, func_0BADF010 is placed by its name, Foo_Label (a label inside
+    another function, no symbol) by the unit's current manifest entry."""
+    class TL:
+        parts = [(0, 0x10, 0, ["Foo_Init"])]
+        locals = {"Foo_Init": 0}
+    saved = _MANIFEST_ENTRIES.get("e")
+    _MANIFEST_ENTRIES["e"] = [{"name": "unit_0BADF000", "address": "0x0BADF000",
+                               "kind": "game_unit", "region": "arm9",
+                               "source": "src/matched/unit_0BADF000.c",
+                               "functions": ["Foo_Init", "func_0BADF010", "Foo_Label"],
+                               "addresses": ["0x0BADF000", "0x0BADF010", "0x0BADF020"]}]
+    try:
+        return unit_member_record(["Foo_Init", "func_0BADF010", "Foo_Label"], 0x0BADF000,
+                                  TL(), "arm9", "src/matched/unit_0BADF000.c")
+    finally:
+        if saved is None:
+            _MANIFEST_ENTRIES.pop("e", None)
+        else:
+            _MANIFEST_ENTRIES["e"] = saved
 
 
 def _matched_fixture(status="EXACT", kind="game_unit"):
@@ -9164,6 +9239,15 @@ def cmd_selftest(args):
                 "function of its layout",
            sorted(matched_index([_matched_fixture()])),
            [0x0BADF000, 0x0BADF010])
+    _check(res, "matched: a unit whose members carry real names is placed by "
+                "its recorded `addresses` (tools/fnaddr.py), not by the names",
+           sorted(matched_index([dict(_matched_fixture(),
+                                      functions=["Foo_Init", "Foo_Exit"],
+                                      addresses=["0x0BADF000", "0x0BADF010"])])),
+           [0x0BADF000, 0x0BADF010])
+    _check(res, "manifest: a renamed unit's member addresses come from its "
+                "layout, a func_ name, then the recorded list",
+           _selftest_member_record(), ["0x0BADF000", "0x0BADF010", "0x0BADF020"])
     _check(res, "matched: a MATCH-status entry is not a witness",
            matched_index([_matched_fixture(status="MATCH")]), {})
     _check(res, "matched: an EXACT* entry is one",

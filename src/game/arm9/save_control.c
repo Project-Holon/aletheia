@@ -31,12 +31,10 @@
  *   sub_0200A5F8    0x0200A5F8  thumb
  *   sub_0200A7EC    0x0200A7EC  thumb
  *   ov228_id        0x000000E4  data
- *   sub_02006F20_File  0x020A7054  data
- *   sub_02006F20_Ptr   0x02146168  data
- *   g_0209D938      0x0209D938  data
- *   sub_02006F20_Msg   0x020A7064  data
- *   sub_02007084_Ptr    0x02146168  data
- *   sub_020070A4_File   0x020A7064  data
+ *   _SaveControlFileName  0x020A7054  data
+ *   _pSaveControl  0x02146168  data
+ *   _MainSaveDesc  0x0209D938  data
+ *   _EmptyString  0x020A7064  data
  *   func_020307B0       0x020307B0  arm
  *   func_0203195C       0x0203195C  arm
  *   func_0200A5F8  0x0200A5F8  thumb
@@ -52,23 +50,17 @@
  *   func_020319A4  0x020319A4  arm
  *   func_02031994  0x02031994  arm
  *   func_020319F0    0x020319F0  arm
- *   veneer_020319E4  0x020319E4  arm
+ *   func_020319E4  0x020319E4  arm
  *   func_020334E8  0x020334E8  arm
- *   func_0200725C_Table  0x0209D950  data
+ *   _ExtraSaveDescs  0x0209D950  data
  *   func_020087D4        0x020087D4  thumb
  *   func_02031DC0        0x02031DC0  arm
- *   sub_020072A4_File   0x020A7064  data
- *   func_020072CC_Table  0x0209D950  data
  *   func_02031948        0x02031948  arm
- *   sub_02007324_Table  0x0209D950  data
- *   sub_0200734C_File   0x020A7064  data
- *   g_020A7064     0x020A7064  data
  *   func_020087A8  0x020087A8  thumb
  *   func_02031C10  0x02031C10  arm
  *   func_02031C30  0x02031C30  arm
- *   sub_020073D8_File  0x020A7064  data
  *   func_02033478  0x02033478  arm
- *   sub_0200752C_File  0x020A7068  data
+ *   _BoxEmptyString  0x020A7068  data
  *   sub_020071CC       0x020071CC  thumb
  *   sub_02007AF4       0x02007AF4  thumb
  *   sub_02017E88       0x02017E88  thumb
@@ -76,16 +68,12 @@
  *   func_02045B38      0x02045B38  arm
  *   func_02045C04      0x02045C04  arm
  *   func_02045F5C      0x02045F5C  arm
- *   sub_020075B0_File  0x020A7068  data
  *   sub_020074CC       0x020074CC  thumb
  *   sub_02017550  0x02017550  thumb
- *   sub_020077B8_File  0x020A7068  data
- *   sub_0200785C_File  0x020A7068  data
  *   func_02045924      0x02045924  arm
  *   func_02045A38      0x02045A38  arm
- *   sub_020079BC_File  0x020A7068  data
- *   sub_02007AA4_File  0x020A706C  data
- *   sub_02007B20_File  0x020A707C  data
+ *   _BoxSavedataFileName  0x020A706C  data
+ *   _PerapVoiceFileName  0x020A707C  data
  *   func_02082A7C      0x02082A7C  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   sub_02007B50   0x02007B50  thumb
@@ -96,1181 +84,949 @@
  *   func_02020FE4  0x02020FE4  thumb
  *   func_02021288  0x02021288  thumb
  *   func_0202130C  0x0202130C  thumb
- *   sub_02008254_File  0x020A708C  data
+ *   _MyItemSavedataFileName  0x020A708C  data
  */
-#include "../../matched/include/Obj00370.h"
-#include "../../matched/include/Obj11223.h"
-#include "../../matched/include/Obj08731.h"
-#include "../../matched/include/Obj15568.h"
-#include "../../matched/include/Obj15569.h"
-#include "../../matched/include/Obj16869.h"
+#include "btl_setup_types.h"
 
-struct State;
-struct SaveCtrl;
-struct SaveCtrl;
-struct Big;
-struct Job;
-struct Obj02031DC0;
-struct Obj;
-struct MsgBank;
-struct Rec;
-struct SaveCtrl;
-struct MsgData;
-struct Su0Entry;
-struct Sub02007454Header;
-struct Sav;
-struct Strbuf;
-struct U16Vec;
+/*
+ * save_control.c: the SaveControl object (the game's save manager) and,
+ * after it in the same byte range, three block files that the image keeps
+ * adjacent: box_savedata.c (PC boxes), perapvoice.c (Chatot recording) and
+ * myitem_savedata.c (the bag).  The cuts are listed in the lane's cuts.tsv.
+ */
+
 typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-struct SaveCtrl
-{
-  u8 unk00;
-  u8 unk01;
-  u8 unk02;
-  u8 unk03;
-  u8 unk04;
-  u8 unk05;
-  u8 pad06[6];
-  u32 unk0C;
-  void *unk10;
-  void *unk14[9];
-};
-
 typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
 
-typedef enum { SLOT_0, SLOT_1, SLOT_2, SLOT_3, SLOT_4, SLOT_5, SLOT_6, SLOT_7, SLOT_8, SLOT_MAX } Slot;
+#define NULL ((void *)0)
 
+struct BackupSaveData;   /* backup_system.c: one flash save area (main or extra) */
+struct SaveOutside;      /* ov228 save_outside.c: the small save outside the main area */
+struct MsgData;
+struct Strbuf;
+struct PokeParty;
+struct Pokemon;
+struct MusicalSave;
 
+/*
+ * Result of BACKUP_SYSTEM_Load (func_02031AE0 / func_02031DC0).
+ * 1 and 2 leave data in the work area; 2 means a copy had to be recovered.
+ */
+#define SAVE_LOAD_NO_DATA 0
+#define SAVE_LOAD_OK 1
+#define SAVE_LOAD_RECOVERED 2
+#define SAVE_LOAD_BROKEN 3
+#define SAVE_LOAD_NO_FLASH 4
 
-typedef enum { BIT_0, BIT_MAX = 9 } Bit;
+/* Bits of SaveControl.loadFlags. */
+#define SAVE_FLAG_RECOVERED 0x1
+#define SAVE_FLAG_BROKEN 0x2
+#define SAVE_FLAG_EXTRA_SHIFT 2 /* bit (slot + 2): extra save slot failed to load */
+#define SAVE_FLAG_OUTSIDE_BROKEN 0x800
 
-struct Sub02007168 {
-    u8  unk00;
-    u8  unk01;
-    u8  unk02;
-    u8  unk03;
-    u8  unk04;
-    u8  unk05;
-    u8  unk06;
-    u8  unk07;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-};
+/* Extra saves: nine separate flash save areas linked to the main save by a counter. */
+typedef enum {
+    EXTRA_SAVE_BATTLE_REC_0,
+    EXTRA_SAVE_BATTLE_REC_1,
+    EXTRA_SAVE_BATTLE_REC_2,
+    EXTRA_SAVE_BATTLE_REC_3,
+    EXTRA_SAVE_CGEAR_SKIN,
+    EXTRA_SAVE_TRIAL_HOUSE,
+    EXTRA_SAVE_MUSICAL_DIST,
+    EXTRA_SAVE_DREAM_WORLD,
+    EXTRA_SAVE_FIELD_RECORD,
+    EXTRA_SAVE_MAX
+} ExtraSaveSlot;
 
-
-
-struct Ctrl020071D8 {
-    unsigned char pad[16];
-    void *unk10;
-};
-
-
-
-struct Sub02007248 {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-};
-
-struct Desc {
+/* Descriptor of one save area (table of save blocks); 0x18 bytes each. */
+struct SaveAreaDesc {
     u8 data[0x18];
 };
 
-
-
-
-
-
-
-
-
-
-
-struct Su4Entry {
-    u32 data[0x22];
+/* 0x38 bytes, allocated by SAVE_CONTROL_Create, one global instance. */
+struct SaveControl {
+    u8 isNewGame;           /* 00: 1 until a save was loaded or written */
+    u8 hasFlashSave;        /* 01: 1 when the flash holds a usable save */
+    u8 loadNotClean;        /* 02: 1 unless the main save loaded without recovery */
+    u8 wasActiveBeforeSave; /* 03: SystemData.active as it was before StartSave */
+    u8 outsideSaveLoaded;   /* 04: the outside save was read */
+    u8 outsideSaveBroken;   /* 05: both outside copies are damaged */
+    u8 pad06[6];
+    u32 loadFlags;                                  /* 0C: SAVE_FLAG_* */
+    struct BackupSaveData *mainSave;                /* 10 */
+    struct BackupSaveData *extraSaves[EXTRA_SAVE_MAX]; /* 14: open extra saves, 0 when closed */
 };
 
-struct Su4Name {
-    u8 data[0x28];
+/* PC boxes. */
+#define MAX_BOXES 0x18
+#define BOX_CAPACITY 30
+#define BOX_CURRENT (-1) /* box argument meaning the current box */
+#define BOX_EXPAND_STEP 8
+
+/* One stored Pokemon, 0x88 bytes (4-aligned so that a copy is an ldm/stm loop). */
+struct BoxPokemon {
+    u32 personality;
+    u16 flags;
+    u16 checksum;
+    u8 blocks[0x80];
 };
 
-struct Sub02007454Header {
-    u32 unk00;
-    struct Su4Name unk04[0x18];
-    u8  unk3C4[0x18];
-    u8  unk3DC;
-    u8  unk3DD;
+struct BoxName {
+    u16 chars[0x14];
 };
 
-
-
-struct Su0Header {
-    u32 unk00;
-    u8  pad04[0x3C4 - 4];
-    u8  unk3C4[0x18];
-    u8  unk3DC;
-    u8  unk3DD;
+/* Box block header (block id 0), 0x3DE bytes; the 30 Pokemon of each box are blocks 1..24. */
+struct BoxSaveHeader {
+    u32 currentBox;
+    struct BoxName names[MAX_BOXES];
+    u8 wallpaper[MAX_BOXES];
+    u8 flags;
+    u8 usableBoxCount; /* 8, 16 or 24 */
 };
 
-
-
-struct Su0Entry {
-    u8 data[0x88];
-};
-
-
-
-
-
-
-
-
-
-
-
-struct Sub0200785CHeader {
-    u32 unk00;
-    struct Su4Name unk04[0x18];
-    u8  unk3C4[0x18];
-    u8  unk3DC;
-    u8  unk3DD;
-};
-
-
-
-struct Sub020079BCHeader {
-    u32 unk00;
-    struct Su4Name unk04[0x18];
-    u8  unk3C4[0x18];
-    u8  unk3DC;
-    u8  unk3DD;
-};
-
-
-
-typedef signed char   s8;
-
+/* Chatot recording block, 0x3EC bytes. */
 struct PerapVoice {
-    u32 unk00;
-    u8  data[1000];
+    u32 isRecorded;
+    u8 samples[1000]; /* two signed 4 bit samples per byte */
 };
 
-struct Item {
-    u16 id;
-    u16 qty;
+#define PERAP_PACKED_BYTES 1000
+#define PERAP_UNPACKED_BYTES (PERAP_PACKED_BYTES * 8)
+#define PERAP_UNPACKED_SIZE 0x1FF4
+
+/* Bag. */
+struct BagSlot {
+    u16 itemId;
+    u16 quantity;
 };
 
-typedef signed short   s16;
+#define BAG_POCKET_ITEMS 0
+#define BAG_POCKET_MEDICINE 1
+#define BAG_POCKET_TMHM 2
+#define BAG_POCKET_BERRIES 3
+#define BAG_POCKET_KEY_ITEMS 4
 
-struct MyItemSave {
-    s16 unk00[5];
-    s16 unk0A[5];
-    u16 unk14;
-    u16 unk16;
-    s16 unk18[4];
-    s16 unk20[4];
-    u16 unk28;
-    u16 unk2A;
+#define BAG_ITEMS_COUNT 0x136
+#define BAG_KEY_ITEMS_COUNT 0x53
+#define BAG_TMHM_COUNT 0x6D
+#define BAG_MEDICINE_COUNT 0x30
+#define BAG_BERRIES_COUNT 0x40
+
+#define BAG_STACK_MAX 999
+
+/* Box Pokemon parameter ids. */
+#define MON_DATA_SPECIES 5
+#define MON_DATA_IS_EGG 0x4C
+#define MON_DATA_EXISTS 0xA9 /* nonzero when the slot holds a Pokemon */
+#define SPECIES_CHATOT 0x1B9
+
+/* Remembered bag cursor, 0x2C bytes. */
+struct BagCursor {
+    s16 fieldPocketPosition[5]; /* 00 */
+    s16 fieldPocketScroll[5];   /* 0A */
+    u16 lastFieldPocket;      /* 14 */
+    u16 pad16;                /* 16: not accessed */
+    s16 battlePocketPosition[4]; /* 18 */
+    s16 battlePocketScroll[4];   /* 20 */
+    u16 lastBattleItem;       /* 28 */
+    u16 lastBattleItemPocket; /* 2A */
 };
 
-extern int func_02034AC4(int id);
-extern void func_02034A5C(int id);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_0203192C(void *a, void *b);
-extern int func_02031AE0(struct State *o, u32 a1);
-extern void *func_020319C0(void *p);
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_021DFC20(u32 heap);
-extern u8 func_021DFE90(u8 *p);
-extern int func_021DFE98(u8 *p);
-extern void func_021DFDB8(void *p);
-extern u8 sub_02008754(void *sys);
-extern int sub_02008784(void *sys, u32 index);
-extern u32 sub_0200725C(struct SaveCtrl *ctrl, u32 id, u8 heap);
-extern void sub_020072A4(struct SaveCtrl *ctrl, u32 id);
-extern void *sub_0200A5F8(void *sys);
-extern void sub_0200A7EC(struct Big *p, u8 value);
-extern u32 func_020307B0(void *p);
-extern void func_0203195C(u8 *p);
-extern void *func_0200A5F8(void *self);
-extern void func_0200A7EC(struct Big *h, u8 v);
-extern int func_02008784(void *sys, u32 index);
-extern u32  func_0200725C(struct SaveCtrl *self, u32 a, u8 heap);
-extern void func_020072A4(struct SaveCtrl *self, u32 a);
-extern void func_020087C0(void *sys, u32 index);
-extern void func_02007428(void);
-extern int func_02031BB4(u32 a0);
-extern u8 func_02008754(void *sys);
-extern int func_02031E68(const char *ptr);
-extern u32 func_020319A4(u8 *p, u32 id);
-extern u32 func_02031994(u8 *p, u32 *out);
-extern int func_020319F0(struct Job *job, u32 heap);
-extern void *veneer_020319E4(void *p);
-extern int func_020334E8(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u32 *func_020087D4(void *sys, u32 index);
-extern int func_02031DC0(struct Obj02031DC0 *a0, u32 a1, u32 a2);
-extern void *func_02031948(void *desc, u32 heap, void *buf, u32 size,
-                           u32 c);
-extern void func_020087A8(void *sys, u32 index);
-extern void  func_02031C10(u8 *a, u8 *b, u32 c);
-extern int func_02031C30(struct Obj *a, struct Obj *b);
-void func_02007400(char *a0, u32 a1, u32 a2);
-extern void func_02033478(int a0, int a1, int a2);
-extern void *sub_020071CC(struct SaveCtrl *ctrl, u32 id);
-extern struct Su0Entry *sub_02007AF4(void **save, u32 box);
-extern u32 sub_02017E88(void *p, u32 id, u32 v);
-extern void sub_020181A0(void *p);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-void sub_02007464(struct Sub02007454Header *h);
-struct Sub02007454Header *sub_020074CC(void **save);
-int sub_0200752C(void **save, u32 box, const struct Su4Entry *src);
-void sub_02007454(struct Sub02007454Header *h);
-extern void sub_02017550(struct Sav *p);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_02045A38(struct U16Vec *src, unsigned short *dest,
-                          u32 n);
+/* The bag block as the pocket arrays lay out in it (0x9C0 bytes). */
+struct MyItem {
+    struct BagSlot items[BAG_ITEMS_COUNT];         /* 000 */
+    struct BagSlot keyItems[BAG_KEY_ITEMS_COUNT];  /* 4D8 */
+    struct BagSlot tmhm[BAG_TMHM_COUNT];           /* 624 */
+    struct BagSlot medicine[BAG_MEDICINE_COUNT];   /* 7D8 */
+    struct BagSlot berries[BAG_BERRIES_COUNT];     /* 898 */
+    u8 reserved[0x28];                             /* 998 */
+};
+
+/* Callees in other files, under their current names. */
+extern int func_02034AC4(int overlayId);
+extern void func_02034A5C(int overlayId);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern u32 func_020307B0(void *memory);
+extern void func_02034714(const char *file, u32 line, const char *message);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
-void sub_02007B08(void *p);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *a, u32 b, u32 c);
-void sub_02007B54(struct PerapVoice *p);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u32 func_02020FE4(void *a, u32 sel, u32 id);
-extern u32 func_02021288(u32 a);
-extern u32 func_0202130C(u32 id);
-struct Item *sub_02007D94(struct Item *arr, u32 n, u16 id, u16 qty, u16 max);
-struct Item *sub_02007DF8(u8 *base, u16 id, u16 qty, u16 d);
-struct Item *sub_02007ECC(struct Item *arr, u32 n, u16 id, u16 qty);
-struct Item *sub_02007EF8(u8 *base, u16 id, u16 qty, u16 d);
-u32 sub_02007F7C(const struct Item *arr, u32 n);
-void sub_02007FD0(struct Item *a, struct Item *b);
-void sub_02007FF4(struct Item *arr, u32 n);
-void sub_02008038(struct Item *arr, u32 n);
-void sub_02008058(struct Item *arr, u32 n);
-void sub_020080A0(struct Item *arr, u32 n);
-void sub_020080FC(struct Item *arr, u32 n);
-struct SaveCtrl *func_02006F20(int heap);
-void sub_02007084(void);
-struct SaveCtrl *sub_020070A4(void);
-int func_020070C8(char *self);
-int func_02007150(int a0);
-int func_020071A8(int a0);
-u32 func_020071C0(char *p);
-void func_02007374(char *a0, u32 a1);
-int func_020073B0(char *a0, u32 a1);
+
+extern struct BackupSaveData *func_0203192C(const struct SaveAreaDesc *desc, u32 heapId);
+extern struct BackupSaveData *func_02031948(const struct SaveAreaDesc *desc, u32 heapId,
+                                            void *work, u32 workSize, u32 initMode);
+extern void func_0203195C(struct BackupSaveData *backup);
+extern void *func_02031994(struct BackupSaveData *backup, u32 *size);
+extern void *func_020319A4(struct BackupSaveData *backup, u32 recordId);
+extern void func_020319C0(struct BackupSaveData *backup);
+extern void *func_020319E4(struct BackupSaveData *backup);
+extern int func_020319F0(struct BackupSaveData *backup, u32 heapId);
+extern int func_02031AE0(struct BackupSaveData *backup, u32 heapId);
+extern int func_02031B8C(struct BackupSaveData *backup);
+extern int func_02031BB4(struct BackupSaveData *backup);
+extern void func_02031C04(struct BackupSaveData *backup);
+extern void func_02031C10(struct BackupSaveData *mainSave, struct BackupSaveData *extraSave, u32 *linkCount);
+extern int func_02031C30(struct BackupSaveData *mainSave, struct BackupSaveData *extraSave);
+extern int func_02031DC0(struct BackupSaveData *backup, u32 heapId, u32 linkCount);
+extern u32 func_02031E68(struct BackupSaveData *backup);
+extern void func_02033478(u32 flashAddr, const void *src, u32 size);
+extern int func_020334E8(struct BackupSaveData *backup, u32 recordId, u32 areaIndex, u32 dest, u32 size);
+
+extern void *func_021DFC20(u32 heapId);
+extern u8 func_021DFE90(struct SaveOutside *outside);
+extern int func_021DFE98(struct SaveOutside *outside);
+extern void func_021DFDB8(struct SaveOutside *outside);
+
+extern u8 sub_02008754(struct SaveControl *save);
+extern void sub_02008764(struct SaveControl *save);
+extern void sub_02008774(struct SaveControl *save);
+extern int sub_02008784(struct SaveControl *save, u32 slot);
+extern void sub_020087A8(struct SaveControl *save, u32 slot);
+extern void sub_020087C0(struct SaveControl *save, u32 slot);
+extern u32 *sub_020087D4(struct SaveControl *save, u32 slot);
+extern struct MusicalSave *func_0200A5F8(struct SaveControl *save);
+extern void func_0200A7EC(struct MusicalSave *musical, u8 hasDistData);
+
+extern u32 sub_02017E88(struct BoxPokemon *mon, u32 field, u32 arg);
+extern void sub_02017550(struct BoxPokemon *mon);
+extern void sub_020181A0(struct BoxPokemon *mon);
+extern u32 func_02017E1C(struct Pokemon *mon, u32 field, u32 arg);
+extern u32 func_0201AA18(struct PokeParty *party);
+extern struct Pokemon *func_0201AB28(struct PokeParty *party, u32 index);
+extern struct MsgData *func_02045B38(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
+extern void func_02045C04(struct MsgData *msg);
+extern void func_02045F5C(struct MsgData *msg, u32 index, u16 *dest, u32 maxLen);
+extern void func_02045924(struct Strbuf *dest, const u16 *src);
+extern void func_02045A38(const struct Strbuf *src, u16 *dest, u32 length);
+extern u32 func_02020FE4(u32 itemId, u32 param, u32 heapId);
+extern u32 func_02021288(u32 itemId);
+extern u32 func_0202130C(u32 itemId);
+
+/* Data: symbols at fixed addresses (see the symbols block above). */
+extern u8 ov228_id[]; /* absolute symbol: overlay id 228, see the note at the constructor */
+extern struct SaveControl *_pSaveControl;
+extern struct SaveAreaDesc _MainSaveDesc;        /* 0x0209D938 */
+extern struct SaveAreaDesc _ExtraSaveDescs[];    /* 0x0209D950, follows _MainSaveDesc */
+extern const char _SaveControlFileName[];        /* "save_control.c" */
+extern const char _EmptyString[];                /* assert text of the first file, empty */
+extern const char _BoxEmptyString[];             /* assert text of box_savedata.c, empty */
+extern const char _BoxSavedataFileName[];
+extern const char _PerapVoiceFileName[];
+extern const char _MyItemSavedataFileName[];
+
+/* Own functions that are used before their definition. */
 void sub_02007428(void);
-void sub_02007454(struct Sub02007454Header *h);
-void sub_02007664(void *save, u32 box, u32 slot);
-u32 sub_02007698(void *save);
-u8 sub_020076A4(void *save);
-u8 sub_020076B4(void *save);
-int sub_020076D0(void *save, int *pbox, int *pslot);
-int sub_02007774(void *save);
-int sub_020077B8(void *save, u32 box);
-void sub_0200780C(void *save, u32 box);
-u8 sub_0200781C(void *save, u32 box);
-void sub_02007838(void *save, u32 box, u8 v);
-void sub_0200785C(void *save, u32 box, void *dest);
-void sub_02007898(void *save, u32 box, const void *src);
-int sub_020078C4(void *save, u32 box);
-int sub_0200791C(void *save, u32 box);
-int sub_02007984(void *save);
-int sub_020079A0(void *save);
-int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg);
-struct Su0Entry *sub_02007A18(void **save, u32 box, u32 slot);
-void sub_02007A68(void *save, u32 bits);
-int sub_02007A80(void *save, u32 bits);
-u32 sub_02007A9C(void);
-u32 *sub_02007AA4(u32 heap, u32 value);
-void sub_02007AC8(void *p);
-u32 sub_02007CB0(void);
-void sub_02007CB8(void *p);
-void sub_02007CC8(u8 *base, void *buf, u32 id, int save);
-u32 sub_02007D00(u8 *base, u32 id, void **pp, u32 *pn);
-u32 sub_02007D6C(u8 *base, u32 a, void **pp, u32 *pn, u16 d);
-void *sub_02008254(u32 heap);
-extern u8 ov228_id[];
-extern const char sub_02006F20_File[];
-extern const char sub_02006F20_Msg[];
-extern struct SaveCtrl *sub_02006F20_Ptr;
-extern u8 g_0209D938[];
-extern struct SaveCtrl *sub_02007084_Ptr;
-extern const char sub_020070A4_File[];
-extern struct Desc func_0200725C_Table[];
-extern const char sub_020072A4_File[];
-extern struct Desc func_020072CC_Table[];
-extern struct Desc sub_02007324_Table[];
-extern const char sub_0200734C_File[];
-extern char  g_020A7064[];
-extern const char sub_020073D8_File[];
-extern const char sub_0200752C_File[];
-extern const char sub_020075B0_File[];
-extern const char sub_020077B8_File[];
-extern const char sub_0200785C_File[];
-extern const char sub_020079BC_File[];
-extern const char sub_02007AA4_File[];
-extern const char sub_02007B20_File[];
-extern const char sub_02008254_File[];
+void sub_02007464(struct BoxSaveHeader *header);
+struct BoxSaveHeader *sub_020074CC(struct GameData *gameData);
+int sub_0200752C(struct GameData *gameData, u32 box, const struct BoxPokemon *mon);
+void sub_02007454(struct BoxSaveHeader *header);
+struct BoxPokemon *sub_02007AF4(struct GameData *gameData, u32 box);
+void sub_02007B08(struct PerapVoice *voice);
+void sub_02007B54(struct PerapVoice *voice);
+u32 sub_02007B50(struct PerapVoice *voice);
+int sub_020078C4(struct GameData *gameData, u32 box);
+int sub_0200791C(struct GameData *gameData, u32 box);
+u32 sub_02007D00(struct MyItem *bag, u32 pocket, struct BagSlot **slots, u32 *count);
+u32 sub_02007D6C(struct MyItem *bag, u32 itemId, struct BagSlot **slots, u32 *count, u16 heapId);
+struct BagSlot *sub_02007D94(struct BagSlot *slots, u32 count, u16 itemId, u16 quantity, u16 maxQuantity);
+struct BagSlot *sub_02007DF8(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
+struct BagSlot *sub_02007ECC(struct BagSlot *slots, u32 count, u16 itemId, u16 quantity);
+struct BagSlot *sub_02007EF8(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
+u32 sub_02007F7C(const struct BagSlot *slots, u32 count);
+void sub_02007FD0(struct BagSlot *a, struct BagSlot *b);
+void sub_02007FF4(struct BagSlot *slots, u32 count);
+void sub_02008038(struct BagSlot *slots, u32 count);
+void sub_02008058(struct BagSlot *slots, u32 count);
+void sub_020080A0(struct BagSlot *slots, u32 count);
+void sub_020080FC(struct BagSlot *slots, u32 count);
 
 
+u32 func_0200725C(struct SaveControl *saveControl, u32 slot, u8 heapId);
+void sub_020072A4(struct SaveControl *saveControl, u32 slot);
 
 /*
  * The constructor of "save_control.c" (the file name string at 0x020A7054 is
- * the one this passes to the debug allocator at 0x02030734, line 0x58).  It
- * loads the overlay that owns the save code, reads three mode bytes out of
+ * the one this passes to the debug allocator, line 0x58).  It loads the
+ * overlay that holds the outside save reader (ov228), reads two bytes out of
  * it, allocates the 0x38 byte control block into the global at 0x02146168,
- * and then walks the nine save streams at +0x14 deciding which to open.
+ * loads the main save and then opens the nine extra saves that the system
+ * data marks as present.
  *
- * 0x000000E4 is the overlay id, an absolute linker symbol and not the plain
- * integer 228: written as a literal it compiles `movs r0, #0xe4` with no
- * pool word, where the original has `ldr r0, [pc, #0x148]` over a pool word
- * 0x000000E4.  See
+ * ov228_id is an absolute linker symbol, not the integer 228: written as a
+ * literal it compiles `movs r0, #0xe4` with no pool word, where the original
+ * has `ldr r0, [pc, #0x148]` over a pool word 0x000000E4.  See
  * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  *
  * Both dispatches are dense PC-relative halfword tables over five cases, so
  * every low case label exists in the source even where the arm is empty;
  * see docs/idioms/empty-switch-arms-are-what-make-the-table.md.
  *
- * WAVE 16 (docs/notes/func_02006F20.c.txt had it at 118 out and
- * MATCH-capped).  The cap went with the ov228 leaves matched this wave
- * (src/matched/func_021DFDB8.c, func_021DFE90.c, func_021DFE98.c; plus the
- * labelled func_021DFC20), carried by the ov228 hints above; func_021DFE90
- * takes the overlay work pointer (its body reads r0).  The bytes closed in
- * three steps: a fresh body with the switch value `r` tested as
- * (u32)(r - 1) <= 1 before sub_02008754 (167 out, size exact); an ENUM loop
- * counter over the nine slots, which keeps the image's unfolded `cmp r4, #9`
- * guard (10 out); and the loop written in its own shape, `i = 0; if (i <
- * MAX) { flags = &c->unk0C; do { ... i++; } while (i < MAX); }`, which puts
- * the flags pointer after the guard where the image computes it.  A `for`
- * with flags assigned inside the body instead keeps a second top test.
+ * The bytes closed in three steps: the switch value tested as
+ * (u32)(r - 1) <= 1 before sub_02008754; an enum loop counter over the nine
+ * slots, which keeps the image's unfolded `cmp r4, #9` guard; and the loop
+ * written as `i = 0; if (i < MAX) { flags = &...; do { ... i++; } while ... }`,
+ * which puts the flags pointer after the guard where the image computes it.
+ * A `for` with the pointer assigned inside the body keeps a second top test.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02006F20.c \
  *       --func func_02006F20 --addr 0x02006F20 --cc 1.1p1 --thumb
  */
-struct SaveCtrl *func_02006F20(int heap)
+struct SaveControl *func_02006F20(int heapId)
 {
-    struct SaveCtrl *c;
-    void *ov;
-    u8 mode;
-    int sub;
-    int r;
-    int s;
-    Slot i;
-    u32 *flags;
+    struct SaveControl *saveControl;
+    struct SaveOutside *outsideSave;
+    u8 outsideLoaded;
+    int outsideBroken;
+    int loadResult;
+    int extraResult;
+    ExtraSaveSlot slot;
+    u32 *loadFlags;
 
     func_02034AC4((int)ov228_id);
-    ov = func_021DFC20(heap);
-    mode = func_021DFE90(ov);
-    sub = func_021DFE98(ov);
-    func_021DFDB8(ov);
+    outsideSave = func_021DFC20(heapId);
+    outsideLoaded = func_021DFE90(outsideSave);
+    outsideBroken = func_021DFE98(outsideSave);
+    func_021DFDB8(outsideSave);
     func_02034A5C((int)ov228_id);
-    c = (struct SaveCtrl *)func_02030734(heap, 0x38, 1, sub_02006F20_File, 0x58);
-    sub_02006F20_Ptr = c;
-    c->unk00 = 1;
-    c->unk02 = 1;
-    c->unk01 = 0;
-    c->unk04 = mode;
-    c->unk05 = sub;
-    c->unk10 = (void *)func_0203192C(g_0209D938, (void *)heap);
-    r = func_02031AE0(c->unk10, 1);
-    if ((u32)(r - 1) <= 1 && sub_02008754(c) == 1)
-        r = 0;
-    c->unk0C = 0;
-    if (sub == 1)
-        c->unk0C |= 0x800;
-    switch (r) {
-    case 1:
-        c->unk02 = 0;
-    case 2:
-        c->unk00 = 0;
-        c->unk01 = 1;
-        if (r == 2)
-            c->unk0C |= 1;
-        i = 0;
-        if (i < SLOT_MAX) {
-            flags = &c->unk0C;
+    saveControl = (struct SaveControl *)func_02030734(heapId, 0x38, 1, _SaveControlFileName, 0x58);
+    _pSaveControl = saveControl;
+    saveControl->isNewGame = 1;
+    saveControl->loadNotClean = 1;
+    saveControl->hasFlashSave = 0;
+    saveControl->outsideSaveLoaded = outsideLoaded;
+    saveControl->outsideSaveBroken = outsideBroken;
+    saveControl->mainSave = func_0203192C(&_MainSaveDesc, heapId);
+    loadResult = func_02031AE0(saveControl->mainSave, 1);
+    if ((u32)(loadResult - 1) <= 1 && sub_02008754(saveControl) == 1)
+        loadResult = SAVE_LOAD_NO_DATA;
+    saveControl->loadFlags = 0;
+    if (outsideBroken == 1)
+        saveControl->loadFlags |= SAVE_FLAG_OUTSIDE_BROKEN;
+    switch (loadResult) {
+    case SAVE_LOAD_OK:
+        saveControl->loadNotClean = 0;
+    case SAVE_LOAD_RECOVERED:
+        saveControl->isNewGame = 0;
+        saveControl->hasFlashSave = 1;
+        if (loadResult == SAVE_LOAD_RECOVERED)
+            saveControl->loadFlags |= SAVE_FLAG_RECOVERED;
+        slot = 0;
+        if (slot < EXTRA_SAVE_MAX) {
+            loadFlags = &saveControl->loadFlags;
             do {
-                if (sub_02008784(c, i) == 1) {
-                    s = sub_0200725C((struct SaveCtrl *)c, i, 1);
-                    sub_020072A4((struct SaveCtrl *)c, i);
-                    switch (s) {
-                    case 1:
-                    case 2:
-                        if (i == 6)
-                            sub_0200A7EC(sub_0200A5F8(c), 1);
+                if (sub_02008784(saveControl, slot) == 1) {
+                    extraResult = func_0200725C(saveControl, slot, 1);
+                    sub_020072A4(saveControl, slot);
+                    switch (extraResult) {
+                    case SAVE_LOAD_OK:
+                    case SAVE_LOAD_RECOVERED:
+                        if (slot == EXTRA_SAVE_MUSICAL_DIST)
+                            func_0200A7EC(func_0200A5F8(saveControl), 1);
                         break;
-                    case 0:
-                    case 3:
-                    case 4:
-                        *flags |= 1 << (i + 2);
-                        if (i == 6)
-                            sub_0200A7EC(sub_0200A5F8(c), 0);
+                    case SAVE_LOAD_NO_DATA:
+                    case SAVE_LOAD_BROKEN:
+                    case SAVE_LOAD_NO_FLASH:
+                        *loadFlags |= 1 << (slot + SAVE_FLAG_EXTRA_SHIFT);
+                        if (slot == EXTRA_SAVE_MUSICAL_DIST)
+                            func_0200A7EC(func_0200A5F8(saveControl), 0);
                         break;
                     }
-                } else if (i == 6) {
-                    sub_0200A7EC(sub_0200A5F8(c), 0);
+                } else if (slot == EXTRA_SAVE_MUSICAL_DIST) {
+                    func_0200A7EC(func_0200A5F8(saveControl), 0);
                 }
-                i++;
-            } while (i < SLOT_MAX);
+                slot++;
+            } while (slot < EXTRA_SAVE_MAX);
         }
         break;
-    case 3:
-        c->unk0C |= 2;
-    case 0:
-    case 4:
-        func_020319C0(c->unk10);
+    case SAVE_LOAD_BROKEN:
+        saveControl->loadFlags |= SAVE_FLAG_BROKEN;
+    case SAVE_LOAD_NO_DATA:
+    case SAVE_LOAD_NO_FLASH:
+        func_020319C0(saveControl->mainSave);
         break;
     default:
-        func_02034714(sub_02006F20_Msg, 0, sub_02006F20_Msg);
+        func_02034714(_EmptyString, 0, _EmptyString);
         break;
     }
-    return c;
+    return saveControl;
 }
 
 
-
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * alias: this is "save_control.c".  The constructor of the object these two
- * reach, sub_02006F20 at the head of the same original file, passes
- * 0x020A7054 to the debug allocator, and the bytes at 0x020A7054 spell
- * "save_control.c".  That function is a near miss and is not in this tree;
- * see the header of src/matched/unit_020071E4.c for the census.
- *
- * The teardown and the checked getter for the one global the file keeps: a
- * pointer at 0x02146168 to the 0x38 byte control block.  sub_020070A4 loads
- * that pointer twice out of one pool word, once for the assertion and once
- * for the result, which is what a global read either side of a call looks
- * like.
- *
- * The range stops at 0x020070C8 for an evidence reason.  sub_020070C8, 134
- * bytes, is the per-frame step of the same object and it calls
- * sub_020087C0, whose only branch anywhere in the 3.9 MB image is the `bl`
- * at 0x02007140 inside it: `label` has one witness and it is in the bytes
- * under test, `literal` sees no pool word naming the address at all, and no
- * cut can move the caller out of the range that contains it.  It closes the
- * day anything else in the image calls 0x020087C0.
+ * Teardown of the one global: a pointer at 0x02146168 to the control block.
  *
  * 0x020A7064 is the empty string, not a file name.  "save_control.c" ends
  * with its NUL at 0x020A7062 and the next twelve bytes are NUL up to
  * "box_savedata.c" at 0x020A706C, so the assertion helper at 0x02034714 is
  * being passed an empty message here and at six further sites in the same
- * original file.  The address is carried by the `literal` class: the pool
- * word at 0x02007080, inside sub_02006F20 and so outside this range, holds
- * it too.
+ * original file.  The accessor below loads the global twice out of one pool
+ * word, once for the assertion and once for the result.
  */
 void sub_02007084(void)
 {
-    if (sub_02007084_Ptr != 0) {
-        func_0203195C(sub_02007084_Ptr->unk10);
-        func_020307B0(sub_02007084_Ptr);
-        sub_02007084_Ptr = 0;
+    if (_pSaveControl != 0) {
+        func_0203195C(_pSaveControl->mainSave);
+        func_020307B0(_pSaveControl);
+        _pSaveControl = 0;
     }
 }
 
 
-
-struct SaveCtrl *sub_020070A4(void)
+struct SaveControl *sub_020070A4(void)
 {
-    if (sub_02007084_Ptr == 0) {
-        func_02034714(sub_020070A4_File, 0, sub_020070A4_File);
+    if (_pSaveControl == 0) {
+        func_02034714(_EmptyString, 0, _EmptyString);
     }
-    return sub_02007084_Ptr;
+    return _pSaveControl;
 }
-
 
 
 /*
- * save_control.c.  EXACT* (the 136-byte extent includes the 2-byte pad).
- * Two levers closed the 35-byte near miss of docs/notes/pkt_020070C8.c.txt:
- * the bit loop's counter is an enum, which keeps the `cmp r4, #9; bge`
- * entry guard (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md),
- * and the early exit is `goto end` onto the one `return t`, so the branch
- * lands on the shared `adds r0, r7, #0` instead of straight on the pop.
+ * Reload the main save after the extra saves were touched: when it loads
+ * (result 1 or 2) the control block is marked as holding a flash save, the
+ * musical distribution flag is cleared, extra save slot 6 is checked again,
+ * and every slot whose failure bit is set is unmarked in the system data.
+ * EXACT* (the 136-byte extent includes the 2-byte pad).  Two levers closed
+ * the 35-byte near miss: the bit loop's counter is an enum, which keeps the
+ * `cmp r4, #9; bge` entry guard
+ * (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md), and the
+ * early exit is `goto end` onto the one `return`, so the branch lands on the
+ * shared `adds r0, r7, #0` instead of straight on the pop.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020070C8.c  *       --func func_020070C8 --addr 0x020070C8 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/func_020070C8.c \
+ *       --func func_020070C8 --addr 0x020070C8 --thumb --cc 1.1p1
  */
-int func_020070C8(char *self)
+int func_020070C8(struct SaveControl *saveControl)
 {
-    int t = func_02031AE0(*(struct State * *)&((struct Obj00370 *)self)->f10, 1);
-    void *h;
-    Bit i;
+    int loadResult = func_02031AE0(saveControl->mainSave, 1);
+    struct MusicalSave *musical;
+    ExtraSaveSlot slot;
 
-    if (t != 1 && t != 2) {
+    if (loadResult != SAVE_LOAD_OK && loadResult != SAVE_LOAD_RECOVERED) {
         goto end;
     }
     {
-        ((struct Obj00370 *)self)->f1 = 1;
-        h = func_0200A5F8(self);
-        func_0200A7EC(h, 0);
-        if (func_02008784(self, 6) == 1) {
-            int r = func_0200725C((struct SaveCtrl *)self, 6, 1);
+        saveControl->hasFlashSave = 1;
+        musical = func_0200A5F8(saveControl);
+        func_0200A7EC(musical, 0);
+        if (sub_02008784(saveControl, EXTRA_SAVE_MUSICAL_DIST) == 1) {
+            int extraResult = func_0200725C(saveControl, EXTRA_SAVE_MUSICAL_DIST, 1);
 
-            func_020072A4((struct SaveCtrl *)self, 6);
-            if (r != 1 && r != 2)
+            sub_020072A4(saveControl, EXTRA_SAVE_MUSICAL_DIST);
+            if (extraResult != SAVE_LOAD_OK && extraResult != SAVE_LOAD_RECOVERED)
                 goto bits;
-            func_0200A7EC(h, 1);
+            func_0200A7EC(musical, 1);
         }
 bits:
-        if (*(int *)&((struct Obj00370 *)self)->fC != 0) {
-            for (i = 0; i < 9; i++) {
-                if (*(int *)&((struct Obj00370 *)self)->fC & (1 << (i + 2)))
-                    func_020087C0(self, i);
+        if (saveControl->loadFlags != 0) {
+            for (slot = 0; slot < 9; slot++) {
+                if (saveControl->loadFlags & (1 << (slot + SAVE_FLAG_EXTRA_SHIFT)))
+                    sub_020087C0(saveControl, slot);
             }
         }
     }
 end:
-    return t;
+    return loadResult;
 }
 
 
-int func_02007150(int a0){ int t0, t1, t2; t0 = func_02008754((void *)a0); ((struct Obj11223 *)((char *)((a0 + 0))))->f3 = (unsigned char)t0; t1 = func_02008774((int)((a0 + 0) + 0)); t2 = func_02031B8C((int)((struct Obj11223 *)((char *)((a0 + 0))))->f10); return t2; }
+/*
+ * Start a save: remember the system data "active" flag and clear it, then
+ * start the main save sequence.  The caller passes GameData.saveControl.
+ */
+int func_02007150(struct SaveControl *saveControl)
+{
+    int wasActive;
+
+    wasActive = sub_02008754(saveControl);
+    saveControl->wasActiveBeforeSave = wasActive;
+    sub_02008774(saveControl);
+    return func_02031B8C(saveControl->mainSave);
+}
 
 
 /*
- * Two byte flags at +4 and +5 are one `||` (the first arms the early return,
- * the second skips it), while the pair at the end is a genuine `&&` - so
- * only the first guard shares its exit.  The early arm returns the zero it
- * just stored into both flags, which is why the `movs r0, #0` is not
- * duplicated into a third register.
+ * One step of the save sequence.  The two byte flags at +4 and +5 (outside
+ * save loaded / broken) are one `||` (the first arms the early return, the
+ * second skips it), while the pair at the end is a genuine `&&` - so only the
+ * first guard shares its exit.  The early arm erases the outside save and
+ * returns the zero it just stored into both flags, which is why the
+ * `movs r0, #0` is not duplicated into a third register.  When the main save
+ * finishes (result 2) with the system data inactive, the control block is
+ * marked as holding a flash save.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02007168.c \
  *       --func func_02007168 --addr 0x02007168 --cc 1.1p1 --thumb
  */
-u32 func_02007168(struct Sub02007168 *p)
+u32 func_02007168(struct SaveControl *saveControl)
 {
-    u32 r;
+    u32 saveResult;
 
-    if (p->unk04 == 1 || p->unk05 == 1) {
-        func_02007428();
-        p->unk04 = 0;
-        p->unk05 = 0;
+    if (saveControl->outsideSaveLoaded == 1 || saveControl->outsideSaveBroken == 1) {
+        sub_02007428();
+        saveControl->outsideSaveLoaded = 0;
+        saveControl->outsideSaveBroken = 0;
         return 0;
     }
-    r = func_02031BB4(p->unk10);
-    if (r == 2 && func_02008754(p) == 0) {
-        p->unk00 = 0;
-        p->unk01 = 1;
+    saveResult = func_02031BB4(saveControl->mainSave);
+    if (saveResult == 2 && sub_02008754(saveControl) == 0) {
+        saveControl->isNewGame = 0;
+        saveControl->hasFlashSave = 1;
     }
-    return r;
+    return saveResult;
 }
 
 
-
-int func_020071A8(int a0){ int t0, t1; t0 = func_02031C04((int)((struct Obj08731 *)((char *)((a0 + 0))))->f10); if ((unsigned int)(((struct Obj08731 *)((char *)((a0 + 0))))->f3) == (unsigned int)(1)) { t1 = func_02008764((int)((a0 + 0) + 0)); } else {  return ((struct Obj08731 *)((char *)((a0 + 0))))->f3; } }
-
-
-
-/*
- * Thumb tail-call stub: loads p->field_0x10 and tail-calls func_02031E68.
- * Witness leaf for ov034 func_021F09BC.
- */
-u32 func_020071C0(char *p)
+/* Cancel the running save and restore the system data "active" flag. */
+int func_020071A8(struct SaveControl *saveControl)
 {
-    return func_02031E68(*(void **)(p + 0x10));
+    func_02031C04(saveControl->mainSave);
+    if ((unsigned int)saveControl->wasActiveBeforeSave == (unsigned int)1) {
+        sub_02008764(saveControl);
+    } else {
+        return saveControl->wasActiveBeforeSave;
+    }
 }
 
 
-
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * One function, twelve bytes, and it is the block lookup every save accessor
- * in this region goes through: src/matched/unit_02007454.c, unit_02007664.c,
- * unit_02007774.c, unit_020079BC.c and unit_02007AC8.c all reach their data
- * through it.  It is a tail call, so it has no prologue and no label of its
- * own beyond the one disasm.py's cross-reference pass gave it; see
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.
- *
- * It is a file of its own for an evidence reason rather than a structural
- * one.  The twelve bytes on either side of it, 0x020071C0 and 0x020071D8,
- * are the same shape with the same object and tail-call the ARM addresses
- * 0x02031E68 and 0x02031994.  Neither of those two carries a `func_` label:
- * they open `ldr r0, [r0, #0x144]` and `ldr r2, [r0, #0x30]` with no
- * register-saving prologue, so disasm.py's sweep never fires on them, and
- * the only word in the whole image that names either is the pool word of the
- * caller under test.  `literal` therefore discards its own witness and
- * neither address can be attested, so both functions are left out and this
- * one is cut free between them.  0x020319A4, by contrast, is a labelled ARM
- * function reached by `bl` from 0x02032B10 and 0x02032C5C, which is the
- * `label` class with two witnesses outside any range here.
+ * Thumb tail-call stub: loads the main save pointer and tail-calls
+ * func_02031E68 (written size).  Witness leaf for ov034 func_021F09BC.
  */
-void *sub_020071CC(struct SaveCtrl *ctrl, u32 id)
+u32 func_020071C0(struct SaveControl *saveControl)
 {
-    return (void *)func_020319A4(ctrl->unk10, id);
+    return func_02031E68(saveControl->mainSave);
 }
 
 
 /*
- * Unlabelled Thumb tail-call thunk: func_02031994(ctrl->unk10); sibling of sub_020071CC.
+ * The block lookup every save accessor in this region goes through: a tail
+ * call that returns the record for a block id out of the main save's work
+ * area.  It is a file of its own for an evidence reason: the twelve bytes on
+ * either side (0x020071C0 and 0x020071D8) are the same shape and tail-call
+ * ARM addresses that carry no label, so neither can be attested at any cut.
+ * See docs/idioms/tail-call-is-a-pool-word-and-bx.md.
  */
-void *func_020071D8(struct Ctrl020071D8 *ctrl, int *out)
+void *sub_020071CC(struct SaveControl *saveControl, u32 blockId)
 {
-    return (void *)func_02031994(ctrl->unk10, (u32 *)out);
+    return func_020319A4(saveControl->mainSave, blockId);
+}
+
+
+/* Unlabelled Thumb tail-call thunk: size and address of the main save work area. */
+void *func_020071D8(struct SaveControl *saveControl, u32 *size)
+{
+    return func_02031994(saveControl->mainSave, size);
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- *           sub_02007210, sub_02007214, sub_02007218, sub_0200721C,
- *           sub_02007220, sub_02007230, sub_0200723C
- *
- * Eleven accessors on the save_control block, and eight of the eleven carry
- * no label at all: they are two and three instruction bodies ending in
- * `bx lr` or in a pool word and a `bx`, so the generated listing prints them
- * as a run of `.word`s between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The run was
- * read out of the bytes and the section map that `tu` prints is what checks
- * the boundaries.
+ * Accessors of the control block.  Eight of the eleven carry no label: they
+ * are two and three instruction bodies ending in `bx lr` or a pool word and
+ * a `bx` (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * sub_0200723C tail-calls through 0x020319E4, which is a linker veneer and
  * not a function: the twelve bytes there are `ldr ip, [pc, #0]; bx ip` and a
- * pointer word.  The extern is therefore declared at the veneer's address
- * and marked `arm`, which is also the name disasm.py gives it in the
- * listing; see
- * docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md.
- *
- * The range is cut where it is for evidence rather than for structure.  Two
- * twelve byte functions of exactly the same shape sit just below it, at
- * 0x020071C0 and 0x020071D8, and tail-call 0x02031E68 and 0x02031994; both
- * of those are ARM bodies with no register-saving prologue, so disasm.py
- * never labelled them, and each is named by exactly one word in the image,
- * the pool word of its own caller.  `literal` discards a witness inside the
- * compared range and `label` has no label to read, so neither can be
- * attested at any cut and both functions are left out.  The range stops
- * before 0x02007248 for the same reason: that function's only external
- * reference is the ARM 0x020334E8 and its only `blx` anywhere in the image
- * is the one inside it, so the witness is the call itself.
- *
- * The one near miss above this range is sub_02006F20, the constructor, 336
- * bytes at 0x02006F20.  It calls four addresses in overlay space, 0x021DFC20,
- * 0x021DFE90, 0x021DFE98 and 0x021DFDB8, and none of them is attestable: the
- * cross-region index knows the branches, but `attest_overlay_label` also
- * demands that some overlay's own listing carry a `func_` label at the
- * address, and no overlay labels any of the four.  0x021DFDB8 is the case
- * docs/MATCHING.md already records, inside seven overlays and labelled by
- * none of them.  Nothing about the C is in question and no cut helps, since
- * the targets are outside the region entirely.
+ * pointer word.  The extern is declared at the veneer's address and marked
+ * `arm` (docs/idioms/a-veneer-call-is-an-ordinary-extern-at-the-veneer-address.md).
  */
-u8 sub_020071E4(const struct SaveCtrl *ctrl)
+u8 sub_020071E4(const struct SaveControl *saveControl)
 {
-    return ctrl->unk00;
+    return saveControl->isNewGame;
 }
 
-u32 sub_020071E8(const struct SaveCtrl *ctrl)
+u32 sub_020071E8(const struct SaveControl *saveControl)
 {
-    return ctrl->unk0C;
+    return saveControl->loadFlags;
 }
 
-u8 sub_020071EC(const struct SaveCtrl *ctrl)
+u8 sub_020071EC(const struct SaveControl *saveControl)
 {
-    return ctrl->unk01;
+    return saveControl->hasFlashSave;
 }
 
-int sub_020071F0(struct SaveCtrl *ctrl)
+/* A new game with a flash save present: saving would overwrite that save. */
+int sub_020071F0(struct SaveControl *saveControl)
 {
-    if (sub_020071E4(ctrl) == 1 && sub_020071EC(ctrl) == 1) {
+    if (sub_020071E4(saveControl) == 1 && sub_020071EC(saveControl) == 1) {
         return 1;
     }
     return 0;
 }
 
-u8 sub_02007210(const struct SaveCtrl *ctrl)
+u8 sub_02007210(const struct SaveControl *saveControl)
 {
-    return ctrl->unk04;
+    return saveControl->outsideSaveLoaded;
 }
 
-void sub_02007214(struct SaveCtrl *ctrl, u8 v)
+void sub_02007214(struct SaveControl *saveControl, u8 outsideSaveLoaded)
 {
-    ctrl->unk04 = v;
+    saveControl->outsideSaveLoaded = outsideSaveLoaded;
 }
 
-u8 sub_02007218(const struct SaveCtrl *ctrl)
+u8 sub_02007218(const struct SaveControl *saveControl)
 {
-    return ctrl->unk05;
+    return saveControl->outsideSaveBroken;
 }
 
-void sub_0200721C(struct SaveCtrl *ctrl, u8 v)
+void sub_0200721C(struct SaveControl *saveControl, u8 outsideSaveBroken)
 {
-    ctrl->unk05 = v;
+    saveControl->outsideSaveBroken = outsideSaveBroken;
 }
 
-void *sub_02007220(struct SaveCtrl *ctrl)
+/* Reset to a new game: mark it and clear the main save work area to defaults. */
+void sub_02007220(struct SaveControl *saveControl)
 {
-    ctrl->unk00 = 1;
-    ctrl->unk02 = 1;
-    return func_020319C0(ctrl->unk10);
+    saveControl->isNewGame = 1;
+    saveControl->loadNotClean = 1;
+    func_020319C0(saveControl->mainSave);
 }
 
-void *sub_02007230(struct SaveCtrl *ctrl)
+void *sub_02007230(struct SaveControl *saveControl)
 {
-    return (void *)func_020319F0(ctrl->unk10, 1);
+    return (void *)func_020319F0(saveControl->mainSave, 1);
 }
 
-void *sub_0200723C(struct SaveCtrl *ctrl)
+void *sub_0200723C(struct SaveControl *saveControl)
 {
-    return veneer_020319E4(ctrl->unk10);
+    return func_020319E4(saveControl->mainSave);
 }
 
 
 /*
- * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
- *           every relocation site resolves and match.py one reports EXACT*.
- *
  * A five-argument forwarder: the fifth parameter is copied out of the
  * caller's frame into this function's own outgoing slot, so the small
  * `push {r3, lr}` + `sub sp, #4` pair is the callee's stack argument home
  * area, not saved state (see
  * docs/idioms/a-defaulting-wrapper-spends-one-zero-on-r3-and-the-stack-word.md
- * for the sibling shape).
+ * for the sibling shape).  Reads one record of the main save from flash.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02007248.c \
  *       --func func_02007248 --addr 0x02007248 --cc 1.1p1 --thumb
  */
-int func_02007248(struct Sub02007248 *p, u32 a1, u32 a2, u32 a3, u32 a4)
+int func_02007248(struct SaveControl *saveControl, u32 recordId, u32 areaIndex, u32 dest, u32 size)
 {
-    return func_020334E8((u8 *)p->unk10, a1, a2, a3, a4);
+    return func_020334E8(saveControl->mainSave, recordId, areaIndex, dest, size);
 }
 
 
-
 /*
- * One of nine save-stream slots the save_control block tracks at +0x14.
- * The slot is opened through the backup-system stream constructor, the open
- * is checked by func_02008784, and on success the record is committed by
- * func_02031DC0.
+ * Open extra save `slot` (one of nine save areas the control block tracks at
+ * +0x14) and load it.  The area is created from the descriptor table, the
+ * system data says whether the slot is marked present (sub_02008784), and on
+ * success the area is loaded with the link counter that the system data keeps
+ * for the slot (func_02031DC0), which only accepts the area when its footer
+ * counter equals that value.
  *
- * Two findings closed this function and its sibling (the other of the pair
- * is noted in each file):
+ * Two findings closed this function and its sibling func_020072CC:
  *
- * 1. func_02031DC0's second and third arguments are (heap, buf), NOT
- *    (buf, heap).  The image names the order directly: heap is loaded into
- *    r1 from its stack home and the func_020087D4 result is dereferenced
- *    into r2.  Every statement reordering, temporary and pointer/type
- *    variation leaves a flat 5-byte residue at exactly those two loads --
- *    tools/permuter.py could not move it at all in 74 (0x0200725C) and 90
- *    (0x020072CC) mutations -- because the residue is in the DECLARATION,
- *    not the body.  Compare src/matched/func_02031DC0.c, whose own
- *    parameters are (Obj *, u32 a1, u32 a2) with a1 passed straight to
- *    func_02031FE0/func_02032688; this file fixes which of the two is heap.
+ * 1. func_02031DC0's second and third arguments are (heapId, linkCount), not
+ *    (linkCount, heapId).  The image names the order directly: heapId is
+ *    loaded into r1 from its stack home and the sub_020087D4 result is
+ *    dereferenced into r2.  Every statement reordering, temporary and pointer
+ *    type variation leaves a flat 5-byte residue at exactly those two loads,
+ *    because the residue is in the DECLARATION, not the body.
  *
  * 2. The heap parameter is u8, not u32.  With u32 the constant set-up sinks
- *    past the incoming spill (`str r2, [sp]` moves four halfwords later),
- *    which is the residue docs/notes recorded for both functions and which
- *    src/matched/unit_020072A4.c's header describes as unexplained.  It is
- *    a heap id, a small byte value, and narrowing the PARAMETER is what
- *    closes it: a u32 parameter with a u8 local copy, or a u8 in the callee
- *    prototype alone, both stay DIFF.  The matched callers
- *    (src/matched/unit_0200B4E0.c, unit_0200B5CC.c) spell the argument u32;
- *    that is a caller-side widening and does not contradict this, but the
- *    conflict is recorded here rather than silently resolved.
+ *    past the incoming spill (`str r2, [sp]` moves four halfwords later).
+ *    Narrowing the PARAMETER is what closes it: a u32 parameter with a u8
+ *    local copy, or a u8 in the callee prototype alone, both stay DIFF.  The
+ *    matched callers spell the argument u32; that is a caller-side widening
+ *    and does not contradict this.
  */
-u32 func_0200725C(struct SaveCtrl *ctrl, u32 id, u8 heap)
+u32 func_0200725C(struct SaveControl *saveControl, u32 slot, u8 heapId)
 {
-    ctrl->unk14[id] = (void *)func_0203192C(&func_0200725C_Table[id], (void *)heap);
-    if (func_02008784(ctrl, id) == 0) {
+    saveControl->extraSaves[slot] = func_0203192C(&_ExtraSaveDescs[slot], heapId);
+    if (sub_02008784(saveControl, slot) == 0) {
         return 0;
     }
-    func_02031DC0(ctrl->unk14[id], heap, *func_020087D4(ctrl, id));
+    func_02031DC0(saveControl->extraSaves[slot], heapId, *sub_020087D4(saveControl, slot));
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
+ * Delete extra save `slot`: the slot is asserted open and then cleared.  The
+ * assertion message is the empty string at 0x020A7064, the same one six other
+ * functions of this original file pass.  sub_0200734C is the same function
+ * again on the same slot array with its own pool word, which is what says
+ * these are two entry points and not one.
  *
- * The close of one of the nine save streams the save_control block tracks at
- * +0x14.  The slot is asserted non-null and then cleared, and the assertion
- * message is the empty string at 0x020A7064, the same one six other
- * functions of this original file pass.  sub_0200734C in
- * src/matched/unit_02007324.c is the same function again on the same slot
- * array with its own pool word, which is what says these are two entry
- * points and not one.
- *
- * Two near misses bracket this range and neither is an evidence problem.
- *
- * 0x0200725C, 72 bytes, and 0x020072CC, 88 bytes, are the matching opens.
- * Both reproduce every instruction, every register and the whole of their
- * control flow, and both are wrong only in where the incoming third argument
- * is spilled.  The original stores it to its stack home as the first thing
- * the body does and then loads it back at each use (`str r2, [sp]` then
- * `ldr r1, [sp]` in 0x0200725C, `str r2, [sp, #4]` then two `ldr r1,
- * [sp, #4]` in 0x020072CC); this compiler keeps the value in r2 for the
- * first use and sinks the store past the constant set-up, which is 10 bytes
- * in the first function and 7 in the second, all of them in the four
- * halfwords around the spill.  Thirty source shapes were tried against each,
- * crossing the parameter types, pointer temporaries for the slot and the
- * descriptor, statement splitting, the prototype arity of func_0203192C and
- * func_02031948, a struct-by-value parameter and an address-taken one; every
- * one of them lands on the same two counts except the shapes that change the
- * function outright.  A `volatile` local closes 0x0200725C and makes
- * 0x020072CC worse, so it is a coincidence and not the answer, and it is not
- * a claim the bytes support.  All nine front ends at -O4,p agree with each
- * other here, so it is not a version question either.
+ * Near misses bracket this range (func_0200725C and func_020072CC): both
+ * reproduce every instruction, register and branch and differ only in where
+ * the incoming third argument is spilled.  Thirty source shapes were tried
+ * against each; they all land on the same two counts, so it is not a source
+ * form question.
  */
-void sub_020072A4(struct SaveCtrl *ctrl, u32 id)
+void sub_020072A4(struct SaveControl *saveControl, u32 slot)
 {
-    if (ctrl->unk14[id] == 0) {
-        func_02034714(sub_020072A4_File, 0, sub_020072A4_File);
+    if (saveControl->extraSaves[slot] == 0) {
+        func_02034714(_EmptyString, 0, _EmptyString);
     }
-    func_0203195C(ctrl->unk14[id]);
-    ctrl->unk14[id] = 0;
+    func_0203195C(saveControl->extraSaves[slot]);
+    saveControl->extraSaves[slot] = 0;
 }
 
 
-u32 func_020072CC(struct SaveCtrl *ctrl, u32 id, u8 heap, void *buf, u32 size)
+/* Like func_0200725C, but the area works in the caller's buffer (initMode 1) and is loaded. */
+u32 func_020072CC(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize)
 {
-    ctrl->unk14[id] = func_02031948(&func_020072CC_Table[id], heap, buf, size, 1);
-    if (func_02008784(ctrl, id) == 0) {
+    saveControl->extraSaves[slot] = func_02031948(&_ExtraSaveDescs[slot], heapId, work, workSize, 1);
+    if (sub_02008784(saveControl, slot) == 0) {
         return 0;
     }
-    return (u32)func_02031DC0(ctrl->unk14[id], heap, *func_020087D4(ctrl, id));
+    return (u32)func_02031DC0(saveControl->extraSaves[slot], heapId, *sub_020087D4(saveControl, slot));
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The open-for-write that does not register the stream afterwards, and a
- * second copy of the close.  sub_02007324 passes zero where sub_020072CC
- * passes one as the fifth argument of func_02031948, and stores the result
- * with a plain `str r0, [r1, #0x14]` rather than through the `+0x14` base
- * register the other accessors build, because the slot is written once and
- * never read back in this function.
- *
- * 0x0209D950 is the table of 0x18 byte stream descriptors, indexed by the
- * stream id and passed by address.  Three pool words in this original file
- * name it, at 0x020072A0, 0x02007320 and 0x02007348, and the first two are
- * outside this range, which is what carries it under the `literal` class.
- * func_02031948 is likewise reached from exactly two places in the image,
- * 0x020072EE and 0x0200733C, so the cut at 0x02007324 is what leaves the one
- * inside this range a witness.
+ * Open extra save `slot` for writing in the caller's buffer (initMode 0),
+ * without loading it, and a second copy of the delete.  The slot is written
+ * once and never read back in sub_02007324, so the store is a plain
+ * `str r0, [r1, #0x14]` rather than going through a +0x14 base register.
+ * 0x0209D950 is the table of 0x18 byte area descriptors, indexed by slot.
  */
-void sub_02007324(struct SaveCtrl *ctrl, u32 id, u32 heap, u32 a,
-                  u32 b)
+void sub_02007324(struct SaveControl *saveControl, u32 slot, u32 heapId, u32 work, u32 workSize)
 {
-    ctrl->unk14[id] = func_02031948(&sub_02007324_Table[id], heap, (void *)a, b, 0);
+    saveControl->extraSaves[slot] = func_02031948(&_ExtraSaveDescs[slot], heapId, (void *)work, workSize, 0);
 }
 
-void sub_0200734C(struct SaveCtrl *ctrl, u32 id)
+void sub_0200734C(struct SaveControl *saveControl, u32 slot)
 {
-    if (ctrl->unk14[id] == 0) {
-        func_02034714(sub_0200734C_File, 0, sub_0200734C_File);
+    if (saveControl->extraSaves[slot] == 0) {
+        func_02034714(_EmptyString, 0, _EmptyString);
     }
-    func_0203195C(ctrl->unk14[id]);
-    ctrl->unk14[id] = 0;
+    func_0203195C(saveControl->extraSaves[slot]);
+    saveControl->extraSaves[slot] = 0;
 }
-
 
 
 /*
- * Release slot `a1` of the 0x14-stride handle table: the zero test on the
- * slot is a debug/guard call that passes the same pointer as argument 1 and
- * argument 3 (the compiler loads the pool word once and copies it twice, so
- * the source really did name it twice).  The object pointer at +0x10 is the
- * first argument of the final call and the table entry the second; the third
- * is the raw pointer func_020087D4 returns, not its target.
+ * Begin writing extra save `slot`: mark the slot present in the system data
+ * (the zero test on the slot is an assertion that passes the same pointer as
+ * argument 1 and argument 3, so the source named it twice), then initialise
+ * the linked save with the main save, the slot's area and the slot's link
+ * counter word.  The third argument is the pointer sub_020087D4 returns.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02007374.c \
  *       --func func_02007374 --addr 0x02007374 --cc 1.1p1 --thumb
  */
-void func_02007374(char *a0, u32 a1)
+void func_02007374(struct SaveControl *saveControl, u32 slot)
 {
-    u32 *slot = (u32 *)(a0 + 0x14);
+    struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
-    if (slot[a1] == 0) {
-        func_02034714(g_020A7064, 0, g_020A7064);
+    if (extraSaves[slot] == 0) {
+        func_02034714(_EmptyString, 0, _EmptyString);
     }
-    func_020087A8(a0, a1);
-    func_02031C10((u8 *)((struct Obj15568 *)a0)->f10, (u8 *)slot[a1], (u32)func_020087D4(a0, a1));
+    sub_020087A8(saveControl, slot);
+    func_02031C10(saveControl->mainSave, extraSaves[slot], sub_020087D4(saveControl, slot));
 }
 
 
-
 /*
- * The shortest member of the 0x14-stride handle-table family: guard, then
- * one call taking the object's +0x10 word and the table entry.  Same
- * double-named guard pointer as func_02007374 and func_02007400.
+ * One step of writing extra save `slot`: assertion, then the linked save step
+ * with the main save and the slot's area.  The shortest member of this
+ * family.  Same double-named assertion pointer as func_02007374 and
+ * func_02007400.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020073B0.c \
  *       --func func_020073B0 --addr 0x020073B0 --cc 1.1p1 --thumb
  */
-int func_020073B0(char *a0, u32 a1)
+int func_020073B0(struct SaveControl *saveControl, u32 slot)
 {
-    u32 *slot = (u32 *)(a0 + 0x14);
+    struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
-    if (slot[a1] == 0) {
-        func_02034714(g_020A7064, 0, g_020A7064);
+    if (extraSaves[slot] == 0) {
+        func_02034714(_EmptyString, 0, _EmptyString);
     }
-    return func_02031C30((struct Obj *)((struct Obj15569 *)a0)->f10, (struct Obj *)slot[a1]);
+    return func_02031C30(saveControl->mainSave, extraSaves[slot]);
 }
 
 
-
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * One checked forwarder on the stream slot array: the slot is asserted
- * non-null with the empty string at 0x020A7064 and then handed to the ARM
- * func_020319A4 with the caller's value.
- *
- * The function immediately after it, sub_02007400 at 0x02007400, is the same
- * twenty instructions against func_020319F0 and is left out.  Its callee is
- * named twice in the whole image: by the `blx` at 0x0200741E inside it, and
- * by the pool word at 0x02007238 in sub_02007230.  A pool word only counts
- * under the `literal` class, which requires the word to sit at an address
- * disasm.py classified as a literal pool, and 0x02007238 is inside an
- * unlabelled tail-call function rather than a pool, so it is not admitted.
- * The `label` class therefore has the one `blx`, which is inside whatever
- * range holds sub_02007400, and no cut can move it out.  The direction that
- * does work is the other one: src/matched/unit_020071E4.c holds the pool
- * word and takes that same `blx` as its outside witness, which is why the
- * accessor run stops at 0x02007248 and this range starts at 0x020073D8.
- *
- * The two functions immediately below this range, 0x02007374 and 0x020073B0,
- * are left out for the plainer version of the same reason.  Each is the only
- * thing in the image that names its callee: 0x02031C10 is reached only from
- * the `blx` at 0x020073A6 inside sub_02007374, and 0x02031C30 only from
- * 0x020073CE inside sub_020073B0.  The witness is in both cases the call
- * itself, so shrinking the range to the one function keeps it inside, and
- * the target is ARM library code that cannot be made `local`.  The same
- * argument leaves out 0x02007248, whose callee 0x020334E8 is named once, by
- * the `blx` at 0x02007252 inside it, and 0x02007150, 0x02007168 and
- * 0x020071A8, whose callees 0x02031B8C, 0x02031BB4 and 0x02031C04 are each
- * named once in the same way.  All six close the day something else in the
- * image calls those addresses.
+ * Record `recordId` of extra save `slot`: the slot is asserted open with the
+ * empty string at 0x020A7064 and then handed to the ARM func_020319A4.
  */
-void *sub_020073D8(struct SaveCtrl *ctrl, u32 id, u32 v)
+void *sub_020073D8(struct SaveControl *saveControl, u32 slot, u32 recordId)
 {
-    if (ctrl->unk14[id] == 0) {
-        func_02034714(sub_020073D8_File, 0, sub_020073D8_File);
+    if (saveControl->extraSaves[slot] == 0) {
+        func_02034714(_EmptyString, 0, _EmptyString);
     }
-    return (void *)func_020319A4(ctrl->unk14[id], v);
+    return func_020319A4(saveControl->extraSaves[slot], recordId);
 }
 
 
 /*
- * Close sibling of func_020073B0 with a value instead of the object word:
- * the table entry is read into r0 *after* the local is moved to r6, so the
- * argument order at the call is (slot, a2), not (a2, slot).
+ * Erase extra save `slot` (asserted open): the same twenty instructions as
+ * func_020073B0 against func_020319F0.  The table entry is read into r0
+ * *after* the local is moved to r6, so the argument order at the call is
+ * (area, heapId), not (heapId, area).
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02007400.c \
  *       --func func_02007400 --addr 0x02007400 --cc 1.1p1 --thumb
  */
-void func_02007400(char *a0, u32 a1, u32 a2)
+void func_02007400(struct SaveControl *saveControl, u32 slot, u32 heapId)
 {
-    u32 *slot = (u32 *)(a0 + 0x14);
+    struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
-    if (slot[a1] == 0) {
-        func_02034714(g_020A7064, 0, g_020A7064);
+    if (extraSaves[slot] == 0) {
+        func_02034714(_EmptyString, 0, _EmptyString);
     }
-    func_020319F0((struct Job *)slot[a1], a2);
+    func_020319F0(extraSaves[slot], heapId);
 }
 
 
-
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * The last function of "save_control.c": two four byte writes of zero, to
- * 0x0007F800 and 0x0007FC00, through the ARM func_02033478.  Those two
- * constants are plain integer pool words with no relocation on them at all,
- * so they are written as the constants they are rather than declared in the
- * `symbols:` block, and the zero is one stack word whose address is passed
- * to both calls.
- *
- * func_02033478 is named three times in the whole image: by the two `blx`
- * sites inside this function and by one `blx` at 0x021DFF42 in ov228.  That
- * overlay branch is the only thing that carries it, because both in-region
- * sites are inside any range that contains this function and the honesty
- * rule discards them; the cross-region index is what makes it a `label`.
- * Without it this function would be in the same position as 0x02007374 and
- * 0x020073B0 and would not be matchable at all.
- *
- * The only caller of this function anywhere is the `bl` at 0x02007178 inside
- * sub_02007168, which is itself left out (its callee 0x02031BB4 is named
- * once, by the `blx` inside it), so nothing here depends on that direction.
+ * The last function of "save_control.c": erase the outside save, two four
+ * byte writes of zero to its two flash copies at 0x0007F800 and 0x0007FC00
+ * through the ARM func_02033478.  Those two constants are plain integer pool
+ * words with no relocation, so they are written as constants, and the zero is
+ * one stack word whose address is passed to both calls.
  */
 void sub_02007428(void)
 {
     u32 zero = 0;
 
-    func_02033478(0x7F800, (int)(&zero), 4);
-    func_02033478(0x7FC00, (int)(&zero), 4);
+    func_02033478(0x7F800, &zero, 4);
+    func_02033478(0x7FC00, &zero, 4);
 }
 
 
-
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
+ * "box_savedata.c" starts here.  It starts at 0x02007454 and not at the
+ * constructor: the pair 0x02007454 and 0x0200745C (the twelve bytes right
+ * after the last function of "save_control.c") is the block file opening
+ * idiom.  0x0200745C returns the header size, 0x3E0, and 0x02007464, the next
+ * function, is the constructor that clears exactly that header.  The function
+ * before them passes the empty string 0x020A7064 as its assertion message;
+ * the first function of this file that names anything names 0x020A7068, the
+ * empty string every assert of "box_savedata.c" passes.  So the seam is
+ * between 0x02007428 and 0x02007454 and the two halves use different
+ * assertion strings across it.
  *
- *           sub_020074D8, sub_0200752C
+ * The box functions take the GameData object: its first word is the
+ * SaveControl pointer (sub_020074CC reads it).
  *
- * alias: this is where "box_savedata.c" starts.  The header of
- * src/matched/unit_020079BC.c records the file name, recovered from the
- * string at 0x020A706C that sub_02007AA4 passes to the debug allocator, and
- * says the file's boundaries are bracketed rather than located.  The front
- * one is located now: 0x02007454 is the first function of it.  What fixes it
- * is the pair 0x02007454 and 0x0200745C, the twelve bytes immediately after
- * the last function of "save_control.c".  0x0200745C returns 0x3E0, which is
- * sizeof of the 0x3DE byte box header rounded up to its four byte alignment,
- * and 0x02007464, the very next function, is the constructor that clears
- * exactly that header.  Every block file in this region opens with that
- * pair; see docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  The
- * function before them, sub_02007428, passes no file name at all, but the
- * one before that passes 0x020A7064, the empty string "save_control.c" uses,
- * and the first function of this file that names anything names 0x020A7068,
- * which is the empty string every assert in unit_020079BC.c, unit_02007774.c
- * and the rest of "box_savedata.c" passes.  So the seam is between 0x02007454
- * and 0x02007428 and the two halves use different assertion strings across
- * it.
+ * Details of the bytes:
  *
- * The struct is the one unit_020079BC.c already declares: a current box index
- * at +0, twenty-four 0x28 byte names at +4, twenty-four bytes at +0x3C4, a
- * flag at +0x3DC and the box count at +0x3DD.  Four details are worth
- * naming, and three of them are worth three bytes each.
- *
- *  - sub_02007464 seeds the twenty-four bytes at +0x3C4 with a counter that
- *    wraps at sixteen, and the reset is `adds r4, r1, #0` off a register
- *    holding zero rather than a `movs`, which is the same "derive the
- *    constant from a register that already has one" the rest of this region
- *    shows.  The counter is not a `u8`: a byte variable would carry a
- *    `lsls #24` / `lsrs #24` pair at the increment and there is none, so it
- *    is an unsigned `int` stored through a `u8` array.  Which of the two
- *    zeroes the copy in r1 is taken from is decided by which is written
- *    first, so the counter has to be cleared in the `for` initialiser
- *    alongside the index (`for (i = 0, c = 0; ...)`); clearing it in the
- *    statement before the loop swaps r3 and r4 throughout.
- *  - sub_0200752C copies a whole 0x88 byte entry with an inline `ldm`/`stm`
- *    loop of seventeen iterations, which is
- *    docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: the entry has
- *    to be declared four-aligned (`u32 data[0x22]`), because a byte-aligned
- *    declaration turns the same assignment into a 0x88 iteration
- *    `ldrb`/`strb` loop.
+ *  - sub_02007464 seeds the 24 wallpaper bytes with a counter that wraps at
+ *    sixteen, and the reset is `adds r4, r1, #0` off a register holding zero
+ *    rather than a `movs`.  The counter is not a `u8`: a byte variable would
+ *    carry a `lsls #24` / `lsrs #24` pair at the increment and there is none,
+ *    so it is an unsigned `int` stored through a `u8` array.  The counter has
+ *    to be cleared in the `for` initialiser alongside the index.
+ *  - sub_0200752C copies a whole 0x88 byte Pokemon with an inline `ldm`/`stm`
+ *    loop of seventeen iterations
+ *    (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md); the struct
+ *    has to be four-aligned, because a byte-aligned declaration turns the
+ *    same assignment into a 0x88 iteration `ldrb`/`strb` loop.
  *  - sub_020074D8 walks the boxes from the current one and stops when it
  *    comes back to it, so the loop is a `do`/`while` with no guard, and the
  *    box count it reads on the way round is still live after the loop: the
- *    `cmp r1, #0x18` that follows compares the last value read inside it,
- *    not a fresh load, and the extra box it then opens is that value.  Its
- *    declaration order is load bearing for the same reason as the counter
- *    above: with the header pointer declared first it lands in r4 and the
- *    box index in r5, and the original has them the other way round.
- *  - the very next statement, the one that bumps the box count by eight,
- *    re-reads the field even though the value is sitting in r1.  Only the
- *    compound form does that; see
+ *    `cmp r1, #0x18` that follows compares the last value read inside it.
+ *    Its declaration order is load bearing for the same reason: with the
+ *    header pointer declared first it lands in r4 and the box index in r5,
+ *    and the original has them the other way round.
+ *  - the statement that bumps the box count by eight re-reads the field even
+ *    though the value is in r1.  Only the compound form does that; see
  *    docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md.
  */
-void sub_02007454(struct Sub02007454Header *h)
+void sub_02007454(struct BoxSaveHeader *header)
 {
-    sub_02007464(h);
+    sub_02007464(header);
 }
 
 u32 sub_0200745C(void)
 {
-    return sizeof(struct Sub02007454Header);
+    return sizeof(struct BoxSaveHeader);
 }
 
 
-
-void sub_02007464(struct Sub02007454Header *h)
+/* Empty the box block: wallpapers 0..15 repeating, default box names from the message archive. */
+void sub_02007464(struct BoxSaveHeader *header)
 {
-    void *msg;
-    u32 i;
-    u32 c;
+    struct MsgData *boxNames;
+    u32 box;
+    u32 wallpaper;
 
-    for (i = 0, c = 0; i < 0x18; i++) {
-        h->unk3C4[i] = c;
-        c++;
-        if (c >= 0x10) {
-            c = 0;
+    for (box = 0, wallpaper = 0; box < MAX_BOXES; box++) {
+        header->wallpaper[box] = wallpaper;
+        wallpaper++;
+        if (wallpaper >= 0x10) {
+            wallpaper = 0;
         }
     }
-    h->unk3DC = 0;
-    msg = func_02045B38(0, 2, 9, 1);
-    if (msg != 0) {
-        for (i = 0; i < 0x18; i++) {
-            func_02045F5C(msg, i + 6, (u16 *)(&h->unk04[i]), 0x14);
+    header->flags = 0;
+    boxNames = func_02045B38(0, 2, 9, 1);
+    if (boxNames != 0) {
+        for (box = 0; box < MAX_BOXES; box++) {
+            func_02045F5C(boxNames, box + 6, header->names[box].chars, 0x14);
         }
-        func_02045C04(msg);
+        func_02045C04(boxNames);
     }
-    h->unk00 = 0;
-    h->unk3DD = 8;
+    header->currentBox = 0;
+    header->usableBoxCount = 8;
 }
 
-struct Sub02007454Header *sub_020074CC(void **save)
+struct BoxSaveHeader *sub_020074CC(struct GameData *gameData)
 {
-    return sub_020071CC(*save, 0);
+    return sub_020071CC(gameData->saveControl, 0);
 }
 
-int sub_020074D8(void **save, const struct Su4Entry *src)
+/* Put a Pokemon in the first free slot, starting at the current box; unlock 8 more boxes when full. */
+int sub_020074D8(struct GameData *gameData, const struct BoxPokemon *mon)
 {
     u32 box;
-    struct Sub02007454Header *h;
-    u8 n;
+    struct BoxSaveHeader *header;
+    u8 usableBoxCount;
 
-    h = sub_020074CC(save);
-    box = h->unk00;
+    header = sub_020074CC(gameData);
+    box = header->currentBox;
 
     do {
-        if (sub_0200752C(save, box, src) != 0) {
+        if (sub_0200752C(gameData, box, mon) != 0) {
             return 1;
         }
         box++;
-        n = h->unk3DD;
-        if (box >= n) {
+        usableBoxCount = header->usableBoxCount;
+        if (box >= usableBoxCount) {
             box = 0;
         }
-    } while (box != h->unk00);
-    if (n != 0x18) {
-        h->unk3DD += 8;
-        sub_0200752C(save, n, src);
+    } while (box != header->currentBox);
+    if (usableBoxCount != MAX_BOXES) {
+        header->usableBoxCount += BOX_EXPAND_STEP;
+        sub_0200752C(gameData, usableBoxCount, mon);
         return 1;
     }
     return 0;
 }
 
-int sub_0200752C(void **save, u32 box, const struct Su4Entry *src)
+/* Put a Pokemon in the first free slot of one box (BOX_CURRENT for the current box). */
+int sub_0200752C(struct GameData *gameData, u32 box, const struct BoxPokemon *mon)
 {
-    struct Sub02007454Header *h = sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
     u32 slot;
 
-    if (box == -1) {
-        box = h->unk00;
-    } else if (box >= h->unk3DD) {
-        func_02034714(sub_0200752C_File, 0, sub_0200752C_File);
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
+    } else if (box >= header->usableBoxCount) {
+        func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     }
-    for (slot = 0; slot < 30; slot++) {
-        struct Su4Entry *base = (struct Su4Entry *)sub_02007AF4(save, box);
+    for (slot = 0; slot < BOX_CAPACITY; slot++) {
+        struct BoxPokemon *boxMons = sub_02007AF4(gameData, box);
 
-        if (sub_02017E88(&base[slot], 5, 0) == 0) {
-            base[slot] = *src;
-            sub_020181A0(&base[slot]);
+        if (sub_02017E88(&boxMons[slot], MON_DATA_SPECIES, 0) == 0) {
+            boxMons[slot] = *mon;
+            sub_020181A0(&boxMons[slot]);
             return 1;
         }
     }
@@ -1279,291 +1035,257 @@ int sub_0200752C(void **save, u32 box, const struct Su4Entry *src)
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/000_02004000.s.
- *
- * Writing one box entry and swapping two of them.  Both reach the entry
- * array through sub_02007AF4 the way every function of this file does, and
- * both copy a whole 0x88 byte entry with the inline eight byte ldm/stm loop
- * of docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md: 0x11
- * iterations of two words.  The entry struct is therefore declared as an
- * array of u32 and not of u8, because a one aligned struct would have given
- * a 0x88 iteration ldrb/strb loop instead.
+ * Writing one box slot and swapping two of them.  Both reach the slot array
+ * through sub_02007AF4 and copy a whole 0x88 byte Pokemon with the inline
+ * eight byte ldm/stm loop (0x11 iterations of two words).
  *
  * sub_020075B0 bounds the box index against the header byte at 0x3DD rather
  * than against the constant 0x18 the rest of the file uses, and that byte is
  * past every Thumb immediate, so it arrives as a pool word and a register
  * offset ldrb.  The failure arm passes 0x020A7068 twice to func_02034714,
  * the same empty string and the same three argument assert shape as
- * sub_020077B8 in unit_02007774.c.
+ * sub_020077B8.
  *
  * sub_02007610 is the three assignment swap through a 0x88 byte stack
  * temporary, and its fifth argument arrives on the stack: `ldr r1, [sp,
  * #0xa0]` is 0x88 of locals plus the six saved registers, not a local.
  */
-int sub_020075B0(void *save, u32 box, u32 slot,
-                 const struct Su4Entry *src)
+int sub_020075B0(struct GameData *gameData, u32 box, u32 slot, const struct BoxPokemon *mon)
 {
-    struct Su0Header *h = (struct Su0Header *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    if (box < h->unk3DD && slot < 30) {
-        struct Su4Entry *base = (struct Su4Entry *)sub_02007AF4(save, box);
+    if (box < header->usableBoxCount && slot < BOX_CAPACITY) {
+        struct BoxPokemon *boxMons = sub_02007AF4(gameData, box);
 
-        base[slot] = *src;
-        sub_020181A0(&base[slot]);
+        boxMons[slot] = *mon;
+        sub_020181A0(&boxMons[slot]);
         return 1;
     }
-    func_02034714(sub_020075B0_File, 0, sub_020075B0_File);
+    func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     return 0;
 }
 
-void sub_02007610(void *save, u32 box1, u32 slot1, u32 box2, u32 slot2)
+void sub_02007610(struct GameData *gameData, u32 box1, u32 slot1, u32 box2, u32 slot2)
 {
-    struct Su4Entry tmp;
-    struct Su4Entry *p1 = (struct Su4Entry *)sub_02007AF4(save, box1);
-    struct Su4Entry *p2 = (struct Su4Entry *)sub_02007AF4(save, box2);
+    struct BoxPokemon temp;
+    struct BoxPokemon *boxMons1 = sub_02007AF4(gameData, box1);
+    struct BoxPokemon *boxMons2 = sub_02007AF4(gameData, box2);
 
-    tmp = p1[slot1];
-    p1[slot1] = p2[slot2];
-    p2[slot2] = tmp;
+    temp = boxMons1[slot1];
+    boxMons1[slot1] = boxMons2[slot2];
+    boxMons2[slot2] = temp;
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
+ * The box accessors: sub_020074CC turns the GameData into the 0x3DE byte box
+ * header, and sub_02007AF4 turns a box index into that box's array of thirty
+ * 0x88 byte Pokemon.
  *
- * The box accessors: sub_020074CC turns the caller's save handle into the
- * 0x3DE byte box header, and sub_02007AF4 turns a box index into that box's
- * array of thirty 0x88 byte entries.
- *
- * Two encodings to note.  The header's `unk3DD` sits past every Thumb
- * immediate, so it arrives as a pool word and a register offset `ldrb`
- * rather than as an offset in the instruction, and sub_020076B4 loads that
- * same pool word twice, once for the read-modify-write and once for the
- * value it returns.  And the entry index is scaled by 0x88, which is not a
- * power of two, so it is a real `muls` with the constant materialised by
- * `movs r1, #0x88`: that is what indexing an array of a non power of two
- * sized struct looks like, and it is what says the element is 0x88 bytes
- * rather than that there is a multiply in the source.
+ * The header's usableBoxCount sits past every Thumb immediate, so it arrives
+ * as a pool word and a register offset `ldrb`, and sub_020076B4 loads that
+ * same pool word twice, once for the read-modify-write and once for the value
+ * it returns.  The slot index is scaled by 0x88, which is not a power of two,
+ * so it is a real `muls` with the constant materialised by `movs r1, #0x88`.
  */
-void sub_02007664(void *save, u32 box, u32 slot)
+void sub_02007664(struct GameData *gameData, u32 box, u32 slot)
 {
-    struct Su0Header *h = (struct Su0Header *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    if (slot < 30 && box < 0x18) {
-        sub_02017550((struct Sav *)(&sub_02007AF4(save, box)[slot]));
+    if (slot < BOX_CAPACITY && box < MAX_BOXES) {
+        sub_02017550(&sub_02007AF4(gameData, box)[slot]);
     }
 }
 
 
-u32 sub_02007698(void *save)
+u32 sub_02007698(struct GameData *gameData)
 {
-    return ((struct Su0Header *)sub_020074CC(save))->unk00;
+    return sub_020074CC(gameData)->currentBox;
 }
 
 
-u8 sub_020076A4(void *save)
+u8 sub_020076A4(struct GameData *gameData)
 {
-    return ((struct Su0Header *)sub_020074CC(save))->unk3DD;
+    return sub_020074CC(gameData)->usableBoxCount;
 }
 
 
-u8 sub_020076B4(void *save)
+/* Unlock 8 more boxes unless all are usable; returns the new count. */
+u8 sub_020076B4(struct GameData *gameData)
 {
-    struct Su0Header *h = (struct Su0Header *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (h->unk3DD != 0x18) {
-        h->unk3DD += 8;
+    if (header->usableBoxCount != MAX_BOXES) {
+        header->usableBoxCount += BOX_EXPAND_STEP;
     }
-    return h->unk3DD;
+    return header->usableBoxCount;
 }
-
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- * The one function between unit_02007664.c and unit_02007774.c: given a box
- * and a slot by reference, find the next occupied slot at or after it,
- * wrapping round the boxes, and write the answer back through the two
- * pointers.  sub_02017E88 asked with the field id 0xA9 is the "is this entry
- * empty" test, the same call unit_02007774.c counts with.
+ * Given a box and a slot by reference, find the next free slot at or after
+ * it, wrapping round the usable boxes, and write the answer back through the
+ * two pointers; when every usable box is full, unlock 8 more boxes and answer
+ * with the first slot of the first new box.  The field id MON_DATA_EXISTS
+ * asked of an entry is the "is this entry empty" test, the same call the
+ * counting functions use.
  *
  * Three things the shape says.  The box and slot are read out of the two
  * pointers once, before the outer loop, and are carried in registers: the
- * back edge at 0x0200774A lands on the sub_02007AF4 call and not on the
- * loads, so a source that re-read `*pbox` each time round would be a
- * different function.  The wrap comparison is signed (`blt`), so the index
- * is an int even though the bound is the unsigned byte at 0x3DD.  And that
- * byte is loaded once for the whole tail: the compiler keeps it live across
- * the loop exit and uses the same register for the `cmp #0x18` and for the
- * value written back through the pointer, so only the increment reloads it.
+ * back edge lands on the sub_02007AF4 call and not on the loads, so a source
+ * that re-read `*pBox` each time round would be a different function.  The
+ * wrap comparison is signed (`blt`), so the index is an int even though the
+ * bound is the unsigned byte in the header.  And that byte is loaded once for
+ * the whole tail: the compiler keeps it live across the loop exit and uses
+ * the same register for the `cmp #0x18` and for the value written back, so
+ * only the increment reloads it.
  *
  * The four parameters and the header pointer are all spilled to the stack at
  * sp+0..sp+0xC.  That is register pressure with r4..r7 carrying the box, the
- * slot, the entry base and the constant 0x88, not five pointers in the
- * source.
+ * slot, the box array and the constant 0x88, not five pointers in the source.
  */
-int sub_020076D0(void *save, int *pbox, int *pslot)
+int sub_020076D0(struct GameData *gameData, int *pBox, int *pSlot)
 {
-    struct Su0Header *h = (struct Su0Header *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
     int box;
     int slot;
 
-    if (*pbox == -1) {
-        *pbox = h->unk00;
+    if (*pBox == -1) {
+        *pBox = header->currentBox;
     }
-    box = *pbox;
-    slot = *pslot;
+    box = *pBox;
+    slot = *pSlot;
     while (1) {
-        struct Su0Entry *base = (struct Su0Entry *)sub_02007AF4(save, box);
+        struct BoxPokemon *boxMons = sub_02007AF4(gameData, box);
 
-        while (slot < 30) {
-            if (sub_02017E88(&base[slot], 0xA9, 0) == 0) {
-                *pbox = box;
-                *pslot = slot;
+        while (slot < BOX_CAPACITY) {
+            if (sub_02017E88(&boxMons[slot], MON_DATA_EXISTS, 0) == 0) {
+                *pBox = box;
+                *pSlot = slot;
                 return 1;
             }
             slot++;
         }
         box++;
-        if (box >= h->unk3DD) {
+        if (box >= header->usableBoxCount) {
             box = 0;
         }
-        if (box == *pbox) {
+        if (box == *pBox) {
             break;
         }
         slot = 0;
     }
-    if (h->unk3DD != 0x18) {
-        *pbox = h->unk3DD;
-        *pslot = 0;
-        h->unk3DD += 8;
+    if (header->usableBoxCount != MAX_BOXES) {
+        *pBox = header->usableBoxCount;
+        *pSlot = 0;
+        header->usableBoxCount += BOX_EXPAND_STEP;
         return 1;
     }
     return 0;
 }
 
 
-
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007838
- *
- * Counting the occupied entries of every box and of one box, the box
- * cursor's setter, and the getter and setter for the per-box byte at
- * 0x3C4.  sub_02017E88 is the "is this entry empty" test, asked with the
- * field id 0xA9 throughout.
+ * Free slots over all boxes and in one box, the current box setter, and the
+ * getter and setter for the per box wallpaper byte.
  *
  * sub_02007774 spills its outer loop counter to the stack even though it is
  * an ordinary `int`: r4 through r7 are already carrying the inner counter,
- * the running total, the entry base and the constant 0x88, and the save
- * handle is on the stack too.  The spill is register pressure and not a
- * pointer in the source.
+ * the running total, the box array and the constant 0x88, and the GameData
+ * pointer is on the stack too.  The spill is register pressure.
  *
  * The failure path of sub_020077B8 passes the same pointer as the first and
  * the third argument of func_02034714, which is the shape of an assertion
- * helper taking a file name twice.  The address is declared in the
- * `symbols:` block rather than written as `__FILE__`; see
+ * helper taking a file name twice; see
  * docs/idioms/file-string-is-an-abs32-into-the-string-area.md.
  */
-int sub_02007774(void *save)
+int sub_02007774(struct GameData *gameData)
 {
     int box;
     int slot;
-    int n = 0;
+    int freeCount = 0;
 
-    for (box = 0; box < 0x18; box++) {
-        struct Su0Entry *base = (struct Su0Entry *)sub_02007AF4(save, box);
+    for (box = 0; box < MAX_BOXES; box++) {
+        struct BoxPokemon *boxMons = sub_02007AF4(gameData, box);
 
-        for (slot = 0; slot < 30; slot++) {
-            if (sub_02017E88(&base[slot], 0xA9, 0) == 0) {
-                n++;
+        for (slot = 0; slot < BOX_CAPACITY; slot++) {
+            if (sub_02017E88(&boxMons[slot], MON_DATA_EXISTS, 0) == 0) {
+                freeCount++;
             }
         }
     }
-    return n;
+    return freeCount;
 }
 
 
-
-int sub_020077B8(void *save, u32 box)
+int sub_020077B8(struct GameData *gameData, u32 box)
 {
-    struct Su0Header *h = (struct Su0Header *)sub_020074CC(save);
-    struct Su0Entry *base;
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
+    struct BoxPokemon *boxMons;
     int slot;
-    int n;
+    int freeCount;
 
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    if (box >= 0x18) {
-        func_02034714(sub_020077B8_File, 0, sub_020077B8_File);
+    if (box >= MAX_BOXES) {
+        func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     }
-    n = 0;
-    base = (struct Su0Entry *)sub_02007AF4(save, box);
-    for (slot = 0; slot < 30; slot++) {
-        if (sub_02017E88(&base[slot], 0xA9, 0) == 0) {
-            n++;
+    freeCount = 0;
+    boxMons = sub_02007AF4(gameData, box);
+    for (slot = 0; slot < BOX_CAPACITY; slot++) {
+        if (sub_02017E88(&boxMons[slot], MON_DATA_EXISTS, 0) == 0) {
+            freeCount++;
         }
     }
-    return n;
+    return freeCount;
 }
 
 
 
-void sub_0200780C(void *save, u32 box)
+void sub_0200780C(struct GameData *gameData, u32 box)
 {
-    struct Su0Header *h = (struct Su0Header *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box < 0x18) {
-        h->unk00 = box;
+    if (box < MAX_BOXES) {
+        header->currentBox = box;
     }
 }
 
 
 
-u8 sub_0200781C(void *save, u32 box)
+u8 sub_0200781C(struct GameData *gameData, u32 box)
 {
-    struct Su0Header *h = (struct Su0Header *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box < 0x18) {
-        return h->unk3C4[box];
+    if (box < MAX_BOXES) {
+        return header->wallpaper[box];
     }
     return 0;
 }
 
 
 
-void sub_02007838(void *save, u32 box, u8 v)
+void sub_02007838(struct GameData *gameData, u32 box, u8 wallpaper)
 {
-    struct Su0Header *h = (struct Su0Header *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    if (box < 0x18) {
-        h->unk3C4[box] = v;
+    if (box < MAX_BOXES) {
+        header->wallpaper[box] = wallpaper;
     }
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007984, sub_020079A0
- *
  * The box name getter and setter, two per box counts, and the whole-storage
  * totals that sum each of them over all 24 boxes.
  *
@@ -1571,338 +1293,305 @@ void sub_02007838(void *save, u32 box, u8 v)
  * from one place in the image and sub_0200791C from one place, and those two
  * places are sub_02007984 and sub_020079A0 respectively, so a file that
  * stopped before the summing loops would leave both counts with no witness
- * outside the compared range and cap at MATCH.  Inside one range they are
- * `local` and cost no image evidence at all.  It cuts the other way too: the
- * file cannot start any later than 0x0200785C, because that is where the
- * 0x28 byte name array's first user is.
+ * outside the compared range.  It cuts the other way too: the file cannot
+ * start any later than 0x0200785C, because that is where the 0x28 byte name
+ * array's first user is.
  *
- * The header's layout falls out of the two shapes.  The name accessors do
+ * The header's layout falls out of the shapes.  The name accessors do
  * `adds r2, r1, #4` and then multiply the box index by 0x28, so the names
  * are an array of 24 0x28 byte entries starting at offset 4 and ending at
- * 4 + 24 * 0x28 = 0x3C4, which is exactly where the per box byte the rest of
- * the file reads begins.
+ * 4 + 24 * 0x28 = 0x3C4, which is exactly where the per box byte starts.
  *
  * Two of the six needed their locals reordering before they matched, and the
  * evidence is only ever which register a value lands in.  sub_0200791C
- * declares its slot counter before the entry base, the reverse of
- * sub_020078C4 immediately above it, and that one line is the whole
- * difference between r4/r5 and r5/r4 throughout its loop.  The two summing
- * loops initialise the box index before the running total, which is why
- * they are written `for (box = 0, n = 0; ...)` rather than initialising the
- * total at its declaration: the order of the two `movs rN, #0` follows the
- * order of the initialisers, and nothing else in either function does.
+ * declares its slot counter before the box array, the reverse of
+ * sub_020078C4 immediately above it.  The two summing loops initialise the
+ * box index before the running total, which is why they are written
+ * `for (box = 0, total = 0; ...)`: the order of the two `movs rN, #0` follows
+ * the order of the initialisers.
  */
-void sub_0200785C(void *save, u32 box, void *dest)
+void sub_0200785C(struct GameData *gameData, u32 box, struct Strbuf *dest)
 {
-    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    if (box < 0x18) {
-        func_02045924(dest, (const u16 *)(&h->unk04[box]));
+    if (box < MAX_BOXES) {
+        func_02045924(dest, header->names[box].chars);
         return;
     }
-    func_02034714(sub_0200785C_File, 0, sub_0200785C_File);
+    func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
 }
 
 
-void sub_02007898(void *save, u32 box, const void *src)
+void sub_02007898(struct GameData *gameData, u32 box, const struct Strbuf *name)
 {
-    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    if (box < 0x18) {
-        func_02045A38((struct U16Vec *)src, (unsigned short *)&h->unk04[box], 0x14);
+    if (box < MAX_BOXES) {
+        func_02045A38(name, header->names[box].chars, 0x14);
     }
 }
 
 
-int sub_020078C4(void *save, u32 box)
+/* Number of Pokemon in a box. */
+int sub_020078C4(struct GameData *gameData, u32 box)
 {
-    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
-    struct Su0Entry *base;
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
+    struct BoxPokemon *boxMons;
     int slot;
-    int n;
+    int count;
 
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    if (box < 0x18) {
-        n = 0;
-        base = (struct Su0Entry *)sub_02007AF4(save, box);
-        for (slot = 0; slot < 30; slot++) {
-            if (sub_02017E88(&base[slot], 0xA9, 0) != 0) {
-                n++;
+    if (box < MAX_BOXES) {
+        count = 0;
+        boxMons = sub_02007AF4(gameData, box);
+        for (slot = 0; slot < BOX_CAPACITY; slot++) {
+            if (sub_02017E88(&boxMons[slot], MON_DATA_EXISTS, 0) != 0) {
+                count++;
             }
         }
-        return n;
+        return count;
     }
-    func_02034714(sub_0200785C_File, 0, sub_0200785C_File);
+    func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     return 0;
 }
 
 
-int sub_0200791C(void *save, u32 box)
+/* Number of Pokemon in a box that are not eggs. */
+int sub_0200791C(struct GameData *gameData, u32 box)
 {
-    struct Sub0200785CHeader *h = (struct Sub0200785CHeader *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
     int slot;
-    struct Su0Entry *base;
-    int n;
+    struct BoxPokemon *boxMons;
+    int count;
 
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    if (box < 0x18) {
-        n = 0;
-        base = (struct Su0Entry *)sub_02007AF4(save, box);
-        for (slot = 0; slot < 30; slot++) {
-            if (sub_02017E88(&base[slot], 0xA9, 0) != 0 &&
-                sub_02017E88(&base[slot], 0x4C, 0) == 0) {
-                n++;
+    if (box < MAX_BOXES) {
+        count = 0;
+        boxMons = sub_02007AF4(gameData, box);
+        for (slot = 0; slot < BOX_CAPACITY; slot++) {
+            if (sub_02017E88(&boxMons[slot], MON_DATA_EXISTS, 0) != 0 &&
+                sub_02017E88(&boxMons[slot], MON_DATA_IS_EGG, 0) == 0) {
+                count++;
             }
         }
-        return n;
+        return count;
     }
-    func_02034714(sub_0200785C_File, 0, sub_0200785C_File);
+    func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     return 0;
 }
 
 
-int sub_02007984(void *save)
+/* Pokemon in all boxes. */
+int sub_02007984(struct GameData *gameData)
 {
-    int n;
+    int total;
     u32 box;
 
-    for (box = 0, n = 0; box < 0x18; box++) {
-        n += sub_020078C4(save, box);
+    for (box = 0, total = 0; box < MAX_BOXES; box++) {
+        total += sub_020078C4(gameData, box);
     }
-    return n;
+    return total;
 }
 
 
-int sub_020079A0(void *save)
+/* Pokemon in all boxes that are not eggs. */
+int sub_020079A0(struct GameData *gameData)
 {
-    int n;
+    int total;
     u32 box;
 
-    for (box = 0, n = 0; box < 0x18; box++) {
-        n += sub_0200791C(save, box);
+    for (box = 0, total = 0; box < MAX_BOXES; box++) {
+        total += sub_0200791C(gameData, box);
     }
-    return n;
+    return total;
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
+ * The checked slot accessor in its two forms, the flag byte in the header,
+ * the size of one box page, and the four byte allocation the box code hangs
+ * its per-save state on.
  *
- *           sub_02007A9C, sub_02007AA4
- *
- * The checked entry accessor in its two forms, the flag byte at 0x3DC, the
- * size of one box page, and the four byte allocation the box code hangs its
- * per-save state on.
- *
- * alias: the file identity is in the image.  sub_02007AA4 passes 0x020A706C
- * to the debug allocator at 0x02030734, and the bytes at 0x020A706C spell
- * "box_savedata.c".  That is this code.  sub_02007B20, further down the same
- * run, passes 0x020A707C instead, and those bytes spell "perapvoice.c", so a
- * translation unit boundary falls between the two and the run
- * 0x02007664..0x02007B54 is at least two original files rather than one.
- * Neither name is used as a source file name in this tree yet, because the
- * boundary is bracketed (somewhere in 0x02007AC8..0x02007B20) rather than
- * located.
- *
- * The range used to stop at 0x02007AA4 for an evidence reason, and the
- * `string` class now carries it.  0x020A706C is named by exactly one pool
- * word in the image and it is this function's own, so `literal` has no
- * witness; the ten NUL bytes between "save_control.c"'s terminator at
- * 0x020A7062 and 0x020A706C used to be more padding than the class allowed.
- * They are not dead bytes: 0x020A7068 is an empty string, and it is the one
- * the five assert calls above pass.  The rule now walks the whole NUL run up
- * to twelve bytes and demands that 0x020A706C be the only address in it at
- * which a string begins, which it is: the empty string at 0x020A7068 is not
- * one.  See "The string class" in docs/MATCHING.md.
+ * The file identity is in the image.  sub_02007AA4 passes 0x020A706C to the
+ * debug allocator at 0x02030734, and the bytes at 0x020A706C spell
+ * "box_savedata.c".  sub_02007B20, further down the same run, passes
+ * 0x020A707C instead, and those bytes spell "perapvoice.c", so a translation
+ * unit boundary falls between the two.  See "The string class" in
+ * docs/MATCHING.md for why 0x020A706C is carried.
  *
  * sub_02007A9C carries no label because it saves nothing: `movs r0, #0xFF`,
  * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
  * one box, and it never reaches a literal pool because a byte shifted left
  * costs two halfwords against a pool word plus its `ldr`.
  */
-int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg)
+int sub_020079BC(struct GameData *gameData, u32 box, u32 slot, int field, int arg)
 {
-    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box >= 0x18 && box != -1) {
-        func_02034714(sub_020079BC_File, 0, sub_020079BC_File);
+    if (box >= MAX_BOXES && box != BOX_CURRENT) {
+        func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     }
-    if (slot >= 30) {
-        func_02034714(sub_020079BC_File, 0, sub_020079BC_File);
+    if (slot >= BOX_CAPACITY) {
+        func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     }
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    return sub_02017E88(&sub_02007AF4(save, box)[slot], field, arg);
+    return sub_02017E88(&sub_02007AF4(gameData, box)[slot], field, arg);
 }
 
 
-struct Su0Entry *sub_02007A18(void **save, u32 box, u32 slot)
+struct BoxPokemon *sub_02007A18(struct GameData *gameData, u32 box, u32 slot)
 {
-    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (box >= 0x18 && box != -1) {
-        func_02034714(sub_020079BC_File, 0, sub_020079BC_File);
+    if (box >= MAX_BOXES && box != BOX_CURRENT) {
+        func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     }
-    if (slot >= 30) {
-        func_02034714(sub_020079BC_File, 0, sub_020079BC_File);
+    if (slot >= BOX_CAPACITY) {
+        func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
     }
-    if (box == -1) {
-        box = h->unk00;
+    if (box == BOX_CURRENT) {
+        box = header->currentBox;
     }
-    return &sub_02007AF4(save, box)[slot];
+    return &sub_02007AF4(gameData, box)[slot];
 }
 
 
-void sub_02007A68(void *save, u32 bits)
+void sub_02007A68(struct GameData *gameData, u32 bits)
 {
-    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    h->unk3DC |= (u8)bits;
+    header->flags |= (u8)bits;
 }
 
 
-int sub_02007A80(void *save, u32 bits)
+int sub_02007A80(struct GameData *gameData, u32 bits)
 {
-    struct Sub020079BCHeader *h = (struct Sub020079BCHeader *)sub_020074CC(save);
+    struct BoxSaveHeader *header = sub_020074CC(gameData);
 
-    if (h->unk3DC & bits) {
+    if (header->flags & bits) {
         return 1;
     }
     return 0;
 }
 
 
+/* Size of one box page. */
 u32 sub_02007A9C(void)
 {
-    return 0xFF0;
+    return BOX_CAPACITY * sizeof(struct BoxPokemon);
 }
 
 
-u32 *sub_02007AA4(u32 heap, u32 value)
+/* Allocate the four byte word holder (line 0x3B9 of box_savedata.c) and store `value` in it. */
+u32 *sub_02007AA4(u32 heapId, u32 value)
 {
-    u32 *p = func_02030734(heap, 4, 0, sub_02007AA4_File, 0x3B9);
+    u32 *word = func_02030734(heapId, 4, 0, _BoxSavedataFileName, 0x3B9);
 
-    *p = value;
-    return p;
+    *word = value;
+    return word;
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02007B00, sub_02007B08, sub_02007B20, sub_02007B44,
- *           sub_02007B50
- *
- * The two block lookups everything above goes through, the page clear, and
- * a constructor.  sub_02007B20 passes 0x020A707C to the debug allocator at
- * 0x02030734 with the line number 0x57, and the bytes at 0x020A707C spell
- * "perapvoice.c", so the second half of this range is that file.  The
- * string is named by one pool word in the whole image and it is this
- * function's own, so the `literal` class discards its only witness; the
- * `string` class closes it, because "box_savedata.c" ends with its NUL at
- * 0x020A707A and one byte of padding puts the next string at 0x020A707C by
- * construction.
- *
- * Three of the nine carry no label, all because they save nothing.
- * sub_02007AEC and sub_02007B00 return the two object sizes, 0xFF0 and
- * 0x3EC, each as `movs` plus `lsls` rather than a pool word; 0x3EC is what
- * sub_02007B08 clears and what sub_02007B20 allocates, which is how the
- * three tie together.  sub_02007AF4 is a tail call through a pool word, and
- * it is the function every accessor above reaches the entry array with.
+ * The two block lookups everything above goes through, the page clear, and a
+ * constructor.  sub_02007AEC and sub_02007B00 return the two object sizes,
+ * 0xFF0 and 0x3EC, each as `movs` plus `lsls` rather than a pool word;
+ * sub_02007AF4 is a tail call through a pool word, and it is the function
+ * every accessor above reaches the box array with.
  */
-void sub_02007AC8(void *p)
+void sub_02007AC8(void *memory)
 {
-    func_020307B0(p);
+    func_020307B0(memory);
 }
 
 
-void sub_02007AD0(struct Su0Entry *base)
+/* Clear every Pokemon of a box page. */
+void sub_02007AD0(struct BoxPokemon *boxMons)
 {
-    u32 i;
+    u32 slot;
 
-    for (i = 0; i < 30; i++) {
-        sub_02017550((struct Sav *)&base[i]);
+    for (slot = 0; slot < BOX_CAPACITY; slot++) {
+        sub_02017550(&boxMons[slot]);
     }
 }
 
 u32 sub_02007AEC(void)
 {
-    return 0xFF0;
+    return BOX_CAPACITY * sizeof(struct BoxPokemon);
 }
 
-struct Su0Entry *sub_02007AF4(void **save, u32 box)
+/* The Pokemon of one box: block box + 1 (block 0 is the header). */
+struct BoxPokemon *sub_02007AF4(struct GameData *gameData, u32 box)
 {
-    return sub_020071CC(*save, box + 1);
-}
-
-u32 sub_02007B00(void)
-{
-    return 0x3EC;
-}
-
-void sub_02007B08(void *p)
-{
-    func_02082A7C(0, p, 0x3EC);
-    ((struct Obj16869 *)p)->f0 = 0;
-}
-
-void *sub_02007B20(u32 heap)
-{
-    void *p = func_02030734(heap, 0x3EC, 1, sub_02007B20_File, 0x57);
-
-    sub_02007B08(p);
-    return p;
-}
-
-struct Su0Entry *sub_02007B44(void *sys)
-{
-    return sub_020071CC(sys, 0x24);
-}
-
-void *sub_02007B50(void **p)
-{
-    return *p;
+    return sub_020071CC(gameData->saveControl, box + 1);
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
+ * "perapvoice.c" starts here (Perap is the Japanese name of Chatot).
+ * sub_02007B20 passes 0x020A707C to the debug allocator with the line number
+ * 0x57, and the bytes at 0x020A707C spell "perapvoice.c".  The string is
+ * named by one pool word in the whole image and it is this function's own,
+ * so the `literal` class discards its only witness; the `string` class
+ * closes it, because "box_savedata.c" ends with its NUL at 0x020A707A and
+ * one byte of padding puts the next string at 0x020A707C by construction.
  *
- *           sub_02007BD0, sub_02007C20, sub_02007C34, sub_02007C70
+ * sub_02007B00 returns the block size 0x3EC, which is what sub_02007B08
+ * clears and what sub_02007B20 allocates.  The object is one `u32` flag
+ * followed by 1000 bytes, and sub_02007B50 reads the flag that sub_02007B54
+ * and sub_02007B5C write.  Four of the functions carry no label, because
+ * none of them saves lr.
+ */
+u32 sub_02007B00(void)
+{
+    return sizeof(struct PerapVoice);
+}
+
+void sub_02007B08(struct PerapVoice *voice)
+{
+    func_02082A7C(0, voice, sizeof(struct PerapVoice));
+    voice->isRecorded = 0;
+}
+
+struct PerapVoice *sub_02007B20(u32 heapId)
+{
+    struct PerapVoice *voice = func_02030734(heapId, sizeof(struct PerapVoice), 1, _PerapVoiceFileName, 0x57);
+
+    sub_02007B08(voice);
+    return voice;
+}
+
+/* The recording block of the save. */
+struct PerapVoice *sub_02007B44(struct SaveControl *saveControl)
+{
+    return sub_020071CC(saveControl, 0x24);
+}
+
+u32 sub_02007B50(struct PerapVoice *voice)
+{
+    return voice->isRecorded;
+}
+
+
+/*
+ * The payload is 1000 bytes holding two signed four bit samples each.
+ * sub_02007B68 expands them to 8000 bytes, four copies of each sample in the
+ * high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the exact
+ * inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
+ * directions is what makes the four bit field signed.
  *
- * The rest of "perapvoice.c", which src/matched/unit_02007AC8.c opens.  That
- * file names the object: its constructor allocates 0x3EC bytes and its clear
- * routine zeroes 0x3EC, and the same 0x3EC is what sub_02007C20 copies here.
- * The object is one `u32` flag followed by 1000 bytes, and sub_02007B50 in
- * the neighbouring file reads the flag that sub_02007B54 and sub_02007B5C
- * write.
- *
- * Four of the eight carry no label, because none of them saves lr.
- * sub_02007B5C is the `= 1` twin of sub_02007B54, sub_02007B64 returns the
- * address of the payload, sub_02007B68 and sub_02007BD0 are the codec pair,
- * and sub_02007C20 is a tail call into MI_CpuCopy8.
- *
- * What the range teaches:
- *
- *  - the payload is 1000 bytes holding two signed four bit samples each.
- *    sub_02007B68 expands them to 8000 bytes, four copies of each sample in
- *    the high nibble of a byte, and zero fills to 0x1FF4; sub_02007BD0 is the
- *    exact inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- *    directions is what makes the four bit field signed.
  *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
  *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
  *    the value is assigned to an `s8` local before the inner store loop, and
@@ -1915,65 +1604,67 @@ void *sub_02007B50(void **p)
  *    it: source and destination are both `s8 *`, so the stores in between may
  *    alias and the compiler has to re-read.
  */
-void sub_02007B54(struct PerapVoice *p)
+void sub_02007B54(struct PerapVoice *voice)
 {
-    p->unk00 = 0;
+    voice->isRecorded = 0;
 }
 
-void sub_02007B5C(struct PerapVoice *p)
+void sub_02007B5C(struct PerapVoice *voice)
 {
-    p->unk00 = 1;
+    voice->isRecorded = 1;
 }
 
-u8 *sub_02007B64(struct PerapVoice *p)
+u8 *sub_02007B64(struct PerapVoice *voice)
 {
-    return p->data;
+    return voice->samples;
 }
 
+/* Unpack the 4 bit samples to 8 bit PCM, each sample repeated four times. */
 void sub_02007B68(s8 *dest, const s8 *src)
 {
-    int i;
-    int j;
-    int o;
+    int srcIndex;
+    int repeat;
+    int destIndex;
 
-    o = 0;
-    for (i = 0; i < 1000; i++) {
-        s8 a = (s8)((s8)((u8)(src[i] & 0xF) - 8) << 4);
+    destIndex = 0;
+    for (srcIndex = 0; srcIndex < PERAP_PACKED_BYTES; srcIndex++) {
+        s8 lowSample = (s8)((s8)((u8)(src[srcIndex] & 0xF) - 8) << 4);
 
-        for (j = 0; j < 4; j++) {
-            dest[o + j] = a;
+        for (repeat = 0; repeat < 4; repeat++) {
+            dest[destIndex + repeat] = lowSample;
         }
         {
-            s8 b = (s8)((s8)((u8)(src[i] >> 4) - 8) << 4);
+            s8 highSample = (s8)((s8)((u8)(src[srcIndex] >> 4) - 8) << 4);
 
-            for (j = 4; j < 8; j++) {
-                dest[o + j] = b;
+            for (repeat = 4; repeat < 8; repeat++) {
+                dest[destIndex + repeat] = highSample;
             }
         }
-        o += 8;
+        destIndex += 8;
     }
-    for (i = 1000 * 8; i < 0x1FF4; i++) {
-        dest[i] = 0;
+    for (srcIndex = PERAP_UNPACKED_BYTES; srcIndex < PERAP_UNPACKED_SIZE; srcIndex++) {
+        dest[srcIndex] = 0;
     }
 }
 
-void sub_02007BD0(struct PerapVoice *p, const s8 *src)
+/* Pack 8 bit PCM into the 4 bit samples (inverse of the above) and mark the voice recorded. */
+void sub_02007BD0(struct PerapVoice *voice, const s8 *src)
 {
-    int i;
-    int j;
+    int srcIndex;
+    int destIndex;
 
-    p->unk00 = 1;
-    j = 0;
-    for (i = 0; i < 0x1F40; i += 8) {
-        u8 lo = (u8)((s8)(src[i] / 16) + 8);
+    voice->isRecorded = 1;
+    destIndex = 0;
+    for (srcIndex = 0; srcIndex < PERAP_UNPACKED_BYTES; srcIndex += 8) {
+        u8 lowNibble = (u8)((s8)(src[srcIndex] / 16) + 8);
 
-        p->data[j] = lo;
+        voice->samples[destIndex] = lowNibble;
         {
-            u8 hi = (u8)((s8)(src[i + 4] / 16) + 8);
+            u8 highNibble = (u8)((s8)(src[srcIndex + 4] / 16) + 8);
 
-            p->data[j] |= (u8)(hi << 4);
+            voice->samples[destIndex] |= (u8)(highNibble << 4);
         }
-        j++;
+        destIndex++;
     }
 }
 
@@ -1982,28 +1673,30 @@ void sub_02007C20(struct PerapVoice *dest, const struct PerapVoice *src)
     MI_CpuCopy8(src, dest, sizeof(struct PerapVoice));
 }
 
-void sub_02007C34(struct PerapVoice *p, void *a)
+/* Drop the recording when the party has no Chatot. */
+void sub_02007C34(struct PerapVoice *voice, struct PokeParty *party)
 {
-    int i;
-    int n = func_0201AA18(a);
+    int index;
+    int count = func_0201AA18(party);
 
-    for (i = 0; i < n; i++) {
-        if (func_02017E1C(func_0201AB28(a, i), 5, 0) == 0x1B9) {
+    for (index = 0; index < count; index++) {
+        if (func_02017E1C(func_0201AB28(party, index), MON_DATA_SPECIES, 0) == SPECIES_CHATOT) {
             return;
         }
     }
-    sub_02007B54(p);
+    sub_02007B54(voice);
 }
 
-u32 sub_02007C70(struct PerapVoice *p)
+/* Classify a recording by a check value of three payload bytes: 1 below 100, 2 from 150, else 0. */
+u32 sub_02007C70(struct PerapVoice *voice)
 {
-    if ((u32)sub_02007B50((void **)p) == 1) {
-        u8 v = (u8)(p->data[0x64] ^ p->data[0x1F4] ^ p->data[0x2BC]);
+    if (sub_02007B50(voice) == 1) {
+        u8 checkValue = (u8)(voice->samples[0x64] ^ voice->samples[0x1F4] ^ voice->samples[0x2BC]);
 
-        if (v < 100) {
+        if (checkValue < 100) {
             return 1;
         }
-        if (v >= 150 && v < 256) {
+        if (checkValue >= 150 && checkValue < 256) {
             return 2;
         }
     }
@@ -2011,49 +1704,32 @@ u32 sub_02007C70(struct PerapVoice *p)
 }
 
 
-#define NULL ((void *)0)
-
-
 /*
- * A whole translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
+ * "myitem_savedata.c" starts here: the bag, a 0x9C0 byte block holding five
+ * pockets of `{u16 itemId; u16 quantity;}` slots, and the add, take, count
+ * and sort routines over them.  The file boundary at the low end is the block
+ * file opening idiom: sub_02007CB0 returns 0x9C0 and sub_02007CB8 fills
+ * exactly 0x9C0 bytes with zero, and the function before it belongs to
+ * "perapvoice.c".  (The bag cursor allocated by sub_02008254 passes
+ * 0x020A708C, "myitem_savedata.c", so the cursor code is in this file too.)
  *
- *           sub_02007D6C, sub_02007D94, sub_02007DF8, sub_02007E3C,
- *           sub_02007E50, sub_02007ECC, sub_02007EF8, sub_02007F1C,
- *           sub_02007F68, sub_02007F7C, sub_02007FA0, sub_02007FB8,
- *           sub_02007FD0, sub_02007FF4, sub_02008038, sub_02008058,
- *           sub_020080A0, sub_020080FC, sub_0200816C, sub_020081DC,
- *           sub_0200823C
+ * The pockets are named by the two switches, sub_02007D00 and sub_020081DC,
+ * which agree entry for entry:
  *
- * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
- * qty;}` entries, and the add, take, count and sort routines over them.  The
- * file boundary at the low end is the block file opening idiom: sub_02007CB0
- * returns 0x9C0 and sub_02007CB8 fills exactly 0x9C0 bytes with zero, and the
- * function before it belongs to "perapvoice.c".
- *
- * The five arrays are named by the two switches, sub_02007D00 and the
- * unlabelled sub_020081DC, which agree entry for entry:
- *
- *   id 0   offset 0x000   0x136 entries
- *   id 4   offset 0x4D8   0x053 entries
- *   id 2   offset 0x624   0x06D entries
- *   id 1   offset 0x7D8   0x030 entries
- *   id 3   offset 0x898   0x040 entries
+ *   pocket 0 items      offset 0x000   0x136 slots
+ *   pocket 4 key items  offset 0x4D8   0x053 slots
+ *   pocket 2 TM/HM      offset 0x624   0x06D slots (stack of 1)
+ *   pocket 1 medicine   offset 0x7D8   0x030 slots
+ *   pocket 3 berries    offset 0x898   0x040 slots
  *
  * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
  * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
  * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
  * that order is the order the source wrote the case labels in, so it is kept
  * here.  Neither switch has a `default:` that sets the count, and
- * sub_020081DC reads an uninitialised count on an unknown id: the dispatch
- * chain branches past the merged tail rather than into it, which is the
- * reading in docs/idioms/switch-arms-tail-merge.md.
- *
- * Eleven of the twenty-five functions carry no label, all of them because
- * they save no lr.  sub_020081DC is the largest of them, 96 bytes of switch
- * plus table plus pool sitting between two literal pools in the listing.
- *
- * What the range teaches:
+ * sub_020081DC reads an uninitialised count on an unknown pocket: the
+ * dispatch chain branches past the merged tail rather than into it, which is
+ * the reading in docs/idioms/switch-arms-tail-merge.md.
  *
  *  - sub_02007DF8, sub_02007E50 and sub_02007F1C pass the address of a local
  *    pointer to sub_02007D6C after having already used that pointer for
@@ -2068,486 +1744,472 @@ u32 sub_02007C70(struct PerapVoice *p)
  *  - sub_020080FC compares two calls to func_0202130C.  The first result is
  *    spilled across the second call and the comparison comes out `cmp r1, r0`
  *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records; here the
- *    spill is forced by the second call rather than by a named local, so the
- *    two calls can be written inline inside the `||`.
- *  - sub_02007ECC returns `&arr[i]` from a second `return` statement rather
- *    than through a merged local.  sub_02007D94, ten functions earlier, does
- *    use the merged form, and the difference is visible: the merged form
- *    reaches the shared epilogue with an extra `adds r0, rN, #0`.
+ *    docs/idioms/cmp-operand-order-names-the-temporary.md records.
+ *  - sub_02007ECC returns `&slots[i]` from a second `return` statement rather
+ *    than through a merged local.  sub_02007D94 does use the merged form, and
+ *    the difference is visible: the merged form reaches the shared epilogue
+ *    with an extra `adds r0, rN, #0`.
  */
 u32 sub_02007CB0(void)
 {
-    return 0x9C0;
+    return sizeof(struct MyItem);
 }
 
 
-void sub_02007CB8(void *p)
+void sub_02007CB8(struct MyItem *bag)
 {
-    MI_CpuFill8(p, 0, 0x9C0);
+    MI_CpuFill8(bag, 0, sizeof(struct MyItem));
 }
 
 
-void sub_02007CC8(u8 *base, void *buf, u32 id, int save)
+/* Copy a pocket to (toBuffer) or from the buffer. */
+void sub_02007CC8(struct MyItem *bag, void *buffer, u32 pocket, int toBuffer)
 {
-    void *p;
-    u32 n;
+    struct BagSlot *slots;
+    u32 count;
 
-    sub_02007D00(base, id, &p, &n);
-    if (save) {
-        MI_CpuCopy8(p, buf, n * 4);
+    sub_02007D00(bag, pocket, &slots, &count);
+    if (toBuffer) {
+        MI_CpuCopy8(slots, buffer, count * sizeof(struct BagSlot));
     } else {
-        MI_CpuCopy8(buf, p, n * 4);
+        MI_CpuCopy8(buffer, slots, count * sizeof(struct BagSlot));
     }
 }
 
 
-u32 sub_02007D00(u8 *base, u32 id, void **pp, u32 *pn)
+/* Array and size of a pocket. */
+u32 sub_02007D00(struct MyItem *bag, u32 pocket, struct BagSlot **slots, u32 *count)
 {
-    switch (id) {
-    case 4:
-        *pp = base + 0x4D8;
-        *pn = 0x53;
+    switch (pocket) {
+    case BAG_POCKET_KEY_ITEMS:
+        *slots = bag->keyItems;
+        *count = BAG_KEY_ITEMS_COUNT;
         break;
-    case 0:
-        *pp = base;
-        *pn = 0x136;
+    case BAG_POCKET_ITEMS:
+        *slots = bag->items;
+        *count = BAG_ITEMS_COUNT;
         break;
-    case 3:
-        *pp = base + 0x898;
-        *pn = 0x40;
+    case BAG_POCKET_BERRIES:
+        *slots = bag->berries;
+        *count = BAG_BERRIES_COUNT;
         break;
-    case 1:
-        *pp = base + 0x7D8;
-        *pn = 0x30;
+    case BAG_POCKET_MEDICINE:
+        *slots = bag->medicine;
+        *count = BAG_MEDICINE_COUNT;
         break;
-    case 2:
-        *pp = base + 0x624;
-        *pn = 0x6D;
+    case BAG_POCKET_TMHM:
+        *slots = bag->tmhm;
+        *count = BAG_TMHM_COUNT;
         break;
     default:
-        *pp = NULL;
+        *slots = NULL;
         break;
     }
-    return id;
+    return pocket;
 }
 
 
-u32 sub_02007D6C(u8 *base, u32 a, void **pp, u32 *pn, u16 d)
+/* Pocket of an item (item parameter 5), with its array and size; returns the pocket. */
+u32 sub_02007D6C(struct MyItem *bag, u32 itemId, struct BagSlot **slots, u32 *count, u16 heapId)
 {
-    u32 id = func_02020FE4((void *)a, 5, d);
+    u32 pocket = func_02020FE4(itemId, 5, heapId);
 
-    sub_02007D00(base, id, pp, pn);
-    return id;
+    sub_02007D00(bag, pocket, slots, count);
+    return pocket;
 }
 
 
-struct Item *sub_02007D94(struct Item *arr, u32 n, u16 id, u16 qty, u16 max)
+/* Slot to add `quantity` of an item to: its own slot if the total stays within the limit, else the first empty one. */
+struct BagSlot *sub_02007D94(struct BagSlot *slots, u32 count, u16 itemId, u16 quantity, u16 maxQuantity)
 {
-    u32 i;
-    u32 free = -1;
+    u32 index;
+    u32 freeIndex = -1;
 
-    for (i = 0; i < n; i++) {
-        if (id == arr[i].id) {
-            struct Item *e = &arr[i];
+    for (index = 0; index < count; index++) {
+        if (itemId == slots[index].itemId) {
+            struct BagSlot *slot = &slots[index];
 
-            if (qty + e->qty > max) {
-                e = NULL;
+            if (quantity + slot->quantity > maxQuantity) {
+                slot = NULL;
             }
-            return e;
+            return slot;
         }
-        if (free == -1 && arr[i].id == 0 && arr[i].qty == 0) {
-            free = i;
+        if (freeIndex == -1 && slots[index].itemId == 0 && slots[index].quantity == 0) {
+            freeIndex = index;
         }
     }
-    if (free == -1) {
+    if (freeIndex == -1) {
         return NULL;
     }
-    return &arr[free];
+    return &slots[freeIndex];
 }
 
-struct Item *sub_02007DF8(u8 *base, u16 id, u16 qty, u16 d)
+/* Slot that can take the item; TM/HM stack to 1, the other pockets to 999. */
+struct BagSlot *sub_02007DF8(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
 {
-    void *p;
-    u32 n;
+    struct BagSlot *slots;
+    u32 count;
 
-    if (sub_02007D6C(base, id, &p, &n, d) == 2) {
-        return sub_02007D94(p, n, id, qty, 1);
+    if (sub_02007D6C(bag, itemId, &slots, &count, heapId) == BAG_POCKET_TMHM) {
+        return sub_02007D94(slots, count, itemId, quantity, 1);
     }
-    return sub_02007D94(p, n, id, qty, 999);
+    return sub_02007D94(slots, count, itemId, quantity, BAG_STACK_MAX);
 }
 
-u32 sub_02007E3C(u8 *base, u16 id, u16 qty, u16 d)
+u32 sub_02007E3C(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
 {
-    if (sub_02007DF8(base, id, qty, d) != NULL) {
+    if (sub_02007DF8(bag, itemId, quantity, heapId) != NULL) {
         return 1;
     }
     return 0;
 }
 
-u32 sub_02007E50(u8 *base, u16 id, u16 qty, u16 d)
+/* Add items; the pocket is then re-sorted (berries by id, TM/HM by item order) or the new item moved to the front. */
+u32 sub_02007E50(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
 {
-    void *p;
-    u32 n;
-    void *q;
-    u32 m;
-    u16 old;
-    u32 kind;
+    struct BagSlot *slot; /* reused as the pocket array below: one stack slot in the original */
+    u32 count;
+    struct BagSlot *usedSlots;
+    u32 usedCount;
+    u16 oldQuantity;
+    u32 pocket;
 
-    p = sub_02007DF8(base, id, qty, d);
-    if (p == NULL) {
+    slot = sub_02007DF8(bag, itemId, quantity, heapId);
+    if (slot == NULL) {
         return 0;
     }
-    old = ((struct Item *)p)->qty;
-    ((struct Item *)p)->id = id;
-    ((struct Item *)p)->qty = (u16)(((struct Item *)p)->qty + qty);
-    kind = sub_02007D6C(base, id, &p, &n, d);
-    if (kind == 3) {
-        sub_020080A0(p, n);
-    } else if (kind == 2) {
-        sub_020080FC(p, n);
-    } else if (old == 0) {
-        sub_02007D00(base, kind, &q, &m);
-        m = sub_02007F7C(q, m);
-        sub_02007FF4(q, m);
+    oldQuantity = slot->quantity;
+    slot->itemId = itemId;
+    slot->quantity = (u16)(slot->quantity + quantity);
+    pocket = sub_02007D6C(bag, itemId, &slot, &count, heapId);
+    if (pocket == BAG_POCKET_BERRIES) {
+        sub_020080A0(slot, count);
+    } else if (pocket == BAG_POCKET_TMHM) {
+        sub_020080FC(slot, count);
+    } else if (oldQuantity == 0) {
+        sub_02007D00(bag, pocket, &usedSlots, &usedCount);
+        usedCount = sub_02007F7C(usedSlots, usedCount);
+        sub_02007FF4(usedSlots, usedCount);
     }
     return 1;
 }
 
-struct Item *sub_02007ECC(struct Item *arr, u32 n, u16 id, u16 qty)
+/* Slot of an item holding at least `quantity`, else NULL. */
+struct BagSlot *sub_02007ECC(struct BagSlot *slots, u32 count, u16 itemId, u16 quantity)
 {
-    u32 i;
+    u32 index;
 
-    for (i = 0; i < n; i++) {
-        if (id == arr[i].id) {
-            if (arr[i].qty < qty) {
+    for (index = 0; index < count; index++) {
+        if (itemId == slots[index].itemId) {
+            if (slots[index].quantity < quantity) {
                 return NULL;
             }
-            return &arr[i];
+            return &slots[index];
         }
     }
     return NULL;
 }
 
-struct Item *sub_02007EF8(u8 *base, u16 id, u16 qty, u16 d)
+struct BagSlot *sub_02007EF8(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
 {
-    void *p;
-    u32 n;
+    struct BagSlot *slots;
+    u32 count;
 
-    sub_02007D6C(base, id, &p, &n, d);
-    return sub_02007ECC(p, n, id, qty);
+    sub_02007D6C(bag, itemId, &slots, &count, heapId);
+    return sub_02007ECC(slots, count, itemId, quantity);
 }
 
-u32 sub_02007F1C(u8 *base, u16 id, u16 qty, u16 d)
+/* Remove items and compact the pocket. */
+u32 sub_02007F1C(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
 {
-    void *p;
-    u32 n;
+    struct BagSlot *slot; /* reused as the pocket array below */
+    u32 count;
 
-    p = sub_02007EF8(base, id, qty, d);
-    if (p == NULL) {
+    slot = sub_02007EF8(bag, itemId, quantity, heapId);
+    if (slot == NULL) {
         return 0;
     }
-    ((struct Item *)p)->qty = (u16)(((struct Item *)p)->qty - qty);
-    if (((struct Item *)p)->qty == 0) {
-        ((struct Item *)p)->id = 0;
+    slot->quantity = (u16)(slot->quantity - quantity);
+    if (slot->quantity == 0) {
+        slot->itemId = 0;
     }
-    sub_02007D6C(base, id, &p, &n, d);
-    sub_02008058(p, n);
+    sub_02007D6C(bag, itemId, &slot, &count, heapId);
+    sub_02008058(slot, count);
     return 1;
 }
 
-u32 sub_02007F68(u8 *base, u16 id, u16 qty, u16 d)
+u32 sub_02007F68(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
 {
-    if (sub_02007EF8(base, id, qty, d) != NULL) {
+    if (sub_02007EF8(bag, itemId, quantity, heapId) != NULL) {
         return 1;
     }
     return 0;
 }
 
-u32 sub_02007F7C(const struct Item *arr, u32 n)
+/* Number of slots in use. */
+u32 sub_02007F7C(const struct BagSlot *slots, u32 count)
 {
-    u32 c = 0;
-    u32 i;
+    u32 used = 0;
+    u32 index;
 
-    if (arr != NULL) {
-        for (i = 0; i < n; i++) {
-            if (arr[i].id != 0) {
-                c++;
+    if (slots != NULL) {
+        for (index = 0; index < count; index++) {
+            if (slots[index].itemId != 0) {
+                used++;
             }
         }
     }
-    return c;
+    return used;
 }
 
-u32 sub_02007FA0(u8 *base, u32 id)
+u32 sub_02007FA0(struct MyItem *bag, u32 pocket)
 {
-    void *p;
-    u32 n;
+    struct BagSlot *slots;
+    u32 count;
 
-    sub_02007D00(base, id, &p, &n);
-    return sub_02007F7C(p, n);
+    sub_02007D00(bag, pocket, &slots, &count);
+    return sub_02007F7C(slots, count);
 }
 
-u32 sub_02007FB8(u8 *base, u16 id, u16 d)
+/* Quantity of an item held. */
+u32 sub_02007FB8(struct MyItem *bag, u16 itemId, u16 heapId)
 {
-    struct Item *e = sub_02007EF8(base, id, 1, d);
+    struct BagSlot *slot = sub_02007EF8(bag, itemId, 1, heapId);
 
-    if (e == NULL) {
+    if (slot == NULL) {
         return 0;
     }
-    return e->qty;
+    return slot->quantity;
 }
 
-void sub_02007FD0(struct Item *a, struct Item *b)
+void sub_02007FD0(struct BagSlot *a, struct BagSlot *b)
 {
-    struct Item t;
+    struct BagSlot temp;
 
-    t = *a;
+    temp = *a;
     *a = *b;
-    *b = t;
+    *b = temp;
 }
 
-void sub_02007FF4(struct Item *arr, u32 n)
+/* Move the last used slot to the front, shifting the slots before it up by one. */
+void sub_02007FF4(struct BagSlot *slots, u32 count)
 {
-    struct Item t;
-    int i;
+    struct BagSlot temp;
+    int index;
 
-    t.id = 0;
-    if (n <= 1) {
+    temp.itemId = 0;
+    if (count <= 1) {
         return;
     }
-    for (i = (int)n - 1; i >= 0; i--) {
-        if (t.id == 0) {
-            MI_CpuCopy8(&arr[i], &t, sizeof(struct Item));
+    for (index = (int)count - 1; index >= 0; index--) {
+        if (temp.itemId == 0) {
+            MI_CpuCopy8(&slots[index], &temp, sizeof(struct BagSlot));
         } else {
-            MI_CpuCopy8(&arr[i], &arr[i + 1], sizeof(struct Item));
+            MI_CpuCopy8(&slots[index], &slots[index + 1], sizeof(struct BagSlot));
         }
     }
-    MI_CpuCopy8(&t, arr, sizeof(struct Item));
+    MI_CpuCopy8(&temp, slots, sizeof(struct BagSlot));
 }
 
-void sub_02008038(struct Item *arr, u32 n)
+/* Zero the quantity of every empty slot. */
+void sub_02008038(struct BagSlot *slots, u32 count)
 {
-    u32 i;
+    u32 index;
 
-    for (i = 0; i < n; i++) {
-        if (arr[i].id == 0) {
-            arr[i].qty = 0;
+    for (index = 0; index < count; index++) {
+        if (slots[index].itemId == 0) {
+            slots[index].quantity = 0;
         }
     }
 }
 
-void sub_02008058(struct Item *arr, u32 n)
+/* Move empty slots to the end, keeping the order of the others. */
+void sub_02008058(struct BagSlot *slots, u32 count)
 {
-    u32 lim;
+    u32 lastIndex;
     u32 i;
     u32 j;
 
-    sub_02008038(arr, n);
-    for (i = 0, lim = n - 1; i < lim; i++) {
-        for (j = i + 1; j < n; j++) {
-            if (arr[i].qty == 0) {
-                sub_02007FD0(&arr[i], &arr[j]);
+    sub_02008038(slots, count);
+    for (i = 0, lastIndex = count - 1; i < lastIndex; i++) {
+        for (j = i + 1; j < count; j++) {
+            if (slots[i].quantity == 0) {
+                sub_02007FD0(&slots[i], &slots[j]);
             }
         }
     }
 }
 
-void sub_020080A0(struct Item *arr, u32 n)
+/* Sort a pocket by item id, empty slots last. */
+void sub_020080A0(struct BagSlot *slots, u32 count)
 {
-    u32 lim;
+    u32 lastIndex;
     u32 i;
     u32 j;
 
-    sub_02008038(arr, n);
-    for (i = 0, lim = n - 1; i < lim; i++) {
-        for (j = i + 1; j < n; j++) {
-            if (arr[i].qty == 0 ||
-                (arr[j].qty != 0 && arr[i].id > arr[j].id)) {
-                sub_02007FD0(&arr[i], &arr[j]);
+    sub_02008038(slots, count);
+    for (i = 0, lastIndex = count - 1; i < lastIndex; i++) {
+        for (j = i + 1; j < count; j++) {
+            if (slots[i].quantity == 0 ||
+                (slots[j].quantity != 0 && slots[i].itemId > slots[j].itemId)) {
+                sub_02007FD0(&slots[i], &slots[j]);
             }
         }
     }
 }
 
-void sub_020080FC(struct Item *arr, u32 n)
+/* Sort a pocket by the item sort key (func_0202130C), empty slots last. */
+void sub_020080FC(struct BagSlot *slots, u32 count)
 {
-    u32 lim;
+    u32 lastIndex;
     u32 i;
     u32 j;
 
-    sub_02008038(arr, n);
-    for (i = 0, lim = n - 1; i < lim; i++) {
-        for (j = i + 1; j < n; j++) {
-            if (arr[i].qty == 0 ||
-                (arr[j].qty != 0 &&
-                 func_0202130C(arr[i].id) > func_0202130C(arr[j].id))) {
-                sub_02007FD0(&arr[i], &arr[j]);
+    sub_02008038(slots, count);
+    for (i = 0, lastIndex = count - 1; i < lastIndex; i++) {
+        for (j = i + 1; j < count; j++) {
+            if (slots[i].quantity == 0 ||
+                (slots[j].quantity != 0 &&
+                 func_0202130C(slots[i].itemId) > func_0202130C(slots[j].itemId))) {
+                sub_02007FD0(&slots[i], &slots[j]);
             }
         }
     }
 }
 
-void sub_0200816C(u8 *base)
+/* Compact every pocket. */
+void sub_0200816C(struct MyItem *bag)
 {
-    void *p;
-    u32 n;
+    struct BagSlot *slots;
+    u32 count;
 
-    sub_02007D00(base, 4, &p, &n);
-    sub_02008058(p, n);
-    sub_02007D00(base, 0, &p, &n);
-    sub_02008058(p, n);
-    sub_02007D00(base, 3, &p, &n);
-    sub_02008058(p, n);
-    sub_02007D00(base, 1, &p, &n);
-    sub_02008058(p, n);
-    sub_02007D00(base, 2, &p, &n);
-    sub_02008058(p, n);
+    sub_02007D00(bag, BAG_POCKET_KEY_ITEMS, &slots, &count);
+    sub_02008058(slots, count);
+    sub_02007D00(bag, BAG_POCKET_ITEMS, &slots, &count);
+    sub_02008058(slots, count);
+    sub_02007D00(bag, BAG_POCKET_BERRIES, &slots, &count);
+    sub_02008058(slots, count);
+    sub_02007D00(bag, BAG_POCKET_MEDICINE, &slots, &count);
+    sub_02008058(slots, count);
+    sub_02007D00(bag, BAG_POCKET_TMHM, &slots, &count);
+    sub_02008058(slots, count);
 }
 
-struct Item *sub_020081DC(u8 *base, u32 id, u32 index)
+/* Slot `index` of a pocket, NULL past its end. */
+struct BagSlot *sub_020081DC(struct MyItem *bag, u32 pocket, u32 index)
 {
-    u32 n;
+    u32 count;
+    struct BagSlot *slots;
 
-    switch (id) {
-    case 4:
-        base += 0x4D8;
-        n = 0x53;
+    switch (pocket) {
+    case BAG_POCKET_KEY_ITEMS:
+        slots = bag->keyItems;
+        count = BAG_KEY_ITEMS_COUNT;
         break;
-    case 0:
-        n = 0x136;
+    case BAG_POCKET_ITEMS:
+        slots = bag->items;
+        count = BAG_ITEMS_COUNT;
         break;
-    case 3:
-        base += 0x898;
-        n = 0x40;
+    case BAG_POCKET_BERRIES:
+        slots = bag->berries;
+        count = BAG_BERRIES_COUNT;
         break;
-    case 1:
-        base += 0x7D8;
-        n = 0x30;
+    case BAG_POCKET_MEDICINE:
+        slots = bag->medicine;
+        count = BAG_MEDICINE_COUNT;
         break;
-    case 2:
-        base += 0x624;
-        n = 0x6D;
+    case BAG_POCKET_TMHM:
+        slots = bag->tmhm;
+        count = BAG_TMHM_COUNT;
         break;
     }
-    if (index >= n) {
+    if (index >= count) {
         return NULL;
     }
-    return (struct Item *)(base + index * 4);
+    return &slots[index];
 }
 
-u32 sub_0200823C(u32 a)
+/* Largest stack of an item: 1 for items that func_02021288 flags, else 999. */
+u32 sub_0200823C(u32 itemId)
 {
-    if (func_02021288(a) == 1) {
+    if (func_02021288(itemId) == 1) {
         return 1;
     }
-    return 999;
+    return BAG_STACK_MAX;
 }
 
 
 /*
- * Part of a translation unit, matched as one byte range.  Written from the
- * disassembly in asm/arm9/src/001_02007664.s.
- *
- *           sub_02008298, sub_0200829C, sub_020082B0, sub_020082B4,
- *           sub_020082B8, sub_020082D4
- *
- * "myitem_savedata.c".  sub_02008254 passes 0x020A708C to the debug allocator
- * at 0x02030734 with the line number 0x342, and the bytes at 0x020A708C spell
- * "myitem_savedata.c", so this range is the head of that file.  The string is
- * named by one pool word in the whole image and it is this function's own, so
- * the `literal` class discards its only witness; the `string` class closes it,
- * because "perapvoice.c" ends with its NUL at 0x020A7088 and three bytes of
- * padding put the next string at 0x020A708C by construction.
- *
- * The object the constructor allocates is 0x2C bytes, and the nine accessors
- * after it account for every byte of it bar the two at +0x16: two parallel
- * five element `s16` arrays at +0 and +0xA, a `u16` at +0x14, two parallel
- * four element `s16` arrays at +0x18 and +0x20, and two `u16`s at +0x28 and
- * +0x2A.  Nine of the ten functions carry no label, because only the
- * constructor saves lr.
+ * The bag cursor (0x2C bytes, line 0x342 of "myitem_savedata.c"): the last
+ * position and scroll of each field bag pocket and each of the four battle
+ * bag pockets, plus the last pocket and the last item used in battle.  Nine
+ * of the ten functions carry no label, because only the constructor saves lr.
  *
  * Every one of the four array reads is an `ldrsh` with a register offset,
  * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
  * evidence that those elements are signed; the writers use plain `strh` and
  * say nothing.
  *
- * The near miss this range stops short of is 0x020082DC, the six byte tail
- * call that ends the packet:
- *
- *     020082DC  ldr r0, =0x0209DD64
- *     020082DE  ldr r3, =0x020362A4      NHTTP_CleanupAsync
- *     020082E0  bx  r3
- *
- * Both of its pool words are unattestable and the reason is the evidence
- * rather than the C.  0x020362A4 does carry a `func_020362A4` label, but
- * nothing anywhere in the image branches to it, so the `label` class has no
- * call site to point at; the only word in the 3.9 MB image holding the value
- * is the pool word at 0x020082E8, which is inside the range under test, so
- * `literal` discards its only witness.  0x0209DD64 is the same census exactly:
- * one witness image wide, the pool word at 0x020082E4, and it is data with no
- * label it could ever acquire.  Neither is a veneer and neither is a string.
- * Shrinking the range cannot help, because for both sites the sole witness is
- * the pool word of the very function that needs it.  It closes the day
- * anything else in the image names either address.
+ * The range stops short of 0x020082DC, a six byte tail call whose pool words
+ * are both unattestable (no other branch or pool word in the image names
+ * either address); it closes the day anything else names them.
  */
-void *sub_02008254(u32 heap)
+struct BagCursor *sub_02008254(u32 heapId)
 {
-    return func_02030734(heap, sizeof(struct MyItemSave), 1,
-                         sub_02008254_File, 0x342);
+    return func_02030734(heapId, sizeof(struct BagCursor), 1, _MyItemSavedataFileName, 0x342);
 }
 
 
-void sub_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b)
+void sub_02008270(struct BagCursor *cursor, int pocket, s16 *scroll, s16 *position)
 {
-    *a = p->unk0A[i];
-    *b = p->unk00[i];
+    *scroll = cursor->fieldPocketScroll[pocket];
+    *position = cursor->fieldPocketPosition[pocket];
 }
 
-u16 sub_02008284(const struct MyItemSave *p)
+u16 sub_02008284(const struct BagCursor *cursor)
 {
-    return p->unk14;
+    return cursor->lastFieldPocket;
 }
 
-void sub_02008288(struct MyItemSave *p, int i, s16 a, s16 b)
+void sub_02008288(struct BagCursor *cursor, int pocket, s16 scroll, s16 position)
 {
-    p->unk0A[i] = a;
-    p->unk00[i] = b;
+    cursor->fieldPocketScroll[pocket] = scroll;
+    cursor->fieldPocketPosition[pocket] = position;
 }
 
-void sub_02008298(struct MyItemSave *p, u16 v)
+void sub_02008298(struct BagCursor *cursor, u16 lastFieldPocket)
 {
-    p->unk14 = v;
+    cursor->lastFieldPocket = lastFieldPocket;
 }
 
-void sub_0200829C(const struct MyItemSave *p, int i, s16 *a, s16 *b)
+void sub_0200829C(const struct BagCursor *cursor, int pocket, s16 *scroll, s16 *position)
 {
-    *a = p->unk20[i];
-    *b = p->unk18[i];
+    *scroll = cursor->battlePocketScroll[pocket];
+    *position = cursor->battlePocketPosition[pocket];
 }
 
-u16 sub_020082B0(const struct MyItemSave *p)
+u16 sub_020082B0(const struct BagCursor *cursor)
 {
-    return p->unk28;
+    return cursor->lastBattleItem;
 }
 
-u16 sub_020082B4(const struct MyItemSave *p)
+u16 sub_020082B4(const struct BagCursor *cursor)
 {
-    return p->unk2A;
+    return cursor->lastBattleItemPocket;
 }
 
-void sub_020082B8(struct MyItemSave *p, const s16 *a, const s16 *b)
+void sub_020082B8(struct BagCursor *cursor, const s16 *scrolls, const s16 *positions)
 {
-    u32 i;
+    u32 pocket;
 
-    for (i = 0; i < 4; i++) {
-        p->unk20[i] = a[i];
-        p->unk18[i] = b[i];
+    for (pocket = 0; pocket < 4; pocket++) {
+        cursor->battlePocketScroll[pocket] = scrolls[pocket];
+        cursor->battlePocketPosition[pocket] = positions[pocket];
     }
 }
 
-void sub_020082D4(struct MyItemSave *p, u16 a, u16 b)
+void sub_020082D4(struct BagCursor *cursor, u16 lastBattleItem, u16 lastBattleItemPocket)
 {
-    p->unk28 = a;
-    p->unk2A = b;
+    cursor->lastBattleItem = lastBattleItem;
+    cursor->lastBattleItemPocket = lastBattleItemPocket;
 }

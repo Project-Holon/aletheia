@@ -117,7 +117,6 @@ typedef struct {
 extern unsigned long func_0215EDD0(char *hostname);
 extern void func_02082BCC(void *dstp, unsigned char data, unsigned long size);
 extern int func_0208CB10(char *destp, const char *srcp, int siz);
-extern int func_0215EF48(void);
 extern unsigned long SOCL_GetHostID(void);
 extern int func_0215EEE0(unsigned long dns1, unsigned long dns2);
 extern int func_0215CA8C(void *socl_config);
@@ -128,14 +127,14 @@ extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
 extern int func_0215EFB0(int s);
 extern void func_02085A38(unsigned long msec);
 HostEnt *func_0215F650(const char *name);
-int func_0215F714(u8 *p, u8 *dst);
+int func_0215F714(u8 *sock, u8 *sockAddr);
 long SOC_GetHostID(void);
 int func_0215F7E8(unsigned long *dns1, unsigned long *dns2);
-int func_0215F854(Sock *s, int cmd, int mode);
+int func_0215F854(Sock *s, int cmd, int flags);
 int func_0215F8FC(const SOCConfig *config);
 int func_0215FAD0(char *cp, unsigned long *inp);
 char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len);
-void func_0215FBAC(unsigned v, unsigned char *p);
+void func_0215FBAC(unsigned addr32, unsigned char *addr4);
 int func_0215FBCC(PollFD *fds, unsigned int nfds, long long timeout);
 extern SOCStatics g_021AA4BC;
 extern u32 g_021AA4BC_ip;
@@ -157,10 +156,10 @@ int func_0215FA90(void);
  */
 HostEnt *func_0215F650(const char *name)
 {
-	unsigned long h;
+	unsigned long ipAddr;
 
-	h = func_0215EDD0((char *)name);
-	if (h == 0) {
+	ipAddr = func_0215EDD0((char *)name);
+	if (ipAddr == 0) {
 		return 0;
 	}
 	func_02082BCC(g_021AA544, 0, 0x101);
@@ -172,34 +171,34 @@ HostEnt *func_0215F650(const char *name)
 	g_021AA4BC.hostent_addrList = g_021AA4D4;
 	g_021AA4BC.addrList[0] = (unsigned char *)&g_021AA4BC_ip;
 	g_021AA4BC.addrList[1] = 0;
-	g_021AA4BC.hostip = SWAP32(h);
+	g_021AA4BC.hostip = SWAP32(ipAddr);
 	return &g_021AA4DC;
 }
 
 
 
 /*
- * Build a packet header at `dst`: tag bytes 8, 2, then the byte-swapped
- * halfword at p+0xb0 and the byte-swapped word returned by func_0215EF48.
- * A null p returns -0x27.
+ * Fills the socket address at `sockAddr`: length byte 8, family 2, then the
+ * byte-swapped port (halfword at sock+0xb0, 0 when no host id) and the
+ * byte-swapped host id from SOCL_GetHostID. A null socket returns -0x27.
  */
-int func_0215F714(u8 *p, u8 *dst)
+int func_0215F714(u8 *sock, u8 *sockAddr)
 {
-    u32 r;
-    u16 t;
+    u32 hostId;
+    u16 port;
 
-    if (p == 0)
+    if (sock == 0)
         return -0x27;
 
-    r = func_0215EF48();
-    t = p ? *(u16 *)(p + 0xb0) : 0;
-    t = r ? t : 0;
+    hostId = SOCL_GetHostID();
+    port = sock ? *(u16 *)(sock + 0xb0) : 0;
+    port = hostId ? port : 0;
 
-    dst[0] = 8;
-    dst[1] = 2;
-    *(u16 *)(dst + 2) = (u16)(((t >> 8) & 0xff) | ((t << 8) & 0xff00));
-    *(u32 *)(dst + 4) = ((r >> 24) & 0xff) | ((r >> 8) & 0xff00)
-                      | ((r << 8) & 0xff0000) | ((r << 24) & 0xff000000);
+    sockAddr[0] = 8;
+    sockAddr[1] = 2;
+    *(u16 *)(sockAddr + 2) = (u16)(((port >> 8) & 0xff) | ((port << 8) & 0xff00));
+    *(u32 *)(sockAddr + 4) = ((hostId >> 24) & 0xff) | ((hostId >> 8) & 0xff00)
+                      | ((hostId << 8) & 0xff0000) | ((hostId << 24) & 0xff000000);
     return 0;
 }
 
@@ -207,10 +206,10 @@ int func_0215F714(u8 *p, u8 *dst)
 
 long SOC_GetHostID(void)
 {
-    unsigned long hostid = SOCL_GetHostID();
+    unsigned long hostId = SOCL_GetHostID();
 
-    return (long)(((hostid >> 24) & 0xff) | ((hostid >> 8) & 0xff00)
-                | ((hostid << 8) & 0xff0000) | ((hostid << 24) & 0xff000000));
+    return (long)(((hostId >> 24) & 0xff) | ((hostId >> 8) & 0xff00)
+                | ((hostId << 8) & 0xff0000) | ((hostId << 24) & 0xff000000));
 }
 
 
@@ -228,7 +227,7 @@ int func_0215F7E8(unsigned long *dns1, unsigned long *dns2)
 /*
  * sdk:      SOC_Fcntl (libsoc.TWL.HYB.a(soc.o))
  */
-int func_0215F854(Sock *s, int cmd, int mode)
+int func_0215F854(Sock *s, int cmd, int flags)
 {
 	if (s == 0) {
 		return -1;
@@ -240,7 +239,7 @@ int func_0215F854(Sock *s, int cmd, int mode)
 		}
 		return 4;
 	case 4:
-		if (mode & 4) {
+		if (flags & 4) {
 			s->flag = 0;
 		} else {
 			s->flag = 1;
@@ -302,6 +301,10 @@ int func_0215F8FC(const SOCConfig *config)
     return func_0215CA8C(&g_021AA50C);
 }
 
+/*
+ * Tail call to SOCL_Cleanup; sits between SOC_Startup and SOC_InetNtoA in
+ * soc.o, so it is SOC_Cleanup.
+ */
 int func_0215FA90(void)
 {
     return func_0215EBF0();
@@ -321,14 +324,14 @@ char *SOC_InetNtoA(struct SOCInAddr in)
  */
 int func_0215FAD0(char *cp, unsigned long *inp)
 {
-	unsigned long h;
+	unsigned long ipAddr;
 
-	h = func_0215EE98(cp);
-	if (h == 0) {
+	ipAddr = func_0215EE98(cp);
+	if (ipAddr == 0) {
 		return 0;
 	}
 	if (inp != 0) {
-		*inp = SWAP32(h);
+		*inp = SWAP32(ipAddr);
 	}
 	return 1;
 }
@@ -354,12 +357,12 @@ char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len)
 /*
  * Writes a word big-endian into four bytes.
  */
-void func_0215FBAC(unsigned v, unsigned char *p)
+void func_0215FBAC(unsigned addr32, unsigned char *addr4)
 {
-    p[0] = (unsigned char)(v >> 24);
-    p[1] = (unsigned char)(v >> 16);
-    p[2] = (unsigned char)(v >> 8);
-    p[3] = (unsigned char)v;
+    addr4[0] = (unsigned char)(addr32 >> 24);
+    addr4[1] = (unsigned char)(addr32 >> 16);
+    addr4[2] = (unsigned char)(addr32 >> 8);
+    addr4[3] = (unsigned char)addr32;
 }
 
 

@@ -19,19 +19,19 @@
 
 typedef unsigned int u32;
 
-struct Node
+struct DestructorChain
 {
-    struct Node *next;
-    u32 b;
-    u32 a;
+    struct DestructorChain *next;
+    u32 destructor;
+    u32 object;
 };
 
-extern struct Node *g_listHead;
+extern struct DestructorChain *g_listHead;
 
-void func_0209D850(u32 a, u32 b, struct Node *node)
+void func_0209D850(u32 object, u32 destructor, struct DestructorChain *chain)
 {
-    node->next = g_listHead;
-    node->b = b;
-    node->a = a;
-    g_listHead = node;
+    chain->next = g_listHead;
+    chain->destructor = destructor;
+    chain->object = object;
+    g_listHead = chain;
 }

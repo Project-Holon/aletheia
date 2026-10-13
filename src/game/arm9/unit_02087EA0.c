@@ -12,7 +12,7 @@
  */
 
 /* hand-written in the original: clz is never emitted by mwccarm from C */
-asm int func_02087EA0(unsigned int x)
+asm int func_02087EA0(unsigned int value)
 {
     clz r0, r0
     bx lr

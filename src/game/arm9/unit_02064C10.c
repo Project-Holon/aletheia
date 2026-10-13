@@ -32,40 +32,40 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct NodeHdr02064C10 {
-    u16 pad_00;
+struct MCNodeBankHeader {
+    u16 reserved;
     u16 count;
 };
 
-struct CellHdr02064C10 {
+struct MCCellBankHeader {
     u16 count;
 };
 
-struct Obj02064C10 {
-    void *hdr;      /* +0x00 */
-    u32   unk_04;
-    u32   kind;     /* +0x08 */
-    void *base;     /* +0x0C */
+struct MCAnimBank {
+    void *pHeader;      /* +0x00 */
+    void *pResource;    /* +0x04 */
+    u32   kind;         /* +0x08 */
+    void *pRecords;     /* +0x0C */
 };
 
 struct CellAnim;
-extern void func_02064384(struct CellAnim *anim, u32 i);
+extern void func_02064384(struct CellAnim *anim, u32 frames);
 
-void func_02064C10(struct Obj02064C10 *x)
+void func_02064C10(struct MCAnimBank *bank)
 {
     u16 i;
 
-    if (x->kind == 1) {
-        void *base = x->base;
+    if (bank->kind == 1) {
+        void *records = bank->pRecords;
 
-        for (i = 0; i < ((struct NodeHdr02064C10 *)x->hdr)->count; i++) {
-            func_02064384((struct CellAnim *)((u8 *)base + i * 0x5c), 0);
+        for (i = 0; i < ((struct MCNodeBankHeader *)bank->pHeader)->count; i++) {
+            func_02064384((struct CellAnim *)((u8 *)records + i * 0x5c), 0);
         }
     } else {
-        void *base = x->base;
+        void *records = bank->pRecords;
 
-        for (i = 0; i < ((struct CellHdr02064C10 *)x->hdr)->count; i++) {
-            func_02064384(*(void **)((u8 *)base + i * 0x28), 0);
+        for (i = 0; i < ((struct MCCellBankHeader *)bank->pHeader)->count; i++) {
+            func_02064384(*(void **)((u8 *)records + i * 0x28), 0);
         }
     }
 }

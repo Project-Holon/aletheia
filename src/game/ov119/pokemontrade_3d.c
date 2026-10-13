@@ -6230,7 +6230,14 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
 
 
 
-static fx16 d_021E8190[24];
+/*
+ * The cube vertex table (8 corners, x y z each). The values come from the
+ * user's own ROM: tools/gendata.py writes build/gen/h16_ov119_021E8190.inc
+ * (gitignored).
+ */
+static fx16 d_021E8190[24] = {
+#include "../../../build/gen/h16_ov119_021E8190.inc"
+};
 
 
 

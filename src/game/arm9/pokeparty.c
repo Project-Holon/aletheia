@@ -1,8 +1,8 @@
 /*
  * file:     pokeparty.c
  * unit:     yes
- * function: func_02019A50, func_02019A7C, func_02019A9C, func_02019ABC, func_02019B04, func_02019B44, func_02019B58, func_02019B64, func_02019B94, func_02019BA4, func_02019C38, func_02019C54, func_02019C7C, func_02019C90, func_02019CA0, func_02019CE0, func_02019CF8, func_02019D00, func_02019D30, func_02019D58, func_02019D84, func_02019DA4, func_02019E54, func_02019ED4, func_02019FD0, func_0201A090, func_0201A26C, func_0201A2A8, func_0201A30C, func_0201A354, func_0201A364, func_0201A374, func_0201A3F4, func_0201A468, func_0201A48C, func_0201A4A0, func_0201A4B4, func_0201A4D4, func_0201A570, func_0201A59C, func_0201A5FC, func_0201A858, func_0201A918, func_0201A920, func_0201A948, func_0201A954, func_0201A98C, func_0201A9C8, func_0201AA14, func_0201AA18, func_0201AA1C, func_0201AA50, func_0201AA88, func_0201AAD4, func_0201AB08, func_0201AB18, func_0201AB28, func_0201AB34, func_0201AB48, func_0201AB8C, func_0201AC2C, func_0201AC44, func_0201AC80, func_0201ACC4, func_0201ACDC, func_0201AD0C, func_0201AD18, func_0201AD40, func_0201AD58, func_0201AD88, func_0201ADA4, func_0201ADD0, func_0201ADE4, func_0201AE14, func_0201AE1C, func_0201AF6C, func_0201AF80, func_0201AFD4, func_0201B038, func_0201B100, func_0201B170, func_0201B220, func_0201B25C, func_0201B268, func_0201B280, func_0201B28C, func_0201B2B0, func_0201B718, func_0201B764, func_0201B774, func_0201B7A0, func_0201B7B4, func_0201B7EC, func_0201B818, func_0201B850, func_0201B920, func_0201B970, func_0201B9F0, func_0201BA34, func_0201BA68, func_0201BABC, func_0201BB5C, func_0201BBE8, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, func_0201BD28, func_0201BDB4, sub_0201BEB8, sub_0201BF44, sub_0201BF58, func_0201C020, func_0201C0BC, func_0201C158, func_0201C184, func_0201C1BC, func_0201C1C8, func_0201C1D8, func_0201C1E8, func_0201C1F4, func_0201C284, func_0201C314, func_0201C328, func_0201C3C0, func_0201C41C, func_0201C440, func_0201C450, func_0201C4C0, func_0201C4C8, func_0201C4DC, func_0201C4E4, sub_0201C6B4, sub_0201C6C4, sub_0201C6EC, sub_0201C6FC, sub_0201C724, sub_0201C758, func_0201C7A4, func_0201C7D0, func_0201C808, func_0201C8A4, func_0201C8BC, func_0201C974, func_0201CA2C, func_0201CA78, func_0201CAC8, func_0201CC34, func_0201CCE4, func_0201CD10, func_0201CDF4, func_0201CE0C, func_0201CE20, func_0201CE30, func_0201CE34, func_0201CE38, func_0201CE48, func_0201CE5C, func_0201CE8C, func_0201CEB8
- * address:  0x02019A50
+ * function: func_0201A920, func_0201A948, func_0201A954, func_0201A98C, func_0201A9C8, func_0201AA14, func_0201AA18, func_0201AA1C, func_0201AA50, func_0201AA88, func_0201AAD4, func_0201AB08, func_0201AB18, func_0201AB28, func_0201AB34, func_0201AB48, func_0201AB8C, func_0201AC2C, func_0201AC44, func_0201AC80, func_0201ACC4, func_0201ACDC, func_0201AD0C, func_0201AD18, func_0201AD40, func_0201AD58, func_0201AD88, func_0201ADA4, func_0201ADD0, func_0201ADE4, func_0201AE14, func_0201AE1C, func_0201AF6C, func_0201AF80, func_0201AFD4, func_0201B038, func_0201B100, func_0201B170, func_0201B220, func_0201B25C, func_0201B268, func_0201B280, func_0201B28C, func_0201B2B0, func_0201B718, func_0201B764, func_0201B774, func_0201B7A0, func_0201B7B4, func_0201B7EC, func_0201B818, func_0201B850, func_0201B920, func_0201B970, func_0201B9F0, func_0201BA34, func_0201BA68, func_0201BABC, func_0201BB5C, func_0201BBE8, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, func_0201BD28, func_0201BDB4, sub_0201BEB8, sub_0201BF44, sub_0201BF58, func_0201C020, func_0201C0BC, func_0201C158, func_0201C184, func_0201C1BC, func_0201C1C8, func_0201C1D8, func_0201C1E8, func_0201C1F4, func_0201C284, func_0201C314, func_0201C328, func_0201C3C0, func_0201C41C, func_0201C440, func_0201C450, func_0201C4C0, func_0201C4C8, func_0201C4DC, func_0201C4E4, sub_0201C6B4, sub_0201C6C4, sub_0201C6EC, sub_0201C6FC, sub_0201C724, sub_0201C758, func_0201C7A4, func_0201C7D0, func_0201C808, func_0201C8A4, func_0201C8BC, func_0201C974, func_0201CA2C, func_0201CA78, func_0201CAC8, func_0201CC34, func_0201CCE4, func_0201CD10, func_0201CDF4, func_0201CE0C, func_0201CE20, func_0201CE30, func_0201CE34, func_0201CE38, func_0201CE48, func_0201CE5C, func_0201CE8C, func_0201CEB8
+ * address:  0x0201A920
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,77 +11,46 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from pokeparty.c at 0x0201A920 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   gMsgBank   0x020A7370  data
- *   gNameBuf   0x021462F0  data
- *   _s32_div_f           0x0209C0A4  arm
- *   func_02019B04_Table  0x0209E324  data
  *   func_02048F4C  0x02048F4C  arm
- *   gWordBuf       0x02146398  data
- *   gBlockOrder  0x0209E3A4  data
- *   g_02146270   0x02146270  data
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02017E40  0x02017E40  thumb
- *   func_02018584  0x02018584  thumb
- *   func_020185C4  0x020185C4  thumb
- *   func_0201AE1C  0x0201AE1C  thumb
- *   sub_0209E280_Map  0x0209E280  data
- *   d_0209E42C 0x0209E42C data a2
- *   func_0200AE54   0x0200AE54  thumb
- *   func_0200AFD4   0x0200AFD4  thumb
- *   func_0201AA18  0x0201AA18  thumb
- *   MI_CpuFill8    0x02082BCC  arm
- *   func_0201AB28  0x0201AB28  thumb
- *   func_0201AA50   0x0201AA50  thumb
- *   func_02048F60  0x02048F60  arm
- *   func_0201EFA4   0x0201EFA4  thumb
- *   func_020457B0   0x020457B0  arm
- *   func_02045CAC   0x02045CAC  arm
- *   func_0201F250   0x0201F250  thumb
- *   func_02045EC0  0x02045EC0  arm
  *   func_02030734 0x02030734  arm
- *   func_02045808 0x02045808  arm
- *   func_02045B38 0x02045B38  arm
- *   tbl_0209E444  0x0209E444  data
- *   func_02045C04   0x02045C04  arm
  *   func_020307B0   0x020307B0  arm
- *   g_0209E424      0x0209E424  data
- *   sub_0201A920_File  0x020A7304  data
- *   sub_0201AB8C_File  0x020A7304  data
+ *   pokeparty_File  0x020A7304  data
  *   sub_020071CC  0x020071CC  thumb
- *   g_0214652C  0x0214652C  data
- *   sub_0201ADE4_File  0x020A7310  data
+ *   _pPersonalArc  0x0214652C  data
+ *   poke_personal_File  0x020A7310  data
  *   func_0204A39C  0x0204A39C  arm
- *   _ull_mul       0x0209C054  arm
  *   func_0203F0A8  0x0203F0A8  arm
  *   func_02020FE4   0x02020FE4  thumb
  *   func_02011410   0x02011410  thumb
- *   s_shinka_check_c 0x020A7330 data  a1
- *   g_020A7320      0x020A7320  data  a2
- *   g_020A7322      0x020A7322  data  a2
- *   g_020A7324      0x020A7324  data  a2
- *   g_020A732A      0x020A732A  data  a2
+ *   shinka_check_File 0x020A7330 data  a1
+ *   _IceRockZones      0x020A7320  data  a2
+ *   _MossRockZones      0x020A7322  data  a2
+ *   _MagneticZones      0x020A7324  data  a2
+ *   _ExtraEvolutionZones      0x020A732A  data  a2
  *   func_020490F4  0x020490F4  arm
  *   func_0204932C  0x0204932C  arm
- *   g_0209E45C     0x0209E45C  data
- *   func_0201B850  0x0201B850  thumb
- *   g_0209E465     0x0209E465  data  a1
- *   g_0209E462     0x0209E462  data
+ *   _NatsukiDeltaTable     0x0209E45C  data
+ *   _NatsukiWalkDeltas     0x0209E465  data  a1
+ *   _NatsukiPartyDeltas     0x0209E462  data
  *   func_02013E4C   0x02013E4C  thumb
  *   func_02011014   0x02011014  thumb
- *   g_0209E474  0x0209E474  data
- *   gWazaTool   0x02146530  data
- *   g_02146534  0x02146534  data
- *   sub_0201C328_File  0x020A7340  data
- *   g_02146558         0x02146558  data
- *   sub_0201C450_File   0x020A734C  data
+ *   _IconPaletteTable  0x0209E474  data
+ *   _pWazaTool   0x02146530  data
+ *   _WazaTempData  0x02146534  data
+ *   waza_tool_File  0x020A7340  data
+ *   _pGlyphBmp         0x02146558  data
+ *   printsys_File   0x020A734C  data
  *   func_0201DE00  0x0201DE00  thumb
  *   func_0201DE18  0x0201DE18  thumb
  *   func_0201DD78  0x0201DD78  thumb
  *   func_020870D0  0x020870D0  arm
  *   func_0201D7C4  0x0201D7C4  thumb
- *   g_0214655C   0x0214655C  data
+ *   _PrintJobWork   0x0214655C  data
  *   func_02045A90  0x02045A90  arm
  *   func_0201D26C  0x0201D26C  thumb
  *   func_020437DC  0x020437DC  arm
@@ -89,2220 +58,447 @@
  *   func_020311B8  0x020311B8  arm
  *   func_02031290  0x02031290  arm
  *   func_0201CEE0  0x0201CEE0  thumb
- *   func_0201C808  0x0201C808  thumb
+ *   func_02019C90 0x02019C90 thumb
  */
-#include "../../matched/include/Obj06868.h"
-#include "../../matched/include/Obj11261.h"
-#include "../../matched/include/Obj15719.h"
-#include "../../matched/include/Obj17207.h"
-#include "../../matched/include/Obj17208.h"
-#include "../../matched/include/Obj17219.h"
-#include "../../matched/include/Obj17220.h"
-
 #define REG_DISPCNT      (*(volatile u32 *)0x04000000)
 #define REG_DB_DISPCNT   (*(volatile u32 *)0x04001000)
 #define OBJ_MAPPING_MASK 0x300010
-struct MsgData;
-struct Personal;
-struct Reg;
-struct MsgBank;
-struct WordSet;
-struct U16Vec;
-struct Rec_0201A4D4;
-struct Sav;
-struct Sub020071CCCtrl;
-struct ArcFile;
+struct Strbuf;
+struct SaveControl;
+struct ArcHandle;
 struct Bmp;
-struct Waza;
-struct Font;
-struct Descriptor;
-struct S02030FB4;
+struct BmpWin;
+struct GfFont;
+struct Tcbl;
 struct TcblNode;
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-
-struct BlockA {
-    u16 species;
-};
-
 typedef signed char    s8;
 
 typedef unsigned char  u8;
 
-struct Mon_02019C38 {
-    u32 unk00;
-    u16 flags;
-    u16 unk06;
-    u8 block[0x80];
-    u8 pad_88[0x23];
-    unsigned char fAB;
-};
-
-struct Memo {
-    u16 b;
-    u16 a;
-    u8  obj[0x10];
-};
-
-struct RecDC {
-    u32 unk00[0x37];
-};
-
 typedef signed int     s32;
+
+typedef signed short   s16;
 
 typedef unsigned long long u64;
 
-struct Ctx {
-    struct MsgBank *bank;
-    u8 pad04[0x30];
-    u8 f34;
+/* One party Pokemon record, 0xDC bytes (layout in poke_tool.c).  Declared
+ * as words so that a whole-record assignment is the word ldm/stm loop. */
+struct PokemonParam {
+    u32 words[0x37];
 };
 
-struct PartyMon {
-    u32 w[0x37];
-};
-
-struct Party_0201A4D4 {
+/* The party: capacity, live count, six records and one byte of per-slot
+ * flags (bit n for slot n, set when a member is added). */
+struct Party {
     s32 capacity;
     s32 count;
-    struct PartyMon mon[6];
-    u8  unk530;
+    struct PokemonParam members[6];
+    u8  slotFlags;
 };
 
-typedef u32 (*Predicate)(void *entry);
+typedef u32 (*PartyMemberPredicate)(struct PokemonParam *member);
 
-struct Party_0201AB28 {
-    u32 unk00;
-    u32 count;
-    struct PartyMon mon[6];
+/* The 0x3C byte personal record of one species or form (poke_personal.c). */
+struct PersonalData {
+    u8  baseHp;
+    u8  baseAttack;
+    u8  baseDefense;
+    u8  baseSpeed;
+    u8  baseSpAttack;
+    u8  baseSpDefense;
+    u8  type1;
+    u8  type2;
+    u8  catchRate;
+    u8  evoStage;
+    u16 evHp : 2;
+    u16 evAttack : 2;
+    u16 evDefense : 2;
+    u16 evSpeed : 2;
+    u16 evSpAttack : 2;
+    u16 evSpDefense : 2;
+    u16 yieldFlag : 1;
+    u16 reserved : 3;
+    u16 heldItemCommon;
+    u16 heldItemRare;
+    u16 heldItemDream;
+    u8  genderRatio;
+    u8  eggCycles;
+    u8  baseFriendship;
+    u8  growthRate;
+    u8  eggGroup1;
+    u8  eggGroup2;
+    u8  ability1;
+    u8  ability2;
+    u8  hiddenAbility;
+    u8  escapeRate;
+    u16 formStatsIndex;
+    u16 formSpriteIndex;
+    u8  formCount;
+    u8  color : 6;
+    u8  spriteFlip : 1;
+    u8  formSpriteShared : 1;
+    u16 baseExp;
+    u16 height;
+    u16 weight;
+    u32 tmFlags1;
+    u32 tmFlags2;
+    u32 tmFlags3;
+    u32 tmFlags4;
+    u32 tutorFlags;
 };
 
-struct Rec534 {
-    u32 unk000[0x14D];
-};
-
-struct Personal_0201AE1C {
-    u8  unk00;
-    u8  unk01;
-    u8  unk02;
-    u8  unk03;
-    u8  unk04;
-    u8  unk05;
-    u8  unk06;
-    u8  unk07;
-    u8  unk08;
-    u8  unk09;
-    u16 ev0 : 2;
-    u16 ev1 : 2;
-    u16 ev2 : 2;
-    u16 ev3 : 2;
-    u16 ev4 : 2;
-    u16 ev5 : 2;
-    u16 unk0A_12 : 1;
-    u16 unk0A_13 : 3;
-    u16 unk0C;
-    u16 unk0E;
-    u16 unk10;
-    u8  unk12;
-    u8  unk13;
-    u8  unk14;
-    u8  unk15;
-    u8  unk16;
-    u8  unk17;
-    u8  unk18;
-    u8  unk19;
-    u8  unk1A;
-    u8  unk1B;
-    u16 unk1C;
-    u16 unk1E;
-    u8  unk20;
-    u8  unk21_0 : 6;
-    u8  unk21_6 : 1;
-    u8  unk21_7 : 1;
-    u16 unk22;
-    u16 unk24;
-    u16 unk26;
-    u32 unk28;
-    u32 unk2C;
-    u32 unk30;
-    u32 unk34;
-    u32 unk38;
-};
-
-struct Personal_0201AFD4 {
-    u8  unk00[0x1C];
-    u16 unk1C;
-    u8  unk1E[2];
-    u8  unk20;
-    u8  unk21[0x1B];
-};
-
-struct EvoRow_0201B2B0 {
-    u16 method;
-    u16 param;
-    u16 target;
-};
-
-struct EvoRow_0201B70C {
+/* One evolution: method, its argument (level, item, move, species ...)
+ * and the species it evolves into. */
+struct EvolutionRow {
     u16 method;
     u16 param;
     u16 species;
 };
 
-struct EvoTable {
-    struct EvoRow_0201B70C rows[7];
-    u16 unk2A;
+/* The 0x2C byte evolution record of one species. */
+struct EvolutionData {
+    struct EvolutionRow rows[7];
+    u16 pad;
 };
 
-struct Rec_0201A4D4 {
-    u32 unk00;
-    s32 unk04;
-    u8  unk08[1];
+/* The 0x24 byte move record (waza_tool.c). */
+struct WazaData {
+    u8  type;
+    u8  category;
+    u8  damageType;
+    u8  power;
+    u8  accuracy;
+    u8  basePP;
+    s8  priority;
+    u8  hitMin : 4;
+    u8  hitMax : 4;
+    u16 sickId;
+    u8  sickPercent;
+    u8  sickContType;
+    u8  sickTurnMin;
+    u8  sickTurnMax;
+    u8  criticalRank;
+    u8  shrinkPercent;
+    u16 effectSequence;
+    s8  drainRatio;
+    s8  healRatio;
+    u8  target;
+    u8  rankType[3];
+    s8  rankValue[3];
+    u8  rankPercent[3];
+    u8  pad[2];
+    u32 flags;
 };
 
-struct Waza {
-    u8  unk00;
-    u8  unk01;
-    u8  unk02;
-    u8  unk03;
-    u8  unk04;
-    u8  unk05;
-    s8  unk06;
-    u8  lo : 4;
-    u8  hi : 4;
-    u16 unk08;
-    u8  unk0A;
-    u8  unk0B;
-    u8  unk0C;
-    u8  unk0D;
-    u8  unk0E;
-    u8  unk0F;
-    u16 unk10;
-    s8  unk12;
-    s8  unk13;
-    u8  unk14;
-    u8  unk15[3];
-    s8  unk18[3];
-    u8  unk1B[3];
-    u8  pad1E[2];
-    u32 unk20;
-};
-
+/* The move record cache: `count` records and the move id each one holds
+ * (0 for an empty slot). */
 struct WazaTool {
-    struct Waza **recs;
-    u16 *vals;
+    struct WazaData **records;
+    u16 *moveIds;
     s32 count;
 };
 
-typedef signed short   s16;
-
-union Packed {
+/* The packed sick-continuation value WAZA_TOOL_GetSickCont returns. */
+union WazaSickCont {
     struct {
-        u16 a : 4;
-        u16 b : 6;
-        u16 c : 6;
-    } f;
-    s16 v;
+        u16 type : 4;
+        u16 turnMin : 6;
+        u16 turnMax : 6;
+    } bits;
+    s16 value;
 };
 
-union PenWord {
-    u32 w;
+/* Pen origin and colour mode, packed in one word of PrintCtx. */
+union PrintPos {
+    u32 raw;
     struct {
-        s32 x : 10;
-        u32 y : 10;
-        s32 kind : 4;
-        u32 rest : 8;
-    } b;
+        s32 originX : 10;
+        u32 originY : 10;
+        s32 colorMode : 4;
+        u32 extra : 8;
+    } bits;
 };
 
-typedef void (*PrintBlitFn)(struct Bmp *bmp, s32 x, s32 y, struct Font *font, u16 ch, const u8 *glyph);
+typedef void (*PrintBlitFn)(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
 
+/* One print job: the pen, the colours, the font and the target bitmap. */
 struct PrintCtx {
-    s16 unk00;
-    s16 unk02;
-    union PenWord unk04;
-    u16 unk08;
-    u16 unk0A;
-    u16 unk0C;
-    u16 unk0E;
-    struct Font *unk10;
-    struct Bmp *unk14;
-    PrintBlitFn unk18;
+    s16 penX;
+    s16 penY;
+    union PrintPos pos;
+    u16 letterSpacing;
+    u16 lineSpacing;
+    u16 textColor;
+    u16 activeColor;
+    struct GfFont *font;
+    struct Bmp *bmp;
+    PrintBlitFn blitGlyph;
 };
 
-union Ticks {
-    u64 v;
+union PrintTicks {
+    u64 value;
     struct {
-        u32 lo;
-        u32 hi;
-    } w;
+        u32 low;
+        u32 high;
+    } half;
 };
 
-union Mode7 {
+union PrintQueueState {
     u8 raw;
     struct {
-        u8 lo : 4;
-        u8 hi : 4;
-    } b;
+        u8 pending : 4;
+        u8 forceQueue : 4;
+    } bits;
 };
 
-struct PrintSys {
-    u16 unk00;
-    u16 unk02;
-    u16 unk04;
-    u8  unk06;
-    union Mode7 unk07;
-    union Ticks unk08;
-    struct PrintCtx *unk10;
-    u16 *unk14;
-    u8  buf[4];
+/* The print queue: a byte ring of queued jobs and their strings after the
+ * 0x18 byte header. */
+struct PrintQueue {
+    u16 head;
+    u16 tail;
+    u16 capacity;
+    u8  frameCount;
+    union PrintQueueState state;
+    union PrintTicks limitTicks;
+    struct PrintCtx *job;
+    u16 *cursor;
+    u8  data[4];
 };
 
-struct Rec_0201CD10 {
-    u32  state;        /* 0x00 */
-    u32  mode;         /* 0x04 */
-    u32  f08;          /* 0x08 */
-    u32  win;          /* 0x0c */
-    void *task;        /* 0x10 */
-    u16 *cur;          /* 0x14 */
-    u8   f18;
-    u8   f19;
-    u8   f1a;
-    u8   f1b;
-    u8   f1c;
-    u8   f1d;
-    u8   wait;         /* 0x1e */
-    u8   scroll;       /* 0x1f */
-    u8   color;        /* 0x20 */
-    u8   cbres;        /* 0x21 */
+typedef u8 (*PrintCallback)(u32 arg);
+
+union TextPrinterFlags {
+    u8 raw;
     struct {
-        u8 b0 : 1;
-        u8 b1 : 1;
-        u8 b2 : 1;
-        u8 b3 : 1;
-        u8 b4 : 1;
-        u8 rest : 3;
-    } flags;           /* 0x22 */
+        u8 halted : 1;
+        u8 scrolling : 1;
+        u8 advance : 1;
+        u8 useOverrideSpeed : 1;
+        u8 clearOverridePending : 1;
+        u8 reserved : 3;
+    } bits;
+};
+
+/* A streamed text print (0x50 byte task work). */
+struct TextPrinter {
+    u32  state;
+    u32  waitKind;
+    struct BmpWin *bmpWin;
+    struct Bmp *bmp;
+    struct TcblNode *task;
+    u16 *cursor;
+    u8   defaultWait;
+    u8   defaultGlyphs;
+    u8   waitFrames;
+    u8   glyphsPerTick;
+    u8   overrideWait;
+    u8   overrideGlyphs;
+    u8   waitCounter;
+    u8   scrollPixels;
+    u8   fillColor;
+    u8   callbackResult;
+    union TextPrinterFlags flags;
     u8   pad23;
-    u8 (*cb)(u32);     /* 0x24 */
-    u32  f28;
-    u32  f2c;
-    u32  cbarg;        /* 0x30 */
-    struct PrintCtx ctx; /* 0x34 */
+    PrintCallback callback;
+    u32  initialCallbackArg;
+    u32  nextCallbackArg;
+    u32  callbackArg;
+    struct PrintCtx ctx;
 };
-
-struct Rec3 {
-    u32 pad[4];
-    void * unk10;
-    u8 pad_14[0x4];
-    u8 unk18;
-    u8 unk19;
-    u8 pad_1A[0x2];
-    u8 unk1C;
-    u8 unk1D;
-    u8 unk1E;
-    u8 pad_1F[0x3];
-    u8 unk22;
-};
-
-extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_0201F448(const u16 *a, const u16 *b);
-extern void *func_020185F0();
-extern u32   func_02017E88(void *p, u32 id, u32 v);
-extern void  func_02017E64(void *p, u32 id, u32 v);
-extern void  func_02048F4C(void *a, u32 b, u32 c);
-extern u32  func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32  func_02018584(u16 a, u16 b, u16 v);
-extern void func_020185C4(void *p);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern u32 func_0200AFD4(struct Reg *p, u32 id, s32 n);
-extern u32 func_0201AA18(void *p);
-extern void MI_CpuFill8(void *dst, u8 v, u32 n);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_0201AA50(void *p);
-extern void *func_02048F60(unsigned int archive_id, unsigned int member, unsigned int heap);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
-extern void func_02045808(struct U16Vec *vec);
-extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct Rec_0201A4D4 *rec);
-extern u32 func_020307B0(void *p);
-extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
-extern void func_02017528(struct Sav *p);
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_02049578(struct ArcFile *handle, u32 x);
-extern void *func_0204960C(void *handle, void *x);
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
-extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
+struct BoxPokemon;
+extern struct BoxPokemon *func_020185F0(struct PokemonParam *pp);
+extern u32   func_02017E88(struct BoxPokemon *box, u32 id, u32 arg);
+extern void  func_02048F4C(void *dst, u32 arcId, u32 dataId);
+extern u32   func_02017E1C(struct PokemonParam *pp, u32 id, u32 arg);
+extern void  func_02017E40(struct PokemonParam *pp, u32 id, u32 value);
+extern void *func_02030734(u32 heap, u32 size, int fromTail, const char *file, u16 line);
+extern u32   func_020307B0(void *ptr);
+extern void  MIi_CpuClearFast(u32 value, void *dest, u32 size);
+extern void  func_02017528(struct PokemonParam *pp);
+extern void *sub_020071CC(struct SaveControl *save, u32 blockId);
+extern struct ArcHandle *func_020490F4(unsigned int arcId, unsigned int heap);
+extern u32   func_02049578(struct ArcHandle *arc, u32 dataId);
+extern void  func_0204960C(struct ArcHandle *arc, u32 offset);
+extern void  func_020495F4(struct ArcHandle *arc, u32 size, void *dst);
+extern void *func_0204A39C(struct ArcHandle *arc, int dataId, int fromTail, u32 heap, u32 *sizeOut);
 extern u32   func_0203F0A8(void);
-extern u32   func_02020FE4(u32 id, u32 sel, u16 heap);
-extern u32   func_02011410(u32 tz);
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
-extern void func_0201B850(void *mon, const s8 *tbl, int a2, u16 a3);
-extern u32 func_02013E4C(u32 id);
-extern int func_02011014(int a0);
-extern u8  func_0201C158(u32 move, u32 ppUp);
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
-extern u32  func_020490A8(u32 kind, u32 member);
-extern int func_0201BD28(int, int);
-extern void func_020457A0(u16 stamp);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
-extern void  func_0201DE00(u8 *r, u8 *g, u8 *b);
-extern u32   func_0201DE18(u32 r, u32 g, u32 b);
-extern void  func_0201DD78(u32 r, u32 g, u32 b);
+extern u32   func_02020FE4(u32 item, u32 param, u16 heap);
+extern u32   func_02011410(u32 timezone);
+extern void  func_0204932C(struct ArcHandle *arc, u32 dataId, void *dst);
+extern u32   func_02013E4C(u32 zoneId);
+extern int   func_02011014(int delta);
+extern u32   func_02017DBC(struct BoxPokemon *box);
+extern u32   func_02017DE4(struct BoxPokemon *box, u32 wasDecoded);
+extern u32   func_020490A8(u32 arcId, u32 dataId);
+extern void  func_020457A0(u16 eosChar);
+extern struct Bmp *func_02043678(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
+extern void  func_0201DE00(u8 *letter, u8 *shadow, u8 *background);
+extern u32   func_0201DE18(u32 letter, u32 shadow, u32 background);
+extern void  func_0201DD78(u32 letter, u32 shadow, u32 background);
 extern u64   func_020870D0(void);
-extern struct PrintCtx *func_0201D7C4(struct PrintSys *p, struct PrintCtx *q);
-extern int func_0203D1B4(void);
-extern u32   func_0201D6B8(struct U16Vec *s);
-extern u32 func_0201D6C4(const struct PrintSys *p);
-extern void  func_0201D6D8(struct PrintSys *p, struct PrintCtx *c, struct U16Vec *s);
-extern void sub_0201C8BC(struct PrintCtx *c, struct U16Vec *s);
-extern u16 *func_02045A90(struct U16Vec *vec);
-extern u8 func_02043994(struct Bmp *b);
+extern struct PrintCtx *func_0201D7C4(struct PrintQueue *queue, struct PrintCtx *job);
+extern int   func_0203D1B4(void);
+extern u32   func_0201D6B8(struct Strbuf *str);
+extern u32   func_0201D6C4(const struct PrintQueue *queue);
+extern void  func_0201D6D8(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
+extern u16  *func_02045A90(struct Strbuf *str);
+extern u8    func_02043994(struct Bmp *bmp);
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_0201DB04(struct Font *p, u16 ch, void *c, void *d);
-extern void func_02043AAC(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u16 a10);
-extern u32 func_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern void *func_02045770(struct Descriptor *p);
-extern void *func_020311B8(u32 a0, void *fn, u32 sz, u32 a3);
-extern void *func_02031290(struct S02030FB4 *p);
-extern void  func_0201CEE0(void *task, struct Rec_0201CD10 *p);
-extern void func_0201C808(struct PrintCtx *p, struct Font *w, struct Bmp *x, u32 y, s16 z);
-extern void func_02031194(struct TcblNode *n);
-extern signed char func_02013080(u32 idx);
-void func_02019A50(u16 *p, u32 size, u32 seed);
-u16 func_02019A7C(u32 *s);
-u16 func_02019A9C(const u16 *p, u32 size);
-u32 func_02019ABC(struct Mon_02019C38 *p);
-u32 func_02019B04(u32 a, u32 b, u32 n);
-s8 func_02019B44(u32 a, u32 n);
-void func_02019B58(void *p);
-void func_02019B64(void *p);
-void func_02019B94(u32 a, void *b);
-u32 func_02019BA4(u32 a, u32 i);
-u32 func_02019BBC(u32 item);
-void *func_02019C38(struct Mon_02019C38 *p, u32 pid, u32 n);
-void *func_02019C54(u32 a, u32 b);
-u32 func_02019C7C(void *h);
-u32 func_02019C90(u16 a, u16 b, u32 k);
-void func_02019CA0(void *p, u32 v);
-void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
-unsigned int func_02019CF8(unsigned int item);
-u32 func_02019D00(u32 id);
-u32 func_02019D30(u16 a, u16 n);
-int func_02019D58(u16 a, int b);
-int func_02019D84(unsigned short value);
-int func_02019DA4(void *a0, void *a1);
-int func_02019E54(u32 a0, u32 a1, u32 a2);
-int sub_02019ED4(void *ctx, void *q);
-int func_02019FD0(void *a0, void *a1, u32 *a2);
-int func_0201A090(void *rules, void *party, u32 *mask);
-u32 func_0201A26C(void *a0, u32 a1);
-void func_0201A2A8(void *a0, void *a1);
-void func_0201A30C(void *a0, void *a1, u32 c);
-void *func_0201A354(int a, int b);
-void func_0201A364(int a, unsigned int b);
-void *func_0201A374(u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4);
-void *func_0201A3F4(const u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4);
-void *func_0201A468(u8 *a0, int a1, struct Ctx *c);
-void *func_0201A48C(u8 *a0, int a1, struct Ctx *c);
-void *func_0201A4A0(u8 *a0, int a1, struct Ctx *c);
-void *func_0201A4B4(u8 *a0, int a1, struct Ctx *c);
-u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3);
-void func_0201A570(void *a0);
-int func_0201A59C(void *a0, void *a1, void *a2);
-int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4);
-int func_0201A858(u8 *a);
-int func_0201A918(void);
-struct Party_0201A4D4 *sub_0201A920(u32 heap);
-void sub_0201A948(struct Party_0201A4D4 *p);
-void sub_0201A954(struct Party_0201A4D4 *p, s32 capacity);
-u32 sub_0201A98C(struct Party_0201A4D4 *p, const struct PartyMon *src);
-u32 sub_0201A9C8(struct Party_0201A4D4 *p, s32 idx);
-u32 sub_0201AA14(void *p);
-u32 sub_0201AA18(void *p);
-u32 sub_0201AA1C(void *p);
-u32 sub_0201AA50(void *p);
-u32 sub_0201AA88(void *p);
-u32 sub_0201AAD4(void *p);
-u32 sub_0201AB08(void *p);
-u32 sub_0201AB18(void *p);
-void *sub_0201AB28(void *p, u32 idx);
-u32 sub_0201AB34(void *p, u32 idx);
-void sub_0201AB48(struct Party_0201AB28 *p, u32 idx, const struct PartyMon *src);
-u32 sub_0201AB8C(struct Party_0201AB28 *p, u32 i, u32 j, u32 heap);
-void sub_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-u32 sub_0201AC44(struct Rec_0201A4D4 *p, u32 target);
-u32 sub_0201AC80(void *p);
-int sub_0201ACC4(void *p, u32 pos);
-void sub_0201ACDC(void *p, u32 pos, u32 mode);
-void *sub_0201AD0C(void *sys);
-u32 sub_0201AD18(void *p);
-u32 sub_0201AD40(void *p);
-u32 sub_0201AD58(void *p, Predicate pred);
+extern void  func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 colorKey);
+extern void  func_0201DB04(struct GfFont *font, u16 code, void *dst, void *metrics);
+extern void  func_02043AAC(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
+extern u32   func_0201D26C(u16 *str, void *font, u32 spacing, u16 **next);
+extern u16   func_020437DC(const struct Bmp *bmp);
+extern struct Bmp *func_02045770(struct BmpWin *win);
+extern struct TcblNode *func_020311B8(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
+extern void *func_02031290(struct TcblNode *task);
+extern void  func_0201CEE0(void *task, struct TextPrinter *printer);
+extern void  func_02031194(struct TcblNode *task);
+extern signed char func_02013080(u32 speed);
+u32 func_02019C90(u16 species, u16 form, u32 field);
+struct Party *sub_0201A920(u32 heap);
+void sub_0201A948(struct Party *party);
+void sub_0201A954(struct Party *party, s32 capacity);
+u32 sub_0201A98C(struct Party *party, const struct PokemonParam *member);
+u32 sub_0201A9C8(struct Party *party, s32 pos);
+u32 sub_0201AA14(const struct Party *party);
+u32 sub_0201AA18(const struct Party *party);
+u32 sub_0201AA1C(struct Party *party);
+u32 sub_0201AA50(struct Party *party);
+u32 sub_0201AA88(struct Party *party);
+u32 sub_0201AAD4(struct Party *party);
+u32 sub_0201AB08(struct Party *party);
+u32 sub_0201AB18(struct Party *party);
+struct PokemonParam *sub_0201AB28(struct Party *party, u32 pos);
+u32 sub_0201AB34(struct Party *party, u32 pos);
+void sub_0201AB48(struct Party *party, u32 pos, const struct PokemonParam *member);
+u32 sub_0201AB8C(struct Party *party, u32 pos1, u32 pos2, u32 heap);
+void sub_0201AC2C(const struct Party *src, struct Party *dst);
+u32 sub_0201AC44(struct Party *party, u32 species);
+u32 sub_0201AC80(struct Party *party);
+int sub_0201ACC4(const struct Party *party, u32 pos);
+void sub_0201ACDC(struct Party *party, u32 pos, u32 set);
+struct Party *sub_0201AD0C(struct SaveControl *save);
+u32 sub_0201AD18(struct PokemonParam *member);
+u32 sub_0201AD40(struct PokemonParam *member);
+u32 sub_0201AD58(struct Party *party, PartyMemberPredicate pred);
 void sub_0201AD88(u32 heap);
-void sub_0201ADA4(u32 a, int b, void *c);
-void sub_0201ADD0(u32 a, int b, void *c);
-void *sub_0201ADE4(u32 a, int b, u32 c);
-void sub_0201AE14(void *p);
-u32 sub_0201AE1C(const struct Personal_0201AE1C *p, u32 field);
-u32 sub_0201AF6C(u32 v);
+void sub_0201ADA4(u32 species, int form, void *dst);
+void sub_0201ADD0(u32 species, int form, void *dst);
+struct PersonalData *sub_0201ADE4(u32 species, int form, u32 heap);
+void sub_0201AE14(struct PersonalData *data);
+u32 sub_0201AE1C(const struct PersonalData *data, u32 field);
+u32 sub_0201AF6C(u32 ability);
 u16 *sub_0201AF80(u32 heap, u16 *countOut);
 u32 sub_0201AFD4(u32 species, s32 form);
-void sub_0201B038(void *party);
-void sub_0201B100(void *party, s32 amount);
-void sub_0201B170(void *party);
-u32 sub_0201B220(void *party);
-u32 sub_0201B25C(void *a);
-u32 sub_0201B268(void *mon);
-u32 sub_0201B280(void *a);
-u32 sub_0201B28C(void *mon);
-u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
-void *sub_0201B70C(u32 heap);
-u32 sub_0201B718(void *a, u32 id, u32 row, u32 field);
-void sub_0201B764(u32 id, void *dest);
-u32 sub_0201B774(void *mon, u32 move);
-void func_0201B7A0(void *a0, int a1, int a2, u16 a3);
-void func_0201B7B4(void *a0, int a1, u16 a2, u16 a3);
-void func_0201B7EC(void *a0, int a1, u16 a2);
-void func_0201B818(void *a0, int a1, u16 a2);
-void sub_0201B850(void *mon, const s8 *tbl, int a2, u16 a3);
-u8 sub_0201B920(void *mon, u32 slot);
-u32 sub_0201B970(void *mon, u32 slot, u32 amount);
-void sub_0201B9F0(void *mon);
-void sub_0201BA34(void *party);
-u32 sub_0201BA68(void *mon);
+void sub_0201B038(struct Party *party);
+void sub_0201B100(struct Party *party, s32 days);
+void sub_0201B170(struct Party *party);
+u32 sub_0201B220(struct Party *party);
+u32 sub_0201B25C(struct PokemonParam *pp);
+u32 sub_0201B268(struct BoxPokemon *box);
+u32 sub_0201B280(struct PokemonParam *pp);
+u32 sub_0201B28C(struct BoxPokemon *box);
+u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg, u8 timezone, u32 *methodOut, u16 heap);
+struct ArcHandle *sub_0201B70C(u32 heap);
+u32 sub_0201B718(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field);
+void sub_0201B764(u32 species, struct EvolutionRow *rows);
+u32 sub_0201B774(struct PokemonParam *pp, u32 move);
+void func_0201B7A0(struct PokemonParam *pp, int type, int zoneId, u16 heap);
+void func_0201B7B4(struct PokemonParam *pp, int item, u16 zoneId, u16 heap);
+void func_0201B7EC(struct PokemonParam *pp, int zoneId, u16 heap);
+void func_0201B818(struct Party *party, int zoneId, u16 heap);
+void sub_0201B850(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 heap);
+u8 sub_0201B920(struct PokemonParam *pp, u32 slot);
+u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount);
+void sub_0201B9F0(struct PokemonParam *pp);
+void sub_0201BA34(struct Party *party);
+u32 sub_0201BA68(struct BoxPokemon *box);
 u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-u32 sub_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-u32 sub_0201BBE8(void *mon);
+u32 sub_0201BB5C(u32 species, u32 form, u32 female, u32 isEgg);
+u32 sub_0201BBE8(struct BoxPokemon *box);
 int func_0201BC3C(void);
 int func_0201BC40(void);
 int func_0201BC78(void);
 int func_0201BCB4(void);
 int func_0201BCEC(void);
-u32 sub_0201BD28(u16 id, u32 field);
-u32 sub_0201BDB4(const struct Waza *p, u32 id);
-u32 sub_0201BEB8(u16 id, u32 bit);
-u32 sub_0201BF44(const struct Waza *p, u32 bit);
-s16 sub_0201BF58(u16 id);
-u8 sub_0201C020(u16 id);
-u8 sub_0201C0BC(u16 id, u32 idx, s32 *out);
+u32 sub_0201BD28(u16 move, u32 param);
+u32 sub_0201BDB4(const struct WazaData *data, u32 param);
+u32 sub_0201BEB8(u16 move, u32 flag);
+u32 sub_0201BF44(const struct WazaData *data, u32 flag);
+s16 sub_0201BF58(u16 move);
+u8 sub_0201C020(u16 move);
+u8 sub_0201C0BC(u16 move, u32 index, s32 *value);
 u8 sub_0201C158(u16 move, u32 ppUp);
-u32 sub_0201C184(int id);
+u32 sub_0201C184(int item);
 u32 sub_0201C1BC(u16 move);
-u8 sub_0201C1C8(u16 p);
-u16 sub_0201C1D8(u16 p);
-int func_0201C1E8(int a);
-u32 sub_0201C1F4(u16 id);
-u32 sub_0201C284(u16 id);
-u32 sub_0201C314(u16 p);
-void sub_0201C328(s32 n, u32 heap);
+u8 sub_0201C1C8(u16 move);
+u16 sub_0201C1D8(u16 move);
+int func_0201C1E8(u16 move);
+u32 sub_0201C1F4(u16 move);
+u32 sub_0201C284(u16 move);
+u32 sub_0201C314(u16 move);
+void sub_0201C328(s32 count, u32 heap);
 void sub_0201C3C0(void);
 u32 sub_0201C408(void);
-void sub_0201C41C(void *arg);
-u32 sub_0201C440(void *p);
-void *sub_0201C450(u16 n, u32 heap);
-void sub_0201C4C0(struct PrintSys *p);
-void sub_0201C4C8(struct PrintSys *p, u32 v);
-void sub_0201C4DC(struct PrintSys *p, u32 lo, u32 hi);
-u32 func_0201C4E4(struct PrintSys *ps);
-u32 sub_0201C6B4(const struct PrintSys *p);
-u32 sub_0201C6C4(struct PrintSys *p, struct Bmp *v);
-void sub_0201C6EC(struct PrintSys *p);
-void sub_0201C6FC(struct PrintSys *p, struct Bmp *a, u32 b, s16 c, struct U16Vec *s, struct Font *e);
-void sub_0201C724(struct PrintSys *p, struct Bmp *a, u32 b, s16 c, struct U16Vec *s, struct Font *e, u16 f);
-void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, struct U16Vec *s);
-void func_0201C7A4(struct Bmp *x, s16 y, s16 z, struct U16Vec *s, struct Font *w);
-void func_0201C7D0(struct Bmp *x, s16 y, s16 z, struct U16Vec *s, struct Font *w, u16 v);
-void sub_0201C808(struct PrintCtx *p, struct Font *w, struct Bmp *x, u32 y, s16 z);
-void sub_0201C8A4(struct PrintCtx *p, u16 v);
-void func_0201C8BC(struct PrintCtx *c, struct U16Vec *s);
-u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f);
-void sub_0201CA2C(struct Bmp *a, s32 b, s32 c, struct Font *d, u16 e, const u8 *f);
-void sub_0201CA78(struct Bmp *a, s32 b, s32 c, struct Font *d, u16 e, const u8 *f);
-u16 *func_0201CAC8(struct PrintCtx *c, u16 *p);
-u16 *func_0201CC34(struct PrintCtx *a0, u16 *a1);
-void func_0201CCE4(u32 a0, s16 a1, s16 a2, u32 a3, struct Font *a4, s32 a5, u32 a6, u32 a7, u16 a8, u16 a9);
-struct Rec_0201CD10 *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, struct Font *a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
-void sub_0201CDF4(int v, u8 *out);
-void sub_0201CE0C(void *p);
-void sub_0201CE20(void *p);
-u32 sub_0201CE30(void *p);
-u32 sub_0201CE34(void *p);
-void sub_0201CE38(void *p);
-void sub_0201CE48(struct Rec3 *p);
-void sub_0201CE5C(struct Rec3 *p, s32 v);
-void sub_0201CE8C(struct Rec3 *p, s32 v);
-void sub_0201CEB8(struct Rec3 *p);
-u32 sub_0201CED4(struct Rec3 *p);
-extern void *gMsgBank;
-extern u16   gNameBuf[];
-extern const s8 func_02019B04_Table[][5];
-extern u32   gWordBuf[];
-extern const u8 gBlockOrder[32][4];
-extern struct Memo g_02146270;
-extern u16 sub_0209E280_Map[];
-extern const unsigned short d_0209E42C[];
-extern u8 tbl_0209E444[];
-extern const u8 g_0209E424[6];
-extern const char sub_0201A920_File[];
-extern const char sub_0201AB8C_File[];
-extern void *g_0214652C;
-extern const char sub_0201ADE4_File[];
-extern u8 s_shinka_check_c[];
-extern const u16 g_020A7320[1];
-extern const u16 g_020A7322[1];
-extern const u16 g_020A7324[3];
-extern const u16 g_020A732A[3];
-extern const s8 g_0209E45C[];
-extern const s8 g_0209E465[];
-extern const s8 g_0209E462[];
-extern const u8 g_0209E474[];
-extern struct WazaTool *gWazaTool;
-extern struct Waza g_02146534;
-extern const char sub_0201C328_File[];
-extern struct Bmp *g_02146558;
-extern const char sub_0201C450_File[];
-extern struct PrintCtx g_0214655C;
-
-
-
-
-
-
-
-
-
-/*
- * The three primitives the whole save record in this region is protected
- * with.  func_02019A7C is one step of the linear congruential generator
- * `s = s * 0x41C64E6D + 0x6073` returning the middle halfword of the new
- * state, func_02019A50 XOR masks a byte range with that stream halfword by
- * halfword, and func_02019A9C is the plain halfword sum used as the checksum.
- *
- * func_02019A50 opens `push {r0, r1, r2, r3}` and closes `pop {r3}` /
- * `add sp, #0x10` / `bx r3`, which is what taking the address of a register
- * parameter costs on this front end; see
- * docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md.  The
- * seed is passed by value and updated in place through that home slot, so a
- * caller's seed is never modified, which is what lets func_02018D34 mask the
- * same area twice with the same seed to undo itself.
- *
- * func_02019A7C carries no label in the generated listing.
- */
-void func_02019A50(u16 *p, u32 size, u32 seed)
-{
-    u32 i = 0;
-    u32 n = size >> 1;
-
-    if (n != 0) {
-        u32 *s = &seed;
-
-        do {
-            p[i] ^= func_02019A7C(s);
-            i++;
-        } while (i < n);
-    }
-}
-
-
-
-
-
-
-
-
-
-u16 func_02019A7C(u32 *s)
-{
-    *s = *s * 0x41C64E6D + 0x6073;
-    return (u16)(*s >> 16);
-}
-
-
-
-
-
-
-
-
-
-u16 func_02019A9C(const u16 *p, u32 size)
-{
-    u16 sum = 0;
-    u32 i = 0;
-    u32 n = size >> 1;
-
-    if (n != 0) {
-        do {
-            sum = (u16)(sum + p[i]);
-            i++;
-        } while (i < n);
-    }
-    return sum;
-}
-
-
-
-
-
-
-
-
-
-/*
- * "Is the name in substruct C still the species' default name": it renders the
- * species name for substruct A's species id into the shared 0x20 halfword
- * buffer at 0x021462F0 and compares it with substruct C's own name, returning
- * 1 when they are equal.  func_02019388 (src/matched/sub_02019388.c) calls it
- * from ids 0x73 and 0x74 and stores the result in substruct B +0x10 bit 31,
- * which is the bit func_02018E34 reads back as id 0x75.  Those two calls are
- * the only references to this address in the image.
- *
- * The result local is declared before the two substruct fetches, which is what
- * puts `movs r5, #0` in front of the first call rather than after the second.
- *
- * The message bank at 0x020A7370 is a global pointer, so its address is a
- * build property and has to be re-derived for a White build rather than
- * copied; the 0x20 is a halfword count and the species id is data, so nothing
- * else here is version specific.
- *
- * Verified with
- *   python tools/match.py tu --src src/matched/unit_02019ABC.c \
- *       --addr 0x02019ABC --thumb
- */
-u32 func_02019ABC(struct Mon_02019C38 *p)
-{
-    u32 r = 0;
-    struct BlockA *a = (struct BlockA *)func_02019C38((struct Mon_02019C38 *)p, p->unk00, 0);
-    void *c = func_02019C38((struct Mon_02019C38 *)p, p->unk00, 2);
-
-    func_02045F5C(gMsgBank, a->species, gNameBuf, 0x20);
-    if (func_0201F448(gNameBuf, c) == 0) {
-        r = 1;
-    }
-    return r;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Scales b by a per (a, n) table entry of -1, 0 or 1; the multipliers are
- * 0x5A and 0x6E, which are 90 and 110 percent. Both arms are written out in
- * full and the compiler cross jumps their common muls/truncate/divide tail
- * into one block that the missing default branches past, which is
- * docs/idioms/switch-arms-tail-merge.md; hoisting the multiplication out of
- * the switch puts the default branch to that block instead of past it and
- * costs eight bytes.
- *
- * The table at 0x0209E324 is witnessed by the pool word of the neighbouring
- * leaf sub_02019B44.c (seeded via layout/function_starts.txt), and this
- * file's own pool word witnesses it for that one: the unit_02005DF8 /
- * unit_02005E30 pairwise treatment.
- *
- * Verified with
- *   python tools/match.py tu --src src/matched/unit_02019B04.c \
- *       --addr 0x02019B04 --thumb
- */
-u32 func_02019B04(u32 a, u32 b, u32 n)
-{
-    s8 v;
-
-    if (n >= 6) {
-        return b;
-    }
-    v = func_02019B04_Table[a][n - 1];
-    switch (v) {
-    case 1:
-        b = (u16)((u16)(b * 0x6E) / 100);
-        break;
-    case -1:
-        b = (u16)((u16)(b * 0x5A) / 100);
-        break;
-    }
-    return b;
-}
-
-
-
-
-
-
-
-
-
-/*
- * The unlabelled leaf whose pool word is the second image-wide reference to
- * the table at 0x0209E324; traced via layout/function_starts.txt. Its pool
- * word witnesses the table for unit_02019B04.c and vice versa.
- *
- * Verified with
- *   python tools/match.py one --src src/matched/sub_02019B44.c \
- *       --func func_02019B44 --addr 0x02019B44
- */
-s8 func_02019B44(u32 a, u32 n)
-{
-    return func_02019B04_Table[a][n - 1];
-}
-
-
-
-
-
-
-
-
-
-/*
- *           func_02019BBC
- *
- * The first five of the seven functions between func_02019ABC and the cache
- * helper at 0x02019C54.  The range stops at 0x02019C38 on purpose: the two
- * functions after it, func_02019C38 and func_02019C54, each reach a data
- * object through a pool word that is the object's only reference in the whole
- * image (0x0209E3A4 at 0x02019C50 and 0x02146274 at 0x02019C78), so the
- * `literal` class has no outside witness for either and both cap at MATCH
- * however they are written.  Cutting in front of them leaves these five
- * clean.
- *
- * func_02019B58 reaches func_020185F0, which src/matched/unit_020185F0.c
- * proves is an empty `bx lr`, and then calls func_02019B64 with whatever r0
- * holds, with no register saved across the first call.  That only compiles
- * from a declaration in which func_020185F0 returns a value, so this unit
- * declares it `void *func_020185F0(void)` and passes the result straight on;
- * declaring it `void` the way unit_020185F0.c does forces a callee-saved
- * register and a four byte longer prologue.  The two declarations disagree,
- * and the image cannot say which one the original header carried, because an
- * empty function's return value is unobservable.
- *
- * func_02019B94 is docs/idioms/tail-call-is-a-pool-word-and-bx.md: it permutes
- * three arguments into an ARM callee at 0x02048F4C and has no prologue at all.
- *
- * func_02019BBC is the plate-to-type table of ids 0xAE and 0xAF of
- * func_02018E34: sixteen consecutive item ids from 0x12A map to sixteen type
- * ids and everything else to 0.  The switch value arrives as a pool word
- * rather than a `subs` immediate only because 0x12A does not fit the eight bit
- * form, so it is an ordinary constant and not the linker symbol of
- * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
- *
- * VERSION SENSITIVITY: func_02019BBC's sixteen case labels are item ids and
- * its sixteen results are type ids, and func_02019B64 passes id 5 (species)
- * and id 0x74 (the name) of the record.  None of them is a version flag and
- * there is no exclusive-species table here, but the item ids 0x12A..0x139 are
- * content numbering and are the values to re-read first for a White build.
- *
- * Verified with
- *   python tools/match.py tu --src src/matched/unit_02019B58.c \
- *       --addr 0x02019B58 --thumb
- */
-void func_02019B58(void *p)
-{
-    func_02019B64(func_020185F0());
-}
-
-
-
-
-
-
-
-
-
-void func_02019B64(void *p)
-{
-    u32 s = func_02017E88(p, 5, 0);
-
-    func_02045F5C(gMsgBank, s, gNameBuf, 0x20);
-    func_02017E64(p, 0x74, (u32)gNameBuf);
-}
-
-
-
-
-
-
-
-
-
-void func_02019B94(u32 a, void *b)
-{
-    func_02048F4C(b, 0x11, a);
-}
-
-
-
-
-
-
-
-
-
-u32 func_02019BA4(u32 a, u32 i)
-{
-    func_02019B94(a, gWordBuf);
-    return gWordBuf[i];
-}
-
-
-
-
-
-
-
-
-
-u32 func_02019BBC(u32 item)
-{
-    switch (item) {
-    case 0x12A: return 9;
-    case 0x12B: return 10;
-    case 0x12C: return 12;
-    case 0x12D: return 11;
-    case 0x12E: return 14;
-    case 0x12F: return 1;
-    case 0x130: return 3;
-    case 0x131: return 4;
-    case 0x132: return 2;
-    case 0x133: return 13;
-    case 0x134: return 6;
-    case 0x135: return 5;
-    case 0x136: return 7;
-    case 0x137: return 15;
-    case 0x138: return 16;
-    case 0x139: return 8;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * note:     28 bytes including its pool word, one function
- * note:     re-verified 2026-09-21: EXACT.  The MATCH cap was lifted by the
- *           sole-ref widening of 2026-09-21, not by any edit to the C:
- *           the data address this file reaches now attests as
- *           sole-ref/data.  Promoted from src/pending/ unchanged.
- *
- * The substruct permuter the whole poke_tool.c field machinery reaches every
- * block through: bits 13 to 17 of the personality word select one of 32
- * orderings, and the ordering's n-th byte is the offset of the n-th 0x20 byte
- * substruct inside the 0x80 byte block area at +0x08, so the table at
- * 0x0209E3A4 is 32 rows of four offsets drawn from 0x00, 0x20, 0x40 and 0x60.
- * src/matched/sub_02019388.c, src/matched/unit_020188B4.c and
- * src/pending/sub_02018E34.c all index through it, and ov188 calls it eight
- * more times.
- *
- * Why it WAS capped (historical, resolved 2026-09-21): the one relocation is an ABS32 against the table at
- * 0x0209E3A4, and a scan of every word in all 242 regions finds exactly one
- * occurrence of that address, the pool word at 0x02019C50 inside this
- * function.  The `literal` class discards its only witness under the honesty
- * rule and no cut helps, because the range cannot be made smaller than the one
- * function that holds the pool word.  The `matched` class never applies to
- * data (docs/MATCHING.md, "The matched class"), so this is the same shape as
- * src/matched/sub_02013FA8.c's private table and not the same shape as
- * sub_02018E34's runtime helper.  It closes the day anything else in the image
- * names 0x0209E3A4, or the day the table itself is a matched data entry.
- *
- * The neighbour func_02019C54, which is the one-entry memo in front of this
- * function, has no such site and was cut off into
- * src/matched/unit_02019C54.c rather than left capped with it
- * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md is the same
- * remedy applied to a data reference).
- *
- * What pinned the source: the mask is written `(pid & 0x3E000) >> 13` and not
- * `(pid >> 13) & 0x1F`.  The first is the `movs #0x3E` / `lsls #0xC` / `ands`
- * / `lsrs #0xD` the original has; the second folds to a `lsrs` and an `ands`
- * against a pooled 0x1F.
- *
- * Verified with
- *   python tools/match.py tu --src src/pending/sub_02019C38.c \
- *       --addr 0x02019C38 --thumb
- */
-void *func_02019C38(struct Mon_02019C38 *p, u32 pid, u32 n)
-{
-    return &p->block[gBlockOrder[(pid & 0x3E000) >> 13][n]];
-}
-
-
-
-
-
-
-
-
-
-/*
- * A one-entry memo: the (a, b) key pair at 0x02146270 and the 0x10 byte
- * object built for it at 0x02146274, rebuilt through sub_0201ADA4
- * (src/matched/unit_0201ADA4.c) only when the key changes.  func_02019C90 in
- * src/matched/unit_02019C7C.c is its only caller.
- *
- * Two things pin the source.
- *
- * The guard is one `||` expression rather than two ifs, which is what puts
- * both stores and the call in one block, per
- * docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md; and the
- * arm that falls through the first `bne` is the second half of the
- * disjunction, not the body.
- *
- * The two pool words 0x02146270 and 0x02146274 are one symbol and an addend,
- * per docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
- * Declared as two symbols, 0x02146274 would need a witness of its own and the
- * only word in the image that holds it is the one under test.
- *
- * The neighbour func_02019C38 at the head of this packet is byte-correct but
- * MATCH-capped on its private table and is parked in
- * src/pending/sub_02019C38.c; this range is cut to exclude it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02019C54.c \
- *       --addr 0x02019C54 --thumb
- */
-void *func_02019C54(u32 a, u32 b)
-{
-    if (a != g_02146270.a || b != g_02146270.b) {
-        g_02146270.b = (u16)b;
-        g_02146270.a = (u16)a;
-        sub_0201ADA4(a, b, g_02146270.obj);
-    }
-    return g_02146270.obj;
-}
-
-
-
-
-
-
-
-
-
-/*
- * func_02019CE0 carries no label in the generated listing: it saves r3 and r4
- * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
- * arrive as a run of .word between two literal pools.  See
- * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  It is one
- * struct assignment: 27 ldm/stm pairs of eight bytes plus a trailing word is
- * 0xDC bytes, and the eight byte step is what says the record is at least four
- * aligned, which is docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
- *
- * The range stops at 0x02019CF8, which is an eight byte tail call whose pool
- * word names 0x02019BBC.  That address carries no func_ label and no other
- * pool word in the image holds it, so neither the label nor the literal class
- * can attest it and the stub cannot be matched from either side.
- */
-u32 func_02019C7C(void *h)
-{
-    if (func_0201AE1C(h, 0x1B) != 0) {
-        return 2;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-u32 func_02019C90(u16 a, u16 b, u32 k)
-{
-    return func_0201AE1C(func_02019C54(a, b), k);
-}
-
-
-
-
-
-
-
-
-
-void func_02019CA0(void *p, u32 v)
-{
-    u32 a = func_02017E1C(p, 5, 0);
-    u32 b = func_02017E1C(p, 0x6F, 0);
-
-    func_02017E40(p, 8, func_02018584((u16)a, (u16)b, (u16)v));
-    func_020185C4(p);
-}
-
-
-
-
-
-
-
-
-
-void func_02019CE0(const struct RecDC *src, struct RecDC *dest)
-{
-    *dest = *src;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Plain forwarder to func_02019BBC (ldr r3, =target; bx r3).  Callee of
- * ov170 func_021DD718.
- */
-unsigned int func_02019CF8(unsigned int item)
-{
-    return func_02019BBC(item);
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Neither carries a label in the generated listing.  func_02019D00
- * is a dense switch over 0x74..0x77 whose four arms each return a constant,
- * and the `subs r0, #0x74` in front of the `cmp`/`bhi` is the compiler's
- * normalisation of the range rather than anything the source wrote; see
- * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
- *
- * The range stops at 0x02019D58.  The two unlabelled search loops after it,
- * at 0x02019D58 and 0x02019D84, reproduce every concrete byte but read
- * halfword tables at 0x0209E280 and 0x0209E42C, and each of those addresses
- * appears in exactly one literal pool in the whole image, the one under test,
- * so the literal class discards its only witness and no cut helps.
- */
-u32 func_02019D00(u32 id)
-{
-    switch (id) {
-    case 0x74:
-        return 1;
-    case 0x75:
-        return 2;
-    case 0x76:
-        return 3;
-    case 0x77:
-        return 4;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-u32 func_02019D30(u16 a, u16 n)
-{
-    if (a != 0x28A) {
-        if ((s32)n >= (s32)func_02019C90(a, n, 0x20)) {
-            n = 0;
-        }
-        return n;
-    }
-    if (n >= 2) {
-        n = 0;
-    }
-    return n;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * note:     re-verified 2026-09-21: EXACT*.  The MATCH cap was lifted by the
- *           sole-ref widening of 2026-09-21, not by any edit to the C:
- *           the data address this file reaches now attests as
- *           sole-ref/data.  Promoted from src/pending/ unchanged.
- */
-int func_02019D58(u16 a, int b)
-{
-    u16 i;
-
-    if (b != 0) {
-        for (i = 0; i < 4; i++)
-            if (sub_0209E280_Map[i] == a)
-                return 0;
-    }
-    return b;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Witness leaf for ov119 func_021DD0CC: membership test in a 12 entry u16 table.
- */
-int func_02019D84(unsigned short value)
-{
-    unsigned i;
-    for (i = 0; i < 12; i++) {
-        if (value == d_0209E42C[i])
-            return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * A stat comparison against a threshold picked by selector 4 of the first
- * argument: selector 5 (one over the limit) and 6 (under it) are both
- * rejected with 2, and the tail reports 0x20 for the presence flag, 4 or
- * 0x40 for the two range checks, and 1 when there is no object at all.  The
- * two comparisons are signed, which is what `ble`/`bge` says.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02019DA4.c \
- *       --func func_02019DA4 --addr 0x02019DA4 --cc 1.1p1 --thumb
- */
-int func_02019DA4(void *a0, void *a1)
-{
-    u16 v5 = (u16)func_02017E1C(a1, 5, 0);
-    u16 v6 = (u16)func_02017E1C(a1, 6, 0);
-    int m;
-    int s;
-    int t;
-    int r;
-
-    if (a0 == 0)
-        return 1;
-
-    m = func_0200AE54(a0, 4);
-    s = func_0200AE54(a0, 5);
-    t = func_02017E1C(a1, 0x9E, 0);
-
-    switch (s) {
-    case 1:
-        if (m > t)
-            return 2;
-        break;
-    case 2:
-        if (m < t)
-            return 2;
-        break;
-    }
-
-    r = 0;
-    if (func_02017E1C(a1, 0x4C, 0) != 0)
-        return 0x20;
-    if (func_0200AFD4(a0, 9, v5) != 0)
-        return 4;
-    if (func_0200AFD4(a0, 0xA, v6) != 0)
-        r = 0x40;
-    return r;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Maps a flag word to a small code: the four bits 2, 4, 0x20 and 0x40 all
- * answer 5 (one disjunction, so they share a single exit), then 8, 0x10,
- * 0x100, 0x80 and 1 each answer their own code and zero answers 0.  The
- * query is answered through two stack words whose addresses are passed to
- * func_0201A5FC, and the caller's second and third registers are forwarded
- * unchanged, so the query takes five arguments.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02019E54.c \
- *       --func func_02019E54 --addr 0x02019E54 --cc 1.1p1 --thumb
- */
-int func_02019E54(u32 a0, u32 a1, u32 a2)
-{
-    u64 q;
-    u32 r;
-
-    if (a0 == 0)
-        return 0;
-
-    func_0201A5FC((void *)a0, (void *)a1, (u8 *)a2, (char *)(&q), &r);
-    if (r == 0)
-        return 0;
-
-    if ((r & 2) || (r & 4) || (r & 0x20) || (r & 0x40))
-        return 5;
-    if (r & 8)
-        return 2;
-    if (r & 0x10)
-        return 3;
-    if (r & 0x100)
-        return 1;
-    if (r & 0x80)
-        return 7;
-    if (r & 1)
-        return 4;
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * EXACT*: the inferred extent runs 2 bytes past the 250-byte body because the
- * follower at 0x02019FD0 has no lr-saving prologue and so carries no label.
- * No byte differs.
- *
- * The party "is this team legal for the rule set" check.  It reads each
- * member's species (id 5) and form (id 0x9E) into two parallel u16[6] stack
- * arrays, zeroes the species of any member func_02019DA4 rejects, then runs an
- * O(n^2) duplicate-species scan that zeroes the worse of each colliding pair
- * (worse = the larger form value) and decrements a running count.  If the
- * surviving count is below what func_0200AE54(ctx, 2) requires it answers 4;
- * otherwise the answer is 0 or 1 from func_0201A59C.
- *
- * Two layout tells pin the frame:
- *   - the 12-byte MI_CpuFill8 buffer is declared LAST, not first: the later
- *     declarator gets the lower stack address, which is what puts `pad` at
- *     sp+0x10 and `species` at sp+0x28
- *     (docs/idioms/local-declaration-order-is-stack-order.md).
- *   - the outer scan loop assigns its counter before its bound (`i = 0;`
- *     then `lim = n - 1;`), or the `movs r0,#0` and the `subs r0,r0,#1`
- *     swap places
- *     (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
- *
- * VERSION SENSITIVITY: party ids 5 and 0x9E and the rule-set keys 7 and 2 are
- * content numbering; the team size 6 is the array bound and is structural.
- *
- * Verified with
- *   python tools/match.py one --src src/matched/sub_02019ED4.c \
- *       --func sub_02019ED4 --addr 0x02019ED4 --cc 1.1p1 --thumb
- */
-int sub_02019ED4(void *ctx, void *q)
-{
-    u16 species[6];
-    u16 form[6];
-    u8 pad[12];
-    int n;
-    int cnt;
-    int i;
-    int j;
-    int lim;
-    int r;
-
-    n = func_0201AA18(q);
-    cnt = n;
-    MI_CpuFill8(pad, 0, 12);
-    for (i = 0; i < n; i++) {
-        void *mon = func_0201AB28(q, i);
-
-        species[i] = (u16)func_02017E1C(mon, 5, 0);
-        form[i] = (u16)func_02017E1C(mon, 0x9E, 0);
-        if (func_02019DA4(ctx, mon) != 0) {
-            species[i] = 0;
-            cnt--;
-        }
-    }
-
-    if ((int)func_0200AE54(ctx, 7) == 0 && n > 1) {
-        i = 0;
-        lim = n - 1;
-        for (; i < lim; i++) {
-            for (j = i + 1; j < n; j++) {
-                if (species[i] == species[j] && species[i] != 0) {
-                    if (form[i] > form[j]) {
-                        species[i] = 0;
-                    } else {
-                        species[j] = 0;
-                    }
-                    cnt--;
-                }
-            }
-        }
-    }
-
-    if (cnt < (int)func_0200AE54(ctx, 2)) {
-        return 4;
-    }
-
-    r = 0;
-    if (func_0201A59C(ctx, q, 0) != 1) {
-        r = 1;
-    }
-    return r;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * EXACT* note: the 190 byte body reproduces exactly; the inferred extent runs to
- * the next label because of two bytes of 00 00 padding at 0x0201A08E before the next labelled function at 0x0201A090.
- *
- * The same stat comparison as func_02019DA4, but it reports into the third
- * argument's word with or-bits instead of returning a code: bit 1 for a
- * selector 5 record above the threshold or a selector 6 one below it, bit 2
- * for the range check, bit 6 for the second one, and the return value stays 1
- * unless a bit was set.  The `*a2 |= 2; r = 0;` pair is written out in both
- * arms and the compiler cross-jumps them.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02019FD0.c \
- *       --func func_02019FD0 --addr 0x02019FD0 --cc 1.1p1 --thumb
- */
-int func_02019FD0(void *a0, void *a1, u32 *a2)
-{
-    u16 v5 = (u16)func_02017E1C(a1, 5, 0);
-    u16 v6 = (u16)func_02017E1C(a1, 6, 0);
-    int r = 1;
-    int m;
-    int s;
-    int t;
-
-    if (a0 == 0)
-        return r;
-
-    m = func_0200AE54(a0, 4);
-    s = func_0200AE54(a0, 5);
-    t = func_02017E1C(a1, 0x9E, 0);
-
-    switch (s) {
-    case 1:
-        if (m > t) {
-            r = 0;
-            *a2 |= 2;
-        }
-        break;
-    case 2:
-        if (m < t) {
-            r = 0;
-            *a2 |= 2;
-        }
-        break;
-    }
-
-    if (func_0200AFD4(a0, 9, v5) != 0) {
-        if (func_02017E1C(a1, 0x4C, 0) == 0) {
-            r = 0;
-            *a2 |= 4;
-        }
-    }
-    if (func_0200AFD4(a0, 0xA, v6) != 0) {
-        r = 0;
-        *a2 |= 0x40;
-    }
-    return r;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * poke_tool.c (wave 13): the party legality check against a rule set.
- * Three parallel six-entry u16 arrays (species, item, form) are collected
- * from the non-egg members; the rule set's queries 2 (minimum count),
- * 7 (duplicate species allowed), 8 (duplicate items allowed) and 0xB/0xC (a
- * required species/form) set bits 0x01/0x08/0x10/0x80 of *mask and the
- * error codes 4/2/3/7, a failing member check gives 5, and when nothing
- * failed func_0201A59C decides between 0 and 1.
- *
- * WHAT CLOSED IT (docs/notes/func_0201A090.c.txt: 478 against 476, err
- * spilled to sp+8 with a six-register push): the arrays are indexed plainly,
- * `species[i]` -- the note's invented `j = i * 2; species[j >> 1]` was the
- * source of the `lsls/bics` fixups; the compiler itself CSEs `i * 2` into
- * the sp+8 slot.  Then the permuter (hill, one mutation) found the last
- * lever: in the duplicate-item test the mask update comes BEFORE the error
- * code (`*mask |= 0x10; err = 3;`), the opposite of the species test.  That
- * order is what keeps err in r7 for the whole function.
- *
- * EXACT* only because of the two-byte alignment pad at 0x0201A26A; the
- * follower 0x0201A26C is its own labelled EXACT entry.
- */
-int func_0201A090(void *rules, void *party, u32 *mask)
-{
-    u16 species[6];
-    u16 item[6];
-    u16 form[6];
-    int i;
-    int total;
-    int n;
-    int err;
-    void *mon;
-    int k;
-    int want_s, want_f;
-
-    n = 0;
-    err = 0;
-    if (rules == 0)
-        return 0;
-    for (i = 0; i < 6; i++) {
-        species[i] = 0;
-        form[i] = 0;
-        item[i] = 0;
-    }
-    total = func_0201AA50(party);
-    if (total < (int)func_0200AE54(rules, 2)) {
-        *mask |= 1;
-        err = 4;
-    }
-    for (i = 0; i < (int)func_0201AA18(party); i++) {
-        mon = func_0201AB28(party, i);
-        if (func_02019FD0(rules, mon, mask) == 0)
-            err = 5;
-        if (func_02017E1C(mon, 0x4c, 0) == 0) {
-            species[i] = func_02017E1C(mon, 5, 0);
-            item[i] = func_02017E1C(mon, 6, 0);
-            form[i] = func_02017E1C(mon, 0x6f, 0);
-            n += func_02017E1C(mon, 0x9e, 0);
-        }
-    }
-    if ((int)func_0200AE54(rules, 7) == 0 && total > 1) {
-        for (i = 0; i < 5; i++) {
-            for (k = i + 1; k < 6; k++) {
-                if (species[i] == species[k] && species[i] != 0) {
-                    err = 2;
-                    *mask |= 8;
-                }
-            }
-        }
-    }
-    if ((int)func_0200AE54(rules, 8) == 0 && total > 1) {
-        for (i = 0; i < 5; i++) {
-            for (k = i + 1; k < 6; k++) {
-                if (item[i] == item[k] && species[i] != 0 && item[i] != 0) {
-                    *mask |= 0x10;
-                    err = 3;
-                }
-            }
-        }
-    }
-    want_s = (int)func_0200AE54(rules, 0xb);
-    want_f = (int)func_0200AE54(rules, 0xc);
-    i = 0;
-    if (want_s != 0 && total > 1) {
-        for (i = 0; i < 6; i++) {
-            if (want_s == species[i] && want_f == form[i])
-                break;
-        }
-    }
-    if (i == 6) {
-        *mask |= 0x80;
-        err = 7;
-    }
-    if (err == 0 && func_0201A59C(rules, party, 0) == 0)
-        err = 1;
-    return err;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Picks the smaller (or larger, per selector 5) of a value read from the
- * object and the caller's second argument, with the selector 3 / 4 / 5 arms
- * emitted as a compare chain and the default falling through to the caller's
- * value.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A26C.c \
- *       --func func_0201A26C --addr 0x0201A26C --cc 1.1p1 --thumb
- */
-u32 func_0201A26C(void *a0, u32 a1)
-{
-    u32 v = func_0200AE54(a0, 4);
-    u32 w = func_0200AE54(a0, 5);
-
-    switch (w) {
-    case 3:
-        if (a1 > v)
-            return v;
-        break;
-    case 4:
-        return v;
-    case 5:
-        if (a1 < v)
-            return v;
-        break;
-    }
-    return a1;
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * EXACT* note: the 98 byte body reproduces exactly; the inferred extent runs to
- * the next label because of two bytes of 00 00 padding at 0x0201A30A before the next labelled function at 0x0201A30C.
- *
- * Sweeps the records of the second argument and rewrites those whose 0xA9
- * flag is set and whose recomputed value disagrees with what the first
- * argument's own query returns.  The value from before the loop is a spilled
- * local, so it is re-read from the frame at the one place it is used.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A2A8.c \
- *       --func func_0201A2A8 --addr 0x0201A2A8 --cc 1.1p1 --thumb
- */
-void func_0201A2A8(void *a0, void *a1)
-{
-    u32 v = func_0200AE54(a0, 4);
-    int i;
-
-    for (i = 0; i < (int)func_0201AA18(a1); i++) {
-        void *e = func_0201AB28(a1, i);
-
-        if (func_02017E1C(e, 0xA9, 0) != 0) {
-            u32 w = func_02017E1C(e, 0x9E, 0);
-
-            if (func_0201A26C(a0, w) != w)
-                func_02019CA0(e, v);
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * EXACT* note: the 70 byte body reproduces exactly; the inferred extent runs to
- * the next label because of two bytes of 00 00 padding at 0x0201A352, then two unlabelled 12-byte argument-shuffling tail-call thunks at 0x0201A354 (calls 0x02048F60 with (0x69, a, b)) and 0x0201A364 (calls 0x02048F4C with (b, 0x69, a)), each followed by its own pool word, before the next labelled function at 0x0201A374.
- *
- * Guarded sweep over a record array: only when the object reports state zero
- * does it walk the records and act on those whose 0xA9 flag is set.  The
- * bound is re-evaluated at the bottom of the loop, so it stays a call in the
- * condition.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A30C.c \
- *       --func func_0201A30C --addr 0x0201A30C --cc 1.1p1 --thumb
- */
-void func_0201A30C(void *a0, void *a1, u32 c)
-{
-    int i;
-
-    if (func_0200AE54(a0, 0x11) != 0)
-        return;
-
-    for (i = 0; i < (int)func_0201AA18(a1); i++) {
-        void *e = func_0201AB28(a1, i);
-
-        if (func_02017E1C(e, 0xA9, 0) != 0)
-            func_02019B58(e);
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Witness leaf for ov021 func_021B574C and func_021B57CC.
- */
-void *func_0201A354(int a, int b)
-{
-    return func_02048F60(0x69, a, b);
-}
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Unlabelled Thumb argument-shuffling tail-call thunk: func_02048F4C(b, 0x69, a).
- */
-void func_0201A364(int a, unsigned int b)
-{
-    func_02048F4C((void *)b, 0x69, a);
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Load one 0x40-byte sprite record whose mode word is chosen from the pair of
- * bytes at a0+2/+3: (1,6) selects 6, equal bytes select 7, a byte above 1
- * with 6 following selects 8 and anything else 9.  Both palette fields are
- * stamped through func_0201EFA4, the record is allocated against a4, its
- * slots are filled from *a2 through func_02045CAC and the pair is bound by
- * func_0201F250.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A374.c \
- *       --func func_0201A374 --addr 0x0201A374 --cc 1.1p1 --thumb
- */
-void *func_0201A374(u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
-{
-    u32 mode;
-    void *p;
-
-    if (a0[2] == 1 && a0[3] == 6) {
-        mode = 6;
-    } else if (a0[2] == a0[3]) {
-        mode = 7;
-    } else if (a0[2] > 1 && a0[3] == 6) {
-        mode = 8;
-    } else {
-        mode = 9;
-    }
-    func_0201EFA4((struct WordSet *)a1, 0, a0[2], 1, 0, 1);
-    func_0201EFA4((struct WordSet *)a1, 1, a0[3], 1, 0, 1);
-    p = func_020457B0(0x40, a4);
-    func_02045CAC((struct MsgBank *)(*a2), mode, (void *)a3);
-    func_0201F250((struct WordSet *)a1, p, (void *)a3);
-    return p;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * poke_tool.c tail (wave 13), the twin of func_0201A374: pick the sprite
- * record's mode from the format byte at a0+5 (0 -> 6, 4 -> 0xb, 1 -> 0xd,
- * 2 -> 0xc, 3 -> 0xe, 5 -> 0xf, anything else 6; an if chain in that order,
- * the image tests it in source order), stamp the byte at a0+4 through
- * func_0201EFA4, allocate the 0x40-byte record against a4, fill it from *a2
- * and bind it with func_0201F250.
- *
- * WHAT CLOSED IT (docs/notes/pkt_0201A3F4.c.txt: 8 bytes out, the byte at
- * a0+4 loaded after the two outgoing stack stores instead of before): the
- * record parameter is `const u8 *`.  A load through a const pointer may move
- * above the stores to the outgoing-argument area; through a plain pointer it
- * may not.  Same lever as func_02050C30 and func_02051838 this wave.
- *
- * EXACT* because the follower at 0x0201A468 (a leaf that scans 0x52 bytes
- * from +0xa and tail-calls 0x02045EC0) carries no label.
- */
-void *func_0201A3F4(const u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
-{
-    u32 mode;
-    void *p;
-
-    if (a0[5] == 0) {
-        mode = 6;
-    } else if (a0[5] == 4) {
-        mode = 0xb;
-    } else if (a0[5] == 1) {
-        mode = 0xd;
-    } else if (a0[5] == 2) {
-        mode = 0xc;
-    } else if (a0[5] == 3) {
-        mode = 0xe;
-    } else if (a0[5] == 5) {
-        mode = 0xf;
-    } else {
-        mode = 6;
-    }
-    func_0201EFA4((struct WordSet *)a1, 0, a0[4], 3, 0, 1);
-    p = func_020457B0(0x40, a4);
-    func_02045CAC((struct MsgBank *)(*a2), mode, (void *)a3);
-    func_0201F250((struct WordSet *)a1, p, (void *)a3);
-    return p;
-}
-
-
-
-
-
-
-void *func_0201A468(u8 *a0, int a1, struct Ctx *c)
-{
-    int i;
-    u32 k;
-
-    for (i = 0; i < 0x52; i++) {
-        if (a0[i + 0xA] != 0)
-            break;
-    }
-    k = 0x10;
-    if (i != 0x52)
-        k = 0x11;
-    return func_02045EC0(c->bank, k);
-}
-
-
-
-
-
-
-void *func_0201A48C(u8 *a0, int a1, struct Ctx *c)
-{
-    u32 k = 0x12;
-
-    if (a0[8] != 1)
-        k = 0x13;
-    return func_02045EC0(c->bank, k);
-}
-
-
-
-
-
-
-void *func_0201A4A0(u8 *a0, int a1, struct Ctx *c)
-{
-    u32 k = 0x14;
-
-    if (a0[9] != 1)
-        k = 0x15;
-    return func_02045EC0(c->bank, k);
-}
-
-
-
-
-
-
-void *func_0201A4B4(u8 *a0, int a1, struct Ctx *c)
-{
-    u32 k;
-    u8 v = c->f34;
-
-    if (v == 1) {
-        k = 0x16;
-    } else {
-        k = 0x17;
-        if (v != 0)
-            k = 0x16;
-    }
-    return func_02045EC0(c->bank, k);
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Wave 17 lane untried_small. What closed it (from 6 halfwords out): the heap
- * id parameter a2 is u16. The image homes it to the stack and reloads it for
- * every use (the allocator's first argument included); declared u32 it stays
- * in r2 and is copied, which was the whole parameter-homing residue.
- */
-u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3)
-{
-    u8 *v7;
-    u32 v10;
-    int i;
-    u32 f;
-
-    v7 = (u8 *)func_02030734(a2, 0x38, 1, (const char *)0x020A72F0, 0x312);
-    ((struct Obj06868 *)v7)->f0 = (u32)func_02045B38(0, 2, 0xa5, a2);
-    v10 = (u32)func_020457B0(0x40, a2);
-    f = ((struct Mon_02019C38 *)a0)->fAB;
-    if (f == 2)
-        ((struct Obj06868 *)v7)->f34 = a3;
-    else
-        ((struct Obj06868 *)v7)->f34 = f;
-    for (i = 0; i < 6; i++) {
-        int off = i * 4;
-        u8 *q = v7 + off;
-
-        ((struct Obj11261 *)q)->f4 = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06868 *)v7)->f0), i);
-        ((struct Obj11261 *)q)->f1C =
-            ((u32 (*)(u8 *, u32, u8 *, u32, u32))
-                 (*(u32 *)(tbl_0209E444 + off)))(a0, a1, v7, v10, a2);
-    }
-    func_02045808((struct U16Vec *)v10);
-    return v7;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * EXACT* note: the 42 byte body reproduces exactly; the inferred extent runs to
- * the next label because of two bytes of 00 00 padding at 0x0201A59A before the next labelled function at 0x0201A59C.
- *
- * Six records of 0x20 bytes, each with a pair of ARM calls at +4 and +0x1C,
- * then the object's first word through the ARM at 0x02045C04 and the object
- * itself through 0x020307B0.  The loop index is a signed int, so the bound
- * test is `blt` and no truncation appears.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A570.c \
- *       --func func_0201A570 --addr 0x0201A570 --cc 1.1p1 --thumb
- */
-void func_0201A570(void *a0)
-{
-    int i;
-
-    for (i = 0; i < 6; i++) {
-        func_02045808((struct U16Vec *)(*(u32 *)((char *)a0 + i * 4 + 4)));
-        func_02045808((struct U16Vec *)(*(u32 *)((char *)a0 + i * 4 + 0x1C)));
-    }
-    func_02045C04((struct Rec_0201A4D4 *)(((struct Obj15719 *)a0)->f0));
-    func_020307B0(a0);
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/pending/func_0201A59C.c \
- *       --func func_0201A59C --addr 0x0201A59C --cc 1.1p1 --thumb
- */
-int func_0201A59C(void *a0, void *a1, void *a2)
-{
-    char buf[6];
-
-    buf[0] = g_0209E424[0];
-    buf[1] = g_0209E424[1];
-    buf[2] = g_0209E424[2];
-    buf[3] = g_0209E424[3];
-    buf[4] = g_0209E424[4];
-    buf[5] = g_0209E424[5];
-
-    if (func_0201A858((u8 *)buf) != 0) {
-        do {
-            if (func_0201A5FC(a0, a1, (u8 *)buf, a2, 0) == 1) {
-                return 1;
-            }
-        } while (func_0201A858((u8 *)buf) != 0);
-    }
-
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A5FC.c  *       --func func_0201A5FC --addr 0x0201A5FC --cc 1.1p1 --thumb
- */
-int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
-{
-    u8 count = 0;
-    u32 arr5c[6] = {0};
-    u32 arr44[6] = {0};
-    u32 arr2c[6] = {0};
-    u8 i;
-    int flag;
-    u32 acc;
-    void *p;
-    u32 v18;
-    u32 v14;
-    u32 v10;
-    u8 n;
-    u8 j;
-    u32 v6;
-    u32 k1;
-    u8 k;
-    u32 k2;
-    u32 r;
-    int found;
-
-    acc = 0;
-    v10 = (u32)(int)func_0200AE54(a0, (int)6);
-
-    if (a3 != 0)
-        *a3 = 0;
-    if (a4 != 0)
-        *a4 = 0;
-
-    for (i = 0; i < 6; i++) {
-        if (a2[i] == 0)
-            continue;
-        n = (u8)(a2[i] - 1);
-        if ((int)n >= (int)func_0201AA18(a1))
-            continue;
-        p = func_0201AB28(a1, n);
-        v18 = func_02017E1C(p, 5, 0);
-        v6 = func_02017E1C(p, 6, 0);
-        v14 = (u32)func_0201A26C(a0, func_02017E1C(p, 0x9e, 0));
-        r = func_02019DA4(a0, p);
-        if (r != 0) {
-            if (a4 != 0)
-                *a4 |= r;
-            continue;
-        }
-        flag = 1;
-        for (j = 0; j < count; j++) {
-            if ((int)func_0200AE54(a0, (int)7) == 0 && v18 == arr5c[j]) {
-                flag = 0;
-                if (a4 != 0)
-                    *a4 |= 8;
-                break;
-            }
-            if ((int)func_0200AE54(a0, (int)8) == 0 && v6 != 0 && v6 == arr2c[j]) {
-                flag = 0;
-                if (a4 != 0)
-                    *a4 |= 0x10;
-                break;
-            }
-        }
-        if (flag == 0)
-            continue;
-        if (v10 != 0 && (u32)(acc + v14) > v10) {
-            if (a4 != 0)
-                *a4 |= 0x100;
-            continue;
-        }
-        if (a3 != 0)
-            a3[count] = (char)(n + 1);
-        arr5c[count] = v18;
-        arr44[count] = func_02017E1C(p, 0x6f, 0);
-        arr2c[count] = v6;
-        acc = (u16)(acc + (u16)v14);
-        count = (u8)(count + 1);
-        if ((int)count < (int)func_0200AE54(a0, (int)3))
-            continue;
-        if (a4 != 0 && count < 6 && a2[count] != 0)
-            *a4 |= 1;
-        break;
-    }
-
-    if ((int)count >= (int)func_0200AE54(a0, (int)2)) {
-        k1 = (u32)(int)func_0200AE54(a0, (int)0xb);
-        found = 1;
-        if (k1 != 0) {
-            k2 = (u32)(int)func_0200AE54(a0, (int)0xc);
-            found = 0;
-            for (k = 0; k < count; k++) {
-                if (k1 == arr5c[k] && k2 == arr44[k]) {
-                    found = 1;
-                    break;
-                }
-            }
-        }
-        if (found == 1)
-            return 1;
-        if (a4 != 0)
-            *a4 |= 0x80;
-    } else {
-        if (a4 != 0)
-            *a4 |= 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * A base-7 odometer with a distinctness test: six nested counters (a[0]
- * outermost) over 0..6, and the innermost body returns 1 as soon as all six
- * values differ.  The entry `a[5]++` is the source's own first statement, not
- * a loop increment.
- *
- * The fifteen `!=` tests are one conjunction: every `cmp` in the listing
- * branches to the same increment block (0x0201A8B8) on equality, which is the
- * "guard chain sharing one exit block" spelling, not a chain of ifs.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A858.c \
- *       --func func_0201A858 --addr 0x0201A858 --cc 1.1p1 --thumb
- */
-int func_0201A858(u8 *a)
-{
-    a[5]++;
-    while (a[0] <= 6) {
-        while (a[1] <= 6) {
-            while (a[2] <= 6) {
-                while (a[3] <= 6) {
-                    while (a[4] <= 6) {
-                        while (a[5] <= 6) {
-                            if (a[0] != a[1] && a[0] != a[2] &&
-                                a[0] != a[3] && a[0] != a[4] &&
-                                a[0] != a[5] && a[1] != a[2] &&
-                                a[1] != a[3] && a[1] != a[4] &&
-                                a[1] != a[5] && a[2] != a[3] &&
-                                a[2] != a[4] && a[2] != a[5] &&
-                                a[3] != a[4] && a[3] != a[5] &&
-                                a[4] != a[5]) {
-                                return 1;
-                            }
-                            a[5]++;
-                        }
-                        a[5] = 1;
-                        a[4]++;
-                    }
-                    a[4] = 1;
-                    a[3]++;
-                }
-                a[3] = 1;
-                a[2]++;
-            }
-            a[2] = 1;
-            a[1]++;
-        }
-        a[1] = 1;
-        a[0]++;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-/*
- * Unlabelled leaf accessor matched to give overlay call sites a `matched`
- * witness.  Addresses are Black-image addresses.
- */
-int func_0201A918(void)
-{
-    return 0x534;
-}
+void sub_0201C41C(u32 heap);
+struct PrintQueue *sub_0201C440(u32 heap);
+struct PrintQueue *sub_0201C450(u16 bufSize, u32 heap);
+void sub_0201C4C0(struct PrintQueue *queue);
+void sub_0201C4C8(struct PrintQueue *queue, u32 forceQueue);
+void sub_0201C4DC(struct PrintQueue *queue, u32 tickLow, u32 tickHigh);
+u32 func_0201C4E4(struct PrintQueue *queue);
+u32 sub_0201C6B4(const struct PrintQueue *queue);
+u32 sub_0201C6C4(struct PrintQueue *queue, struct Bmp *bmp);
+void sub_0201C6EC(struct PrintQueue *queue);
+void sub_0201C6FC(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void sub_0201C724(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+void sub_0201C758(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
+void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+void sub_0201C808(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y);
+void sub_0201C8A4(struct PrintCtx *job, u16 color);
+void func_0201C8BC(struct PrintCtx *job, struct Strbuf *str);
+u16 *func_0201C974(struct PrintCtx *job, u16 *cursor, u32 stopAtPause);
+void sub_0201CA2C(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
+void sub_0201CA78(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
+u16 *func_0201CAC8(struct PrintCtx *job, u16 *cursor);
+u16 *func_0201CC34(struct PrintCtx *job, u16 *cursor);
+void func_0201CCE4(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
+struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor, PrintCallback callback);
+void sub_0201CDF4(int wait, u8 *speed);
+void sub_0201CE0C(struct TextPrinter *printer);
+void sub_0201CE20(struct TextPrinter *printer);
+u32 sub_0201CE30(const struct TextPrinter *printer);
+u32 sub_0201CE34(const struct TextPrinter *printer);
+void sub_0201CE38(struct TextPrinter *printer);
+void sub_0201CE48(struct TextPrinter *printer);
+void sub_0201CE5C(struct TextPrinter *printer, s32 wait);
+void sub_0201CE8C(struct TextPrinter *printer, s32 wait);
+void sub_0201CEB8(struct TextPrinter *printer);
+u32 sub_0201CED4(const struct TextPrinter *printer);
+extern const char pokeparty_File[];
+extern struct ArcHandle *_pPersonalArc;
+extern const char poke_personal_File[];
+extern u8 shinka_check_File[];
+extern const u16 _IceRockZones[1];
+extern const u16 _MossRockZones[1];
+extern const u16 _MagneticZones[3];
+extern const u16 _ExtraEvolutionZones[3];
+extern const s8 _NatsukiDeltaTable[];
+extern const s8 _NatsukiWalkDeltas[];
+extern const s8 _NatsukiPartyDeltas[];
+extern const u8 _IconPaletteTable[];
+extern struct WazaTool *_pWazaTool;
+extern struct WazaData _WazaTempData;
+extern const char waza_tool_File[];
+extern struct Bmp *_pGlyphBmp;
+extern const char printsys_File[];
+extern struct PrintCtx _PrintJobWork;
 
 
 
@@ -2349,13 +545,13 @@ int func_0201A918(void)
  *   python tools/match.py tu --src src/matched/unit_0201A920.c \
  *       --addr 0x0201A920 --thumb
  */
-struct Party_0201A4D4 *sub_0201A920(u32 heap)
+struct Party *sub_0201A920(u32 heap)
 {
-    struct Party_0201A4D4 *p = (struct Party_0201A4D4 *)func_02030734(heap, sizeof(struct Party_0201A4D4), 0,
-                                                   sub_0201A920_File, 65);
+    struct Party *party = (struct Party *)func_02030734(heap, sizeof(struct Party), 0,
+                                                   pokeparty_File, 65);
 
-    sub_0201A948(p);
-    return p;
+    sub_0201A948(party);
+    return party;
 }
 
 
@@ -2367,9 +563,9 @@ struct Party_0201A4D4 *sub_0201A920(u32 heap)
 
 
 
-void sub_0201A948(struct Party_0201A4D4 *p)
+void sub_0201A948(struct Party *party)
 {
-    sub_0201A954(p, 6);
+    sub_0201A954(party, 6);
 }
 
 
@@ -2377,16 +573,16 @@ void sub_0201A948(struct Party_0201A4D4 *p)
 
 
 
-void sub_0201A954(struct Party_0201A4D4 *p, s32 capacity)
+void sub_0201A954(struct Party *party, s32 capacity)
 {
     s32 i;
 
-    MIi_CpuClearFast(0, p, sizeof(struct Party_0201A4D4));
-    p->capacity = capacity;
-    p->count = 0;
-    p->unk530 = 0;
+    MIi_CpuClearFast(0, party, sizeof(struct Party));
+    party->capacity = capacity;
+    party->count = 0;
+    party->slotFlags = 0;
     for (i = 0; i < 6; i++) {
-        func_02017528((struct Sav *)(&p->mon[i]));
+        func_02017528(&party->members[i]);
     }
 }
 
@@ -2395,14 +591,14 @@ void sub_0201A954(struct Party_0201A4D4 *p, s32 capacity)
 
 
 
-u32 sub_0201A98C(struct Party_0201A4D4 *p, const struct PartyMon *src)
+u32 sub_0201A98C(struct Party *party, const struct PokemonParam *member)
 {
-    if (p->count >= p->capacity) {
+    if (party->count >= party->capacity) {
         return 0;
     }
-    p->mon[p->count] = *src;
-    sub_0201ACDC(p, p->count, 1);
-    p->count = p->count + 1;
+    party->members[party->count] = *member;
+    sub_0201ACDC(party, party->count, 1);
+    party->count = party->count + 1;
     return 1;
 }
 
@@ -2411,15 +607,15 @@ u32 sub_0201A98C(struct Party_0201A4D4 *p, const struct PartyMon *src)
 
 
 
-u32 sub_0201A9C8(struct Party_0201A4D4 *p, s32 idx)
+u32 sub_0201A9C8(struct Party *party, s32 pos)
 {
     s32 i;
 
-    for (i = idx; i < p->count - 1; i++) {
-        p->mon[i] = p->mon[i + 1];
+    for (i = pos; i < party->count - 1; i++) {
+        party->members[i] = party->members[i + 1];
     }
-    func_02017528((struct Sav *)(&p->mon[i]));
-    p->count = p->count - 1;
+    func_02017528(&party->members[i]);
+    party->count = party->count - 1;
     return 1;
 }
 
@@ -2441,9 +637,9 @@ u32 sub_0201A9C8(struct Party_0201A4D4 *p, s32 idx)
  *   python tools/match.py tu --src src/matched/unit_0201AA14.c \
  *       --addr 0x0201AA14 --thumb
  */
-u32 sub_0201AA14(void *p)
+u32 sub_0201AA14(const struct Party *party)
 {
-    return ((struct Obj17207 *)p)->f0;
+    return party->capacity;
 }
 
 
@@ -2452,9 +648,9 @@ u32 sub_0201AA14(void *p)
 
 
 
-u32 sub_0201AA18(void *p)
+u32 sub_0201AA18(const struct Party *party)
 {
-    return ((struct Obj17208 *)p)->f4;
+    return party->count;
 }
 
 
@@ -2498,21 +694,21 @@ u32 sub_0201AA18(void *p)
  *   python tools/match.py tu --src src/matched/unit_0201AA1C.c \
  *       --addr 0x0201AA1C --thumb
  */
-u32 sub_0201AA1C(void *p)
+u32 sub_0201AA1C(struct Party *party)
 {
     s32 i;
-    u32 n = 0;
-    s32 count;
+    u32 total = 0;
+    s32 memberCount;
 
-    count = sub_0201AA18(p);
-    for (i = 0; i < count; i++) {
-        void *entry = sub_0201AB28(p, i);
+    memberCount = sub_0201AA18(party);
+    for (i = 0; i < memberCount; i++) {
+        void *member = sub_0201AB28(party, i);
 
-        if (func_02017E1C(entry, 0x4C, 0) != 1) {
-            n++;
+        if (func_02017E1C(member, 0x4C, 0) != 1) {
+            total++;
         }
     }
-    return n;
+    return total;
 }
 
 
@@ -2521,20 +717,20 @@ u32 sub_0201AA1C(void *p)
 
 
 
-u32 sub_0201AA50(void *p)
+u32 sub_0201AA50(struct Party *party)
 {
-    u32 n = 0;
-    s32 count;
+    u32 total = 0;
+    s32 memberCount;
     s32 i;
 
-    count = sub_0201AA18(p);
-    for (i = 0; i < count; i++) {
-        sub_0201AB28(p, i);
-        if (sub_0201AD18(sub_0201AB28(p, i)) != 0) {
-            n++;
+    memberCount = sub_0201AA18(party);
+    for (i = 0; i < memberCount; i++) {
+        sub_0201AB28(party, i);
+        if (sub_0201AD18(sub_0201AB28(party, i)) != 0) {
+            total++;
         }
     }
-    return n;
+    return total;
 }
 
 
@@ -2543,23 +739,23 @@ u32 sub_0201AA50(void *p)
 
 
 
-u32 sub_0201AA88(void *p)
+u32 sub_0201AA88(struct Party *party)
 {
     s32 i;
-    u32 n = 0;
-    s32 count;
+    u32 total = 0;
+    s32 memberCount;
 
-    count = sub_0201AA18(p);
-    for (i = 0; i < count; i++) {
-        void *entry = sub_0201AB28(p, i);
-        u32 a = func_02017E1C(entry, 0x4C, 0);
-        u32 b = func_02017E1C(entry, 3, 0);
+    memberCount = sub_0201AA18(party);
+    for (i = 0; i < memberCount; i++) {
+        void *member = sub_0201AB28(party, i);
+        u32 isEgg = func_02017E1C(member, 0x4C, 0);
+        u32 isBadEgg = func_02017E1C(member, 3, 0);
 
-        if (a == 1 && b == 0) {
-            n++;
+        if (isEgg == 1 && isBadEgg == 0) {
+            total++;
         }
     }
-    return n;
+    return total;
 }
 
 
@@ -2568,21 +764,21 @@ u32 sub_0201AA88(void *p)
 
 
 
-u32 sub_0201AAD4(void *p)
+u32 sub_0201AAD4(struct Party *party)
 {
     s32 i;
-    u32 n = 0;
-    s32 count;
+    u32 total = 0;
+    s32 memberCount;
 
-    count = sub_0201AA18(p);
-    for (i = 0; i < count; i++) {
-        void *entry = sub_0201AB28(p, i);
+    memberCount = sub_0201AA18(party);
+    for (i = 0; i < memberCount; i++) {
+        void *member = sub_0201AB28(party, i);
 
-        if (func_02017E1C(entry, 3, 0) == 1) {
-            n++;
+        if (func_02017E1C(member, 3, 0) == 1) {
+            total++;
         }
     }
-    return n;
+    return total;
 }
 
 
@@ -2591,9 +787,9 @@ u32 sub_0201AAD4(void *p)
 
 
 
-u32 sub_0201AB08(void *p)
+u32 sub_0201AB08(struct Party *party)
 {
-    return sub_0201AD58(p, sub_0201AD18);
+    return sub_0201AD58(party, sub_0201AD18);
 }
 
 
@@ -2602,9 +798,9 @@ u32 sub_0201AB08(void *p)
 
 
 
-u32 sub_0201AB18(void *p)
+u32 sub_0201AB18(struct Party *party)
 {
-    return sub_0201AD58(p, sub_0201AD40);
+    return sub_0201AD58(party, sub_0201AD40);
 }
 
 
@@ -2636,9 +832,9 @@ u32 sub_0201AB18(void *p)
  *   python tools/match.py tu --src src/matched/unit_0201AB28.c \
  *       --addr 0x0201AB28 --thumb
  */
-void *sub_0201AB28(void *p, u32 idx)
+struct PokemonParam *sub_0201AB28(struct Party *party, u32 pos)
 {
-    return (u8 *)p + 8 + idx * 0xDC;
+    return &party->members[pos];
 }
 
 
@@ -2648,12 +844,12 @@ void *sub_0201AB28(void *p, u32 idx)
 
 
 
-u32 sub_0201AB34(void *p, u32 idx)
+u32 sub_0201AB34(struct Party *party, u32 pos)
 {
-    void *entry = sub_0201AB28(p, idx);
+    struct PokemonParam *member = sub_0201AB28(party, pos);
 
-    if (entry != 0) {
-        return sub_0201AD18(entry);
+    if (member != 0) {
+        return sub_0201AD18(member);
     }
     return 0;
 }
@@ -2709,13 +905,13 @@ u32 sub_0201AB34(void *p, u32 idx)
  *   python tools/match.py tu --src src/matched/unit_0201AB48.c \
  *       --addr 0x0201AB48 --thumb
  */
-void sub_0201AB48(struct Party_0201AB28 *p, u32 idx, const struct PartyMon *src)
+void sub_0201AB48(struct Party *party, u32 pos, const struct PokemonParam *member)
 {
-    u32 a = func_02017E1C(&p->mon[idx], 0xA9, 0);
-    u32 d = a - func_02017E1C((void *)src, 0xA9, 0);
+    u32 before = func_02017E1C(&party->members[pos], 0xA9, 0);
+    u32 delta = before - func_02017E1C((void *)member, 0xA9, 0);
 
-    *(struct PartyMon *)((u8 *)p + idx * sizeof(struct PartyMon) + 8) = *src;
-    p->count += d;
+    *(struct PokemonParam *)((u8 *)party + pos * sizeof(struct PokemonParam) + 8) = *member;
+    party->count += delta;
 }
 
 
@@ -2723,21 +919,21 @@ void sub_0201AB48(struct Party_0201AB28 *p, u32 idx, const struct PartyMon *src)
 
 
 
-u32 sub_0201AB8C(struct Party_0201AB28 *p, u32 i, u32 j, u32 heap)
+u32 sub_0201AB8C(struct Party *party, u32 pos1, u32 pos2, u32 heap)
 {
-    u32 a;
-    u32 b;
-    struct PartyMon *tmp = (struct PartyMon *)func_02030734(heap, sizeof(struct PartyMon), 0,
-                                                           sub_0201AB8C_File, 382);
+    u32 flags1;
+    u32 flags2;
+    struct PokemonParam *tmp = (struct PokemonParam *)func_02030734(heap, sizeof(struct PokemonParam), 0,
+                                                           pokeparty_File, 382);
 
-    *tmp = p->mon[i];
-    p->mon[i] = p->mon[j];
-    p->mon[j] = *tmp;
+    *tmp = party->members[pos1];
+    party->members[pos1] = party->members[pos2];
+    party->members[pos2] = *tmp;
     func_020307B0(tmp);
-    a = sub_0201ACC4(p, i);
-    b = sub_0201ACC4(p, j);
-    sub_0201ACDC(p, i, b);
-    sub_0201ACDC(p, j, a);
+    flags1 = sub_0201ACC4(party, pos1);
+    flags2 = sub_0201ACC4(party, pos2);
+    sub_0201ACDC(party, pos1, flags2);
+    sub_0201ACDC(party, pos2, flags1);
     return 0;
 }
 
@@ -2810,7 +1006,7 @@ u32 sub_0201AB8C(struct Party_0201AB28 *p, u32 i, u32 j, u32 heap)
  *   python tools/match.py tu --src src/matched/unit_0201AC2C.c \
  *       --addr 0x0201AC2C --thumb
  */
-void sub_0201AC2C(const struct Rec534 *src, struct Rec534 *dst)
+void sub_0201AC2C(const struct Party *src, struct Party *dst)
 {
     *dst = *src;
 }
@@ -2823,18 +1019,18 @@ void sub_0201AC2C(const struct Rec534 *src, struct Rec534 *dst)
 
 
 
-u32 sub_0201AC44(struct Rec_0201A4D4 *p, u32 target)
+u32 sub_0201AC44(struct Party *party, u32 species)
 {
     s32 i;
 
-    for (i = 0; i < p->unk04; i++) {
-        void *entry = &p->unk08[i * 0xDC];
+    for (i = 0; i < party->count; i++) {
+        struct PokemonParam *member = &party->members[i];
 
-        if (func_02017E1C(entry, 5, 0) == target) {
+        if (func_02017E1C(member, 5, 0) == species) {
             break;
         }
     }
-    if (i == p->unk04) {
+    if (i == party->count) {
         return 0;
     }
     return 1;
@@ -2848,21 +1044,21 @@ u32 sub_0201AC44(struct Rec_0201A4D4 *p, u32 target)
 
 
 
-u32 sub_0201AC80(void *p)
+u32 sub_0201AC80(struct Party *party)
 {
-    s32 n = sub_0201AA18(p);
-    s32 i, count = 0;
+    s32 memberCount = sub_0201AA18(party);
+    s32 i, total = 0;
 
-    for (i = 0; i < n; i++) {
-        void *entry = sub_0201AB28(p, i);
+    for (i = 0; i < memberCount; i++) {
+        struct PokemonParam *member = sub_0201AB28(party, i);
 
-        if (func_02017E1C(entry, 0xA0, 0)) {
-            if (!func_02017E1C(entry, 0x4C, 0)) {
-                count++;
+        if (func_02017E1C(member, 0xA0, 0)) {
+            if (!func_02017E1C(member, 0x4C, 0)) {
+                total++;
             }
         }
     }
-    return count;
+    return total;
 }
 
 
@@ -2873,11 +1069,11 @@ u32 sub_0201AC80(void *p)
 
 
 
-int sub_0201ACC4(void *p, u32 pos)
+int sub_0201ACC4(const struct Party *party, u32 pos)
 {
-    u8 b = ((u8 *)p)[0x530];
+    u8 flags = party->slotFlags;
 
-    if (b & (1u << pos)) {
+    if (flags & (1u << pos)) {
         return 1;
     }
     return 0;
@@ -2891,12 +1087,12 @@ int sub_0201ACC4(void *p, u32 pos)
 
 
 
-void sub_0201ACDC(void *p, u32 pos, u32 mode)
+void sub_0201ACDC(struct Party *party, u32 pos, u32 set)
 {
-    if (mode == 1) {
-        ((u8 *)p)[0x530] = ((u8 *)p)[0x530] | (1u << pos);
+    if (set == 1) {
+        party->slotFlags = party->slotFlags | (1u << pos);
     } else {
-        ((u8 *)p)[0x530] = ((u8 *)p)[0x530] & (0xFFu - (1u << pos));
+        party->slotFlags = party->slotFlags & (0xFFu - (1u << pos));
     }
 }
 
@@ -2908,9 +1104,9 @@ void sub_0201ACDC(void *p, u32 pos, u32 mode)
 
 
 
-void *sub_0201AD0C(void *sys)
+struct Party *sub_0201AD0C(struct SaveControl *save)
 {
-    return sub_020071CC(sys, 0x1A);
+    return sub_020071CC(save, 0x1A);
 }
 
 
@@ -2921,12 +1117,12 @@ void *sub_0201AD0C(void *sys)
 
 
 
-u32 sub_0201AD18(void *p)
+u32 sub_0201AD18(struct PokemonParam *member)
 {
-    u32 a = func_02017E1C(p, 0x4C, 0);
-    u32 b = func_02017E1C(p, 0xA0, 0);
+    u32 isEgg = func_02017E1C(member, 0x4C, 0);
+    u32 hp = func_02017E1C(member, 0xA0, 0);
 
-    if (a != 1 && b != 0) {
+    if (isEgg != 1 && hp != 0) {
         return 1;
     }
     return 0;
@@ -2940,14 +1136,14 @@ u32 sub_0201AD18(void *p)
 
 
 
-u32 sub_0201AD40(void *p)
+u32 sub_0201AD40(struct PokemonParam *member)
 {
-    u32 r = 0;
+    u32 result = 0;
 
-    if (func_02017E1C(p, 0x4C, 0) != 1) {
-        r = 1;
+    if (func_02017E1C(member, 0x4C, 0) != 1) {
+        result = 1;
     }
-    return r;
+    return result;
 }
 
 
@@ -2958,19 +1154,19 @@ u32 sub_0201AD40(void *p)
 
 
 
-u32 sub_0201AD58(void *p, Predicate pred)
+u32 sub_0201AD58(struct Party *party, PartyMemberPredicate pred)
 {
     s32 i;
-    s32 n = sub_0201AA18(p);
+    s32 memberCount = sub_0201AA18(party);
 
-    for (i = 0; i < n; i++) {
-        void *entry = sub_0201AB28(p, i);
+    for (i = 0; i < memberCount; i++) {
+        struct PokemonParam *member = sub_0201AB28(party, i);
 
-        if (pred(entry)) {
+        if (pred(member)) {
             return i;
         }
     }
-    return n;
+    return memberCount;
 }
 
 
@@ -2998,8 +1194,8 @@ u32 sub_0201AD58(void *p, Predicate pred)
  */
 void sub_0201AD88(u32 heap)
 {
-    if (g_0214652C == 0) {
-        g_0214652C = func_020490F4(0x10, heap);
+    if (_pPersonalArc == 0) {
+        _pPersonalArc = func_020490F4(0x10, heap);
     }
 }
 
@@ -3027,13 +1223,13 @@ void sub_0201AD88(u32 heap)
  *   python tools/match.py tu --src src/matched/unit_0201ADA4.c \
  *       --addr 0x0201ADA4 --thumb
  */
-void sub_0201ADA4(u32 a, int b, void *c)
+void sub_0201ADA4(u32 species, int form, void *dst)
 {
-    u32 r = sub_0201AFD4(a, b);
+    u32 dataId = sub_0201AFD4(species, form);
 
-    r = func_02049578(g_0214652C, r);
-    func_0204960C(g_0214652C, (void *)r);
-    func_020495F4(g_0214652C, 0x3C, c);
+    dataId = func_02049578(_pPersonalArc, dataId);
+    func_0204960C(_pPersonalArc, dataId);
+    func_020495F4(_pPersonalArc, 0x3C, dst);
 }
 
 
@@ -3068,11 +1264,11 @@ void sub_0201ADA4(u32 a, int b, void *c)
  *   python tools/match.py tu --src src/matched/unit_0201ADD0.c \
  *       --addr 0x0201ADD0 --thumb
  */
-void sub_0201ADD0(u32 a, int b, void *c)
+void sub_0201ADD0(u32 species, int form, void *dst)
 {
-    u32 r = sub_0201AFD4(a, b);
+    u32 dataId = sub_0201AFD4(species, form);
 
-    func_02048F4C(c, 0x12, r);
+    func_02048F4C(dst, 0x12, dataId);
 }
 
 
@@ -3083,12 +1279,12 @@ void sub_0201ADD0(u32 a, int b, void *c)
 
 
 
-void *sub_0201ADE4(u32 a, int b, u32 c)
+struct PersonalData *sub_0201ADE4(u32 species, int form, u32 heap)
 {
-    void *obj = func_02030734(c, 0x3C, 0, sub_0201ADE4_File, 0x76);
+    struct PersonalData *data = func_02030734(heap, 0x3C, 0, poke_personal_File, 0x76);
 
-    sub_0201ADA4(a, b, obj);
-    return obj;
+    sub_0201ADA4(species, form, data);
+    return data;
 }
 
 
@@ -3121,9 +1317,9 @@ void *sub_0201ADE4(u32 a, int b, u32 c)
  *   python tools/match.py tu --src src/matched/unit_0201AE14.c \
  *       --addr 0x0201AE14 --thumb
  */
-void sub_0201AE14(void *p)
+void sub_0201AE14(struct PersonalData *data)
 {
-    func_020307B0(p);
+    func_020307B0(data);
 }
 
 
@@ -3207,53 +1403,53 @@ void sub_0201AE14(void *p)
  *   python tools/match.py tu --src src/matched/sub_0201AE1C.c \
  *       --addr 0x0201AE1C --thumb
  */
-u32 sub_0201AE1C(const struct Personal_0201AE1C *p, u32 field)
+u32 sub_0201AE1C(const struct PersonalData *data, u32 field)
 {
     switch (field) {
-    case 0:  return p->unk00;
-    case 1:  return p->unk01;
-    case 2:  return p->unk02;
-    case 3:  return p->unk03;
-    case 4:  return p->unk04;
-    case 5:  return p->unk05;
-    case 6:  return p->unk06;
-    case 7:  return p->unk07;
-    case 8:  return p->unk08;
-    case 9:  return p->unk22;
-    case 10: return p->ev0;
-    case 11: return p->ev1;
-    case 12: return p->ev2;
-    case 13: return p->ev3;
-    case 14: return p->ev4;
-    case 15: return p->ev5;
-    case 16: return p->unk0A_12;
-    case 17: return p->unk0C;
-    case 18: return p->unk0E;
-    case 19: return p->unk10;
-    case 20: return p->unk12;
-    case 21: return p->unk13;
-    case 22: return p->unk14;
-    case 23: return p->unk15;
-    case 24: return p->unk16;
-    case 25: return p->unk17;
-    case 26: return p->unk18;
-    case 27: return p->unk19;
-    case 28: return p->unk1A;
-    case 29: return p->unk1B;
-    case 30: return p->unk1C;
-    case 31: return p->unk1E;
-    case 32: return p->unk20;
-    case 33: return p->unk21_0;
-    case 34: return p->unk21_6;
-    case 35: return p->unk21_7;
-    case 36: return p->unk09;
-    case 37: return p->unk24;
-    case 38: return p->unk26;
-    case 39: return p->unk28;
-    case 40: return p->unk2C;
-    case 41: return p->unk30;
-    case 42: return p->unk34;
-    case 43: return p->unk38;
+    case 0:  return data->baseHp;
+    case 1:  return data->baseAttack;
+    case 2:  return data->baseDefense;
+    case 3:  return data->baseSpeed;
+    case 4:  return data->baseSpAttack;
+    case 5:  return data->baseSpDefense;
+    case 6:  return data->type1;
+    case 7:  return data->type2;
+    case 8:  return data->catchRate;
+    case 9:  return data->baseExp;
+    case 10: return data->evHp;
+    case 11: return data->evAttack;
+    case 12: return data->evDefense;
+    case 13: return data->evSpeed;
+    case 14: return data->evSpAttack;
+    case 15: return data->evSpDefense;
+    case 16: return data->yieldFlag;
+    case 17: return data->heldItemCommon;
+    case 18: return data->heldItemRare;
+    case 19: return data->heldItemDream;
+    case 20: return data->genderRatio;
+    case 21: return data->eggCycles;
+    case 22: return data->baseFriendship;
+    case 23: return data->growthRate;
+    case 24: return data->eggGroup1;
+    case 25: return data->eggGroup2;
+    case 26: return data->ability1;
+    case 27: return data->ability2;
+    case 28: return data->hiddenAbility;
+    case 29: return data->escapeRate;
+    case 30: return data->formStatsIndex;
+    case 31: return data->formSpriteIndex;
+    case 32: return data->formCount;
+    case 33: return data->color;
+    case 34: return data->spriteFlip;
+    case 35: return data->formSpriteShared;
+    case 36: return data->evoStage;
+    case 37: return data->height;
+    case 38: return data->weight;
+    case 39: return data->tmFlags1;
+    case 40: return data->tmFlags2;
+    case 41: return data->tmFlags3;
+    case 42: return data->tmFlags4;
+    case 43: return data->tutorFlags;
     }
     return 0;
 }
@@ -3317,9 +1513,9 @@ u32 sub_0201AE1C(const struct Personal_0201AE1C *p, u32 field)
  *   python tools/match.py tu --src src/matched/unit_0201AF6C.c \
  *       --addr 0x0201AF6C --thumb
  */
-u32 sub_0201AF6C(u32 v)
+u32 sub_0201AF6C(u32 ability)
 {
-    if (v == 0 || v - 0xFE <= 1) {
+    if (ability == 0 || ability - 0xFE <= 1) {
         return 1;
     }
     return 0;
@@ -3335,24 +1531,24 @@ u32 sub_0201AF6C(u32 v)
 
 u16 *sub_0201AF80(u32 heap, u16 *countOut)
 {
-    u32 len;
-    u16 *tab;
+    u32 size;
+    u16 *table;
     u16 count;
-    u16 n;
+    u16 entryCount;
     u16 i;
 
     count = 0;
-    tab = func_0204A39C(g_0214652C, 0x29C, 0, heap, &len);
-    n = (u16)(len >> 1);
+    table = func_0204A39C(_pPersonalArc, 0x29C, 0, heap, &size);
+    entryCount = (u16)(size >> 1);
     if (countOut != 0) {
-        for (i = 0; i < n; i++) {
-            if (tab[i] != 999) {
+        for (i = 0; i < entryCount; i++) {
+            if (table[i] != 999) {
                 count++;
             }
         }
         *countOut = count;
     }
-    return tab;
+    return table;
 }
 
 
@@ -3402,17 +1598,17 @@ u16 *sub_0201AF80(u32 heap, u16 *countOut)
  */
 u32 sub_0201AFD4(u32 species, s32 form)
 {
-    struct Personal_0201AFD4 rec;
+    struct PersonalData data;
 
     if ((u16)(species + 0xFD76) <= 1) {
         return 0;
     }
-    func_0204960C(g_0214652C, (void *)func_02049578(g_0214652C, species));
-    func_020495F4(g_0214652C, 0x3C, &rec);
-    if (rec.unk1C == 0 || rec.unk20 <= form || form == 0) {
+    func_0204960C(_pPersonalArc, func_02049578(_pPersonalArc, species));
+    func_020495F4(_pPersonalArc, 0x3C, &data);
+    if (data.formStatsIndex == 0 || data.formCount <= form || form == 0) {
         return species;
     }
-    return (u16)(rec.unk1C + form - 1);
+    return (u16)(data.formStatsIndex + form - 1);
 }
 
 
@@ -3433,39 +1629,39 @@ u32 sub_0201AFD4(u32 species, s32 form)
  *           truncations are written inside the call argument, which lets the
  *           final lsls/lsrs pair straddle the argument set-up.
  */
-void sub_0201B038(void *party)
+void sub_0201B038(struct Party *party)
 {
-    u32 mask;
-    u32 r;
+    u32 infectedMask;
+    u32 chance;
     u32 slot;
-    void *mon;
-    u32 v;
-    u32 w;
-    u32 n;
+    struct PokemonParam *member;
+    u32 strain;
+    u32 pokerus;
+    u32 memberCount;
 
-    n = sub_0201AA18(party);
-    r = (u16)((u64)func_0203F0A8() * 0x10000 >> 32);
-    mask = sub_0201B220(party);
-    if (r == 0x4000 || r == 0x8000 || r == 0xC000) {
+    memberCount = sub_0201AA18(party);
+    chance = (u16)((u64)func_0203F0A8() * 0x10000 >> 32);
+    infectedMask = sub_0201B220(party);
+    if (chance == 0x4000 || chance == 0x8000 || chance == 0xC000) {
         do {
             slot = func_0203F0A8();
-            if (n != 0) {
-                slot = (u32)(((u64)slot * n) >> 32);
+            if (memberCount != 0) {
+                slot = (u32)(((u64)slot * memberCount) >> 32);
             }
-            mon = sub_0201AB28(party, slot);
-        } while (func_02017E1C(mon, 5, 0) == 0
-                 || func_02017E1C(mon, 0x4C, 0) != 0);
-        if ((mask & (1 << slot)) != 0) {
+            member = sub_0201AB28(party, slot);
+        } while (func_02017E1C(member, 5, 0) == 0
+                 || func_02017E1C(member, 0x4C, 0) != 0);
+        if ((infectedMask & (1 << slot)) != 0) {
             return;
         }
         do {
-            v = (u8)((u64)func_0203F0A8() * 0x100 >> 32);
-        } while ((v & 7) == 0);
-        if ((v & 0xF0) != 0) {
-            v = v & 7;
+            strain = (u8)((u64)func_0203F0A8() * 0x100 >> 32);
+        } while ((strain & 7) == 0);
+        if ((strain & 0xF0) != 0) {
+            strain = strain & 7;
         }
-        w = v; w |= (u8)(v << 4);
-        func_02017E40(mon, 0x97, (u8)((u8)(w & 0xF3) + 1));
+        pokerus = strain; pokerus |= (u8)(strain << 4);
+        func_02017E40(member, 0x97, (u8)((u8)(pokerus & 0xF3) + 1));
     }
 }
 
@@ -3539,34 +1735,34 @@ void sub_0201B038(void *party)
  *   python tools/match.py tu --src src/matched/unit_0201B100.c \
  *       --addr 0x0201B100 --thumb
  */
-void sub_0201B100(void *party, s32 amount)
+void sub_0201B100(struct Party *party, s32 days)
 {
-    s32 n;
-    void *mon;
+    s32 memberCount;
+    struct PokemonParam *member;
     s32 i;
-    u8 v;
-    s32 low;
+    u8 pokerus;
+    s32 daysLeft;
 
-    n = sub_0201AA18(party);
-    for (i = 0; i < n; i++) {
-        mon = sub_0201AB28(party, i);
-        if (func_02017E1C(mon, 5, 0) == 0) {
+    memberCount = sub_0201AA18(party);
+    for (i = 0; i < memberCount; i++) {
+        member = sub_0201AB28(party, i);
+        if (func_02017E1C(member, 5, 0) == 0) {
             continue;
         }
-        v = (u8)func_02017E1C(mon, 0x97, 0);
-        low = v & 0xF;
-        if (low == 0) {
+        pokerus = (u8)func_02017E1C(member, 0x97, 0);
+        daysLeft = pokerus & 0xF;
+        if (daysLeft == 0) {
             continue;
         }
-        if (low < amount || amount > 4) {
-            v &= 0xF0;
+        if (daysLeft < days || days > 4) {
+            pokerus &= 0xF0;
         } else {
-            v = (u8)(v - (u8)amount);
+            pokerus = (u8)(pokerus - (u8)days);
         }
-        if (v == 0) {
-            v = 0x10;
+        if (pokerus == 0) {
+            pokerus = 0x10;
         }
-        func_02017E40(mon, 0x97, v);
+        func_02017E40(member, 0x97, pokerus);
     }
 }
 
@@ -3577,37 +1773,37 @@ void sub_0201B100(void *party, s32 amount)
 
 
 
-void sub_0201B170(void *party)
+void sub_0201B170(struct Party *party)
 {
     s32 i;
-    void *mon;
-    void *other;
-    u8 v;
-    s32 n;
+    struct PokemonParam *member;
+    struct PokemonParam *neighbor;
+    u8 pokerus;
+    s32 memberCount;
 
-    n = sub_0201AA18(party);
+    memberCount = sub_0201AA18(party);
     if ((u32)((u64)func_0203F0A8() * 3 >> 32) != 0) {
         return;
     }
-    for (i = 0; i < n; i++) {
-        mon = sub_0201AB28(party, i);
-        if (func_02017E1C(mon, 5, 0) == 0) {
+    for (i = 0; i < memberCount; i++) {
+        member = sub_0201AB28(party, i);
+        if (func_02017E1C(member, 5, 0) == 0) {
             continue;
         }
-        v = (u8)func_02017E1C(mon, 0x97, 0);
-        if ((v & 0xF) == 0) {
+        pokerus = (u8)func_02017E1C(member, 0x97, 0);
+        if ((pokerus & 0xF) == 0) {
             continue;
         }
         if (i != 0) {
-            other = sub_0201AB28(party, i - 1);
-            if ((func_02017E1C(other, 0x97, 0) & 0xF0) == 0) {
-                func_02017E40(other, 0x97, v);
+            neighbor = sub_0201AB28(party, i - 1);
+            if ((func_02017E1C(neighbor, 0x97, 0) & 0xF0) == 0) {
+                func_02017E40(neighbor, 0x97, pokerus);
             }
         }
-        if (i < n - 1) {
-            other = sub_0201AB28(party, i + 1);
-            if ((func_02017E1C(other, 0x97, 0) & 0xF0) == 0) {
-                func_02017E40(other, 0x97, v);
+        if (i < memberCount - 1) {
+            neighbor = sub_0201AB28(party, i + 1);
+            if ((func_02017E1C(neighbor, 0x97, 0) & 0xF0) == 0) {
+                func_02017E40(neighbor, 0x97, pokerus);
                 i++;
             }
         }
@@ -3668,20 +1864,20 @@ void sub_0201B170(void *party)
  *   python tools/match.py tu --src src/matched/unit_0201B220.c \
  *       --addr 0x0201B220 --thumb
  */
-u32 sub_0201B220(void *party)
+u32 sub_0201B220(struct Party *party)
 {
     s32 i;
-    u32 mask;
-    s32 n;
+    u32 infectedMask;
+    s32 memberCount;
 
-    mask = 0;
-    n = sub_0201AA18(party);
-    for (i = 0; i < n; i++) {
+    infectedMask = 0;
+    memberCount = sub_0201AA18(party);
+    for (i = 0; i < memberCount; i++) {
         if (func_02017E1C(sub_0201AB28(party, i), 0x97, 0) != 0) {
-            mask |= (u8)(1 << i);
+            infectedMask |= (u8)(1 << i);
         }
     }
-    return mask;
+    return infectedMask;
 }
 
 
@@ -3691,9 +1887,9 @@ u32 sub_0201B220(void *party)
 
 
 
-u32 sub_0201B25C(void *a)
+u32 sub_0201B25C(struct PokemonParam *pp)
 {
-    return sub_0201B268(func_020185F0(a));
+    return sub_0201B268(func_020185F0(pp));
 }
 
 
@@ -3703,15 +1899,15 @@ u32 sub_0201B25C(void *a)
 
 
 
-u32 sub_0201B268(void *mon)
+u32 sub_0201B268(struct BoxPokemon *box)
 {
-    u32 r;
+    u32 result;
 
-    r = 0;
-    if ((func_02017E88(mon, 0x97, 0) & 0xF) != 0) {
-        r = 1;
+    result = 0;
+    if ((func_02017E88(box, 0x97, 0) & 0xF) != 0) {
+        result = 1;
     }
-    return r;
+    return result;
 }
 
 
@@ -3721,9 +1917,9 @@ u32 sub_0201B268(void *mon)
 
 
 
-u32 sub_0201B280(void *a)
+u32 sub_0201B280(struct PokemonParam *pp)
 {
-    return sub_0201B28C(func_020185F0(a));
+    return sub_0201B28C(func_020185F0(pp));
 }
 
 
@@ -3733,17 +1929,17 @@ u32 sub_0201B280(void *a)
 
 
 
-u32 sub_0201B28C(void *mon)
+u32 sub_0201B28C(struct BoxPokemon *box)
 {
-    u32 r;
-    u8 v;
+    u32 result;
+    u8 pokerus;
 
-    r = 0;
-    v = (u8)func_02017E88(mon, 0x97, 0);
-    if ((v & 0xF) == 0 && (v & 0xF0) != 0) {
-        r = 1;
+    result = 0;
+    pokerus = (u8)func_02017E88(box, 0x97, 0);
+    if ((pokerus & 0xF) == 0 && (pokerus & 0xF0) != 0) {
+        result = 1;
     }
-    return r;
+    return result;
 }
 
 
@@ -3777,111 +1973,111 @@ u32 sub_0201B28C(void *mon)
  *   python tools/match.py one --src src/matched/sub_0201B2B0.c \
  *       --func sub_0201B2B0 --addr 0x0201B2B0 --cc 1.1p1 --thumb
  */
-u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
+u32 sub_0201B2B0(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg,
                  u8 timezone, u32 *methodOut, u16 heap)
 {
-    u32 dummy;
-    u32 a3c;
-    u32 a38;
-    u32 a34;
-    u32 pid;
-    struct EvoRow_0201B2B0 *table;
+    u32 unusedMethod;
+    u32 attackLess;
+    u32 attackEqual;
+    u32 attackGreater;
+    u32 personality;
+    struct EvolutionRow *rows;
     u16 species;
-    u16 held;
+    u16 heldItem;
     u16 friendship;
-    u16 pidHigh;
+    u16 personalityHigh;
     u8  level;
     u8  beauty;
     int i;
     u16 result;
     u8  holdEffect;
-    struct EvoRow_0201B2B0 *row;
-    u32 j;
+    struct EvolutionRow *row;
+    u32 k;
 
     result = 0;
-    if (func_02017E1C(mon, 0x4C, 0) != 0) {
+    if (func_02017E1C(pp, 0x4C, 0) != 0) {
         return result;
     }
-    species = func_02017E1C(mon, 5, 0);
-    held = func_02017E1C(mon, 6, 0);
-    pid = func_02017E1C(mon, 0, 0);
-    beauty = func_02017E1C(mon, 0x14, 0);
-    pidHigh = (pid & 0xFFFF0000) >> 16;
-    holdEffect = func_02020FE4(held, 1, heap);
-    if (species != 0x40 && holdEffect == 0x40 && context != 3) {
+    species = func_02017E1C(pp, 5, 0);
+    heldItem = func_02017E1C(pp, 6, 0);
+    personality = func_02017E1C(pp, 0, 0);
+    beauty = func_02017E1C(pp, 0x14, 0);
+    personalityHigh = (personality & 0xFFFF0000) >> 16;
+    holdEffect = func_02020FE4(heldItem, 1, heap);
+    if (species != 0x40 && holdEffect == 0x40 && mode != 3) {
         return result;
     }
     if (methodOut == 0) {
-        methodOut = &dummy;
+        methodOut = &unusedMethod;
     }
     i = 0;
-    table = func_02030734(heap, 0x2A, 0, (const char *)s_shinka_check_c, 0x6A);
-    sub_0201B764(species, table);
+    rows = func_02030734(heap, 0x2A, 0, (const char *)shinka_check_File, 0x6A);
+    sub_0201B764(species, rows);
 
-    switch (context) {
+    switch (mode) {
     case 0:
-        level = func_02017E1C(mon, 0x9E, i);
-        friendship = func_02017E1C(mon, 9, i);
+        level = func_02017E1C(pp, 0x9E, i);
+        friendship = func_02017E1C(pp, 9, i);
         for (i = 0; i < 7; i++) {
-            row = &table[i];
+            row = &rows[i];
             switch (row->method) {
             case 1:
                 if (friendship >= 220) {
-                    result = row->target;
+                    result = row->species;
                 }
                 break;
             case 2:
                 if (func_02011410(timezone) == 0 && friendship >= 220) {
-                    result = row->target;
+                    result = row->species;
                 }
                 break;
             case 3:
                 if (func_02011410(timezone) == 1 && friendship >= 220) {
-                    result = row->target;
+                    result = row->species;
                 }
                 break;
             case 4:
                 if (row->param <= level) {
-                    result = row->target;
+                    result = row->species;
                 }
                 break;
             case 9:
                 if (row->param <= level) {
-                    a34 = func_02017E1C(mon, 0xA2, 0);
-                    if (a34 > func_02017E1C(mon, 0xA3, 0)) {
-                        result = row->target;
+                    attackGreater = func_02017E1C(pp, 0xA2, 0);
+                    if (attackGreater > func_02017E1C(pp, 0xA3, 0)) {
+                        result = row->species;
                     }
                 }
                 break;
             case 10:
                 if (row->param <= level) {
-                    a38 = func_02017E1C(mon, 0xA2, 0);
-                    if (a38 == func_02017E1C(mon, 0xA3, 0)) {
-                        result = row->target;
+                    attackEqual = func_02017E1C(pp, 0xA2, 0);
+                    if (attackEqual == func_02017E1C(pp, 0xA3, 0)) {
+                        result = row->species;
                     }
                 }
                 break;
             case 11:
                 if (row->param <= level) {
-                    a3c = func_02017E1C(mon, 0xA2, 0);
-                    if (a3c < func_02017E1C(mon, 0xA3, 0)) {
-                        result = row->target;
+                    attackLess = func_02017E1C(pp, 0xA2, 0);
+                    if (attackLess < func_02017E1C(pp, 0xA3, 0)) {
+                        result = row->species;
                     }
                 }
                 break;
             case 12:
-                if (row->param <= level && pidHigh % 10 < 5) {
-                    result = row->target;
+                if (row->param <= level && personalityHigh % 10 < 5) {
+                    result = row->species;
                 }
                 break;
             case 13:
-                if (row->param <= level && pidHigh % 10 >= 5) {
-                    result = row->target;
+                if (row->param <= level && personalityHigh % 10 >= 5) {
+                    result = row->species;
                 }
                 break;
             case 14:
                 if (row->param <= level) {
-                    result = row->target;
+                    result = row->species;
                 }
                 break;
             case 15:
@@ -3889,67 +2085,67 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
                 break;
             case 16:
                 if (row->param <= beauty) {
-                    result = row->target;
+                    result = row->species;
                 }
                 break;
             case 19:
-                if (func_02011410(timezone) == 0 && held == row->param) {
-                    result = row->target;
+                if (func_02011410(timezone) == 0 && heldItem == row->param) {
+                    result = row->species;
                 }
                 break;
             case 20:
-                if (func_02011410(timezone) == 1 && held == row->param) {
-                    result = row->target;
+                if (func_02011410(timezone) == 1 && heldItem == row->param) {
+                    result = row->species;
                 }
                 break;
             case 21:
-                if (sub_0201B774(mon, row->param) == 1) {
-                    result = row->target;
+                if (sub_0201B774(pp, row->param) == 1) {
+                    result = row->species;
                 }
                 break;
             case 22:
                 if (party != 0 && sub_0201AC44(party, row->param) == 1) {
-                    result = row->target;
+                    result = row->species;
                 }
                 break;
             case 23:
-                if (func_02017E1C(mon, 0x6E, 0) == 0 && row->param <= level) {
-                    result = row->target;
+                if (func_02017E1C(pp, 0x6E, 0) == 0 && row->param <= level) {
+                    result = row->species;
                 }
                 break;
             case 24:
-                if (func_02017E1C(mon, 0x6E, 0) == 1 && row->param <= level) {
-                    result = row->target;
+                if (func_02017E1C(pp, 0x6E, 0) == 1 && row->param <= level) {
+                    result = row->species;
                 }
                 break;
             case 25:
-                for (j = 0; j < 3; j++) {
-                    if (param == g_020A7324[j]) {
-                        result = row->target;
+                for (k = 0; k < 3; k++) {
+                    if (arg == _MagneticZones[k]) {
+                        result = row->species;
                         break;
                     }
                 }
                 break;
             case 26:
-                for (j = 0; j < 1; j++) {
-                    if (param == g_020A7322[j]) {
-                        result = row->target;
+                for (k = 0; k < 1; k++) {
+                    if (arg == _MossRockZones[k]) {
+                        result = row->species;
                         break;
                     }
                 }
                 break;
             case 27:
-                for (j = 0; j < 1; j++) {
-                    if (param == g_020A7320[j]) {
-                        result = row->target;
+                for (k = 0; k < 1; k++) {
+                    if (arg == _IceRockZones[k]) {
+                        result = row->species;
                         break;
                     }
                 }
                 break;
             case 28:
-                for (j = 0; j < 3; j++) {
-                    if (param == g_020A732A[j]) {
-                        result = row->target;
+                for (k = 0; k < 3; k++) {
+                    if (arg == _ExtraEvolutionZones[k]) {
+                        result = row->species;
                         break;
                     }
                 }
@@ -3963,23 +2159,23 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
         break;
     case 1:
         for (i = 0; i < 7; i++) {
-            row = &table[i];
+            row = &rows[i];
             switch (row->method) {
             case 5:
-                result = row->target;
+                result = row->species;
                 break;
             case 6:
-                if (held == row->param) {
-                    result = row->target;
+                if (heldItem == row->param) {
+                    result = row->species;
                 }
                 break;
             case 7:
-                if (func_02020FE4((u16)func_02017E1C((void *)param, 6, 0), 1, heap) != 0x40) {
-                    if ((func_02017E1C(mon, 0xAB, 0) == 588
-                         && func_02017E1C((void *)param, 0xAB, 0) == 616)
-                     || (func_02017E1C((void *)param, 0xAB, 0) == 588
-                         && func_02017E1C(mon, 0xAB, 0) == 616)) {
-                        result = row->target;
+                if (func_02020FE4((u16)func_02017E1C((struct PokemonParam *)arg, 6, 0), 1, heap) != 0x40) {
+                    if ((func_02017E1C(pp, 0xAB, 0) == 588
+                         && func_02017E1C((struct PokemonParam *)arg, 0xAB, 0) == 616)
+                     || (func_02017E1C((struct PokemonParam *)arg, 0xAB, 0) == 588
+                         && func_02017E1C(pp, 0xAB, 0) == 616)) {
+                        result = row->species;
                     }
                 }
                 break;
@@ -3993,15 +2189,15 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
     case 2:
     case 3:
         for (i = 0; i < 7; i++) {
-            row = &table[i];
-            if (row->method == 8 && param == row->param) {
-                result = row->target;
+            row = &rows[i];
+            if (row->method == 8 && arg == row->param) {
+                result = row->species;
             }
-            if (row->method == 0x11 && func_02017E1C(mon, 0x6E, 0) == 0 && param == row->param) {
-                result = row->target;
+            if (row->method == 0x11 && func_02017E1C(pp, 0x6E, 0) == 0 && arg == row->param) {
+                result = row->species;
             }
-            if (row->method == 0x12 && func_02017E1C(mon, 0x6E, 0) == 1 && param == row->param) {
-                result = row->target;
+            if (row->method == 0x12 && func_02017E1C(pp, 0x6E, 0) == 1 && arg == row->param) {
+                result = row->species;
             }
             if (result != 0) {
                 *methodOut = row->method;
@@ -4010,7 +2206,7 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
         }
         break;
     }
-    func_020307B0(table);
+    func_020307B0(rows);
     return result;
 }
 
@@ -4080,7 +2276,7 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
  *   python tools/match.py tu --src src/matched/unit_0201B70C.c \
  *       --addr 0x0201B70C --thumb
  */
-void *sub_0201B70C(u32 heap)
+struct ArcHandle *sub_0201B70C(u32 heap)
 {
     return func_020490F4(0x13, heap);
 }
@@ -4092,18 +2288,18 @@ void *sub_0201B70C(u32 heap)
 
 
 
-u32 sub_0201B718(void *a, u32 id, u32 row, u32 field)
+u32 sub_0201B718(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field)
 {
-    struct EvoTable t;
+    struct EvolutionData data;
 
-    func_0204932C(a, id, &t);
+    func_0204932C(arc, species, &data);
     switch (field) {
     case 0:
-        return t.rows[row].method;
+        return data.rows[rowIndex].method;
     case 1:
-        return t.rows[row].param;
+        return data.rows[rowIndex].param;
     case 2:
-        return t.rows[row].species;
+        return data.rows[rowIndex].species;
     }
     return 0;
 }
@@ -4115,9 +2311,9 @@ u32 sub_0201B718(void *a, u32 id, u32 row, u32 field)
 
 
 
-void sub_0201B764(u32 id, void *dest)
+void sub_0201B764(u32 species, struct EvolutionRow *rows)
 {
-    func_02048F4C(dest, 0x13, id);
+    func_02048F4C(rows, 0x13, species);
 }
 
 
@@ -4127,14 +2323,14 @@ void sub_0201B764(u32 id, void *dest)
 
 
 
-u32 sub_0201B774(void *mon, u32 move)
+u32 sub_0201B774(struct PokemonParam *pp, u32 move)
 {
     u32 found;
     s32 i;
 
     found = 0;
     for (i = 0x36; i < 0x3A; i++) {
-        if (move == func_02017E1C(mon, i, 0)) {
+        if (move == func_02017E1C(pp, i, 0)) {
             found = 1;
             break;
         }
@@ -4165,9 +2361,9 @@ u32 sub_0201B774(void *mon, u32 move)
  *   python tools/match.py one --src src/pending/func_0201B7A0.c \
  *       --func func_0201B7A0 --addr 0x0201B7A0 --cc 1.1p1 --thumb
  */
-void func_0201B7A0(void *a0, int a1, int a2, u16 a3)
+void func_0201B7A0(struct PokemonParam *pp, int type, int zoneId, u16 heap)
 {
-    func_0201B850(a0, &g_0209E45C[a1 * 3], a2, a3);
+    sub_0201B850(pp, &_NatsukiDeltaTable[type * 3], zoneId, heap);
 }
 
 
@@ -4191,15 +2387,15 @@ void func_0201B7A0(void *a0, int a1, int a2, u16 a3)
  *   python tools/match.py one --src src/matched/func_0201B7B4.c \
  *       --func func_0201B7B4 --addr 0x0201B7B4 --cc 1.1p1 --thumb
  */
-void func_0201B7B4(void *a0, int a1, u16 a2, u16 a3)
+void func_0201B7B4(struct PokemonParam *pp, int item, u16 zoneId, u16 heap)
 {
-    u8 buf[3];
+    u8 deltas[3];
     int i;
 
     for (i = 0; i < 3; i++) {
-        buf[i] = (u8)func_02020FE4(a1, (u16)(i + 0x3C), a3);
+        deltas[i] = (u8)func_02020FE4(item, (u16)(i + 0x3C), heap);
     }
-    func_0201B850(a0, (const s8 *)buf, a2, a3);
+    sub_0201B850(pp, (const s8 *)deltas, zoneId, heap);
 }
 
 
@@ -4215,7 +2411,7 @@ void func_0201B7B4(void *a0, int a1, u16 a2, u16 a3)
 
 /*
  * shinka_check.c.  The coin-flip sibling of func_0201B7A0 / func_0201B818:
- * on an even draw below 2, hand the fixed row g_0209E465 to func_0201B850.
+ * on an even draw below 2, hand the fixed row _NatsukiWalkDeltas to func_0201B850.
  *
  * The `movs r1,#0 / lsls r1,r1,#1 / lsrs r0,r0,#31 / orrs` run that four
  * waves read as a scheduling tie of two u32 shifts is the high word of a
@@ -4230,10 +2426,10 @@ void func_0201B7B4(void *a0, int a1, u16 a2, u16 a3)
  *   python tools/match.py one --src src/matched/func_0201B7EC.c \
  *       --func func_0201B7EC --addr 0x0201B7EC --cc 1.1p1 --thumb
  */
-void func_0201B7EC(void *a0, int a1, u16 a2)
+void func_0201B7EC(struct PokemonParam *pp, int zoneId, u16 heap)
 {
     if ((u32)((u64)func_0203F0A8() * 2 >> 32) % 2 == 0) {
-        func_0201B850(a0, g_0209E465, a1, a2);
+        sub_0201B850(pp, _NatsukiWalkDeltas, zoneId, heap);
     }
 }
 
@@ -4254,7 +2450,7 @@ void func_0201B7EC(void *a0, int a1, u16 a2)
  *           at 0x0201B84C, inside the compared range.  The site resolves as
  *           `sole-ref` instead, so the entry is EXACT and not MATCH.
  *
- * for (i = 0; i < count(a0); i++) func_0201B850(entry(a0, i), &g_0209E462,
+ * for (i = 0; i < count(a0); i++) func_0201B850(entry(a0, i), &_NatsukiPartyDeltas,
  * a1, a2); - the entry pointer the loop computes is what feeds the second
  * call's first argument, which is why no `r0 = a0` copy appears in front of
  * it (the returned r0 is already the argument), and the bound is
@@ -4266,12 +2462,12 @@ void func_0201B7EC(void *a0, int a1, u16 a2)
  *   python tools/match.py one --src src/matched/func_0201B818.c \
  *       --func func_0201B818 --addr 0x0201B818 --cc 1.1p1 --thumb
  */
-void func_0201B818(void *a0, int a1, u16 a2)
+void func_0201B818(struct Party *party, int zoneId, u16 heap)
 {
     int i;
 
-    for (i = 0; i < (int)func_0201AA18(a0); i++) {
-        func_0201B850(func_0201AB28(a0, i), g_0209E462, a1, a2);
+    for (i = 0; i < (int)sub_0201AA18(party); i++) {
+        sub_0201B850(sub_0201AB28(party, i), _NatsukiPartyDeltas, zoneId, heap);
     }
 }
 
@@ -4312,52 +2508,52 @@ void func_0201B818(void *a0, int a1, u16 a2)
  *   python tools/match.py tu --src src/matched/sub_0201B850.c \
  *       --addr 0x0201B850 --thumb
  */
-void sub_0201B850(void *mon, const s8 *tbl, int a2, u16 a3)
+void sub_0201B850(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 heap)
 {
-    int t;
+    int placeId;
     u32 species;
-    u32 kind;
-    int cur;
-    int n;
-    u8 idx;
+    u32 holdEffect;
+    int friendship;
+    int delta;
+    u8 band;
 
-    t = func_02013E4C(a2);
-    idx = 0;
-    species = (u16)func_02017E1C(mon, 0xAB, 0);
+    placeId = func_02013E4C(zoneId);
+    band = 0;
+    species = (u16)func_02017E1C(pp, 0xAB, 0);
     if (species == 0 || species == 650) {
         return;
     }
-    kind = (u8)func_02020FE4((u16)func_02017E1C(mon, 6, idx), 1, a3);
-    cur = func_02017E1C(mon, 9, idx);
+    holdEffect = (u8)func_02020FE4((u16)func_02017E1C(pp, 6, band), 1, heap);
+    friendship = func_02017E1C(pp, 9, band);
 
-    if (cur >= 100) {
-        idx++;
+    if (friendship >= 100) {
+        band++;
     }
-    if (cur >= 200) {
-        idx++;
+    if (friendship >= 200) {
+        band++;
     }
-    n = tbl[idx];
-    if (n > 0) {
-        if (func_02017E1C(mon, 0x98, 0) == 11) {
-            n = n + 1;
+    delta = deltas[band];
+    if (delta > 0) {
+        if (func_02017E1C(pp, 0x98, 0) == 11) {
+            delta = delta + 1;
         }
     }
-    if (t != 0 && n > 0) {
-        if (t == (int)func_02017E1C(mon, 0x96, 0)) {
-            n = n + 1;
+    if (placeId != 0 && delta > 0) {
+        if (placeId == (int)func_02017E1C(pp, 0x96, 0)) {
+            delta = delta + 1;
         }
     }
-    if (n > 0 && kind == 0x35) {
-        n = n * 150 / 100;
+    if (delta > 0 && holdEffect == 0x35) {
+        delta = delta * 150 / 100;
     }
-    cur = cur + func_02011014(n);
-    if (cur < 0) {
-        cur = 0;
+    friendship = friendship + func_02011014(delta);
+    if (friendship < 0) {
+        friendship = 0;
     }
-    if (cur > 255) {
-        cur = 255;
+    if (friendship > 255) {
+        friendship = 255;
     }
-    func_02017E40(mon, 9, cur);
+    func_02017E40(pp, 9, friendship);
     return;
 }
 
@@ -4423,24 +2619,24 @@ void sub_0201B850(void *mon, const s8 *tbl, int a2, u16 a3)
  *   python tools/match.py one --src src/matched/sub_0201B920.c \
  *       --func sub_0201B920 --addr 0x0201B920 --cc 1.1p1
  */
-u8 sub_0201B920(void *mon, u32 slot)
+u8 sub_0201B920(struct PokemonParam *pp, u32 slot)
 {
     u16 move;
-    u8 pp;
+    u8 curPP;
     u8 ppUp;
-    u32 r;
+    u32 result;
 
-    r = 0;
-    move = (u16)func_02017E1C(mon, slot + 0x36, 0);
+    result = 0;
+    move = (u16)func_02017E1C(pp, slot + 0x36, 0);
     if (move == 0) {
-        return r;
+        return result;
     }
-    pp = (u8)func_02017E1C(mon, slot + 0x3A, 0);
-    ppUp = (u8)func_02017E1C(mon, slot + 0x3E, 0);
-    if (pp < func_0201C158(move, ppUp)) {
-        r = 1;
+    curPP = (u8)func_02017E1C(pp, slot + 0x3A, 0);
+    ppUp = (u8)func_02017E1C(pp, slot + 0x3E, 0);
+    if (curPP < sub_0201C158(move, ppUp)) {
+        result = 1;
     }
-    return r;
+    return result;
 }
 
 
@@ -4479,32 +2675,32 @@ u8 sub_0201B920(void *mon, u32 slot)
  *   python tools/match.py one --src src/matched/sub_0201B970.c \
  *       --func sub_0201B970 --addr 0x0201B970 --thumb
  */
-u32 sub_0201B970(void *mon, u32 slot, u32 amount)
+u32 sub_0201B970(struct PokemonParam *pp, u32 slot, u32 amount)
 {
     u16 move;
-    u32 id;
-    u8  pp;
+    u32 ppId;
+    u8  curPP;
     u32 ppUp;
-    u8  max;
+    u8  maxPP;
 
-    move = (u16)func_02017E1C(mon, slot + 0x36, 0);
+    move = (u16)func_02017E1C(pp, slot + 0x36, 0);
     if (move == 0) {
         return 0;
     }
-    id = slot + 0x3A;
-    pp = (u8)func_02017E1C(mon, id, 0);
-    ppUp = func_02017E1C(mon, slot + 0x3E, 0);
-    max = sub_0201C158(move, (u8)ppUp);
-    if (pp < max) {
+    ppId = slot + 0x3A;
+    curPP = (u8)func_02017E1C(pp, ppId, 0);
+    ppUp = func_02017E1C(pp, slot + 0x3E, 0);
+    maxPP = sub_0201C158(move, (u8)ppUp);
+    if (curPP < maxPP) {
         if (amount == 0x7F) {
-            pp = max;
+            curPP = maxPP;
         } else {
-            pp += (u8)amount;
-            if (pp > max) {
-                pp = max;
+            curPP += (u8)amount;
+            if (curPP > maxPP) {
+                curPP = maxPP;
             }
         }
-        func_02017E40(mon, id, pp);
+        func_02017E40(pp, ppId, curPP);
         return 1;
     }
     return 0;
@@ -4564,15 +2760,15 @@ u32 sub_0201B970(void *mon, u32 slot, u32 amount)
  *   python tools/match.py tu --src src/matched/unit_0201B9F0.c \
  *       --addr 0x0201B9F0 --thumb
  */
-void sub_0201B9F0(void *mon)
+void sub_0201B9F0(struct PokemonParam *pp)
 {
     s32 i;
 
-    func_02017E40(mon, 0xA0, func_02017E1C(mon, 0xA1, 0));
-    func_02017E40(mon, 0x9D, 0);
+    func_02017E40(pp, 0xA0, func_02017E1C(pp, 0xA1, 0));
+    func_02017E40(pp, 0x9D, 0);
     for (i = 0; i < 4; i++) {
-        if (sub_0201B920(mon, i) == 1) {
-            sub_0201B970(mon, i, 0x7F);
+        if (sub_0201B920(pp, i) == 1) {
+            sub_0201B970(pp, i, 0x7F);
         }
     }
 }
@@ -4588,17 +2784,17 @@ void sub_0201B9F0(void *mon)
 
 
 
-void sub_0201BA34(void *party)
+void sub_0201BA34(struct Party *party)
 {
-    s32 n;
+    s32 memberCount;
     s32 i;
-    void *mon;
+    struct PokemonParam *member;
 
-    n = sub_0201AA18(party);
-    for (i = 0; i < n; i++) {
-        mon = sub_0201AB28(party, i);
-        if (func_02017E1C(mon, 0xA9, 0) != 0) {
-            sub_0201B9F0(mon);
+    memberCount = sub_0201AA18(party);
+    for (i = 0; i < memberCount; i++) {
+        member = sub_0201AB28(party, i);
+        if (func_02017E1C(member, 0xA9, 0) != 0) {
+            sub_0201B9F0(member);
         }
     }
 }
@@ -4674,21 +2870,21 @@ void sub_0201BA34(void *party)
  *   python tools/match.py tu --src src/matched/unit_0201BA68.c \
  *       --addr 0x0201BA68 --thumb
  */
-u32 sub_0201BA68(void *mon)
+u32 sub_0201BA68(struct BoxPokemon *box)
 {
-    u32 save;
+    u32 wasDecoded;
     u32 species;
     u32 form;
     u32 gender;
-    u32 r;
+    u32 index;
 
-    save = func_02017DBC(mon);
-    species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6F, 0);
-    gender = func_02017E88(mon, 0x6E, 0);
-    r = sub_0201BABC(species, form, gender, func_02017E88(mon, 0x4C, 0));
-    func_02017DE4(mon, save);
-    return r;
+    wasDecoded = func_02017DBC(box);
+    species = func_02017E88(box, 5, 0);
+    form = func_02017E88(box, 0x6F, 0);
+    gender = func_02017E88(box, 0x6E, 0);
+    index = sub_0201BABC(species, form, gender, func_02017E88(box, 0x4C, 0));
+    func_02017DE4(box, wasDecoded);
+    return index;
 }
 
 
@@ -4704,33 +2900,33 @@ u32 sub_0201BA68(void *mon)
 
 u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
 {
-    u32 first;
-    u32 hidden;
-    u32 count;
-    u32 idx;
-    u32 ok;
+    u32 firstFormIndex;
+    u32 formsShared;
+    u32 formCount;
+    u32 index;
+    u32 hasFemale;
 
-    idx = species * 2 + 7;
+    index = species * 2 + 7;
     if (isEgg != 0) {
-        idx = (u32)((species == 490 ? 1 : 0) + 650) * 2 + 7;
+        index = (u32)((species == 490 ? 1 : 0) + 650) * 2 + 7;
     } else if (form != 0) {
-        first = func_02019C90((u16)species, 0, 0x1F);
-        hidden = func_02019C90((u16)species, 0, 0x23);
-        count = func_02019C90((u16)species, 0, 0x20);
-        if (form >= count) {
+        firstFormIndex = func_02019C90((u16)species, 0, 0x1F);
+        formsShared = func_02019C90((u16)species, 0, 0x23);
+        formCount = func_02019C90((u16)species, 0, 0x20);
+        if (form >= formCount) {
             form = 0;
         }
-        if (hidden == 0 && form != 0) {
-            idx = (first + form - 1) * 2 + 1311;
+        if (formsShared == 0 && form != 0) {
+            index = (firstFormIndex + form - 1) * 2 + 1311;
         }
     }
     switch (gender) {
     case 0:
         break;
     case 1:
-        ok = func_020490A8(7, idx + 1);
+        hasFemale = func_020490A8(7, index + 1);
         gender = 1;
-        if (ok == 0) {
+        if (hasFemale == 0) {
             gender = 0;
         }
         break;
@@ -4738,7 +2934,7 @@ u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
         gender = 0;
         break;
     }
-    return idx + gender;
+    return index + gender;
 }
 
 
@@ -4807,31 +3003,31 @@ u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg)
  *   python tools/match.py tu --src src/pending/unit_0201BB5C.c \
  *       --addr 0x0201BB5C --thumb
  */
-u32 sub_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg)
+u32 sub_0201BB5C(u32 species, u32 form, u32 female, u32 isEgg)
 {
-    u32 first;
-    u32 hidden;
-    u32 count;
-    u32 idx;
+    u32 firstFormIndex;
+    u32 formsShared;
+    u32 formCount;
+    u32 index;
 
-    idx = species;
+    index = species;
     if (isEgg != 0) {
-        idx = (species == 490 ? 1 : 0) + 650;
+        index = (species == 490 ? 1 : 0) + 650;
     } else if (form != 0) {
-        first = func_02019C90((u16)species, 0, 0x1F);
-        hidden = func_02019C90((u16)species, 0, 0x23);
-        count = func_02019C90((u16)species, 0, 0x20);
-        if (form >= count) {
+        firstFormIndex = func_02019C90((u16)species, 0, 0x1F);
+        formsShared = func_02019C90((u16)species, 0, 0x23);
+        formCount = func_02019C90((u16)species, 0, 0x20);
+        if (form >= formCount) {
             form = 0;
         }
-        if (hidden == 0 && form != 0) {
-            idx = first + form + 651;
+        if (formsShared == 0 && form != 0) {
+            index = firstFormIndex + form + 651;
         }
     }
-    if (half != 0) {
-        return (u8)((g_0209E474[idx] & 0xF0) >> 4);
+    if (female != 0) {
+        return (u8)((_IconPaletteTable[index] & 0xF0) >> 4);
     }
-    return (u8)(g_0209E474[idx] & 0xF);
+    return (u8)(_IconPaletteTable[index] & 0xF);
 }
 
 
@@ -4845,20 +3041,20 @@ u32 sub_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg)
 
 
 
-u32 sub_0201BBE8(void *mon)
+u32 sub_0201BBE8(struct BoxPokemon *box)
 {
-    u32 save;
+    u32 wasDecoded;
     u32 species;
     u32 form;
     u32 gender;
     u32 isEgg;
 
-    save = func_02017DBC(mon);
-    species = func_02017E88(mon, 5, 0);
-    form = func_02017E88(mon, 0x6F, 0);
-    gender = func_02017E88(mon, 0x6E, 0);
-    isEgg = func_02017E88(mon, 0x4C, 0);
-    func_02017DE4(mon, save);
+    wasDecoded = func_02017DBC(box);
+    species = func_02017E88(box, 5, 0);
+    form = func_02017E88(box, 0x6F, 0);
+    gender = func_02017E88(box, 0x6E, 0);
+    isEgg = func_02017E88(box, 0x4C, 0);
+    func_02017DE4(box, wasDecoded);
     return sub_0201BB5C(species, form, gender, isEgg);
 }
 
@@ -5031,33 +3227,33 @@ int func_0201BCEC(void)
  *   python tools/match.py tu --src src/matched/unit_0201BD28.c \
  *       --addr 0x0201BD28 --thumb
  */
-u32 sub_0201BD28(u16 id, u32 field)
+u32 sub_0201BD28(u16 move, u32 param)
 {
-    struct Waza *rec;
+    struct WazaData *data;
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (_pWazaTool->moveIds[i] == 0) {
+                _pWazaTool->moveIds[i] = move;
+                func_02048F4C(_pWazaTool->records[i], 0x15, move);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (move == _pWazaTool->moveIds[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            _pWazaTool->moveIds[i] = move;
+            func_02048F4C(_pWazaTool->records[i], 0x15, move);
         }
-        rec = gWazaTool->recs[i];
+        data = _pWazaTool->records[i];
     } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
+        data = &_WazaTempData;
+        func_02048F4C(data, 0x15, move);
     }
-    return sub_0201BDB4(rec, field);
+    return sub_0201BDB4(data, param);
 }
 
 
@@ -5071,65 +3267,65 @@ u32 sub_0201BD28(u16 id, u32 field)
 
 
 
-u32 sub_0201BDB4(const struct Waza *p, u32 id)
+u32 sub_0201BDB4(const struct WazaData *data, u32 param)
 {
-    u32 v;
+    u32 value;
 
-    switch (id) {
-    case 0:  return p->unk00;
-    case 1:  return p->unk01;
-    case 2:  return p->unk02;
-    case 3:  return p->unk03;
+    switch (param) {
+    case 0:  return data->type;
+    case 1:  return data->category;
+    case 2:  return data->damageType;
+    case 3:  return data->power;
     case 4:
-        v = p->unk04;
-        if (v == 0x65) {
+        value = data->accuracy;
+        if (value == 0x65) {
             return 0x64;
         }
-        return v;
-    case 5:  return p->unk05;
-    case 6:  return p->unk06;
+        return value;
+    case 5:  return data->basePP;
+    case 6:  return data->priority;
     case 7:
-        v = p->unk0E;
-        if (v == 6) {
+        value = data->criticalRank;
+        if (value == 6) {
             return 0;
         }
-        return v;
-    case 8:  return p->hi;
-    case 9:  return p->lo;
-    case 10: return p->unk0F;
-    case 11: return p->unk08;
-    case 12: return p->unk0A;
-    case 13: return p->unk0B;
-    case 14: return p->unk0C;
-    case 15: return p->unk0D;
-    case 28: return p->unk10;
+        return value;
+    case 8:  return data->hitMax;
+    case 9:  return data->hitMin;
+    case 10: return data->shrinkPercent;
+    case 11: return data->sickId;
+    case 12: return data->sickPercent;
+    case 13: return data->sickContType;
+    case 14: return data->sickTurnMin;
+    case 15: return data->sickTurnMax;
+    case 28: return data->effectSequence;
     case 16: case 19: case 22:
-        return p->unk15[id - 16];
+        return data->rankType[param - 16];
     case 17: case 20: case 23:
-        return p->unk18[id - 17];
+        return data->rankValue[param - 17];
     case 18: case 21: case 24:
-        return p->unk1B[id - 18];
+        return data->rankPercent[param - 18];
     case 25:
-        if (p->unk12 > 0) {
-            return p->unk12;
+        if (data->drainRatio > 0) {
+            return data->drainRatio;
         }
         return 0;
     case 30:
-        if (p->unk12 < 0) {
-            return -p->unk12;
+        if (data->drainRatio < 0) {
+            return -data->drainRatio;
         }
         return 0;
     case 26:
-        if (p->unk13 > 0) {
-            return p->unk13;
+        if (data->healRatio > 0) {
+            return data->healRatio;
         }
         return 0;
     case 31:
-        if (p->unk13 < 0) {
-            return -p->unk13;
+        if (data->healRatio < 0) {
+            return -data->healRatio;
         }
         return 0;
-    case 27: return p->unk14;
+    case 27: return data->target;
     }
     return 0;
 }
@@ -5143,33 +3339,33 @@ u32 sub_0201BDB4(const struct Waza *p, u32 id)
 
 
 
-u32 sub_0201BEB8(u16 id, u32 bit)
+u32 sub_0201BEB8(u16 move, u32 flag)
 {
-    struct Waza *rec;
+    struct WazaData *data;
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (_pWazaTool->moveIds[i] == 0) {
+                _pWazaTool->moveIds[i] = move;
+                func_02048F4C(_pWazaTool->records[i], 0x15, move);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (move == _pWazaTool->moveIds[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            _pWazaTool->moveIds[i] = move;
+            func_02048F4C(_pWazaTool->records[i], 0x15, move);
         }
-        rec = gWazaTool->recs[i];
+        data = _pWazaTool->records[i];
     } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
+        data = &_WazaTempData;
+        func_02048F4C(data, 0x15, move);
     }
-    return sub_0201BF44(rec, bit);
+    return sub_0201BF44(data, flag);
 }
 
 
@@ -5181,15 +3377,15 @@ u32 sub_0201BEB8(u16 id, u32 bit)
 
 
 
-u32 sub_0201BF44(const struct Waza *p, u32 bit)
+u32 sub_0201BF44(const struct WazaData *data, u32 flag)
 {
-    u32 r = 1;
+    u32 result = 1;
 
-    if ((p->unk20 & (1 << bit)) != 0) {
-        return r;
+    if ((data->flags & (1 << flag)) != 0) {
+        return result;
     }
-    r = 0;
-    return r;
+    result = 0;
+    return result;
 }
 
 
@@ -5201,39 +3397,39 @@ u32 sub_0201BF44(const struct Waza *p, u32 bit)
 
 
 
-s16 sub_0201BF58(u16 id)
+s16 sub_0201BF58(u16 move)
 {
-    struct Waza *rec;
+    struct WazaData *data;
     s32 i;
-    union Packed u;
+    union WazaSickCont cont;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (_pWazaTool->moveIds[i] == 0) {
+                _pWazaTool->moveIds[i] = move;
+                func_02048F4C(_pWazaTool->records[i], 0x15, move);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (move == _pWazaTool->moveIds[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            _pWazaTool->moveIds[i] = move;
+            func_02048F4C(_pWazaTool->records[i], 0x15, move);
         }
-        rec = gWazaTool->recs[i];
+        data = _pWazaTool->records[i];
     } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
+        data = &_WazaTempData;
+        func_02048F4C(data, 0x15, move);
     }
-    if (rec->unk0B != 0) {
-        u.f.a = rec->unk0B;
-        u.f.b = rec->unk0C;
-        u.f.c = rec->unk0D;
+    if (data->sickContType != 0) {
+        cont.bits.type = data->sickContType;
+        cont.bits.turnMin = data->sickTurnMin;
+        cont.bits.turnMax = data->sickTurnMax;
     }
-    return u.v;
+    return cont.value;
 }
 
 
@@ -5261,41 +3457,41 @@ s16 sub_0201BF58(u16 id)
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C020.c  *       --addr 0x0201C020 --thumb
  */
-u8 sub_0201C020(u16 id)
+u8 sub_0201C020(u16 move)
 {
-    struct Waza *rec;
+    struct WazaData *data;
     s32 i;
     u32 k;
-    u32 n;
+    u32 rankCount;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (_pWazaTool->moveIds[i] == 0) {
+                _pWazaTool->moveIds[i] = move;
+                func_02048F4C(_pWazaTool->records[i], 0x15, move);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (move == _pWazaTool->moveIds[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            _pWazaTool->moveIds[i] = move;
+            func_02048F4C(_pWazaTool->records[i], 0x15, move);
         }
-        rec = gWazaTool->recs[i];
+        data = _pWazaTool->records[i];
     } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
+        data = &_WazaTempData;
+        func_02048F4C(data, 0x15, move);
     }
-    n = 0;
+    rankCount = 0;
     for (k = 0; k < 3; k++) {
-        if (rec->unk15[k] != 0) {
-            n++;
+        if (data->rankType[k] != 0) {
+            rankCount++;
         }
     }
-    return (u8)n;
+    return (u8)rankCount;
 }
 
 
@@ -5307,40 +3503,40 @@ u8 sub_0201C020(u16 id)
 
 
 
-u8 sub_0201C0BC(u16 id, u32 idx, s32 *out)
+u8 sub_0201C0BC(u16 move, u32 index, s32 *value)
 {
-    struct Waza *rec;
+    struct WazaData *data;
     s32 i;
-    u8 v;
+    u8 rankType;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (_pWazaTool->moveIds[i] == 0) {
+                _pWazaTool->moveIds[i] = move;
+                func_02048F4C(_pWazaTool->records[i], 0x15, move);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (move == _pWazaTool->moveIds[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            _pWazaTool->moveIds[i] = move;
+            func_02048F4C(_pWazaTool->records[i], 0x15, move);
         }
-        rec = gWazaTool->recs[i];
+        data = _pWazaTool->records[i];
     } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
+        data = &_WazaTempData;
+        func_02048F4C(data, 0x15, move);
     }
-    v = rec->unk15[idx];
-    if (v != 0) {
-        *out = rec->unk18[idx];
+    rankType = data->rankType[index];
+    if (rankType != 0) {
+        *value = data->rankValue[index];
     } else {
-        *out = 0;
+        *value = 0;
     }
-    return v;
+    return rankType;
 }
 
 
@@ -5392,13 +3588,13 @@ u8 sub_0201C0BC(u16 id, u32 idx, s32 *out)
  */
 u8 sub_0201C158(u16 move, u32 ppUp)
 {
-    u8 base;
+    u8 basePP;
 
     if (ppUp > 3) {
         ppUp = 3;
     }
-    base = (u8)sub_0201BD28(move, 5);
-    return (u8)(base + (u8)((int)(ppUp * (base * 20)) / 100));
+    basePP = (u8)sub_0201BD28(move, 5);
+    return (u8)(basePP + (u8)((int)(ppUp * (basePP * 20)) / 100));
 }
 
 
@@ -5410,9 +3606,9 @@ u8 sub_0201C158(u16 move, u32 ppUp)
 
 
 
-u32 sub_0201C184(int id)
+u32 sub_0201C184(int item)
 {
-    switch (id) {
+    switch (item) {
     case 0xF0:  return 2;
     case 0xF1:  return 1;
     case 0xC9:  return 4;
@@ -5454,9 +3650,9 @@ u32 sub_0201C1BC(u16 move)
  *   python tools/match.py tu --src src/matched/unit_0201C1C8.c \
  *       --addr 0x0201C1C8 --thumb
  */
-u8 sub_0201C1C8(u16 p)
+u8 sub_0201C1C8(u16 move)
 {
-    return (u8)sub_0201BD28(p, 0);
+    return (u8)sub_0201BD28(move, 0);
 }
 
 
@@ -5467,9 +3663,9 @@ u8 sub_0201C1C8(u16 p)
 
 
 
-u16 sub_0201C1D8(u16 p)
+u16 sub_0201C1D8(u16 move)
 {
-    return (u16)sub_0201BD28(p, 3);
+    return (u16)sub_0201BD28(move, 3);
 }
 
 
@@ -5483,9 +3679,9 @@ u16 sub_0201C1D8(u16 p)
 /*
  * Tail call with argument 2. Filed as the witness for ov094 func_021F7C2C.
  */
-int func_0201C1E8(int a)
+int func_0201C1E8(u16 move)
 {
-    return func_0201BD28(a, 2);
+    return sub_0201BD28(move, 2);
 }
 
 
@@ -5517,33 +3713,33 @@ int func_0201C1E8(int a)
  *   python tools/match.py tu --src src/matched/unit_0201C1F4.c \
  *       --addr 0x0201C1F4 --thumb
  */
-u32 sub_0201C1F4(u16 id)
+u32 sub_0201C1F4(u16 move)
 {
-    struct Waza *rec;
+    struct WazaData *data;
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (_pWazaTool->moveIds[i] == 0) {
+                _pWazaTool->moveIds[i] = move;
+                func_02048F4C(_pWazaTool->records[i], 0x15, move);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (move == _pWazaTool->moveIds[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            _pWazaTool->moveIds[i] = move;
+            func_02048F4C(_pWazaTool->records[i], 0x15, move);
         }
-        rec = gWazaTool->recs[i];
+        data = _pWazaTool->records[i];
     } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
+        data = &_WazaTempData;
+        func_02048F4C(data, 0x15, move);
     }
-    if (rec->unk04 == 0x65) {
+    if (data->accuracy == 0x65) {
         return 1;
     }
     return 0;
@@ -5557,33 +3753,33 @@ u32 sub_0201C1F4(u16 id)
 
 
 
-u32 sub_0201C284(u16 id)
+u32 sub_0201C284(u16 move)
 {
-    struct Waza *rec;
+    struct WazaData *data;
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            if (gWazaTool->vals[i] == 0) {
-                gWazaTool->vals[i] = id;
-                func_02048F4C(gWazaTool->recs[i], 0x15, id);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            if (_pWazaTool->moveIds[i] == 0) {
+                _pWazaTool->moveIds[i] = move;
+                func_02048F4C(_pWazaTool->records[i], 0x15, move);
                 break;
             }
-            if (id == gWazaTool->vals[i]) {
+            if (move == _pWazaTool->moveIds[i]) {
                 break;
             }
         }
-        if (i == gWazaTool->count) {
+        if (i == _pWazaTool->count) {
             i--;
-            gWazaTool->vals[i] = id;
-            func_02048F4C(gWazaTool->recs[i], 0x15, id);
+            _pWazaTool->moveIds[i] = move;
+            func_02048F4C(_pWazaTool->records[i], 0x15, move);
         }
-        rec = gWazaTool->recs[i];
+        data = _pWazaTool->records[i];
     } else {
-        rec = &g_02146534;
-        func_02048F4C(rec, 0x15, id);
+        data = &_WazaTempData;
+        func_02048F4C(data, 0x15, move);
     }
-    if (rec->unk0E == 6) {
+    if (data->criticalRank == 6) {
         return 1;
     }
     return 0;
@@ -5604,9 +3800,9 @@ u32 sub_0201C284(u16 id)
  *   python tools/match.py tu --src src/matched/unit_0201C314.c \
  *       --addr 0x0201C314 --thumb
  */
-u32 sub_0201C314(u16 p)
+u32 sub_0201C314(u16 move)
 {
-    if (sub_0201BD28(p, 3) == 0) {
+    if (sub_0201BD28(move, 3) == 0) {
         return 0;
     }
     return 1;
@@ -5650,23 +3846,23 @@ u32 sub_0201C314(u16 p)
  *   python tools/match.py tu --src src/matched/unit_0201C328.c \
  *       --addr 0x0201C328 --thumb
  */
-void sub_0201C328(s32 n, u32 heap)
+void sub_0201C328(s32 count, u32 heap)
 {
     s32 i;
 
-    if (gWazaTool != 0) {
+    if (_pWazaTool != 0) {
         return;
     }
-    gWazaTool = (struct WazaTool *)func_02030734(heap, sizeof(struct WazaTool), 0,
-                                                sub_0201C328_File, 577);
-    gWazaTool->recs = (struct Waza **)func_02030734(heap, n * sizeof(void *), 0,
-                                             sub_0201C328_File, 578);
-    gWazaTool->vals = (u16 *)func_02030734(heap, n * sizeof(u16), 0,
-                                           sub_0201C328_File, 579);
-    gWazaTool->count = n;
-    for (i = 0; i < n; i++) {
-        gWazaTool->recs[i] = func_02030734(heap, 0x24, 0, sub_0201C328_File, 584);
-        gWazaTool->vals[i] = 0;
+    _pWazaTool = (struct WazaTool *)func_02030734(heap, sizeof(struct WazaTool), 0,
+                                                waza_tool_File, 577);
+    _pWazaTool->records = (struct WazaData **)func_02030734(heap, count * sizeof(void *), 0,
+                                             waza_tool_File, 578);
+    _pWazaTool->moveIds = (u16 *)func_02030734(heap, count * sizeof(u16), 0,
+                                           waza_tool_File, 579);
+    _pWazaTool->count = count;
+    for (i = 0; i < count; i++) {
+        _pWazaTool->records[i] = func_02030734(heap, 0x24, 0, waza_tool_File, 584);
+        _pWazaTool->moveIds[i] = 0;
     }
 }
 
@@ -5681,14 +3877,14 @@ void sub_0201C3C0(void)
 {
     s32 i;
 
-    if (gWazaTool != 0) {
-        for (i = 0; i < gWazaTool->count; i++) {
-            func_020307B0(gWazaTool->recs[i]);
+    if (_pWazaTool != 0) {
+        for (i = 0; i < _pWazaTool->count; i++) {
+            func_020307B0(_pWazaTool->records[i]);
         }
-        func_020307B0(gWazaTool->vals);
-        func_020307B0(gWazaTool->recs);
-        func_020307B0(gWazaTool);
-        gWazaTool = 0;
+        func_020307B0(_pWazaTool->moveIds);
+        func_020307B0(_pWazaTool->records);
+        func_020307B0(_pWazaTool);
+        _pWazaTool = 0;
     }
 }
 
@@ -5701,7 +3897,7 @@ void sub_0201C3C0(void)
 
 u32 sub_0201C408(void)
 {
-    if (gWazaTool != 0) {
+    if (_pWazaTool != 0) {
         return 1;
     }
     return 0;
@@ -5714,10 +3910,10 @@ u32 sub_0201C408(void)
 
 
 
-void sub_0201C41C(void *arg)
+void sub_0201C41C(u32 heap)
 {
     func_020457A0(0xFFFF);
-    g_02146558 = func_02043678(2, 2, 0x20, (u32)arg);
+    _pGlyphBmp = func_02043678(2, 2, 0x20, heap);
 }
 
 
@@ -5739,9 +3935,9 @@ void sub_0201C41C(void *arg)
  *   python tools/match.py tu --src src/matched/unit_0201C440.c \
  *       --addr 0x0201C440 --thumb
  */
-u32 sub_0201C440(void *p)
+struct PrintQueue *sub_0201C440(u32 heap)
 {
-    return (u32)sub_0201C450(0x400, (u32)p);
+    return sub_0201C450(0x400, heap);
 }
 
 
@@ -5784,25 +3980,25 @@ u32 sub_0201C440(void *p)
  *   python tools/match.py tu --src src/matched/unit_0201C450.c \
  *       --addr 0x0201C450 --thumb
  */
-void *sub_0201C450(u16 n, u32 heap)
+struct PrintQueue *sub_0201C450(u16 bufSize, u32 heap)
 {
-    u16 v = n + 0x1C;
-    struct PrintSys *p;
+    u16 allocSize = bufSize + 0x1C;
+    struct PrintQueue *queue;
 
-    while (v % 4 != 0) {
-        v++;
+    while (allocSize % 4 != 0) {
+        allocSize++;
     }
-    p = func_02030734(heap, v + 0x18, 0, sub_0201C450_File, 287);
-    p->unk04 = n;
-    p->unk08.v = 0x1130;
-    p->unk10 = 0;
-    p->unk14 = 0;
-    p->unk07.raw = p->unk07.raw & ~0xFu;
-    p->unk07.raw = p->unk07.raw & ~0xF0u;
-    p->unk06 = 0;
-    p->unk00 = 0;
-    p->unk02 = n;
-    return p;
+    queue = func_02030734(heap, allocSize + 0x18, 0, printsys_File, 287);
+    queue->capacity = bufSize;
+    queue->limitTicks.value = 0x1130;
+    queue->job = 0;
+    queue->cursor = 0;
+    queue->state.raw = queue->state.raw & ~0xFu;
+    queue->state.raw = queue->state.raw & ~0xF0u;
+    queue->frameCount = 0;
+    queue->head = 0;
+    queue->tail = bufSize;
+    return queue;
 }
 
 
@@ -5812,9 +4008,9 @@ void *sub_0201C450(u16 n, u32 heap)
 
 
 
-void sub_0201C4C0(struct PrintSys *p)
+void sub_0201C4C0(struct PrintQueue *queue)
 {
-    func_020307B0(p);
+    func_020307B0(queue);
 }
 
 
@@ -5823,9 +4019,9 @@ void sub_0201C4C0(struct PrintSys *p)
 
 
 
-void sub_0201C4C8(struct PrintSys *p, u32 v)
+void sub_0201C4C8(struct PrintQueue *queue, u32 forceQueue)
 {
-    p->unk07.raw = (p->unk07.raw & ~0xF0u) | (u8)((u8)v << 4);
+    queue->state.raw = (queue->state.raw & ~0xF0u) | (u8)((u8)forceQueue << 4);
 }
 
 
@@ -5834,10 +4030,10 @@ void sub_0201C4C8(struct PrintSys *p, u32 v)
 
 
 
-void sub_0201C4DC(struct PrintSys *p, u32 lo, u32 hi)
+void sub_0201C4DC(struct PrintQueue *queue, u32 tickLow, u32 tickHigh)
 {
-    p->unk08.w.lo = lo;
-    p->unk08.w.hi = hi;
+    queue->limitTicks.half.low = tickLow;
+    queue->limitTicks.half.high = tickHigh;
 }
 
 
@@ -5847,13 +4043,13 @@ void sub_0201C4DC(struct PrintSys *p, u32 lo, u32 hi)
 
 
 
-static inline u16 Wrap(struct PrintSys *ps, u16 o)
+static inline u16 PrintQueue_WrapOffset(struct PrintQueue *queue, u16 offset)
 {
-    u16 r = o;
+    u16 result = offset;
 
-    if (r >= ps->unk04)
-        r = 0;
-    return r;
+    if (result >= queue->capacity)
+        result = 0;
+    return result;
 }
 
 
@@ -5886,84 +4082,84 @@ static inline u16 Wrap(struct PrintSys *ps, u16 o)
  * `lsls r0, r7 / lsrs r1, r0 / ldrh r0, [r5, #4]` order.  History in
  * docs/notes/sub_0201C4E4.c.txt.
  */
-u32 func_0201C4E4(struct PrintSys *ps)
+u32 func_0201C4E4(struct PrintQueue *queue)
 {
-    u16 cap;
-    u8  col[3];
-    u32 stop;
-    u16 saved;
-    u32 rr;
-    u32 bb;
-    u8 *base;
-    u32 r;
-    u32 g;
-    u32 b;
-    u32 go;
-    u32 gg;
-    u32 off;
-    u16 o;
-    u64 t0;
+    
+    u8  color[3];
+    u32 timedOut;
+    u16 savedColor;
+    u32 jobLetter;
+    u32 jobBackground;
+    u8 *ring;
+    u32 letter;
+    u32 shadow;
+    u32 background;
+    u32 applyColor;
+    u32 jobShadow;
+    u32 jobOffset;
+    u16 offset;
+    u64 startTick;
 
-    stop = 0;
-    ps->unk06 = (u8)(ps->unk06 + 1);
-    if (ps->unk10 == 0) {
+    timedOut = 0;
+    queue->frameCount = (u8)(queue->frameCount + 1);
+    if (queue->job == 0) {
         return 1;
     }
-    func_0201DE00(&col[2], &col[1], &col[0]);
-    saved = (u16)(((col[2] & 0x1F) << 10) | ((col[1] & 0x1F) << 5) |
-                  (col[0] & 0x1F));
-    go = 0;
-    if (ps->unk10->unk04.b.kind == 0 || ps->unk10->unk04.b.kind == 2) {
-        r = (u8)((ps->unk10->unk0E >> 10) & 0x1F);
-        g = (u8)((ps->unk10->unk0E >> 5) & 0x1F);
-        b = (u8)(ps->unk10->unk0E & 0x1F);
-        go = 1;
+    func_0201DE00(&color[2], &color[1], &color[0]);
+    savedColor = (u16)(((color[2] & 0x1F) << 10) | ((color[1] & 0x1F) << 5) |
+                  (color[0] & 0x1F));
+    applyColor = 0;
+    if (queue->job->pos.bits.colorMode == 0 || queue->job->pos.bits.colorMode == 2) {
+        letter = (u8)((queue->job->activeColor >> 10) & 0x1F);
+        shadow = (u8)((queue->job->activeColor >> 5) & 0x1F);
+        background = (u8)(queue->job->activeColor & 0x1F);
+        applyColor = 1;
     }
-    if (go != 0) {
-        if (func_0201DE18(r, g, b) != 0) {
-            func_0201DD78(r, g, b);
+    if (applyColor != 0) {
+        if (func_0201DE18(letter, shadow, background) != 0) {
+            func_0201DD78(letter, shadow, background);
         }
     }
-    t0 = func_020870D0();
-    if (ps->unk10 != 0) {
-        base = (u8 *)ps + 0x18;
+    startTick = func_020870D0();
+    if (queue->job != 0) {
+        ring = queue->data;
         do {
-            if (ps->unk10->unk04.b.kind == 1) {
-                rr = (u8)((ps->unk10->unk0E >> 10) & 0x1F);
-                gg = (u8)((ps->unk10->unk0E >> 5) & 0x1F);
-                bb = (u8)(ps->unk10->unk0E & 0x1F);
-                if (func_0201DE18(rr, gg, bb) != 0) {
-                    func_0201DD78(rr, gg, bb);
+            if (queue->job->pos.bits.colorMode == 1) {
+                jobLetter = (u8)((queue->job->activeColor >> 10) & 0x1F);
+                jobShadow = (u8)((queue->job->activeColor >> 5) & 0x1F);
+                jobBackground = (u8)(queue->job->activeColor & 0x1F);
+                if (func_0201DE18(jobLetter, jobShadow, jobBackground) != 0) {
+                    func_0201DD78(jobLetter, jobShadow, jobBackground);
                 }
-                ps->unk10->unk04.b.kind = 2;
+                queue->job->pos.bits.colorMode = 2;
             }
-            while (ps->unk14[0] != 0xFFFF) {
-                ps->unk14 = func_0201C974(ps->unk10, ps->unk14, 1);
-                if (func_020870D0() - t0 > ps->unk08.v) {
-                    stop = 1;
+            while (queue->cursor[0] != 0xFFFF) {
+                queue->cursor = func_0201C974(queue->job, queue->cursor, 1);
+                if (func_020870D0() - startTick > queue->limitTicks.value) {
+                    timedOut = 1;
                     break;
                 }
             }
-            if (ps->unk14[0] == 0xFFFF) {
-                off = (u16)((u8 *)ps->unk10 - base);
-                ps->unk10 = func_0201D7C4(ps, ps->unk10);
-                if (ps->unk10 != 0) {
-                    o = Wrap(ps, off + 0x1C);
-                    o = Wrap(ps, o + 4);
-                    ps->unk14 = (u16 *)((u8 *)ps + 0x18 + o);
+            if (queue->cursor[0] == 0xFFFF) {
+                jobOffset = (u16)((u8 *)queue->job - ring);
+                queue->job = func_0201D7C4(queue, queue->job);
+                if (queue->job != 0) {
+                    offset = PrintQueue_WrapOffset(queue, jobOffset + 0x1C);
+                    offset = PrintQueue_WrapOffset(queue, offset + 4);
+                    queue->cursor = (u16 *)(queue->data + offset);
                 }
             }
-        } while (stop == 0 && ps->unk10 != 0);
+        } while (timedOut == 0 && queue->job != 0);
     }
-    func_0201DD78((u8)((saved >> 10) & 0x1F), (u8)((saved >> 5) & 0x1F),
-                  (u8)(saved & 0x1F));
-    if (ps->unk10 != 0) {
-        ps->unk02 = (u16)((u8 *)ps->unk14 - ((u8 *)ps + 0x18));
+    func_0201DD78((u8)((savedColor >> 10) & 0x1F), (u8)((savedColor >> 5) & 0x1F),
+                  (u8)(savedColor & 0x1F));
+    if (queue->job != 0) {
+        queue->tail = (u16)((u8 *)queue->cursor - queue->data);
         return 0;
     }
-    ps->unk00 = 0;
-    ps->unk02 = ps->unk04;
-    ps->unk07.b.lo = 0;
+    queue->head = 0;
+    queue->tail = queue->capacity;
+    queue->state.bits.pending = 0;
     return 1;
 }
 
@@ -5971,9 +4167,9 @@ u32 func_0201C4E4(struct PrintSys *ps)
 
 
 
-u32 sub_0201C6B4(const struct PrintSys *p)
+u32 sub_0201C6B4(const struct PrintQueue *queue)
 {
-    if (p->unk10 == 0) {
+    if (queue->job == 0) {
         return 1;
     }
     return 0;
@@ -5983,16 +4179,16 @@ u32 sub_0201C6B4(const struct PrintSys *p)
 
 
 
-u32 sub_0201C6C4(struct PrintSys *p, struct Bmp *v)
+u32 sub_0201C6C4(struct PrintQueue *queue, struct Bmp *bmp)
 {
-    struct PrintCtx *q = p->unk10;
+    struct PrintCtx *job = queue->job;
 
-    if (q != 0) {
-        while (q != 0) {
-            if (q->unk14 == v) {
+    if (job != 0) {
+        while (job != 0) {
+            if (job->bmp == bmp) {
                 return 1;
             }
-            q = func_0201D7C4(p, q);
+            job = func_0201D7C4(queue, job);
         }
     }
     return 0;
@@ -6002,12 +4198,12 @@ u32 sub_0201C6C4(struct PrintSys *p, struct Bmp *v)
 
 
 
-void sub_0201C6EC(struct PrintSys *p)
+void sub_0201C6EC(struct PrintQueue *queue)
 {
-    p->unk00 = 0;
-    p->unk02 = p->unk04;
-    p->unk14 = 0;
-    p->unk10 = 0;
+    queue->head = 0;
+    queue->tail = queue->capacity;
+    queue->cursor = 0;
+    queue->job = 0;
 }
 
 
@@ -6051,40 +4247,40 @@ void sub_0201C6EC(struct PrintSys *p)
  *   python tools/match.py tu --src src/pending/unit_0201C6FC.c \
  *       --addr 0x0201C6FC --thumb
  */
-void sub_0201C6FC(struct PrintSys *p, struct Bmp *a, u32 b, s16 c, struct U16Vec *s, struct Font *e)
+void sub_0201C6FC(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font)
 {
-    sub_0201C808(&g_0214655C, e, a, b, c);
-    sub_0201C758(p, &g_0214655C, s);
+    sub_0201C808(&_PrintJobWork, font, bmp, x, y);
+    sub_0201C758(queue, &_PrintJobWork, str);
 }
 
 
 
 
 
-void sub_0201C724(struct PrintSys *p, struct Bmp *a, u32 b, s16 c, struct U16Vec *s, struct Font *e,
-                  u16 f)
+void sub_0201C724(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font,
+                  u16 color)
 {
-    sub_0201C808(&g_0214655C, e, a, b, c);
-    sub_0201C8A4(&g_0214655C, f);
-    sub_0201C758(p, &g_0214655C, s);
+    sub_0201C808(&_PrintJobWork, font, bmp, x, y);
+    sub_0201C8A4(&_PrintJobWork, color);
+    sub_0201C758(queue, &_PrintJobWork, str);
 }
 
 
 
 
 
-void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, struct U16Vec *s)
+void sub_0201C758(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str)
 {
     u32 busy = func_0203D1B4() != 0;
-    u32 need;
+    u32 size;
 
-    if (busy == 0 && p->unk07.b.hi == 0) {
-        sub_0201C8BC(c, s);
+    if (busy == 0 && queue->state.bits.forceQueue == 0) {
+        func_0201C8BC(job, str);
         return;
     }
-    need = func_0201D6B8(s);
-    if (need <= func_0201D6C4(p)) {
-        func_0201D6D8(p, c, s);
+    size = func_0201D6B8(str);
+    if (size <= func_0201D6C4(queue)) {
+        func_0201D6D8(queue, job, str);
     }
 }
 
@@ -6100,19 +4296,19 @@ void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, struct U16Vec *s)
  *
  * Withdrawn 2026-09-24 (wave 20, lane 20G): the ../2.0/sp2 pin is retired.
  * The scratch address is held as an integer, a u32 local assigned
- * (u32)&g_0214655C and cast back at each site, matching func_0201C7D0.c.
+ * (u32)&_PrintJobWork and cast back at each site, matching func_0201C7D0.c.
  * Spelled this way, dsi/1.1p1 caches the address in a callee-saved
  * register and copies it into r0 at each site, byte-exact under the
  * default compiler.
  */
-void func_0201C7A4(struct Bmp *x, s16 y, s16 z, struct U16Vec *s, struct Font *w)
+void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font)
 {
-    u32 base;
+    u32 jobAddr;
 
-    func_02045A90(s);
-    base = (u32)&g_0214655C;
-    sub_0201C808((struct PrintCtx *)base, w, x, y, z);
-    func_0201C8BC((struct PrintCtx *)base, s);
+    func_02045A90(str);
+    jobAddr = (u32)&_PrintJobWork;
+    sub_0201C808((struct PrintCtx *)jobAddr, font, bmp, x, y);
+    func_0201C8BC((struct PrintCtx *)jobAddr, str);
 }
 
 
@@ -6127,8 +4323,8 @@ void func_0201C7A4(struct Bmp *x, s16 y, s16 z, struct U16Vec *s, struct Font *w
  * func_02045A90(s) call's result is unused.
  *
  * What closed it (wave 20): the scratch address is held as an integer, a
- * u32 local assigned (u32)&g_0214655C and cast back at each of the three
- * sites.  Spelled `&g_0214655C` at every site, 1.1p1 value-numbers the
+ * u32 local assigned (u32)&_PrintJobWork and cast back at each of the three
+ * sites.  Spelled `&_PrintJobWork` at every site, 1.1p1 value-numbers the
  * address once, caches it in r4 and schedules z's outgoing stack store
  * straight after the first call to free that register (37 bytes out).
  * Through the integer local the address is rematerialised from its one pool
@@ -6136,15 +4332,15 @@ void func_0201C7A4(struct Bmp *x, s16 y, s16 z, struct U16Vec *s, struct Font *w
  * image does, and the stacked u16 read keeps the 1.1p1 base.  This retires
  * the ../2.0/sp2 near miss (2 out) the notes carried.
  */
-void func_0201C7D0(struct Bmp *x, s16 y, s16 z, struct U16Vec *s, struct Font *w, u16 v)
+void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color)
 {
-    u32 base;
+    u32 jobAddr;
 
-    func_02045A90(s);
-    base = (u32)&g_0214655C;
-    sub_0201C808((struct PrintCtx *)base, w, x, y, z);
-    sub_0201C8A4((struct PrintCtx *)base, v);
-    func_0201C8BC((struct PrintCtx *)base, s);
+    func_02045A90(str);
+    jobAddr = (u32)&_PrintJobWork;
+    sub_0201C808((struct PrintCtx *)jobAddr, font, bmp, x, y);
+    sub_0201C8A4((struct PrintCtx *)jobAddr, color);
+    func_0201C8BC((struct PrintCtx *)jobAddr, str);
 }
 
 
@@ -6184,26 +4380,26 @@ void func_0201C7D0(struct Bmp *x, s16 y, s16 z, struct U16Vec *s, struct Font *w
  *   python tools/match.py tu --src src/pending/sub_0201C808.c \
  *       --addr 0x0201C808 --thumb
  */
-void sub_0201C808(struct PrintCtx *p, struct Font *w, struct Bmp *x, u32 y, s16 z)
+void sub_0201C808(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y)
 {
-    u8 t[3];
+    u8 color[3];
 
-    p->unk14 = x;
-    if (func_02043994(x) == 0x20) {
-        p->unk18 = sub_0201CA2C;
+    job->bmp = bmp;
+    if (func_02043994(bmp) == 0x20) {
+        job->blitGlyph = sub_0201CA2C;
     } else {
-        p->unk18 = sub_0201CA78;
+        job->blitGlyph = sub_0201CA78;
     }
-    p->unk10 = w;
-    p->unk00 = y;
-    p->unk04.w = (p->unk04.w & 0xFFFFFC00u) | (p->unk00 & 0x3FF);
-    p->unk02 = z;
-    p->unk04.w = (p->unk04.w & 0xFFF003FFu) | ((p->unk02 & 0x3FF) << 10);
-    p->unk04.w = (p->unk04.w & 0xFF0FFFFFu) | (1u << 20);
-    func_0201DE00(&t[2], &t[1], &t[0]);
-    p->unk0C = (u16)(((t[2] & 0x1F) << 10) | ((t[1] & 0x1F) << 5)
-                     | (t[0] & 0x1F));
-    p->unk0E = p->unk0C;
+    job->font = font;
+    job->penX = x;
+    job->pos.raw = (job->pos.raw & 0xFFFFFC00u) | (job->penX & 0x3FF);
+    job->penY = y;
+    job->pos.raw = (job->pos.raw & 0xFFF003FFu) | ((job->penY & 0x3FF) << 10);
+    job->pos.raw = (job->pos.raw & 0xFF0FFFFFu) | (1u << 20);
+    func_0201DE00(&color[2], &color[1], &color[0]);
+    job->textColor = (u16)(((color[2] & 0x1F) << 10) | ((color[1] & 0x1F) << 5)
+                     | (color[0] & 0x1F));
+    job->activeColor = job->textColor;
 }
 
 
@@ -6223,10 +4419,10 @@ void sub_0201C808(struct PrintCtx *p, struct Font *w, struct Bmp *x, u32 y, s16 
  *   python tools/match.py tu --src src/matched/unit_0201C8A4.c \
  *       --addr 0x0201C8A4 --thumb
  */
-void sub_0201C8A4(struct PrintCtx *p, u16 v)
+void sub_0201C8A4(struct PrintCtx *job, u16 color)
 {
-    p->unk0E = v;
-    p->unk04.w = (p->unk04.w & ~0xF00000u) | (1u << 20);
+    job->activeColor = color;
+    job->pos.raw = (job->pos.raw & ~0xF00000u) | (1u << 20);
 }
 
 
@@ -6260,36 +4456,36 @@ void sub_0201C8A4(struct PrintCtx *p, u16 v)
  * hi and mid are int (the u8 truncation is in the expression), lo is u8:
  * that is what puts hi in r7, mid in r6 and lo in the [sp] spill slot.
  */
-void func_0201C8BC(struct PrintCtx *c, struct U16Vec *s)
+void func_0201C8BC(struct PrintCtx *job, struct Strbuf *str)
 {
-    u16 *p = (u16 *)func_02045A90(s);
-    u8 buf[3];
-    u8 done = 0;
-    int hi;
-    int mid;
-    u8 lo;
+    u16 *cursor = (u16 *)func_02045A90(str);
+    u8 savedColor[3];
+    u8 changed = 0;
+    int letter;
+    int shadow;
+    u8 background;
 
-    buf[0] = done;
-    buf[1] = done;
-    buf[2] = done;
-    if (((int)(c->unk04.w << 8)) >> 28 == 1) {
-        int v = c->unk0E;
+    savedColor[0] = changed;
+    savedColor[1] = changed;
+    savedColor[2] = changed;
+    if (((int)(job->pos.raw << 8)) >> 28 == 1) {
+        int color = job->activeColor;
 
-        hi = (u8)((v >> 10) & 0x1F);
-        mid = (u8)((v >> 5) & 0x1F);
-        lo = (u8)(v & 0x1F);
-        if (func_0201DE18(hi, mid, lo) != 0) {
-            func_0201DE00(&buf[2], &buf[1], &buf[0]);
-            func_0201DD78((int)hi, (int)mid, (int)lo);
-            done = 1;
+        letter = (u8)((color >> 10) & 0x1F);
+        shadow = (u8)((color >> 5) & 0x1F);
+        background = (u8)(color & 0x1F);
+        if (func_0201DE18(letter, shadow, background) != 0) {
+            func_0201DE00(&savedColor[2], &savedColor[1], &savedColor[0]);
+            func_0201DD78((int)letter, (int)shadow, (int)background);
+            changed = 1;
         }
-        c->unk04.w = (c->unk04.w & 0xFF0FFFFF) | 0x200000;
+        job->pos.raw = (job->pos.raw & 0xFF0FFFFF) | 0x200000;
     }
-    while (*p != 0xFFFF) {
-        p = (u16 *)func_0201C974(c, p, 1);
+    while (*cursor != 0xFFFF) {
+        cursor = (u16 *)func_0201C974(job, cursor, 1);
     }
-    if (done) {
-        func_0201DD78((int)buf[2], (int)buf[1], (int)buf[0]);
+    if (changed) {
+        func_0201DD78((int)savedColor[2], (int)savedColor[1], (int)savedColor[0]);
     }
 }
 
@@ -6338,63 +4534,63 @@ void func_0201C8BC(struct PrintCtx *c, struct U16Vec *s)
  * it.  That is an inlined code-fetch helper, and collapsing it to a plain
  * `k = (u8)(p[1] >> 8)` loses the `bne`/`movs #0xff` pair.
  */
-u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f)
+u16 *func_0201C974(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
 {
-    u8 pen[4];
-    s16 *py = &c->unk02;
+    u8 glyphInfo[4];
+    s16 *penY = &job->penY;
 
     while (1) {
-        u16 v = *p;
-        if (v != 0xF000) {
-            if (v != 0xFFFE) {
-                if (v == 0xFFFF) {
-                    return p;
+        u16 code = *cursor;
+        if (code != 0xF000) {
+            if (code != 0xFFFE) {
+                if (code == 0xFFFF) {
+                    return cursor;
                 }
                 goto glyph;
             }
-            c->unk00 = (s16)c->unk04.b.x;
-            p = p + 1;
-            *py = (s16)(*py + 0x10);
+            job->penX = (s16)job->pos.bits.originX;
+            cursor = cursor + 1;
+            *penY = (s16)(*penY + 0x10);
             continue;
         }
         {
-            u32 k;
-            if (v == 0xF000) {
-                k = (u8)(p[1] >> 8);
+            u32 tag;
+            if (code == 0xF000) {
+                tag = (u8)(cursor[1] >> 8);
             } else {
-                k = 0xFF;
+                tag = 0xFF;
             }
-            switch (k) {
+            switch (tag) {
             case 0xBD:
-                p = func_0201CAC8(c, p);
+                cursor = func_0201CAC8(job, cursor);
                 break;
             case 0xFF:
-                p = func_0201CC34(c, p);
+                cursor = func_0201CC34(job, cursor);
                 break;
             case 0xBE:
-                if (f != 0) {
-                    if (v != 0xF000) {
+                if (stopAtPause != 0) {
+                    if (code != 0xF000) {
                         continue;
                     }
-                    p = (u16 *)((u8 *)(p + 3) + p[2] * 2);
+                    cursor = (u16 *)((u8 *)(cursor + 3) + cursor[2] * 2);
                     break;
                 }
-                return p;
+                return cursor;
             default:
-                if (v != 0xF000) {
+                if (code != 0xF000) {
                     continue;
                 }
-                p = (u16 *)((u8 *)(p + 3) + p[2] * 2);
+                cursor = (u16 *)((u8 *)(cursor + 3) + cursor[2] * 2);
                 break;
             }
         }
     }
   glyph:
     {
-        u16 v = *p;
-        c->unk18(c->unk14, c->unk00, c->unk02, c->unk10, v, pen);
-        c->unk00 = (s16)(c->unk00 + pen[2]);
-        return p + 1;
+        u16 code = *cursor;
+        job->blitGlyph(job->bmp, job->penX, job->penY, job->font, code, glyphInfo);
+        job->penX = (s16)(job->penX + glyphInfo[2]);
+        return cursor + 1;
     }
 }
 
@@ -6425,10 +4621,10 @@ u16 *func_0201C974(struct PrintCtx *c, u16 *p, u32 f)
  *   python tools/match.py tu --src src/matched/unit_0201CA2C.c \
  *       --addr 0x0201CA2C --thumb
  */
-void sub_0201CA2C(struct Bmp *a, s32 b, s32 c, struct Font *d, u16 e, const u8 *f)
+void sub_0201CA2C(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
 {
-    func_0201DB04(d, e, func_020437D4(g_02146558), (void *)f);
-    func_020439A0(g_02146558, a, 0, 0, b + f[0], c, f[1], f[3], 0);
+    func_0201DB04(font, code, func_020437D4(_pGlyphBmp), (void *)glyphInfo);
+    func_020439A0(_pGlyphBmp, bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0);
 }
 
 
@@ -6463,10 +4659,10 @@ void sub_0201CA2C(struct Bmp *a, s32 b, s32 c, struct Font *d, u16 e, const u8 *
  *   python tools/match.py tu --src src/pending/sub_0201CA78.c \
  *       --addr 0x0201CA78 --thumb
  */
-void sub_0201CA78(struct Bmp *a, s32 b, s32 c, struct Font *d, u16 e, const u8 *f)
+void sub_0201CA78(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
 {
-    func_0201DB04(d, e, func_020437D4(g_02146558), (void *)f);
-    func_02043AAC(g_02146558, (u32)a, 0, 0, b + f[0], c, f[1], f[3], 0xF, 0);
+    func_0201DB04(font, code, func_020437D4(_pGlyphBmp), (void *)glyphInfo);
+    func_02043AAC(_pGlyphBmp, (u32)bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0xF, 0);
 }
 
 
@@ -6512,67 +4708,67 @@ void sub_0201CA78(struct Bmp *a, s32 b, s32 c, struct Font *d, u16 e, const u8 *
  * put case 3's body (0x0201CB7E) before case 2's (0x0201CBB6), and this
  * compiler emits switch arms in source order.
  */
-u16 *func_0201CAC8(struct PrintCtx *c, u16 *p)
+u16 *func_0201CAC8(struct PrintCtx *job, u16 *cursor)
 {
-    u32 arg;
-    u16 v = *p;
-    u32 k;
+    u32 background;
+    u16 code = *cursor;
+    u32 tag;
 
-    if (v == 0xF000) {
-        k = ((u32)(u8)p[1] << 16) >> 16;
+    if (code == 0xF000) {
+        tag = ((u32)(u8)cursor[1] << 16) >> 16;
     } else {
-        k = 0xFFFF;
+        tag = 0xFFFF;
     }
 
-    switch (k) {
+    switch (tag) {
     case 0: {
-        u32 r, g, b;
-        r = (u8)((v == 0xF000) ? p[3] : 0);
-        g = (u8)((v == 0xF000) ? p[4] : 0);
-        arg = (u8)((v == 0xF000) ? p[5] : 0);
-        func_0201DD78(r, g, arg);
-        c->unk0E = (u16)((arg & 0x1F) | (((r << 27) >> 17) | ((g << 27) >> 22)));
+        u32 letter, shadow, unusedBackground;
+        letter = (u8)((code == 0xF000) ? cursor[3] : 0);
+        shadow = (u8)((code == 0xF000) ? cursor[4] : 0);
+        background = (u8)((code == 0xF000) ? cursor[5] : 0);
+        func_0201DD78(letter, shadow, background);
+        job->activeColor = (u16)((background & 0x1F) | (((letter << 27) >> 17) | ((shadow << 27) >> 22)));
         break;
     }
     case 1: {
-        u16 t = c->unk0C;
-        func_0201DD78((u8)((t >> 10) & 0x1F), (u8)((t >> 5) & 0x1F), (u8)(t & 0x1F));
+        u16 color = job->textColor;
+        func_0201DD78((u8)((color >> 10) & 0x1F), (u8)((color >> 5) & 0x1F), (u8)(color & 0x1F));
         break;
     }
     case 3: {
-        s32 w = func_020437DC(c->unk14);
-        s32 x0 = (s32)(w - c->unk04.b.x);
-        u32 adv;
-        u32 n = 0;
-        adv = (u32)func_0201D26C(p, c->unk10, 0, 0);
+        s32 width = func_020437DC(job->bmp);
+        s32 room = (s32)(width - job->pos.bits.originX);
+        u32 strWidth;
+        u32 unusedMargin = 0;
+        strWidth = (u32)func_0201D26C(cursor, job->font, 0, 0);
         {
-            u32 nn = 0;
-            if (*p == 0xF000) {
-                nn = p[3];
+            u32 margin = 0;
+            if (*cursor == 0xF000) {
+                margin = cursor[3];
             }
-            c->unk00 = (s16)(c->unk04.b.x + (x0 - (s32)adv) - 1 - (s32)nn);
+            job->penX = (s16)(job->pos.bits.originX + (room - (s32)strWidth) - 1 - (s32)margin);
         }
         break;
     }
     case 2: {
-        s32 w = func_020437DC(c->unk14);
-        s32 x0 = (s32)(w - c->unk04.b.x);
-        s32 adv = func_0201D26C(p, c->unk10, 0, 0);
-        if (adv < x0) {
-            c->unk00 = (s16)(c->unk04.b.x + (x0 - adv) / 2);
+        s32 width = func_020437DC(job->bmp);
+        s32 room = (s32)(width - job->pos.bits.originX);
+        s32 strWidth = func_0201D26C(cursor, job->font, 0, 0);
+        if (strWidth < room) {
+            job->penX = (s16)(job->pos.bits.originX + (room - strWidth) / 2);
         } else {
-            c->unk00 = (s16)c->unk04.b.x;
+            job->penX = (s16)job->pos.bits.originX;
         }
         break;
     }
     case 4: {
-        u32 d = (v == 0xF000) ? p[3] : 0;
-        c->unk00 = (s16)(c->unk00 + (s16)d);
+        u32 offset = (code == 0xF000) ? cursor[3] : 0;
+        job->penX = (s16)(job->penX + (s16)offset);
         break;
     }
     case 5: {
-        u32 d = (v == 0xF000) ? p[3] : 0;
-        c->unk00 = (s16)d;
+        u32 offset = (code == 0xF000) ? cursor[3] : 0;
+        job->penX = (s16)offset;
         break;
     }
     case 6:
@@ -6581,47 +4777,47 @@ u16 *func_0201CAC8(struct PrintCtx *c, u16 *p)
         break;
     }
 
-    if (*p == 0xF000) {
-        p = (u16 *)((u8 *)(p + 3) + p[2] * 2);
+    if (*cursor == 0xF000) {
+        cursor = (u16 *)((u8 *)(cursor + 3) + cursor[2] * 2);
     }
-    return p;
+    return cursor;
 }
 
 
 
 
 
-u16 *func_0201CC34(struct PrintCtx *a0, u16 *a1)
+u16 *func_0201CC34(struct PrintCtx *job, u16 *cursor)
 {
-    u16 t;
-    u8 b;
-    u8 m;
-    int x;
+    u16 tag;
+    u8 paletteRow;
+    u8 background;
+    int base;
 
-    if (a1[0] == 0xF000) {
-        t = (u16)(a1[1] & 0xFF);
+    if (cursor[0] == 0xF000) {
+        tag = (u16)(cursor[1] & 0xFF);
     } else {
-        t = 0xFFFF;
+        tag = 0xFFFF;
     }
-    if (t == 0) {
-        b = (u8)((a1[0] == 0xF000) ? a1[3] : 0);
-        if (b == 0xFF) {
-            func_0201DD78((u8)((a0->unk0E >> 10) & 0x1F), (u8)((a0->unk0E >> 5) & 0x1F),
-                          (u8)(a0->unk0E & 0x1F));
+    if (tag == 0) {
+        paletteRow = (u8)((cursor[0] == 0xF000) ? cursor[3] : 0);
+        if (paletteRow == 0xFF) {
+            func_0201DD78((u8)((job->activeColor >> 10) & 0x1F), (u8)((job->activeColor >> 5) & 0x1F),
+                          (u8)(job->activeColor & 0x1F));
         } else {
-            int x1;
-            int x2;
-            x = b * 2;
-            m = (u8)(a0->unk0C & 0x1F);
-            x2 = x + 2;
-            x1 = x + 1;
-            func_0201DD78((u8)x1, (u8)x2, m);
-            a0->unk0E = (u16)((((u8)x1 & 0x1F) << 10) | (((u8)x2 & 0x1F) << 5)
-                          | (m & 0x1F));
+            int letter;
+            int shadow;
+            base = paletteRow * 2;
+            background = (u8)(job->textColor & 0x1F);
+            shadow = base + 2;
+            letter = base + 1;
+            func_0201DD78((u8)letter, (u8)shadow, background);
+            job->activeColor = (u16)((((u8)letter & 0x1F) << 10) | (((u8)shadow & 0x1F) << 5)
+                          | (background & 0x1F));
         }
     }
-    if (a1[0] == 0xF000) return (u16 *)((char *)a1 + 6 + a1[2] * 2);
-    return a1;
+    if (cursor[0] == 0xF000) return (u16 *)((char *)cursor + 6 + cursor[2] * 2);
+    return cursor;
 }
 
 
@@ -6633,10 +4829,10 @@ u16 *func_0201CC34(struct PrintCtx *a0, u16 *a1)
  *   python tools/match.py one --src src/matched/func_0201CCE4.c \
  *       --func func_0201CCE4 --addr 0x0201CCE4 --cc 1.1p1 --thumb
  */
-void func_0201CCE4(u32 a0, s16 a1, s16 a2, u32 a3, struct Font *a4, s32 a5, u32 a6,
-                   u32 a7, u16 a8, u16 a9)
+void func_0201CCE4(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl,
+                   u32 priority, u16 heap, u16 fillColor)
 {
-    func_0201CD10(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, 0);
+    func_0201CD10(win, x, y, str, font, wait, tcbl, priority, heap, fillColor, 0);
 }
 
 
@@ -6660,53 +4856,53 @@ void func_0201CCE4(u32 a0, s16 a1, s16 a2, u32 a3, struct Font *a4, s32 a5, u32 
  *    it pinned the a4 load late.  With a9 a real u16 parameter nothing
  *    takes an address and the loads schedule as in the image.
  */
-struct Rec_0201CD10 *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,
-                          struct Font *a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9,
-                          u32 a10)
+struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str,
+                          struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor,
+                          PrintCallback callback)
 {
-    struct Rec_0201CD10 *o;
-    void *r;
-    u32 h;
-    u8 pair[2];
+    struct TextPrinter *printer;
+    struct TcblNode *task;
+    struct Bmp *bmp;
+    u8 speed[2];
 
-    h = (u32)func_02045770((struct Descriptor *)a0);
-    r = func_020311B8(a6, (void *)func_0201CEE0, 0x50, a7);
-    o = func_02031290(r);
+    bmp = func_02045770(win);
+    task = func_020311B8(tcbl, (void *)func_0201CEE0, 0x50, priority);
+    printer = func_02031290(task);
 
-    o->task = r;
-    func_0201C808(&o->ctx, a4, (struct Bmp *)h, a1, a2);
-    sub_0201CDF4(a5, pair);
-    o->f19 = pair[1];
+    printer->task = task;
+    sub_0201C808(&printer->ctx, font, bmp, x, y);
+    sub_0201CDF4(wait, speed);
+    printer->defaultGlyphs = speed[1];
     {
-        u8 lo = pair[0];
-        o->f18 = lo;
-        o->f1c = lo;
-        o->f1a = lo;
+        u8 waitFrames = speed[0];
+        printer->defaultWait = waitFrames;
+        printer->overrideWait = waitFrames;
+        printer->waitFrames = waitFrames;
     }
     {
-        u8 hi = o->f19;
-        o->f1d = hi;
-        o->f1b = hi;
+        u8 glyphs = printer->defaultGlyphs;
+        printer->overrideGlyphs = glyphs;
+        printer->glyphsPerTick = glyphs;
     }
-    o->cur = func_02045A90((struct U16Vec *)a3);
-    o->wait = 0;
-    o->cb = (u8 (*)(u32))a10;
-    o->f28 = 0;
-    o->f2c = 0;
-    o->cbarg = 0;
-    o->f08 = a0;
-    o->win = h;
-    o->state = 0;
-    o->color = a9;
-    o->mode = 1;
-    o->scroll = 0;
-    o->flags.b2 = 0;
-    o->flags.b0 = 0;
-    o->flags.b1 = 0;
-    o->cbres = 0;
-    o->flags.b3 = 0;
-    o->flags.b4 = 0;
-    return o;
+    printer->cursor = func_02045A90(str);
+    printer->waitCounter = 0;
+    printer->callback = callback;
+    printer->initialCallbackArg = 0;
+    printer->nextCallbackArg = 0;
+    printer->callbackArg = 0;
+    printer->bmpWin = win;
+    printer->bmp = bmp;
+    printer->state = 0;
+    printer->fillColor = fillColor;
+    printer->waitKind = 1;
+    printer->scrollPixels = 0;
+    printer->flags.bits.advance = 0;
+    printer->flags.bits.halted = 0;
+    printer->flags.bits.scrolling = 0;
+    printer->callbackResult = 0;
+    printer->flags.bits.useOverrideSpeed = 0;
+    printer->flags.bits.clearOverridePending = 0;
+    return printer;
 }
 
 
@@ -6746,59 +4942,59 @@ struct Rec_0201CD10 *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,
  *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
  *       --addr 0x0201CDF4 --thumb
  */
-void sub_0201CDF4(int v, u8 *out)
+void sub_0201CDF4(int wait, u8 *speed)
 {
-    if (v >= 0) {
-        out[1] = 1;
-        out[0] = (u8)v;
+    if (wait >= 0) {
+        speed[1] = 1;
+        speed[0] = (u8)wait;
     } else {
-        out[1] = (u8)(-v);
-        out[0] = 0;
+        speed[1] = (u8)(-wait);
+        speed[0] = 0;
     }
 }
 
 
 
-void sub_0201CE0C(void *p)
+void sub_0201CE0C(struct TextPrinter *printer)
 {
-    ((u8 *)p)[0x22] = (((u8 *)p)[0x22] & ~1u) | 1u;
+    printer->flags.raw = (printer->flags.raw & ~1u) | 1u;
 }
 
 
 
-void sub_0201CE20(void *p)
+void sub_0201CE20(struct TextPrinter *printer)
 {
-    ((u8 *)p)[0x22] = ((u8 *)p)[0x22] & ~1u;
+    printer->flags.raw = printer->flags.raw & ~1u;
 }
 
 
 
-u32 sub_0201CE30(void *p)
+u32 sub_0201CE30(const struct TextPrinter *printer)
 {
-    return ((struct Obj17219 *)p)->f0;
+    return printer->state;
 }
 
 
 
-u32 sub_0201CE34(void *p)
+u32 sub_0201CE34(const struct TextPrinter *printer)
 {
-    return ((struct Obj17220 *)p)->f4;
+    return printer->waitKind;
 }
 
 
 
-void sub_0201CE38(void *p)
+void sub_0201CE38(struct TextPrinter *printer)
 {
-    ((u8 *)p)[0x22] = ((u8 *)p)[0x22] | 4u;
+    printer->flags.raw = printer->flags.raw | 4u;
 }
 
 
 
-void sub_0201CE48(struct Rec3 *p)
+void sub_0201CE48(struct TextPrinter *printer)
 {
-    if (p->unk10 != 0) {
-        func_02031194(p->unk10);
-        p->unk10 = 0;
+    if (printer->task != 0) {
+        func_02031194(printer->task);
+        printer->task = 0;
     }
 }
 
@@ -6831,38 +5027,38 @@ void sub_0201CE48(struct Rec3 *p)
  *   python tools/match.py tu --src src/matched/unit_0201CE5C.c \
  *       --addr 0x0201CE5C --thumb
  */
-void sub_0201CE5C(struct Rec3 *p, s32 v)
+void sub_0201CE5C(struct TextPrinter *printer, s32 wait)
 {
-    if (v < p->unk1E) {
-        p->unk1E = (u8)v;
-        if (v == 0) {
-            sub_0201CE8C(p, func_02013080(2));
-            ((u8 *)p)[0x22] = 0x10u | ((u8 *)p)[0x22];
+    if (wait < printer->waitCounter) {
+        printer->waitCounter = (u8)wait;
+        if (wait == 0) {
+            sub_0201CE8C(printer, func_02013080(2));
+            printer->flags.raw = 0x10u | printer->flags.raw;
         }
     }
 }
 
 
-void sub_0201CE8C(struct Rec3 *p, s32 v)
+void sub_0201CE8C(struct TextPrinter *printer, s32 wait)
 {
-    u8 tmp[2];
+    u8 speed[2];
 
-    sub_0201CDF4(v, tmp);
-    p->unk1D = tmp[1];
-    p->unk1C = tmp[0];
-    ((u8 *)p)[0x22] = 8u | ((u8 *)p)[0x22];
+    sub_0201CDF4(wait, speed);
+    printer->overrideGlyphs = speed[1];
+    printer->overrideWait = speed[0];
+    printer->flags.raw = 8u | printer->flags.raw;
 }
 
 
-void sub_0201CEB8(struct Rec3 *p)
+void sub_0201CEB8(struct TextPrinter *printer)
 {
-    ((u8 *)p)[0x22] = ((u8 *)p)[0x22] & ~8u;
-    p->unk1D = p->unk19;
-    p->unk1C = p->unk18;
+    printer->flags.raw = printer->flags.raw & ~8u;
+    printer->overrideGlyphs = printer->defaultGlyphs;
+    printer->overrideWait = printer->defaultWait;
 }
 
 
-u32 sub_0201CED4(struct Rec3 *p)
+u32 sub_0201CED4(const struct TextPrinter *printer)
 {
-    return ((u32)((u8 *)p)[0x22] << 28) >> 31;
+    return ((u32)printer->flags.raw << 28) >> 31;
 }

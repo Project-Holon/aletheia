@@ -17,52 +17,51 @@
  *   func_02069C00    0x02069C00  arm
  *   func_02067EB0  0x02067EB0  arm
  */
-struct Struct02067EB0;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-struct Entry02067EB0 {
-    u16 key;
-    u16 val;
+struct FontCMapEntry {
+    u16 charCode;
+    u16 glyphIndex;
 };
 
-struct Struct02067EB0 {
-    u16 base;               /* 0x0 */
+struct FontCMap {
+    u16 firstCode;          /* 0x0 */
     u16 pad_02;
     u16 type;               /* 0x4 */
     u16 pad_06;
     u8 pad_08[4];
     union {
         u16 offset;         /* 0xc */
-        u16 arr1[1];        /* 0xc */
+        u16 glyphIndices[1]; /* 0xc */
         u16 count;          /* 0xc */
     };
     u16 pad_0e;
-    struct Entry02067EB0 entries[]; /* 0xe */
+    struct FontCMapEntry entries[]; /* 0xe */
 };
 
-struct Rec {
-    u16  lo;    /* 0x00 */
-    u16  hi;    /* 0x02 */
+struct FontCMapRange {
+    u16  firstCode;    /* 0x00 */
+    u16  lastCode;    /* 0x02 */
     u8   pad_04[4];
-    struct Rec *next;   /* 0x08 */
+    struct FontCMapRange *next;   /* 0x08 */
 };
 
-struct Obj {
+struct FontGlyphMap {
     u8          pad_00[0x10];
-    struct Rec *chain;  /* 0x10 */
+    struct FontCMapRange *chain;  /* 0x10 */
 };
 
-extern void func_020698F8(u32 a, void *b);
-extern u32 func_02067EB0(struct Struct02067EB0 *tbl, u32 val);
-void func_02067F78(void *a, u32 b);
+extern void func_020698F8(u32 pResource, void *pFont);
+extern u32 func_02067EB0(struct FontCMap *tbl, u32 charCode);
+void func_02067F78(void *pFont, u32 pResource);
 extern u8 func_02069C00[];
 
 
-u32 func_02067EB0(struct Struct02067EB0 *tbl, u32 val)
+u32 func_02067EB0(struct FontCMap *tbl, u32 charCode)
 {
     u32 ret = 0xFFFF;
     u16 type = tbl->type;
@@ -70,27 +69,27 @@ u32 func_02067EB0(struct Struct02067EB0 *tbl, u32 val)
     switch (type) {
     case 0:
         {
-            u32 diff = val - tbl->base;
+            u32 diff = charCode - tbl->firstCode;
             ret = (u16)(tbl->offset + diff);
         }
         break;
     case 1:
-        ret = *(u16 *)((u8 *)tbl + 0xc + (val - tbl->base) * 2);
+        ret = *(u16 *)((u8 *)tbl + 0xc + (charCode - tbl->firstCode) * 2);
         break;
     case 2:
         {
-            struct Entry02067EB0 *low = (struct Entry02067EB0 *)((u8 *)tbl + 0xe);
-            struct Entry02067EB0 *high = low + (tbl->count - 1);
+            struct FontCMapEntry *low = (struct FontCMapEntry *)((u8 *)tbl + 0xe);
+            struct FontCMapEntry *high = low + (tbl->count - 1);
 
             while (low <= high) {
-                struct Entry02067EB0 *mid = low + (high - low) / 2;
+                struct FontCMapEntry *mid = low + (high - low) / 2;
 
-                if (mid->key < val) {
+                if (mid->charCode < charCode) {
                     low = mid + 1;
-                } else if (val < mid->key) {
+                } else if (charCode < mid->charCode) {
                     high = mid - 1;
                 } else {
-                    ret = mid->val;
+                    ret = mid->glyphIndex;
                     break;
                 }
             }
@@ -109,10 +108,10 @@ u32 func_02067EB0(struct Struct02067EB0 *tbl, u32 val)
  * 0x02069C00 as a value (+0x20) is the only reference to that address anywhere, so
  * neither `label` nor `literal` has a witness outside this file's 32 bytes.
  */
-void func_02067F78(void *a, u32 b)
+void func_02067F78(void *pFont, u32 pResource)
 {
-    func_020698F8(b, a);
-    ((u32 *)a)[1] = (u32)func_02069C00;
+    func_020698F8(pResource, pFont);
+    ((u32 *)pFont)[1] = (u32)func_02069C00;
 }
 
 
@@ -128,15 +127,15 @@ void func_02067F78(void *a, u32 b)
  * original's `ldrhls`/`cmpls` pair is the second comparison issued
  * conditionally on the first, which is a `&&`, not two nested guards.
  */
-u32 func_02067F9C(struct Obj **a0, u32 key)
+u32 func_02067F9C(struct FontGlyphMap **ppMap, u32 charCode)
 {
-    struct Rec *r = (*a0)->chain;
+    struct FontCMapRange *range = (*ppMap)->chain;
 
-    while (r != 0) {
-        if (r->lo <= key && key <= r->hi) {
-            return func_02067EB0((struct Struct02067EB0 *)r, key);
+    while (range != 0) {
+        if (range->firstCode <= charCode && charCode <= range->lastCode) {
+            return func_02067EB0((struct FontCMap *)range, charCode);
         }
-        r = r->next;
+        range = range->next;
     }
 
     return 0xffff;

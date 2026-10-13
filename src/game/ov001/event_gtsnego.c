@@ -54,67 +54,124 @@
  *   func_02082D44   0x02082D44  arm
  *   func_020122C0  0x020122C0  thumb
  */
-#include "../../matched/include/Obj01477.h"
-
-#define F(o) (*(u32 *)(args + (o)))
-struct Ctx;
-struct IcaAnime;
-struct Evt;
-struct Entry;
-struct Link;
-struct Comm;
+struct GameSystem;
+struct GameEvent;
+struct GameData;
+struct FieldMap;
+struct GameComm;
+struct NetHandle;
 struct Party;
-struct Obj;
-struct Desc;
+struct MyStatus;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-typedef struct Req {
-    u32 f00;
-    u32 f04;
-    u16 f08;
-    u8  f0a;
-    u8  f0b;
-    u32 f0c;
-    u32 f10;
-} Req;
+/* Request read by the evolution demo overlay (ov195). */
+typedef struct EvolutionRequest {
+    struct GameData *gameData;
+    struct Party *party;
+    u16 partyIndex;
+    u8  reserved;
+    u8  evolveCondition;
+    u32 fromTrade;
+    u32 reserved2;
+} EvolutionRequest;
 
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
+/* Parameter block read by the WiFi login overlay (ov115), 0x28 bytes. */
+typedef struct WifiLoginParam {
+    struct GameData *gameData;
+    u32 loginType;
+    u32 loginOption;
+    u32 messageId;
+    u8 *saveData;
+    u32 useSaveData;
+    u32 allowCancel;
+    u32 result;
+    u32 reserved[2];
+} WifiLoginParam;
+
+/* Short parameter block of the second ov115 call (session confirm), 0x1C bytes. */
+typedef struct WifiConfirmParam {
+    struct GameData *gameData;
+    u32 loginType;
+    u32 loginOption;
+    u32 messageId;
+    u8 *saveData;
+    u32 useSaveData;
+    u32 allowCancel;
+} WifiConfirmParam;
+
+/* Parameter block read by the GTS negotiation screen (ov120), 0x1B4 bytes. */
+typedef struct GtsDispParam {
+    struct GameData *gameData;
+    u8 reserved[0x10];
+    struct MyStatus *myStatusCopy;
+    struct MyStatus *partnerStatusCopy;
+    u8 reserved2[0x194];
+    u32 result;
+} GtsDispParam;
+
+/* Parameter block read by the trade screen (ov119), 0x30 bytes. */
+typedef struct GtsTradeParam {
+    u32 reserved[2];
+    u32 result;
+    u32 partyIndex;
+    u32 evolveCondition;
+    struct GameData *gameData;
+    GtsDispParam *dispParam;
+    struct Party *party;
+    EvolutionRequest *evolutionRequest;
+    u8 *loginSaveData;
+    u32 reserved2[2];
+} GtsTradeParam;
+
+/* Work of the GTS negotiation event (0x3B4 bytes). */
+typedef struct GtsNegoEventWork {
+    u32 savedBgmNo;
+    int timeoutFrames;
+    u8 loginSaveData[0x174];
+    struct GameSystem *gameSystem;
+    u8 reserved[4];
+    GtsDispParam dispParam;
+    GtsTradeParam tradeParam;
+    WifiLoginParam login;
+    WifiConfirmParam confirm;
+    struct Party *tradedParty;
+    u32 startMode;
+} GtsNegoEventWork;
+
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
 extern u16 func_02005C44(void);
-extern void func_02005E30(u32 a);
-extern u32 func_02012138(const struct Ctx *p);
-extern u32 func_02026454(void *obj);
-extern int func_020144DC(int a0, int a1);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void func_02005E30(u32 frames);
+extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern u32 func_02026454(void *gameComm);
+extern int func_020144DC(int gameSystem, int fieldMap);
+extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
+extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 func_020120F0(const struct GameSystem *gameSystem);
 extern int   func_0203CD98(void);
-extern struct Entry *func_020399A8(void);
-extern void  func_02039C68(struct Link *a0, u32 a1, u32 a2);
-extern u32   func_02039CB4(struct Link *a0, u32 a1, u32 a2);
-extern void func_0203D7B0(u8 a0);
-extern void func_0203D7BC(u8 a0);
+extern struct NetHandle *func_020399A8(void);
+extern void  func_02039C68(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
+extern u32   func_02039CB4(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
+extern void func_0203D7B0(u8 enable);
+extern void func_0203D7BC(u8 option);
 extern void func_0203C554(u32 a);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 func_020307B0(void *p);
-extern void  func_02005D90(u32 a0, u32 a1);
-extern void func_02005DF8(u32 a);
-extern void *func_020145CC(void *a0);
-void *func_020124E8(struct Obj *p);
-void func_02026400(struct Comm *p);
-struct Party *func_0201A920(u32 heap);
-void func_02082BCC(void *p, int c, int n);
+extern void  func_02005D90(u32 bgmNo, u32 fadeTarget);
+extern void func_02005DF8(u32 frames);
+extern void *func_020145CC(void *gameSystem);
+void *func_020124E8(struct GameEvent *event);
+void func_02026400(struct GameComm *gameComm);
+struct Party *func_0201A920(u32 heapId);
+void func_02082BCC(void *dst, int value, int size);
 int func_02008468(void);
-u8 *func_02012944(void *p);
-void func_02082D44(u32 a, void *p, u32 b);
-struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-u32 func_021542C0(void *obj, u32 *mode, char *args);
-void *func_02154560(void *obj_in, void *p, int a, int b);
-void *func_0215466C(void *p, int a);
+u8 *func_02012944(void *gameData);
+void func_02082D44(u32 src, void *dst, u32 size);
+void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
 extern char ov115_id[];
 extern char ov120_id[];
 extern char ov119_id[];
@@ -125,139 +182,142 @@ extern char d_021D890C[];
 extern char d_021E759C[];
 extern char d_02208C40[];
 extern char d_021546A0[];
+u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work);
+void *func_02154560(void *event, void *gameSystem, int a, int startMode);
+void *func_0215466C(void *gameSystem, int a);
 
 
-u32 func_021542C0(void *obj, u32 *mode, char *args)
+u32 func_021542C0(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work)
 {
-    u32 h = F(0x17c);
-    u32 v08 = (u32)func_020120F4((const struct Ctx *)h);
-    void *v0c = func_0201210C((void *)h);
-    Req *p;
+    struct GameSystem *gameSystem = work->gameSystem;
+    struct GameData *gameData = func_020120F4(gameSystem);
+    void *fieldMap = func_0201210C(gameSystem);
+    EvolutionRequest *request;
 
-    switch (*mode) {
+    switch (*seq) {
     case 0:
-        F(0x0) = func_02005C44();
+        work->savedBgmNo = func_02005C44();
         func_02005E30(6);
-        (*mode)++;
+        (*seq)++;
         break;
     case 1:
-        if (func_02026454((void *)func_02012138((const struct Ctx *)h)) == 0) {
-            func_02012374(obj, (struct Evt **)func_020144DC(h, (int)v0c));
-            (*mode)++;
+        if (func_02026454(func_02012138(gameSystem)) == 0) {
+            func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, (int)fieldMap));
+            (*seq)++;
         }
         break;
     case 2:
-        F(0x378) = (u32)(args + 8);
-        F(0x374) = 0x33;
-        func_020120B4((struct IcaAnime *)h, (u32)ov115_id, d_021D6338, args + 0x368);
-        (*mode)++;
+        work->login.saveData = work->loginSaveData;
+        work->login.messageId = 0x33;
+        func_020120B4(gameSystem, (u32)ov115_id, d_021D6338, &work->login);
+        (*seq)++;
         break;
     case 3:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
-            if (F(0x384) == 0)
-                (*mode)++;
+        if (func_020120F0(gameSystem) == 0) {
+            if (work->login.result == 0)
+                (*seq)++;
             else
-                *mode = 14;
+                *seq = 14;
         }
         break;
     case 4:
-        F(0x334) = 0;
-        func_020120B4((struct IcaAnime *)h, (u32)ov120_id, d_021D890C, args + 0x184);
-        (*mode)++;
+        work->dispParam.result = 0;
+        func_020120B4(gameSystem, (u32)ov120_id, d_021D890C, &work->dispParam);
+        (*seq)++;
         break;
     case 5:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
-            if (F(0x334) == 1) {
-                *mode = 12;
-            } else if (F(0x334) == 0) {
-                F(0x37c) = 1;
-                *mode = 2;
+        if (func_020120F0(gameSystem) == 0) {
+            if (work->dispParam.result == 1) {
+                *seq = 12;
+            } else if (work->dispParam.result == 0) {
+                work->login.useSaveData = 1;
+                *seq = 2;
             } else {
-                F(0x340) = 0;
-                (*mode)++;
+                work->tradeParam.result = 0;
+                (*seq)++;
             }
         }
         break;
     case 6:
-        F(0x34c) = v08;
-        F(0x350) = (u32)(args + 0x184);
-        F(0x35c) = (u32)(args + 8);
-        func_020120B4((struct IcaAnime *)h, (u32)ov119_id, d_021E759C, args + 0x338);
-        (*mode)++;
+        work->tradeParam.gameData = gameData;
+        work->tradeParam.dispParam = &work->dispParam;
+        work->tradeParam.loginSaveData = work->loginSaveData;
+        func_020120B4(gameSystem, (u32)ov119_id, d_021E759C, &work->tradeParam);
+        (*seq)++;
         break;
     case 7:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
+        if (func_020120F0(gameSystem) == 0) {
             if (func_0203CD98() == 0) {
-                F(0x37c) = 1;
-                *mode = 2;
-            } else if (F(0x340) == 2) {
-                *mode = 4;
-            } else if (F(0x340) == 1) {
-                *mode = 10;
+                work->login.useSaveData = 1;
+                *seq = 2;
+            } else if (work->tradeParam.result == 2) {
+                *seq = 4;
+            } else if (work->tradeParam.result == 1) {
+                *seq = 10;
             } else {
-                func_02039C68((struct Link *)func_020399A8(), 1, 0xc);
+                func_02039C68(func_020399A8(), 1, 0xc);
                 func_0203D7B0(0);
                 func_0203D7BC(0);
-                F(0x4) = 100;
-                *mode = 8;
+                work->timeoutFrames = 100;
+                *seq = 8;
             }
         }
         break;
     case 8:
-        F(0x4)--;
-        if (func_02039CB4((struct Link *)func_020399A8(), 1, 0xc))
-            *mode = 9;
-        if ((int)F(0x4) < 0)
-            *mode = 9;
+        work->timeoutFrames--;
+        if (func_02039CB4(func_020399A8(), 1, 0xc))
+            *seq = 9;
+        if (work->timeoutFrames < 0)
+            *seq = 9;
         break;
     case 9:
         func_0203C554(1);
-        *mode = 4;
+        *seq = 4;
         break;
     case 10:
-        p = func_02030734(4, 0x14, 0, d_021546A0, 0xcc);
-        p->f00 = F(0x34c);
-        p->f04 = F(0x3ac);
-        p->f08 = F(0x344);
-        p->f0a = 0;
-        p->f0b = F(0x348);
-        p->f0c = 1;
-        p->f10 = 0;
-        F(0x358) = (u32)p;
-        func_020120B4((struct IcaAnime *)h, (u32)ov195_id, d_02208C40, p);
-        (*mode)++;
+        request = func_02030734(4, 0x14, 0, d_021546A0, 0xcc);
+        request->gameData = work->tradeParam.gameData;
+        request->party = work->tradedParty;
+        request->partyIndex = work->tradeParam.partyIndex;
+        request->reserved = 0;
+        request->evolveCondition = work->tradeParam.evolveCondition;
+        request->fromTrade = 1;
+        request->reserved2 = 0;
+        work->tradeParam.evolutionRequest = request;
+        func_020120B4(gameSystem, (u32)ov195_id, d_02208C40, request);
+        (*seq)++;
         break;
     case 11:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
-            func_020307B0((void *)F(0x358));
+        if (func_020120F0(gameSystem) == 0) {
+            func_020307B0(work->tradeParam.evolutionRequest);
             if (func_0203CD98() == 0) {
-                F(0x37c) = 1;
-                *mode = 2;
+                work->login.useSaveData = 1;
+                *seq = 2;
             } else {
-                F(0x340) = 1;
-                *mode = 6;
+                work->tradeParam.result = 1;
+                *seq = 6;
             }
         }
         break;
     case 12:
-        func_020120B4((struct IcaAnime *)h, (u32)ov115_id, d_021D654C, args + 0x390);
-        (*mode)++;
+        func_020120B4(gameSystem, (u32)ov115_id, d_021D654C, &work->confirm);
+        (*seq)++;
         break;
     case 13:
-        if (func_020120F0((const struct Ctx *)h) == 0)
-            (*mode)++;
+        if (func_020120F0(gameSystem) == 0)
+            (*seq)++;
         break;
     case 14:
-        func_020307B0((void *)F(0x198));
-        func_020307B0((void *)F(0x19c));
-        func_020307B0((void *)F(0x3ac));
-        func_02005D90(F(0x0), 0xFFFF);
+        func_020307B0(work->dispParam.myStatusCopy);
+        func_020307B0(work->dispParam.partnerStatusCopy);
+        func_020307B0(work->tradedParty);
+        func_02005D90(work->savedBgmNo, 0xFFFF);
         func_02005DF8(0x3C);
-        func_02012374(obj, func_020145CC((void *)h));
-        (*mode)++;
+        func_02012374(event, func_020145CC(gameSystem));
+        (*seq)++;
         break;
     case 15:
-        (*mode)++;
+        (*seq)++;
         break;
     case 16:
         return 1;
@@ -268,31 +328,33 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
 
 /*
  * Builder: guard + allocator, then a straight slab/field layout.
+ * Fills the event work: game system, party for traded Pokemon, status copies
+ * for the negotiation screen and the two login parameter blocks.
  */
-void *func_02154560(void *obj_in, void *p, int a, int b)
+void *func_02154560(void *event, void *gameSystem, int a, int startMode)
 {
-    void *obj;
+    GtsNegoEventWork *work;
 
-    if (func_02026454((void *)func_02012138(p)))
-        func_02026400((struct Comm *)func_02012138(p));
-    obj = func_020124E8(obj_in);
-    ((struct Obj01477 *)obj)->f17C = (int)p;
-    ((struct Obj01477 *)obj)->f3B0 = b;
-    ((struct Obj01477 *)obj)->f3AC = (int)func_0201A920(4);
-    ((struct Obj01477 *)obj)->f354 = ((struct Obj01477 *)obj)->f3AC;
-    func_02082BCC((char *)obj + 0x184, 0, 0x1b4);
-    ((struct Obj01477 *)obj)->f184 = (int)func_020120F4(p);
-    ((struct Obj01477 *)obj)->f198 = (int)func_02030734(4, func_02008468(), 1, d_021546A0, 0x123);
-    ((struct Obj01477 *)obj)->f19C = (int)func_02030734(4, func_02008468(), 1, d_021546A0, 0x124);
-    func_02082D44((u32)func_02012944(func_020120F4(p)), (void *)((struct Obj01477 *)obj)->f198, func_02008468());
-    func_02082BCC((char *)obj + 0x368, 0, 0x28);
-    ((struct Obj01477 *)obj)->f368 = (int)func_020120F4(p);
-    ((struct Obj01477 *)obj)->f36C = 0;
-    ((struct Obj01477 *)obj)->f370 = 1;
-    ((struct Obj01477 *)obj)->f390 = (int)func_020120F4(p);
-    ((struct Obj01477 *)obj)->f394 = 0;
-    ((struct Obj01477 *)obj)->f398 = 1;
-    return obj;
+    if (func_02026454(func_02012138(gameSystem)))
+        func_02026400(func_02012138(gameSystem));
+    work = func_020124E8(event);
+    work->gameSystem = gameSystem;
+    work->startMode = startMode;
+    work->tradedParty = func_0201A920(4);
+    work->tradeParam.party = work->tradedParty;
+    func_02082BCC(&work->dispParam, 0, 0x1b4);
+    work->dispParam.gameData = func_020120F4(gameSystem);
+    work->dispParam.myStatusCopy = func_02030734(4, func_02008468(), 1, d_021546A0, 0x123);
+    work->dispParam.partnerStatusCopy = func_02030734(4, func_02008468(), 1, d_021546A0, 0x124);
+    func_02082D44((u32)func_02012944(func_020120F4(gameSystem)), work->dispParam.myStatusCopy, func_02008468());
+    func_02082BCC(&work->login, 0, 0x28);
+    work->login.gameData = func_020120F4(gameSystem);
+    work->login.loginType = 0;
+    work->login.loginOption = 1;
+    work->confirm.gameData = func_020120F4(gameSystem);
+    work->confirm.loginType = 0;
+    work->confirm.loginOption = 1;
+    return work;
 }
 
 
@@ -300,9 +362,9 @@ void *func_02154560(void *obj_in, void *p, int a, int b)
  * Allocator call with a callback, then a two-argument tail setup; returns the
  * allocator result.
  */
-void *func_0215466C(void *p, int a)
+void *func_0215466C(void *gameSystem, int a)
 {
-    void *r6 = func_020122C0(p, 0, func_021542C0, 0x3B4);
-    func_02154560(r6, p, a, 0);
-    return r6;
+    void *event = func_020122C0(gameSystem, 0, func_021542C0, 0x3B4);
+    func_02154560(event, gameSystem, a, 0);
+    return event;
 }

@@ -33,62 +33,78 @@
 
 typedef unsigned int u32;
 
-struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
 typedef unsigned char  u8;
-struct IcaAnime;
-extern u32 func_02026454(void *obj);
+
 typedef unsigned short u16;
-struct Evt;
+
+struct GameSystem;
+struct GameEvent;
+struct GameComm;
+struct GameData;
+struct WorldTradeSave;
+
+/* Work of the world trade event, see unit_021542C0.c (0x54 bytes): the field view used here. */
+typedef struct WorldTradeEventWork {
+    u32 savedBgmNo;
+    struct GameSystem *gameSystem;
+    int fieldMap;
+    u8 param[0x3C];
+    void *saveControl;
+    struct GameSystem *paramGameSystem;
+    u32 hideFieldObjects;
+} WorldTradeEventWork;
+
+extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern u32 func_02026454(void *gameComm);
 extern u16 func_02005C44(void);
-extern void func_02005E30(u32 a);
-extern int func_020144DC(int a0, int a1);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
-extern void  func_02005D90(u32 a0, u32 a1);
-extern void func_02005DF8(u32 a);
-extern void *func_020145CC(void *a0);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void func_02005E30(u32 frames);
+extern int func_020144DC(int gameSystem, int fieldMap);
+extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
+extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 func_020120F0(const struct GameSystem *gameSystem);
+extern void  func_02005D90(u32 bgmNo, u32 fadeTarget);
+extern void func_02005DF8(u32 frames);
+extern void *func_020145CC(void *gameSystem);
+extern int func_021BE8D4(void *gameSystem, int fieldMap, int sel, int d);
+extern int func_021BE92C(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 
 extern char ov135_id[];
 extern char d_02202BAC[];
 
-u32 func_02154390(void *obj, u32 *mode, u32 *args)
+u32 func_02154390(struct GameEvent *event, u32 *seq, WorldTradeEventWork *work)
 {
-    switch (*mode) {
+    switch (*seq) {
     case 0:
-        if (func_02026454((void *)func_02012138((const struct Ctx *)args[1])) == 0)
-            *mode = 1;
+        if (func_02026454(func_02012138(work->gameSystem)) == 0)
+            *seq = 1;
         break;
     case 1:
-        if (args[20])
-            func_02012374(obj, (struct Evt **)func_021BE8D4((void *)args[1], args[2], 0, 0));
-        args[0] = func_02005C44();
+        if (work->hideFieldObjects)
+            func_02012374(event, (struct GameEvent **)func_021BE8D4(work->gameSystem, work->fieldMap, 0, 0));
+        work->savedBgmNo = func_02005C44();
         func_02005E30(6);
-        *mode = 2;
+        *seq = 2;
         break;
     case 2:
-        func_02012374(obj, (struct Evt **)func_020144DC(args[1], args[2]));
-        *mode = 3;
+        func_02012374(event, (struct GameEvent **)func_020144DC((int)work->gameSystem, work->fieldMap));
+        *seq = 3;
         break;
     case 3:
-        func_020120B4((struct IcaAnime *)args[1], (u32)ov135_id, d_02202BAC, &args[3]);
-        *mode = 4;
+        func_020120B4(work->gameSystem, (u32)ov135_id, d_02202BAC, work->param);
+        *seq = 4;
         break;
     case 4:
-        if (func_020120F0((const struct Ctx *)args[1]) == 0) {
-            func_02005D90(args[0], 0xFFFF);
+        if (func_020120F0(work->gameSystem) == 0) {
+            func_02005D90(work->savedBgmNo, 0xFFFF);
             func_02005DF8(0x3C);
-            func_02012374(obj, func_020145CC((void *)args[1]));
-            *mode = 5;
+            func_02012374(event, func_020145CC(work->gameSystem));
+            *seq = 5;
         }
         break;
     case 5:
-        if (args[20])
-            func_02012374(obj, (struct Evt **)func_021BE92C((void *)args[1], args[2], 0, 0, 1, 0, 0));
-        *mode = 6;
+        if (work->hideFieldObjects)
+            func_02012374(event, (struct GameEvent **)func_021BE92C(work->gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
+        *seq = 6;
         break;
     case 6:
         return 1;

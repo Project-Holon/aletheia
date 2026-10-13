@@ -51,6 +51,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import protofix as pf  # noqa: E402
+import fnaddr  # noqa: E402  (function addresses whatever the name)
 
 ROOT = os.path.dirname(HERE)
 SETTINGS = ('compiler', 'flags', 'lang', 'isa')
@@ -62,12 +63,17 @@ SETTINGS = ('compiler', 'flags', 'lang', 'isa')
 
 def shard_index():
     """{(region, address): (source, entry)} of every EXACT/EXACT* shard entry."""
+    import match
     out = {}
-    for sp in glob.glob(os.path.join(ROOT, 'layout', 'matched', '*', '*.json')):
-        try:
-            with open(sp, encoding='utf-8') as f:
-                d = json.load(f)
-        except Exception:
+    files = match.shard_files_stamped()
+    # parsed through match.py's stamp cache (build/cache/shards.pkl); an
+    # unparseable shard is skipped
+    docs = match.shard_docs(files, on_error=lambda _t, _e: None)
+    fnaddr.prefetch_layouts(e for d in docs.values() for e in d.get('functions', [])
+                            if isinstance(e, dict) and str(e.get('status', '')).startswith('EXACT'))
+    for sp in (t[1] for t in files):
+        d = docs.get(sp)
+        if not isinstance(d, dict):
             continue
         for e in d.get('functions', []):
             if not isinstance(e, dict) or not str(e.get('status', '')).startswith('EXACT'):
@@ -79,8 +85,19 @@ def shard_index():
             reg = e.get('region') or d.get('region')
             out.setdefault((reg, a), (e.get('source'), e))
             if str(e.get('kind', '')).endswith('_unit') or os.path.basename(e.get('source') or '').startswith('unit_'):
-                names = list(e.get('functions', []))
-                # every function the unit file defines is covered by the unit's check
+                # the listed members, by address (tools/fnaddr.py: the entry's
+                # `addresses`, a func_XXXXXXXX name, or the unit's compiled layout)
+                if str(e.get('kind', '')).endswith('_unit'):
+                    listed = fnaddr.member_addresses(e)
+                else:
+                    listed = [(n, fnaddr.name_address(n)) for n in e.get('functions', [])]
+                for mname, ma in listed:
+                    if ma is not None:
+                        out.setdefault((reg, ma), (e.get('source'), dict(e, name=mname)))
+                # every function the unit file defines is covered by the unit's
+                # check: names ending in an address, and every function symbol of
+                # the compiled unit placed from its header address (any name)
+                names = []
                 try:
                     raw = open(os.path.join(ROOT, e.get('source')), encoding='latin1').read()
                     msk = pf.mask(raw)
@@ -91,6 +108,8 @@ def shard_index():
                     mm = re.search(r'([0-9A-Fa-f]{8})$', str(mname))
                     if mm:
                         out.setdefault((reg, int(mm.group(1), 16)), (e.get('source'), dict(e, name=mname)))
+                for ma, mname in sorted(fnaddr.defined_addresses(e).items()):
+                    out.setdefault((reg, ma), (e.get('source'), dict(e, name=mname)))
     return out
 
 

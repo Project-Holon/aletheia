@@ -14,9 +14,9 @@
  *   STD_TVSNPrintf  0x0208D834  arm
  */
 
-extern int STD_TVSNPrintf(char *s, unsigned int n, const char *format, void *arg);
+extern int STD_TVSNPrintf(char *dst, unsigned int len, const char *format, void *vlist);
 
-int func_02084FA8(char *s, unsigned int n, const char *format, void *arg)
+int func_02084FA8(char *dst, unsigned int len, const char *format, void *vlist)
 {
-    return STD_TVSNPrintf(s, n, format, arg);
+    return STD_TVSNPrintf(dst, len, format, vlist);
 }

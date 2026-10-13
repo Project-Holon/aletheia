@@ -14,7 +14,7 @@
  * function: sub_02005794, sub_020057A0, sub_020057AC
  *
  * symbols:
- *   veneer_02072788  0x02072788  arm
+ *   func_02072788  0x02072788  arm
  *   func_0203508C    0x0203508C  arm
  *
  * Two twelve byte thunks that set the master volume to its two extremes, and
@@ -63,7 +63,7 @@
 typedef unsigned int u32;
 
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
-extern void veneer_02072788(u32 volume);
+extern void func_02072788(u32 volume);
 
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
 extern void func_0203508C(u32 a, u32 b, u32 c);
@@ -73,12 +73,12 @@ void sub_020057A0(void);
 
 void sub_02005794(void)
 {
-    veneer_02072788(0);
+    func_02072788(0);
 }
 
 void sub_020057A0(void)
 {
-    veneer_02072788(0x7F);
+    func_02072788(0x7F);
 }
 
 void sub_020057AC(void)

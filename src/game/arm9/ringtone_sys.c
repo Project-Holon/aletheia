@@ -24,7 +24,6 @@
  *   d_020A75A8  0x020A75A8  data
  *   func_02013BDC  0x02013BDC  thumb
  *   g_0209FE94  0x0209FE94  data
- *   g_0209FE98  0x0209FE98  data
  *   func_02013C30  0x02013C30  thumb
  *   func_02030734  0x02030734  arm
  *   g_020A76BC     0x020A76BC  data
@@ -37,760 +36,560 @@
  *   tbl_0209FED4   0x0209FED4  data  a1
  *   func_02072788  0x02072788  arm
  */
-#include "../../matched/include/Obj00164.h"
-#include "../../matched/include/Obj05724.h"
-#include "../../matched/include/Obj01618.h"
-#include "../../matched/include/Obj17256.h"
-#include "../../matched/include/Obj01618.h"
-#include "../../matched/include/Obj04741.h"
-#include "../../matched/include/Obj04742.h"
-#include "../../matched/include/Obj15804.h"
-#include "../../matched/include/Obj11297.h"
-#include "../../matched/include/Obj11298.h"
-#include "../../matched/include/Obj11300.h"
-#include "../../matched/include/Obj11301.h"
-#include "../../matched/include/Obj11302.h"
-#include "../../matched/include/Obj11303.h"
-#include "../../matched/include/Obj11304.h"
-#include "../../matched/include/Obj15806.h"
-#include "../../matched/include/Obj15807.h"
-#include "../../matched/include/Obj04055.h"
-
-struct T;
-struct S;
-struct Sys;
-struct Ctx;
-struct Desc;
-struct Obj;
-struct BigObj;
-struct SoundSys;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
+typedef unsigned char  u8;
 typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
 
-struct T {
-    u32 pad00;
-    u32 f04;
-    u32 f08;
-    u8  pad0c[0x14];
-    int f20;
-    u32 f24;
+struct Fader;
+struct GameData;
+struct GameSystem;
+struct GameEvent;
+struct IssSys;
+struct Iss3dsSys;
+struct PlayerWork;
+
+
+/* Request kinds the field sound system accepts (also the latched mode of the system). */
+enum FieldSoundRequestKind {
+    FIELD_SOUND_REQUEST_FADE_IN = 1,    /* highParam: fade in frames, from the muted state */
+    FIELD_SOUND_REQUEST_FADE_OUT = 2,   /* lowParam: fade out frames, the BGM stays loaded and silent */
+    FIELD_SOUND_REQUEST_PUSH = 3,       /* lowParam: fade out, then suspend the BGM on the stack */
+    FIELD_SOUND_REQUEST_POP = 4,        /* lowParam: fade out, restore the suspended BGM, highParam: fade in */
+    FIELD_SOUND_REQUEST_CHANGE = 5,     /* value: new BGM, lowParam: fade out, highParam: fade in (loaded in the background) */
+    FIELD_SOUND_REQUEST_REPLACE = 6,    /* value: new BGM, lowParam: fade out, starts silent without loading */
+    FIELD_SOUND_REQUEST_PLAY_NOW = 7    /* value: new BGM, started at once */
 };
 
-struct Work {
-    void *unk00;
-    void *unk04;
-    u32   unk08;
-    u16   unk0C;
-    u16   unk0E;
+/* States of the field sound system. */
+enum FieldSoundState {
+    FIELD_SOUND_STATE_NO_BGM = 0,
+    FIELD_SOUND_STATE_PLAYING = 1,
+    FIELD_SOUND_STATE_MUTED = 2,
+    FIELD_SOUND_STATE_FADING_OUT_TO_MUTE = 3,
+    FIELD_SOUND_STATE_FADING_IN = 4,
+    FIELD_SOUND_STATE_FADING_OUT_TO_PUSH = 5,
+    FIELD_SOUND_STATE_FADING_OUT_TO_POP = 6,
+    FIELD_SOUND_STATE_FADING_IN_AFTER_POP = 7,
+    FIELD_SOUND_STATE_FADING_OUT_TO_LOAD = 8,
+    FIELD_SOUND_STATE_LOADING = 9,
+    FIELD_SOUND_STATE_FADING_IN_LOADED = 10,
+    FIELD_SOUND_STATE_FADING_OUT_TO_LOAD_AND_PUSH = 11,
+    FIELD_SOUND_STATE_LOADING_AND_PUSH = 12,
+    FIELD_SOUND_STATE_FADING_OUT_TO_REPLACE = 13,
+    FIELD_SOUND_STATE_REPLACING = 14
 };
 
-typedef u32 (*TaskFn)(void *task, u32 *state, struct Work *work);
+/* One queued request: a ring slot of 12 bytes. */
+typedef struct FieldSoundRequest {
+    u32 kind;
+    u32 value;
+    u16 lowParam;
+    u16 highParam;
+} FieldSoundRequest;
 
-typedef signed char    s8;
+/* The ringtone state machine object (12 bytes), created by the field sound system. */
+typedef struct Ringtone {
+    u32 state;                      /* 0x00 RingtoneState: bit 0 = ringing, bit 1 = asleep */
+    u16 ringFramesLeft;             /* 0x04 */
+    u16 reserved;                   /* 0x06 */
+    struct Fader *volumeFader;      /* 0x08 */
+} Ringtone;
 
-typedef int            s32;
+/*
+ * The field sound system object (0xB8 bytes). The functions of this file up to
+ * func_02029EB4 drive it (they belong to field_sound_system.c, see misplaced.tsv).
+ */
+typedef struct FieldSoundSystem {
+    struct GameData *gameData;      /* 0x00 */
+    u32 state;                      /* 0x04 FieldSoundState, index into the two per-state handler tables */
+    u32 currentValue;               /* 0x08 BGM number that is playing, 0 = none */
+    u32 requestedValue;             /* 0x0C BGM number of the pending request */
+    u32 loadingValue;               /* 0x10 BGM number that is being loaded */
+    u32 loadStep;                   /* 0x14 step counter of the BGM loader */
+    u16 highParam;                  /* 0x18 fade in frames of the pending request */
+    u16 lowParam;                   /* 0x1A fade out frames of the pending request */
+    u32 mode;                       /* 0x1C latched request kind, 0 = none */
+    int stackDepth;                 /* 0x20 */
+    u32 valueStack[1];              /* 0x24 suspended BGM numbers */
+    FieldSoundRequest queue[10];    /* 0x28 ring of requests */
+    u8 readIndex;                   /* 0xA0 */
+    u8 writeIndex;                  /* 0xA1 */
+    struct Fader *volumeFader;      /* 0xA4 */
+    Ringtone *ringtone;             /* 0xA8 */
+    u16 slotSoundId[2];             /* 0xAC claimed sound ids, 0xFFFF = free */
+    u16 slotOwner[2];               /* 0xB0 */
+    u32 pauseMask;                  /* 0xB4 */
+} FieldSoundSystem;
 
-typedef struct { u16 key; u16 val; } Pair;
+/* Work block (0x10 bytes) of the field sound tasks started below. */
+typedef struct FieldSoundTaskWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    FieldSoundSystem *fieldSound;   /* 0x04 */
+    u32 value;                      /* 0x08 BGM number */
+    u16 highParam;                  /* 0x0C fade in frames */
+    u16 lowParam;                   /* 0x0E fade out frames */
+} FieldSoundTaskWork;
+
+typedef int (*FieldSoundTaskFunc)(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+
+/* BGM played when a trainer of a class spots the player. */
+typedef struct TrainerClassBgm {
+    u16 trainerClass;
+    u16 bgmNo;
+} TrainerClassBgm;
+
+/* One entry of the zone BGM override table: applies in the zone while the event flag is set. */
+typedef struct ZoneBgmOverride {
+    u16 eventFlag;
+    u16 zoneId;
+    u32 bgmNo;
+} ZoneBgmOverride;
+
+/* Ringtone states: the sum of the two flags. */
+enum RingtoneState {
+    RINGTONE_STATE_IDLE = 0,
+    RINGTONE_STATE_RINGING = 1,
+    RINGTONE_STATE_ASLEEP = 2,
+    RINGTONE_STATE_RINGING_ASLEEP = 3
+};
+
+enum RingtoneEvent {
+    RINGTONE_EVENT_STOP = 0,
+    RINGTONE_EVENT_START = 1,
+    RINGTONE_EVENT_WAKE = 2,
+    RINGTONE_EVENT_SLEEP = 3
+};
 
 extern int func_02005E50(void);
-extern void func_02029344(void *obj, u32 value);
 extern void func_02005D28(void);
-extern void func_02029348(void *obj);
-extern void func_02005DF8(u32 v);
-extern void func_02005DE4(void *p);
-extern void func_02005E30(u32 v);
-extern void func_02028BA0(u8 *o, u32 v);
+extern void func_02005DF8(u32 frames);
+extern void func_02005DE4(u32 value);
+extern void func_02005E30(u32 frames);
+extern void func_02028BA0(FieldSoundSystem *fieldSound, u32 bits);
 extern int func_02005E64(void);
 extern int func_02005E9C(void);
-extern void func_02028BDC(struct S *s, u32 mask);
-extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
+extern void func_02028BDC(FieldSoundSystem *fieldSound, u32 bits);
+extern u32 func_020063B4(u32 bgmNo, u32 *step, u32 abort);
 extern void func_0203D12C(int a);
-extern void func_02005D90(u32 a, u32 b);
-extern u8 func_02012E40(const u8 *o);
-extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
-extern void *func_020120F4(const struct Ctx *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-extern unsigned int func_02012A30(const struct BigObj *p);
-extern u32 func_020289B8(struct Sys *s);
-extern s32 func_020288C4(struct Sys *s);
-extern void  func_02028A50(void *sys, void *res);
-extern u32 func_02028988(struct Sys *s);
-extern u32 func_020289D4(struct Sys *s);
-extern u8 func_02012984(const struct BigObj *p);
-extern u32 func_0202B57C(void *obj);
-extern void func_0202B914(struct Obj *o, u32 v);
-extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
-extern void *func_02028900(void *p);
-extern u32 func_02013BDC(u32 id, u32 which);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020142E8(void *bitmap, s32 id);
-extern u32 func_02013C30(u32 id);
+extern void func_02005D90(u32 bgmNo, u32 frames);
+extern u8 func_02012E40(const struct GameData *gameData);
+extern void func_020289F8(FieldSoundSystem *fieldSound, u32 kind, u32 value, u16 lowParam, u16 highParam);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, FieldSoundTaskFunc func, u32 workSize);
+extern void *func_020124E8(struct GameEvent *event);
+extern u32 func_02012A30(const struct GameData *gameData);
+extern u32 func_020289B8(FieldSoundSystem *fieldSound);
+extern s32 func_020288C4(FieldSoundSystem *fieldSound);
+extern void func_02028A50(FieldSoundSystem *fieldSound, struct GameData *gameData);
+extern u32 func_02028988(FieldSoundSystem *fieldSound);
+extern u32 func_020289D4(FieldSoundSystem *fieldSound);
+extern u8 func_02012984(const struct GameData *gameData);
+extern struct Iss3dsSys *func_0202B57C(struct IssSys *iss);
+extern void func_0202B914(struct Iss3dsSys *iss3ds, u32 volume);
+extern void func_02028A58(FieldSoundSystem *fieldSound, u8 level, u16 frames);
+extern void *func_02028900(FieldSoundSystem *fieldSound);
+extern u32 func_02013BDC(u32 zoneId, u32 season);
+extern void *func_0201296C(const struct GameData *gameData);
+extern u32 func_020142E8(void *eventFlags, s32 flagId);
+extern u32 func_02013C30(u32 zoneId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_0203508C(u32 a, u32 b, u32 c);
-extern int func_02006224(u32 a0);
-extern void func_020061F8(int a);
-extern void func_0200616C(void *arg, int i);
-extern int func_020127A4(void *a);
-extern int func_02012B28(int a);
-extern void func_02072788(int vol);
-extern void func_02072D98(int ch, int vol);
-extern int func_020287A8(int a, int b);
-void func_0202918C(u8 *p);
-void func_020291A8(u8 *p);
-void func_020291C4(u8 *p);
-void func_020291E8(u8 *p);
-int func_0202920C(u8 *p);
-void func_02029228(u8 *p);
-void func_02029250(u8 *p);
-void func_02029288(u8 *p);
-void func_020292C0(u8 *p);
-void func_020292E8(u8 *p);
-void func_0202930C(u8 *p);
-void func_02029324(void *obj);
-void sub_02029344(void *obj, u32 value);
-void sub_02029348(void *obj);
-void func_02029354(void *obj);
-void func_02029364(u8 *p);
-void func_02029374(u8 *p);
-void func_0202938C(u8 *p);
-void func_0202939C(struct T *p);
-void func_020293D8(struct T *p);
-u32 func_02029408(u8 *p);
-u32 func_02029434(u8 *p);
-void func_0202945C(u8 *p);
-u32 func_0202947C(u8 *p);
-int func_02029488(u32 unused, u32 *state, u8 *cfg);
-u8 *func_020294C0(u8 *p, u32 a);
-int func_020294F4(u32 unused, u32 *state, u8 *cfg);
-u8 *func_0202952C(u8 *p, u32 a);
-int func_02029560(u32 unused, u32 *state, u8 *cfg);
-u8 *func_020295A4(u8 *p, u32 a);
-u32 func_020295D8(void *task, u32 *state, struct Work *work);
-void *func_02029620(void *a, u32 b, u32 c);
-u32 func_02029658(void *task, u32 *state, struct Work *work);
-void *func_02029690(void *a, u32 b, u32 c);
-u32 func_020296C8(void *task, u32 *state, struct Work *work);
-void *func_0202972C(void *a, u16 b);
-u32 func_02029760(void *task, u32 *state, struct Work *work);
-void *func_020297AC(void *a, u32 b, u32 c, u32 d);
-u32 func_020297EC(void *task, u32 *state, struct Work *work);
-void *func_02029830(void *a, u32 b);
-u32 func_02029868(void *task, u32 *state, struct Work *work);
-void *func_020298A0(void *a, u32 b, u32 c, u32 d);
-u32 func_020298E0(void *task, u32 *state, struct Work *work);
-u32 func_02029938(void *task, u32 *state, struct Work *work);
-void *func_02029984(void *a, u32 b);
-u32 func_020299B8(void *task, u32 *state, struct Work *work);
-void *func_02029A04(void *a, u32 b, u16 c);
-u32 func_02029A3C(void *task, u32 *state, struct Work *work);
-void *func_02029A74(void *a, u16 b);
-u32 func_02029AA8(void *task, u32 *state, struct Work *work);
-void *func_02029AF4(void *a, u32 b);
-void *func_02029B28(void *a, u16 b);
-u32 func_02029B5C(void *task, u32 *state, struct Work *work);
-void *func_02029BCC(void *a, u32 b);
-void *func_02029C00(void *a);
-u32 func_02029C38(void *task, u32 *state, struct Work *work);
-void *func_02029C64(void *a);
-u32 func_02029C94(void *task, u32 *state, struct Work *work);
-void *func_02029CC0(void *a);
-void func_02029CF0(void *sys, void *a, void *b);
-void func_02029D44(u32 a, u32 b, u16 c, u8 d);
-void func_02029D7C(u32 a);
-void func_02029D8C(u32 a0, u32 a1, u32 a2);
-void func_02029DBC(u8 *a, u32 b);
-void func_02029DD8(void *a, void *b);
-unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
-void *func_02029DFC(const void *p);
-int func_02029E08(u32 a, u32 b);
-u16 func_02029E20(u32 k);
-int func_02029E58(void *a);
-u32 func_02029E64(void *unused, u32 id, u32 which);
-u32 func_02029E74(u32 a0, u32 a1);
-u32 func_02029EB4(void *a, u32 id, u32 which);
-u32 *func_02029F14(u32 a0, u32 a1);
-void func_02029F44(void *ptr);
-void func_02029F4C(void *p);
-void func_02029F54(void *p);
-void func_02029F60(void *p);
-void func_02029F6C(void);
-int func_02029F8C(u16 *p);
-void func_02029FD0(void);
-void func_02029FE4(void);
-void func_02029FF8(u16 *p);
-int func_0202A01C(void *obj);
-int func_0202A02C(void *obj, u32 flag);
-void func_0202A084(u32 *p, int event);
-void func_0202A0E8(u32 *p);
-extern Pair d_020A75A8[];
-extern u8  g_0209FE94[];
-extern u8  g_0209FE98[];
-extern char   g_020A76BC[];
-extern u32   *g_02146944;
+extern void func_0203508C(void (*onSleep)(void), void (*onWake)(void), Ringtone *arg);
+extern int func_02006224(u32 slot);
+extern void func_020061F8(int slot);
+extern void func_0200616C(u32 seqNo, int slot);
+extern struct PlayerWork *func_020127A4(struct GameData *gameData);
+extern int func_02012B28(const struct PlayerWork *player);
+extern void func_02072788(int volume);
+extern void func_02072D98(int playerNo, int volume);
+extern void func_020287A8(struct Fader *fader, int mute);
+
+extern const TrainerClassBgm d_020A75A8[];
+extern const ZoneBgmOverride g_0209FE94[8];
+extern const char g_020A76BC[];
+extern Ringtone *g_02146944;
 extern const u8 tbl_0209FED4[][4];
 
+void func_0202918C(FieldSoundSystem *fieldSound);
+void func_020291A8(FieldSoundSystem *fieldSound);
+void func_020291C4(FieldSoundSystem *fieldSound);
+void func_020291E8(FieldSoundSystem *fieldSound);
+void func_0202920C(FieldSoundSystem *fieldSound);
+void func_02029228(FieldSoundSystem *fieldSound);
+void func_02029250(FieldSoundSystem *fieldSound);
+void func_02029288(FieldSoundSystem *fieldSound);
+void func_020292C0(FieldSoundSystem *fieldSound);
+void func_020292E8(FieldSoundSystem *fieldSound);
+void func_0202930C(FieldSoundSystem *fieldSound);
+void func_02029324(FieldSoundSystem *fieldSound);
+void func_02029344(FieldSoundSystem *fieldSound, u32 state);
+void func_02029348(FieldSoundSystem *fieldSound);
+void func_02029354(FieldSoundSystem *fieldSound);
+void func_02029364(FieldSoundSystem *fieldSound);
+void func_02029374(FieldSoundSystem *fieldSound);
+void func_0202938C(FieldSoundSystem *fieldSound);
+void func_0202939C(FieldSoundSystem *fieldSound);
+void func_020293D8(FieldSoundSystem *fieldSound);
+u32 func_02029408(FieldSoundSystem *fieldSound);
+u32 func_02029434(FieldSoundSystem *fieldSound);
+void func_0202945C(FieldSoundSystem *fieldSound);
+u32 func_0202947C(FieldSoundSystem *fieldSound);
+int func_02029488(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_020294C0(struct GameSystem *gameSystem, u32 fadeInFrames);
+int func_020294F4(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_0202952C(struct GameSystem *gameSystem, u32 fadeOutFrames);
+int func_02029560(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_020295A4(struct GameSystem *gameSystem, u32 fadeOutFrames);
+int func_020295D8(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029620(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames);
+int func_02029658(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029690(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames);
+int func_020296C8(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_0202972C(struct GameSystem *gameSystem, u16 fadeInFrames);
+int func_02029760(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_020297AC(struct GameSystem *gameSystem, u32 bgmNo, u32 fadeOutFrames, u32 fadeInFrames);
+int func_020297EC(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029830(struct GameSystem *gameSystem, u32 bgmNo);
+int func_02029868(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_020298A0(struct GameSystem *gameSystem, u32 bgmNo, u32 fadeOutFrames, u32 fadeInFrames);
+int func_020298E0(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int func_02029938(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029984(struct GameSystem *gameSystem, u32 bgmNo);
+int func_020299B8(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029A04(struct GameSystem *gameSystem, u32 bgmNo, u16 fadeOutFrames);
+int func_02029A3C(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029A74(struct GameSystem *gameSystem, u16 fadeOutFrames);
+int func_02029AA8(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029AF4(struct GameSystem *gameSystem, u32 bgmNo);
+struct GameEvent *func_02029B28(struct GameSystem *gameSystem, u16 fadeOutFrames);
+int func_02029B5C(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029BCC(struct GameSystem *gameSystem, u32 bgmNo);
+struct GameEvent *func_02029C00(struct GameSystem *gameSystem);
+int func_02029C38(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029C64(struct GameSystem *gameSystem);
+int func_02029C94(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+struct GameEvent *func_02029CC0(struct GameSystem *gameSystem);
+void func_02029CF0(FieldSoundSystem *fieldSound, struct GameData *gameData, u32 zoneId);
+void func_02029D44(FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season);
+void func_02029D7C(FieldSoundSystem *fieldSound);
+void func_02029D8C(FieldSoundSystem *fieldSound, struct GameData *gameData, u32 zoneId);
+void func_02029DBC(FieldSoundSystem *fieldSound, struct IssSys *iss);
+void func_02029DD8(FieldSoundSystem *fieldSound, struct IssSys *iss);
+unsigned int func_02029DF4(struct GameData *gameData, unsigned int zoneId, unsigned int season);
+void *func_02029DFC(const struct GameData *gameData);
+int func_02029E08(struct GameData *gameData, u32 zoneId);
+u16 func_02029E20(u32 trainerClass);
+int func_02029E58(struct GameData *gameData);
+u32 func_02029E64(struct GameData *gameData, u32 zoneId, u32 season);
+u32 func_02029E74(struct GameData *gameData, u32 zoneId);
+u32 func_02029EB4(struct GameData *gameData, u32 zoneId, u32 season);
+Ringtone *func_02029F14(u32 heapId, struct Fader *volumeFader);
+void func_02029F44(Ringtone *ringtone);
+void func_02029F4C(Ringtone *ringtone);
+void func_02029F54(Ringtone *ringtone);
+void func_02029F60(Ringtone *ringtone);
+void func_02029F6C(void);
+int func_02029F8C(Ringtone *ringtone);
+void func_02029FD0(void);
+void func_02029FE4(void);
+void func_02029FF8(Ringtone *ringtone);
+void func_0202A01C(Ringtone *ringtone);
+void func_0202A02C(Ringtone *ringtone, u32 muted);
+void func_0202A084(Ringtone *ringtone, int event);
+void func_0202A0E8(Ringtone *ringtone);
 
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202918C.c \
- *       --func func_0202918C --addr 0x0202918C --thumb --cc 1.1p1
- */
-void func_0202918C(u8 *p)
+/* State FADING_OUT_TO_MUTE: when the fade is over the BGM stays loaded and silent. */
+void func_0202918C(FieldSoundSystem *fieldSound)
 {
     if (func_02005E50() != 0) {
         return;
     }
-    func_02029344(p, 2);
-    func_02029364(p);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_MUTED);
+    func_02029364(fieldSound);
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020291A8.c \\
- *       --func func_020291A8 --addr 0x020291A8 --thumb --cc 1.1p1
- */
-void func_020291A8(u8 *p)
+/* State FADING_IN: when the fade is over the BGM plays at full volume. */
+void func_020291A8(FieldSoundSystem *fieldSound)
 {
     if (func_02005E50() != 0) {
         return;
     }
-    func_02029344(p, 1);
-    func_02029364(p);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_PLAYING);
+    func_02029364(fieldSound);
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020291C4.c \
- *       --func func_020291C4 --addr 0x020291C4 --thumb --cc 1.1p1
- */
-void func_020291C4(u8 *p)
+/* State FADING_OUT_TO_PUSH: when the fade is over the BGM goes onto the stack. */
+void func_020291C4(FieldSoundSystem *fieldSound)
 {
     if (func_02005E50() != 0) {
         return;
     }
-    func_0202939C((struct T *)p);
-    func_02029344(p, 0);
-    func_02029364(p);
+    func_0202939C(fieldSound);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_NO_BGM);
+    func_02029364(fieldSound);
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020291E8.c \\
- *       --func func_020291E8 --addr 0x020291E8 --thumb --cc 1.1p1
- */
-void func_020291E8(u8 *p)
+/* State FADING_OUT_TO_POP: when the fade is over the suspended BGM comes back and fades in. */
+void func_020291E8(FieldSoundSystem *fieldSound)
 {
     if (func_02005E50() != 0) {
         return;
     }
-    func_020293D8((struct T *)p);
-    func_02029374(p);
-    func_02029344(p, 7);
+    func_020293D8(fieldSound);
+    func_02029374(fieldSound);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_FADING_IN_AFTER_POP);
 }
 
-
-
-
-
-
-
-
-
-int func_0202920C(u8 *p)
-{
-    int r = func_02005E50();
-
-    if (r != 0) {
-        return r;
-    }
-    func_02029344(p, 1);
-    func_02029364(p);
-}
-
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02029228.c \\
- *       --func func_02029228 --addr 0x02029228 --thumb --cc 1.1p1
- */
-void func_02029228(u8 *p)
+/* State FADING_IN_AFTER_POP: when the fade is over the BGM plays at full volume. */
+void func_0202920C(FieldSoundSystem *fieldSound)
 {
     if (func_02005E50() != 0) {
         return;
     }
-    if (func_0202947C(p) != 0) {
-        return;
-    }
-    func_02029408(p);
-    func_02029344(p, 9);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_PLAYING);
+    func_02029364(fieldSound);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_02029250(u8 *p)
+/* State FADING_OUT_TO_LOAD: when the fade is over and no save runs, start loading the requested BGM. */
+void func_02029228(FieldSoundSystem *fieldSound)
 {
-    if (func_02029434(p) == 0) {
+    if (func_02005E50() != 0) {
         return;
     }
-    if (((struct Obj00164 *)p)->fC != 0 && ((struct Obj00164 *)p)->fC != ((struct Obj00164 *)p)->f8) {
+    if (func_0202947C(fieldSound) != 0) {
+        return;
+    }
+    func_02029408(fieldSound);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_LOADING);
+}
+
+/* State LOADING: when the load is over, fade the new BGM in, or start over if another BGM was requested. */
+void func_02029250(FieldSoundSystem *fieldSound)
+{
+    if (func_02029434(fieldSound) == 0) {
+        return;
+    }
+    if (fieldSound->requestedValue != 0 && fieldSound->requestedValue != fieldSound->currentValue) {
         func_02005D28();
-        func_02029344(p, 8);
+        func_02029344(fieldSound, FIELD_SOUND_STATE_FADING_OUT_TO_LOAD);
         return;
     }
-    func_02029374(p);
-    func_02029344(p, 0xa);
+    func_02029374(fieldSound);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_FADING_IN_LOADED);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_02029288(u8 *p)
+/* State FADING_IN_LOADED: when the fade is over the BGM plays, unless another BGM was requested meanwhile. */
+void func_02029288(FieldSoundSystem *fieldSound)
 {
     if (func_02005E50() != 0) {
         return;
     }
-    if (((struct Obj05724 *)p)->fC != 0 && ((struct Obj05724 *)p)->fC != ((struct Obj05724 *)p)->f8) {
-        func_0202938C(p);
-        func_02029344(p, 8);
+    if (fieldSound->requestedValue != 0 && fieldSound->requestedValue != fieldSound->currentValue) {
+        func_0202938C(fieldSound);
+        func_02029344(fieldSound, FIELD_SOUND_STATE_FADING_OUT_TO_LOAD);
         return;
     }
-    func_02029344(p, 1);
-    func_02029364(p);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_PLAYING);
+    func_02029364(fieldSound);
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_020292C0(u8 *p)
+/* State FADING_OUT_TO_LOAD_AND_PUSH: like FADING_OUT_TO_LOAD, then the loaded BGM is pushed. */
+void func_020292C0(FieldSoundSystem *fieldSound)
 {
     if (func_02005E50() != 0) {
         return;
     }
-    if (func_0202947C(p) != 0) {
+    if (func_0202947C(fieldSound) != 0) {
         return;
     }
-    func_02029408(p);
-    func_02029344(p, 0xc);
+    func_02029408(fieldSound);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_LOADING_AND_PUSH);
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020292E8.c \\
- *       --func func_020292E8 --addr 0x020292E8 --thumb --cc 1.1p1
- */
-void func_020292E8(u8 *p)
+/* State LOADING_AND_PUSH: when the load is over the BGM goes onto the stack. */
+void func_020292E8(FieldSoundSystem *fieldSound)
 {
-    if (func_02029434(p) == 0) {
+    if (func_02029434(fieldSound) == 0) {
         return;
     }
-    func_0202939C((struct T *)p);
-    func_02029344(p, 0);
-    func_02029364(p);
+    func_0202939C(fieldSound);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_NO_BGM);
+    func_02029364(fieldSound);
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202930C.c \\
- *       --func func_0202930C --addr 0x0202930C --thumb --cc 1.1p1
- */
-void func_0202930C(u8 *p)
+/* State FADING_OUT_TO_REPLACE: when the fade is over, go on to start the replacement. */
+void func_0202930C(FieldSoundSystem *fieldSound)
 {
     if (func_02005E50() != 0) {
         return;
     }
-    func_02029344(p, 0xe);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_REPLACING);
 }
 
-
-
-
-
-
-
-
-void func_02029324(void *obj)
+/* State REPLACING: start the requested BGM silent, so that a fade in request can bring it up. */
+void func_02029324(FieldSoundSystem *fieldSound)
 {
-    func_0202945C(obj);
-    func_02005DE4((void *)1);
-    func_02029344(obj, 2);
-    func_02029364(obj);
+    func_0202945C(fieldSound);
+    func_02005DE4(1);
+    func_02029344(fieldSound, FIELD_SOUND_STATE_MUTED);
+    func_02029364(fieldSound);
 }
 
-
-
-
-
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two leaf helpers on the same object as the six checker/trampoline pairs of
- * pkt_0202918C's neighbour packets: sub_02029344 is a plain word setter at
- * offset 4, and sub_02029348 clears four fields (two words at +0xc/+0x1c,
- * two halfwords at +0x18/+0x1a) that the checker wrappers elsewhere test and
- * arm. Neither function has a relocation of any kind.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029344.c \
- *       --addr 0x02029344 --thumb
- */
-void sub_02029344(void *obj, u32 value)
+/* Sets the state. */
+void func_02029344(FieldSoundSystem *fieldSound, u32 state)
 {
-    ((struct Obj17256 *)obj)->f4 = value;
+    fieldSound->state = state;
 }
 
-
-
-
-
-
-
-
-
-void sub_02029348(void *obj)
+/* Drops the pending request: mode, BGM number and both fade lengths. */
+void func_02029348(FieldSoundSystem *fieldSound)
 {
-    ((struct Obj01618 *)obj)->f1C = 0;
-    ((struct Obj01618 *)obj)->fC = 0;
-    ((struct Obj01618 *)obj)->f18 = 0;
-    ((struct Obj01618 *)obj)->f1A = 0;
+    fieldSound->mode = 0;
+    fieldSound->requestedValue = 0;
+    fieldSound->highParam = 0;
+    fieldSound->lowParam = 0;
 }
 
-
-
-
-
-
-
-
-void func_02029354(void *obj)
+/* Drops the pending request if there is one (used by the mode handlers). */
+void func_02029354(FieldSoundSystem *fieldSound)
 {
-    if (((struct Obj01618 *)obj)->f1C != 0) {
-        sub_02029348(obj);
+    if (fieldSound->mode != 0) {
+        func_02029348(fieldSound);
     }
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02029364.c \\
- *       --func func_02029364 --addr 0x02029364 --thumb --cc 1.1p1
- */
-void func_02029364(u8 *p)
+/* Same body as func_02029354 (used by the state update handlers): the request is done. */
+void func_02029364(FieldSoundSystem *fieldSound)
 {
-    if (((struct Obj01618 *)p)->f1C != 0) {
-        func_02029348(p);
+    if (fieldSound->mode != 0) {
+        func_02029348(fieldSound);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02029374.c \\
- *       --func func_02029374 --addr 0x02029374 --thumb --cc 1.1p1
- */
-void func_02029374(u8 *p)
+/* Fades the current BGM in over the pending fade in frames and unmutes the player. */
+void func_02029374(FieldSoundSystem *fieldSound)
 {
-    if (((struct Obj00164 *)p)->f8 == 0) {
+    if (fieldSound->currentValue == 0) {
         return;
     }
-    func_02005DF8(((struct Obj00164 *)p)->f18);
+    func_02005DF8(fieldSound->highParam);
     func_02005DE4(0);
 }
 
-
-
-
-
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202938C.c \\
- *       --func func_0202938C --addr 0x0202938C --thumb --cc 1.1p1
- */
-void func_0202938C(u8 *p)
+/* Fades the current BGM out over the pending fade out frames. */
+void func_0202938C(FieldSoundSystem *fieldSound)
 {
-    if (((struct Obj05724 *)p)->f8 != 0) {
-        func_02005E30(((struct Obj05724 *)p)->f1A);
+    if (fieldSound->currentValue != 0) {
+        func_02005E30(fieldSound->lowParam);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-void func_0202939C(struct T *p)
+/* Suspends the current BGM on the (one entry) stack. The first push also pauses the sound slots. */
+void func_0202939C(FieldSoundSystem *fieldSound)
 {
-    if (p->f08 == 0) {
+    if (fieldSound->currentValue == 0) {
         return;
     }
-    if (p->f20 >= 1) {
+    if (fieldSound->stackDepth >= 1) {
         return;
     }
-    if (p->f20 == 0) {
-        func_02028BA0((u8 *)p, 1);
+    if (fieldSound->stackDepth == 0) {
+        func_02028BA0(fieldSound, 1);
     }
-    func_02005DE4((void *)1);
+    func_02005DE4(1);
     func_02005E64();
-    *(u32 *)((char *)p + 0x24 + p->f20 * 4) = p->f08;
-    p->f20 = p->f20 + 1;
-    p->f08 = 0;
+    fieldSound->valueStack[fieldSound->stackDepth] = fieldSound->currentValue;
+    fieldSound->stackDepth = fieldSound->stackDepth + 1;
+    fieldSound->currentValue = 0;
 }
 
-
-
-
-
-
-
-
-void func_020293D8(struct T *p)
+/* Takes the suspended BGM back from the stack. Popping the last entry resumes the sound slots. */
+void func_020293D8(FieldSoundSystem *fieldSound)
 {
-    u32 n;
+    u32 depth;
 
-    if (p->f20 <= 0) {
+    if (fieldSound->stackDepth <= 0) {
         return;
     }
     func_02005E9C();
     func_02005DE4(0);
-    n = p->f20 - 1;
-    p->f20 = n;
-    p->f08 = *(u32 *)((char *)p + 0x24 + n * 4);
-    if (n == 0) {
-        func_02028BDC((struct S *)p, 1);
+    depth = fieldSound->stackDepth - 1;
+    fieldSound->stackDepth = depth;
+    fieldSound->currentValue = fieldSound->valueStack[depth];
+    if (depth == 0) {
+        func_02028BDC(fieldSound, 1);
     }
 }
 
-
-
-
-
-
-
 /*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02029408.c \\
- *       --func func_02029408 --addr 0x02029408 --thumb --cc 1.1p1
+ * Stops the playing BGM and the loader (abort), and makes the requested BGM the
+ * one that is loading. Returns 0 when nothing was requested.
  */
-u32 func_02029408(u8 *p)
+u32 func_02029408(FieldSoundSystem *fieldSound)
 {
-    if (((struct Obj04741 *)p)->fC == 0) {
+    if (fieldSound->requestedValue == 0) {
         return 0;
     }
-    func_020063B4((u8 *)(((struct Obj04741 *)p)->fC), (u32 *)((u32)(p + 0x14)), 1);
-    ((struct Obj04741 *)p)->f10 = ((struct Obj04741 *)p)->fC;
-    ((struct Obj04741 *)p)->fC = 0;
-    ((struct Obj04741 *)p)->f8 = 0;
+    func_020063B4(fieldSound->requestedValue, &fieldSound->loadStep, 1);
+    fieldSound->loadingValue = fieldSound->requestedValue;
+    fieldSound->requestedValue = 0;
+    fieldSound->currentValue = 0;
     func_0203D12C(2);
     return 1;
 }
 
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02029434.c \\
- *       --func func_02029434 --addr 0x02029434 --thumb --cc 1.1p1
- */
-u32 func_02029434(u8 *p)
+/* Runs one step of the BGM loader; when the BGM is ready it becomes the current one. */
+u32 func_02029434(FieldSoundSystem *fieldSound)
 {
-    u32 r = func_020063B4((u8 *)(((struct Obj00164 *)p)->f10), (u32 *)((u32)(p + 0x14)), 0);
+    u32 isLoaded = func_020063B4(fieldSound->loadingValue, &fieldSound->loadStep, 0);
 
     func_0203D12C(2);
-    if (r != 0) {
-        ((struct Obj00164 *)p)->f8 = ((struct Obj00164 *)p)->f10;
-        ((struct Obj00164 *)p)->f10 = 0;
+    if (isLoaded != 0) {
+        fieldSound->currentValue = fieldSound->loadingValue;
+        fieldSound->loadingValue = 0;
     }
-    return r;
+    return isLoaded;
 }
 
-
-
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202945C.c \\
- *       --func func_0202945C --addr 0x0202945C --thumb --cc 1.1p1
- */
-void func_0202945C(u8 *p)
+/* Starts the requested BGM at once (default fade) and makes it the current one. */
+void func_0202945C(FieldSoundSystem *fieldSound)
 {
-    if (((struct Obj04742 *)p)->fC != 0) {
-        func_02005D90(((struct Obj04742 *)p)->fC, 0xffff);
-        ((struct Obj04742 *)p)->f8 = ((struct Obj04742 *)p)->fC;
-        ((struct Obj04742 *)p)->fC = 0;
-        ((struct Obj04742 *)p)->f10 = 0;
+    if (fieldSound->requestedValue != 0) {
+        func_02005D90(fieldSound->requestedValue, 0xffff);
+        fieldSound->currentValue = fieldSound->requestedValue;
+        fieldSound->requestedValue = 0;
+        fieldSound->loadingValue = 0;
     }
 }
 
-
-
-
-
-
-
-/*
- * The callee is an unlabelled Thumb leaf, so its ISA has to be declared here;
- * without the `symbols:` line the name convention defaults it to ARM and the
- * `matched` class refuses the EXACT entry at 0x02012E40 on the ISA mismatch.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202947C.c \\
- *       --func func_0202947C --addr 0x0202947C --thumb --cc 1.1p1
- */
-u32 func_0202947C(u8 *p)
+/* Is a save running (BGM loading waits for it). */
+u32 func_0202947C(FieldSoundSystem *fieldSound)
 {
-    return func_02012E40((const u8 *)(((struct Obj15804 *)p)->f0));
+    return func_02012E40(fieldSound->gameData);
 }
 
-
-
-
-
-
-
 /*
- * closed:   blocker func_02029488.c is now a manifest entry (matched class)
+ * The functions from here to func_02029CC0 are tasks (a body that runs once
+ * per tick and a function that starts it) which post requests to the field
+ * sound system and wait for it. The body is a state machine driven by the
+ * sequence counter the task system hands it. Each starter allocates the 0x10
+ * byte work block, stores the sound system and the parameters in it.
  *
- * Two-state stepper.  State 0 emits the descriptor (kind 1, selector from the
- * config block) and advances; state 1 reports done.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_02029488.c \
- *       --func func_02029488 --addr 0x02029488 --thumb --cc 1.1p1
+ * A starter and its body stay in one file: the starter only reaches the body
+ * through a pool word, so a separate file would not let the body be a local
+ * symbol.
  */
-int func_02029488(u32 unused, u32 *state, u8 *cfg)
-{
-    u32 v = ((struct Obj11297 *)cfg)->f4;
 
-    switch (*state) {
+/* Task body: post a fade in request, then finish. */
+int func_02029488(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+{
+    FieldSoundSystem *fieldSound = work->fieldSound;
+
+    switch (*seq) {
     case 0:
-        func_020289F8((struct Sys *)v, 1, 0, 0, ((struct Obj11297 *)cfg)->fC);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_FADE_IN, 0, 0, work->highParam);
+        (*seq)++;
         break;
     case 1:
         return 1;
@@ -798,54 +597,26 @@ int func_02029488(u32 unused, u32 *state, u8 *cfg)
     return 0;
 }
 
-
-
-
-
-
-
-/*
- * closed:   blocker func_020294C0.c is now a manifest entry (matched class)
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020294C0.c \\
- *       --func func_020294C0 --addr 0x020294C0 --thumb --cc 1.1p1
- */
-u8 *func_020294C0(u8 *p, u32 a)
+struct GameEvent *func_020294C0(struct GameSystem *gameSystem, u32 fadeInFrames)
 {
-    u32 r7 = (u32)func_020120F4((const struct Ctx *)p);
-    u8 *r6 = (u8 *)func_020122C0(p, 0, (void *)((u32)func_02029488), 0x10);
-    u8 *r4 = func_020124E8((struct Obj *)r6);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029488, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    ((struct Obj11298 *)r4)->f4 = func_02012A30((const struct BigObj *)r7);
-    ((struct Obj11298 *)r4)->fC = (u16)a;
-    return r6;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->highParam = (u16)fadeInFrames;
+    return event;
 }
 
-
-
-
-
-
-
-/*
- * closed:   blocker func_02029488.c is now a manifest entry (matched class)
- *
- * Two-state stepper, kind 2 variant: state 0 emits the descriptor with the
- * selector on the register argument instead of the stack one.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_020294F4.c \
- *       --func func_020294F4 --addr 0x020294F4 --thumb --cc 1.1p1
- */
-int func_020294F4(u32 unused, u32 *state, u8 *cfg)
+/* Task body: post a fade out request, then finish. */
+int func_020294F4(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    u32 v = ((struct Obj11300 *)cfg)->f4;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8((struct Sys *)v, 2, 0, ((struct Obj11300 *)cfg)->fE, 0);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_FADE_OUT, 0, work->lowParam, 0);
+        (*seq)++;
         break;
     case 1:
         return 1;
@@ -853,59 +624,30 @@ int func_020294F4(u32 unused, u32 *state, u8 *cfg)
     return 0;
 }
 
-
-
-
-
-
-
-/*
- * closed:   blocker func_020294C0.c is now a manifest entry (matched class)
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0202952C.c \\
- *       --func func_0202952C --addr 0x0202952C --thumb --cc 1.1p1
- */
-u8 *func_0202952C(u8 *p, u32 a)
+struct GameEvent *func_0202952C(struct GameSystem *gameSystem, u32 fadeOutFrames)
 {
-    u32 r7 = (u32)func_020120F4((const struct Ctx *)p);
-    u8 *r6 = (u8 *)func_020122C0(p, 0, (void *)((u32)func_020294F4), 0x10);
-    u8 *r4 = func_020124E8((struct Obj *)r6);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_020294F4, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    ((struct Obj11301 *)r4)->f4 = func_02012A30((const struct BigObj *)r7);
-    ((struct Obj11301 *)r4)->fE = (u16)a;
-    return r6;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->lowParam = (u16)fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
-/*
- * closed:   blocker func_02029488.c is now a manifest entry (matched class)
- *
- * Three-state stepper, kind 3 variant: state 0 emits the descriptor and
- * advances, state 1 advances only once func_020289B8 reports the channel is
- * idle, state 2 reports done.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/func_02029560.c \
- *       --func func_02029560 --addr 0x02029560 --thumb --cc 1.1p1
- */
-int func_02029560(u32 unused, u32 *state, u8 *cfg)
+/* Task body: post a push request, wait until the sound system has handled it, then finish. */
+int func_02029560(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    u32 v = ((struct Obj11302 *)cfg)->f4;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8((struct Sys *)v, 3, 0, ((struct Obj11302 *)cfg)->fE, 0);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PUSH, 0, work->lowParam, 0);
+        (*seq)++;
         break;
     case 1:
-        if (func_020289B8((struct Sys *)v) == 0) {
-            (*state)++;
+        if (func_020289B8(fieldSound) == 0) {
+            (*seq)++;
         }
         break;
     case 2:
@@ -914,65 +656,30 @@ int func_02029560(u32 unused, u32 *state, u8 *cfg)
     return 0;
 }
 
-
-
-
-
-
-
-/*
- * closed:   blocker func_020294C0.c is now a manifest entry (matched class)
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020295A4.c \\
- *       --func func_020295A4 --addr 0x020295A4 --thumb --cc 1.1p1
- */
-u8 *func_020295A4(u8 *p, u32 a)
+struct GameEvent *func_020295A4(struct GameSystem *gameSystem, u32 fadeOutFrames)
 {
-    u32 r7 = (u32)func_020120F4((const struct Ctx *)p);
-    u8 *r6 = (u8 *)func_020122C0(p, 0, (void *)((u32)func_02029560), 0x10);
-    u8 *r4 = func_020124E8((struct Obj *)r6);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029560, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    ((struct Obj11303 *)r4)->f4 = func_02012A30((const struct BigObj *)r7);
-    ((struct Obj11303 *)r4)->fE = (u16)a;
-    return r6;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->lowParam = (u16)fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
-/*
- * One of the sixteen (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  Every pair has the same shape: a small state machine
- * driven by the counter the task system hands it, and a spawner that allocates
- * the 0x10 byte work block, parks the body's address in it and fills in the
- * parameters the body will read.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is the ABS32 pool word at 0x02029654, and a pool word is not a branch, so
- * the body has no `label` witness anywhere in the image; with the two in
- * separate files the spawner caps at MATCH.  In one object the body is a
- * `local` symbol and the relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020295D8.c \
- *       --addr 0x020295D8 --thumb
- */
-u32 func_020295D8(void *task, u32 *state, struct Work *work)
+/* Task body: post a pop request, wait until the sound system has handled it, then finish. */
+int func_020295D8(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 4, 0, work->unk0E, work->unk0C);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_POP, 0, work->lowParam, work->highParam);
+        (*seq)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
-            (*state)++;
+        if (func_020289B8(fieldSound) == 0) {
+            (*seq)++;
         }
         break;
     case 2:
@@ -981,57 +688,27 @@ u32 func_020295D8(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-void *func_02029620(void *a, u32 b, u32 c)
+struct GameEvent *func_02029620(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020295D8, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_020295D8, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk0C = c;
-    work->unk0E = b;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->highParam = fadeInFrames;
+    work->lowParam = fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
-
-
-
-/*
- * One of the (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  The body issues one command 4 and then reports done on the next tick.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029658.c  *       --addr 0x02029658 --thumb
- */
-u32 func_02029658(void *task, u32 *state, struct Work *work)
+/* Task body: post a pop request and finish on the next tick. */
+int func_02029658(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 4, 0, work->unk0E, work->unk0C);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_POP, 0, work->lowParam, work->highParam);
+        (*seq)++;
         break;
     case 1:
         return 1;
@@ -1039,62 +716,41 @@ u32 func_02029658(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-void *func_02029690(void *a, u32 b, u32 c)
+struct GameEvent *func_02029690(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029658, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029658, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk0C = c;
-    work->unk0E = b;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->highParam = fadeInFrames;
+    work->lowParam = fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
 /*
- * One of the (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  The body asks the sound system how many entries it holds and issues one
- * command 4 per entry, the last of them carrying the parameter the spawner
- * stored.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020296C8.c  *       --addr 0x020296C8 --thumb
+ * Task body: pop every suspended BGM. Asks the sound system how many are on the
+ * stack (counting the queued requests) and posts one pop for each, the last one
+ * with the fade in.
  */
-u32 func_020296C8(void *task, u32 *state, struct Work *work)
+int func_020296C8(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
-    s32 n;
-    s32 m;
+    FieldSoundSystem *fieldSound = work->fieldSound;
+    s32 depth;
+    s32 lastIndex;
     s32 i;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        n = func_020288C4(sys);
-        if (n > 0) {
-            m = n - 1;
-            for (i = 0; i < m; i++) {
-                func_020289F8(sys, 4, 0, 0, 0);
+        depth = func_020288C4(fieldSound);
+        if (depth > 0) {
+            lastIndex = depth - 1;
+            for (i = 0; i < lastIndex; i++) {
+                func_020289F8(fieldSound, FIELD_SOUND_REQUEST_POP, 0, 0, 0);
             }
-            func_020289F8(sys, 4, 0, 0, work->unk0C);
+            func_020289F8(fieldSound, FIELD_SOUND_REQUEST_POP, 0, 0, work->highParam);
         }
-        (*state)++;
+        (*seq)++;
         break;
     case 1:
         return 1;
@@ -1102,50 +758,27 @@ u32 func_020296C8(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-void *func_0202972C(void *a, u16 b)
+struct GameEvent *func_0202972C(struct GameSystem *gameSystem, u16 fadeInFrames)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020296C8, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_020296C8, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk0C = b;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->highParam = fadeInFrames;
+    return event;
 }
 
-
-
-
-
-
-
-/*
- * One of the (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  The body issues a command 3 and a command 5 in the same tick.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029760.c  *       --addr 0x02029760 --thumb
- */
-u32 func_02029760(void *task, u32 *state, struct Work *work)
+/* Task body: push the current BGM, then change to a new one (fade out, load, fade in), in the same tick. */
+int func_02029760(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 3, 0, work->unk0E, 0);
-        func_020289F8(sys, 5, work->unk08, 0, work->unk0C);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PUSH, 0, work->lowParam, 0);
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_CHANGE, work->value, 0, work->highParam);
+        (*seq)++;
         break;
     case 1:
         return 1;
@@ -1153,53 +786,29 @@ u32 func_02029760(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-void *func_020297AC(void *a, u32 b, u32 c, u32 d)
+struct GameEvent *func_020297AC(struct GameSystem *gameSystem, u32 bgmNo, u32 fadeOutFrames, u32 fadeInFrames)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029760, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029760, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk08 = b;
-    work->unk0C = d;
-    work->unk0E = c;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->value = bgmNo;
+    work->highParam = fadeInFrames;
+    work->lowParam = fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
-/*
- * One of the (task body, task spawner) pairs that make up the tail of
- * field_sound_system.c.  The body issues a command 3 with a literal 6 and a command 7 in the same
- * tick.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020297EC.c  *       --addr 0x020297EC --thumb
- */
-u32 func_020297EC(void *task, u32 *state, struct Work *work)
+/* Task body: push the current BGM (6 frame fade out), then play a new one at once, in the same tick. */
+int func_020297EC(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 3, 0, 6, 0);
-        func_020289F8(sys, 7, work->unk08, 0, 0);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PUSH, 0, 6, 0);
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PLAY_NOW, work->value, 0, 0);
+        (*seq)++;
         break;
     case 1:
         return 1;
@@ -1207,50 +816,27 @@ u32 func_020297EC(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-void *func_02029830(void *a, u32 b)
+struct GameEvent *func_02029830(struct GameSystem *gameSystem, u32 bgmNo)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020297EC, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_020297EC, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk08 = b;
-    work->unk0E = 0;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->value = bgmNo;
+    work->lowParam = 0;
+    return event;
 }
 
-
-
-
-
-
-
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body issues one command 5 carrying all three stored parameters.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029868.c  *       --addr 0x02029868 --thumb
- */
-u32 func_02029868(void *task, u32 *state, struct Work *work)
+/* Task body: post one change request (fade out, load, fade in) with all three stored parameters. */
+int func_02029868(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 5, work->unk08, work->unk0E, work->unk0C);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_CHANGE, work->value, work->lowParam, work->highParam);
+        (*seq)++;
         break;
     case 1:
         return 1;
@@ -1258,76 +844,42 @@ u32 func_02029868(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-void *func_020298A0(void *a, u32 b, u32 c, u32 d)
+struct GameEvent *func_020298A0(struct GameSystem *gameSystem, u32 bgmNo, u32 fadeOutFrames, u32 fadeInFrames)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029868, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029868, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk08 = b;
-    work->unk0C = d;
-    work->unk0E = c;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->value = bgmNo;
+    work->highParam = fadeInFrames;
+    work->lowParam = fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
-
-
-
 /*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  A four state body: it issues a command 2, waits for the system to go idle,
- * hands a resource off through func_02028A50 and then reports done.  The
- * resource is resolved from work->unk00 before the switch, even though only
- * the third state uses it.
- *
- * This body has no spawner inside the packet: nothing in
- * 0x020295D8..0x02029D44 holds its address, so it stands as its own file and
- * carries no self-reference to attest.
- *
- * What capped it: the call to func_02028A50 is the only branch to that
- * address in the image, so the `label` class had no witness outside this one
- * function and no cut helped.  Wave 26 closed it the honest way, by giving
- * 0x02028A50 an entry: func_02028D2C, func_02029F54 and func_02029F60 are now
- * EXACT, src/matched/unit_02028A50.c graduated with them, and this call site
- * resolves `matched`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020298E0.c  *       --addr 0x020298E0 --thumb
+ * Task body: fade out, wait until the sound system is idle, reset it with the
+ * game data (drains the queue and starts over), then finish. The game data is
+ * looked up before the switch although only the third step uses it.
  */
-u32 func_020298E0(void *task, u32 *state, struct Work *work)
+int func_020298E0(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *res = func_020120F4(work->unk00);
-    void *sys = work->unk04;
+    struct GameData *gameData = func_020120F4(work->gameSystem);
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 2, 0, work->unk0E, 0);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_FADE_OUT, 0, work->lowParam, 0);
+        (*seq)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
-            (*state)++;
+        if (func_020289B8(fieldSound) == 0) {
+            (*seq)++;
         }
         break;
     case 2:
-        func_02028A50(sys, res);
-        (*state)++;
+        func_02028A50(fieldSound, gameData);
+        (*seq)++;
         break;
     case 3:
         return 1;
@@ -1335,39 +887,19 @@ u32 func_020298E0(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body issues a command 2 with a literal 6 and a command 7, then waits
- * for the system to go idle before reporting done.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029938.c  *       --addr 0x02029938 --thumb
- */
-u32 func_02029938(void *task, u32 *state, struct Work *work)
+/* Task body: fade out (6 frames), play a new BGM at once, finish when the sound system is idle. */
+int func_02029938(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 2, 0, 6, 0);
-        func_020289F8(sys, 7, work->unk08, 0, 0);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_FADE_OUT, 0, 6, 0);
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PLAY_NOW, work->value, 0, 0);
+        (*seq)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
+        if (func_020289B8(fieldSound) == 0) {
             return 1;
         }
         break;
@@ -1375,59 +907,30 @@ u32 func_02029938(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void *func_02029984(void *a, u32 b)
+struct GameEvent *func_02029984(struct GameSystem *gameSystem, u32 bgmNo)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029938, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029938, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk08 = b;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->value = bgmNo;
+    return event;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The same shape as unit_02029938.c with the command 2's third argument taken
- * from the work block instead of the literal 6.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020299B8.c  *       --addr 0x020299B8 --thumb
- */
-u32 func_020299B8(void *task, u32 *state, struct Work *work)
+/* Task body: like func_02029938 with the fade out length taken from the work block. */
+int func_020299B8(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 2, 0, work->unk0E, 0);
-        func_020289F8(sys, 7, work->unk08, 0, 0);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_FADE_OUT, 0, work->lowParam, 0);
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PLAY_NOW, work->value, 0, 0);
+        (*seq)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
+        if (func_020289B8(fieldSound) == 0) {
             return 1;
         }
         break;
@@ -1435,118 +938,59 @@ u32 func_020299B8(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void *func_02029A04(void *a, u32 b, u16 c)
+struct GameEvent *func_02029A04(struct GameSystem *gameSystem, u32 bgmNo, u16 fadeOutFrames)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020299B8, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_020299B8, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk08 = b;
-    work->unk0E = c;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->value = bgmNo;
+    work->lowParam = fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
-
-
 /*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  A one shot body: it issues both commands on the first tick and reports done
- * immediately.  The second command's 1001 is a pool word because it does not
- * fit a Thumb `movs` immediate, not because it is a relocation.
- *
- * VERSION SENSITIVITY: 1001 is a content id in the same space as the other
- * command 7 arguments in this family, so it is one to re-read for a Pokemon
- * White build; nothing else in this file is version dependent.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029A3C.c  *       --addr 0x02029A3C --thumb
+ * Task body: fade out, then play BGM 1001 at once; one shot, finishes on the
+ * first tick. 1001 does not fit a Thumb immediate, so it is a pool word.
+ * It is a BGM number, so it may differ in the White version.
  */
-u32 func_02029A3C(void *task, u32 *state, struct Work *work)
+int func_02029A3C(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    if (*state == 0) {
-        func_020289F8(sys, 2, 0, work->unk0E, 0);
-        func_020289F8(sys, 7, 1001, 0, 0);
+    if (*seq == 0) {
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_FADE_OUT, 0, work->lowParam, 0);
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PLAY_NOW, 1001, 0, 0);
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void *func_02029A74(void *a, u16 b)
+struct GameEvent *func_02029A74(struct GameSystem *gameSystem, u16 fadeOutFrames)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029A3C, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029A3C, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk0E = b;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->lowParam = fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body issues a command 3 with a literal 6 and a command 7, then waits
- * for the system to go idle before reporting done.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029AA8.c  *       --addr 0x02029AA8 --thumb
- */
-u32 func_02029AA8(void *task, u32 *state, struct Work *work)
+/* Task body: push the current BGM (6 frame fade out), play a new one at once, finish when the sound system is idle. */
+int func_02029AA8(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020289F8(sys, 3, 0, 6, 0);
-        func_020289F8(sys, 7, work->unk08, 0, 0);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PUSH, 0, 6, 0);
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PLAY_NOW, work->value, 0, 0);
+        (*seq)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
+        if (func_020289B8(fieldSound) == 0) {
             return 1;
         }
         break;
@@ -1554,104 +998,56 @@ u32 func_02029AA8(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void *func_02029AF4(void *a, u32 b)
+struct GameEvent *func_02029AF4(struct GameSystem *gameSystem, u32 bgmNo)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029AA8, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029AA8, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk08 = b;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->value = bgmNo;
+    return event;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The spawner for the four state body at 0x020298E0, which sits far enough
- * away in the packet that the two cannot share a translation unit.
- *
- * What capped it: the ABS32 pool word naming func_020298E0 is the only
- * reference to that address anywhere in the image, and a pool word is not a
- * branch, so the `label` class had no witness.  Wave 26 closed the chain
- * underneath it (func_02028D2C, func_02029F54, func_02029F60 ->
- * unit_02028A50 -> unit_020298E0), and the site now resolves `matched`.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029B28.c  *       --addr 0x02029B28 --thumb
- */
-void *func_02029B28(void *a, u16 b)
+/* Starter for the body at func_020298E0; it sits too far away to share a file with it in the matched split. */
+struct GameEvent *func_02029B28(struct GameSystem *gameSystem, u16 fadeOutFrames)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_020298E0, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_020298E0, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk00 = a;
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk0E = b;
-    return task;
+    work->gameSystem = gameSystem;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->lowParam = fadeOutFrames;
+    return event;
 }
 
-
-
-
-
-
-
-
-
 /*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  A four state body whose first state picks command 2 or command 3 by asking
- * the queue depth.  Both arms of that choice write out the whole call and the
- * compiler cross-jumps all of it but the `movs r3, #6`
- * (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029B5C.c  *       --addr 0x02029B5C --thumb
+ * Task body: suspend the current BGM and play a new one at once. When the stack
+ * already holds a BGM (the stack has one entry), only fade out instead of
+ * pushing. Then wait until the sound system is idle, post the play request, finish.
  */
-u32 func_02029B5C(void *task, u32 *state, struct Work *work)
+int func_02029B5C(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        if (func_020288C4(sys) == 0) {
-            func_020289F8(sys, 3, 0, 6, 0);
+        if (func_020288C4(fieldSound) == 0) {
+            func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PUSH, 0, 6, 0);
         } else {
-            func_020289F8(sys, 2, 0, 6, 0);
+            func_020289F8(fieldSound, FIELD_SOUND_REQUEST_FADE_OUT, 0, 6, 0);
         }
-        (*state)++;
+        (*seq)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
-            (*state)++;
+        if (func_020289B8(fieldSound) == 0) {
+            (*seq)++;
         }
         break;
     case 2:
-        func_020289F8(sys, 7, work->unk08, 0, 0);
-        (*state)++;
+        func_020289F8(fieldSound, FIELD_SOUND_REQUEST_PLAY_NOW, work->value, 0, 0);
+        (*seq)++;
         break;
     case 3:
         return 1;
@@ -1659,90 +1055,39 @@ u32 func_02029B5C(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void *func_02029BCC(void *a, u32 b)
+struct GameEvent *func_02029BCC(struct GameSystem *gameSystem, u32 bgmNo)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029B5C, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029B5C, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk08 = b;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->value = bgmNo;
+    return event;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  A second spawner for the body at 0x02029658, this one with the two command
- * parameters fixed at 60 and 30 instead of taken from its caller.
- *
- * It is a file of its own because the body it parks, func_02029658, already
- * has a manifest entry of its own (src/matched/unit_02029658.c), so the ABS32
- * pool word here is carried by the `matched` class and needs no merge.
- *
- * VERSION SENSITIVITY: 60 and 30 are frame counts rather than content ids, so
- * they are structure for porting purposes; nothing here is version dependent.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029C00.c  *       --addr 0x02029C00 --thumb
- */
-void *func_02029C00(void *a)
+/* Second starter for the pop task body at func_02029658, with fixed fades: 30 frames out, 60 frames in. */
+struct GameEvent *func_02029C00(struct GameSystem *gameSystem)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029658, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029658, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    work->unk0C = 0x3C;
-    work->unk0E = 0x1E;
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    work->highParam = 0x3C;
+    work->lowParam = 0x1E;
+    return event;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body waits until the system's mode word leaves the set
- * src/matched/func_02028988.c accepts, then reports done.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029C38.c  *       --addr 0x02029C38 --thumb
- */
-u32 func_02029C38(void *task, u32 *state, struct Work *work)
+/* Task body: wait until the sound system has left its transitional states. */
+int func_02029C38(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        if (func_02028988(sys) == 0) {
-            (*state)++;
+        if (func_02028988(fieldSound) == 0) {
+            (*seq)++;
         }
         break;
     case 1:
@@ -1751,54 +1096,25 @@ u32 func_02029C38(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void *func_02029C64(void *a)
+struct GameEvent *func_02029C64(struct GameSystem *gameSystem)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029C38, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029C38, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    return event;
 }
 
-
-
-
-
-
-
-
-
-/*
- * Part of the (task body, task spawner) family that makes up the tail of
- * field_sound_system.c.  The body waits until src/matched/func_020289D4.c says the system will take
- * another request, then reports done.
- *
- * The pair is one file on purpose.  The spawner's only reference to the body
- * is an ABS32 pool word, and a pool word is not a branch, so the body has no
- * `label` witness anywhere in the image; with the two in separate files the
- * spawner caps at MATCH.  In one object the body is a `local` symbol and the
- * relocation needs no image evidence at all.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029C94.c  *       --addr 0x02029C94 --thumb
- */
-u32 func_02029C94(void *task, u32 *state, struct Work *work)
+/* Task body: wait until the sound system takes another request. */
+int func_02029C94(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
 {
-    void *sys = work->unk04;
+    FieldSoundSystem *fieldSound = work->fieldSound;
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        if (func_020289D4(sys) == 1) {
-            (*state)++;
+        if (func_020289D4(fieldSound) == 1) {
+            (*seq)++;
         }
         break;
     case 1:
@@ -1807,468 +1123,283 @@ u32 func_02029C94(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-void *func_02029CC0(void *a)
+struct GameEvent *func_02029CC0(struct GameSystem *gameSystem)
 {
-    void *x = func_020120F4(a);
-    void *task = func_020122C0(a, 0, func_02029C94, 0x10);
-    struct Work *work = func_020124E8(task);
+    struct GameData *gameData = func_020120F4(gameSystem);
+    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02029C94, 0x10);
+    FieldSoundTaskWork *work = func_020124E8(event);
 
-    work->unk04 = (void *)func_02012A30(x);
-    return task;
+    work->fieldSound = (FieldSoundSystem *)func_02012A30(gameData);
+    return event;
 }
 
-
-
-
-
-
-
 /*
- * The last function of pkt_020295D8, and not a task at all: it resolves a
- * sequence id for the request and issues one command 5 for it, with the fifth
- * argument 60 or 0 depending on a mode query.  func_02029E74 answers 0xFFFFFFFF
- * when it has no id of its own and func_02029E64 is the fallback.
+ * Posts a BGM change (fade out 60 frames) for a zone. The BGM comes from the
+ * zone override table, else from the zone record for the season. The fade in is
+ * 60 frames when the player object code is 1, else none.
  *
- * The mode test's two arms leave `movs r3, #0x3c` duplicated and cross-jump
- * everything after it, which is what says both the fourth and the fifth
- * argument are locals assigned in each arm, and that the fourth is assigned
- * the same 60 in both.  Passing the literal 60 at a single call site after the
- * `if` hoists that `movs` out of the arms; writing the whole call in each arm
- * duplicates the call as well
+ * Both arms of the player test leave "movs r3, #0x3c" duplicated and cross-jump
+ * everything after it: fadeOut and fadeIn are locals assigned in each arm
  * (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
- *
- * VERSION SENSITIVITY: 60 is a frame count, not a content id.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029CF0.c \
- *       --addr 0x02029CF0 --thumb
  */
-void func_02029CF0(void *sys, void *a, void *b)
+void func_02029CF0(FieldSoundSystem *fieldSound, struct GameData *gameData, u32 zoneId)
 {
-    void *pri = (void *)func_02012984(a);
-    u32 id = func_02029E74((u32)a, (u32)b);
-    u16 c;
-    u16 v;
+    u32 season = func_02012984(gameData);
+    u32 bgmNo = func_02029E74(gameData, zoneId);
+    u16 fadeOut;
+    u16 fadeIn;
 
-    if (id == 0xFFFFFFFF) {
-        id = func_02029E64(a, (u32)b, (u32)pri);
+    if (bgmNo == 0xFFFFFFFF) {
+        bgmNo = func_02029E64(gameData, zoneId, season);
     }
-    if (func_02029E58(a) == 1) {
-        c = 0x3C;
-        v = 0x3C;
+    if (func_02029E58(gameData) == 1) {
+        fadeOut = 0x3C;
+        fadeIn = 0x3C;
     } else {
-        c = 0x3C;
-        v = 0;
+        fadeOut = 0x3C;
+        fadeIn = 0;
     }
-    func_020289F8(sys, 5, id, c, v);
+    func_020289F8(fieldSound, FIELD_SOUND_REQUEST_CHANGE, bgmNo, fadeOut, fadeIn);
 }
 
-
-
-
-
-void func_02029D44(u32 a, u32 b, u16 c, u8 d)
+/* Posts a BGM replace request (fade out 60 frames) for a zone and season. */
+void func_02029D44(FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season)
 {
-    u32 r = func_02029E74(b, c);
+    u32 bgmNo = func_02029E74(gameData, zoneId);
 
-    if (r == ~0u) {
-        r = func_02029E64((void *)b, c, d);
+    if (bgmNo == ~0u) {
+        bgmNo = func_02029E64(gameData, zoneId, season);
     }
-
-    func_020289F8((struct Sys *)a, 6, r, 0x3C, 0);
+    func_020289F8(fieldSound, FIELD_SOUND_REQUEST_REPLACE, bgmNo, 0x3C, 0);
 }
 
-
-
-
-
-
-void func_02029D7C(u32 a)
+/* Posts a fade in request with no fade. */
+void func_02029D7C(FieldSoundSystem *fieldSound)
 {
-    func_020289F8((struct Sys *)a, 1, 0, 0, 0);
+    func_020289F8(fieldSound, FIELD_SOUND_REQUEST_FADE_IN, 0, 0, 0);
 }
 
-
-
-
-
-
-void func_02029D8C(u32 a0, u32 a1, u32 a2)
+/* Posts a BGM change (fade out 30 frames) for a zone, with the full lookup including the player form. */
+void func_02029D8C(FieldSoundSystem *fieldSound, struct GameData *gameData, u32 zoneId)
 {
-    u32 temp = func_02012984((const struct BigObj *)a1);
-    u32 res = func_02029EB4((void *)a1, a2, temp);
-    func_020289F8((struct Sys *)a0, 5, res, 0x1e, 0);
+    u32 season = func_02012984(gameData);
+    u32 bgmNo = func_02029EB4(gameData, zoneId, season);
+
+    func_020289F8(fieldSound, FIELD_SOUND_REQUEST_CHANGE, bgmNo, 0x1e, 0);
 }
 
-
-
-
-
-/*
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02029DBC.c \
- *       --func func_02029DBC --addr 0x02029DBC --thumb --cc 1.1p1
- */
-void func_02029DBC(u8 *a, u32 b)
+/* Lowers the volume: the 3D sound system goes silent, the fader goes to 0x40 over 6 frames. */
+void func_02029DBC(FieldSoundSystem *fieldSound, struct IssSys *iss)
 {
-    u32 r = func_0202B57C((void *)b);
+    struct Iss3dsSys *iss3ds = func_0202B57C(iss);
 
-    func_0202B914((struct Obj *)r, 0);
-    func_02028A58((struct SoundSys *)a, 0x40, 6);
+    func_0202B914(iss3ds, 0);
+    func_02028A58(fieldSound, 0x40, 6);
 }
 
-
-
-
-
-
-
-void func_02029DD8(void *a, void *b)
+/* Restores the volume: the 3D sound system and the fader go to 0x7f (6 frame fade). */
+void func_02029DD8(FieldSoundSystem *fieldSound, struct IssSys *iss)
 {
-    u32 r = func_0202B57C(b);
+    struct Iss3dsSys *iss3ds = func_0202B57C(iss);
 
-    func_0202B914((struct Obj *)r, 0x7f);
-    func_02028A58((struct SoundSys *)a, 0x7f, 6);
+    func_0202B914(iss3ds, 0x7f);
+    func_02028A58(fieldSound, 0x7f, 6);
 }
 
-
-
-
-
-
-
-
-
-/*
- * Plain forwarder to func_02029EB4 (ldr r3, =target; bx r3).  Seeded in
- * layout/function_starts.txt from the bl sites in ov020 and ov021
- * (w6_fix18).
- */
-unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which)
+/* Plain forwarder to func_02029EB4 (a pool word and a bx), seeded from the bl sites in ov020 and ov021. */
+unsigned int func_02029DF4(struct GameData *gameData, unsigned int zoneId, unsigned int season)
 {
-    return func_02029EB4(a, id, which);
+    return func_02029EB4(gameData, zoneId, season);
 }
 
-
-
-
-
-
-
-
-
-void *func_02029DFC(const void *p)
+/* The BGM the sound system of the game data will end up with once its queue is done. */
+void *func_02029DFC(const struct GameData *gameData)
 {
-    return func_02028900((void *)func_02012A30(p));
+    return func_02028900((FieldSoundSystem *)func_02012A30(gameData));
 }
 
-
-
-
-
-
-
-
-int func_02029E08(u32 a, u32 b)
+/* Does the zone have an override BGM. */
+int func_02029E08(struct GameData *gameData, u32 zoneId)
 {
-    if (func_02029E74(a, b) != 0xffffffff) {
+    if (func_02029E74(gameData, zoneId) != 0xffffffff) {
         return 1;
     }
     return 0;
 }
 
-
-
-
-
-
-
-
-u16 func_02029E20(u32 k)
+/* Looks up the BGM of a trainer class (0x45A when the class has none). The table ends with key 0x69. */
+u16 func_02029E20(u32 trainerClass)
 {
     int i;
-    for (i = 0; d_020A75A8[i].key != 0x69; i++) {
-        if (k == d_020A75A8[i].key)
-            return d_020A75A8[i].val;
+
+    for (i = 0; d_020A75A8[i].trainerClass != 0x69; i++) {
+        if (trainerClass == d_020A75A8[i].trainerClass)
+            return d_020A75A8[i].bgmNo;
     }
     return 0x45A;
 }
 
-
-
-
-
-
-
-int func_02029E58(void *a)
+/* Object code of the player (1 and 2 are the forms that change the field BGM). */
+int func_02029E58(struct GameData *gameData)
 {
-    return func_02012B28(func_020127A4(a));
+    return func_02012B28(func_020127A4(gameData));
 }
 
-
-
-
-
-
-
-
-u32 func_02029E64(void *unused, u32 id, u32 which)
+/* The BGM of a zone for a season, from the zone record. */
+u32 func_02029E64(struct GameData *gameData, u32 zoneId, u32 season)
 {
-    return func_02013BDC((u16)id, which);
+    return func_02013BDC((u16)zoneId, season);
 }
-
-
-
-
-
-
-
 
 /*
- * 2026-09-21, FAMILY wave.  Re-verified in a fresh process: still MATCH,
- * every concrete byte identical.  Evidence worked to exhaustion:
- *   - `--suggest-split` reports "witnesses image wide: 1, of them inside
- *     this range: 1"; a single-function file has nothing to cut against.
- *   - No sibling in field_sound_system.c (0x02028844..0x02029EB4) references
- *     the object: the only other listing hits are the rodata DEFINITION in
- *     asm/arm9/src/030_*.s, which is a referent, not a referrer.
- *   - sole-ref/data was probed directly.  in_data_section = True and the
- *     layout/data_objects.txt row IS an object start when the range is
- *     ignored, but `_map_attests(addr, lo, hi)` = False once the range is
- *     applied, because that row's sole referrer is this function's own pool
- *     word.  This is the documented "a lone reference never contributes its
- *     own start" rule firing correctly, not a tooling gap.
- * Declarations cross-checked against docs/families/field_sound_system.h.
+ * Looks up an override BGM for a zone in the table of 8 entries (event flag,
+ * zone, BGM number): the entry applies when its zone matches and its event flag
+ * is set. Returns 0xFFFFFFFF when there is none.
+ *
  */
-u32 func_02029E74(u32 a0, u32 a1)
+u32 func_02029E74(struct GameData *gameData, u32 zoneId)
 {
-    u32 v = func_0201296C((const struct BigObj *)a0);
+    void *eventFlags = func_0201296C(gameData);
     u32 i;
 
     for (i = 0; i < 8; i++) {
-        if (a1 == *(u16 *)(g_0209FE94 + i * 8 + 2)) {
-            if (func_020142E8((void *)v, *(u16 *)(g_0209FE94 + i * 8)) == 1) {
-                return *(u32 *)(g_0209FE98 + i * 8);
+        if (zoneId == g_0209FE94[i].zoneId) {
+            if (func_020142E8(eventFlags, g_0209FE94[i].eventFlag) == 1) {
+                return g_0209FE94[i].bgmNo;
             }
         }
     }
     return 0xffffffff;
 }
 
-
-
-
-
-
-
-u32 func_02029EB4(void *a, u32 id, u32 which)
+/*
+ * The BGM of a zone for a season: the zone override first, then the
+ * special BGMs for the player forms 1 and 2 (0x3F4, 0x3F5) when the zone allows
+ * them, else the zone record.
+ */
+u32 func_02029EB4(struct GameData *gameData, u32 zoneId, u32 season)
 {
-    int mode;
+    int playerObjectCode;
+    u32 bgmNo;
 
-    u32 r;
-
-    mode = func_02029E58(a);
-    func_02012A30(a);
-    r = func_02029E74((u32)a, id);
-    if (r == (u32)-1) {
-        if (mode == 2) {
-            if (func_02013C30((u16)id)) {
+    playerObjectCode = func_02029E58(gameData);
+    func_02012A30(gameData);
+    bgmNo = func_02029E74(gameData, zoneId);
+    if (bgmNo == (u32)-1) {
+        if (playerObjectCode == 2) {
+            if (func_02013C30((u16)zoneId)) {
                 return 0x3f5;
             }
         }
-        if (mode == 1) {
-            if (func_02013C30((u16)id)) {
+        if (playerObjectCode == 1) {
+            if (func_02013C30((u16)zoneId)) {
                 return 0x3f4;
             }
         }
-        return func_02029E64(a, id, which);
+        return func_02029E64(gameData, zoneId, season);
     }
-    return r;
+    return bgmNo;
 }
 
-
-
-
-
-
-
-u32 *func_02029F14(u32 a0, u32 a1)
+/*
+ * Creates the ringtone object (the ringtone of the Xtransceiver call), keeps
+ * it in the global and registers the sleep callbacks.
+ */
+Ringtone *func_02029F14(u32 heapId, struct Fader *volumeFader)
 {
-    u32 *p = func_02030734(a0, 0xc, 1, g_020A76BC, 0x72);
+    Ringtone *ringtone = func_02030734(heapId, 0xc, 1, g_020A76BC, 0x72);
 
-    ((struct Obj11304 *)p)->f4 = 0;
-    p[2] = a1;
-    g_02146944 = p;
+    ringtone->ringFramesLeft = 0;
+    ringtone->volumeFader = volumeFader;
+    g_02146944 = ringtone;
     func_02029F6C();
-    return p;
+    return ringtone;
 }
 
-
-
-
-
-
-
-void func_02029F44(void *ptr)
+void func_02029F44(Ringtone *ringtone)
 {
-    func_020307B0(ptr);
+    func_020307B0(ringtone);
 }
 
-
-
-
-
-
-
-void func_02029F4C(void *p)
+/* Per frame update. */
+void func_02029F4C(Ringtone *ringtone)
 {
-    func_0202A0E8(p);
+    func_0202A0E8(ringtone);
 }
-
-
-
-
-
-
 
 /*
- * A twelve-byte forwarding thunk that pins the second argument to 1: a pool
- * word and a `bx` (docs/idioms/tail-call-is-a-pool-word-and-bx.md) with the
- * constant materialised before the branch.  It saves no `lr`, so `disasm.py`
- * never labels it and it prints as a run of `.word`s in the listing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); 0x02029F54 is
- * a seed for layout/function_starts.txt.
- *
- * Kept in its own file rather than folded in with func_02029F60 so that the
- * sibling's pool word stays outside this range.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029F54.c \
- *       --addr 0x02029F54 --thumb
+ * Start and stop are twelve byte forwarding thunks that pin the event
+ * argument (a pool word and a bx); each sits in its own file so that the pool
+ * word of the other stays outside its range.
  */
-void func_02029F54(void *p)
+void func_02029F54(Ringtone *ringtone)
 {
-    func_0202A084(p, 1);
+    func_0202A084(ringtone, RINGTONE_EVENT_START);
 }
 
-
-
-
-
-
-/*
- * A twelve-byte forwarding thunk that pins the second argument to 0: a pool
- * word and a `bx` (docs/idioms/tail-call-is-a-pool-word-and-bx.md) with the
- * constant materialised before the branch.  It saves no `lr`, so `disasm.py`
- * never labels it and it prints as a run of `.word`s in the listing
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md); 0x02029F60 is
- * a seed for layout/function_starts.txt.
- *
- * Kept in its own file rather than folded in with func_02029F54 so that the
- * sibling's pool word stays outside this range.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02029F60.c \
- *       --addr 0x02029F60 --thumb
- */
-void func_02029F60(void *p)
+void func_02029F60(Ringtone *ringtone)
 {
-    func_0202A084(p, 0);
+    func_0202A084(ringtone, RINGTONE_EVENT_STOP);
 }
 
-
-
-
-
-
+/* Registers the sleep and wake callbacks for the global ringtone. */
 void func_02029F6C(void)
 {
     if (g_02146944 != 0) {
-        func_0203508C((u32)((void *)func_02029FD0), (u32)((void *)func_02029FE4), (u32)g_02146944);
+        func_0203508C(func_02029FD0, func_02029FE4, g_02146944);
     }
 }
 
-
-
-
-
-int func_02029F8C(u16 *p)
+/* Counts the ring time down and keeps the ring sound (slot 4) playing. Returns 1 while the ring time lasts. */
+int func_02029F8C(Ringtone *ringtone)
 {
-    if (p[2] != 0) {
-        p[2] = p[2] - 1;
+    if (ringtone->ringFramesLeft != 0) {
+        ringtone->ringFramesLeft = ringtone->ringFramesLeft - 1;
     }
-    if (p[2] == 0) {
+    if (ringtone->ringFramesLeft == 0) {
         if (func_02006224(4) == 1) {
             func_020061F8(4);
         }
         return 0;
     }
     if (func_02006224(4) == 0) {
-        func_0200616C((void *)0x662, 4);
+        func_0200616C(0x662, 4);
     }
     return 1;
 }
 
-
-
-
-
-/*
- * ringtone_sys.c: forward the global ringtone state (g_02146944, set by
- * func_02029F14) to func_0202A084 with event 3, a pool-word tail call.
- * The two thunks 0x02029FD0 / 0x02029FE4 differ only in the event id.
- */
+/* Sleep callback: posts the sleep event to the global ringtone (a pool word tail call). */
 void func_02029FD0(void)
 {
-    func_0202A084(g_02146944, 3);
+    func_0202A084(g_02146944, RINGTONE_EVENT_SLEEP);
 }
 
-
-
-
-
-/*
- * ringtone_sys.c: forward the global ringtone state (g_02146944, set by
- * func_02029F14) to func_0202A084 with event 2, a pool-word tail call.
- * The two thunks 0x02029FD0 / 0x02029FE4 differ only in the event id.
- */
+/* Wake callback: posts the wake event to the global ringtone (a pool word tail call). */
 void func_02029FE4(void)
 {
-    func_0202A084(g_02146944, 2);
+    func_0202A084(g_02146944, RINGTONE_EVENT_WAKE);
 }
 
-
-
-void func_02029FF8(u16 *p)
+/* Starts the ring sound (slot 4) if it is not playing and loads the ring time, 0x384 frames (15 seconds). */
+void func_02029FF8(Ringtone *ringtone)
 {
     if (func_02006224(4) == 0) {
-        func_0200616C((void *)0x662, 4);
+        func_0200616C(0x662, 4);
     }
-    p[2] = 0x384;
+    ringtone->ringFramesLeft = 0x384;
 }
 
-
-
-int func_0202A01C(void *obj)
+/* Stops the ring sound. */
+void func_0202A01C(Ringtone *ringtone)
 {
     func_020061F8(4);
-    ((struct Obj15806 *)obj)->f4 = 0;
-    return 0;
+    ringtone->ringFramesLeft = 0;
 }
 
-
-
-int func_0202A02C(void *obj, u32 flag)
+/* Mutes (muted == 1) or restores the BGM sound players, and the volume fader. */
+void func_0202A02C(Ringtone *ringtone, u32 muted)
 {
-    if (flag == 1) {
+    if (muted == 1) {
         func_02072D98(1, 0);
         func_02072D98(2, 0);
         func_02072D98(3, 0);
@@ -2279,67 +1410,62 @@ int func_0202A02C(void *obj, u32 flag)
         func_02072D98(3, 0x7f);
         func_02072D98(4, 0x7f);
     }
-    return func_020287A8(((struct Obj15807 *)obj)->f8, flag);
+    func_020287A8(ringtone->volumeFader, muted);
 }
-
-
 
 /*
- * ringtone_sys.c: the ringtone state machine.  The next state is a byte of
- * the 4-column transition table at 0x0209FED4, tbl[state][event]; a plain
- * 2D subscript is the addressing the image has (base + state * 4, then
- * `ldrb [event, base]`), which the byte-offset spellings of
- * docs/notes/pkt_0202A084.c.txt never gave.  Case 1 and case 3 are written
- * out separately with the same body: the image's case 1 is a lone `b` into
- * case 3 (cross-jumped), not a shared label.
+ * The ringtone state machine. The next state is a byte of the 4-column
+ * transition table at 0x0209FED4, table[state][event]; a plain 2D subscript is
+ * the addressing the image has (base + state * 4, then ldrb [event, base]).
+ * State 1 and state 3 are written out separately with the same body: the image
+ * has a lone b from case 1 into case 3 (cross-jumped), not a shared label.
  */
-void func_0202A084(u32 *p, int event)
+void func_0202A084(Ringtone *ringtone, int event)
 {
-    u8 v = tbl_0209FED4[*p][event];
+    u8 nextState = tbl_0209FED4[ringtone->state][event];
 
-    switch (v) {
-    case 0:
+    switch (nextState) {
+    case RINGTONE_STATE_IDLE:
         func_02072788(0x7f);
-        func_0202A02C(p, 0);
-        func_0202A01C(p);
+        func_0202A02C(ringtone, 0);
+        func_0202A01C(ringtone);
         break;
-    case 1:
+    case RINGTONE_STATE_RINGING:
         func_02072788(0x7f);
-        func_0202A02C(p, 1);
-        func_02029FF8((u16 *)p);
+        func_0202A02C(ringtone, 1);
+        func_02029FF8(ringtone);
         break;
-    case 2:
+    case RINGTONE_STATE_ASLEEP:
         func_02072788(0);
-        func_0202A01C(p);
+        func_0202A01C(ringtone);
         break;
-    case 3:
+    case RINGTONE_STATE_RINGING_ASLEEP:
         func_02072788(0x7f);
-        func_0202A02C(p, 1);
-        func_02029FF8((u16 *)p);
+        func_0202A02C(ringtone, 1);
+        func_02029FF8(ringtone);
         break;
     }
-    *p = v;
+    ringtone->state = nextState;
 }
 
-
-
-void func_0202A0E8(u32 *p)
+/* Per frame: when the ring time of a ringing ringtone has run out, post stop (awake) or wake (asleep). */
+void func_0202A0E8(Ringtone *ringtone)
 {
-    int r = func_02029F8C((u16 *)p);
+    int isRinging = func_02029F8C(ringtone);
 
-    switch (((struct Obj04055 *)p)->f0) {
-    case 0:
+    switch (ringtone->state) {
+    case RINGTONE_STATE_IDLE:
         break;
-    case 1:
-        if (r == 0) {
-            func_0202A084(p, 0);
+    case RINGTONE_STATE_RINGING:
+        if (isRinging == 0) {
+            func_0202A084(ringtone, RINGTONE_EVENT_STOP);
         }
         break;
-    case 2:
+    case RINGTONE_STATE_ASLEEP:
         break;
-    case 3:
-        if (r == 0) {
-            func_0202A084(p, 2);
+    case RINGTONE_STATE_RINGING_ASLEEP:
+        if (isRinging == 0) {
+            func_0202A084(ringtone, RINGTONE_EVENT_WAKE);
         }
         break;
     }

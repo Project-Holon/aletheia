@@ -308,7 +308,7 @@ extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_021BDD40(void);
 extern int func_02048C4C(int);
 extern void func_02046788(int);
-extern void func_02047964(void *);
+extern void func_02047964(void);
 extern void func_020479D8(void);
 extern void func_02047970(void);
 extern void func_0204EA64(void);
@@ -689,7 +689,7 @@ void func_021BE12C(int *p)
 
 void func_021BE13C(void *a)
 {
-    func_02047964(a);
+    func_02047964();
     func_020479D8();
 }
 

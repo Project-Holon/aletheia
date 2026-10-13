@@ -25,7 +25,10 @@ For every row the tool
      resolves a relocation in a TU only through a row or an address-bearing
      name);
   4. renames the manifest entries (`name`, and `functions` lists of unit
-     entries) whose name is `old`; source paths are not changed.
+     entries) whose name is `old`; source paths are not changed.  A unit
+     entry whose member list changes gets an `addresses` list parallel to
+     `functions` (each member's address, tools/fnaddr.py), so the counting
+     tools still place a member whose new name carries no address.
 
 With --local-ok, a row whose note holds `bind:local` (the vendor symbol is
 static in its object) is not refused because the name exists at another
@@ -67,6 +70,8 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+import fnaddr  # noqa: E402  (unit member addresses, recorded before a rename)
 
 SYM_ROW = re.compile(r'^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*)\s+(0[xX][0-9A-Fa-f]+)\s+(thumb|arm|data)\b(.*)$')
 SYMBOLS_OPEN = re.compile(r'^\s*\*?\s*symbols\s*:\s*$', re.I)
@@ -221,7 +226,7 @@ def make_static(text, name):
     out, last = [], 0
     for m in rx.finditer(masked):
         first = m.group(2).split()[0] if m.group(2).split() else ''
-        if first in DECL_KW or re.search(r'static', m.group(2)):
+        if first in DECL_KW or re.search(r'\bstatic\b', m.group(2)):
             continue
         out.append(text[last:m.start()])
         out.append('static ' + text[m.start(2):m.end(2)])
@@ -521,6 +526,14 @@ def main():
                     unit_old[r['old']] = r
                 fl = [unit_old[x]['new'] if x in unit_old else x for x in e['functions']]
                 if fl != e['functions']:
+                    # record each member's address before its name loses it, so the
+                    # counting tools still place it (tools/fnaddr.py); an `addresses`
+                    # list already there stays, parallel to the renamed list
+                    if (str(e.get('kind', '')).endswith('_unit')
+                            and len(e.get('addresses') or []) != len(e['functions'])):
+                        got = fnaddr.member_addresses(e)
+                        if all(x is not None for _n, x in got):
+                            e['addresses'] = ['0x%08X' % x for _n, x in got]
                     e['functions'] = fl
                     ch = True
         if ch:

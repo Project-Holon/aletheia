@@ -37,8 +37,10 @@ What is NOT a placeholder:
     another function's bytes): it is never reclassified.
 
 Claims checked: an entry's own name and address, every member its `functions`
-list names (game_unit, sdk_unit), and, in tools/worklist.py, the sibling
-definitions find_unit_member_addrs() credits to a game_unit (source_rule()).
+list names (game_unit, sdk_unit; placed by address through tools/fnaddr.py, so
+a member renamed to a real name keeps its address), and, in tools/worklist.py,
+the sibling definitions find_unit_member_addrs() credits to a game_unit
+(source_rule()).
 
 Both sources are checked: the src/matched file the manifest entry names, and the
 function's definition in src/game/<region>/ (the final tree; found by the address
@@ -259,10 +261,10 @@ def entry_targets(ent):
         own = None
     out.append((ent.get("name", ""), own))
     if str(ent.get("kind", "")).endswith("_unit"):
-        for mem in ent.get("functions", []) or []:
-            if isinstance(mem, str) and mem:
-                am = ADDR_NAME.search(mem)
-                out.append((mem, int(am.group(1), 16) if am else None))
+        # members by address (tools/fnaddr.py: the entry's `addresses`, a
+        # func_XXXXXXXX name, or the unit's compiled layout)
+        import fnaddr
+        out.extend(fnaddr.member_addresses(ent))
     return out
 
 
@@ -292,16 +294,28 @@ def entry_reason(ent):
 
 
 def source_rule(source, addr):
-    """Rule for the definition of the function at `addr` (func_/sub_XXXXXXXX) in a
-    src/matched source, or None."""
+    """Rule for the definition of the function at `addr` in a src/matched source,
+    or None.  The definition is found by the address in its name
+    (func_/sub_XXXXXXXX) or, for any other name, by the source's compiled layout
+    (tools/fnaddr.py), only when the source holds a placeholder at all."""
     src = str(source).replace("\\", "/")
+    path = src if os.path.isabs(src) else os.path.join(ROOT, src)
     defs = _matched_index().get(src)
     if defs is None:
-        path = src if os.path.isabs(src) else os.path.join(ROOT, src)
         defs = classify_file(path) if os.path.isfile(path) else {}
+    lay = None
     for name, rule in defs.items():
+        if not rule:
+            continue
         am = ADDR_NAME.search(name)
-        if am and int(am.group(1), 16) == addr and rule:
+        if am:
+            if int(am.group(1), 16) == addr:
+                return rule
+            continue
+        if lay is None:
+            import fnaddr
+            lay = fnaddr.layouts([path]).get(path) or {}
+        if lay.get(name) == addr:
             return rule
     return None
 
@@ -317,6 +331,8 @@ def scan(entries):
     the figure code can test either.  A key is flagged only when every matched claim
     on it is a placeholder: a real EXACT entry for the same function keeps it matched."""
     claims = {}
+    import fnaddr
+    fnaddr.prefetch(entries)
     for ent in entries:
         st = str(ent.get("status", ""))
         if st not in MATCHED:

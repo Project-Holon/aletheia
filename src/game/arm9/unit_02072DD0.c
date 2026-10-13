@@ -26,7 +26,7 @@ typedef unsigned char u8;
 
 extern u8 g_0214E480[];
 
-void func_02072DD0(u32 idx, u32 val)
+void func_02072DD0(u32 playerNo, u32 channelMask)
 {
-    *(u32 *)(g_0214E480 + idx * 0x24) = val;
+    *(u32 *)(g_0214E480 + playerNo * 0x24) = channelMask;
 }

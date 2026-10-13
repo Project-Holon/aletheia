@@ -26,7 +26,7 @@
  *   OS_SleepThreadDirect   0x02085760  arm
  *   OS_WaitIrq             0x0208459C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   g_020AA354             0x020AA354  data
+ *   _WorkerThread             0x020AA354  data
  *   func_020392B8  0x020392B8  arm
  *   func_0203D26C  0x0203D26C  arm
  *   func_0203D29C  0x0203D29C  arm
@@ -55,23 +55,23 @@
  *   OS_GetConsoleType   0x02085CBC  arm
  *   SCFG_SetCpuSpeed    0x0208C988  arm
  *   FS_Init             0x0207AD04  arm
- *   DWC_StartUtilityEx  0x0207ACB4  arm
+ *   FS_TryLoadTable  0x0207ACB4  arm
  *   OS_AllocFromArenaLo 0x02086788  arm
  *   sub_02061C0C        0x02061C0C  arm
  *   sub_0202EB0C        0x0202EB0C  thumb
  *   PM_GetAmp           0x0208C030  arm
  *   PM_SetAmp           0x0208BEF0  arm
- *   g_020A9E94          0x020A9E94  data
- *   g_020A9E80          0x020A9E80  data
- *   g_020A9E84          0x020A9E84  data
+ *   _TwlServiceBuf          0x020A9E94  data
+ *   _PreExitState          0x020A9E80  data
+ *   _PreExitCallbackInfo          0x020A9E84  data
  *   func_020351D0  0x020351D0  arm
  *   func_02061C44  0x02061C44  arm
  *   func_020911A0  0x020911A0  arm
- *   g_020AA194      0x020AA194  data
+ *   _GflUse      0x020AA194  data
  *   s_gfl_use_c     0x020A7004  data
- *   d_0209D8A0      0x0209D8A0  data
- *   d_0209D8B0      0x0209D8B0  data
- *   d_020A6C58      0x020A6C58  data
+ *   _ArenaTableTwl      0x0209D8A0  data
+ *   _ArenaTableDs      0x0209D8B0  data
+ *   _ArcPathTable      0x020A6C58  data
  *   func_0202F768   0x0202F768  thumb
  *   func_0202F774   0x0202F774  thumb
  *   OS_IsRunOnTwl       0x02085D3C  arm
@@ -81,53 +81,47 @@
  *   OS_SetArenaLo       0x02086774  arm
  *   OS_CreateExtraHeap  0x02086B98  arm
  *   OS_AllocFromHeap    0x020868E0  arm
- *   func_020057AC   0x020057AC  thumb
  *   func_02030D28     0x02030D28  arm
  *   func_02030DA8     0x02030DA8  arm
  *   func_0203F034     0x0203F034  arm
  *   func_0203F258     0x0203F258  arm
  *   _ull_mul          0x0209C054  arm
- *   sub_0200575C_Table  0x020A6C58  data
  *   func_02034F5C       0x02034F5C  arm
  *   func_0203630C       0x0203630C  arm
- *   veneer_02072788  0x02072788  arm
+ *   func_02072788  0x02072788  arm
  *   func_0203508C    0x0203508C  arm
  *   func_02035108  0x02035108  arm
- *   sub_020057DC_Cur    0x020AA1AC  data
- *   sub_020057DC_Table  0x020AA1B8  data
+ *   _SndStack    0x020AA1AC  data
+ *   _SndSlots  0x020AA1B8  data
  *   func_02072DB0       0x02072DB0  arm
  *   func_02072E9C       0x02072E9C  arm
  *   func_02072EA8       0x02072EA8  arm
  *   func_02074894       0x02074894  arm
  *   func_020748E0       0x020748E0  arm
  *   func_02074AC4       0x02074AC4  arm
- *   sub_02005A4C_Cur    0x020AA1AC  data
- *   sub_02005A4C_Table  0x020AA1B8  data
- *   sub_02005A98_Cur    0x020AA1AC  data
- *   sub_02005A98_Table  0x020AA1B8  data
  *   func_0207482C       0x0207482C  arm
  *   func_02074A6C       0x02074A6C  arm
- *   sub_02005B04_Cur  0x020AA1AC  data
- *   g_020AA9B4   0x020AA9B4  data
- *   g_020AA260   0x020AA260  data
- *   g_020A7010   0x020A7010  data
- *   g_020AA2BC   0x020AA2BC  data
+ *   _SndHeapBuf   0x020AA9B4  data
+ *   _SndState   0x020AA260  data
+ *   _SndArcPath   0x020A7010  data
+ *   _SndArc   0x020AA2BC  data
  *   func_020726D0  0x020726D0  arm
  *   func_020746E8  0x020746E8  arm
  *   func_02073FB8  0x02073FB8  arm
- *   func_02085D3C  0x02085D3C  arm
+ *   SNDEXi_Init  0x02704364  arm  twl
+ *   PM_ReadyToExit  0x027314F0  arm  twl
+ *   PM_SetAutoExit  0x027315C0  arm  twl
+ *   PM_AppendPreExitCallback  0x0273154C  arm  twl
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
 struct OSThread;
 struct SaveCtrl;
-struct Sub02007084Ctrl;
-struct Sub02008700Obj;
-struct Flags02008414;
-struct Ctx;
-struct Node;
-struct Lcg64;
-struct S;
+struct SaveData;
+struct Config;
+struct TcbList;
+struct Tcb;
+struct SndHeap;
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
@@ -138,52 +132,68 @@ typedef unsigned char  u8;
 
 typedef unsigned long long u64;
 
-struct GflHeaps {
-    u64   seed;
-    u64   mul;
-    u64   add;
-    void *unk18;
-    void *unk1C;
-    void *unk20;
-    void *unk24;
+/* 64 bit linear congruential generator: seed = mul * seed + add. */
+struct GflRandom {
+    u64 seed;
+    u64 mul;
+    u64 add;
 };
 
-struct GflSys {
-    void *unk00;
-    u32   unk04;
-    void (*unk08)(void *);
-    u32   unk0C;
-    struct GflHeaps *heaps;
-    void *unk14;
+/* Random state plus the two task lists (HBlank, main loop) with their buffers. */
+struct GflRuntime {
+    struct GflRandom rand;
+    struct TcbList *hblankTasks;
+    void *hblankTaskBuf;
+    struct TcbList *mainTasks;
+    void *mainTaskBuf;
+};
+
+/* The record the boot code and the frame loop reach their state through. */
+struct GflUseState {
+    void *vblankHookArg;
+    u32 extraHeap;
+    void (*vblankHook)(void *);
+    u32 frameCount;
+    struct GflRuntime *runtime;
+    void *extraHeapBlock;
 };
 
 typedef signed int     s32;
 
-struct SuCSlot {
-    u32 unk00;
-    u16 unk04;
-    u16 unk06;
-    u32 unk08;
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
-    u32 unk18;
+/* One level of the sound heap stack (BGM data loaded on top of the level below). */
+struct SndSlot {
+    u32 inUse;
+    u16 bgmId;                  /* 0xFFFF: no BGM loaded */
+    u16 pad06;
+    u32 *handle;                /* sound handle of the BGM playing in this level */
+    u32 baseState;              /* heap state when the level was opened */
+    u32 preBgmState;            /* heap state before the BGM data was loaded */
+    u32 seqBankState;           /* heap state after sequence and bank were loaded */
+    u32 waveState;              /* heap state after the wave archives were loaded */
 };
 
-struct SuCCur {
-    u16   unk00;
-    u16   unk02;
-    int   index;
-    u32 **unk08;
+struct SndStack {
+    u16 playerNo;
+    u16 pad02;
+    int top;                    /* index of the current level in _SndSlots */
+    struct SndHeap **heapPtr;   /* points at SndState.heap */
 };
 
+/* Sound system state, 0x020AA260. */
+struct SndState {
+    u16 activeMask;
+    u16 pad02;
+    u32 requestedBgm;
+    u32 countdown;
+    u32 pad0C;
+    struct SndHeap *heap;
+    u32 active;
+    u32 currentBgm;
+};
 
-
-
-
-struct Sub02005A98Hdr {
-    u32 n;
-    u32 status;
+struct SndWaveSetHeader {
+    u32 count;
+    u32 savedState;
 };
 
 
@@ -200,29 +210,26 @@ extern void OS_WakeupThreadDirect(struct OSThread *thread);
 extern int func_020392B8(void);
 extern u32 func_0203D26C(void);
 extern u32 func_0203D29C(void);
-extern void func_02005640(void);
-extern void func_02082594(u32 dmaNo);
-extern void func_02005430(void);
-extern int func_02034AC4(int handle);
+extern void func_02082594(u32 mode);
+extern int func_02034AC4(int overlayId);
 extern void func_0201C41C(void *arg);
-extern void func_0203CB34(u32 a, u32 b, u32 c, u32 d);
-extern void func_02010794(u32 a0);
+extern void func_0203CB34(u32 netType, u32 flagB, u32 flagC, u32 heapId);
+extern void func_02010794(u32 heapId);
 extern void func_020107CC(void);
-extern void func_020312CC(u32 a0, u32 a1, u32 a2);
-extern struct SaveCtrl *func_02006F20(int heap);
-extern struct Sub02007084Ctrl *func_020070A4(void);
-extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u8 func_02008414(const struct Flags02008414 *p);
-extern void func_02012FF0(void *val);
+extern void func_020312CC(int mode, u32 table, u32 option);
+extern struct SaveCtrl *func_02006F20(int heapId);
+extern struct SaveData *func_020070A4(void);
+extern struct Config *func_0200873C(struct SaveData *save);
+extern u8 func_02008414(const struct Config *config);
+extern void func_02012FF0(struct SaveData *save);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
-extern void func_02034704(u32 a0);
-extern void func_0201F344(u16 heap);
-extern void func_020173D0(u32 heap);
-extern void func_02006544(u16 a0, u32 a1, u32 a2);
-extern void func_0200530C(void *obj);
+extern void func_02034704(u32 handler);
+extern void func_0201F344(u16 heapId);
+extern void func_020173D0(u32 heapId);
+extern void func_02006544(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
 extern void func_020082DC(void);
-extern void func_020266E0(u32 a0);
+extern void func_020266E0(u32 heapId);
 extern void func_02010DB4(void);
 extern void func_0200FB6C(void);
 extern void func_02006C00(u32 species, u32 form, u32 *out);
@@ -234,8 +241,8 @@ extern void func_02005BC0(void);
 extern void func_020065FC(void);
 extern void func_02026728(void);
 extern void func_02010DCC(void);
-extern unsigned int sub_02008390(char *a0);
-extern void sub_02005C28(u32 on);
+extern unsigned int sub_02008390(const struct Config *config);
+extern void sub_02005C28(u32 stereo);
 extern void func_02086368(void);
 extern void OS_InitTick(void);
 extern void OS_InitAlarm(void);
@@ -245,20 +252,20 @@ extern void func_0207D148(void);
 extern u32  OS_GetConsoleType(void);
 extern void SCFG_SetCpuSpeed(int speed);
 extern void FS_Init(int dma);
-extern void *DWC_StartUtilityEx(int a, void *b);
+extern void *FS_TryLoadTable(int a, void *b);
 extern void *OS_AllocFromArenaLo(int id, void *size, int align);
-extern void sub_02061C0C(void *p, u32 capacity);
+extern void sub_02061C0C(void *buf, u32 capacity);
 extern u32 sub_0202EB0C(void);
-extern void func_0273154C(void *p);
+extern void PM_AppendPreExitCallback(void *info);
 extern void PM_GetAmp(u32 *out);
 extern void PM_SetAmp(int on);
 extern int func_020351D0(u32 mode);
-extern int func_027315D0(void);
-extern int func_027314F0(void);
+extern int PM_GetAutoExit(void);
+extern int PM_ReadyToExit(void);
 /* ARM, and attested by a branch to it from an overlay. */
 extern void func_02061C44(void);
 extern void func_020911A0(void);
-extern void func_027315C0(int v);
+extern void PM_SetAutoExit(int v);
 extern u32   OS_IsRunOnTwl(void);
 extern void *OS_GetArenaHi(u32 id);
 extern void *OS_GetArenaLo(u32 id);
@@ -266,64 +273,60 @@ extern void *OS_InitAlloc(u32 id, void *lo, void *hi, u32 n);
 extern void  OS_SetArenaLo(u32 id, void *lo);
 extern u32   OS_CreateExtraHeap(u32 id);
 extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
-extern void func_02030608(u32 a, u32 b, u32 c, u32 d);
-extern void  func_02030BA4(u32 a);
-extern void  func_0203064C(u32 a, u32 b, u32 c);
-extern void  func_02030678(void *a, u32 b, u32 c);
-extern void  func_0203EF5C(u32 a);
-extern void func_02048CEC(u32 a, u32 b);
-extern void func_02034E24(u32 heap, u8 mode);
+extern void func_02030608(u32 arenaTable, u32 arenaCount, u32 heapCount, u32 flags);
+extern void  func_02030BA4(u32 size);
+extern void  func_0203064C(u32 arenaId, u32 heapId, u32 size);
+extern void  func_02030678(void *block, u32 size, u32 heapId);
+extern void  func_0203EF5C(u32 mode);
+extern void func_02048CEC(u32 table, u32 count);
+extern void func_02034E24(u32 heapId, u8 mode);
 extern void  func_02034978(void);
-extern void func_020346EC(u32 a, u32 b, u32 c);
-extern void func_0203499C(u32 heap, int n0, int n1, int n2);
-extern void  func_0203129C(u32 a);
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, unsigned short tag);
-extern u32   func_02030CB0(u32 n);
-extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void  func_0204E5E8(u32 a);
-extern void func_020316C8(u32 a0, u32 a1, u32 a2);
-extern void  func_0204E130(u32 a);
+extern void func_020346EC(u32 mode, u32 flags, u32 waitCallback);
+extern void func_0203499C(u32 heapId, int n0, int n1, int n2);
+extern void  func_0203129C(u32 heapId);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, unsigned short line);
+extern u32   func_02030CB0(u32 capacity);
+extern struct TcbList *func_02030CBC(u32 capacity, void *buf);
+extern void  func_0204E5E8(u32 heapId);
+extern void func_020316C8(u32 kind, u32 callbackA, u32 callbackB);
+extern void  func_0204E130(u32 heapId);
 extern void  func_0203F3B4(void);
-extern void  func_020057AC(void);
-extern void func_0204E6F4(s32 a);
+extern void func_0204E6F4(s32 speed);
 extern void  func_0202F768(void);
 extern void func_0202F774(u32 on);
 extern void func_02034F5C(void);
 extern int func_0200F2D4(void);
 extern int func_020312B4(void);
 extern void func_0203F3F0(void);
-extern int func_02030D28(struct Ctx *c);
-extern struct Node *func_02030DA8(struct Ctx *c, void (*callback)(struct Node *, void *), void *work, u32 key);
+extern int func_02030D28(struct TcbList *list);
+extern struct Tcb *func_02030DA8(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
 extern int func_020419E4(int);
 extern int func_02050A70(int);
 extern int func_0204E638(int);
 extern void  func_0203F034(u32 seed);
-extern void func_0203F258(struct Lcg64 *out);
+extern void func_0203F258(struct GflRandom *out);
 extern unsigned int func_0203630C(void);
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
-extern void veneer_02072788(u32 volume);
+extern void func_02072788(u32 volume);
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
-extern void func_0203508C(u32 a, u32 b, u32 c);
+extern void func_0203508C(u32 onCallback, u32 offCallback, u32 arg);
 extern u32  func_02035108(void);
-extern void func_02072DB0(int idx, int v);
-extern void func_02072E9C(void **r0);
-extern void func_02072EA8(u32 * volatile *pp);
-extern int   func_02074894(struct S *a);
-extern void  func_020748E0(u32 *a, u32 b);
-extern u32 func_02074AC4(u32 a, u32 b, u32 c);
-extern u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern u32   func_02074A6C(u32 a, u32 b);
+extern void func_02072DB0(int playerNo, int count);
+extern void func_02072E9C(u32 **handle);
+extern void func_02072EA8(u32 **handle);
+extern int   func_02074894(struct SndHeap *heap);
+extern void  func_020748E0(struct SndHeap *heap, u32 state);
+extern u32 func_02074AC4(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
+extern struct SndWaveSetHeader *func_0207482C(struct SndHeap *heap, u32 size, u32 flagA, u32 flagB, u32 flagC);
+extern u32   func_02074A6C(u32 waveArcNo, struct SndHeap *heap);
 extern void func_020726D0(void);
-extern u32  func_020746E8(u32 off, u32 size);
-extern void func_02073FB8(char *a, char *b, u32 c, u32 d);
-extern int  func_02085D3C(void);
-extern void func_02704364(void);
-extern u32 func_020754C4(u32 a);
-extern void func_020057DC(u32 **a);
+extern struct SndHeap *func_020746E8(char *buf, u32 size);
+extern void func_02073FB8(char *arc, char *path, struct SndHeap *heap, u32 riskCheck);
+extern void SNDEXi_Init(void);
+extern u32 func_020754C4(struct SndHeap *heap);
 extern void *func_02074518(int index);
-extern void func_02074A54(int a, int b);
+extern void func_02074A54(int index, struct SndHeap *heap);
 extern void func_02006118(void);
-extern void func_02005888(u16 a);
 extern void func_02005F5C(void);
 void NitroMain(void);
 int func_020051D8(void);
@@ -332,7 +335,7 @@ void func_0200520C(void);
 void func_02005230(void);
 void func_0200523C(void);
 void func_020052EC(void);
-void sub_0200530C(void *obj);
+void sub_0200530C(const struct Config *config);
 void func_02005328(void);
 void func_020053EC(void);
 void sub_02005430(void);
@@ -342,14 +345,14 @@ void sub_0200545C(void);
 void func_020055F8(void);
 void sub_0200560C(void);
 void sub_02005610(void);
-void *sub_02005624(void (*a)(struct Node *, void *), void *b, u32 c);
+struct Tcb *sub_02005624(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
 void sub_02005640(void);
-u32 sub_02005654(void (*fn)(void *), void *arg);
+u32 sub_02005654(void (*hook)(void *), void *hookArg);
 void sub_0200566C(void);
 void func_0200567C(void);
-void *sub_020056A0(void (*callback)(struct Node *, void *), void *work, u32 key);
-void *sub_020056BC(void);
-void sub_020056C8(void *heap);
+struct Tcb *sub_020056A0(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+struct TcbList *sub_020056BC(void);
+void sub_020056C8(struct GflRandom *rand);
 void sub_020056D0(void);
 u32 sub_020056EC(u32 range);
 u32 sub_02005728(u32 range);
@@ -359,48 +362,42 @@ void sub_02005794(void);
 void sub_020057A0(void);
 void sub_020057AC(void);
 int func_020057C4(void);
-void sub_020057DC(u32 **a);
-void sub_020057E8(u32 i);
-void sub_02005834(u32 v);
+void sub_020057DC(struct SndHeap **heapPtr);
+void sub_020057E8(u32 level);
+void sub_02005834(u32 state);
 void sub_02005858(void);
-void sub_02005888(u16 a);
+void sub_02005888(u16 playerNo);
 u16 sub_020058D0(void);
 u32 sub_02005900(void);
-u32 *sub_0200590C(void);
-int sub_02005924(u32 a);
+u32 **sub_0200590C(void);
+int sub_02005924(u32 bgmId);
 void sub_0200597C(void);
-int sub_020059A0(u32 a);
+int sub_020059A0(u32 bgmId);
 void sub_020059C8(void);
 int sub_02005A00(void);
 int sub_02005A4C(void);
-struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1);
-void sub_02005B04(const u32 *arg);
+struct SndWaveSetHeader *func_02005A98(const u32 *waveArcIds, u32 count);
+void sub_02005B04(const struct SndWaveSetHeader *header);
 void func_02005B24(void);
-void func_02005B74(int a0);
-extern struct OSThread g_020AA354;
+void func_02005B74(int clearHeap);
+extern struct OSThread _WorkerThread;
 extern u32  SDK_AUTOLOAD_MAIN_TWL_START[];
 extern u8 ov010_id[];
 extern u8 ov011_id[];
-extern u32 g_020A9E94[];
-extern u32 g_020A9E80[];
-extern u32 g_020A9E84[];
-extern struct GflSys g_020AA194;
+extern u32 _TwlServiceBuf[];
+extern u32 _PreExitState[];
+extern u32 _PreExitCallbackInfo[];
+extern struct GflUseState _GflUse;
 extern u8 s_gfl_use_c[];
-extern u8 d_0209D8A0[];
-extern u8 d_0209D8B0[];
-extern u8 d_020A6C58[];
-extern void *sub_0200575C_Table[];
-extern struct SuCCur  sub_020057DC_Cur;
-extern struct SuCSlot sub_020057DC_Table[];
-extern struct SuCCur  sub_02005A4C_Cur;
-extern struct SuCSlot sub_02005A4C_Table[];
-extern struct SuCCur  sub_02005A98_Cur;
-extern struct SuCSlot sub_02005A98_Table[];
-extern struct SuCCur sub_02005B04_Cur;
-extern char g_020AA9B4[];
-extern char g_020AA260[];
-extern char g_020A7010[];
-extern char g_020AA2BC[];
+extern u8 _ArenaTableTwl[];
+extern u8 _ArenaTableDs[];
+extern void *_ArcPathTable[];
+extern struct SndStack _SndStack;
+extern struct SndSlot _SndSlots[];
+extern char _SndHeapBuf[];
+extern struct SndState _SndState;
+extern char _SndArcPath[];
+extern char _SndArc[];
 
 
 static inline u16 OS_EnableIrq(void)
@@ -419,7 +416,7 @@ static inline void MI_SetMainMemoryPriority(u32 proc)
 
 void NitroMain(void)
 {
-    BOOL busy;
+    BOOL isNetQuiet;
 
     func_02005328();
     sub_0200545C();
@@ -437,16 +434,16 @@ void NitroMain(void)
         func_020052EC();
         sub_0200560C();
         func_02047990();
-        busy = func_020051D8();
-        if (busy)
+        isNetQuiet = func_020051D8();
+        if (isNetQuiet)
             MI_SetMainMemoryPriority(0);
-        if (!OS_IsThreadTerminated(&g_020AA354))
-            OS_SleepThreadDirect(&g_020AA354, 0);
+        if (!OS_IsThreadTerminated(&_WorkerThread))
+            OS_SleepThreadDirect(&_WorkerThread, 0);
         OS_WaitIrq(1, 1);
         func_02005230();
-        if (!OS_IsThreadTerminated(&g_020AA354))
-            OS_WakeupThreadDirect(&g_020AA354);
-        if (busy)
+        if (!OS_IsThreadTerminated(&_WorkerThread))
+            OS_WakeupThreadDirect(&_WorkerThread);
+        if (isNetQuiet)
             MI_SetMainMemoryPriority(1);
     }
 }
@@ -501,7 +498,7 @@ void func_02005204(void)
  */
 void func_0200520C(void)
 {
-    func_02005640();
+    sub_02005640();
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
     func_02082594(3);
 }
@@ -509,7 +506,7 @@ void func_0200520C(void)
 
 void func_02005230(void)
 {
-    func_02005430();
+    sub_02005430();
     func_0200567C();
 }
 
@@ -537,17 +534,17 @@ void func_02005230(void)
  */
 void func_0200523C(void)
 {
-    int v = 0xC;
+    int netHeapId = 0xC;
 
     func_02034AC4((int)ov010_id);
     func_02034AC4((int)ov011_id);
     func_0201C41C(0);
-    func_0203CB34(1, 0, 1, v);
-    func_02010794(v);
+    func_0203CB34(1, 0, 1, netHeapId);
+    func_02010794(netHeapId);
     func_020107CC();
-    func_020312CC(v - 0xD, (u32)(void *)0x020A0480, 0);
+    func_020312CC(netHeapId - 0xD, (u32)(void *)0x020A0480, 0);
     func_02006F20(7);
-    func_02008414((const struct Flags02008414 *)func_0200873C(func_020070A4()));
+    func_02008414(func_0200873C(func_020070A4()));
     func_02012FF0(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
@@ -556,7 +553,7 @@ void func_0200523C(void)
     func_020173D0(0);
     func_02005B24();
     func_02006544(1, (u32)&func_02006C00, (u32)&func_02006C2C);
-    func_0200530C(func_0200873C(func_020070A4()));
+    sub_0200530C(func_0200873C(func_020070A4()));
     func_020082DC();
     func_020266E0(1);
     func_02010DB4();
@@ -609,9 +606,9 @@ void func_020052EC(void)
  *   python tools/match.py tu --src src/matched/unit_0200530C.c \
  *       --addr 0x0200530C --thumb
  */
-void sub_0200530C(void *obj)
+void sub_0200530C(const struct Config *config)
 {
-    if (sub_02008390(obj) == 0) {
+    if (sub_02008390(config) == 0) {
         sub_02005C28(1);
     } else {
         sub_02005C28(0);
@@ -622,10 +619,10 @@ void sub_0200530C(void *obj)
 /*
  *           nine relocation sites stay wildcarded because this function is
  *           the ONLY branch anywhere in the image to GX_Init (0x0207D204),
- *           SCFG_SetCpuSpeed (0x0208C988), DWC_StartUtilityEx (0x0207ACB4,
+ *           SCFG_SetCpuSpeed (0x0208C988), FS_TryLoadTable (0x0207ACB4,
  *           two sites, both here), PM_GetAmp (0x0208C030) and the veneer at
- *           0x020053E4, and the only pool reference to g_020A9E94,
- *           func_02005440 and g_020A9E84.  --suggest-split reports
+ *           0x020053E4, and the only pool reference to _TwlServiceBuf,
+ *           func_02005440 and _PreExitCallbackInfo.  --suggest-split reports
  *           "0 piece(s), 1 function left out": no cut frees any site,
  *           because the single witness for each is the call inside this
  *           function.  Unblocks only when a second caller of any of these
@@ -648,7 +645,7 @@ void sub_0200530C(void *obj)
 void func_02005328(void)
 {
     u32 amp;
-    void *arena;
+    void *tableSize;
 
     func_02086368();
     OS_InitTick();
@@ -664,14 +661,14 @@ void func_02005328(void)
     *(volatile u16 *)0x04000208;
     *(volatile u16 *)0x04000208 = 1;
     FS_Init(1);
-    arena = DWC_StartUtilityEx(0, 0);
-    DWC_StartUtilityEx((int)OS_AllocFromArenaLo(0, arena, 4), arena);
-    sub_02061C0C(g_020A9E94, 0x30);
+    tableSize = FS_TryLoadTable(0, 0);
+    FS_TryLoadTable((int)OS_AllocFromArenaLo(0, tableSize, 4), tableSize);
+    sub_02061C0C(_TwlServiceBuf, 0x30);
     if (sub_0202EB0C()) {
-        g_020A9E80[0] = 0;
-        g_020A9E80[1] = (u32)func_02005440;
-        g_020A9E80[2] = 0;
-        func_0273154C(g_020A9E84);
+        _PreExitState[0] = 0;
+        _PreExitState[1] = (u32)func_02005440;
+        _PreExitState[2] = 0;
+        PM_AppendPreExitCallback(_PreExitCallbackInfo);
     }
     PM_GetAmp(&amp);
     if (amp == 1)
@@ -681,17 +678,17 @@ void func_02005328(void)
 
 void func_020053EC(void)
 {
-    if (g_020A9E80[0] == 0) {
+    if (_PreExitState[0] == 0) {
         return;
     }
     if (func_020351D0(2) != 0) {
         return;
     }
-    if (func_027315D0() != 0) {
+    if (PM_GetAutoExit() != 0) {
         return;
     }
     *(volatile u16 *)0x04000204 |= 0x8000;
-    func_027314F0();
+    PM_ReadyToExit();
 }
 
 
@@ -743,8 +740,8 @@ void func_02005438(void)
 
 void func_02005440(void)
 {
-    func_027315C0(0);
-    g_020A9E80[0] = 1;
+    PM_SetAutoExit(0);
+    _PreExitState[0] = 1;
 }
 
 
@@ -763,7 +760,7 @@ void func_02005440(void)
  * func_020346EC's third, and the two words 0x0202F769 / 0x0202F775 are
  * Thumb pointers to two unlabelled callback leaves of time_icon.c, filed
  * EXACT this wave as src/matched/func_0202F768.c and func_0202F774.c, which
- * is what attests them (`matched`).  d_0209D8A0 / d_0209D8B0 now resolve on
+ * is what attests them (`matched`).  _ArenaTableTwl / _ArenaTableDs now resolve on
  * sole-ref.
  *
  * Verified with:
@@ -775,27 +772,27 @@ void sub_0200545C(void)
     if (OS_IsRunOnTwl() == 0) {
         void *hi = OS_GetArenaHi(0);
         OS_SetArenaLo(0, OS_InitAlloc(0, OS_GetArenaLo(0), hi, 1));
-        g_020AA194.unk04 = OS_CreateExtraHeap(0);
-        g_020AA194.unk14 = OS_AllocFromHeap(0, g_020AA194.unk04, 0x3F00);
+        _GflUse.extraHeap = OS_CreateExtraHeap(0);
+        _GflUse.extraHeapBlock = OS_AllocFromHeap(0, _GflUse.extraHeap, 0x3F00);
     }
 
     if (OS_IsRunOnTwl() != 0) {
-        func_02030608((u32)d_0209D8A0, 2, 0xAD, 0);
+        func_02030608((u32)_ArenaTableTwl, 2, 0xAD, 0);
     } else {
-        func_02030608((u32)d_0209D8B0, 2, 0xAD, 0);
+        func_02030608((u32)_ArenaTableDs, 2, 0xAD, 0);
     }
 
     func_02030BA4(0x2000);
     func_0203064C(1, 7, 0x25000);
 
     if (OS_IsRunOnTwl() == 0) {
-        func_02030678(g_020AA194.unk14, 0x3F00, 9);
+        func_02030678(_GflUse.extraHeapBlock, 0x3F00, 9);
     } else {
         func_0203064C(1, 9, 0x3F00);
     }
 
     func_0203EF5C(0);
-    func_02048CEC((u32)d_020A6C58, 0xEB);
+    func_02048CEC((u32)_ArcPathTable, 0xEB);
     func_02034E24(0, 0);
 
     if (OS_GetConsoleType() & 0x81000000) {
@@ -807,20 +804,20 @@ void sub_0200545C(void)
     func_0203499C(0, 0x10, 4, 4);
     func_0203129C(0);
 
-    g_020AA194.heaps = func_02030734(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
-    g_020AA194.heaps->unk1C = func_02030734(0, func_02030CB0(4), 0, (const char *)s_gfl_use_c, 0x119);
-    g_020AA194.heaps->unk18 = func_02030CBC(4, g_020AA194.heaps->unk1C);
-    g_020AA194.heaps->unk24 = func_02030734(0, func_02030CB0(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
-    g_020AA194.heaps->unk20 = func_02030CBC(0x10, g_020AA194.heaps->unk24);
+    _GflUse.runtime = func_02030734(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
+    _GflUse.runtime->hblankTaskBuf = func_02030734(0, func_02030CB0(4), 0, (const char *)s_gfl_use_c, 0x119);
+    _GflUse.runtime->hblankTasks = func_02030CBC(4, _GflUse.runtime->hblankTaskBuf);
+    _GflUse.runtime->mainTaskBuf = func_02030734(0, func_02030CB0(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
+    _GflUse.runtime->mainTasks = func_02030CBC(0x10, _GflUse.runtime->mainTaskBuf);
 
     sub_020056D0();
     func_0204E5E8(0);
     func_020316C8(7, (u32)func_0202F768, (u32)func_0202F774);
     func_0204E130(0);
     func_0203F3B4();
-    g_020AA194.unk0C = 0;
+    _GflUse.frameCount = 0;
     sub_0200566C();
-    func_020057AC();
+    sub_020057AC();
     func_0204E6F4(2);
 }
 
@@ -870,46 +867,46 @@ void sub_0200560C(void)
 
 void sub_02005610(void)
 {
-    func_02030D28(g_020AA194.heaps->unk18);
+    func_02030D28(_GflUse.runtime->hblankTasks);
 }
 
 
-void *sub_02005624(void (*a)(struct Node *, void *), void *b, u32 c)
+struct Tcb *sub_02005624(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
-    return func_02030DA8(g_020AA194.heaps->unk18, a, b, c);
+    return func_02030DA8(_GflUse.runtime->hblankTasks, callback, work, priority);
 }
 
 
 void sub_02005640(void)
 {
-    if (g_020AA194.unk08 != 0) {
-        g_020AA194.unk08(g_020AA194.unk00);
+    if (_GflUse.vblankHook != 0) {
+        _GflUse.vblankHook(_GflUse.vblankHookArg);
     }
 }
 
 
-u32 sub_02005654(void (*fn)(void *), void *arg)
+u32 sub_02005654(void (*hook)(void *), void *hookArg)
 {
-    if (g_020AA194.unk08 != 0) {
+    if (_GflUse.vblankHook != 0) {
         return 0;
     }
-    g_020AA194.unk08 = fn;
-    g_020AA194.unk00 = arg;
+    _GflUse.vblankHook = hook;
+    _GflUse.vblankHookArg = hookArg;
     return 1;
 }
 
 
 void sub_0200566C(void)
 {
-    g_020AA194.unk08 = 0;
-    g_020AA194.unk00 = 0;
+    _GflUse.vblankHook = 0;
+    _GflUse.vblankHookArg = 0;
 }
 
 
 void func_0200567C(void)
 {
-    func_0204E638(func_02050A70(func_020419E4(func_02030D28((struct Ctx *)g_020AA194.heaps->unk20))));
-    g_020AA194.unk0C++;
+    func_0204E638(func_02050A70(func_020419E4(func_02030D28(_GflUse.runtime->mainTasks))));
+    _GflUse.frameCount++;
 }
 
 
@@ -1026,52 +1023,52 @@ void func_0200567C(void)
  *   python tools/match.py tu --src src/matched/unit_020056A0.c \
  *       --addr 0x020056A0 --thumb
  */
-void *sub_020056A0(void (*callback)(struct Node *, void *), void *work, u32 key)
+struct Tcb *sub_020056A0(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
-    return func_02030DA8(g_020AA194.heaps->unk20, callback, work, key);
+    return func_02030DA8(_GflUse.runtime->mainTasks, callback, work, priority);
 }
 
 
-void *sub_020056BC(void)
+struct TcbList *sub_020056BC(void)
 {
-    return g_020AA194.heaps->unk20;
+    return _GflUse.runtime->mainTasks;
 }
 
 
-void sub_020056C8(void *heap)
+void sub_020056C8(struct GflRandom *rand)
 {
-    func_0203F258(heap);
+    func_0203F258(rand);
 }
 
 
 void sub_020056D0(void)
 {
-    sub_020056C8(g_020AA194.heaps);
+    sub_020056C8(&_GflUse.runtime->rand);
     func_0203F034(sub_020056EC(0));
 }
 
 
 u32 sub_020056EC(u32 range)
 {
-    struct GflHeaps *p = g_020AA194.heaps;
-    u32 v;
+    struct GflRandom *rand = &_GflUse.runtime->rand;
+    u32 value;
 
-    p->seed = p->mul * p->seed + p->add;
+    rand->seed = rand->mul * rand->seed + rand->add;
     if (range == 0) {
-        v = (u32)(p->seed >> 32);
+        value = (u32)(rand->seed >> 32);
     } else {
-        v = (u32)(((p->seed >> 32) * range) >> 32);
+        value = (u32)(((rand->seed >> 32) * range) >> 32);
     }
-    return v;
+    return value;
 }
 
 
 u32 sub_02005728(u32 range)
 {
-    struct GflHeaps *p = g_020AA194.heaps;
+    struct GflRandom *rand = &_GflUse.runtime->rand;
 
-    p->seed = p->mul * p->seed + p->add;
-    return (u32)(((p->seed >> 32) * range) >> 32);
+    rand->seed = rand->mul * rand->seed + rand->add;
+    return (u32)(((rand->seed >> 32) * range) >> 32);
 }
 
 
@@ -1095,18 +1092,18 @@ u32 sub_02005728(u32 range)
  */
 void *sub_0200575C(u32 index)
 {
-    return sub_0200575C_Table[index];
+    return _ArcPathTable[index];
 }
 
 
 void sub_02005768(void)
 {
-    u32 x;
+    u32 keyState;
 
     do {
         func_02034F5C();
-        x = func_0203630C();
-    } while (!(x & 0x200) || !(x & 0x100) || !(x & 0x400) || !(x & 0x800));
+        keyState = func_0203630C();
+    } while (!(keyState & 0x200) || !(keyState & 0x100) || !(keyState & 0x400) || !(keyState & 0x800));
 }
 
 
@@ -1158,13 +1155,13 @@ void sub_02005768(void)
  */
 void sub_02005794(void)
 {
-    veneer_02072788(0);
+    func_02072788(0);
 }
 
 
 void sub_020057A0(void)
 {
-    veneer_02072788(0x7F);
+    func_02072788(0x7F);
 }
 
 
@@ -1196,10 +1193,10 @@ void sub_020057AC(void)
  */
 int func_020057C4(void)
 {
-    u32 v;
+    u32 hook;
 
-    v = func_02035108();
-    return v == (u32)sub_02005794;
+    hook = func_02035108();
+    return hook == (u32)sub_02005794;
 }
 
 
@@ -1248,165 +1245,165 @@ int func_020057C4(void)
  * 0x020057D8 that holds its address.  It closes the day anything else in the
  * image calls 0x02035108.
  */
-void sub_020057DC(u32 **a)
+void sub_020057DC(struct SndHeap **heapPtr)
 {
-    sub_020057DC_Cur.unk08 = a;
+    _SndStack.heapPtr = heapPtr;
 }
 
 
-void sub_020057E8(u32 i)
+void sub_020057E8(u32 level)
 {
-    sub_020057DC_Table[i].unk00 = 0;
-    sub_020057DC_Table[i].unk04 = 0xFFFF;
-    func_02072EA8((u32 * volatile*)(&sub_020057DC_Table[i].unk08));
-    sub_020057DC_Table[i].unk0C = -1;
-    sub_020057DC_Table[i].unk10 = -1;
-    sub_020057DC_Table[i].unk14 = -1;
-    sub_020057DC_Table[i].unk18 = -1;
+    _SndSlots[level].inUse = 0;
+    _SndSlots[level].bgmId = 0xFFFF;
+    func_02072EA8(&_SndSlots[level].handle);
+    _SndSlots[level].baseState = -1;
+    _SndSlots[level].preBgmState = -1;
+    _SndSlots[level].seqBankState = -1;
+    _SndSlots[level].waveState = -1;
 }
 
 
-void sub_02005834(u32 v)
+void sub_02005834(u32 state)
 {
-    struct SuCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+    struct SndSlot *slot =
+        &_SndSlots[_SndStack.top];
 
-    slot->unk0C = v;
-    slot->unk10 = v;
-    slot->unk14 = v;
-    slot->unk18 = v;
-    slot->unk00 = 1;
+    slot->baseState = state;
+    slot->preBgmState = state;
+    slot->seqBankState = state;
+    slot->waveState = state;
+    slot->inUse = 1;
 }
 
 
 void sub_02005858(void)
 {
-    struct SuCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+    struct SndSlot *slot =
+        &_SndSlots[_SndStack.top];
 
-    func_02072EA8((u32 * volatile*)(&slot->unk08));
-    func_020748E0(*sub_020057DC_Cur.unk08, slot->unk0C);
-    sub_020057E8(sub_020057DC_Cur.index);
+    func_02072EA8(&slot->handle);
+    func_020748E0(*_SndStack.heapPtr, slot->baseState);
+    sub_020057E8(_SndStack.top);
 }
 
 
-void sub_02005888(u16 a)
+void sub_02005888(u16 playerNo)
 {
     int i;
 
-    sub_020057DC_Cur.unk00 = a;
-    sub_020057DC_Cur.index = 0;
+    _SndStack.playerNo = playerNo;
+    _SndStack.top = 0;
     for (i = 0; i < 6; i++) {
         sub_020057E8(i);
-        func_02072E9C((void **)(&sub_020057DC_Table[i].unk08));
+        func_02072E9C(&_SndSlots[i].handle);
     }
-    func_02072DB0(sub_020057DC_Cur.unk00, 6);
-    sub_02005834(func_02074894((struct S *)*sub_020057DC_Cur.unk08));
+    func_02072DB0(_SndStack.playerNo, 6);
+    sub_02005834(func_02074894(*_SndStack.heapPtr));
 }
 
 
 u16 sub_020058D0(void)
 {
-    struct SuCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
-    u16 v;
+    struct SndSlot *slot =
+        &_SndSlots[_SndStack.top];
+    u16 bgmId;
 
-    if (slot->unk00 == 0) {
+    if (slot->inUse == 0) {
         return 0;
     }
-    v = slot->unk04;
-    if (v == 0xFFFF) {
-        v = 0;
+    bgmId = slot->bgmId;
+    if (bgmId == 0xFFFF) {
+        bgmId = 0;
     }
-    return v;
+    return bgmId;
 }
 
 
 u32 sub_02005900(void)
 {
-    return sub_020057DC_Cur.index;
+    return _SndStack.top;
 }
 
 
-u32 *sub_0200590C(void)
+u32 **sub_0200590C(void)
 {
-    return &sub_020057DC_Table[sub_020057DC_Cur.index].unk08;
+    return &_SndSlots[_SndStack.top].handle;
 }
 
 
-int sub_02005924(u32 a)
+int sub_02005924(u32 bgmId)
 {
-    struct SuCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
-    int r;
+    struct SndSlot *slot =
+        &_SndSlots[_SndStack.top];
+    int result;
 
-    if (func_02074AC4(a, 3, (u32)(*sub_020057DC_Cur.unk08)) == 0) {
+    if (func_02074AC4(bgmId, 3, *_SndStack.heapPtr) == 0) {
         return 0;
     }
-    slot->unk14 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
-    r = func_02074AC4(a, 4, (u32)(*sub_020057DC_Cur.unk08));
-    if (r == 0) {
+    slot->seqBankState = func_02074894(*_SndStack.heapPtr);
+    result = func_02074AC4(bgmId, 4, *_SndStack.heapPtr);
+    if (result == 0) {
         return 0;
     }
-    slot->unk18 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
-    slot->unk04 = a;
-    return r;
+    slot->waveState = func_02074894(*_SndStack.heapPtr);
+    slot->bgmId = bgmId;
+    return result;
 }
 
 
 void sub_0200597C(void)
 {
-    struct SuCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+    struct SndSlot *slot =
+        &_SndSlots[_SndStack.top];
 
-    slot->unk14 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
+    slot->seqBankState = func_02074894(*_SndStack.heapPtr);
 }
 
 
-int sub_020059A0(u32 a)
+int sub_020059A0(u32 bgmId)
 {
-    struct SuCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+    struct SndSlot *slot =
+        &_SndSlots[_SndStack.top];
 
-    slot->unk18 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
-    slot->unk04 = a;
+    slot->waveState = func_02074894(*_SndStack.heapPtr);
+    slot->bgmId = bgmId;
     return 1;
 }
 
 
 void sub_020059C8(void)
 {
-    struct SuCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
+    struct SndSlot *slot =
+        &_SndSlots[_SndStack.top];
 
-    if (slot->unk00 == 0) {
+    if (slot->inUse == 0) {
         return;
     }
-    slot->unk04 = 0xFFFF;
-    func_020748E0(*sub_020057DC_Cur.unk08, slot->unk10);
-    slot->unk14 = slot->unk10;
-    slot->unk18 = slot->unk10;
+    slot->bgmId = 0xFFFF;
+    func_020748E0(*_SndStack.heapPtr, slot->preBgmState);
+    slot->seqBankState = slot->preBgmState;
+    slot->waveState = slot->preBgmState;
 }
 
 
 int sub_02005A00(void)
 {
-    struct SuCSlot *slot =
-        &sub_020057DC_Table[sub_020057DC_Cur.index];
-    u32 v;
+    struct SndSlot *slot =
+        &_SndSlots[_SndStack.top];
+    u32 state;
 
-    if (sub_020057DC_Cur.index >= 5) {
+    if (_SndStack.top >= 5) {
         return 0;
     }
-    if (slot->unk14 != -1) {
-        func_020748E0(*sub_020057DC_Cur.unk08, slot->unk14);
-        slot->unk18 = -1;
-        v = slot->unk14;
+    if (slot->seqBankState != -1) {
+        func_020748E0(*_SndStack.heapPtr, slot->seqBankState);
+        slot->waveState = -1;
+        state = slot->seqBankState;
     } else {
-        v = slot->unk10;
+        state = slot->preBgmState;
     }
-    sub_020057DC_Cur.index++;
-    sub_02005834(v);
+    _SndStack.top++;
+    sub_02005834(state);
     return 1;
 }
 
@@ -1429,21 +1426,21 @@ int sub_02005A00(void)
  */
 int sub_02005A4C(void)
 {
-    struct SuCSlot *slot;
-    int i;
-    u16 v;
+    struct SndSlot *slot;
+    int level;
+    u16 bgmId;
 
-    if (sub_02005A4C_Cur.index <= 0) {
+    if (_SndStack.top <= 0) {
         return 0;
     }
     sub_02005858();
-    i = sub_02005A4C_Cur.index - 1;
-    slot = &sub_02005A4C_Table[i];
-    v = slot->unk04;
-    sub_02005A4C_Cur.index = i;
-    if (v != 0xFFFF) {
-        func_02074AC4(v, 6, (u32)(*sub_02005A4C_Cur.unk08));
-        slot->unk18 = func_02074894((struct S *)*sub_02005A4C_Cur.unk08);
+    level = _SndStack.top - 1;
+    slot = &_SndSlots[level];
+    bgmId = slot->bgmId;
+    _SndStack.top = level;
+    if (bgmId != 0xFFFF) {
+        func_02074AC4(bgmId, 6, *_SndStack.heapPtr);
+        slot->waveState = func_02074894(*_SndStack.heapPtr);
     }
     return 1;
 }
@@ -1469,25 +1466,25 @@ int sub_02005A4C(void)
  *   python tools/match.py one --src src/pending/func_02005A98.c \
  *       --func func_02005A98 --addr 0x02005A98 --cc 1.1p1 --thumb
  */
-struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1)
+struct SndWaveSetHeader *func_02005A98(const u32 *waveArcIds, u32 count)
 {
-    struct SuCSlot *slot;
-    struct Sub02005A98Hdr *p;
-    u32 saved;
+    struct SndSlot *slot;
+    struct SndWaveSetHeader *header;
+    u32 savedState;
     u32 i;
 
-    slot = &sub_02005A98_Table[sub_02005A98_Cur.index];
-    saved = slot->unk0C;
+    slot = &_SndSlots[_SndStack.top];
+    savedState = slot->baseState;
     sub_02005858();
     i = 0;
-    p = (struct Sub02005A98Hdr *)func_0207482C(*sub_02005A98_Cur.unk08, 8, 0, 0, 0);
-    for (i = 0; i < a1; i++) {
-        func_02074A6C(a0[i], (u32)*sub_02005A98_Cur.unk08);
+    header = func_0207482C(*_SndStack.heapPtr, 8, 0, 0, 0);
+    for (i = 0; i < count; i++) {
+        func_02074A6C(waveArcIds[i], *_SndStack.heapPtr);
     }
-    p->n = a1;
-    p->status = saved;
-    sub_02005834(func_02074894((struct S *)*sub_02005A98_Cur.unk08));
-    return p;
+    header->count = count;
+    header->savedState = savedState;
+    sub_02005834(func_02074894(*_SndStack.heapPtr));
+    return header;
 }
 
 
@@ -1500,13 +1497,13 @@ struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1)
  * function immediately before it, 0x02005A98, cannot be attested: the only
  * `blx` to func_02074A6C anywhere in the image is the one inside it.
  */
-void sub_02005B04(const u32 *arg)
+void sub_02005B04(const struct SndWaveSetHeader *header)
 {
-    u32 v = arg[1];
+    u32 savedState = header->savedState;
 
     sub_02005858();
-    func_020748E0(*sub_02005B04_Cur.unk08, v);
-    sub_02005834(v);
+    func_020748E0(*_SndStack.heapPtr, savedState);
+    sub_02005834(savedState);
 }
 
 
@@ -1530,33 +1527,33 @@ void sub_02005B04(const u32 *arg)
  */
 void func_02005B24(void)
 {
-    u32 handle;
+    struct SndHeap *heap;
 
     func_020726D0();
-    handle = func_020746E8((u32)g_020AA9B4, 0x95AD0);
-    *(u32 *)(g_020AA260 + 0x10) = handle;
-    func_02073FB8(g_020AA2BC, g_020A7010, handle, 0);
+    heap = func_020746E8(_SndHeapBuf, 0x95AD0);
+    _SndState.heap = heap;
+    func_02073FB8(_SndArc, _SndArcPath, heap, 0);
     func_02005B74(1);
-    if (func_02085D3C() == 1) {
-        func_02704364();
+    if (OS_IsRunOnTwl() == 1) {
+        SNDEXi_Init();
     }
 }
 
 
-void func_02005B74(int a0)
+void func_02005B74(int clearHeap)
 {
-    func_020754C4(*(int *)(g_020AA260 + 0x10));
-    func_020057DC((u32 **)(g_020AA260 + 0x10));
-    if (a0 != 0) {
+    func_020754C4(_SndState.heap);
+    sub_020057DC(&_SndState.heap);
+    if (clearHeap != 0) {
         func_02074518(0);
-        func_02074A54(0, *(int *)(g_020AA260 + 0x10));
-        *(int *)(g_020AA260 + 0x18) = 0;
+        func_02074A54(0, _SndState.heap);
+        _SndState.currentBgm = 0;
     }
     func_02006118();
-    func_02005888(0);
+    sub_02005888(0);
     func_02005F5C();
-    *(short *)(g_020AA260 + 0) = 0;
-    *(int *)(g_020AA260 + 8) = 0;
-    *(int *)(g_020AA260 + 0x14) = 0;
-    *(int *)(g_020AA260 + 4) = 0;
+    _SndState.activeMask = 0;
+    _SndState.countdown = 0;
+    _SndState.active = 0;
+    _SndState.requestedBgm = 0;
 }

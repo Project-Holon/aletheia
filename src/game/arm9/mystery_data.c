@@ -1,7 +1,7 @@
 /*
  * file:     mystery_data.c
  * unit:     yes
- * function: sub_02009A34, sub_02009A54, sub_02009A74, sub_02009AE4, sub_02009B3C, sub_02009B80, sub_02009BB8, sub_02009C24, sub_02009CA8, func_02009CB0, func_02009CC0, sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50, sub_02009D9C, sub_02009DA4, sub_02009DB8, sub_02009DE8, sub_02009E40, sub_02009E54, sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0, func_02009EC8, func_02009ED4, func_02009EDC, func_02009F0C, func_02009F1C, func_02009F50, func_02009F7C, func_02009FD4, func_0200A000, func_0200A034, func_0200A094, func_0200A0C8, func_0200A0E4, func_0200A104, func_0200A13C, func_0200A170, func_0200A1A8, func_0200A1E4, func_0200A21C, func_0200A254, func_0200A2B8, func_0200A2D8, func_0200A300, func_0200A338, func_0200A348, func_0200A350, sub_0200A358, func_0200A3D0, func_0200A3FC, func_0200A400, func_0200A418, func_0200A41C, func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8, func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8, func_0200A604, func_0200A628, func_0200A630, func_0200A640, func_0200A644, func_0200A680, func_0200A6BC, func_0200A6F8, func_0200A714, func_0200A73C, func_0200A750, func_0200A75C, func_0200A768, func_0200A780, func_0200A788, func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0, func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC, func_0200A7F8, func_0200A800, func_0200A81C, func_0200A828, func_0200A834, func_0200A840, func_0200A848, func_0200A864, func_0200A870, func_0200A884, func_0200A890, func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8, func_0200A8D0, func_0200A8E4, func_0200A8F8, func_0200A908, func_0200A930, sub_0200A940, sub_0200A9A4, sub_0200A9D4, func_0200AA00, sub_0200AA68, sub_0200AB04, sub_0200AB24, func_0200AB2C, func_0200AB50, func_0200ABE0, sub_0200AC14, func_0200ACD0, sub_0200AD00, func_0200AD6C, func_0200AD78, func_0200AD7C, func_0200AD8C, func_0200AD94, func_0200ADB4, func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0, func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14, func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8, func_0200AFD4, func_0200B040, func_0200B074, func_0200B078, func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4, func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214, func_0200B254
+ * function: sub_02009A34, sub_02009A54, sub_02009A74, sub_02009AE4, sub_02009B3C, sub_02009B80, sub_02009BB8, sub_02009C24, sub_02009CA8, func_02009CB0, func_02009CC0, sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50, sub_02009D9C, sub_02009DA4, sub_02009DB8, sub_02009DE8, sub_02009E40, sub_02009E54, sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0, func_02009EC8, func_02009ED4, func_02009EDC, func_02009F0C, func_02009F1C, func_02009F50, func_02009F7C, func_02009FD4, func_0200A000, func_0200A034, func_0200A094, func_0200A0C8, func_0200A0E4, func_0200A104, func_0200A13C, func_0200A170, func_0200A1A8, func_0200A1E4, func_0200A21C, func_0200A254, func_0200A2B8, func_0200A2D8, func_0200A300, func_0200A338, func_0200A348, func_0200A350, sub_0200A358, func_0200A3D0, func_0200A3FC, func_0200A400, func_0200A418, func_0200A41C, func_0200A43C, func_0200A480, func_0200A49C, func_0200A4B8, func_0200A50C, func_0200A53C, func_0200A544, func_0200A5F8, func_0200A604, func_0200A628, func_0200A630, func_0200A640, func_0200A644, func_0200A680, func_0200A6BC, func_0200A6F8, func_0200A714, func_0200A73C, func_0200A750, func_0200A75C, func_0200A768, func_0200A780, func_0200A788, func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0, func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC, func_0200A7F8, func_0200A800, func_0200A81C, func_0200A828, func_0200A834, func_0200A840, func_0200A848, func_0200A864, func_0200A870, func_0200A884, func_0200A890, func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8, func_0200A8D0, func_0200A8E4, func_0200A8F8, func_0200A908, func_0200A930, sub_0200A940, sub_0200A9A4, sub_0200A9D4, func_0200AA00, sub_0200AA68, sub_0200AB04, sub_0200AB24, func_0200AB2C, func_0200AB50, func_0200ABE0, sub_0200AC14, func_0200ACD0, sub_0200AD00, func_0200AD6C, func_0200AD78, func_0200AD7C, func_0200AD8C, func_0200AD94, func_0200AD9C, func_0200ADB4, func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0, func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14, func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8, func_0200AFD4, func_0200B040, func_0200B074, func_0200B078, func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4, func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214, func_0200B254
  * address:  0x02009A34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,15 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   DWC_IsValidFriendData 0x020596D8  arm
- *   func_02045994         0x02045994  arm
- *   func_02045A38         0x02045A38  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_0203F4E4  0x0203F4E4  arm
  *   DWC_CreateExchangeToken 0x020599BC  arm
- *   func_020598EC    0x020598EC  arm
- *   sub_020071CC           0x020071CC  thumb
  *   DWC_CheckValidConsole  0x02059760  arm
  *   DWC_CheckHasProfile    0x020597C8  arm
  *   DWC_GetGsProfileId     0x020598EC  arm
@@ -32,577 +27,496 @@
  *   func_021DFE00    0x021DFE00  thumb
  *   g_020A71A4      0x020A71A4  data
  *   sub_020071EC   0x020071EC  thumb
- *   sub_0200A480   0x0200A480  thumb
  *   func_02034AC4  0x02034AC4  arm
- *   func_02082BCC  0x02082BCC  arm
  *   func_021DFC20  0x021DFC20  thumb  ov228
  *   func_021DFE90  0x021DFE90  thumb  ov228
  *   func_021DFEAC  0x021DFEAC  thumb  ov228
  *   ov_id_E4       0x000000E4  data
- *   ov_abs_e4      0x000000E4  data
  *   func_021DFDB8  0x021DFDB8  thumb  ov228
  *   func_02034A5C  0x02034A5C  arm
  *   func_02161D98    0x02161D98  thumb  ov010
  *   func_02161EEC    0x02161EEC  thumb  ov010
  *   func_02161F00    0x02161F00  thumb  ov010
- *   sub_0200A8AC   0x0200A8AC  thumb
- *   sub_0200A8D0   0x0200A8D0  thumb
- *   sub_0200AA00   0x0200AA00  thumb
  *   sub_020056EC   0x020056EC  thumb
  *   tbl_020A1B38   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
- *   sub_0200ACD0  0x0200ACD0  thumb
- *   sub_0200AB50  0x0200AB50  thumb
- *   sub_0200ABE0  0x0200ABE0  thumb
- *   memcpy  0x02082D44  arm
  *   sub_0201F41C   0x0201F41C  thumb
- *   func_02082AC0  0x02082AC0  arm
+ *   MIi_CpuClearFast  0x02082AC0  arm
  *   func_020173EC 0x020173EC thumb
- *   func_02082D44 0x02082D44 arm
  *   func_0200ADF0_File  0x020A71B4  data
  */
-#include "../../matched/include/Obj11227.h"
-#include "../../matched/include/Obj15577.h"
-#include "../../matched/include/Obj15578.h"
-#include "../../matched/include/Obj15579.h"
-#include "../../matched/include/Obj15580.h"
-#include "../../matched/include/Obj15581.h"
-#include "../../matched/include/Obj15585.h"
-#include "../../matched/include/Obj15586.h"
-#include "../../matched/include/Obj15587.h"
-#include "../../matched/include/Obj04037.h"
-#include "../../matched/include/Obj11228.h"
-#include "../../matched/include/Obj11229.h"
-#include "../../matched/include/Obj11230.h"
-#include "../../matched/include/Obj15588.h"
-#include "../../matched/include/Obj11231.h"
-#include "../../matched/include/Obj17006.h"
 
-struct Strbuf;
-struct U16Vec;
-struct RtcDate;
-struct Sub020097BCObj;
-struct DWCstAccUserData;
-struct Sub0200852CObj;
-struct Sub020071CCCtrl;
-struct Obj;
-struct Sub020071E4Ctrl;
-struct Date;
-struct Rec;
+struct SaveControl;
+struct GameData;
 struct MsgBank;
+struct U16Vec;
+
 typedef unsigned char  u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int   u32;
-
-struct Sub020097BCFriend {
-    u8 unk00[0xC];
-};
-
-struct Sub020097BCEnt {
-    u8  unk00[0x1C];
-    u32 unk1C;
-    u32 unk20;
-    u16 unk24;
-    u16 unk26;
-    u16 unk28;
-    u16 unk2A;
-    u8  unk2C;
-    u8  unk2D;
-    u8  unk2E;
-    u8  unk2F_0 : 2;
-    u8  unk2F_2 : 6;
-};
-
-struct Sub020097BCObj {
-    u8 unk000[0x40];
-    struct Sub020097BCFriend unk040[0x20];
-    struct Sub020097BCEnt    unk1C0[32];
-    u8 unk7C0[4];
-};
-
+typedef signed char    s8;
+typedef signed short   s16;
 typedef signed int     s32;
 
-struct Sub0203F4E4Date {
-    s32 year;
-    s32 month;
-    s32 day;
-    s32 week;
+/* RTC calendar date (the RTCDate of config.c). */
+struct RTCDate {
+    u32 year;
+    u32 month;
+    u32 day;
+    u32 week;
 };
 
-struct Sub02009D9CObj_0 {
-    u8 unk000[0xD54];
+/* Trainer status record, 0x20 bytes (layout of config.c). */
+struct MyStatus {
+    u16 name[8];
+    u32 id;
+    u32 profile_id;
+    u8  language;
+    u8  version;
+    u8  gender;
+    u8  avatar_id;
+    u8  outfit;
+    u8  outfit_variant;
 };
 
-struct Sub0200852CObj {
-    u8 unk00[0x1B];
-    u8 unk1B;
-    u8 unk1C;
-    u8 unk1D[3];
+/*
+ * Save block 0x1E, the Wi-Fi friend list (wifilist.c).  Two parallel arrays
+ * of 32 slots: the DWC friend data and the per-friend record.
+ */
+struct DWCFriendData {
+    u8 data[0xC];
 };
 
-struct Sub02009D9CObj_1 {
-    struct Sub0200852CObj unk000[100];
-    u8  unkC80[0xD0];
-    u32 unkD50;
+struct WifiFriendInfo {
+    u8  nameData[0x1C];
+    u32 trainerId;
+    u32 profileId;
+    u16 battleWins;
+    u16 battleLosses;
+    u16 tradeCount;
+    u16 lastYear;
+    u8  lastMonth;
+    u8  lastDay;
+    u8  language;
+    u8  gender : 2;
+    u8  statusFlags : 6;
 };
 
-typedef struct { int w[0x33]; } Slot;
-
-struct Obj {
-    void *unk00;
-    u32   unk04;
-    void *unk08;
+struct WifiList {
+    u8 userData[0x40];                    /* DWC user data, at offset 0 */
+    struct DWCFriendData friendData[0x20];
+    struct WifiFriendInfo friendInfo[32];
+    u8 reserved[4];
 };
 
-struct Hdr {
-    u16 unk00;
-    u16 unk02;
+/*
+ * Save block 0x1F, the trade partner history: the last 100 trade partners,
+ * most recent first, and a trade counter that saturates at 99999.
+ */
+struct TradeHistory {
+    struct MyStatus partners[100];
+    u8  reserved[0xD0];
+    u32 tradeCount;
 };
 
-struct BigSub6 { u8 unk0; u8 unk1[5]; };
-
-struct BigSub4 { u8 unk0; u8 unk1[3]; };
-
-struct Big {
-    u8 unk000[0x1B0];
-    struct BigSub6 unk1B0[8];
-    struct BigSub4 unk1E0[10];
-    u8  unk208[0x4A];
-    u16 unk252;
-    u16 unk254;
-    u16 unk256;
-    u8  unk258[0x20];
-    u8  unk278[0x20];
-    u8  unk298[4];
-    u8  unk29C;
-    u8  unk29D;
-    u8  unk29E;
-    u8  unk29F;
-    u8  unk2A0[4];
+/*
+ * Mystery gift data (save block 0x22, 0xA94 bytes; 0x368 bytes when it is
+ * read from the extra save of overlay 228): a 0x800-bit event flag table,
+ * then 12 (or 3) gift cards of 0xCC bytes, then a 4-byte footer that holds
+ * the checksum and the seed of the encryption key.
+ */
+struct MysteryCard {
+    u8 body[0xB3];
+    u8 giftType;                          /* 1..3 when the slot holds a card */
+    u8 flags;                             /* bit 1: gift received */
+    u8 tail[0x17];
 };
 
-
-
-struct Rec2DC {
-    u8 unk000[0x1E8];
-    u8 unk1E8[0x14];
-    u8 unk1FC[0xE0];
+/* Word view of one card: the slot copy needs a four-aligned type to be an
+ * ldm/stm loop. */
+struct MysteryCardImage {
+    u32 words[0x33];
 };
 
-struct Rec2Head {
-    u8 unk000[0x1E8];
+struct MysteryDataFooter {
+    u16 checksum;
+    u16 cryptSeed;
 };
 
-struct Rec2 {
-    u8 unk000[0x1E8];
-    u8 unk1E8[0x14];
-    u8 unk1FC[0x14];
+/* The 12-byte handle that func_0200A300 returns. */
+struct MysteryData {
+    u8   *buffer;
+    u32   saveType;                       /* 1: main save block, 0: extra save */
+    void *extraSave;                      /* overlay 228 work for saveType 0 */
 };
 
-struct Entry_0 {
-    u8  unk00[0x10];
-    u32 f10_0  : 7;
-    u32 f10_7  : 10;
-    u32 f10_17 : 1;
-    u32 f10_18 : 13;
-    u32 f10_31 : 1;
-    u32 unk14;
-    u16 unk18;
-    u8  unk1A;
-    u8  f1B_0 : 6;
-    u8  f1B_6 : 1;
-    u8  f1B_7 : 1;
+/* A received gift packet: 0x2CE bytes of body and their CRC. */
+struct MysteryGiftPacket {
+    u8  body[0x2CE];
+    u16 crc;
 };
 
-struct Rec {
-    struct Entry_0 entries[30];
-    u32 f348_0 : 8;
-    u32 f348_8 : 24;
+/*
+ * Save block 0x2A, the musical save (0x2A4 bytes): a 100-entry prop
+ * collection held as two bitmaps (owned, new), outfit and program tables,
+ * and counters.
+ */
+struct MusicalOutfit {
+    u8 pokeSlot;                          /* 10: none */
+    u8 props[5];
 };
 
-typedef struct { u8 pad[24]; u16 n; u8 a; u8 b : 6, c : 1, d : 1; } Entry_0;
-
-typedef struct { u32 v : 8; u32 rest : 24; } B;
-
-struct T0200A9A4 {
-    u8  pad00[0x10];
-    u32 f10;
-    u32 f14;
-    u8  pad18[3];
-    u8  f1b;
+struct MusicalProgram {
+    u8 state;                             /* 4: initial */
+    u8 data[3];
 };
 
-typedef signed short   s16;
-
-struct Date {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
+struct MusicalSave {
+    u32 showcaseMonsNo : 16;
+    u32 shotState : 5;
+    u32 showcaseFlags : 11;
+    u8  showcase[0x1AC];
+    struct MusicalOutfit outfits[8];
+    struct MusicalProgram programs[10];
+    u8  stageData[0x4A];
+    u16 showCount;
+    u16 topRankCount;
+    u16 fanPoints;
+    u8  ownedProps[0x20];
+    u8  newProps[0x20];
+    u8  equippedProps[4];
+    u8  selectedProgram;
+    u8  scriptSetting;
+    u8  hasDistData;
+    u8  fittingSetting;
+    u8  reserved[4];
 };
 
-typedef struct Entry_1 {
-    u16 w0[8];
-    u32 b0 : 7;
-    u32 b1 : 10;
-    u32 b2 : 1;
-    u32 b3 : 4;
-    u32 b4 : 4;
-    u32 b5 : 5;
-    u32 b6 : 1;
-    u32 f14;
-    u16 f18;
-    u8  f1a;
-    u8  c0 : 6;
-    u8  c1 : 1;
-    u8  c2 : 1;
-} Entry_1;
-
-typedef struct {
-    u32 b0 : 8;
-    u32 b8 : 24;
-} Flags;
-
-typedef struct {
-    Entry_1 entries[30];
-    u32   f348;
-} Rec;
-
-struct Bits0200AB04 {
-    u8    lo : 7;
-    u8    flag : 1;
+/* Save block 0x2B, the musical shot (0x2DC bytes). */
+struct MusicalShotPhoto {
+    u8 data[0x1E8];
 };
 
-struct Bits {
-    u32 unk00_0 : 16;
-    u32 unk00_16 : 5;
-    u32 unk00_21 : 11;
-    u8 pad_04[0x17];
-    struct Bits0200AB04 bits;
+struct MusicalShot {
+    struct MusicalShotPhoto photo;
+    u16 title[10];
+    u8  extraData[0xE0];
 };
 
-typedef struct {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 key  : 7;
-    u32 off  : 10;
-    u32 pad  : 14;
-    u32 flag : 1;
-    u32 f14;
-    u32 f18;
-} Ent;
-
-typedef struct Rec0200AD8C {
-    unsigned char pad[0xEC];
-    u16 fEC;
-} Rec0200AD8C;
-
-typedef struct Rec0200AD94 {
-    unsigned char pad[0xEC];
-    u16 fEC;
-} Rec0200AD94;
-
-typedef signed char    s8;
-
-struct Reg {
-    u8  unk00;
-    u8  unk01;
-    u8  unk02;
-    u8  unk03;
-    u8  unk04;
-    u8  unk05;
-    u16 unk06;
-    u8  unk08;
-    u8  unk09;
-    u8  unk0A[0x52];
-    u8  unk5C[0x4C];
-    u16 unkA8;
-    u8  unkAA;
-    u8  unkAB;
-    u8  unkAC[7];
-    u8  unkB3;
-    u8  unkB4;
-    u8  unkB5;
-    u8  unkB6;
-    u8  unkB7;
-    u8  unkB8;
-    u8  unkB9;
-    u8  unkBA;
-    u8  unkBB;
+/*
+ * Save block 0x2C, the infrared compatibility ranking (0x34C bytes): 30
+ * entries sorted by score, then the slot of the last insert.
+ */
+struct IrcRankEntry {
+    u16 name[8];
+    u32 score : 7;
+    u32 meetCount : 10;
+    u32 gender : 1;
+    u32 language : 4;
+    u32 version : 4;
+    u32 padding : 5;
+    u32 isValid : 1;
+    u32 trainerId;
+    u16 profileWord;
+    u8  profileByte;
+    u8  profileBits : 6;
+    u8  profileFlag : 1;
+    u8  isNew : 1;
 };
 
-struct RegB {
-    u8  unk00[0xEE];
-    u16 unkEE;
-    u32 unkF0;
-    u32 unkF4;
+struct IrcRankSave {
+    struct IrcRankEntry entries[30];
+    u32 lastSlot : 8;
+    u32 reserved : 24;
 };
 
-struct RegAC {
-    u8 unk0[7];
-    u8 unk7;
+/* Save block 0x2E, the GTS deposit data (0xF8 bytes). */
+struct WorldTradeData {
+    u8  pokemon[0xDC];
+    u8  depositInfo[0x10];
+    u16 isDeposited;
+    u16 returnBox;
+    u32 lastTradeId;
+    u32 lastSearchId;
 };
 
-struct Reg2 {
-    struct Reg reg;
-    s32 unkBC;
-    u8  unkC0[0x92];
-    s16 unk152;
-    s8  unk154;
-    s8  unk155;
-    s8  unk156;
-    s8  unk157;
-    s8  unk158;
-    s8  unk159;
-    s8  unk15A;
-    s8  unk15B;
-    u8  unk15C;
-    u8  unk15D;
-    u16 unk15E;
+/*
+ * regulation.c: a 0xBC-byte battle rule set.  The get and set pair takes a
+ * rule id 0..22; ids 9, 10 and 14 are the three bitmaps.
+ */
+struct Regulation {
+    u8  cupNo;
+    u8  ruleNo;
+    u8  numLo;
+    u8  numHi;
+    u8  level;
+    u8  levelRange;
+    u16 levelTotal;
+    u8  bothPoke;
+    u8  bothItem;
+    u8  vetoPokeBit[0x52];
+    u8  vetoItemBit[0x4C];
+    u16 mustPoke;
+    u8  mustPokeForm;
+    u8  shooter;
+    u8  vetoShooterBit[7];
+    u8  timeVs;
+    u8  timeCommand;
+    u8  nickname;
+    u8  cameraMode;
+    u8  unused;
+    u8  showPoke;
+    u8  showPokeTime;
+    u8  battleType;
+    u8  battleCount;
 };
 
-struct Rec160 {
-    u32 unk000[0x58];
+/* Shooter settings that REGULATION_GetShooterSettings fills. */
+struct ShooterSettings {
+    u8 vetoItemBit[7];
+    u8 isEnabled;
 };
 
-struct Rec1E {
-    u16 unk00[6];
-    u8  unk0C[6];
-    u8  unk12;
-    u8  unk13;
-    u8  unk14[10];
+/* A 0x160-byte regulation card: the rule set plus card data and a CRC. */
+struct RegulationCard {
+    struct Regulation rule;
+    s32 cupId;
+    u8  cupName[0x92];
+    s16 romVersion;
+    s8  startYear;
+    s8  startMonth;
+    s8  startDay;
+    s8  endYear;
+    s8  endMonth;
+    s8  endDay;
+    s8  status;
+    s8  bgm;
+    u8  sameMatch;
+    u8  cardType;
+    u16 crc;
 };
 
-struct RecBig {
-    u8 unk000[0x2C0];
-    struct Rec1E unk2C0[1];
-    u8 pad_2DE[0x6A];
-    unsigned int f348;
+/* The party a regulation card is entered with (0x1E bytes). */
+struct RegulationParty {
+    u16 monsNo[6];
+    u8  formNo[6];
+    u8  hasItemBits;
+    u8  femaleBits;
+    u8  reserved[10];
 };
 
-extern int  DWC_IsValidFriendData(const void *friendData);
+/* Save block 0x2F, the battle competition save (0x2FC bytes). */
+struct BattleCompetitionSave {
+    struct RegulationCard cards[2];
+    struct RegulationParty parties[2];
+};
+
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void func_0203F4E4(struct RtcDate *date);
-extern void DWC_CreateExchangeToken(void *account, void *out);
-extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern int  DWC_CheckValidConsole(void *account);
-extern int  DWC_CheckHasProfile(void *account);
-extern void DWC_GetGsProfileId(void *account, void *out);
-extern u32 sub_02008530(const struct Sub0200852CObj *obj);
-extern u8  sub_02008550(const struct Sub0200852CObj *obj);
-extern const void *sub_020084F4(const void *p);
 extern void MI_CpuMove(const void *src, void *dest, u32 size);
-extern int sub_02008468(void);
-extern u8  sub_02008554(const struct Sub0200852CObj *obj);
-extern void sub_02008558(struct Sub0200852CObj *obj, u8 value);
-extern u8  sub_0200855C(const struct Sub0200852CObj *obj);
-extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void func_02082BCC(void *p, int c, u32 n);
-extern void func_02082D44(void *dst, void *src, int n);
-extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void  func_021DFDC0(void *p);
-extern int func_02012DAC(int a0);
-extern int  func_021DFE00(void *p);
-extern int func_02012DD0(u8 *p);
+extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
+extern void func_0203F4E4(struct RTCDate *date);
+extern s32  func_0203F540(struct RTCDate *date);
+extern void DWC_CreateExchangeToken(void *userData, void *friendData);
+extern int  DWC_GetGsProfileId(void *userData, void *friendData);
+extern int  DWC_CheckValidConsole(void *userData);
+extern int  DWC_CheckHasProfile(void *userData);
+extern void *func_020071CC(struct SaveControl *save, u32 blockId);
+extern u8   sub_020071EC(const struct SaveControl *save);
+extern u32  sub_02008530(const struct MyStatus *status);
+extern u8   sub_02008550(const struct MyStatus *status);
+extern const void *sub_020084F4(const void *status);
+extern int  sub_02008468(void);
+extern u8   sub_02008554(const struct MyStatus *status);
+extern void sub_02008558(struct MyStatus *status, u8 value);
+extern u8   sub_0200855C(const struct MyStatus *status);
+extern u16  func_0203F1FC(const void *data, u32 size);
+extern u32  func_0203F2FC(const void *data, u32 size);
+extern void func_0203F328(void *data, u32 size, u32 key);
+extern void func_0203F37C(void *data, u32 size, u32 key);
+extern void func_021DFDC0(void *extraSave);
+extern int  func_02012DAC(struct GameData *gameData);
+extern int  func_021DFE00(void *extraSave);
+extern int  func_02012DD0(struct GameData *gameData);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_0200A358(unsigned char *p, void *ctrl, int mode, int heap);
-extern u32 func_020307B0(void *p);
-extern u8    sub_020071EC(const struct Sub020071E4Ctrl *ctrl);
-extern void  sub_0200A480(struct Obj *p);
-extern int func_02034AC4(int id);
-extern void *func_021DFC20(u32 heap);
-extern u8 func_021DFE90(u8 *p);
-extern void *func_021DFEAC(u8 *p);
-extern void func_021DFDB8(void *v);
-extern void func_02034A5C(int p);
-extern u32 func_0203F2FC(const u8 *p, u32 len);
-extern void func_0203F328(u16 *p, u32 size, u32 seed);
-extern void func_0203F37C(void *base, u32 size, u32 seed);
-extern void func_02161D98(char *p);
-extern void func_02161EEC(u16 *p);
-extern void func_02161F00(void *p);
-extern s32 sub_0200A8AC(struct Rec *r);
-extern u8 sub_0200A8D0(struct Rec *r, u32 index);
-extern u8 sub_0200AA00(u32 a0, u32 a1, struct Date *src);
-extern u32 sub_020056EC(u32 range);
-extern s32  func_0203F540(struct RtcDate *d);
-extern char *sub_0200ACD0(char *base, int count, int target);
-extern u8     sub_0200AB50(Entry_1 *list, s32 n, Entry_1 *dst);
-extern s32    sub_0200ABE0(u8 *base, s32 n, u8 *other);
-extern void *memcpy(void *dst, const void *src, u32 n);
+extern u32  func_020307B0(void *p);
+extern int  func_02034AC4(int overlayId);
+extern void func_02034A5C(int overlayId);
+extern void *func_021DFC20(u32 heapId);
+extern u8   func_021DFE90(u8 *extraSave);
+extern void *func_021DFEAC(u8 *extraSave);
+extern void func_021DFDB8(void *extraSave);
+extern void func_02161D98(char *photo);
+extern void func_02161EEC(u16 *title);
+extern void func_02161F00(void *extraData);
+extern u32  sub_020056EC(u32 range);
 extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
-extern void func_02082AC0(u32 val, void *dst, u32 size);
-extern u32 func_020173EC(void);
+extern u32  func_020173EC(void);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32  func_02045C04(struct MsgBank *bank);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-struct Sub020097BCObj *sub_02009860(struct Sub020097BCObj *obj);
-u32 sub_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
-struct Sub020097BCEnt *sub_020099D4(struct Sub020097BCObj *obj, int i);
-int sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
-u32 sub_02009A34(struct Sub020097BCObj *obj);
-u32 sub_02009A54(struct Sub020097BCObj *obj);
-void sub_02009A74(struct Sub020097BCObj *obj, u32 i);
-void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src);
-void sub_02009B3C(struct Sub020097BCObj *obj);
-void sub_02009B80(struct Sub020097BCObj *obj, int i);
-void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
-void sub_02009C24(struct Sub020097BCObj *obj, int src, int dest);
-void sub_02009CA8(void *account, void *out);
-int func_02009CB0(int a0, int a1);
-int func_02009CC0(void *a0);
-u32 sub_02009CE4(struct Sub020097BCObj *obj);
-struct Sub020097BCObj *sub_02009D08(void *sys);
-int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
-int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id, u32 kind, u32 *out);
+struct WifiList *sub_02009860(struct WifiList *list);
+u32 sub_02009864(const struct WifiList *list, u32 i, u32 field);
+struct WifiFriendInfo *sub_020099D4(struct WifiList *list, int i);
+int sub_02009A1C(struct WifiList *list, u32 i);
+u32 sub_02009A34(struct WifiList *list);
+u32 sub_02009A54(struct WifiList *list);
+void sub_02009A74(struct WifiList *list, u32 slot);
+void sub_02009AE4(struct WifiList *list, u32 dest, u32 src);
+void sub_02009B3C(struct WifiList *list);
+void sub_02009B80(struct WifiList *list, int slot);
+void sub_02009BB8(struct WifiList *list, int slot, int wins, int losses, int trades);
+void sub_02009C24(struct WifiList *list, int src, int dest);
+void sub_02009CA8(void *userData, void *friendData);
+void func_02009CB0(struct WifiList *list, void *token);
+int func_02009CC0(struct WifiList *list);
+u32 sub_02009CE4(struct WifiList *list);
+struct WifiList *sub_02009D08(struct SaveControl *save);
+int sub_02009D1C(struct WifiList *list, struct MyStatus *status, u32 *outSlot);
+int sub_02009D50(struct WifiList *list, const void *name, u32 id, u32 outfitVariant, u32 *outSlot);
 u32 sub_02009D9C(void);
-void sub_02009DA4(struct Sub02009D9CObj_0 *obj);
-int sub_02009DB8(struct Sub02009D9CObj_1 *obj, u32 id);
-void sub_02009DE8(struct Sub02009D9CObj_1 *obj, struct Sub0200852CObj *p);
-u32 sub_02009E40(struct Sub02009D9CObj_1 *obj, u32 i);
-struct Sub0200852CObj *sub_02009E54(struct Sub02009D9CObj_1 *obj, u32 i);
-u32 sub_02009E74(struct Sub02009D9CObj_1 *obj, u32 id);
-int sub_02009E8C(struct Sub02009D9CObj_1 *obj);
-u32 sub_02009EA8(const struct Sub02009D9CObj_1 *obj);
-void sub_02009EB0(struct Sub02009D9CObj_1 *obj);
-void *func_02009EC8(void *sys);
+void sub_02009DA4(struct TradeHistory *history);
+int sub_02009DB8(struct TradeHistory *history, u32 id);
+void sub_02009DE8(struct TradeHistory *history, struct MyStatus *status);
+u32 sub_02009E40(struct TradeHistory *history, u32 slot);
+struct MyStatus *sub_02009E54(struct TradeHistory *history, u32 slot);
+u32 sub_02009E74(struct TradeHistory *history, u32 id);
+int sub_02009E8C(struct TradeHistory *history);
+u32 sub_02009EA8(const struct TradeHistory *history);
+void sub_02009EB0(struct TradeHistory *history);
+struct TradeHistory *func_02009EC8(struct SaveControl *save);
 u32 func_02009ED4(void);
-void func_02009EDC(void *a0);
-u32 func_02009F0C(u32 a);
-int func_02009F1C(void *a0);
-int func_02009F50(char *p, unsigned int idx);
-void func_02009F7C(void *p, unsigned int idx);
-void *func_02009FD4(char *p, unsigned int idx);
-int func_0200A000(char *p, int idx, void *buf);
-int func_0200A034(void *p, void *arg);
-void func_0200A094(void *p, unsigned int idx);
-u32 func_0200A0C8(u8 *p);
-u32 func_0200A0E4(u8 *p, u32 a);
-int func_0200A104(char *p, unsigned int idx);
-void func_0200A13C(u8 *p, u32 i);
-int func_0200A170(char *p);
-int func_0200A1A8(char *p, unsigned int bit);
-void func_0200A1E4(void *p, unsigned int idx);
-int func_0200A21C(u8 *obj);
-void func_0200A254(void *p, unsigned int a, unsigned int b);
-void func_0200A2B8(void *a0, int a1);
-int func_0200A2D8(void *a0, int a1);
-void *func_0200A300(void *a0, void *a1, void *a2);
-void func_0200A338(void *a0);
-u32 func_0200A348(struct Obj *obj);
-int func_0200A350(struct Obj *a0);
-void sub_0200A358(u8 *p, void *ctrl, int a2, int a3);
-void func_0200A3D0(void *obj);
-u32 func_0200A3FC(struct Obj *obj);
-u32 func_0200A400(struct Obj *obj);
-void *func_0200A418(struct Obj *obj);
-void *func_0200A41C(struct Obj *obj);
-void *func_0200A43C(struct Obj *obj, u32 index);
-void func_0200A480(struct Obj *obj);
-void func_0200A49C(struct Obj *obj);
-void func_0200A4B8(void *base, u32 kind);
-void func_0200A50C(void *base, u32 kind);
+void func_02009EDC(u8 *buffer);
+u32 func_02009F0C(u32 giftType);
+int func_02009F1C(struct MysteryData *data);
+int func_02009F50(struct MysteryData *data, u32 slot);
+void func_02009F7C(struct MysteryData *data, u32 slot);
+struct MysteryCard *func_02009FD4(struct MysteryData *data, u32 slot);
+int func_0200A000(struct MysteryData *data, u32 slot, void *out);
+int func_0200A034(struct MysteryData *data, const void *card);
+void func_0200A094(struct MysteryData *data, u32 slot);
+u32 func_0200A0C8(struct MysteryData *data);
+u32 func_0200A0E4(struct MysteryData *data, u32 slot);
+int func_0200A104(struct MysteryData *data, u32 slot);
+void func_0200A13C(struct MysteryData *data, u32 slot);
+int func_0200A170(struct MysteryData *data);
+int func_0200A1A8(struct MysteryData *data, u32 flag);
+void func_0200A1E4(struct MysteryData *data, u32 flag);
+int func_0200A21C(struct MysteryGiftPacket *packet);
+void func_0200A254(struct MysteryData *data, u32 slotA, u32 slotB);
+void func_0200A2B8(struct MysteryData *data, struct GameData *gameData);
+int func_0200A2D8(struct MysteryData *data, struct GameData *gameData);
+struct MysteryData *func_0200A300(struct SaveControl *save, int mode, u32 heapId);
+void func_0200A338(struct MysteryData *data);
+u32 func_0200A348(struct MysteryData *data);
+int func_0200A350(struct MysteryData *data);
+void sub_0200A358(struct MysteryData *data, struct SaveControl *save, int mode, int heapId);
+void func_0200A3D0(struct MysteryData *data);
+u32 func_0200A3FC(struct MysteryData *data);
+u32 func_0200A400(struct MysteryData *data);
+u8 *func_0200A418(struct MysteryData *data);
+u8 *func_0200A41C(struct MysteryData *data);
+struct MysteryCard *func_0200A43C(struct MysteryData *data, u32 slot);
+void func_0200A480(struct MysteryData *data);
+void func_0200A49C(struct MysteryData *data);
+void func_0200A4B8(u8 *buffer, u32 saveType);
+void func_0200A50C(u8 *buffer, u32 saveType);
 u32 func_0200A53C(void);
-void func_0200A544(struct Big *p);
-void *func_0200A5F8(void *sys);
-void func_0200A604(struct Big *p);
-u8 *func_0200A628(struct Big *p);
-u32 func_0200A630(struct Bits *p);
+void func_0200A544(struct MusicalSave *musical);
+struct MusicalSave *func_0200A5F8(struct SaveControl *save);
+void func_0200A604(struct MusicalSave *musical);
+struct MusicalOutfit *func_0200A628(struct MusicalSave *musical);
+u32 func_0200A630(struct MusicalSave *musical);
 void func_0200A640(void);
-u32 func_0200A644(struct Big *p, u8 index);
-u32 func_0200A680(struct Big *p, u8 index);
-void func_0200A6BC(struct Big *p, u32 index);
-void func_0200A6F8(struct Big *p);
-u32 func_0200A714(struct Big *p);
-u32 func_0200A73C(struct Big *p);
-struct BigSub4 *func_0200A750(struct Big *p, u32 index);
-u16 func_0200A75C(struct Big *p);
-void func_0200A768(struct Big *p);
-u16 func_0200A780(struct Big *p);
-void func_0200A788(struct Big *p);
-u8 func_0200A7A0(struct Big *p, u32 index);
-void func_0200A7AC(struct Big *p, u32 index, u8 value);
-u8 func_0200A7B8(struct Big *p);
-void func_0200A7C0(struct Big *p, u8 value);
-u8 func_0200A7C8(struct Big *p);
-void func_0200A7D4(struct Big *p, u8 value);
-u8 func_0200A7E0(struct Big *p);
-void func_0200A7EC(struct Big *p, u8 value);
-u8 *func_0200A7F8(struct Big *p);
-void func_0200A800(struct Big *p, s32 delta);
-u16 func_0200A81C(struct Big *p);
-u32 func_0200A828(struct Big *p);
-void func_0200A834(struct Big *p, u8 value);
+u32 func_0200A644(struct MusicalSave *musical, u8 prop);
+u32 func_0200A680(struct MusicalSave *musical, u8 prop);
+void func_0200A6BC(struct MusicalSave *musical, u32 prop);
+void func_0200A6F8(struct MusicalSave *musical);
+u32 func_0200A714(struct MusicalSave *musical);
+u32 func_0200A73C(struct MusicalSave *musical);
+struct MusicalProgram *func_0200A750(struct MusicalSave *musical, u32 index);
+u16 func_0200A75C(struct MusicalSave *musical);
+void func_0200A768(struct MusicalSave *musical);
+u16 func_0200A780(struct MusicalSave *musical);
+void func_0200A788(struct MusicalSave *musical);
+u8 func_0200A7A0(struct MusicalSave *musical, u32 index);
+void func_0200A7AC(struct MusicalSave *musical, u32 index, u8 prop);
+u8 func_0200A7B8(struct MusicalSave *musical);
+void func_0200A7C0(struct MusicalSave *musical, u8 value);
+u8 func_0200A7C8(struct MusicalSave *musical);
+void func_0200A7D4(struct MusicalSave *musical, u8 value);
+u8 func_0200A7E0(struct MusicalSave *musical);
+void func_0200A7EC(struct MusicalSave *musical, u8 value);
+u8 *func_0200A7F8(struct MusicalSave *musical);
+void func_0200A800(struct MusicalSave *musical, s32 delta);
+u16 func_0200A81C(struct MusicalSave *musical);
+u32 func_0200A828(struct MusicalSave *musical);
+void func_0200A834(struct MusicalSave *musical, u8 value);
 u32 func_0200A840(void);
-void func_0200A848(void **a0);
-void *func_0200A864(void *sys);
-void func_0200A870(struct Rec2Head *dest, const struct Rec2Head *src);
-void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest);
-u8 *func_0200A890(struct Rec2 *p);
-u8 *func_0200A898(struct Rec2 *p);
-void *func_0200A8A0(void *sys);
-s32 func_0200A8AC(struct Rec *r);
-struct Entry_0 *func_0200A8C8(struct Rec *r, u32 index);
-u8 func_0200A8D0(struct Rec *r, u32 index);
-u16 func_0200A8E4(struct Rec *r, u32 index);
-u32 func_0200A8F8(struct Rec *r, u32 index);
-void func_0200A908(const Entry_0 *p, u32 i, u16 *n, u8 *a, u8 *b, u8 *c);
-u8 func_0200A930(char *p);
-int sub_0200A940(void *a0, int a1, int a2, void *a3);
-int sub_0200A9A4(struct T0200A9A4 *o, u32 v);
-int sub_0200A9D4(struct T0200A9A4 *o, u32 v);
-u8 func_0200AA00(u32 a0, u32 a1, struct Date *src);
-u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 s3, u8 s4, u8 s5, u8 s6);
-void sub_0200AB04(struct Bits *o);
+void func_0200A848(struct MusicalShot *shot);
+struct MusicalShot *func_0200A864(struct SaveControl *save);
+void func_0200A870(struct MusicalShotPhoto *dest, const struct MusicalShotPhoto *src);
+void func_0200A884(const struct MusicalShotPhoto *src, struct MusicalShotPhoto *dest);
+u16 *func_0200A890(struct MusicalShot *shot);
+u8 *func_0200A898(struct MusicalShot *shot);
+struct IrcRankSave *func_0200A8A0(struct SaveControl *save);
+s32 func_0200A8AC(struct IrcRankSave *rank);
+struct IrcRankEntry *func_0200A8C8(struct IrcRankSave *rank, u32 index);
+u8 func_0200A8D0(struct IrcRankSave *rank, u32 index);
+u16 func_0200A8E4(struct IrcRankSave *rank, u32 index);
+u32 func_0200A8F8(struct IrcRankSave *rank, u32 index);
+void func_0200A908(const struct IrcRankEntry *entries, u32 index, u16 *outWord, u8 *outByte, u8 *outBits, u8 *outFlag);
+u8 func_0200A930(struct IrcRankSave *rank);
+int sub_0200A940(struct IrcRankSave *rank, u32 month, u32 day, struct RTCDate *today);
+int sub_0200A9A4(struct IrcRankEntry *entries, u32 trainerId);
+int sub_0200A9D4(struct IrcRankEntry *entries, u32 trainerId);
+u8 func_0200AA00(u32 month, u32 day, struct RTCDate *today);
+u8 sub_0200AA68(struct IrcRankSave *rank, const void *name, u16 score, u8 gender,
+                u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag);
+void sub_0200AB04(struct IrcRankEntry *entries);
 int sub_0200AB24(void);
-void func_0200AB2C(void *a0);
-u8 func_0200AB50(Ent *list, s32 n, Ent *dst);
-int func_0200ABE0(u8 *a0, int n, u8 *b);
-void sub_0200AC14(Entry_1 *self, const void *src, u32 a2, u32 a3, u8 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7);
-char *func_0200ACD0(char *base, int count, int target);
-void sub_0200AD00(Entry_1 *base, int n, Entry_1 *ref);
-void *func_0200AD6C(void *sys);
+void func_0200AB2C(struct IrcRankSave *rank);
+u8 func_0200AB50(struct IrcRankEntry *list, s32 count, struct IrcRankEntry *entry);
+int func_0200ABE0(struct IrcRankEntry *list, int count, struct IrcRankEntry *entry);
+void sub_0200AC14(struct IrcRankEntry *entry, const void *name, u32 score, u32 meetCount,
+                  u8 gender, u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag);
+struct IrcRankEntry *func_0200ACD0(struct IrcRankEntry *list, int count, int trainerId);
+void sub_0200AD00(struct IrcRankEntry *list, int total, struct IrcRankEntry *entry);
+struct WorldTradeData *func_0200AD6C(struct SaveControl *save);
 int func_0200AD78(void);
-void func_0200AD7C(void *rec);
-u16 func_0200AD8C(const Rec0200AD8C *p);
-void func_0200AD94(Rec0200AD94 *p, u16 v);
-void OS_KillThread(void *thread, void *arg1);
+void func_0200AD7C(struct WorldTradeData *trade);
+u16 func_0200AD8C(const struct WorldTradeData *trade);
+void func_0200AD94(struct WorldTradeData *trade, u16 isDeposited);
+void func_0200AD9C(struct WorldTradeData *trade, void *outPokemon);
 void func_0200ADB4(void);
-void func_0200ADB8(void *dest, const void *src, u32 a2);
-void func_0200ADD0(struct RegB *p, u32 value);
-void func_0200ADD8(struct RegB *p, u32 value);
-u16 func_0200ADE0(struct RegB *p);
+void func_0200ADB8(struct WorldTradeData *trade, const void *pokemon, u32 boxPos);
+void func_0200ADD0(struct WorldTradeData *trade, u32 tradeId);
+void func_0200ADD8(struct WorldTradeData *trade, u32 searchId);
+u16 func_0200ADE0(struct WorldTradeData *trade);
 u32 func_0200ADE8(void);
-struct Reg *func_0200ADF0(u32 heap);
-void func_0200AE08(const struct Reg *src, struct Reg *dest);
+struct Regulation *func_0200ADF0(u32 heapId);
+void func_0200AE08(const struct Regulation *src, struct Regulation *dest);
 void func_0200AE14(void);
-void func_0200AE18(struct Reg *p, void *dest);
-void *func_0200AE3C(struct Reg *p, u32 heap);
-u32 func_0200AE54(struct Reg *p, u32 id);
-void func_0200AEE8(struct Reg *p, u32 id, s32 value);
-u32 func_0200AFD4(struct Reg *p, u32 id, s32 n);
-void func_0200B040(struct Reg *p, struct RegAC *out);
-u8 *func_0200B074(struct Reg2 *p);
-s32 func_0200B078(struct Reg2 *p, u32 id);
-void func_0200B110(struct Reg2 *p, u32 id, s32 value);
-u32 func_0200B1A8(struct Reg2 *p);
-u16 func_0200B1C4(struct Reg2 *p);
-struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
-void func_0200B1E0(struct Rec160 *arr, u32 index, const struct Rec160 *src);
-void func_0200B1F8(struct Rec1E *p);
-struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
-s32 func_0200B214(struct Rec1E *p, u32 id, u8 n);
-void func_0200B254(struct Rec1E *p, int id, u8 n, s32 value);
+void func_0200AE18(struct Regulation *rule, void *dest);
+void *func_0200AE3C(struct Regulation *rule, u32 heapId);
+u32 func_0200AE54(struct Regulation *rule, u32 id);
+void func_0200AEE8(struct Regulation *rule, u32 id, s32 value);
+u32 func_0200AFD4(struct Regulation *rule, u32 id, s32 bit);
+void func_0200B040(struct Regulation *rule, struct ShooterSettings *out);
+u8 *func_0200B074(struct RegulationCard *card);
+s32 func_0200B078(struct RegulationCard *card, u32 id);
+void func_0200B110(struct RegulationCard *card, u32 id, s32 value);
+u32 func_0200B1A8(struct RegulationCard *card);
+u16 func_0200B1C4(struct RegulationCard *card);
+struct RegulationCard *func_0200B1D4(struct RegulationCard *cards, u32 index);
+void func_0200B1E0(struct RegulationCard *cards, u32 index, const struct RegulationCard *src);
+void func_0200B1F8(struct RegulationParty *party);
+struct RegulationParty *func_0200B204(struct BattleCompetitionSave *competition, u32 index);
+s32 func_0200B214(struct RegulationParty *party, u32 id, u8 member);
+void func_0200B254(struct RegulationParty *party, int id, u8 member, s32 value);
 extern char g_020A71A4[];
-extern u8    ov_id_E4[];
-extern u8   ov_abs_e4[];
+extern u8   ov_id_E4[];
 extern s16  tbl_020A1B38[];
 extern const char func_0200ADF0_File[];
 
@@ -634,9 +548,9 @@ extern const char func_0200ADF0_File[];
  *
  * The tail of sub_02009A74 is where the shape of the source is visible.  It
  * clears slot 31 of both arrays, and the original reaches it as base plus
- * offset in two separate adds: `obj + 0x1C0` and then `+ 0x5D0`, with the
+ * offset in two separate adds: `list + 0x1C0` and then `+ 0x5D0`, with the
  * friend array's `+ 0x174` derived from that same 0x5D0 by a `lsrs #2`.
- * Written as `&obj->unk1C0[31]` the compiler folds the two constants into one
+ * Written as `&list->friendInfo[31]` the compiler folds the two constants into one
  * 0x790 and the tail is 34 bytes different; only a local pointer, assigned
  * from the array *after* the loop and indexed with the literal 31, keeps them
  * apart.  Assigning the same pointers before the loop is wrong too: they then
@@ -652,13 +566,13 @@ extern const char func_0200ADF0_File[];
  *   python tools/match.py tu --src src/matched/unit_02009A34.c \
  *       --addr 0x02009A34 --thumb
  */
-u32 sub_02009A34(struct Sub020097BCObj *obj)
+u32 sub_02009A34(struct WifiList *list)
 {
     int i;
     u32 count = 0;
 
     for (i = 0; i < 0x20; i++) {
-        if (sub_02009A1C(obj, i) != 0) {
+        if (sub_02009A1C(list, i) != 0) {
             count++;
         }
     }
@@ -666,100 +580,100 @@ u32 sub_02009A34(struct Sub020097BCObj *obj)
 }
 
 
-u32 sub_02009A54(struct Sub020097BCObj *obj)
+u32 sub_02009A54(struct WifiList *list)
 {
     int i;
-    u32 last = 0;
+    u32 end = 0;
 
     for (i = 0; i < 0x20; i++) {
-        if (sub_02009A1C(obj, i) != 0) {
-            last = i + 1;
+        if (sub_02009A1C(list, i) != 0) {
+            end = i + 1;
         }
     }
-    return last;
+    return end;
 }
 
 
-void sub_02009A74(struct Sub020097BCObj *obj, u32 i)
+void sub_02009A74(struct WifiList *list, u32 slot)
 {
-    struct Sub020097BCEnt *ents;
-    struct Sub020097BCFriend *friends;
+    struct WifiFriendInfo *infos;
+    struct DWCFriendData *friends;
 
-    if (i >= 0x20) {
+    if (slot >= 0x20) {
         return;
     }
-    for (; (int)i < 0x1F; i++) {
-        MI_CpuCopy8(&obj->unk1C0[i + 1], &obj->unk1C0[i],
-                    sizeof(obj->unk1C0[0]));
-        MI_CpuCopy8(&obj->unk040[i + 1], &obj->unk040[i],
-                    sizeof(obj->unk040[0]));
+    for (; (int)slot < 0x1F; slot++) {
+        MI_CpuCopy8(&list->friendInfo[slot + 1], &list->friendInfo[slot],
+                    sizeof(list->friendInfo[0]));
+        MI_CpuCopy8(&list->friendData[slot + 1], &list->friendData[slot],
+                    sizeof(list->friendData[0]));
     }
-    ents = obj->unk1C0;
-    friends = obj->unk040;
-    MI_CpuFill8(&ents[0x1F], 0, sizeof(ents[0]));
+    infos = list->friendInfo;
+    friends = list->friendData;
+    MI_CpuFill8(&infos[0x1F], 0, sizeof(infos[0]));
     MI_CpuFill8(&friends[0x1F], 0, sizeof(friends[0]));
 }
 
 
-void sub_02009AE4(struct Sub020097BCObj *obj, u32 dest, u32 src)
+void sub_02009AE4(struct WifiList *list, u32 dest, u32 src)
 {
-    MI_CpuCopy8(&obj->unk1C0[src], &obj->unk1C0[dest], sizeof(obj->unk1C0[0]));
-    MI_CpuCopy8(&obj->unk040[src], &obj->unk040[dest], sizeof(obj->unk040[0]));
-    MI_CpuFill8(&obj->unk1C0[src], 0, sizeof(obj->unk1C0[0]));
-    MI_CpuFill8(&obj->unk040[src], 0, sizeof(obj->unk040[0]));
+    MI_CpuCopy8(&list->friendInfo[src], &list->friendInfo[dest], sizeof(list->friendInfo[0]));
+    MI_CpuCopy8(&list->friendData[src], &list->friendData[dest], sizeof(list->friendData[0]));
+    MI_CpuFill8(&list->friendInfo[src], 0, sizeof(list->friendInfo[0]));
+    MI_CpuFill8(&list->friendData[src], 0, sizeof(list->friendData[0]));
 }
 
 
-void sub_02009B3C(struct Sub020097BCObj *obj)
+void sub_02009B3C(struct WifiList *list)
 {
     int i;
-    int j = -1;
+    int hole = -1;
 
     for (i = 0; i < 0x20; i++) {
-        if (sub_02009A1C(obj, i) != 0) {
-            if (j != -1) {
-                sub_02009AE4(obj, j, i);
+        if (sub_02009A1C(list, i) != 0) {
+            if (hole != -1) {
+                sub_02009AE4(list, hole, i);
                 i = -1;
-                j = -1;
+                hole = -1;
             }
         } else {
-            if (j == -1) {
-                j = i;
+            if (hole == -1) {
+                hole = i;
             }
         }
     }
 }
 
 
-void sub_02009B80(struct Sub020097BCObj *obj, int i)
+void sub_02009B80(struct WifiList *list, int slot)
 {
-    struct Sub0203F4E4Date date;
+    struct RTCDate date;
 
-    func_0203F4E4((struct RtcDate *)(&date));
-    obj->unk1C0[i].unk2A = date.year + 2000;
-    obj->unk1C0[i].unk2C = date.month;
-    obj->unk1C0[i].unk2D = date.day;
+    func_0203F4E4(&date);
+    list->friendInfo[slot].lastYear = date.year + 2000;
+    list->friendInfo[slot].lastMonth = date.month;
+    list->friendInfo[slot].lastDay = date.day;
 }
 
 
-void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c)
+void sub_02009BB8(struct WifiList *list, int slot, int wins, int losses, int trades)
 {
-    if (i < 0 || i >= 0x20) {
+    if (slot < 0 || slot >= 0x20) {
         return;
     }
-    obj->unk1C0[i].unk24 += (u16)a;
-    if (obj->unk1C0[i].unk24 > 9999) {
-        obj->unk1C0[i].unk24 = 9999;
+    list->friendInfo[slot].battleWins += (u16)wins;
+    if (list->friendInfo[slot].battleWins > 9999) {
+        list->friendInfo[slot].battleWins = 9999;
     }
-    obj->unk1C0[i].unk26 += (u16)b;
-    if (obj->unk1C0[i].unk26 > 9999) {
-        obj->unk1C0[i].unk26 = 9999;
+    list->friendInfo[slot].battleLosses += (u16)losses;
+    if (list->friendInfo[slot].battleLosses > 9999) {
+        list->friendInfo[slot].battleLosses = 9999;
     }
-    obj->unk1C0[i].unk28 += (u16)c;
-    if (obj->unk1C0[i].unk28 > 9999) {
-        obj->unk1C0[i].unk28 = 9999;
+    list->friendInfo[slot].tradeCount += (u16)trades;
+    if (list->friendInfo[slot].tradeCount > 9999) {
+        list->friendInfo[slot].tradeCount = 9999;
     }
-    sub_02009B80(obj, i);
+    sub_02009B80(list, slot);
 }
 
 
@@ -782,7 +696,7 @@ void sub_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c)
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02009C24.c  *       --addr 0x02009C24 --thumb
  */
-void sub_02009C24(struct Sub020097BCObj *obj, int src, int dest)
+void sub_02009C24(struct WifiList *list, int src, int dest)
 {
     if (dest < 0 || dest >= 0x20) {
         return;
@@ -790,29 +704,32 @@ void sub_02009C24(struct Sub020097BCObj *obj, int src, int dest)
     if (src < 0 || src >= 0x20) {
         return;
     }
-    obj->unk1C0[dest].unk24 += obj->unk1C0[src].unk24;
-    if (obj->unk1C0[dest].unk24 > 9999) {
-        obj->unk1C0[dest].unk24 = 9999;
+    list->friendInfo[dest].battleWins += list->friendInfo[src].battleWins;
+    if (list->friendInfo[dest].battleWins > 9999) {
+        list->friendInfo[dest].battleWins = 9999;
     }
-    obj->unk1C0[dest].unk26 += obj->unk1C0[src].unk26;
-    if (obj->unk1C0[dest].unk26 > 9999) {
-        obj->unk1C0[dest].unk26 = 9999;
+    list->friendInfo[dest].battleLosses += list->friendInfo[src].battleLosses;
+    if (list->friendInfo[dest].battleLosses > 9999) {
+        list->friendInfo[dest].battleLosses = 9999;
     }
-    obj->unk1C0[dest].unk28 += obj->unk1C0[src].unk28;
-    if (obj->unk1C0[dest].unk28 > 9999) {
-        obj->unk1C0[dest].unk28 = 9999;
+    list->friendInfo[dest].tradeCount += list->friendInfo[src].tradeCount;
+    if (list->friendInfo[dest].tradeCount > 9999) {
+        list->friendInfo[dest].tradeCount = 9999;
     }
-    MI_CpuFill8(&obj->unk1C0[src], 0, sizeof(obj->unk1C0[0]));
+    MI_CpuFill8(&list->friendInfo[src], 0, sizeof(list->friendInfo[0]));
 }
 
 
-void sub_02009CA8(void *account, void *out)
+void sub_02009CA8(void *userData, void *friendData)
 {
-    DWC_CreateExchangeToken(account, out);
+    DWC_CreateExchangeToken(userData, friendData);
 }
 
 
-int func_02009CB0(int a0, int a1){ int t0 = (int)sub_02009860((struct Sub020097BCObj *)a0); int t1 = func_020599BC((int)t0, (int)((a1 + 0) + 0)); return t1; }
+void func_02009CB0(struct WifiList *list, void *token)
+{
+    DWC_CreateExchangeToken(sub_02009860(list), token);
+}
 
 
 /*
@@ -821,13 +738,13 @@ int func_02009CB0(int a0, int a1){ int t0 = (int)sub_02009860((struct Sub020097B
  * original as 36 bytes against the compiler's 34 and reports EXACT*, while
  * `tu` lays the section out and reproduces the linker's two-byte filler.
  */
-int func_02009CC0(void *a0)
+int func_02009CC0(struct WifiList *list)
 {
-    u8 buf[12];
-    void *h = sub_02009860(a0);
+    u8 token[12];
+    void *userData = sub_02009860(list);
 
-    func_02009CB0((int)a0, (int)buf);
-    return func_020598EC(h, buf);
+    func_02009CB0(list, token);
+    return DWC_GetGsProfileId(userData, token);
 }
 
 
@@ -836,7 +753,7 @@ int func_02009CC0(void *a0)
  * disassembly in asm/arm9/src/002_020095C8.s.
  *
  * alias: the DWC-facing end of wifilist.c.  sub_02009D08 is the one that names
- * the save block: it fetches block id 0x1E out of sub_020071CC and hands it
+ * the save block: it fetches block id 0x1E out of func_020071CC and hands it
  * straight to the entry accessor of src/matched/unit_02009860.c, so the wifi
  * friend list lives in block 0x1E.
  *
@@ -888,12 +805,12 @@ int func_02009CC0(void *a0)
  *   python tools/match.py tu --src src/matched/unit_02009C24.c \
  *       --addr 0x02009C24 --thumb
  */
-u32 sub_02009CE4(struct Sub020097BCObj *obj)
+u32 sub_02009CE4(struct WifiList *list)
 {
-    void *account = sub_02009860(obj);
+    void *userData = sub_02009860(list);
 
-    if (DWC_CheckHasProfile(account) != 0) {
-        if (DWC_CheckValidConsole(account) != 0) {
+    if (DWC_CheckHasProfile(userData) != 0) {
+        if (DWC_CheckValidConsole(userData) != 0) {
             return 1;
         }
     }
@@ -901,39 +818,39 @@ u32 sub_02009CE4(struct Sub020097BCObj *obj)
 }
 
 
-struct Sub020097BCObj *sub_02009D08(void *sys)
+struct WifiList *sub_02009D08(struct SaveControl *save)
 {
-    struct Sub020097BCObj *obj = sub_020071CC(sys, 0x1E);
+    struct WifiList *list = func_020071CC(save, 0x1E);
 
-    sub_020099D4(obj, 0);
-    return obj;
+    sub_020099D4(list, 0);
+    return list;
 }
 
 
-int sub_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p,
-                 u32 *out)
+int sub_02009D1C(struct WifiList *list, struct MyStatus *status,
+                 u32 *outSlot)
 {
-    u32 id = sub_02008530(p);
-    u8 kind = sub_02008550(p);
+    u32 id = sub_02008530(status);
+    u8 outfitVariant = sub_02008550(status);
 
-    return sub_02009D50(obj, sub_020084F4(p), id, kind, out);
+    return sub_02009D50(list, sub_020084F4(status), id, outfitVariant, outSlot);
 }
 
 
-int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
-                 u32 kind, u32 *out)
+int sub_02009D50(struct WifiList *list, const void *name, u32 id,
+                 u32 outfitVariant, u32 *outSlot)
 {
     u8 i;
-    u32 v;
+    u32 value;
 
     for (i = 0; i < 0x20; i++) {
-        if (sub_02009A1C(obj, i) == 1) {
-            v = sub_02009864(obj, i, 0);
-            if (v == id) {
-                v = sub_02009864(obj, i, 9);
-                if (v == kind) {
-                    if (out != 0) {
-                        *out = i;
+        if (sub_02009A1C(list, i) == 1) {
+            value = sub_02009864(list, i, 0);
+            if (value == id) {
+                value = sub_02009864(list, i, 9);
+                if (value == outfitVariant) {
+                    if (outSlot != 0) {
+                        *outSlot = i;
                     }
                     return 1;
                 }
@@ -963,13 +880,13 @@ int sub_02009D50(struct Sub020097BCObj *obj, const void *unused, u32 id,
  */
 u32 sub_02009D9C(void)
 {
-    return sizeof(struct Sub02009D9CObj_0);
+    return sizeof(struct TradeHistory);
 }
 
 
-void sub_02009DA4(struct Sub02009D9CObj_0 *obj)
+void sub_02009DA4(struct TradeHistory *history)
 {
-    MI_CpuFill8(obj, 0, sub_02009D9C());
+    MI_CpuFill8(history, 0, sub_02009D9C());
 }
 
 
@@ -983,7 +900,7 @@ void sub_02009DA4(struct Sub02009D9CObj_0 *obj)
  * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
  * of the 0x20-byte object of src/matched/unit_0200852C.c, plus one counter:
  *
- *   +0x000  Sub0200852CObj[100]   0x20 bytes each
+ *   +0x000  MyStatus[100]         0x20 bytes each
  *   +0xD50  u32                   a use count, saturating at 99999
  *
  * sub_02008468, four bytes returning 0x20, is the element size, and
@@ -1000,13 +917,13 @@ void sub_02009DA4(struct Sub02009D9CObj_0 *obj)
  *   python tools/match.py tu --src src/matched/unit_02009DB8.c \
  *       --addr 0x02009DB8 --thumb
  */
-int sub_02009DB8(struct Sub02009D9CObj_1 *obj, u32 id)
+int sub_02009DB8(struct TradeHistory *history, u32 id)
 {
     int i;
 
     for (i = 0; i < 100; i++) {
-        if (sub_0200855C(&obj->unk000[i]) != 0
-            && id == sub_02008530(&obj->unk000[i])) {
+        if (sub_0200855C(&history->partners[i]) != 0
+            && id == sub_02008530(&history->partners[i])) {
             return i;
         }
     }
@@ -1014,61 +931,61 @@ int sub_02009DB8(struct Sub02009D9CObj_1 *obj, u32 id)
 }
 
 
-void sub_02009DE8(struct Sub02009D9CObj_1 *obj, struct Sub0200852CObj *p)
+void sub_02009DE8(struct TradeHistory *history, struct MyStatus *status)
 {
-    u32 id = sub_02008530(p);
+    u32 id = sub_02008530(status);
     u32 size = sub_02008468();
-    int i;
+    int slot;
 
     if (id == 0) {
         return;
     }
-    i = sub_02009DB8(obj, id);
-    if (i != -1) {
-        sub_02008558(&obj->unk000[i], sub_02008554(p));
+    slot = sub_02009DB8(history, id);
+    if (slot != -1) {
+        sub_02008558(&history->partners[slot], sub_02008554(status));
         return;
     }
-    MI_CpuMove(obj->unk000, &obj->unk000[1], size * 99);
-    MI_CpuCopy8(p, obj->unk000, size);
+    MI_CpuMove(history->partners, &history->partners[1], size * 99);
+    MI_CpuCopy8(status, history->partners, size);
 }
 
 
-u32 sub_02009E40(struct Sub02009D9CObj_1 *obj, u32 i)
+u32 sub_02009E40(struct TradeHistory *history, u32 slot)
 {
-    if (i >= 100) {
-        i = 0;
+    if (slot >= 100) {
+        slot = 0;
     }
-    return sub_02008530(&obj->unk000[i]);
+    return sub_02008530(&history->partners[slot]);
 }
 
 
-struct Sub0200852CObj *sub_02009E54(struct Sub02009D9CObj_1 *obj, u32 i)
+struct MyStatus *sub_02009E54(struct TradeHistory *history, u32 slot)
 {
-    if (i >= 100) {
+    if (slot >= 100) {
         return 0;
     }
-    if (sub_02009E40(obj, i) == 0) {
+    if (sub_02009E40(history, slot) == 0) {
         return 0;
     }
-    return &obj->unk000[i];
+    return &history->partners[slot];
 }
 
 
-u32 sub_02009E74(struct Sub02009D9CObj_1 *obj, u32 id)
+u32 sub_02009E74(struct TradeHistory *history, u32 id)
 {
-    if (sub_02009DB8(obj, id) != -1) {
+    if (sub_02009DB8(history, id) != -1) {
         return 1;
     }
     return 0;
 }
 
 
-int sub_02009E8C(struct Sub02009D9CObj_1 *obj)
+int sub_02009E8C(struct TradeHistory *history)
 {
     int i;
 
     for (i = 0; i < 100; i++) {
-        if (sub_0200855C(&obj->unk000[i]) == 0) {
+        if (sub_0200855C(&history->partners[i]) == 0) {
             break;
         }
     }
@@ -1076,17 +993,17 @@ int sub_02009E8C(struct Sub02009D9CObj_1 *obj)
 }
 
 
-u32 sub_02009EA8(const struct Sub02009D9CObj_1 *obj)
+u32 sub_02009EA8(const struct TradeHistory *history)
 {
-    return obj->unkD50;
+    return history->tradeCount;
 }
 
 
-void sub_02009EB0(struct Sub02009D9CObj_1 *obj)
+void sub_02009EB0(struct TradeHistory *history)
 {
-    obj->unkD50 = obj->unkD50 + 1;
-    if (obj->unkD50 > 99999) {
-        obj->unkD50 = 99999;
+    history->tradeCount = history->tradeCount + 1;
+    if (history->tradeCount > 99999) {
+        history->tradeCount = 99999;
     }
 }
 
@@ -1097,9 +1014,9 @@ void sub_02009EB0(struct Sub02009D9CObj_1 *obj)
  * r1. Seeded from ov120 (0x021D4A90, 0x021D4AC8), ov135 (0x02201B78) and
  * the ov175 root func_021D7E18 (0x021D827E).
  */
-void *func_02009EC8(void *sys)
+struct TradeHistory *func_02009EC8(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x1f);
+    return func_020071CC(save, 0x1f);
 }
 
 
@@ -1114,15 +1031,15 @@ u32 func_02009ED4(void)
 }
 
 
-void func_02009EDC(void *a0)
+void func_02009EDC(u8 *buffer)
 {
-    u8 buf[12];
+    struct MysteryData data;
 
-    func_02082BCC(buf, 0, 0xc);
-    ((struct Obj11227 *)buf)->f0 = a0;
-    ((struct Obj11227 *)buf)->f4 = 1;
-    func_02082BCC(a0, 0, 0xa94);
-    func_0200A480((struct Obj *)buf);
+    MI_CpuFill8(&data, 0, sizeof(data));
+    data.buffer = buffer;
+    data.saveType = 1;
+    MI_CpuFill8(buffer, 0, 0xa94);
+    func_0200A480(&data);
 }
 
 
@@ -1131,110 +1048,111 @@ void func_02009EDC(void *a0)
  *   python tools/match.py one --src src/matched/func_02009F0C.c \\
  *       --func func_02009F0C --addr 0x02009F0C --thumb --cc 1.1p1
  */
-u32 func_02009F0C(u32 a)
+u32 func_02009F0C(u32 giftType)
 {
-    if (a != 0 && a < 4) {
+    if (giftType != 0 && giftType < 4) {
         return 1;
     }
     return 0;
 }
 
 
-int func_02009F1C(void *a0)
+int func_02009F1C(struct MysteryData *data)
 {
     u32 i;
-    u32 n = func_0200A400(a0);
+    u32 max = func_0200A400(data);
 
-    for (i = 0; i < n; i++) {
-        if (func_02009F0C(((u8 *)func_0200A43C(a0, i))[0xb3]) == 0)
+    for (i = 0; i < max; i++) {
+        if (func_02009F0C(func_0200A43C(data, i)->giftType) == 0)
             return 1;
     }
     return 0;
 }
 
 
-int func_02009F50(char *p, unsigned int idx)
+int func_02009F50(struct MysteryData *data, u32 slot)
 {
-    unsigned char *e = (unsigned char *)func_0200A43C((struct Obj *)p, idx);
-    func_0200A400((struct Obj *)p);
-    if (idx < 0xc && func_02009F0C(((struct Obj15577 *)e)->fB3) != 0)
+    struct MysteryCard *card = func_0200A43C(data, slot);
+    func_0200A400(data);
+    if (slot < 0xc && func_02009F0C(card->giftType) != 0)
         return 1;
     return 0;
 }
 
 
-void func_02009F7C(void *p, unsigned int idx)
+void func_02009F7C(struct MysteryData *data, u32 slot)
 {
-    unsigned int i;
-    unsigned int n = (unsigned int)func_0200A400(p);
-    if (func_02009F50(p, idx) != 0)
+    u32 i;
+    u32 max = func_0200A400(data);
+    if (func_02009F50(data, slot) != 0)
         return;
-    for (i = idx; i < n - 1; i++) {
-        void *dst = func_0200A43C(p, i);
-        void *src = func_0200A43C(p, i + 1);
-        *(Slot *)dst = *(Slot *)src;
+    for (i = slot; i < max - 1; i++) {
+        void *dst = func_0200A43C(data, i);
+        void *src = func_0200A43C(data, i + 1);
+        /* word view: the copy is an ldm/stm loop only for a four-aligned type */
+        *(struct MysteryCardImage *)dst = *(struct MysteryCardImage *)src;
     }
-    func_02082BCC(func_0200A43C(p, i), 0, 0xcc);
+    MI_CpuFill8(func_0200A43C(data, i), 0, sizeof(struct MysteryCard));
 }
 
 
-void *func_02009FD4(char *p, unsigned int idx)
+struct MysteryCard *func_02009FD4(struct MysteryData *data, u32 slot)
 {
-    unsigned char *e = (unsigned char *)func_0200A43C((struct Obj *)p, idx);
-    unsigned int n = func_0200A400((struct Obj *)p);
-    if (idx < n && func_02009F0C(((struct Obj15578 *)e)->fB3) != 0)
-        return e;
+    struct MysteryCard *card = func_0200A43C(data, slot);
+    u32 max = func_0200A400(data);
+    if (slot < max && func_02009F0C(card->giftType) != 0)
+        return card;
     return 0;
 }
 
 
-int func_0200A000(char *p, int idx, void *buf)
+int func_0200A000(struct MysteryData *data, u32 slot, void *out)
 {
-    char *e;
-    int r = 0;
-    func_0200A400((struct Obj *)p);
-    func_0200A49C((struct Obj *)p);
-    e = (char *)func_02009FD4(p, idx);
-    if (e != 0) {
-        func_02082D44(e, buf, 0xcc);
-        r = 1;
-    }
-    func_0200A480((struct Obj *)p);
-    return r;
-}
-
-
-int func_0200A034(void *p, void *arg)
-{
-    unsigned int i;
+    struct MysteryCard *card;
     int found = 0;
-    unsigned int n = (unsigned int)func_0200A400(p);
-    func_0200A49C(p);
-    if (func_02009F1C(p) == 1) {
-        for (i = 0; i < n; i++) {
-            void *slot = func_0200A43C(p, i);
-            if (func_02009F0C(((struct Obj15579 *)slot)->fB3) == 0) {
-                func_02082D44(arg, slot, 0xcc);
-                found = 1;
-                break;
-            }
-        }
+    func_0200A400(data);
+    func_0200A49C(data);
+    card = func_02009FD4(data, slot);
+    if (card != 0) {
+        MI_CpuCopy8(card, out, sizeof(struct MysteryCard));
+        found = 1;
     }
-    func_0200A480(p);
+    func_0200A480(data);
     return found;
 }
 
 
-void func_0200A094(void *p, unsigned int idx)
+int func_0200A034(struct MysteryData *data, const void *card)
 {
-    unsigned int n = (unsigned int)func_0200A400(p);
-    func_0200A49C(p);
-    if (idx < n) {
-        void *slot = func_0200A43C(p, idx);
-        ((struct Obj15580 *)slot)->fB3 = 0;
-        func_02009F7C(p, idx);
+    u32 i;
+    int added = 0;
+    u32 max = func_0200A400(data);
+    func_0200A49C(data);
+    if (func_02009F1C(data) == 1) {
+        for (i = 0; i < max; i++) {
+            struct MysteryCard *slot = func_0200A43C(data, i);
+            if (func_02009F0C(slot->giftType) == 0) {
+                MI_CpuCopy8(card, slot, sizeof(struct MysteryCard));
+                added = 1;
+                break;
+            }
+        }
     }
-    func_0200A480(p);
+    func_0200A480(data);
+    return added;
+}
+
+
+void func_0200A094(struct MysteryData *data, u32 slot)
+{
+    u32 max = func_0200A400(data);
+    func_0200A49C(data);
+    if (slot < max) {
+        struct MysteryCard *card = func_0200A43C(data, slot);
+        card->giftType = 0;
+        func_02009F7C(data, slot);
+    }
+    func_0200A480(data);
 }
 
 
@@ -1243,14 +1161,14 @@ void func_0200A094(void *p, unsigned int idx)
  *   python tools/match.py one --src src/matched/func_0200A0C8.c \\
  *       --func func_0200A0C8 --addr 0x0200A0C8 --thumb --cc 1.1p1
  */
-u32 func_0200A0C8(u8 *p)
+u32 func_0200A0C8(struct MysteryData *data)
 {
-    u32 r;
+    u32 hasSpace;
 
-    func_0200A49C((struct Obj *)p);
-    r = func_02009F1C(p);
-    func_0200A480((struct Obj *)p);
-    return r;
+    func_0200A49C(data);
+    hasSpace = func_02009F1C(data);
+    func_0200A480(data);
+    return hasSpace;
 }
 
 
@@ -1259,29 +1177,29 @@ u32 func_0200A0C8(u8 *p)
  *   python tools/match.py one --src src/matched/func_0200A0E4.c \\
  *       --func func_0200A0E4 --addr 0x0200A0E4 --thumb --cc 1.1p1
  */
-u32 func_0200A0E4(u8 *p, u32 a)
+u32 func_0200A0E4(struct MysteryData *data, u32 slot)
 {
-    u32 r;
+    u32 exists;
 
-    func_0200A49C((struct Obj *)p);
-    r = func_02009F50((char *)p, a);
-    func_0200A480((struct Obj *)p);
-    return r;
+    func_0200A49C(data);
+    exists = func_02009F50(data, slot);
+    func_0200A480(data);
+    return exists;
 }
 
 
-int func_0200A104(char *p, unsigned int idx)
+int func_0200A104(struct MysteryData *data, u32 slot)
 {
-    int r = 0;
-    unsigned int n = func_0200A400((struct Obj *)p);
-    func_0200A49C((struct Obj *)p);
-    if (idx < n) {
-        unsigned char *e = (unsigned char *)func_0200A43C((struct Obj *)p, idx);
-        if (((unsigned int)(((struct Obj15581 *)e)->fB4) << 0x1e) >> 0x1f)
-            r = 1;
+    int received = 0;
+    u32 max = func_0200A400(data);
+    func_0200A49C(data);
+    if (slot < max) {
+        struct MysteryCard *card = func_0200A43C(data, slot);
+        if (((u32)card->flags << 0x1e) >> 0x1f)
+            received = 1;
     }
-    func_0200A480((struct Obj *)p);
-    return r;
+    func_0200A480(data);
+    return received;
 }
 
 
@@ -1290,57 +1208,57 @@ int func_0200A104(char *p, unsigned int idx)
  *   python tools/match.py one --src src/matched/func_0200A13C.c \\
  *       --func func_0200A13C --addr 0x0200A13C --thumb --cc 1.1p1
  */
-void func_0200A13C(u8 *p, u32 i)
+void func_0200A13C(struct MysteryData *data, u32 slot)
 {
-    u32 n = func_0200A400((struct Obj *)p);
-    u8 *q;
+    u32 max = func_0200A400(data);
+    struct MysteryCard *card;
 
-    func_0200A49C((struct Obj *)p);
-    if (i < n) {
-        q = func_0200A43C((struct Obj *)p, i);
-        q[0xb4] |= 2;
+    func_0200A49C(data);
+    if (slot < max) {
+        card = func_0200A43C(data, slot);
+        card->flags |= 2;
     }
-    func_0200A480((struct Obj *)p);
+    func_0200A480(data);
 }
 
 
-int func_0200A170(char *p)
+int func_0200A170(struct MysteryData *data)
 {
     int found = 0;
-    unsigned int i;
-    unsigned int n = func_0200A400((struct Obj *)p);
-    func_0200A49C((struct Obj *)p);
-    for (i = 0; i < n; i++) {
-        if (func_02009F50(p, i) == 1)
+    u32 i;
+    u32 max = func_0200A400(data);
+    func_0200A49C(data);
+    for (i = 0; i < max; i++) {
+        if (func_02009F50(data, i) == 1)
             found = 1;
     }
-    func_0200A480((struct Obj *)p);
+    func_0200A480(data);
     return found;
 }
 
 
-int func_0200A1A8(char *p, unsigned int bit)
+int func_0200A1A8(struct MysteryData *data, u32 flag)
 {
-    int r = 0;
-    unsigned char *t = (unsigned char *)func_0200A41C((struct Obj *)p);
-    func_0200A49C((struct Obj *)p);
-    if (bit < 0x800) {
-        if (t[bit >> 3] & (1 << (bit & 7)))
-            r = 1;
+    int set = 0;
+    u8 *flags = func_0200A41C(data);
+    func_0200A49C(data);
+    if (flag < 0x800) {
+        if (flags[flag >> 3] & (1 << (flag & 7)))
+            set = 1;
     }
-    func_0200A480((struct Obj *)p);
-    return r;
+    func_0200A480(data);
+    return set;
 }
 
 
-void func_0200A1E4(void *p, unsigned int idx)
+void func_0200A1E4(struct MysteryData *data, u32 flag)
 {
-    u8 *b = func_0200A41C(p);
-    func_0200A49C(p);
-    if (idx < 0x800) {
-        b[idx >> 3] |= (u8)(1 << (idx & 7));
+    u8 *flags = func_0200A41C(data);
+    func_0200A49C(data);
+    if (flag < 0x800) {
+        flags[flag >> 3] |= (u8)(1 << (flag & 7));
     }
-    func_0200A480(p);
+    func_0200A480(data);
 }
 
 
@@ -1348,71 +1266,71 @@ void func_0200A1E4(void *p, unsigned int idx)
  * note:     closed 2026-09-21 by tools/permuter.py (hill, --types): declaration order i before n,
  *           and the counter n is unsigned (8 bytes)
  */
-int func_0200A21C(u8 *obj)
+int func_0200A21C(struct MysteryGiftPacket *packet)
 {
     int i;
-    u32 limit = 0x2d0;
-    u32 n = 0;
+    u32 spinLimit = 0x2d0;
+    u32 spin = 0;
 
     do {
         for (i = 0; i < 16; i++) {
-            n++;
+            spin++;
         }
-    } while (n < (int)limit);
-    return ((struct Obj15585 *)obj)->f2CE == func_0203F1FC(obj, 0x2ce);
+    } while (spin < (int)spinLimit);
+    return packet->crc == func_0203F1FC(packet, 0x2ce);
 }
 
 
-void func_0200A254(void *p, unsigned int a, unsigned int b)
+void func_0200A254(struct MysteryData *data, u32 slotA, u32 slotB)
 {
-    unsigned char tmp[0xcc];
-    func_0200A49C(p);
-    if (func_02009F50(p, a) && func_02009F50(p, b)) {
-        void *x = func_02009FD4(p, a);
-        void *y = func_02009FD4(p, b);
-        func_02082D44(x, tmp, 0xcc);
-        func_02082D44(y, x, 0xcc);
-        func_02082D44(tmp, y, 0xcc);
+    u8 swapCard[0xcc];
+    func_0200A49C(data);
+    if (func_02009F50(data, slotA) && func_02009F50(data, slotB)) {
+        struct MysteryCard *cardA = func_02009FD4(data, slotA);
+        struct MysteryCard *cardB = func_02009FD4(data, slotB);
+        MI_CpuCopy8(cardA, swapCard, sizeof(struct MysteryCard));
+        MI_CpuCopy8(cardB, cardA, sizeof(struct MysteryCard));
+        MI_CpuCopy8(swapCard, cardB, sizeof(struct MysteryCard));
     }
-    func_0200A480(p);
+    func_0200A480(data);
 }
 
 
-void func_0200A2B8(void *a0, int a1)
+void func_0200A2B8(struct MysteryData *data, struct GameData *gameData)
 {
-    if (func_0200A350(a0) == 0) {
-        func_021DFDC0(((struct Obj15586 *)a0)->f8);
+    if (func_0200A350(data) == 0) {
+        func_021DFDC0(data->extraSave);
     } else {
-        func_02012DAC(a1);
+        func_02012DAC(gameData);
     }
 }
 
 
-int func_0200A2D8(void *a0, int a1)
+int func_0200A2D8(struct MysteryData *data, struct GameData *gameData)
 {
-    if (func_0200A350(a0) == 0) {
-        if (func_021DFE00(((struct Obj15587 *)a0)->f8) != 0)
+    if (func_0200A350(data) == 0) {
+        if (func_021DFE00(data->extraSave) != 0)
             return 2;
         return 0;
     }
-    return func_02012DD0((u8 *)a1);
+    return func_02012DD0(gameData);
 }
 
 
-void *func_0200A300(void *a0, void *a1, void *a2)
+struct MysteryData *func_0200A300(struct SaveControl *save, int mode, u32 heapId)
 {
-    void *p = func_02030734((u32)a2, 0xc, 0, g_020A71A4, 0x260);
+    struct MysteryData *data = func_02030734(heapId, sizeof(struct MysteryData), 0, g_020A71A4, 0x260);
 
-    func_02082BCC(p, 0, 0xc);
-    func_0200A358(p, a0, (int)a1, (int)a2);
-    return p;
+    MI_CpuFill8(data, 0, sizeof(struct MysteryData));
+    sub_0200A358(data, save, mode, heapId);
+    return data;
 }
 
 
-void func_0200A338(void *a0)
+void func_0200A338(struct MysteryData *data)
 {
-    func_0200A3D0(a0);
-    func_020307B0(a0);
+    func_0200A3D0(data);
+    func_020307B0(data);
 }
 
 
@@ -1424,15 +1342,15 @@ void func_0200A338(void *a0)
  * Its target reads one object pointer in r0 and returns the unsigned count
  * used by the overlay callers.
  */
-u32 func_0200A348(struct Obj *obj)
+u32 func_0200A348(struct MysteryData *data)
 {
-    return func_0200A400(obj);
+    return func_0200A400(data);
 }
 
 
-int func_0200A350(struct Obj *a0)
+int func_0200A350(struct MysteryData *data)
 {
-    return func_0200A3FC(a0);
+    return func_0200A3FC(data);
 }
 
 
@@ -1468,36 +1386,36 @@ int func_0200A350(struct Obj *a0)
  *   python3 tools/match.py one --src src/pending/func_0200A358.c \
  *       --func sub_0200A358 --addr 0x0200A358 --cc 1.1p1 --thumb
  */
-void sub_0200A358(u8 *p, void *ctrl, int a2, int a3)
+void sub_0200A358(struct MysteryData *data, struct SaveControl *save, int mode, int heapId)
 {
-    int t;
-    void *w;
+    int inMainSave;
+    void *work;
 
-    func_02082BCC(p, 0, 0xc);
-    switch (a2) {
+    MI_CpuFill8(data, 0, sizeof(struct MysteryData));
+    switch (mode) {
     case 0:
-        t = 1;
+        inMainSave = 1;
         break;
     case 1:
-        t = sub_020071EC((const struct Sub020071E4Ctrl *)ctrl);
+        inMainSave = sub_020071EC(save);
         break;
     default:
-        t = 1;
+        inMainSave = 1;
         break;
     }
-    if (t != 0) {
-        ((struct Obj04037 *)p)->f0 = (u32)sub_020071CC((struct Sub020071CCCtrl *)ctrl, 0x22);
-        ((struct Obj04037 *)p)->f4 = 1;
+    if (inMainSave != 0) {
+        data->buffer = func_020071CC(save, 0x22);
+        data->saveType = 1;
         return;
     }
     func_02034AC4((int)ov_id_E4);
-    w = func_021DFC20(a3);
-    ((struct Obj04037 *)p)->f8 = (u32)w;
-    ((struct Obj04037 *)p)->f0 = (u32)func_021DFEAC(w);
-    ((struct Obj04037 *)p)->f4 = 0;
-    if (func_021DFE90((void *)((struct Obj04037 *)p)->f8) == 0) {
-        func_02082BCC((void *)((struct Obj04037 *)p)->f0, 0, 0x368);
-        sub_0200A480((struct Obj *)p);
+    work = func_021DFC20(heapId);
+    data->extraSave = work;
+    data->buffer = func_021DFEAC(work);
+    data->saveType = 0;
+    if (func_021DFE90(data->extraSave) == 0) {
+        MI_CpuFill8(data->buffer, 0, 0x368);
+        func_0200A480(data);
     }
 }
 
@@ -1531,21 +1449,21 @@ void sub_0200A358(u8 *p, void *ctrl, int a2, int a3)
  *   python tools/match.py one --src src/pending/func_0200A3D0.c \
  *       --func func_0200A3D0 --addr 0x0200A3D0 --cc 1.1p1 --thumb
  */
-void func_0200A3D0(void *obj)
+void func_0200A3D0(struct MysteryData *data)
 {
-    switch (((struct Obj11228 *)obj)->f4) {
+    switch (data->saveType) {
     case 0:
-        func_021DFDB8((void *)((struct Obj11228 *)obj)->f8);
-        func_02034A5C((int)ov_abs_e4);
+        func_021DFDB8(data->extraSave);
+        func_02034A5C((int)ov_id_E4);
         break;
     case 1:
         break;
     }
-    func_02082BCC(obj, 0, 0xc);
+    MI_CpuFill8(data, 0, sizeof(struct MysteryData));
 }
 
 
-#define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
+#define HW_VBLANK_COUNT_BUF (*(volatile u32 *)0x02FFFC3C)
 
 
 /*
@@ -1574,7 +1492,7 @@ void func_0200A3D0(void *obj)
  *
  * What the range is.  Two objects, and two layers.
  *
- * `struct Obj` is a twelve byte handle: a pointer to a block, a kind that is
+ * `struct MysteryData` is a twelve byte handle: a pointer to a block, a kind that is
  * only ever 0 or 1, and a third word.  Every accessor on it is a `switch`
  * over that kind with the default falling through to a zero return, and the
  * two arms are byte for byte identical in three of the four cases, so the
@@ -1584,7 +1502,7 @@ void func_0200A3D0(void *obj)
  * built out of a system word and handed to the pair of routines at
  * 0x0203F2FC / 0x0203F328 / 0x0203F37C.
  *
- * `struct Big` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
+ * `struct MusicalSave` is a 0x2A4-byte record with two parallel 0x20-byte bitmaps at
  * 0x258 and 0x278.  0x0200A6BC sets the same bit in both, 0x0200A644 tests
  * the first and 0x0200A680 tests the second; the constructor at 0x0200A544
  * clears the record, seeds two arrays and then sets fifteen of those bits by
@@ -1635,15 +1553,15 @@ void func_0200A3D0(void *obj)
  *     so whatever the construct is, it is used twice in a row and is not an
  *     accident.  The rest of the function is byte for byte right.
  */
-u32 func_0200A3FC(struct Obj *obj)
+u32 func_0200A3FC(struct MysteryData *data)
 {
-    return obj->unk04;
+    return data->saveType;
 }
 
 
-u32 func_0200A400(struct Obj *obj)
+u32 func_0200A400(struct MysteryData *data)
 {
-    switch (obj->unk04) {
+    switch (data->saveType) {
     case 0:
         return 3;
     case 1:
@@ -1653,156 +1571,156 @@ u32 func_0200A400(struct Obj *obj)
 }
 
 
-void *func_0200A418(struct Obj *obj)
+u8 *func_0200A418(struct MysteryData *data)
 {
-    return obj->unk00;
+    return data->buffer;
 }
 
 
-void *func_0200A41C(struct Obj *obj)
+u8 *func_0200A41C(struct MysteryData *data)
 {
-    switch (obj->unk04) {
+    switch (data->saveType) {
     case 0:
-        return func_0200A418(obj);
+        return func_0200A418(data);
     case 1:
-        return func_0200A418(obj);
+        return func_0200A418(data);
     }
     return 0;
 }
 
 
-void *func_0200A43C(struct Obj *obj, u32 index)
+struct MysteryCard *func_0200A43C(struct MysteryData *data, u32 slot)
 {
-    func_0200A400(obj);
-    switch (obj->unk04) {
+    func_0200A400(data);
+    switch (data->saveType) {
     case 0:
-        return (u8 *)func_0200A418(obj) + 0x100 + index * 0xCC;
+        return (struct MysteryCard *)(func_0200A418(data) + 0x100 + slot * 0xCC);
     case 1:
-        return (u8 *)func_0200A418(obj) + 0x100 + index * 0xCC;
+        return (struct MysteryCard *)(func_0200A418(data) + 0x100 + slot * 0xCC);
     }
     return 0;
 }
 
 
-void func_0200A480(struct Obj *obj)
+void func_0200A480(struct MysteryData *data)
 {
-    func_0200A4B8(func_0200A418(obj), func_0200A3FC(obj));
+    func_0200A4B8(func_0200A418(data), func_0200A3FC(data));
 }
 
 
-void func_0200A49C(struct Obj *obj)
+void func_0200A49C(struct MysteryData *data)
 {
-    func_0200A50C(func_0200A418(obj), func_0200A3FC(obj));
+    func_0200A50C(func_0200A418(data), func_0200A3FC(data));
 }
 
 
-void func_0200A4B8(void *base, u32 kind)
+void func_0200A4B8(u8 *buffer, u32 saveType)
 {
     u32 size;
-    struct Hdr *h;
-    u32 a, b;
+    struct MysteryDataFooter *footer;
+    u32 seedHigh, seedLow;
 
-    switch (kind) {
+    switch (saveType) {
     case 0:
         size = 0x368;
-        h = (struct Hdr *)((u8 *)base + (size - 4));
+        footer = (struct MysteryDataFooter *)(buffer + (size - 4));
         break;
     case 1:
         size = 0xA94;
-        h = (struct Hdr *)((u8 *)base + (size - 4));
+        footer = (struct MysteryDataFooter *)(buffer + (size - 4));
         break;
     }
-    a = unk_02FFFC3C;
-    b = unk_02FFFC3C;
-    h->unk02 = (u16)((a << 8) | b);
-    if (h->unk02 == 0) {
-        h->unk02 = 1;
+    seedHigh = HW_VBLANK_COUNT_BUF;
+    seedLow = HW_VBLANK_COUNT_BUF;
+    footer->cryptSeed = (u16)((seedHigh << 8) | seedLow);
+    if (footer->cryptSeed == 0) {
+        footer->cryptSeed = 1;
     }
-    h->unk00 = func_0203F2FC(base, size - 4);
-    func_0203F328(base, size - 4, h->unk00 + (h->unk02 << 16));
+    footer->checksum = func_0203F2FC(buffer, size - 4);
+    func_0203F328(buffer, size - 4, footer->checksum + (footer->cryptSeed << 16));
 }
 
 
-void func_0200A50C(void *base, u32 kind)
+void func_0200A50C(u8 *buffer, u32 saveType)
 {
     u32 size;
-    struct Hdr *h;
+    struct MysteryDataFooter *footer;
 
-    switch (kind) {
+    switch (saveType) {
     case 0:
         size = 0x368;
-        h = (struct Hdr *)((u8 *)base + (size - 4));
+        footer = (struct MysteryDataFooter *)(buffer + (size - 4));
         break;
     case 1:
         size = 0xA94;
-        h = (struct Hdr *)((u8 *)base + (size - 4));
+        footer = (struct MysteryDataFooter *)(buffer + (size - 4));
         break;
     }
-    func_0203F37C(base, size - 4, h->unk00 + (h->unk02 << 16));
-    h->unk02 = 0;
+    func_0203F37C(buffer, size - 4, footer->checksum + (footer->cryptSeed << 16));
+    footer->cryptSeed = 0;
 }
 
 
 u32 func_0200A53C(void)
 {
-    return sizeof(struct Big);
+    return sizeof(struct MusicalSave);
 }
 
 
-void func_0200A544(struct Big *p)
+void func_0200A544(struct MusicalSave *musical)
 {
     u8 i;
 
-    MI_CpuFill8(p, 0, sizeof(struct Big));
-    func_0200A604(p);
+    MI_CpuFill8(musical, 0, sizeof(struct MusicalSave));
+    func_0200A604(musical);
     for (i = 0; i < 10; i++) {
-        p->unk1E0[i].unk0 = 4;
+        musical->programs[i].state = 4;
     }
-    p->unk29D = 0;
-    p->unk29E = 0;
-    func_0200A6BC(p, 0x30);
-    func_0200A6BC(p, 0x46);
-    func_0200A6BC(p, 0x53);
-    func_0200A6BC(p, 0x4B);
-    func_0200A6BC(p, 0x00);
-    func_0200A6BC(p, 0x01);
-    func_0200A6BC(p, 0x0A);
-    func_0200A6BC(p, 0x1C);
-    func_0200A6BC(p, 0x08);
-    func_0200A6BC(p, 0x3B);
-    func_0200A6BC(p, 0x3F);
-    func_0200A6BC(p, 0x42);
-    func_0200A6BC(p, 0x10);
-    func_0200A6BC(p, 0x59);
-    func_0200A6BC(p, 0x4C);
+    musical->scriptSetting = 0;
+    musical->hasDistData = 0;
+    func_0200A6BC(musical, 0x30);
+    func_0200A6BC(musical, 0x46);
+    func_0200A6BC(musical, 0x53);
+    func_0200A6BC(musical, 0x4B);
+    func_0200A6BC(musical, 0x00);
+    func_0200A6BC(musical, 0x01);
+    func_0200A6BC(musical, 0x0A);
+    func_0200A6BC(musical, 0x1C);
+    func_0200A6BC(musical, 0x08);
+    func_0200A6BC(musical, 0x3B);
+    func_0200A6BC(musical, 0x3F);
+    func_0200A6BC(musical, 0x42);
+    func_0200A6BC(musical, 0x10);
+    func_0200A6BC(musical, 0x59);
+    func_0200A6BC(musical, 0x4C);
 }
 
 
-void *func_0200A5F8(void *sys)
+struct MusicalSave *func_0200A5F8(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x2A);
+    return func_020071CC(save, 0x2A);
 }
 
 
-void func_0200A604(struct Big *p)
+void func_0200A604(struct MusicalSave *musical)
 {
     u8 i;
 
     for (i = 0; i < 8; i++) {
-        p->unk1B0[i].unk0 = 10;
+        musical->outfits[i].pokeSlot = 10;
     }
 }
 
 
-u8 *func_0200A628(struct Big *p)
+struct MusicalOutfit *func_0200A628(struct MusicalSave *musical)
 {
-    return (u8 *)p->unk1B0;
+    return musical->outfits;
 }
 
 
-u32 func_0200A630(struct Bits *p)
+u32 func_0200A630(struct MusicalSave *musical)
 {
-    return p->unk00_16 != 0;
+    return musical->shotState != 0;
 }
 
 
@@ -1811,12 +1729,12 @@ void func_0200A640(void)
 }
 
 
-u32 func_0200A644(struct Big *p, u8 index)
+u32 func_0200A644(struct MusicalSave *musical, u8 prop)
 {
-    if (index < 100) {
-        u8 shift = (s32)index % 8;
-        u8 byte  = index >> 3;
-        if ((p->unk258[byte] & (1 << shift)) > 0) {
+    if (prop < 100) {
+        u8 shift = (s32)prop % 8;
+        u8 byte  = prop >> 3;
+        if ((musical->ownedProps[byte] & (1 << shift)) > 0) {
             return 1;
         }
     }
@@ -1824,12 +1742,12 @@ u32 func_0200A644(struct Big *p, u8 index)
 }
 
 
-u32 func_0200A680(struct Big *p, u8 index)
+u32 func_0200A680(struct MusicalSave *musical, u8 prop)
 {
-    if (index < 100) {
-        u8 shift = (s32)index % 8;
-        u8 byte  = index >> 3;
-        if ((p->unk278[byte] & (1 << shift)) > 0) {
+    if (prop < 100) {
+        u8 shift = (s32)prop % 8;
+        u8 byte  = prop >> 3;
+        if ((musical->newProps[byte] & (1 << shift)) > 0) {
             return 1;
         }
     }
@@ -1837,17 +1755,17 @@ u32 func_0200A680(struct Big *p, u8 index)
 }
 
 
-void func_0200A6BC(struct Big *p, u32 index)
+void func_0200A6BC(struct MusicalSave *musical, u32 prop)
 {
     u8 shift, byte;
 
-    if (index >= 100) {
+    if (prop >= 100) {
         return;
     }
-    shift = (s32)index % 8;
-    byte  = index >> 3;
-    p->unk258[byte] |= (u8)(1 << shift);
-    p->unk278[byte] |= (u8)(1 << shift);
+    shift = (s32)prop % 8;
+    byte  = prop >> 3;
+    musical->ownedProps[byte] |= (u8)(1 << shift);
+    musical->newProps[byte] |= (u8)(1 << shift);
 }
 
 
@@ -1863,7 +1781,7 @@ void func_0200A6BC(struct Big *p, u32 index)
  *
  * 328 bytes, 0x0200A6F8..0x0200A840, 21 functions, and the direct
  * continuation of src/matched/unit_0200A3FC.c: every one of them reaches the
- * same 0x2A4-byte `struct Big`, and the accessors here are what pin the last
+ * same 0x2A4-byte `struct MusicalSave`, and the accessors here are what pin the last
  * quarter of its layout (three counters at 0x252, 0x254 and 0x256, a
  * four-entry byte array at 0x298 and four separate bytes at 0x29C..0x29F).
  *
@@ -1900,24 +1818,24 @@ void func_0200A6BC(struct Big *p, u32 index)
  *    compiler emits `blt` where the original has `bge` and swaps the two
  *    stores, which is four bytes and reads as a different function.
  */
-void func_0200A6F8(struct Big *p)
+void func_0200A6F8(struct MusicalSave *musical)
 {
     u8 i;
 
     for (i = 0; i < 0x20; i++) {
-        p->unk278[i] = 0;
+        musical->newProps[i] = 0;
     }
 }
 
 
-u32 func_0200A714(struct Big *p)
+u32 func_0200A714(struct MusicalSave *musical)
 {
     u32 count;
-    s32 i;
+    s32 prop;
 
     count = 0;
-    for (i = 0; i < 256; i++) {
-        if (func_0200A644(p, (u8)i) == 1) {
+    for (prop = 0; prop < 256; prop++) {
+        if (func_0200A644(musical, (u8)prop) == 1) {
             count++;
         }
     }
@@ -1925,130 +1843,129 @@ u32 func_0200A714(struct Big *p)
 }
 
 
-u32 func_0200A73C(struct Big *p)
+u32 func_0200A73C(struct MusicalSave *musical)
 {
-    if (func_0200A714(p) == 100) {
+    if (func_0200A714(musical) == 100) {
         return 1;
     }
     return 0;
 }
 
 
-struct BigSub4 *func_0200A750(struct Big *p, u32 index)
+struct MusicalProgram *func_0200A750(struct MusicalSave *musical, u32 index)
 {
-    return &p->unk1E0[index];
+    return &musical->programs[index];
 }
 
 
-u16 func_0200A75C(struct Big *p)
+u16 func_0200A75C(struct MusicalSave *musical)
 {
-    return p->unk252;
+    return musical->showCount;
 }
 
 
-void func_0200A768(struct Big *p)
+void func_0200A768(struct MusicalSave *musical)
 {
-    if (p->unk252 < 0xFFFF) {
-        p->unk252++;
+    if (musical->showCount < 0xFFFF) {
+        musical->showCount++;
     }
 }
 
 
-u16 func_0200A780(struct Big *p)
+u16 func_0200A780(struct MusicalSave *musical)
 {
-    return p->unk254;
+    return musical->topRankCount;
 }
 
 
-void func_0200A788(struct Big *p)
+void func_0200A788(struct MusicalSave *musical)
 {
-    if (p->unk254 < 0xFFFF) {
-        p->unk254++;
+    if (musical->topRankCount < 0xFFFF) {
+        musical->topRankCount++;
     }
 }
 
 
-u8 func_0200A7A0(struct Big *p, u32 index)
+u8 func_0200A7A0(struct MusicalSave *musical, u32 index)
 {
-    return p->unk298[index];
+    return musical->equippedProps[index];
 }
 
 
-void func_0200A7AC(struct Big *p, u32 index, u8 value)
+void func_0200A7AC(struct MusicalSave *musical, u32 index, u8 prop)
 {
-    p->unk298[index] = value;
+    musical->equippedProps[index] = prop;
 }
 
 
-u8 func_0200A7B8(struct Big *p)
+u8 func_0200A7B8(struct MusicalSave *musical)
 {
-    return p->unk29C;
+    return musical->selectedProgram;
 }
 
 
-void func_0200A7C0(struct Big *p, u8 value)
+void func_0200A7C0(struct MusicalSave *musical, u8 value)
 {
-    p->unk29C = value;
+    musical->selectedProgram = value;
 }
 
 
-u8 func_0200A7C8(struct Big *p)
+u8 func_0200A7C8(struct MusicalSave *musical)
 {
-    return p->unk29D;
+    return musical->scriptSetting;
 }
 
 
-void func_0200A7D4(struct Big *p, u8 value)
+void func_0200A7D4(struct MusicalSave *musical, u8 value)
 {
-    p->unk29D = value;
+    musical->scriptSetting = value;
 }
 
 
-u8 func_0200A7E0(struct Big *p)
+u8 func_0200A7E0(struct MusicalSave *musical)
 {
-    return p->unk29E;
+    return musical->hasDistData;
 }
 
 
-void func_0200A7EC(struct Big *p, u8 value)
+void func_0200A7EC(struct MusicalSave *musical, u8 value)
 {
-    p->unk29E = value;
+    musical->hasDistData = value;
 }
 
 
-u8 *func_0200A7F8(struct Big *p)
+u8 *func_0200A7F8(struct MusicalSave *musical)
 {
-    return p->unk208;
+    return musical->stageData;
 }
 
 
-void func_0200A800(struct Big *p, s32 delta)
+void func_0200A800(struct MusicalSave *musical, s32 delta)
 {
-    s32 v = p->unk256 + delta;
-
-    if (v < 0xFFFF) {
-        p->unk256 = v;
+    s32 points = musical->fanPoints + delta;
+    if (points < 0xFFFF) {
+        musical->fanPoints = points;
     } else {
-        p->unk256 = 0xFFFF;
+        musical->fanPoints = 0xFFFF;
     }
 }
 
 
-u16 func_0200A81C(struct Big *p)
+u16 func_0200A81C(struct MusicalSave *musical)
 {
-    return p->unk256;
+    return musical->fanPoints;
 }
 
 
-u32 func_0200A828(struct Big *p)
+u32 func_0200A828(struct MusicalSave *musical)
 {
-    return p->unk29F;
+    return musical->fittingSetting;
 }
 
 
-void func_0200A834(struct Big *p, u8 value)
+void func_0200A834(struct MusicalSave *musical, u8 value)
 {
-    p->unk29F = value;
+    musical->fittingSetting = value;
 }
 
 
@@ -2068,11 +1985,11 @@ void func_0200A834(struct Big *p, u8 value)
  * Near miss, and the reason this unit stops at 0x0200A848: func_0200A848, 28
  * bytes, reproduces every concrete byte and caps at MATCH.  It is
  *
- *     void func_0200A848(struct Rec2DC *p)
+ *     void func_0200A848(struct MusicalShot *shot)
  *     {
- *         func_02161D98(p);
- *         func_02161EEC(p->unk1E8);
- *         func_02161F00(p->unk1FC);
+ *         func_02161D98(&shot->photo);
+ *         func_02161EEC(shot->title);
+ *         func_02161F00(shot->extraData);
  *     }
  *
  * and all three callees live in overlay space.  0x02161D98 is attested by the
@@ -2086,7 +2003,7 @@ void func_0200A834(struct Big *p, u8 value)
  */
 u32 func_0200A840(void)
 {
-    return sizeof(struct Rec2DC);
+    return sizeof(struct MusicalShot);
 }
 
 
@@ -2096,11 +2013,11 @@ u32 func_0200A840(void)
  *           which attests the call as `matched, overlay` under the ov010
  *           hint below; 02161F00 resolves as sole-ref/code (overlay).
  */
-void func_0200A848(void **a0)
+void func_0200A848(struct MusicalShot *shot)
 {
-    func_02161D98((char *)a0);
-    func_02161EEC((u16 *)&a0[0x7a]);
-    func_02161F00(&a0[0x7f]);
+    func_02161D98((char *)&shot->photo);
+    func_02161EEC(shot->title);
+    func_02161F00(shot->extraData);
 }
 
 
@@ -2144,48 +2061,47 @@ void func_0200A848(void **a0)
  * them is sixteen bytes wrong in exactly that scheduling.  Every other byte
  * of the function is right.  The next unit therefore resumes at 0x0200A930.
  */
-void *func_0200A864(void *sys)
+struct MusicalShot *func_0200A864(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x2B);
+    return func_020071CC(save, 0x2B);
 }
 
 
-void func_0200A870(struct Rec2Head *dest, const struct Rec2Head *src)
+void func_0200A870(struct MusicalShotPhoto *dest, const struct MusicalShotPhoto *src)
 {
-    MI_CpuCopy8(src, dest, sizeof(struct Rec2Head));
+    MI_CpuCopy8(src, dest, sizeof(struct MusicalShotPhoto));
 }
 
 
-void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest)
+void func_0200A884(const struct MusicalShotPhoto *src, struct MusicalShotPhoto *dest)
 {
-    MI_CpuCopy8(src, dest, sizeof(struct Rec2Head));
+    MI_CpuCopy8(src, dest, sizeof(struct MusicalShotPhoto));
 }
 
 
-u8 *func_0200A890(struct Rec2 *p)
+u16 *func_0200A890(struct MusicalShot *shot)
 {
-    return p->unk1E8;
+    return shot->title;
 }
 
 
-u8 *func_0200A898(struct Rec2 *p)
+u8 *func_0200A898(struct MusicalShot *shot)
 {
-    return p->unk1FC;
+    return shot->extraData;
 }
 
 
-void *func_0200A8A0(void *sys)
+struct IrcRankSave *func_0200A8A0(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x2C);
+    return func_020071CC(save, 0x2C);
 }
 
 
-s32 func_0200A8AC(struct Rec *r)
+s32 func_0200A8AC(struct IrcRankSave *rank)
 {
     s32 i;
-
     for (i = 0; i < 30; i++) {
-        if (r->entries[i].f10_31 == 0) {
+        if (rank->entries[i].isValid == 0) {
             break;
         }
     }
@@ -2193,27 +2109,27 @@ s32 func_0200A8AC(struct Rec *r)
 }
 
 
-struct Entry_0 *func_0200A8C8(struct Rec *r, u32 index)
+struct IrcRankEntry *func_0200A8C8(struct IrcRankSave *rank, u32 index)
 {
-    return &r->entries[index];
+    return &rank->entries[index];
 }
 
 
-u8 func_0200A8D0(struct Rec *r, u32 index)
+u8 func_0200A8D0(struct IrcRankSave *rank, u32 index)
 {
-    return r->entries[index].f10_0;
+    return rank->entries[index].score;
 }
 
 
-u16 func_0200A8E4(struct Rec *r, u32 index)
+u16 func_0200A8E4(struct IrcRankSave *rank, u32 index)
 {
-    return r->entries[index].f10_7;
+    return rank->entries[index].meetCount;
 }
 
 
-u32 func_0200A8F8(struct Rec *r, u32 index)
+u32 func_0200A8F8(struct IrcRankSave *rank, u32 index)
 {
-    return r->entries[index].f10_17;
+    return rank->entries[index].gender;
 }
 
 
@@ -2221,45 +2137,44 @@ u32 func_0200A8F8(struct Rec *r, u32 index)
  * Unlabelled Thumb leaf: reads record i (28 bytes) and writes its u16, u8
  * and two bitfields to four out pointers.
  */
-void func_0200A908(const Entry_0 *p, u32 i, u16 *n, u8 *a, u8 *b, u8 *c)
+void func_0200A908(const struct IrcRankEntry *entries, u32 index, u16 *outWord, u8 *outByte, u8 *outBits, u8 *outFlag)
 {
-    *n = p[i].n;
-    *a = p[i].a;
-    *b = p[i].b;
-    *c = p[i].c;
+    *outWord = entries[index].profileWord;
+    *outByte = entries[index].profileByte;
+    *outBits = entries[index].profileBits;
+    *outFlag = entries[index].profileFlag;
 }
 
 
 /*
  * Unlabelled Thumb leaf: low byte of the word at +0x348.
  */
-u8 func_0200A930(char *p)
+u8 func_0200A930(struct IrcRankSave *rank)
 {
-    return ((B *)(p + 0x348))->v;
+    return rank->lastSlot;
 }
 
 
-int sub_0200A940(void *a0, int a1, int a2, void *a3)
+int sub_0200A940(struct IrcRankSave *rank, u32 month, u32 day, struct RTCDate *today)
 {
-    u32 n = sub_0200A8AC(a0);
-    int target = sub_0200AA00(a1, a2, a3);
+    u32 count = func_0200A8AC(rank);
+    int target = func_0200AA00(month, day, today);
     int best = 0;
-    u32 bestd = 0xffffffffu;
+    u32 bestDiff = 0xffffffffu;
     u32 i;
-
-    for (i = 0; i < n; i++) {
-        int d = sub_0200A8D0(a0, i) - target;
-        if (d < 0) {
-            d = -d;
+    for (i = 0; i < count; i++) {
+        int diff = func_0200A8D0(rank, i) - target;
+        if (diff < 0) {
+            diff = -diff;
         }
-        if (bestd == d) {
-            u32 tmp[2];
-            tmp[0] = (u32)best;
-            tmp[1] = (u32)i;
-            best = (int)tmp[sub_020056EC(2)];
-        } else if (bestd > d) {
+        if (bestDiff == diff) {
+            u32 pick[2];
+            pick[0] = (u32)best;
+            pick[1] = (u32)i;
+            best = (int)pick[sub_020056EC(2)];
+        } else if (bestDiff > diff) {
             best = i;
-            bestd = d;
+            bestDiff = diff;
         }
     }
     return best;
@@ -2281,24 +2196,22 @@ int sub_0200A940(void *a0, int a1, int a2, void *a3)
  * at +0x10 set.  The first returns bit 7 of the byte at +0x1b of the
  * matching record, the second returns 1.
  */
-int sub_0200A9A4(struct T0200A9A4 *o, u32 v)
+int sub_0200A9A4(struct IrcRankEntry *entries, u32 trainerId)
 {
     int i;
-
     for (i = 0; i < 0x1e; i++) {
-        if (o[i].f14 == v && (o[i].f10 >> 31) == 1)
-            return (u32)(o[i].f1b << 24) >> 31;
+        if (entries[i].trainerId == trainerId && entries[i].isValid == 1)
+            return entries[i].isNew;
     }
     return 0;
 }
 
 
-int sub_0200A9D4(struct T0200A9A4 *o, u32 v)
+int sub_0200A9D4(struct IrcRankEntry *entries, u32 trainerId)
 {
     int i;
-
     for (i = 0; i < 0x1e; i++) {
-        if (o[i].f14 == v && (o[i].f10 >> 31) == 1)
+        if (entries[i].trainerId == trainerId && entries[i].isValid == 1)
             return 1;
     }
     return 0;
@@ -2332,21 +2245,20 @@ int sub_0200A9D4(struct T0200A9A4 *o, u32 v)
  *   python3 tools/match.py one --src src/matched/func_0200AA00.c \
  *       --func func_0200AA00 --addr 0x0200AA00 --cc 1.1p1 --thumb
  */
-u8 func_0200AA00(u32 a0, u32 a1, struct Date *src)
+u8 func_0200AA00(u32 month, u32 day, struct RTCDate *today)
 {
-    struct Date d = *src;
-    u32 a, b;
-
-    a = func_0203F540((struct RtcDate *)&d);
-    d.f04 = a0;
-    d.f08 = a1;
-    b = func_0203F540((struct RtcDate *)&d);
-    if (a >= b) {
-        b += 365;
+    struct RTCDate date = *today;
+    u32 todayNum, dayNum;
+    todayNum = func_0203F540(&date);
+    date.month = month;
+    date.day = day;
+    dayNum = func_0203F540(&date);
+    if (todayNum >= dayNum) {
+        dayNum += 365;
     }
     {
-        s32 i = (s32)((((b - a) % 30) * 0xFFFF) / 30);
-        return (u8)((tbl_020A1B38[2 * (i >> 4)] + 0x1000) * 50 >> 12);
+        s32 phase = (s32)((((dayNum - todayNum) % 30) * 0xFFFF) / 30);
+        return (u8)((tbl_020A1B38[2 * (phase >> 4)] + 0x1000) * 50 >> 12);
     }
 }
 
@@ -2404,27 +2316,26 @@ u8 func_0200AA00(u32 a0, u32 a1, struct Date *src)
  *   python3 tools/match.py one --src src/matched/func_0200AA68.c \
  *       --func sub_0200AA68 --addr 0x0200AA68 --cc 1.1p1 --thumb
  */
-u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u8 a3,
-                u8 s0, u8 s1, u32 s2, u16 s3, u8 s4, u8 s5, u8 s6)
+u8 sub_0200AA68(struct IrcRankSave *rank, const void *name, u16 score, u8 gender,
+                u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag)
 {
-    Entry_1 tmp;
-    Entry_1 *hit;
-    u16 count = 0;
-
-    hit = (Entry_1 *)sub_0200ACD0((char *)r->entries, 30, s2);
-    if (hit != 0) {
-        count = hit->b1;
+    struct IrcRankEntry entry;
+    struct IrcRankEntry *known;
+    u16 meetCount = 0;
+    known = func_0200ACD0(rank->entries, 30, trainerId);
+    if (known != 0) {
+        meetCount = known->meetCount;
     }
-    sub_0200AC14(&tmp, src, a2, count, a3, s0, s1, s2, s3, s4, s5, s6);
+    sub_0200AC14(&entry, name, score, meetCount, gender, language, version, trainerId, profileWord, profileByte, profileBits, profileFlag);
     {
-    ((Flags *)&r->f348)->b0 = sub_0200AB50(r->entries, 30, &tmp);
+    rank->lastSlot = func_0200AB50(rank->entries, 30, &entry);
     }
-    if (sub_0200ABE0((u8 *)r->entries, 30, (u8 *)&tmp) != 0) {
-        sub_0200AD00(r->entries, 30, &tmp);
+    if (func_0200ABE0(rank->entries, 30, &entry) != 0) {
+        sub_0200AD00(rank->entries, 30, &entry);
     }
     {
-        u8 v = ((Flags *)&r->f348)->b0;
-        return v;
+        u8 slot = rank->lastSlot;
+        return slot;
     }
 }
 
@@ -2443,48 +2354,45 @@ u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u8 a3,
  * constant getter for 0x34c, which Thumb spells `movs r0, #0xd3; lsls
  * r0, r0, #2`.
  */
-void sub_0200AB04(struct Bits *o)
+void sub_0200AB04(struct IrcRankEntry *entries)
 {
     int i;
-
     for (i = 0; i < 0x1e; i++)
-        o[i].bits.flag = 0;
+        entries[i].isNew = 0;
 }
 
 
 int sub_0200AB24(void)
 {
-    return 0x34c;
+    return sizeof(struct IrcRankSave);
 }
 
 
-void func_0200AB2C(void *a0)
+void func_0200AB2C(struct IrcRankSave *rank)
 {
-    func_02082BCC(a0, 0, 0x34c);
-    ((struct RecBig *)a0)->f348 = (((struct RecBig *)a0)->f348 & ~0xff) | 0x7f;
+    MI_CpuFill8(rank, 0, sizeof(struct IrcRankSave));
+    rank->lastSlot = 0x7f;
 }
 
 
-u8 func_0200AB50(Ent *list, s32 n, Ent *dst)
+u8 func_0200AB50(struct IrcRankEntry *list, s32 count, struct IrcRankEntry *entry)
 {
     s32 i;
-    s32 best = -1;
+    s32 slot = -1;
     s32 k;
-
-    for (i = 0; i < n; i++) {
-        if (list[i].flag != 0) {
-            if (list[i].key > dst->key) continue;
+    for (i = 0; i < count; i++) {
+        if (list[i].isValid != 0) {
+            if (list[i].score > entry->score) continue;
         }
-        best = i;
+        slot = i;
         break;
     }
-    if (best == -1) return 0xff;
-
-    for (k = n - 1; k > best; k--) {
-        if (list[k].off != 0 || list[k - 1].off != 0) memcpy(&list[k - 1], &list[k], 0x1c);
+    if (slot == -1) return 0xff;
+    for (k = count - 1; k > slot; k--) {
+        if (list[k].meetCount != 0 || list[k - 1].meetCount != 0) MI_CpuCopy8(&list[k - 1], &list[k], sizeof(struct IrcRankEntry));
     }
-    memcpy(dst, &list[best], 0x1c);
-    return best;
+    MI_CpuCopy8(entry, &list[slot], sizeof(struct IrcRankEntry));
+    return slot;
 }
 
 
@@ -2498,14 +2406,12 @@ u8 func_0200AB50(Ent *list, s32 n, Ent *dst)
  * and the entry test moves.  EXACT*: the 2-byte linker filler at 0x0200AC12
  * is inside the packet but the listing extent runs to the next label.
  */
-int func_0200ABE0(u8 *a0, int n, u8 *b)
+int func_0200ABE0(struct IrcRankEntry *list, int count, struct IrcRankEntry *entry)
 {
     int i;
-
-    for (i = 0; i < n; i++) {
-        u8 *p = a0 + i * 0x1c;
-
-        if (((struct Obj15588 *)b)->f14 == ((struct Obj11230 *)p)->f14 && ((struct Obj11230 *)p)->f10 >> 31 == 1)
+    for (i = 0; i < count; i++) {
+        struct IrcRankEntry *other = &list[i];
+        if (entry->trainerId == other->trainerId && other->isValid == 1)
             return 1;
     }
     return 0;
@@ -2567,34 +2473,34 @@ int func_0200ABE0(u8 *a0, int n, u8 *b)
  *   python3 tools/match.py one --src src/matched/func_0200AC14.c \
  *       --func sub_0200AC14 --addr 0x0200AC14 --cc 1.1p1 --thumb
  */
-void sub_0200AC14(Entry_1 *self, const void *src, u32 a2, u32 a3,
-                  u8 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7)
+void sub_0200AC14(struct IrcRankEntry *entry, const void *name, u32 score, u32 meetCount,
+                  u8 gender, u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag)
 {
-    func_02082BCC(self, 0, 0x1c);
-    sub_0201F41C(src, self->w0, 8);
-    self->b0 = a2;
-    self->f14 = p3;
-    self->b2 = p0;
-    self->b3 = p1;
-    self->b4 = p2;
-    self->b1 = a3;
-    self->f18 = p4;
-    self->f1a = p5;
-    self->c0 = p6;
-    self->c1 = (u8)(p7 & 1u);
-    self->b6 = 1;
-    self->c2 = 1;
+    MI_CpuFill8(entry, 0, sizeof(struct IrcRankEntry));
+    sub_0201F41C(name, entry->name, 8);
+    entry->score = score;
+    entry->trainerId = trainerId;
+    entry->gender = gender;
+    entry->language = language;
+    entry->version = version;
+    entry->meetCount = meetCount;
+    entry->profileWord = profileWord;
+    entry->profileByte = profileByte;
+    entry->profileBits = profileBits;
+    entry->profileFlag = (u8)(profileFlag & 1u);
+    entry->isValid = 1;
+    entry->isNew = 1;
 }
 
 
-char *func_0200ACD0(char *base, int count, int target)
+struct IrcRankEntry *func_0200ACD0(struct IrcRankEntry *list, int count, int trainerId)
 {
     int i;
     for (i = 0; i < count; i++) {
-        char *e = base + i * 0x1c;
-        if (target == ((struct Obj11231 *)e)->f14) {
-            if ((((struct Obj11231 *)e)->f10 >> 31) == 1)
-                return e;
+        struct IrcRankEntry *other = &list[i];
+        if (trainerId == other->trainerId) {
+            if (other->isValid == 1)
+                return other;
         }
     }
     return 0;
@@ -2646,24 +2552,22 @@ char *func_0200ACD0(char *base, int count, int target)
  *   python3 tools/match.py one --src src/matched/func_0200AD00.c \
  *       --func sub_0200AD00 --addr 0x0200AD00 --cc 1.1p1 --thumb
  */
-void sub_0200AD00(Entry_1 *base, int n, Entry_1 *ref)
+void sub_0200AD00(struct IrcRankEntry *list, int total, struct IrcRankEntry *entry)
 {
     int i;
-
-    for (i = 0; i < n; i++) {
-        Entry_1 *e = &base[i];
-        u32 x;
-
-        if (ref->f14 != e->f14) {
+    for (i = 0; i < total; i++) {
+        struct IrcRankEntry *other = &list[i];
+        u32 count;
+        if (entry->trainerId != other->trainerId) {
             continue;
         }
-        e->b1 = e->b1 + 1;
-        e->c2 = 1;
-        x = e->b1;
-        if (x > 999) {
-            x = 999;
+        other->meetCount = other->meetCount + 1;
+        other->isNew = 1;
+        count = other->meetCount;
+        if (count > 999) {
+            count = 999;
         }
-        e->b1 = x;
+        other->meetCount = count;
     }
 }
 
@@ -2673,9 +2577,9 @@ void sub_0200AD00(Entry_1 *base, int n, Entry_1 *ref)
  * func_0200A864 / func_0200A8A0 (blocks 0x2B, 0x2C) in unit_0200A864.c:
  * a tail call through the pool with the id in r1.
  */
-void *func_0200AD6C(void *sys)
+struct WorldTradeData *func_0200AD6C(struct SaveControl *save)
 {
-    return func_020071CC(sys, 0x2e);
+    return func_020071CC(save, 0x2e);
 }
 
 
@@ -2684,41 +2588,41 @@ void *func_0200AD6C(void *sys)
  */
 int func_0200AD78(void)
 {
-    return 0xF8;
+    return sizeof(struct WorldTradeData);
 }
 
 
 /*
  * note:     wave 18 lane ties_b: unlabelled follower of func_0200AD78; clears a 0xF8-byte record with func_02082AC0 (tail call).
  */
-void func_0200AD7C(void *rec)
+void func_0200AD7C(struct WorldTradeData *trade)
 {
-    func_02082AC0(0, rec, 0xF8);
+    MIi_CpuClearFast(0, trade, sizeof(struct WorldTradeData));
 }
 
 
 /*
  * note:     wave 18 lane ties_b: unlabelled follower; getter of the u16 at +0xEC (extent includes two bytes of padding).
  */
-u16 func_0200AD8C(const Rec0200AD8C *p)
+u16 func_0200AD8C(const struct WorldTradeData *trade)
 {
-    return p->fEC;
+    return trade->isDeposited;
 }
 
 
 /*
  * note:     wave 18 lane ties_b: unlabelled follower; setter of the u16 at +0xEC (extent includes two bytes of padding).
  */
-void func_0200AD94(Rec0200AD94 *p, u16 v)
+void func_0200AD94(struct WorldTradeData *trade, u16 isDeposited)
 {
-    p->fEC = v;
+    trade->isDeposited = isDeposited;
 }
 
 
-void OS_KillThread(void *thread, void *arg1)
+void func_0200AD9C(struct WorldTradeData *trade, void *outPokemon)
 {
-    void *res = (void *)func_020173EC();
-    func_02082D44(thread, arg1, (int)res);
+    u32 size = func_020173EC();
+    MI_CpuCopy8(trade, outPokemon, size);
 }
 
 
@@ -2788,46 +2692,46 @@ void func_0200ADB4(void)
  *    field promotes to `int` before the shift.  Writing the field as `u32`,
  *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
  */
-void func_0200ADB8(void *dest, const void *src, u32 a2)
+void func_0200ADB8(struct WorldTradeData *trade, const void *pokemon, u32 boxPos)
 {
-    MI_CpuCopy8(src, dest, func_020173EC());
+    MI_CpuCopy8(pokemon, trade, func_020173EC());
 }
 
 
-void func_0200ADD0(struct RegB *p, u32 value)
+void func_0200ADD0(struct WorldTradeData *trade, u32 tradeId)
 {
-    p->unkF0 = value;
+    trade->lastTradeId = tradeId;
 }
 
 
-void func_0200ADD8(struct RegB *p, u32 value)
+void func_0200ADD8(struct WorldTradeData *trade, u32 searchId)
 {
-    p->unkF4 = value;
+    trade->lastSearchId = searchId;
 }
 
 
-u16 func_0200ADE0(struct RegB *p)
+u16 func_0200ADE0(struct WorldTradeData *trade)
 {
-    return p->unkEE;
+    return trade->returnBox;
 }
 
 
 u32 func_0200ADE8(void)
 {
-    return 0x2FC;
+    return sizeof(struct BattleCompetitionSave);
 }
 
 
-struct Reg *func_0200ADF0(u32 heap)
+struct Regulation *func_0200ADF0(u32 heapId)
 {
-    return func_02030734(heap, sizeof(struct Reg), 1, func_0200ADF0_File,
+    return func_02030734(heapId, sizeof(struct Regulation), 1, func_0200ADF0_File,
                          0x73);
 }
 
 
-void func_0200AE08(const struct Reg *src, struct Reg *dest)
+void func_0200AE08(const struct Regulation *src, struct Regulation *dest)
 {
-    MI_CpuCopy8(src, dest, sizeof(struct Reg));
+    MI_CpuCopy8(src, dest, sizeof(struct Regulation));
 }
 
 
@@ -2836,99 +2740,95 @@ void func_0200AE14(void)
 }
 
 
-void func_0200AE18(struct Reg *p, void *dest)
+void func_0200AE18(struct Regulation *rule, void *dest)
 {
-    void *g = func_02045B38(0, 2, 0xA6, 1);
-
-    func_02045CAC(g, ((struct Obj17006 *)p)->f0, dest);
-    func_02045C04(g);
+    struct MsgBank *bank = func_02045B38(0, 2, 0xA6, 1);
+    func_02045CAC(bank, rule->cupNo, dest);
+    func_02045C04(bank);
 }
 
 
-void *func_0200AE3C(struct Reg *p, u32 heap)
+void *func_0200AE3C(struct Regulation *rule, u32 heapId)
 {
-    void *dest = func_020457B0(0x1A, heap);
-
-    func_0200AE18(p, dest);
-    return dest;
+    void *name = func_020457B0(0x1A, heapId);
+    func_0200AE18(rule, name);
+    return name;
 }
 
 
-u32 func_0200AE54(struct Reg *p, u32 id)
+u32 func_0200AE54(struct Regulation *rule, u32 id)
 {
-    u32 v = 0;
-
+    u32 value = 0;
     switch (id) {
-    case 0:  v = p->unk00; break;
-    case 1:  v = p->unk01; break;
-    case 2:  v = p->unk02; break;
-    case 3:  v = p->unk03; break;
-    case 4:  v = p->unk04; break;
-    case 5:  v = p->unk05; break;
-    case 6:  v = p->unk06; break;
-    case 7:  v = p->unk08; break;
-    case 8:  v = p->unk09; break;
-    case 11: v = p->unkA8; break;
-    case 12: v = p->unkAA; break;
-    case 13: v = p->unkAB; break;
-    case 15: v = p->unkB3; break;
-    case 16: v = p->unkB4; break;
-    case 17: v = p->unkB5; break;
-    case 18: v = p->unkB6; break;
-    case 19: v = p->unkB8; break;
-    case 20: v = p->unkB9; break;
-    case 21: v = p->unkBA; break;
-    case 22: v = p->unkBB; break;
+    case 0:  value = rule->cupNo; break;
+    case 1:  value = rule->ruleNo; break;
+    case 2:  value = rule->numLo; break;
+    case 3:  value = rule->numHi; break;
+    case 4:  value = rule->level; break;
+    case 5:  value = rule->levelRange; break;
+    case 6:  value = rule->levelTotal; break;
+    case 7:  value = rule->bothPoke; break;
+    case 8:  value = rule->bothItem; break;
+    case 11: value = rule->mustPoke; break;
+    case 12: value = rule->mustPokeForm; break;
+    case 13: value = rule->shooter; break;
+    case 15: value = rule->timeVs; break;
+    case 16: value = rule->timeCommand; break;
+    case 17: value = rule->nickname; break;
+    case 18: value = rule->cameraMode; break;
+    case 19: value = rule->showPoke; break;
+    case 20: value = rule->showPokeTime; break;
+    case 21: value = rule->battleType; break;
+    case 22: value = rule->battleCount; break;
     }
-    return v;
+    return value;
 }
 
 
-void func_0200AEE8(struct Reg *p, u32 id, s32 value)
+void func_0200AEE8(struct Regulation *rule, u32 id, s32 value)
 {
     switch (id) {
-    case 0:  if (value < 7)     { p->unk00 = value; } break;
-    case 1:  if (value < 6)     { p->unk01 = value; } break;
-    case 2:  if (value < 6)     { p->unk02 = value; } break;
-    case 3:  if (value < 6)     { p->unk03 = value; } break;
-    case 4:  if (value <= 100)  { p->unk04 = value; } break;
-    case 5:  if (value <= 6)    { p->unk05 = value; } break;
-    case 6:  if (value <= 600)  { p->unk06 = value; } break;
-    case 7:  if (value < 2)     { p->unk08 = value; } break;
-    case 8:  if (value < 2)     { p->unk09 = value; } break;
-    case 11: if (value < 0x28B) { p->unkA8 = value; } break;
-    case 12: p->unkAA = value; break;
-    case 13: if (value < 2)     { p->unkAB = value; } break;
-    case 15: p->unkB3 = value; break;
-    case 16: p->unkB4 = value; break;
-    case 17: if (value < 2)     { p->unkB5 = value; } break;
-    case 18: p->unkB6 = value; break;
-    case 19: if (value < 2)     { p->unkB8 = value; } break;
-    case 20: if (value <= 0x63) { p->unkB9 = value; } break;
-    case 21: if (value < 6)     { p->unkBA = value; } break;
-    case 22: p->unkBB = value; break;
+    case 0:  if (value < 7)     { rule->cupNo = value; } break;
+    case 1:  if (value < 6)     { rule->ruleNo = value; } break;
+    case 2:  if (value < 6)     { rule->numLo = value; } break;
+    case 3:  if (value < 6)     { rule->numHi = value; } break;
+    case 4:  if (value <= 100)  { rule->level = value; } break;
+    case 5:  if (value <= 6)    { rule->levelRange = value; } break;
+    case 6:  if (value <= 600)  { rule->levelTotal = value; } break;
+    case 7:  if (value < 2)     { rule->bothPoke = value; } break;
+    case 8:  if (value < 2)     { rule->bothItem = value; } break;
+    case 11: if (value < 0x28B) { rule->mustPoke = value; } break;
+    case 12: rule->mustPokeForm = value; break;
+    case 13: if (value < 2)     { rule->shooter = value; } break;
+    case 15: rule->timeVs = value; break;
+    case 16: rule->timeCommand = value; break;
+    case 17: if (value < 2)     { rule->nickname = value; } break;
+    case 18: rule->cameraMode = value; break;
+    case 19: if (value < 2)     { rule->showPoke = value; } break;
+    case 20: if (value <= 0x63) { rule->showPokeTime = value; } break;
+    case 21: if (value < 6)     { rule->battleType = value; } break;
+    case 22: rule->battleCount = value; break;
     }
 }
 
 
-u32 func_0200AFD4(struct Reg *p, u32 id, s32 n)
+u32 func_0200AFD4(struct Regulation *rule, u32 id, s32 bit)
 {
-    s32 byte = n / 8;
-    s32 bit  = n % 8;
-
+    s32 byte = bit / 8;
+    s32 shift = bit % 8;
     switch (id) {
     case 9:
-        if (p->unk0A[byte] & (1 << bit)) {
+        if (rule->vetoPokeBit[byte] & (1 << shift)) {
             return 1;
         }
         break;
     case 10:
-        if (p->unk5C[byte] & (1 << bit)) {
+        if (rule->vetoItemBit[byte] & (1 << shift)) {
             return 1;
         }
         break;
     case 14:
-        if (p->unkAC[byte] & (1 << bit)) {
+        if (rule->vetoShooterBit[byte] & (1 << shift)) {
             return 1;
         }
         break;
@@ -2937,118 +2837,118 @@ u32 func_0200AFD4(struct Reg *p, u32 id, s32 n)
 }
 
 
-void func_0200B040(struct Reg *p, struct RegAC *out)
+void func_0200B040(struct Regulation *rule, struct ShooterSettings *out)
 {
-    MI_CpuFill8(out, 0, sizeof(struct RegAC));
-    out->unk7 = func_0200AE54(p, 13);
-    if (out->unk7 >= 2) {
-        out->unk7 = 1;
+    MI_CpuFill8(out, 0, sizeof(struct ShooterSettings));
+    out->isEnabled = func_0200AE54(rule, 13);
+    if (out->isEnabled >= 2) {
+        out->isEnabled = 1;
     }
-    MI_CpuCopy8(p->unkAC, out, 7);
+    MI_CpuCopy8(rule->vetoShooterBit, out, 7);
 }
 
 
-u8 *func_0200B074(struct Reg2 *p)
+u8 *func_0200B074(struct RegulationCard *card)
 {
-    return p->unkC0;
+    return card->cupName;
 }
 
 
-s32 func_0200B078(struct Reg2 *p, u32 id)
+s32 func_0200B078(struct RegulationCard *card, u32 id)
 {
     switch (id) {
-    case 1:  return p->unkBC;
-    case 2:  return p->unk152;
-    case 3:  return p->unk154;
-    case 4:  return p->unk155;
-    case 5:  return p->unk156;
-    case 6:  return p->unk157;
-    case 7:  return p->unk158;
-    case 8:  return p->unk159;
-    case 9:  return p->unk15A;
-    case 10: return p->unk15B;
-    case 11: return p->unk15C;
-    case 12: return p->unk15D;
+    case 1:  return card->cupId;
+    case 2:  return card->romVersion;
+    case 3:  return card->startYear;
+    case 4:  return card->startMonth;
+    case 5:  return card->startDay;
+    case 6:  return card->endYear;
+    case 7:  return card->endMonth;
+    case 8:  return card->endDay;
+    case 9:  return card->status;
+    case 10: return card->bgm;
+    case 11: return card->sameMatch;
+    case 12: return card->cardType;
     }
 }
 
 
-void func_0200B110(struct Reg2 *p, u32 id, s32 value)
+void func_0200B110(struct RegulationCard *card, u32 id, s32 value)
 {
     switch (id) {
-    case 1:  p->unkBC  = value; break;
-    case 2:  p->unk152 = value; break;
-    case 3:  p->unk154 = value; break;
-    case 4:  p->unk155 = value; break;
-    case 5:  p->unk156 = value; break;
-    case 6:  p->unk157 = value; break;
-    case 7:  p->unk158 = value; break;
-    case 8:  p->unk159 = value; break;
-    case 9:  p->unk15A = value; break;
-    case 10: p->unk15B = value; break;
-    case 11: p->unk15C = value; break;
-    case 12: p->unk15D = value; break;
+    case 1:  card->cupId      = value; break;
+    case 2:  card->romVersion = value; break;
+    case 3:  card->startYear  = value; break;
+    case 4:  card->startMonth = value; break;
+    case 5:  card->startDay   = value; break;
+    case 6:  card->endYear    = value; break;
+    case 7:  card->endMonth   = value; break;
+    case 8:  card->endDay     = value; break;
+    case 9:  card->status     = value; break;
+    case 10: card->bgm        = value; break;
+    case 11: card->sameMatch  = value; break;
+    case 12: card->cardType   = value; break;
     }
 }
 
 
-u32 func_0200B1A8(struct Reg2 *p)
+u32 func_0200B1A8(struct RegulationCard *card)
 {
-    if (p->unk15E == func_0200B1C4(p)) {
+    if (card->crc == func_0200B1C4(card)) {
         return 1;
     }
     return 0;
 }
 
 
-u16 func_0200B1C4(struct Reg2 *p)
+u16 func_0200B1C4(struct RegulationCard *card)
 {
-    return func_0203F1FC((const u8 *)p, 0x15E);
+    return func_0203F1FC(card, 0x15E);
 }
 
 
-struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index)
+struct RegulationCard *func_0200B1D4(struct RegulationCard *cards, u32 index)
 {
-    return &arr[index];
+    return &cards[index];
 }
 
 
-void func_0200B1E0(struct Rec160 *arr, u32 index, const struct Rec160 *src)
+void func_0200B1E0(struct RegulationCard *cards, u32 index, const struct RegulationCard *src)
 {
-    arr[index] = *src;
+    cards[index] = *src;
 }
 
 
-void func_0200B1F8(struct Rec1E *p)
+void func_0200B1F8(struct RegulationParty *party)
 {
-    MI_CpuFill8(p, 0, sizeof(struct Rec1E));
+    MI_CpuFill8(party, 0, sizeof(struct RegulationParty));
 }
 
 
-struct Rec1E *func_0200B204(struct RecBig *p, u32 index)
+struct RegulationParty *func_0200B204(struct BattleCompetitionSave *competition, u32 index)
 {
-    return &p->unk2C0[index];
+    return &competition->parties[index];
 }
 
 
-s32 func_0200B214(struct Rec1E *p, u32 id, u8 n)
+s32 func_0200B214(struct RegulationParty *party, u32 id, u8 member)
 {
     switch (id) {
-    case 0: return p->unk00[n];
-    case 1: return p->unk0C[n];
-    case 2: return (p->unk12 >> n) & 1;
-    case 3: return (p->unk13 >> n) & 1;
+    case 0: return party->monsNo[member];
+    case 1: return party->formNo[member];
+    case 2: return (party->hasItemBits >> member) & 1;
+    case 3: return (party->femaleBits >> member) & 1;
     }
     return 0;
 }
 
 
-void func_0200B254(struct Rec1E *p, int id, u8 n, s32 value)
+void func_0200B254(struct RegulationParty *party, int id, u8 member, s32 value)
 {
     switch (id) {
-    case 0: p->unk00[n] = value; break;
-    case 1: p->unk0C[n] = value; break;
-    case 2: p->unk12 |= (u8)((value == 1) << n); break;
-    case 3: p->unk13 |= (u8)((value == 1) << n); break;
+    case 0: party->monsNo[member] = value; break;
+    case 1: party->formNo[member] = value; break;
+    case 2: party->hasItemBits |= (u8)((value == 1) << member); break;
+    case 3: party->femaleBits |= (u8)((value == 1) << member); break;
     }
 }

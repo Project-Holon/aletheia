@@ -107,6 +107,29 @@ from C. Failures by class:
 | overlap (a file's code range runs into the tail) | ov013, ov036, ov067 |
 | other | ov185 (`.bss` in the files, the overlay has none), ov215 (callee inside the overlay, not in a file or gap), ov230 (real static initialisers, not a lone terminator) |
 
+Lane DX1 (2026-10-13) closed the own-data class for ov015, ov107, ov114, ov119, ov120
+and ov172; the full run is then **175 PASS** (left: ov009, ov016, ov021). Tool fixes:
+
+- `datagen.py` read the files' own sections from output sections named `.dN`, but
+  mwldarm names them after the region (`d0`) and gives a `.bss` section size 0, so no own
+  section was ever found and the companions defined that data a second time. The own
+  sections now come from the plain link's `.lcf` regions `dN`, with their file.
+- Zero padding after an own section joins the next object only when it touches it;
+  padding between two own sections (or before the static-initialiser table) is left to
+  the link. An object with no reference takes the file of an object that points at it,
+  else the file of an own section just passed. Objects below an own section of their
+  owner go to `<stem>.zpre.c`, which links before the file.
+- `datalink.json` lists each file's own sections with their original addresses
+  (`own`); `gamelink.py --data` links them in address order and gives 4-byte alignment
+  to one at a multiple of 4. Local array templates (`char a[5] = "Exif"`) are 1-aligned
+  from mwccarm here but 4-aligned in the game (ov114, ov172), and ov172 `exifenc.o` has
+  its two templates in the opposite order.
+
+Source fixes: ov015 `unit_02179FC4.c` merged into `unit_02179F74.c` (both are irc.o and
+each defined the irc.o statics); ov119 `d_021E8190` gets its table from
+`build/gen/h16_ov119_021E8190.inc` (`tools/gendata.py`); ov120 `gtsnego_message.c`
+reads `d_021D8B70[n][3]` instead of an interior name `data_021D8B73`.
+
 Plain mode in the same run: 177 of 178 overlays, itcm and arm9_main PASS (ov093:
 `btl_server` is being merged by another lane).
 
@@ -123,6 +146,36 @@ Three more `gamelink.py` fixes from lane LX2 (ov009, ov016), all PASS results ke
   defines it globally (ov016 has many files with a static `button`);
 - a `.rodata` blob found more than once in the image drops the places that lie inside
   an object the headers name (registry size) before it gives up.
+
+Lane DX3 (2026-10-13), the last three overlays in data mode. Tool fixes:
+
+- a name that two files use for two objects (file statics: ov021
+  `DWCca_ghttp_caList` of `unit_02198D24` and `unit_02198D3C`; ov016 `KEY_CHR`,
+  `CN_BTN`, `apci_bssid_buf`) was one global, so one file read the other object.
+  `datagen.py` now gives each later meaning `name__ADDR` (a second definition is
+  renamed too) and lists it per file in `datalink.json` `renames`; `gamelink.py --data`
+  renames the symbol in that file's object.
+- an own section of file F later in a section caps the owner of the objects before it
+  at F (link order); the companion objects below the file's own sections go to
+  `<stem>.zpre.c` also when none lie above them (ov016 `unit_021C2A3C`).
+- companions drop `-ipa file` and `-inline deferred` from the copied header flags:
+  both make mwccarm emit one section per object sorted by size (ov016 `atermset.c`).
+- data mode leaves dead sections out of the tail, as the plain link does (ov016
+  `unit_021C7768`: the unused template of `AREA a = {...}`).
+- own sections of several files at one address (ov009 `unit_02157280` has 0x78 bytes of
+  the network statics that `unit_021573C4` defines in 0xBC): the largest one links, the
+  others are parked and their references point at it.
+
+Source fix: ov009 `unit_02174790.c` reads the strings `dwc_pid` and `dwc_eval` through
+`d_021A20A4` / `g_021A21BC` as `unit_0216F014.c` does (both are parts of one
+`dwc_match.o`; the literal in the later file put its data before the earlier file's).
+
+ov016 and ov021 PASS in data mode. ov009 left: `gstats.o` is three files here
+(`unit_02193D00`, `unit_02193FE8`, `unit_02193FF4`), and its two local array templates
+are in the opposite order (0x10 bytes at 021A1A54 for `func_02194614`, then 0x100 bytes
+at 021A1A64 for `unit_02193D00`). The three files merged and built with
+`-inline deferred` give that order (and emit the functions in reverse order, as for
+`unit_021573C4.c`); the merge, EXACT under that flag, is the fix.
 
 ### 2. A real link with mwldarm
 
@@ -196,8 +249,9 @@ Findings that the old build could not see:
 
 - ov119 `pokemontrade_3d.c`: `d_021E8190` (48 bytes) is declared as an uninitialised
   static but the original holds a table there. The code is right; the 48 bytes are
-  taken from the image (reported as `bss_standin_bytes`). Fixing it needs the table
-  as game data, which is not committed.
+  taken from the image (reported as `bss_standin_bytes`). Fixed 2026-10-13 (lane DX1):
+  the table is initialised from `build/gen/h16_ov119_021E8190.inc`, made by
+  `tools/gendata.py` from the user's ROM.
 
 ### Other regions
 

@@ -66,32 +66,32 @@
  */
 
 typedef unsigned int   u32;
-struct Ctx;
-struct IcaAnime;
-void *func_020120F4(const struct Ctx *p);
-void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-u32 func_020120F0(const struct Ctx *p);
+struct GameSystem;
+struct ProcHandle;
+void *func_020120F4(const struct GameSystem *gameSystem);
+void func_020120B4(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
+u32 func_020120F0(const struct GameSystem *gameSystem);
 extern char d_0215513C[];
 
-int func_021550DC(int u, int *st, int *o)
+int func_021550DC(int unused, int *stage, int *work)
 {
-    void *h = (void *)o[0];
-    int *q;
+    void *gameSystem = (void *)work[0];
+    int *procArgs;
 
-    switch (*st) {
+    switch (*stage) {
     case 0:
-        q = o + 4;
-        o[4] = (int)func_020120F4(h);
-        q[1] = o[1];
-        q[2] = o[2];
-        q[3] = *(int *)(o[2] + 0x48);
-        q[4] = *(int *)(o[2] + 0x4c);
-        q[5] = o[3];
-        func_020120B4(h, -1, d_0215513C, q);
-        (*st)++;
+        procArgs = work + 4;
+        work[4] = (int)func_020120F4(gameSystem);
+        procArgs[1] = work[1];
+        procArgs[2] = work[2];
+        procArgs[3] = *(int *)(work[2] + 0x48);
+        procArgs[4] = *(int *)(work[2] + 0x4c);
+        procArgs[5] = work[3];
+        func_020120B4(gameSystem, -1, d_0215513C, procArgs);
+        (*stage)++;
         break;
     case 1:
-        if (func_020120F0(h) == 0)
+        if (func_020120F0(gameSystem) == 0)
             return 1;
         break;
     }

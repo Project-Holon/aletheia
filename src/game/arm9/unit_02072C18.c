@@ -24,35 +24,27 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct S { u32 f0; u32 f4; u32 f8; };
-
 typedef unsigned long long u64;
 
-typedef struct {
-    u32 f0;                     /* 0x00  channel index; mask is 1u << this   */
-    int f4;                     /* 0x04  first divisor                       */
-    u32 f8;                     /* 0x08  liveness guard                      */
-} Obj;
-
-struct O {
-    u32 f0;
-    u32 pad04[1];
-    u32 f8;
-    u32 fc;
-    u32 f10;
-};
+typedef struct WaveOutSlot {
+    u32 channelNo;              /* 0x00  channel index; mask is 1u << this   */
+    int baseRate;               /* 0x04  first divisor                       */
+    u32 active;                 /* 0x08  liveness guard                      */
+    u32 started;                /* 0x0C  start command already acknowledged  */
+    u32 commandTag;             /* 0x10  command tag to wait for             */
+} WaveOutSlot;
 
 extern void func_02089638(u32 chBitMask, int volume, int shift);
 extern void func_02089618(u32 chBitMask, int timer);
 extern int func_02089D6C(u32 tag);
 extern u32 func_0208A07C(void);
-void func_02072C40(Obj *s, int v);
+void func_02072C40(WaveOutSlot *slot, int speed);
 
 
-void func_02072C18(struct S *s, u32 v)
+void func_02072C18(WaveOutSlot *slot, u32 volume)
 {
-    if (s->f8 == 0) return;
-    func_02089638(1 << s->f0, v, 0);
+    if (slot->active == 0) return;
+    func_02089638(1 << slot->channelNo, volume, 0);
 }
 
 
@@ -89,35 +81,35 @@ void func_02072C18(struct S *s, u32 v)
  *       --func func_02072C40 --addr 0x02072C40 --arm --cc 1.1p1
  *   -> EXACT, compiled 132 = original 132, 3 of 3 sites resolved
  */
-void func_02072C40(Obj *s, int v)
+void func_02072C40(WaveOutSlot *slot, int speed)
 {
-    u64 t;
+    u64 timer;
 
-    if (s->f8 == 0) {
+    if (slot->active == 0) {
         return;
     }
-    t = 0x7FD87F8000ULL / s->f4 / v;
-    if (t < 0x10) {
-        t = 0x10;
+    timer = 0x7FD87F8000ULL / slot->baseRate / speed;
+    if (timer < 0x10) {
+        timer = 0x10;
     }
-    else if (t > 0xFFFF) {
-        t = 0xFFFF;
+    else if (timer > 0xFFFF) {
+        timer = 0xFFFF;
     }
-    func_02089618(1 << s->f0, (u32)t);
+    func_02089618(1 << slot->channelNo, (u32)timer);
 }
 
 
-int func_02072CC4(struct O *o)
+int func_02072CC4(WaveOutSlot *slot)
 {
-    u32 r;
+    u32 channelStatus;
 
-    if (o->f8 == 0) return 0;
-    if (o->fc == 0) {
-        if (func_02089D6C(o->f10) == 0) return 1;
-        o->fc = 1;
+    if (slot->active == 0) return 0;
+    if (slot->started == 0) {
+        if (func_02089D6C(slot->commandTag) == 0) return 1;
+        slot->started = 1;
     }
-    r = func_0208A07C();
-    if (r & (1u << o->f0)) return 1;
-    o->f8 = 0;
+    channelStatus = func_0208A07C();
+    if (channelStatus & (1u << slot->channelNo)) return 1;
+    slot->active = 0;
     return 0;
 }

@@ -10,10 +10,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * Word at +8.
+ * Private address of a server.
  */
 
-int func_0219E238(const int *p)
+#include "unit_0219E1EC_types.h"
+
+unsigned int func_0219E238(const SBServer *server)
 {
-    return p[2];
+    return server->privateip;
 }

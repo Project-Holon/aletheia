@@ -13,54 +13,60 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02146A58         0x02146A58  data
- *   g_020A08D0         0x020A08D0  data
- *   func_020461F4_File 0x020A7E98  data
+ *   gSystemFont        0x02146A58  data
+ *   kBuiltinFontData   0x020A08D0  data
+ *   systemfont_File    0x020A7E98  data
  *   func_02030734      0x02030734  arm
- *   func_020788AC      0x020788AC  arm
- *   func_02078C18      0x02078C18  arm
- *   func_02078C28      0x02078C28  arm
- *   func_02078B70      0x02078B70  arm
- *   func_02078A80      0x02078A80  arm
+ *   FS_InitFile        0x020788AC  arm
+ *   FS_OpenFile        0x02078C18  arm
+ *   FS_GetLength       0x02078C28  arm
+ *   FS_ReadFile        0x02078B70  arm
+ *   FS_CloseFile       0x02078A80  arm
  *   OS_Terminate       0x02088234  arm
  */
-struct FSFile;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
-
-struct Recor4 {
-    void *data;
-    u32 unk04;
-    u32 unk08;
-    u32 builtin;
-};
-
-struct File020461F4 {
-    u32 words[18];
-};
 
 typedef unsigned short u16;
 
 typedef signed int     s32;
 
+struct FSFile {
+    u8 raw[0x48];
+};
+
+/* Header of the font data table (built-in or loaded from the archive). */
+struct SystemFontHeader {
+    u32 glyphOffset;       /* byte offset of the glyph bitmaps, 8 bytes (8 rows of 1bpp) each */
+    u32 widthOffset;       /* byte offset of the per-glyph width bytes */
+    u8  reserved08[5];
+    u8  glyphHeight;
+};
+
+struct SystemFont {
+    struct SystemFontHeader *data;
+    u32 fgFill;            /* foreground colour index replicated into all 8 nibbles */
+    u32 bgFill;            /* background colour index replicated into all 8 nibbles */
+    u32 isBuiltin;         /* 1: data is the built-in table, 0: allocated and read from a file */
+};
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_020788AC(struct File020461F4 *f);
-extern u32   func_02078C18(struct File020461F4 *f, u32 id);
-extern u32 func_02078C28(struct FSFile *a0);
-extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
-extern void  func_02078A80(struct File020461F4 *f);
+extern void  FS_InitFile(struct FSFile *file);
+extern u32   FS_OpenFile(struct FSFile *file, u32 fontFile);
+extern u32   FS_GetLength(struct FSFile *file);
+extern s32   FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
+extern void  FS_CloseFile(struct FSFile *file);
 extern void  OS_Terminate(void);
-void func_020461F4(u32 id);
+void func_020461F4(u32 fontFile);
 void func_02046300(int idx, u8 *out);
-u32 func_0204638C(u32 bits);
+u32 func_0204638C(u32 rowBits);
 int func_020463C0(void);
 int func_020463D8(void);
-void func_020463E0(u32 x, u32 y);
-extern const char func_020461F4_File[];
-extern const u8 g_020A08D0[];
-extern struct Recor4 *g_02146A58;
+void func_020463E0(u32 fg, u32 bg);
+extern const char systemfont_File[];
+extern const u8 kBuiltinFontData[];
+extern struct SystemFont *gSystemFont;
 
 
 
@@ -104,33 +110,33 @@ extern struct Recor4 *g_02146A58;
  *   python tools/match.py one --src src/pending/func_020461F4.c \
  *       --func func_020461F4 --addr 0x020461F4 --cc 1.1p1 --arm
  */
-void func_020461F4(u32 id)
+void func_020461F4(u32 fontFile)
 {
-    struct File020461F4 file;
+    struct FSFile file;
     u32 size;
 
-    if (g_02146A58 != 0) {
+    if (gSystemFont != 0) {
         return;
     }
 
-    g_02146A58 = func_02030734(0, 0x10, 0, func_020461F4_File, 68);
+    gSystemFont = func_02030734(0, 0x10, 0, systemfont_File, 68);
 
-    if (id != 0) {
-        func_020788AC(&file);
-        if (func_02078C18(&file, id) == 1) {
-            size = func_02078C28((struct FSFile *)(&file));
-            g_02146A58->data = func_02030734(0, size, 0, func_020461F4_File,
-                                             77);
-            func_02078B70((struct FSFile *)(&file), g_02146A58->data, size);
-            func_02078A80(&file);
+    if (fontFile != 0) {
+        FS_InitFile(&file);
+        if (FS_OpenFile(&file, fontFile) == 1) {
+            size = FS_GetLength(&file);
+            gSystemFont->data = func_02030734(0, size, 0, systemfont_File,
+                                              77);
+            FS_ReadFile(&file, gSystemFont->data, size);
+            FS_CloseFile(&file);
         } else {
             OS_Terminate();
         }
 
-        g_02146A58->builtin = 0;
+        gSystemFont->isBuiltin = 0;
     } else {
-        g_02146A58->data = (void *)g_020A08D0;
-        g_02146A58->builtin = 1;
+        gSystemFont->data = (struct SystemFontHeader *)kBuiltinFontData;
+        gSystemFont->isBuiltin = 1;
         func_020463E0(1, 15);
     }
 }
@@ -141,7 +147,7 @@ void func_020461F4(u32 id)
  * Expand one 8-byte record of the loaded module table into eight words and
  * store the record's flag byte next to them.
  *
- * g_02146A58 is the module record src/pending/func_020461F4.c allocates:
+ * gSystemFont is the module record src/pending/func_020461F4.c allocates:
  * its `data` field points at a header whose first two words are byte
  * offsets, the first to the record array, the second to the flag bytes.
  * `idx` selects one 8-byte record of that array; its eight bytes are each
@@ -174,22 +180,22 @@ void func_020461F4(u32 id)
  */
 void func_02046300(int idx, u8 *out)
 {
-    u8 *p = (u8 *)g_02146A58->data + ((u32 *)g_02146A58->data)[0]
-            + idx * 32 / 4;
-    u32 m0 = g_02146A58->unk04;
-    u32 m1 = g_02146A58->unk08;
-    u32 *q = (u32 *)out;
-    u8 *t;
+    u8 *row = (u8 *)gSystemFont->data + gSystemFont->data->glyphOffset
+              + idx * 32 / 4;
+    u32 fgFill = gSystemFont->fgFill;
+    u32 bgFill = gSystemFont->bgFill;
+    u32 *tileWord = (u32 *)out;
+    u8 *widths;
     int i;
 
     for (i = 0; i < 8; i++) {
-        u32 v = func_0204638C(*p++);
-        u32 nv = v ^ 0xFFFFFFFF;
-        *q++ = (m0 & v) | (m1 & nv);
+        u32 mask = func_0204638C(*row++);
+        u32 notMask = mask ^ 0xFFFFFFFF;
+        *tileWord++ = (fgFill & mask) | (bgFill & notMask);
     }
 
-    t = (u8 *)g_02146A58->data + ((u32 *)g_02146A58->data)[1];
-    out[0x20] = t[idx];
+    widths = (u8 *)gSystemFont->data + gSystemFont->data->widthOffset;
+    out[0x20] = widths[idx];
 }
 
 
@@ -209,20 +215,20 @@ void func_02046300(int idx, u8 *out)
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0204638C.c  *       --func func_0204638C --addr 0x0204638C --cc 1.1p1 --arm
  */
-u32 func_0204638C(u32 bits)
+u32 func_0204638C(u32 rowBits)
 {
     int i;
-    u32 out = 0;
+    u32 nibbleMask = 0;
 
     for (i = 0; i < 8; i++) {
-        if (bits & (1 << i))
-            out |= 0xF0000000 >> (i * 4);
+        if (rowBits & (1 << i))
+            nibbleMask |= 0xF0000000 >> (i * 4);
     }
-    return out;
+    return nibbleMask;
 }
 
 
-int func_020463C0(void){ return ((u8 *)g_02146A58->data)[13]; }
+int func_020463C0(void){ return gSystemFont->data->glyphHeight; }
 
 
 int func_020463D8(void){ return 7; }
@@ -241,10 +247,10 @@ int func_020463D8(void){ return 7; }
  *   python tools/match.py one --src src/matched/func_020463E0.c \
  *       --func func_020463E0 --addr 0x020463E0 --cc 1.1p1 --arm
  */
-void func_020463E0(u32 x, u32 y)
+void func_020463E0(u32 fg, u32 bg)
 {
-    g_02146A58->unk04 = (x << 28) | (x << 24) | (x << 20) | (x << 16) |
-                         (x << 12) | (x << 8) | (x << 4) | x;
-    g_02146A58->unk08 = (y << 28) | (y << 24) | (y << 20) | (y << 16) |
-                         (y << 12) | (y << 8) | (y << 4) | y;
+    gSystemFont->fgFill = (fg << 28) | (fg << 24) | (fg << 20) | (fg << 16) |
+                          (fg << 12) | (fg << 8) | (fg << 4) | fg;
+    gSystemFont->bgFill = (bg << 28) | (bg << 24) | (bg << 20) | (bg << 16) |
+                          (bg << 12) | (bg << 8) | (bg << 4) | bg;
 }

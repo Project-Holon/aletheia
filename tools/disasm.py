@@ -818,6 +818,12 @@ class Analyser:
     #     recognised, because mwccarm emits exactly those eight bytes for a
     #     Thumb tail call with no argument set-up and the shape therefore says
     #     nothing about who wrote it;
+    #   * the 12-byte form is a veneer only when <ptr> is odd (Thumb target)
+    #     and no ARM caller of the stub could have branched to that target
+    #     directly (+-32 MB).  mwldarm emits the same twelve bytes for an ARM
+    #     caller to a far Thumb target, but a stub with an even <ptr> or an
+    #     in-range caller is a compiled C tail call and is labelled func_;
+    #     see docs/idioms/tail-call-stub-is-code-not-a-veneer.md;
     #   * <ptr> has to name code this analysis already reached: with the Thumb
     #     bit stripped it must be inside this region, aligned for the ISA its
     #     low bit declares, and classified CODE in that mode.  A stray triple
@@ -842,6 +848,25 @@ class Analyser:
         o = r.off(target)
         return r.kind[o] == CODE and r.mode_at.get(o) == thumb
 
+    _CALL_OPERAND = re.compile(r"#0x([0-9a-fA-F]+)$")
+
+    def _stub_callers_in_range(self, stub, value):
+        """True when an ARM bl/b/blx in this region reaches `stub` and could
+        have reached the stub's target directly (within +-32 MB).  Callers in
+        other regions are not visible here."""
+        r = self.r
+        target = value & ~1
+        for rec in r.insns.values():
+            if rec.thumb or rec.size != 4:
+                continue
+            mnem = rec.text.split("	", 1)[0].split(".")[0]
+            if mnem not in CALL_MNEMONICS and mnem not in ("b", "bl", "blx"):
+                continue
+            m = self._CALL_OPERAND.search(rec.text)
+            if m and int(m.group(1), 16) == stub                     and abs(target - (rec.addr + 8)) < (1 << 25):
+                return True
+        return False
+
     def mark_veneers(self):
         r = self.r
         found = 0
@@ -856,6 +881,10 @@ class Analyser:
                         self.VENEER_BX_IP:
                     continue
                 size, ptr_off = 12, 8
+                pv = struct.unpack_from("<I", r.data, off + 8)[0]
+                if not (pv & 1) or self._stub_callers_in_range(
+                        r.base + off, pv):
+                    continue
             elif w0 == self.VENEER_LDR_PC:
                 size, ptr_off = 8, 4
             else:

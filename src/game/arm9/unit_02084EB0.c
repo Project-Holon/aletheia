@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj16691.h"
 
-unsigned short func_02084EB0(char *p)
+unsigned short func_02084EB0(char *lock)
 {
-    return ((struct Obj16691 *)p)->f4;
+    return ((struct Obj16691 *)lock)->f4;
 }

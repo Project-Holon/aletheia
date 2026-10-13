@@ -28,30 +28,32 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 
-struct NitroBlock {
+struct NNSG2dBinaryBlockHeader {
     u32 signature;
     u32 size;
 };
 
-struct NitroFileHeader {
-    u32 magic;
-    u32 unk04;
+struct NNSG2dBinaryFileHeader {
+    u32 signature;
+    u16 byteOrder;
+    u16 version;
     u32 fileSize;
     u16 headerSize;
     u16 numBlocks;
 };
 
-void *func_02062B64(struct NitroFileHeader *file, u32 signature)
+void *func_02062B64(struct NNSG2dBinaryFileHeader *pHeader, u32 signature)
 {
-    struct NitroBlock *block = (struct NitroBlock *)((u8 *)file + file->headerSize);
-    u16 numBlocks = file->numBlocks;
+    struct NNSG2dBinaryBlockHeader *block =
+        (struct NNSG2dBinaryBlockHeader *)((u8 *)pHeader + pHeader->headerSize);
+    u16 numBlocks = pHeader->numBlocks;
     u16 i;
 
     for (i = 0; i < numBlocks; i++) {
         if (block->signature == signature) {
             return block;
         }
-        block = (struct NitroBlock *)((u8 *)block + block->size);
+        block = (struct NNSG2dBinaryBlockHeader *)((u8 *)block + block->size);
     }
 
     return 0;

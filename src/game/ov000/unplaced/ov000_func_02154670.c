@@ -18,37 +18,49 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_021542C0  0x021542C0  thumb  ov000
  */
-#include "../../../matched/include/Obj04140.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Desc;
-struct Obj;
-struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-void *func_020124E8(struct Obj *p);
-struct Big;
-struct Ctx;
-void *func_020120F4(const struct Ctx *p);
-void *func_02012EBC(struct Big *p);
-u32 func_021542C0(void *obj, u32 *mode, char *args);
+struct GameEvent;
+struct GameSystem;
+struct GameData;
+struct SaveControl;
 
-void *func_02154670(void *p)
+/* Same layout as GsyncEventWork in unit_021542C0.c: only the fields set here are listed. */
+typedef struct GsyncEventWorkInit {
+    struct GameSystem *gameSystem;
+    struct GameData *gameData;
+    struct SaveControl *saveControl;
+    u8 reserved[0x24C];
+    struct GameData *loginGameData;
+    u32 loginType;
+    u32 loginOption;
+    u32 loginMessageId;
+} GsyncEventWorkInit;
+
+struct GameEvent *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+void *func_020124E8(struct GameEvent *event);
+struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+struct SaveControl *func_02012EBC(struct GameData *gameData);
+u32 func_021542C0(void *event, u32 *seq, char *work);
+
+void *func_02154670(void *gameSystem)
 {
-    void *r7;
-    char *r4;
-    int q;
+    struct GameEvent *event;
+    GsyncEventWorkInit *work;
+    struct GameData *gameData;
 
-    r7 = (void *)func_020122C0(p, 0, func_021542C0, 0x2CC);
-    r4 = func_020124E8(r7);
-    q = (int)func_020120F4(p);
-    ((struct Obj04140 *)r4)->f4 = q;
-    ((struct Obj04140 *)r4)->f8 = (int)func_02012EBC((struct Big *)q);
-    ((struct Obj04140 *)r4)->f0 = p;
-    ((struct Obj04140 *)r4)->f258 = (int)func_020120F4(p);
-    ((struct Obj04140 *)r4)->f25C = 1;
-    ((struct Obj04140 *)r4)->f260 = 0;
-    ((struct Obj04140 *)r4)->f264 = 0x31;
-    return r7;
+    event = func_020122C0(gameSystem, 0, func_021542C0, 0x2CC);
+    work = func_020124E8(event);
+    gameData = func_020120F4(gameSystem);
+    work->gameData = gameData;
+    work->saveControl = func_02012EBC(gameData);
+    work->gameSystem = gameSystem;
+    work->loginGameData = func_020120F4(gameSystem);
+    work->loginType = 1;
+    work->loginOption = 0;
+    work->loginMessageId = 0x31;
+    return event;
 }

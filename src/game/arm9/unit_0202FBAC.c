@@ -13,10 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_EnvModule  0x02146954  data
+ *   gHeapManager  0x02146954  data
  *   sub_02060C5C  0x02060C5C  arm
  *   sub_02086788  0x02086788  arm
- *   sub_0202FED8  0x0202FED8  arm
  *   sub_02060CA0  0x02060CA0  arm
  *   func_02060C5C  0x02060C5C  arm
  *   func_02060C94  0x02060C94  arm
@@ -28,7 +27,7 @@
  *   sub_02060F90    0x02060F90  arm
  *   sub_02060E6C    0x02060E6C  arm
  *   sub_02060E94    0x02060E94  arm
- *   g_EnvHeapModule              0x02146964  data
+ *   gSystemHeap              0x02146964  data
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  arm
  *   OS_GetArenaLo                0x02086580  arm
  *   OS_SetArenaHi                0x02086760  arm
@@ -48,83 +47,91 @@
  *   func_02088234  0x02088234  arm
  */
 struct ExpHeap;
-struct S02061358;
-struct HeapHead;
-struct Heap;
-struct EnvRes;
+struct HeapAllocator;
+struct HeapSpec;
 typedef unsigned char u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-struct EnvEntry {
-    void *ptr00;
-    u32   field04;
-    u32   field08;
-    u16   field0c;
-    u8    field0e;
-    u8    pad_0f;
+/* One heap of the manager (16 bytes). */
+struct HeapRecord {
+    void *heap;          /* expanded heap handle, NULL = free record */
+    u32   parentHeap;    /* heap the memory was carved from, 0 if none */
+    u32   block;         /* the carved memory block (freed to parentHeap) */
+    u16   allocCount;    /* live allocations */
+    u8    isExternal;    /* 1 = built over a caller-supplied block */
+    u8    pad0F;
 };
 
-struct EnvModule {
-    struct EnvEntry *entries;
-    u8              *ids;
-    u16              idCount;
-    u16              resCount;
-    u16              entryCount;
-    u16              error;
+/* The heap manager (0x02146954).  A heap id (low 15 bits of a handle) maps
+ * through slotOfHeapId (0xFF = unused id) to a record.  The first
+ * staticHeapCount records are created at start-up; the rest are spares
+ * for heaps created later. */
+struct HeapManager {
+    struct HeapRecord *records;
+    u8              *slotOfHeapId;
+    u16              heapIdCount;
+    u16              staticHeapCount;
+    u16              recordCount;
+    u16              lastError;       /* code of the last failure, 0 = ok */
 };
 
-struct EnvRes {
+/* One start-up heap request. */
+struct HeapSpec {
     u32 size;
-    u32 unk_04;
+    u32 reserved04;
 };
 
 typedef signed int     s32;
 
-struct HeapBlock {
+/* Header before every allocation (0x1C bytes).  magic is 0x194E while the
+ * block is live and 0x194D after it is freed. */
+struct BlockHeader {
     u16 heapId;
     u16 magic;
-    char name[0x12];
+    char name[0x12];   /* allocation owner name, stamped by the caller */
     u16 tag;
-    u32 field18;
+    u32 reserved18;
 };
 
-struct Arena {
-    u32 field00[7];
+/* Expanded heap header: only the end pointer is read. */
+struct ExpHeapHead {
+    u32 head[7];
     u32 *end;
 };
 
-struct S020304C0 {
+/* The header seen from its name field. */
+struct BlockHeaderNameView {
     char pad[4];
-    int  field4;
+    int  name;
 };
 
 typedef signed int BOOL;
 
-struct EnvHeapModule {
-    void *unk0;
-    s32 heapHandle;
+/* State of the fixed-size system heap (0x02146964). */
+struct SystemHeapState {
+    void *reserved0;
+    s32 heapHandle;     /* OS heap handle, -1 = not created */
 };
 
 extern void *sub_02086788(u32 heap, u32 size, u32 align);
 extern void *sub_02060C5C(void *mem, u32 size, u32 mode);
 extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
-extern int sub_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
-int sub_0202FDC4(u32 src, u32 dst, u32 param);
-int sub_0202FE68(void *bound, u32 param, u32 dst);
+int sub_0202FDC4(u32 parentHeapId, u32 newHeapId, u32 size);
+int sub_0202FE68(void *block, u32 size, u32 newHeapId);
 extern void *func_02060C5C(void *start, u32 size, u16 attr);
-int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3);
+int func_0202FED8(u32 parentHeap, u32 heapId, u32 block, u32 size);
 extern void  func_02060C94(void *block);
 extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
-extern void func_02061358(struct S02061358 *s, u32 a, u32 b);
-extern u32 sub_02060CD0(struct HeapHead *heap, void *memBlock, u32 size);
+extern void func_02061358(struct HeapAllocator *s, u32 a, u32 b);
+extern u32 sub_02060CD0(struct ExpHeap *heap, void *memBlock, u32 size);
 extern int sub_02060F90(char *p);
 extern int sub_02060E6C(int *p);
-extern s32 sub_02060E94(struct Heap *heap, s32 x);
+extern s32 sub_02060E94(struct ExpHeap *heap, s32 x);
 extern void SDK_AUTOLOAD_MAIN_TWL_START(void);
 extern void *OS_GetArenaLo(u32 id);
 extern void OS_SetArenaHi(u32 id, void *hi);
@@ -132,80 +139,80 @@ extern void OS_SetArenaLo(u32 id, void *lo);
 extern void *OS_InitAlloc(u32 id, void *lo, void *hi, s32 heapCount);
 extern s32 OS_CreateHeap(u32 id, void *start, void *end);
 extern void *OS_AllocFromHeap(u32 id, s32 heap, u32 size);
-u32 sub_0202FF98(u32 handle);
+u32 sub_0202FF98(u32 heapHandle);
 void *sub_02030098(u32 heapId, u32 size);
-u32 func_02030164(void *p);
-u32 func_02030238(void *p, u32 heapId, s32 size);
-u32 sub_020302A4(void *p, u32 size);
+u32 func_02030164(void *mem);
+u32 func_02030238(void *allocator, u32 heapIdAndDirection, s32 alignment);
+u32 sub_020302A4(void *mem, u32 newSize);
 void *sub_02030344(u32 heapId);
 void *sub_0203038C(u32 heapId);
 u32 sub_020303D8(u32 heapId);
 void *sub_02030428(u32 heapId);
 u16 sub_0203046C(u32 heapId);
-u16 sub_020304B8(void *p);
-void *sub_020304C0(void *p);
+u16 sub_020304B8(void *mem);
+void *sub_020304C0(void *mem);
 u32 sub_020304CC(u32 heapId);
 u16 func_02030524(void);
 BOOL sub_02030534(u32 size);
 void *func_020305C4(u32 size);
 extern int OS_FreeToHeap(u32 heapId, s32 heap, void *ptr);
-extern int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra);
+extern int sub_0202FC48(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize);
 extern u16 sub_02030524(void);
 extern void  sub_02086580(u32 a);
 extern void  sub_0208656C(u32 a);
 extern void  sub_02088234(void *obj);
 extern void  sub_020306A0(void *obj, void *a, u32 b);
 extern void func_02088234(void);
-void *sub_0202FBAC(u32 idx);
-u32 sub_0202FBD0(u32 idx);
-u32 sub_0202FBF8(u32 idx);
-u16 sub_0202FC20(u32 idx);
-int sub_020305E4(u32 idx);
-void sub_02030608(u32 a, u32 b, u32 c, u32 d);
-void sub_0203064C(u32 a, u32 b, u32 c);
-void sub_02030678(void *a, u32 b, u32 c);
-void func_020306A0(int n);
-extern struct EnvModule g_EnvModule;
-extern struct EnvHeapModule g_EnvHeapModule;
+void *sub_0202FBAC(u32 heapId);
+u32 sub_0202FBD0(u32 heapId);
+u32 sub_0202FBF8(u32 heapId);
+u16 sub_0202FC20(u32 heapId);
+int sub_020305E4(u32 mem);
+void sub_02030608(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize);
+void sub_0203064C(u32 parentHeapId, u32 newHeapId, u32 size);
+void sub_02030678(void *block, u32 size, u32 newHeapId);
+void func_020306A0(int errorCode);
+extern struct HeapManager gHeapManager;
+extern struct SystemHeapState gSystemHeap;
 
 
 
 
-void *sub_0202FBAC(u32 idx)
+void *sub_0202FBAC(u32 heapId)
 {
-    u8 id = g_EnvModule.ids[idx];
-    if (id == 0xff) return 0;
-    return g_EnvModule.entries[id].ptr00;
+    u8 slot = gHeapManager.slotOfHeapId[heapId];
+    if (slot == 0xff) return 0;
+    return gHeapManager.records[slot].heap;
 }
 
 
 
 
-u32 sub_0202FBD0(u32 idx)
+u32 sub_0202FBD0(u32 heapId)
 {
-    u8 id = g_EnvModule.ids[idx];
-    if (id == 0xff) return 0;
-    return g_EnvModule.entries[id].field04;
+    u8 slot = gHeapManager.slotOfHeapId[heapId];
+    if (slot == 0xff) return 0;
+    return gHeapManager.records[slot].parentHeap;
 }
 
 
 
 
-u32 sub_0202FBF8(u32 idx)
+u32 sub_0202FBF8(u32 heapId)
 {
-    u8 id = g_EnvModule.ids[idx];
-    if (id == 0xff) return 0;
-    return g_EnvModule.entries[id].field08;
+    u8 slot = gHeapManager.slotOfHeapId[heapId];
+    if (slot == 0xff) return 0;
+    return gHeapManager.records[slot].block;
 }
 
 
 
 
-u16 sub_0202FC20(u32 idx)
+u16 sub_0202FC20(u32 heapId)
 {
-    u8 id = g_EnvModule.ids[idx];
-    if (id == 0xff) return 0;
-    return g_EnvModule.entries[id].field0c;
+    u8 slot = gHeapManager.slotOfHeapId[heapId];
+    if (slot == 0xff) return 0;
+    return gHeapManager.records[slot].allocCount;
 }
 
 
@@ -216,78 +223,78 @@ u16 sub_0202FC20(u32 idx)
 
 /*
  * The module initialiser named by src/matched/unit_0202FBAC.c: it allocates
- * both arrays g_EnvModule reads and fills the header at +8.  The entry array
+ * both arrays gHeapManager reads and fills the header at +8.  The entry array
  * is sized count+0x18, so the first `count` slots are the caller's resources
  * and the remaining 0x18 are spares the binders in this file hand out.  The
  * id table is at least as long as the entry array, the caller's own request
  * being clamped up to it, and every byte starts at 0xff (free).
  *
- * The clearing loop reloads g_EnvModule.entries before every field store,
+ * The clearing loop reloads gHeapManager.records before every field store,
  * which is what writing each store through the global rather than through a
  * cached cursor produces: the stores may alias the pointer itself.
  *
- * count and idCount are u16, and that is not decoration: it is the whole
+ * count and heapIdCount are u16, and that is not decoration: it is the whole
  * difference between this and the 376-byte near miss recorded in
  * docs/notes/sub_0202FC48.c.txt.  With u32 parameters the allocator keeps the
  * constant zero live from the clearing loop to the last call and needs seven
  * callee-saved registers, which loses the `mov sb, r4` in the final loop's
  * preheader.  With count u16 the zero's live range ends at the clearing loop,
  * total takes sb and the preheader re-materialises the zero off the r4 that
- * `error = 0` has just left at zero: 380 bytes, byte for byte.  The caller
+ * `lastError = 0` has just left at zero: 380 bytes, byte for byte.  The caller
  * sub_02030608 truncates both arguments with an lsl/lsr #16 pair before the
- * call, which is where the u16 comes from.  idCount's own type is not what
+ * call, which is where the u16 comes from.  heapIdCount's own type is not what
  * decides it ((u16)total below makes the truncation explicit either way);
- * count's is: u32 count with u16 idCount still lands at 376.
+ * count's is: u32 count with u16 heapIdCount still lands at 376.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0202FC48.c \
  *       --func sub_0202FC48 --addr 0x0202FC48 --cc 1.1p1 --arm
  */
-int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra)
+int sub_0202FC48(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize)
 {
-    u32   total;
-    u32   i;
-    void *mem;
-    u32   slot;
+    u32   recordTotal;
+    u32   specIndex;
+    void *memory;
+    u32   recordIndex;
 
-    total = count + 0x18;
-    if (idCount < total) {
-        idCount = (u16)total;
+    recordTotal = staticCount + 0x18;
+    if (heapIdCount < recordTotal) {
+        heapIdCount = (u16)recordTotal;
     }
 
-    if (extra != 0) {
-        while ((extra & 3) != 0) {
-            extra++;
+    if (extraSize != 0) {
+        while ((extraSize & 3) != 0) {
+            extraSize++;
         }
-        sub_02086788(0, extra, 4);
+        sub_02086788(0, extraSize, 4);
     }
 
-    g_EnvModule.entries = sub_02086788(0, total * 16, 4);
-    for (slot = 0; slot < total; slot++) {
-        g_EnvModule.entries[slot].ptr00 = 0;
-        g_EnvModule.entries[slot].field04 = 0;
-        g_EnvModule.entries[slot].field08 = 0;
-        g_EnvModule.entries[slot].field0c = 0;
-        g_EnvModule.entries[slot].field0e = 0;
+    gHeapManager.records = sub_02086788(0, recordTotal * 16, 4);
+    for (recordIndex = 0; recordIndex < recordTotal; recordIndex++) {
+        gHeapManager.records[recordIndex].heap = 0;
+        gHeapManager.records[recordIndex].parentHeap = 0;
+        gHeapManager.records[recordIndex].block = 0;
+        gHeapManager.records[recordIndex].allocCount = 0;
+        gHeapManager.records[recordIndex].isExternal = 0;
     }
 
-    g_EnvModule.ids = sub_02086788(0, idCount, 4);
-    for (i = 0; i < idCount; i++) {
-        g_EnvModule.ids[i] = 0xff;
+    gHeapManager.slotOfHeapId = sub_02086788(0, heapIdCount, 4);
+    for (specIndex = 0; specIndex < heapIdCount; specIndex++) {
+        gHeapManager.slotOfHeapId[specIndex] = 0xff;
     }
 
-    g_EnvModule.idCount = idCount;
-    g_EnvModule.resCount = count;
-    g_EnvModule.entryCount = total;
-    g_EnvModule.error = 0;
+    gHeapManager.heapIdCount = heapIdCount;
+    gHeapManager.staticHeapCount = staticCount;
+    gHeapManager.recordCount = recordTotal;
+    gHeapManager.lastError = 0;
 
-    for (i = 0; i < count; i++) {
-        mem = sub_02086788(0, res[i].size, 4);
-        if (mem != 0) {
-            g_EnvModule.entries[i].ptr00 = sub_02060C5C(mem, res[i].size, 0);
-            g_EnvModule.ids[i] = i;
+    for (specIndex = 0; specIndex < staticCount; specIndex++) {
+        memory = sub_02086788(0, specs[specIndex].size, 4);
+        if (memory != 0) {
+            gHeapManager.records[specIndex].heap = sub_02060C5C(memory, specs[specIndex].size, 0);
+            gHeapManager.slotOfHeapId[specIndex] = specIndex;
         } else {
-            g_EnvModule.error = i;
+            gHeapManager.lastError = specIndex;
             return 0;
         }
     }
@@ -296,16 +303,16 @@ int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra)
 
 
 /*
- * Bind one resource of the module at g_EnvModule to a destination slot.  Both
+ * Bind one resource of the module at gHeapManager to a destination slot.  Both
  * identifiers carry a flag in bit 15 and an index in the low fifteen bits: on
  * the destination the flag selects the step, +4 or -4, handed to 0x02060CA0,
- * and the low bits index the id table at g_EnvModule+4, which must still read
+ * and the low bits index the id table at gHeapManager+4, which must still read
  * 0xff (free) or the attempt fails.
  *
- * Three of the four failures are distinguished in the module's error halfword
- * at g_EnvModule+0xE: 1 for a destination slot already taken, 2 for a source
+ * Three of the four failures are distinguished in the module's lastError halfword
+ * at gHeapManager+0xE: 1 for a destination slot already taken, 2 for a source
  * resource that does not resolve, 3 for the 0x02060CA0 step failing.  The
- * fourth, 0x0202FED8 returning zero, deliberately leaves the error word alone,
+ * fourth, 0x0202FED8 returning zero, deliberately leaves the lastError word alone,
  * which is visible as the fall-through into the shared `mov r0, #0` tail with
  * no `strh` in front of it.
  *
@@ -333,37 +340,37 @@ int sub_0202FC48(const struct EnvRes *res, u16 count, u16 idCount, u32 extra)
  *   python tools/match.py one --src src/matched/sub_0202FDC4.c \
  *       --func sub_0202FDC4 --addr 0x0202FDC4 --cc 1.1p1 --arm
  */
-int sub_0202FDC4(u32 src, u32 dst, u32 param)
+int sub_0202FDC4(u32 parentHeapId, u32 newHeapId, u32 size)
 {
-    void *res;
-    void *bound;
-    s32   step;
+    void *parentHeap;
+    void *childBlock;
+    s32   align;
 
-    if (dst & 0x8000) {
-        step = -4;
+    if (newHeapId & 0x8000) {
+        align = -4;
     } else {
-        step = 4;
+        align = 4;
     }
-    dst = dst & 0x7fff;
+    newHeapId = newHeapId & 0x7fff;
 
-    if (g_EnvModule.ids[dst] != 0xff) {
-        g_EnvModule.error = 1;
+    if (gHeapManager.slotOfHeapId[newHeapId] != 0xff) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
 
-    res = sub_0202FBAC((u16)(src & 0x7fff));
-    if (res == 0) {
-        g_EnvModule.error = 2;
+    parentHeap = sub_0202FBAC((u16)(parentHeapId & 0x7fff));
+    if (parentHeap == 0) {
+        gHeapManager.lastError = 2;
         goto fail;
     }
 
-    bound = sub_02060CA0(res, param, step);
-    if (bound == 0) {
-        g_EnvModule.error = 3;
+    childBlock = sub_02060CA0(parentHeap, size, align);
+    if (childBlock == 0) {
+        gHeapManager.lastError = 3;
         goto fail;
     }
 
-    if (sub_0202FED8((u32)res, dst, (u32)bound, param) == 0) {
+    if (func_0202FED8((u32)parentHeap, newHeapId, (u32)childBlock, size) == 0) {
         goto fail;
     }
     return 1;
@@ -380,9 +387,9 @@ fail:
  * with the result of 0x02060CA0.
  *
  * On success the entry's +0xE byte is set to 1, which is what pins
- * EnvEntry's size at sixteen bytes: the index scale in
+ * HeapRecord's size at sixteen bytes: the index scale in
  * `add r1, r2, r1, lsl #4` is the struct stride and 0xE is its last used
- * byte.  On a taken destination slot the module error halfword takes 1, as in
+ * byte.  On a taken destination slot the module lastError halfword takes 1, as in
  * sub_0202FDC4; a refusal from 0x0202FED8 leaves it alone.
  *
  * Both zero returns share one tail with a call between them, so the exit is
@@ -393,21 +400,21 @@ fail:
  *   python tools/match.py one --src src/matched/sub_0202FE68.c \
  *       --func sub_0202FE68 --addr 0x0202FE68 --cc 1.1p1 --arm
  */
-int sub_0202FE68(void *bound, u32 param, u32 dst)
+int sub_0202FE68(void *block, u32 size, u32 newHeapId)
 {
-    u32 idx;
+    u32 heapId;
 
-    idx = dst & 0x7fff;
-    if (g_EnvModule.ids[idx] != 0xff) {
-        g_EnvModule.error = 1;
+    heapId = newHeapId & 0x7fff;
+    if (gHeapManager.slotOfHeapId[heapId] != 0xff) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
 
-    if (sub_0202FED8(0, idx, (u32)bound, param) == 0) {
+    if (func_0202FED8(0, heapId, (u32)block, size) == 0) {
         goto fail;
     }
 
-    g_EnvModule.entries[g_EnvModule.ids[idx]].field0e = 1;
+    gHeapManager.records[gHeapManager.slotOfHeapId[heapId]].isExternal = 1;
     return 1;
 
 fail:
@@ -427,26 +434,26 @@ fail:
  * the same address at 0x0202FF94 and 0x0202FFBC), which a plain constant
  * would let mwcc keep in a callee-saved register.
  */
-int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3)
+int func_0202FED8(u32 parentHeap, u32 heapId, u32 block, u32 size)
 {
-    int i;
+    int recordIndex;
 
-    for (i = g_EnvModule.resCount; i < g_EnvModule.entryCount; i++) {
-        if (g_EnvModule.entries[i].ptr00 != 0) {
+    for (recordIndex = gHeapManager.staticHeapCount; recordIndex < gHeapManager.recordCount; recordIndex++) {
+        if (gHeapManager.records[recordIndex].heap != 0) {
             continue;
         }
-        g_EnvModule.entries[i].ptr00 = func_02060C5C((void *)a2, a3, 0);
-        if (g_EnvModule.entries[i].ptr00 == 0) {
-            g_EnvModule.error = 5;
+        gHeapManager.records[recordIndex].heap = func_02060C5C((void *)block, size, 0);
+        if (gHeapManager.records[recordIndex].heap == 0) {
+            gHeapManager.lastError = 5;
             continue;
         }
-        g_EnvModule.entries[i].field04 = a0;
-        g_EnvModule.entries[i].field08 = a2;
-        g_EnvModule.ids[a1] = (u8)i;
-        g_EnvModule.error = 0;
+        gHeapManager.records[recordIndex].parentHeap = parentHeap;
+        gHeapManager.records[recordIndex].block = block;
+        gHeapManager.slotOfHeapId[heapId] = (u8)recordIndex;
+        gHeapManager.lastError = 0;
         return 1;
     }
-    g_EnvModule.error = 4;
+    gHeapManager.lastError = 4;
     return 0;
 }
 
@@ -462,7 +469,7 @@ int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3)
  * record table at g_02146954+0, and the record is cleared and the id
  * released (0xFF) once the block is freed.
  *
- * Two failures set the module's error word at g_02146954+0xE and return 0:
+ * Two failures set the module's lastError word at g_02146954+0xE and return 0:
  * an unknown id (1) and a slot that was never registered (2).
  *
  * The record is cleared field by field with the table base re-read before
@@ -473,7 +480,7 @@ int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3)
  *
  *  - the id mask is applied to the parameter in place (`mov r5, r0` then
  *    `and`), not folded into a fresh local, which would be one `and`.
- *  - the unknown-id arm sets the error word predicated and branches to the
+ *  - the unknown-id arm sets the lastError word predicated and branches to the
  *    function's last `mov r0, #0`, so it is the `if` arm of an if/else
  *    whose `return 0` sits after the whole else block, not an early
  *    `return` of its own.
@@ -490,39 +497,39 @@ int func_0202FED8(u32 a0, u32 a1, u32 a2, u32 a3)
  *   python tools/match.py one --src src/matched/sub_0202FF98.c \
  *       --func sub_0202FF98 --addr 0x0202FF98 --cc 1.1p1 --arm
  */
-u32 sub_0202FF98(u32 handle)
+u32 sub_0202FF98(u32 heapHandle)
 {
-    u32 slot;
-    void *block;
-    void *a;
-    void *b;
+    u32 recordIndex;
+    void *heap;
+    void *parentHeap;
+    void *memBlock;
 
-    handle &= 0x7fff;
+    heapHandle &= 0x7fff;
 
-    block = sub_0202FBAC(handle);
-    if (block == 0) {
-        g_EnvModule.error = 1;
+    heap = sub_0202FBAC(heapHandle);
+    if (heap == 0) {
+        gHeapManager.lastError = 1;
     } else {
-        a = (void *)sub_0202FBD0(handle);
-        b = (void *)sub_0202FBF8(handle);
-        slot = g_EnvModule.ids[handle];
-        func_02060C94(block);
+        parentHeap = (void *)sub_0202FBD0(heapHandle);
+        memBlock = (void *)sub_0202FBF8(heapHandle);
+        recordIndex = gHeapManager.slotOfHeapId[heapHandle];
+        func_02060C94(heap);
 
-        if (a == 0 || b == 0) {
-            if (g_EnvModule.entries[slot].field0e == 0) {
-                g_EnvModule.error = 2;
+        if (parentHeap == 0 || memBlock == 0) {
+            if (gHeapManager.records[recordIndex].isExternal == 0) {
+                gHeapManager.lastError = 2;
                 return 0;
             }
         } else {
-            func_02060E30(a, b);
+            func_02060E30(parentHeap, memBlock);
         }
 
-        g_EnvModule.entries[slot].ptr00 = 0;
-        g_EnvModule.entries[slot].field04 = 0;
-        g_EnvModule.entries[slot].field08 = 0;
-        g_EnvModule.entries[slot].field0c = 0;
-        g_EnvModule.entries[slot].field0e = 0;
-        g_EnvModule.ids[handle] = 0xff;
+        gHeapManager.records[recordIndex].heap = 0;
+        gHeapManager.records[recordIndex].parentHeap = 0;
+        gHeapManager.records[recordIndex].block = 0;
+        gHeapManager.records[recordIndex].allocCount = 0;
+        gHeapManager.records[recordIndex].isExternal = 0;
+        gHeapManager.slotOfHeapId[heapHandle] = 0xff;
         return 1;
     }
 
@@ -557,7 +564,7 @@ u32 sub_0202FF98(u32 handle)
  * later by sub_02030880 (name[0x12] at +4, u16 tag at +0x16), which is
  * what sub_020304C0's `p - 0x1c + 4` is addressing.
  *
- * The module global at 0x02146954, already named g_EnvModule by
+ * The module global at 0x02146954, already named gHeapManager by
  * src/matched/unit_0202FBAC.c, is the heap manager, not an environment
  * module: +0 is the array of 16-byte per-heap records, +4 the byte table
  * mapping heap id to record index, +8 the u16 heap count used as the
@@ -594,39 +601,39 @@ u32 sub_0202FF98(u32 handle)
  */
 void *sub_02030098(u32 heapId, u32 size)
 {
-    void *arena;
-    u32 intr;
-    u8 *p;
-    s32 align;
+    void *heap;
+    u32 irqState;
+    u8 *header;
+    s32 direction;
 
     if ((heapId & 0x8000) != 0) {
-        align = -4;
+        direction = -4;
     } else {
-        align = 4;
+        direction = 4;
     }
     heapId &= 0x7FFF;
-    if (heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 1;
+    if (heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    arena = sub_0202FBAC(heapId);
-    if (arena == 0) {
-        g_EnvModule.error = 2;
+    heap = sub_0202FBAC(heapId);
+    if (heap == 0) {
+        gHeapManager.lastError = 2;
         goto fail;
     }
-    intr = OS_DisableInterrupts();
-    p = (u8 *)sub_02060CA0(arena, size + 0x1c, align);
-    if (p == 0) {
-        g_EnvModule.error = 3;
+    irqState = OS_DisableInterrupts();
+    header = (u8 *)sub_02060CA0(heap, size + 0x1c, direction);
+    if (header == 0) {
+        gHeapManager.lastError = 3;
     } else {
-        ((struct HeapBlock *)p)->magic = 0x194E;
-        ((struct HeapBlock *)p)->heapId = heapId;
-        p += 0x1c;
-        g_EnvModule.entries[g_EnvModule.ids[heapId]].field0c++;
-        g_EnvModule.error = 0;
+        ((struct BlockHeader *)header)->magic = 0x194E;
+        ((struct BlockHeader *)header)->heapId = heapId;
+        header += 0x1c;
+        gHeapManager.records[gHeapManager.slotOfHeapId[heapId]].allocCount++;
+        gHeapManager.lastError = 0;
     }
-    OS_RestoreInterrupts(intr);
-    return p;
+    OS_RestoreInterrupts(irqState);
+    return header;
 
 fail:
     return 0;
@@ -646,7 +653,7 @@ fail:
  * 0x194E signature and is rewritten to 0x194D here, so a freed block keeps
  * a recognisable header but is no longer live.
  *
- * The result code written to g_EnvModule.error (+0xe) numbers four failure
+ * The result code written to gHeapManager.lastError (+0xe) numbers four failure
  * modes: 1 bad signature, 2 heap id out of range, 3 no such heap (the
  * sub_0202FBAC lookup, the arena handed to the release), 4 the heap's live
  * allocation count is already zero (a double free; the count is the +0xc
@@ -675,7 +682,7 @@ fail:
  *    (which is really the two-argument (arena, block) release that
  *    src/matched/sub_0202FF98.c declares).
  *
- * The count decrement is `g_EnvModule.entries[g_EnvModule.ids[heapId]].field0c--;`
+ * The count decrement is `gHeapManager.records[gHeapManager.slotOfHeapId[heapId]].allocCount--;`
  * -- the same double-index expression sub_02030098 increments -- and its
  * decremented result is not reused; the second call takes two arguments.
  *
@@ -683,38 +690,38 @@ fail:
  *   python tools/match.py one --src src/matched/func_02030164.c \
  *       --func func_02030164 --addr 0x02030164 --cc 1.1p1 --arm
  */
-u32 func_02030164(void *p)
+u32 func_02030164(void *mem)
 {
-    struct HeapBlock *hdr;
-    void *arena;
-    u32 intr;
+    struct BlockHeader *header;
+    void *heap;
+    u32 irqState;
     u32 heapId;
 
-    hdr = (struct HeapBlock *)((char *)p - 0x1c);
-    heapId = hdr->heapId;
-    if (hdr->magic != 0x194E) {
-        g_EnvModule.error = 1;
+    header = (struct BlockHeader *)((char *)mem - 0x1c);
+    heapId = header->heapId;
+    if (header->magic != 0x194E) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    if (heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 2;
+    if (heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 2;
         goto fail;
     }
-    arena = sub_0202FBAC(heapId);
-    if (arena == 0) {
-        g_EnvModule.error = 3;
+    heap = sub_0202FBAC(heapId);
+    if (heap == 0) {
+        gHeapManager.lastError = 3;
         goto fail;
     }
     if (sub_0202FC20(heapId) == 0) {
-        g_EnvModule.error = 4;
+        gHeapManager.lastError = 4;
         goto fail;
     }
-    intr = OS_DisableInterrupts();
-    g_EnvModule.entries[g_EnvModule.ids[heapId]].field0c--;
-    hdr->magic = 0x194D;
-    func_02060E30(arena, hdr);
-    OS_RestoreInterrupts(intr);
-    g_EnvModule.error = 0;
+    irqState = OS_DisableInterrupts();
+    gHeapManager.records[gHeapManager.slotOfHeapId[heapId]].allocCount--;
+    header->magic = 0x194D;
+    func_02060E30(heap, header);
+    OS_RestoreInterrupts(irqState);
+    gHeapManager.lastError = 0;
     return 1;
 
 fail:
@@ -764,23 +771,23 @@ fail:
  *   python tools/match.py one --src src/pending/func_02030238.c \
  *       --func func_02030238 --addr 0x02030238 --cc 1.1p1 --arm
  */
-u32 func_02030238(void *p, u32 heapId, s32 size)
+u32 func_02030238(void *allocator, u32 heapIdAndDirection, s32 alignment)
 {
-    s32 len;
+    s32 signedAlignment;
 
-    len = size;
-    if (len < 0) {
-        len = -len;
+    signedAlignment = alignment;
+    if (signedAlignment < 0) {
+        signedAlignment = -signedAlignment;
     }
-    if (heapId & 0x8000) {
-        len = -len;
+    if (heapIdAndDirection & 0x8000) {
+        signedAlignment = -signedAlignment;
     }
-    if ((heapId & 0x7FFF) >= g_EnvModule.idCount) {
-        g_EnvModule.error = 1;
+    if ((heapIdAndDirection & 0x7FFF) >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    func_02061358(p, (u32)sub_0202FBAC(heapId & 0x7FFF), len);
-    g_EnvModule.error = 0;
+    func_02061358(allocator, (u32)sub_0202FBAC(heapIdAndDirection & 0x7FFF), signedAlignment);
+    gHeapManager.lastError = 0;
     return 1;
 
 fail:
@@ -827,7 +834,7 @@ fail:
  * `moveq r1, r2` / `strheq r0, [r4, #0xe]`; they must be written out in
  * each arm (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md).
  * The zero reused for the cleared result is the same register the
- * `error = 0` store just used.
+ * `lastError = 0` store just used.
  *
  * The two early failures share one `mov r0, #0` / `pop` epilogue reached
  * by branch, which needs an explicit `goto`: written as plain `return 0;`
@@ -837,40 +844,40 @@ fail:
  *   python tools/match.py one --src src/pending/sub_020302A4.c \
  *       --func sub_020302A4 --addr 0x020302A4 --cc 1.1p1 --arm
  */
-u32 sub_020302A4(void *p, u32 size)
+u32 sub_020302A4(void *mem, u32 newSize)
 {
-    struct HeapBlock *hdr;
-    void *arena;
+    struct BlockHeader *header;
+    void *heap;
     u32 oldSize;
-    u32 ret;
-    u32 ok;
+    u32 resultSize;
+    u32 success;
 
-    hdr = (struct HeapBlock *)((char *)p - 0x1c);
-    if (hdr->heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 2;
+    header = (struct BlockHeader *)((char *)mem - 0x1c);
+    if (header->heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 2;
         goto fail;
     }
-    arena = sub_0202FBAC(hdr->heapId);
-    if (arena == 0) {
-        g_EnvModule.error = 3;
+    heap = sub_0202FBAC(header->heapId);
+    if (heap == 0) {
+        gHeapManager.lastError = 3;
         goto fail;
     }
-    oldSize = sub_02060F90((char *)hdr);
-    ret = sub_02060CD0(arena, hdr, size + 0x1c);
-    g_EnvModule.error = 0;
-    ok = 1;
-    if (oldSize < size + 0x1c) {
-        if (ret == 0) {
-            g_EnvModule.error = 4;
-            ok = 0;
+    oldSize = sub_02060F90((char *)header);
+    resultSize = sub_02060CD0(heap, header, newSize + 0x1c);
+    gHeapManager.lastError = 0;
+    success = 1;
+    if (oldSize < newSize + 0x1c) {
+        if (resultSize == 0) {
+            gHeapManager.lastError = 4;
+            success = 0;
         }
     } else {
-        if (ret == oldSize) {
-            g_EnvModule.error = 5;
-            ok = 0;
+        if (resultSize == oldSize) {
+            gHeapManager.lastError = 5;
+            success = 0;
         }
     }
-    return ok;
+    return success;
 
 fail:
     return 0;
@@ -903,11 +910,11 @@ fail:
 void *sub_02030344(u32 heapId)
 {
     heapId &= 0x7FFF;
-    if (heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 1;
+    if (heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    g_EnvModule.error = 0;
+    gHeapManager.lastError = 0;
     return (void *)sub_02060E6C(sub_0202FBAC(heapId));
 
 fail:
@@ -935,11 +942,11 @@ fail:
 void *sub_0203038C(u32 heapId)
 {
     heapId &= 0x7FFF;
-    if (heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 1;
+    if (heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    g_EnvModule.error = 0;
+    gHeapManager.lastError = 0;
     return (void *)sub_02060E94(sub_0202FBAC(heapId), 4);
 
 fail:
@@ -973,18 +980,18 @@ fail:
  */
 u32 sub_020303D8(u32 heapId)
 {
-    struct Arena *arena;
+    struct ExpHeapHead *heap;
 
     heapId &= 0x7FFF;
-    if (heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 1;
+    if (heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    arena = sub_0202FBAC(heapId);
-    if (arena != 0) {
-        u32 end = (u32)arena->end;
-        g_EnvModule.error = 0;
-        return end - (u32)arena;
+    heap = sub_0202FBAC(heapId);
+    if (heap != 0) {
+        u32 end = (u32)heap->end;
+        gHeapManager.lastError = 0;
+        return end - (u32)heap;
     }
 
 fail:
@@ -1016,7 +1023,7 @@ fail:
  *
  * The conditional store of result code 1 costs nothing extra because the
  * `movhs r0, #1` that feeds it is also the value the compiler needs; the
- * success path's `error = 0` is a separate `mov r1, #0` because r0 is
+ * success path's `lastError = 0` is a separate `mov r1, #0` because r0 is
  * already committed to the masked id being passed on.
  *
  * Verified with:
@@ -1026,11 +1033,11 @@ fail:
 void *sub_02030428(u32 heapId)
 {
     heapId &= 0x7FFF;
-    if (heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 1;
+    if (heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    g_EnvModule.error = 0;
+    gHeapManager.lastError = 0;
     return sub_0202FBAC(heapId);
 
 fail:
@@ -1070,11 +1077,11 @@ fail:
 u16 sub_0203046C(u32 heapId)
 {
     heapId &= 0x7FFF;
-    if (heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 1;
+    if (heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    g_EnvModule.error = 0;
+    gHeapManager.lastError = 0;
     return (int)sub_0202FC20(heapId);
 
 fail:
@@ -1095,9 +1102,9 @@ fail:
  *   python tools/match.py one --src src/matched/sub_020304B8.c \
  *       --func sub_020304B8 --addr 0x020304B8 --cc 1.1p1
  */
-u16 sub_020304B8(void *p)
+u16 sub_020304B8(void *mem)
 {
-    return *(u16 *)((char *)p - 0x1c);
+    return *(u16 *)((char *)mem - 0x1c);
 }
 
 
@@ -1116,10 +1123,10 @@ u16 sub_020304B8(void *p)
  *   python tools/match.py one --src src/matched/sub_020304C0.c \
  *       --func sub_020304C0 --addr 0x020304C0 --cc 1.1p1
  */
-void *sub_020304C0(void *p)
+void *sub_020304C0(void *mem)
 {
-    struct S020304C0 *s = (struct S020304C0 *)((char *)p - 0x1c);
-    return &s->field4;
+    struct BlockHeaderNameView *header = (struct BlockHeaderNameView *)((char *)mem - 0x1c);
+    return &header->name;
 }
 
 
@@ -1135,8 +1142,8 @@ void *sub_020304C0(void *p)
  *
  * It masks the heap id with 0x7fff (bit 15 is the allocator's high/low
  * direction flag, meaningless here but still masked off), bounds-checks it
- * against g_EnvModule.count, then resolves the arena through sub_0202FBAC.
- * Each failure stamps its own code into g_EnvModule.error, 1 for an id out
+ * against gHeapManager.count, then resolves the arena through sub_0202FBAC.
+ * Each failure stamps its own code into gHeapManager.lastError, 1 for an id out
  * of range and 2 for an id that maps to no live heap, exactly the codes
  * sub_02030098 uses, and returns 0; success writes 0 and returns 1. The
  * callers treat the return as a pointer-ish truth value (see
@@ -1145,15 +1152,15 @@ void *sub_020304C0(void *p)
  * Shape notes:
  *
  *  - The two failure returns share one `mov r0, #0` / `pop` epilogue at
- *    0x02030514 reached by branch, with statements (the error store, then
+ *    0x02030514 reached by branch, with statements (the lastError store, then
  *    the call) sitting between the guards. Plain `return 0;` in each arm
  *    inlines a `movhs r0, #0` / `pophs` pair instead and shifts the tail;
  *    only the explicit `goto fail;` reproduces the shared exit
  *    (docs/idioms/guards-separated-by-statements-share-an-exit-only-through-goto.md).
  *  - The mask is a pool word, not an immediate: 0x7fff has no ARM
  *    rotated-immediate encoding, which is why `ldr r1, [pc, #0x44]` is
- *    scheduled up beside the g_EnvModule load.
- *  - The out-of-range arm reuses r0 for both the error code and the
+ *    scheduled up beside the gHeapManager load.
+ *  - The out-of-range arm reuses r0 for both the lastError code and the
  *    `strh`, so the code constant 1 is written before the mask result is
  *    dead; that falls out of writing the store as the first statement of
  *    the arm.
@@ -1164,19 +1171,19 @@ void *sub_020304C0(void *p)
  */
 u32 sub_020304CC(u32 heapId)
 {
-    void *arena;
+    void *heap;
 
     heapId &= 0x7FFF;
-    if (heapId >= g_EnvModule.idCount) {
-        g_EnvModule.error = 1;
+    if (heapId >= gHeapManager.heapIdCount) {
+        gHeapManager.lastError = 1;
         goto fail;
     }
-    arena = sub_0202FBAC(heapId);
-    if (arena == 0) {
-        g_EnvModule.error = 2;
+    heap = sub_0202FBAC(heapId);
+    if (heap == 0) {
+        gHeapManager.lastError = 2;
         goto fail;
     }
-    g_EnvModule.error = 0;
+    gHeapManager.lastError = 0;
     return 1;
 
 fail:
@@ -1190,7 +1197,7 @@ fail:
 
 u16 func_02030524(void)
 {
-    return g_EnvModule.error;
+    return gHeapManager.lastError;
 }
 
 
@@ -1213,7 +1220,7 @@ u16 func_02030524(void)
  * Take the current arena low mark, pin the arena high mark at 0x02FE3000,
  * hand OS_InitAlloc a single heap of `size` bytes off the low mark, push
  * the low mark past whatever the allocator claimed, then create the heap
- * over the same span. The handle lands in g_EnvHeapModule (0x02146964),
+ * over the same span. The handle lands in gSystemHeap (0x02146964),
  * the second module-like global whose id table src/matched/sub_020305E4.c
  * frees; the +4 slot is an OSHeapHandle, which is why the failure test is
  * against -1.
@@ -1230,7 +1237,7 @@ u16 func_02030524(void)
  *    (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).
  *    47 other pool sites in the image hold 0x02FE3000 outright, so this
  *    site is the odd one out and the split is real evidence, not noise.
- *  - The store to g_EnvHeapModule is written *before* the -1 test even
+ *  - The store to gSystemHeap is written *before* the -1 test even
  *    though the `str` is scheduled after the `moveq`: writing the test
  *    first delays the pool load of the global past the compare and costs
  *    four bytes of diff without changing the instruction count.
@@ -1248,26 +1255,26 @@ u16 func_02030524(void)
  */
 BOOL sub_02030534(u32 size)
 {
-    void *arenaLo;
-    void *start;
-    s32 heap;
-    BOOL ok;
+    void *arenaLow;
+    void *heapStart;
+    s32 osHeap;
+    BOOL success;
 
     if (size > 0x2F80) {
         return 0;
     }
 
-    arenaLo = OS_GetArenaLo(4);
+    arenaLow = OS_GetArenaLo(4);
     OS_SetArenaHi(4, (u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3000);
-    ok = 1;
-    start = OS_InitAlloc(4, arenaLo, (u8 *)arenaLo + size, 1);
-    OS_SetArenaLo(4, start);
-    heap = OS_CreateHeap(4, start, (u8 *)arenaLo + size);
-    g_EnvHeapModule.heapHandle = heap;
-    if (heap == -1) {
-        ok = 0;
+    success = 1;
+    heapStart = OS_InitAlloc(4, arenaLow, (u8 *)arenaLow + size, 1);
+    OS_SetArenaLo(4, heapStart);
+    osHeap = OS_CreateHeap(4, heapStart, (u8 *)arenaLow + size);
+    gSystemHeap.heapHandle = osHeap;
+    if (osHeap == -1) {
+        success = 0;
     }
-    return ok;
+    return success;
 }
 
 
@@ -1287,14 +1294,14 @@ BOOL sub_02030534(u32 size)
  * relocation this file closes). It is now seeded in
  * layout/function_starts.txt, which is what splits 0x02030534's extent.
  *
- * The heap handle is reloaded from g_EnvHeapModule at the call rather than
+ * The heap handle is reloaded from gSystemHeap at the call rather than
  * cached, and the whole body is a pool word and a `bx`
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md). The heap id 4 is
  * materialised last, into r0, because the tail call has already spent the
  * argument registers it could reuse.
  *
- * g_EnvHeapModule's +4 slot is an OSHeapHandle; src/matched/sub_020305E4.c
- * calls the same slot `ids` and passes it as a pointer, which is the same
+ * gSystemHeap's +4 slot is an OSHeapHandle; src/matched/sub_020305E4.c
+ * calls the same slot `slotOfHeapId` and passes it as a pointer, which is the same
  * word under a different reading.
  *
  * Verified with:
@@ -1303,14 +1310,14 @@ BOOL sub_02030534(u32 size)
  */
 void *func_020305C4(u32 size)
 {
-    return OS_AllocFromHeap(4, g_EnvHeapModule.heapHandle, size);
+    return OS_AllocFromHeap(4, gSystemHeap.heapHandle, size);
 }
 
 
 
 /*
  * Frees the id table of a second module-like global, 0x10 bytes after
- * g_EnvModule (0x02146954, see src/matched/unit_0202FBAC.c), through
+ * gHeapManager (0x02146954, see src/matched/unit_0202FBAC.c), through
  * TwlSDK's OS_FreeToHeap on heap 4 (the same heap id sub_02030534, a few
  * bytes earlier in this packet, allocates from with OS_AllocFromArenaLo).
  * The idx argument is loaded into r2 but never used by the call: OS_Free
@@ -1323,9 +1330,9 @@ void *func_020305C4(u32 size)
  *   python tools/match.py one --src src/matched/sub_020305E4.c \
  *       --func sub_020305E4 --addr 0x020305E4 --cc 1.1p1
  */
-int sub_020305E4(u32 idx)
+int sub_020305E4(u32 mem)
 {
-    OS_FreeToHeap(4, g_EnvHeapModule.heapHandle, (void *)idx);
+    OS_FreeToHeap(4, gSystemHeap.heapHandle, (void *)mem);
     return 1;
 }
 
@@ -1357,14 +1364,14 @@ int sub_020305E4(u32 idx)
  *   python tools/match.py one --src src/matched/sub_02030608.c \
  *       --func sub_02030608 --addr 0x02030608 --cc 1.1p1 --arm
  */
-void sub_02030608(u32 a, u32 b, u32 c, u32 d)
+void sub_02030608(u32 specs, u32 staticCount, u32 heapIdCount, u32 extraSize)
 {
-    int ok;
+    int success;
 
-    ok = sub_0202FC48((const struct EnvRes *)a, b, c, d);
+    success = sub_0202FC48((const struct HeapSpec *)specs, staticCount, heapIdCount, extraSize);
     sub_02086580(0);
     sub_0208656C(0);
-    if (ok != 0) {
+    if (success != 0) {
         return;
     }
     sub_02088234((void *)sub_02030524());
@@ -1395,12 +1402,12 @@ void sub_02030608(u32 a, u32 b, u32 c, u32 d)
  *   python tools/match.py one --src src/matched/sub_0203064C.c \
  *       --func sub_0203064C --addr 0x0203064C --cc 1.1p1 --arm
  */
-void sub_0203064C(u32 a, u32 b, u32 c)
+void sub_0203064C(u32 parentHeapId, u32 newHeapId, u32 size)
 {
-    if (sub_0202FDC4(a, b, c) != 0) {
+    if (sub_0202FDC4(parentHeapId, newHeapId, size) != 0) {
         return;
     }
-    sub_020306A0((void *)sub_02030524(), (void *)a, b);
+    sub_020306A0((void *)sub_02030524(), (void *)parentHeapId, newHeapId);
 }
 
 
@@ -1423,20 +1430,20 @@ void sub_0203064C(u32 a, u32 b, u32 c)
  *   python tools/match.py one --src src/matched/sub_02030678.c \
  *       --func sub_02030678 --addr 0x02030678 --cc 1.1p1 --arm
  */
-void sub_02030678(void *a, u32 b, u32 c)
+void sub_02030678(void *block, u32 size, u32 newHeapId)
 {
-    if (sub_0202FE68(a, b, c) != 0) {
+    if (sub_0202FE68(block, size, newHeapId) != 0) {
         return;
     }
-    sub_020306A0((void *)sub_02030524(), 0, c);
+    sub_020306A0((void *)sub_02030524(), 0, newHeapId);
 }
 
 
 
 
-void func_020306A0(int n)
+void func_020306A0(int errorCode)
 {
-    switch (n) {
+    switch (errorCode) {
     case 0:
         break;
     case 1:

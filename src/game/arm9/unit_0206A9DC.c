@@ -27,22 +27,14 @@
  *   python tools/match.py one --src src/matched/func_0206A9DC.c \
  *       --func func_0206A9DC --addr 0x0206A9DC --cc 1.1p1 --arm
  */
+#include "unit_0206A110_types.h"
 
-typedef unsigned int u32;
-
-typedef struct {
-    u32 a;
-    u32 b;
-    u32 c;
-} Rec0206A9DC;
-
-extern u32 g_02148B4C[];
-
-void func_0206A9DC(Rec0206A9DC *p)
+/* NNS_G3dGlbBaseTrans: set the base translation of the model matrix. */
+void func_0206A9DC(const VecFx32 *pTrans)
 {
-    if (p == 0) {
+    if (pTrans == 0) {
         return;
     }
-    *(Rec0206A9DC *)(g_02148B4C + 0x38) = *p;
-    g_02148B4C[0x3f] &= ~0xa4u;
+    NNS_G3dGlb.prmBaseTrans = *pTrans;
+    NNS_G3dGlb.flag &= ~NNS_G3D_GLB_FLAG_BASE_DEPENDENT;
 }

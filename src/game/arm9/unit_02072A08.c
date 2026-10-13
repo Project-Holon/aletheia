@@ -19,26 +19,26 @@
  */
 typedef unsigned int u32;
 
-struct Struct0214DEC0 {
-    u32 field0;
-    u32 field4;
-    u32 field8;
+struct WaveOutState {
+    u32 flags;
+    u32 usedSlotMask;
+    u32 lockedChannelMask;
 };
 
 typedef struct {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0c;
-    u32 unk10;
-} Slot02072A44;
+    u32 channelNo;
+    u32 baseRate;
+    u32 active;
+    u32 started;
+    u32 commandTag;
+} WaveOutSlot;
 
-extern int func_0207292C(int mask);
-void func_02072A08(u32 bit);
+extern int func_0207292C(int channelMask);
+void func_02072A08(u32 slotNo);
 void func_02072A28(void);
-Slot02072A44 *func_02072A44(u32 idx);
-extern struct Struct0214DEC0 g_0214DEC0;
-extern Slot02072A44 g_0214DECC[];
+WaveOutSlot *func_02072A44(u32 slotNo);
+extern struct WaveOutState g_0214DEC0;
+extern WaveOutSlot g_0214DECC[];
 
 
 /*
@@ -64,18 +64,18 @@ extern Slot02072A44 g_0214DECC[];
  *   python3 tools/match.py one --src src/matched/func_02072A08.c \
  *       --func func_02072A08 --addr 0x02072A08 --cc 1.1p1 --arm
  */
-void func_02072A08(u32 bit)
+void func_02072A08(u32 slotNo)
 {
-    g_0214DEC0.field4 &= ~(1U << bit);
+    g_0214DEC0.usedSlotMask &= ~(1U << slotNo);
 }
 
 
 void func_02072A28(void)
 {
-    struct Struct0214DEC0 *p = (struct Struct0214DEC0 *)0x0214DEC0;
-    p->field8 = 0;
-    p->field0 = 0;
-    p->field4 = 0;
+    struct WaveOutState *state = (struct WaveOutState *)0x0214DEC0;
+    state->lockedChannelMask = 0;
+    state->flags = 0;
+    state->usedSlotMask = 0;
 }
 
 
@@ -87,15 +87,15 @@ void func_02072A28(void)
  *   python tools/match.py one --src src/matched/func_02072A44.c \
  *       --func func_02072A44 --addr 0x02072A44 --cc 1.1p1 --arm
  */
-Slot02072A44 *func_02072A44(u32 idx)
+WaveOutSlot *func_02072A44(u32 slotNo)
 {
-    Slot02072A44 *s;
+    WaveOutSlot *slot;
 
-    if (func_0207292C(1 << idx) == 0) {
+    if (func_0207292C(1 << slotNo) == 0) {
         return 0;
     }
-    s = &g_0214DECC[idx];
-    s->unk00 = idx;
-    s->unk08 = 0;
-    return s;
+    slot = &g_0214DECC[slotNo];
+    slot->channelNo = slotNo;
+    slot->active = 0;
+    return slot;
 }

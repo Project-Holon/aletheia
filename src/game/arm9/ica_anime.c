@@ -13,14 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_021461E8  0x021461E8  data
- *   g_02146228     0x02146228  data
- *   g_0214621C     0x0214621C  data
- *   g_0214622A     0x0214622A  data
+ *   _GPowerState  0x021461E8  data
  *   _u32_div_f   0x0209C2B0  arm
  *   func_02048F60  0x02048F60  arm
  *   func_020307B0  0x020307B0  arm
- *   g_02146208      0x02146208  data
  *   func_0201BA34  0x0201BA34  thumb
  *   func_0201AB08  0x0201AB08  thumb
  *   func_0201AB28  0x0201AB28  thumb
@@ -31,30 +27,27 @@
  *   func_0201C158  0x0201C158  thumb
  *   _ll_mul     0x0209C054  arm
  *   _ll_sdiv    0x0209BE5C  arm
- *   sub_02030734       0x02030734  arm
  *   MI_CpuFill8        0x02082BCC  arm
- *   unit_020111EC_File 0x020A7268  data
+ *   _VmFileName 0x020A7268  data
  *   func_0203F4CC  0x0203F4CC  arm
- *   tbl_0209DF24  0x0209DF24  data  a1
- *   tbl_0209DF10  0x0209DF10  data  a1
+ *   _TimeZoneTable  0x0209DF24  data  a1
+ *   _TimeZoneLightTable  0x0209DF10  data  a1
  *   func_02030734   0x02030734  arm
  *   func_02011770  0x02011770  thumb
- *   sIcaAnimeFile  0x020A7270  data
+ *   _IcaAnimeFileName  0x020A7270  data
  *   func_02049238     0x02049238  arm
- *   g020A7270      0x020A7270  data
  *   _fgr           0x0209BBB0  arm
  *   _ffix          0x0209C494  arm
  *   _fmul          0x0209C77C  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
- *   data_020A7270  0x020A7270  data
  *   func_0204944C  0x0204944C  arm
  *   _fdiv          0x0209CE10  arm
  *   _fflt          0x0209BDBC  arm
  *   _ffixu         0x0209C4C8  arm
  *   _fls           0x0209BC74  arm
- *   data_0209DF84  0x0209DF84  data
- *   data_0209DF90  0x0209DF90  data
+ *   _IcaCameraForward  0x0209DF84  data
+ *   _IcaCameraUp  0x0209DF90  data
  *   func_02048AFC  0x02048AFC  arm
  *   func_02048B20  0x02048B20  arm
  *   func_02048B44  0x02048B44  arm
@@ -63,7 +56,7 @@
  *   func_0207C9D0  0x0207C9D0  arm
  *   func_0203F0A8  0x0203F0A8  arm
  *   sub_020056A0   0x020056A0  thumb
- *   g_02146248     0x02146248  data
+ *   _GameSystemGlobal  0x02146248  data
  *   func_0203064C  0x0203064C  arm
  *   func_020306F0  0x020306F0  arm
  *   ov230_id       0x000000E6  data
@@ -74,7 +67,6 @@
  *   func_02012088     0x02012088  thumb
  *   func_020315D4     0x020315D4  arm
  *   func_02087BCC     0x02087BCC  arm
- *   func_02082BCC     0x02082BCC  arm
  *   func_02031324  0x02031324  arm
  *   func_020261E4  0x020261E4  thumb
  *   func_0202B4BC  0x0202B4BC  thumb
@@ -99,7 +91,7 @@
  *   func_0203133C  0x0203133C  arm
  *   func_02031348  0x02031348  arm
  *   ov021_id          0x00000015  data
- *   s0x021D359C       0x021D359C  data  ov021
+ *   FieldMapProcData  0x021D359C  data  ov021
  *   func_02012BB0  0x02012BB0  thumb
  *   func_02012AC8  0x02012AC8  thumb
  *   func_02013D34  0x02013D34  thumb
@@ -114,14 +106,8 @@
  *   func_020263D8     0x020263D8  thumb
  *   func_02035138  0x02035138  arm
  *   func_02035064  0x02035064  arm
- *   sub_020122C0_File   0x020A727C  data
- *   g_020A727C      0x020A727C  data
- *   sub_02012104   0x02012104  thumb
- *   sub_02012108   0x02012108  thumb
- *   sub_02012304   0x02012304  thumb
- *   sub_02012314   0x02012314  thumb
- *   func_020124E4     0x020124E4  thumb
- *   g_020A728C     0x020A728C  data
+ *   _GameEventFileName  0x020A727C  data
+ *   _GameDataFileName  0x020A728C  data
  *   func_020070A4  0x020070A4  thumb
  *   func_0202E888  0x0202E888  thumb
  *   func_02008854  0x02008854  thumb
@@ -170,84 +156,65 @@
  *   func_02161D64  0x02161D64  thumb  ov010
  *   func_02008850  0x02008850  thumb
  */
-#include "../../matched/include/Obj15617.h"
-#include "../../matched/include/Obj08965.h"
-#include "../../matched/include/Obj00005.h"
-#include "../../matched/include/Obj11244.h"
-#include "../../matched/include/Obj11245.h"
-#include "../../matched/include/Obj11246.h"
-#include "../../matched/include/Obj00064.h"
-#include "../../matched/include/Obj01458.h"
-#include "../../matched/include/Obj00020.h"
-#include "../../matched/include/Obj15622.h"
-#include "../../matched/include/Obj15623.h"
-#include "../../matched/include/Obj15624.h"
-#include "../../matched/include/Obj01023.h"
-#include "../../matched/include/Obj00054.h"
-#include "../../matched/include/Obj01611.h"
-#include "../../matched/include/Obj15627.h"
-#include "../../matched/include/Obj15628.h"
+#include "btl_setup_types.h"
 
-struct S020314B8;
-struct S020315D4;
-struct Sav;
+struct ProcSys;
+struct Proc;
+struct Pokemon;
 struct ScriptVm;
-struct Stream;
-struct RtcTime;
 struct IcaAnime;
 struct ArcFile;
-struct Rec12;
 struct Mtx33;
-struct Obj0203159C;
-struct Blk34;
-struct Ctx;
-struct IcaAnimeInst;
-struct SaveBlock;
-struct BigObj;
-struct T;
-struct Comm;
-struct Rec44;
-struct Sub02009210Obj;
-struct Sub020090B0Obj;
-struct S02012304;
-struct Obj;
-struct Desc;
-struct Evt;
-struct Sub02006E40Obj;
-struct Sub02007084Ctrl;
-struct Sub020071E4Ctrl;
-struct Sub0200852CObj;
-struct Sub02008700Obj;
-struct Sub02008828Obj;
-struct Sys;
-struct Rec1B0;
-struct Sub020071CCCtrl;
-struct SoundSys;
+struct MiscSave;
+struct GameSystem;
+struct GameData;
+struct BgmInfo;
+struct GameComm;
+struct PlayerWork;
+struct WirelessSave;
+struct GameEvent;
+struct BagCursor;
+struct SaveControl;
+struct PlayerStatus;
+struct Config;
+struct Situation;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
-typedef enum { SLOT_0 = 0, SLOT_MAX = 13 } Slot;
+typedef enum { GPOWER_TYPE_FIRST = 0, GPOWER_TYPE_MAX = 13 } GPowerType;
 
 typedef unsigned short u16;
 
-typedef struct {
-    u8 pad0[0xa];
-    u8 slot;
-    u8 padB;
-} Entry;
-
-struct Rec02010F94 {
-    unsigned char pad[10];
-    unsigned char f;
-    unsigned char pad2;
+/* RTC time as func_0203F4CC fills it. */
+struct RtcTime {
+    u32 hour;
+    u32 minute;
+    u32 second;
 };
 
-struct Rec02010FA0 {
-    unsigned short a;
-    unsigned short f;
-    unsigned char pad[8];
-};
+/* One record of the pass power table (archive 0x26 member 0, 12 bytes). */
+typedef struct GPowerData {
+    u16 nameId;
+    u16 cost;
+    u8  reserved[4];
+    u16 value;
+    u8  type;
+    u8  durationHours;
+} GPowerData;
+
+/* Active pass powers, one slot per power type (0x60 bytes at 0x021461E8). */
+typedef struct GPowerState {
+    u32 secondsLeft[GPOWER_TYPE_MAX];
+    u8  activeId[GPOWER_TYPE_MAX];
+    u8  pad41;
+    u16 value[GPOWER_TYPE_MAX];
+    u8  selectedType;
+    u8  pad5D[3];
+} GPowerState;
+
+#define GPOWER_ID_NONE   0x30
+#define GPOWER_TYPE_NONE 0xD
 
 typedef signed int     s32;
 
@@ -282,480 +249,418 @@ typedef struct ScriptVm {
     void *data;
 } ScriptVm;
 
-struct Stream {
-    u8 unk00[0x14];
-    u8 *cursor;
-};
-
-struct Ring {
-    u16 cap;
-    u8  unk02[0xA];
-    u8  count;
-    u8  unk0D[0xB];
-    u32 *buf;
-};
-
-struct Cur {
-    u8  unk00[0x14];
-    u32 unk14;
-};
 
 struct Vec3 { s32 x; s32 y; s32 z; };
 
+/*
+ * ICA camera animation (0x38 bytes): per-frame translate, rotate and scale
+ * tracks read from an archive member, buffered bufFrameNum frames at a time
+ * starting at bufTopFrame.
+ */
 struct IcaAnime {
-    u16 f00;
-    u16 f02;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-    struct Vec3 *f1c;
-    struct Vec3 *f20;
-    struct Vec3 *f24;
-    u32 f28;
-    u32 f2c;
-    u32 f30;
-    u32 f34;
+    u16 heapId;
+    u16 pad02;
+    struct ArcFile *arcHandle;
+    u32 dataId;
+    u32 frameNum;
+    s32 frame;
+    s32 bufTopFrame;
+    s32 bufFrameNum;
+    struct Vec3 *transBuf;
+    struct Vec3 *rotBuf;
+    struct Vec3 *scaleBuf;
+    u32 hasTrans;
+    u32 hasRot;
+    u32 hasScale;
+    u32 bufAllocated;
 };
 
-typedef signed int     s32_02011610;
-
-struct Rec12 {
-    s32_02011610 a;
-    s32_02011610 b;
-    s32_02011610 c;
-};
-
-typedef int            s32_02011688;
 
 typedef signed char s8;
 
 typedef signed short s16;
 
-struct G02146248 {
-    void *unk00;
-    u32 unk04;
-    u32 f8;         /* +0x08 */
-    struct Rec12 rec;   /* +0x0C */
-    u16 f18;        /* +0x18 */
-    u16 f1a;        /* +0x1A */
+/* Game initialisation parameters (0x14 bytes, GAMESYSTEM_SetupInitWork). */
+/*
+ * Work of the save-screen proc of unit_02010B98.c (0x1A8 bytes at heap 0x5B,
+ * func_02010BB8); only the fields func_02010D98 and that constructor touch.
+ */
+struct SaveScreenWork {
+    u32 initParam;
+    u32 reserved;
+    struct ProcSys *procSys;
 };
 
-struct Ctx {
-    u8    unk00[0xC];
-    u32   unk0C;
-    u8    unk10[8];
-    u32   unk18;
-    void *unk1C;
-    void *unk20;
-    u32   unk24;
-    u32   unk28;
-    u32   unk2C;
-    u8    unk30;
-    u8    unk31;
-    u8    unk32;
-    u8    unk33_0 : 1;
-    u8    unk33_1 : 7;
+struct GameInitWork {
+    u32 mode;
+    struct Vec3 position;
+    u16 zoneId;
+    u16 direction;
 };
 
-struct IcaAnimeInst {
-    u16   f00;
+/* Statics of gamesystem.c (0x02146248). */
+struct GameSystemGlobal {
+    struct GameSystem *gameSystem;
+    u32 tamperCount;
+    struct GameInitWork initWork;
+};
+
+struct GameEvent;
+typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
+typedef struct GameEvent *(*GameEventCreatorFn)(struct GameSystem *gameSystem, void *arg);
+
+/* Game system proc work (0x34 bytes, GAMESYSTEM_GetWorkSize). */
+struct GameSystem {
+    u16   heapId;
     u8    pad02[2];
-    u32   f04;
-    void *f08;
-    u32   f0c;
-    s32   f10;
-    s32   f14;
-    s32   f18;
-    void *f1c;
-    u32   f20;
-    void *f24;
-    u32   f28;
-    void *f2c;
-    u8    f30;
-    u8    f31;
-    u8    f32;
-    u8    f33_0 : 1;
-    u8    f33_1 : 7;
+    u32   initParam;
+    struct ProcSys *procSys;
+    u32   procStatus;
+    GameEventCreatorFn eventCreator;
+    void *eventCreatorArg;
+    struct GameEvent *event;
+    struct GameData *gameData;
+    void *fieldMap;
+    struct GameComm *gameComm;
+    u32   reserved;
+    void *issSystem;
+    u8    fieldMapState;
+    u8    eventActive;
+    u8    commBlocked;
+    u8    netOffBySleep : 1;
+    u8    unusedBits : 7;
 };
 
-struct Desc {
-    void *unk_00;
-    void *unk_04;
-    u32   unk_08;
-    void *unk_0c;
-    void *unk_10;
+/* One running event of the game system (0x14 bytes, game_event.c). */
+struct GameEvent {
+    struct GameEvent *parent;
+    GameEventFunc func;
+    u32   seq;
+    void *work;
+    struct GameSystem *gameSystem;
 };
 
-typedef int (*Fn02012304)(void *self, void *arg, u32 n);
-
-struct S02012304 {
-    unsigned char pad[4];
-    Fn02012304 f04;
-    unsigned char pad2[4];
-    u32 f0c;
+/* Work of GAME_EVENT_CallProcSeq (GAME_EVENT_CallProc). */
+struct ProcCallWork {
+    u32   overlayId;
+    void *procData;
+    void *param;
 };
 
-struct S0201235C {
-    u32 f00;
-    unsigned char pad[0xc];
-    u32 f10;
+/* Work of GAME_EVENT_OverlaySeq (GAME_EVENT_CreateOverlayEvent, 0x10 bytes). */
+struct OverlayEventWork {
+    u32   overlayId;
+    struct GameEvent *event;
+    u32   reserved[2];
 };
 
-struct Evt {
-    u8    pad_00[0x10];
-    void *unk_10;
-};
-
-struct Obj {
-    void *unk_00;
-    u32  unk_04;
-    u32  unk_08;
-    void *unk_0c;
-    void *unk_10;
-};
-
-typedef struct S { u8 pad00[4]; int f04; } S;
-
-struct SaveBlock {
-    u8 pad_000[0x114];
-    u8 unk_114[0xc0];
-    u8 unk_1d4[1][0x10];
-};
-
-struct Rec1C {
-    u32 v[7];
-};
-
-struct BigObj {
-    u8  unk000[0x158];
-    u32 unk158;
-    u32 unk15C;
-    struct Rec1C *unk160;
-    struct Rec1C *unk164;
-    struct Rec1C *unk168;
-    struct Rec1C *unk16C;
-    struct Rec1C unk170;
-    u8  unk18C[0x14];
-    u32 unk1A0;
-};
-
-extern void func_0203133C(struct S020314B8 *p);
-extern void func_020315D4(struct S020315D4 *p);
-extern void func_02082BCC(void *dst, u32 v, u32 size);
-extern u32 _u32_div_f(u32 a, u32 b);
-extern void *func_02048F60(u32 arc, u32 member, u32 heap);
-extern u32 func_020307B0(void *p);
-extern void func_0201BA34(void *p);
-extern u32 func_0201AB08(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017D30(struct Sav *p);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_02017D70(struct Sav *p, u32 f);
+extern void func_0203133C(struct ProcSys *procSys);
+extern void func_020315D4(struct Proc *proc);
+extern u32 _u32_div_f(u32 dividend, u32 divisor);
+extern void *func_02048F60(u32 arcId, u32 dataId, u32 heapId);
+extern u32 func_020307B0(void *memory);
+extern void func_0201BA34(void *party);
+extern u32 func_0201AB08(void *party);
+extern void *func_0201AB28(void *party, u32 slot);
+extern u32 func_02017D30(struct Pokemon *pokemon);
+extern u32 func_02017E1C(void *pokemon, u32 param, u32 arg);
+extern void func_02017E40(void *pokemon, u32 param, u32 value);
+extern u32 func_02017D70(struct Pokemon *pokemon, u32 fastMode);
 extern u8 func_0201C158(u16 move, u32 ppUp);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void func_0203F4CC(struct RtcTime *time);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02011770(u8 *p, int n);
-extern void func_02049238(u32 h);
-extern void *sub_020490F4(unsigned int id, unsigned int heap);
-extern void sub_0204944C(struct ArcFile *a, u32 b, u32 c, u32 d, void *e);
-extern void  func_0204944C(struct ArcFile *a, u32 b, u32 ofs, u32 size, void *dst);
-extern void func_02048AFC(void *dst, struct Vec3 *v);
-extern void func_02048B20(void *dst, struct Vec3 *v);
-extern void func_02048B44(void *dst, struct Vec3 *v);
-extern void func_020520FC(int h, int s, int v, struct Mtx33 *out);
-extern void func_0207B51C(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
-extern void func_0207C9D0(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
+extern void func_02049238(struct ArcFile *arc);
+extern struct ArcFile *sub_020490F4(unsigned int arcId, unsigned int heapId);
+extern void  func_0204944C(struct ArcFile *arc, u32 dataId, u32 offset, u32 size, void *dst);
+extern void func_02048AFC(void *camera, struct Vec3 *position);
+extern void func_02048B20(void *camera, struct Vec3 *up);
+extern void func_02048B44(void *camera, struct Vec3 *target);
+extern void func_020520FC(int angleX, int angleY, int angleZ, struct Mtx33 *out);
+extern void func_0207B51C(struct Vec3 *vec, struct Vec3 *mtx, struct Vec3 *out);
+extern void func_0207C9D0(struct Vec3 *lhs, struct Vec3 *rhs, struct Vec3 *out);
 extern u32 func_0203F0A8(void);
-extern void *sub_020056A0(u32 a, u32 b, u32 c);
-extern void func_0203064C(unsigned int a, unsigned int b, unsigned int c);
-extern void func_020306F0(unsigned int a);
-extern int func_02034AC4(int id);
-extern u32   func_021882A0(void (*a)(void), void (*b)(void), u32 c);
-extern u32   func_02188354(void (*a)(void), void (*b)(void), u32 c);
-extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
+extern void *sub_020056A0(u32 task, u32 work, u32 priority);
+extern void func_0203064C(unsigned int parentHeapId, unsigned int heapId, unsigned int size);
+extern void func_020306F0(unsigned int heapId);
+extern int func_02034AC4(int overlayId);
+extern u32   func_021882A0(void (*caller)(void), void (*target)(void), u32 arg);
+extern u32   func_02188354(void (*caller)(void), void (*target)(void), u32 arg);
+extern u32   func_02188390(void (*caller)(void), void (*target)(void), u32 arg);
 //P
-extern void  func_02034A5C(s32 id);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern u32   func_0215FA00(void *p, u32 a);
-extern void *func_02012F08(int *p);
-extern u32 func_0200C258(struct Blk34 *p);
-extern void func_02012088(struct IcaAnimeInst *p);
-extern void func_02087BCC(u32 v);
-extern void *func_02031324(int a0);
-extern void *func_020261E4(unsigned int id, void *res);
-extern void *func_0202B4BC(struct SaveBlock *a, unsigned int id);
-extern void func_020139B0(u32 heap);
-extern void func_0202B4F0(unsigned char *p);
-extern void func_02026250(void *obj);
+extern void  func_02034A5C(s32 overlayId);
+extern void *func_0203159C(struct Proc *proc, u32 size, u32 heapId);
+extern struct GameEvent *func_0215FA00(struct GameSystem *gameSystem, u32 initParam);
+extern struct MiscSave *func_02012F08(struct GameData *gameData);
+extern u32 func_0200C258(struct MiscSave *miscSave);
+extern void func_02012088(struct GameSystem *gameSystem);
+extern void func_02087BCC(u32 mode);
+extern struct ProcSys *func_02031324(int heapId);
+extern struct GameComm *func_020261E4(unsigned int heapId, struct GameData *gameData);
+extern void *func_0202B4BC(struct GameData *gameData, unsigned int heapId);
+extern void func_020139B0(u32 heapId);
+extern void func_0202B4F0(void *issSystem);
+extern void func_02026250(struct GameComm *gameComm);
 extern void func_02013A48(void);
-extern void func_020267BC(u32 v);
+extern void func_020267BC(struct GameData *gameData);
 extern void func_02021438(void);
-extern unsigned char func_02012A24(const struct BigObj *p);
-extern void func_02035614(int v);
-extern unsigned char func_020129FC(struct BigObj *h);
-extern void func_0201205C(struct IcaAnimeInst *p);
-extern void func_0202627C(struct Comm *p);
-extern unsigned int func_02031330(void *p);
-extern unsigned int func_02012A30(const struct BigObj *p);
-extern void func_02028A14(struct T *p);
-extern void func_0202B500(unsigned char *p);
-extern void func_02021464(unsigned char *p);
-extern u32 func_0200F7B8(u32 a0);
-extern void func_02031348(void *h, u32 id, void *a, void *b);
-extern u32 func_02012BB0(const struct BigObj *p);
-extern void func_02012BC8(unsigned char *p, int on);
-extern u16   func_02012AC8(const struct Rec44 *h);
-extern u32 func_02013D34(u32 id);
+extern u8 func_02012A24(const struct GameData *gameData);
+extern void func_02035614(int frames);
+extern u8 func_020129FC(struct GameData *gameData);
+extern void func_0201205C(struct GameSystem *gameSystem);
+extern void func_0202627C(struct GameComm *gameComm);
+extern unsigned int func_02031330(struct ProcSys *procSys);
+extern struct BgmInfo *func_02012A30(const struct GameData *gameData);
+extern void func_02028A14(struct BgmInfo *bgmInfo);
+extern void func_0202B500(void *issSystem);
+extern void func_02021464(struct GameData *gameData);
+extern u32 func_0200F7B8(u32 mode);
+extern void func_02031348(struct ProcSys *procSys, u32 overlayId, void *procData, void *param);
+extern u32 func_02012BB0(const struct GameData *gameData);
+extern void func_02012BC8(struct GameData *gameData, int on);
+extern u16   func_02012AC8(const struct PlayerWork *player);
+extern u32 func_02013D34(u32 zoneId);
 extern u32   func_0200FB24(void);
-extern int func_02158318(int a0);
+extern int func_02158318(struct GameSystem *gameSystem);
 extern u32   func_02035390(void);
 extern int func_020353B0(void);
-extern struct Sub02009210Obj *func_0200921C(void *p);
-extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
+extern struct WirelessSave *func_0200921C(struct GameData *gameData);
+extern u8 func_020090E0(const struct WirelessSave *wirelessSave);
 extern int func_0203CD98(void);
-extern u32 func_02026454(void *obj);
-extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
-extern void func_02035138(void *fn, u32 arg);
-extern void func_02035064(const void *fn, u32 arg);
-extern unsigned int sub_02012104(const struct Ctx *p);
-extern void sub_02012108(struct Ctx *p, u32 v);
-extern int sub_02012304(struct S02012304 *o);
-extern void sub_02012314(char *p);
-extern void *func_020124E4(struct Obj *p);
-extern struct Sub02007084Ctrl *func_020070A4(void);
+extern u32 func_02026454(struct GameComm *gameComm);
+extern void func_020263D8(struct GameComm *gameComm, u32 mode, struct GameSystem *gameSystem);
+extern void func_02035138(void (*callback)(struct GameSystem *), struct GameSystem *gameSystem);
+extern void func_02035064(int (*callback)(struct GameSystem *), struct GameSystem *gameSystem);
+extern struct SaveControl *func_020070A4(void);
 extern u8    func_0202E888(void);
-extern struct Sub02008828Obj *func_02008854(void *sys);
-extern u32   func_02008844(u32 a);
-extern void *func_02008848(struct Sub02008828Obj *obj);
-extern void *func_0200884C(struct Sub02008828Obj *obj);
-extern struct Sub02006E40Obj *func_02006E40(u32 heap);
-extern void func_02012A60(struct Rec44 *p);
+extern struct Situation *func_02008854(struct SaveControl *saveControl);
+extern struct Location *func_02008844(u32 situation);
+extern struct Location *func_02008848(struct Situation *situation);
+extern struct Location *func_0200884C(struct Situation *situation);
+extern struct BagCursor *func_02006E40(u32 heapId);
+extern void func_02012A60(struct PlayerWork *player);
 extern int func_02008468(void);
-extern u8 *func_02012944(void *p);
-extern struct Sub0200852CObj *func_02008730(void *sys);
-extern void *memcpy(void *dst, const void *src, u32 n);
-extern int func_0216237C(int a);
-extern void func_021623DC(char *p);
-extern void *func_02012FE4(struct Sub020071CCCtrl *a0);
-extern u16 *func_02159B48(int a);
-extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern char *func_0216CC58(int a, int b, int c);
-extern struct Sys *func_02028844(void *desc, u32 heap);
-extern u32   func_02014428(int heap);
-extern void *func_02008254(u32 heap);
-extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u32 *func_02007AA4(u32 heap, u32 value);
-extern void *func_020097C4(int a0);
-extern void func_0200BDE4(struct Rec1B0 *p);
-extern void  func_02161D98(char *p);
-extern void *func_0200857C(u32 heap);
-extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
-extern void *func_0215E31C(u32 heap);
-extern void  func_0202E43C(void *p);
-extern void func_02012C18(u8 *p);
-extern void *func_0202E770(void *heap);
-extern u32   func_0202751C(int heap, u32 n);
-extern u8 *func_021647A0(void *a, u32 b);
-extern int func_021647D8(int a0);
-extern void func_02027584(u8 *p);
-extern void func_0202E794(void *p);
-extern void func_0215E334(void *ptr);
-extern void func_02006E64(struct Sub02006E40Obj *obj);
-extern void func_02007AC8(void *p);
-extern int func_0216CCB0(int a0);
-extern void func_02159BBC(void *ptr);
-extern int func_021623BC(int a0);
-extern void func_02014444(u32 p);
-extern void func_0202889C(struct SoundSys *s);
-extern void func_02082D44(void *dst, const void *src, u32 n);
-extern int func_02161D64(int a0);
-extern u16 *func_02008850(void *p);
-int func_02010D98(int a0, int a1, int a2, int a3);
+extern struct PlayerStatus *func_02012944(struct GameData *gameData);
+extern struct PlayerStatus *func_02008730(struct SaveControl *saveControl);
+extern void *memcpy(void *dst, const void *src, u32 size);
+extern int func_0216237C(int heapId);
+extern void func_021623DC(void *eventData);
+extern void *func_02012FE4(struct SaveControl *saveControl);
+extern u16 *func_02159B48(int heapId);
+extern void *func_020071CC(struct SaveControl *saveControl, u32 blockId);
+extern void *func_0216CC58(int heapId, int count, int saveBlock);
+extern struct BgmInfo *func_02028844(struct GameData *gameData, u32 heapId);
+extern u32   func_02014428(int heapId);
+extern void *func_02008254(u32 heapId);
+extern struct Config *func_0200873C(struct SaveControl *saveControl);
+extern u32 *func_02007AA4(u32 heapId, u32 saveControl);
+extern void *func_020097C4(int heapId);
+extern void func_0200BDE4(void *slot);
+extern void  func_02161D98(void *unionInfo);
+extern void *func_0200857C(u32 heapId);
+extern u8 func_020071E4(const struct SaveControl *saveControl);
+extern void *func_0215E31C(u32 heapId);
+extern void  func_0202E43C(void *rtcWork);
+extern void func_02012C18(struct GameData *gameData);
+extern void *func_0202E770(void *heapId);
+extern u32   func_0202751C(int heapId, u32 flags);
+extern u8 *func_021647A0(struct GameData *gameData, u32 heapId);
+extern int func_021647D8(int musicalWork);
+extern void func_02027584(u32 itemUseWork);
+extern void func_0202E794(void *pmsWork);
+extern void func_0215E334(void *fieldGimmick);
+extern void func_02006E64(struct BagCursor *bagCursor);
+extern void func_02007AC8(void *boxManager);
+extern int func_0216CCB0(int occupyInfo);
+extern void func_02159BBC(void *fieldWork);
+extern int func_021623BC(int eventData);
+extern void func_02014444(u32 moveModelSys);
+extern void func_0202889C(struct BgmInfo *bgmInfo);
+extern struct MusicalShot *func_0200A864(struct SaveControl *saveControl);
+extern u16 *func_0200A890(struct MusicalShot *shot);
+extern u8 *func_0200A898(struct MusicalShot *shot);
+extern void func_02082D44(void *dst, const void *src, u32 size);
+extern int func_02161D64(int unionInfo);
+extern u16 *func_02008850(struct Situation *situation);
+int func_02010D98(struct Proc *proc, u32 *seq, void *param, struct SaveScreenWork *work);
 void func_02010DB4(void);
 void func_02010DCC(void);
 void func_02010DF4(void);
-void sub_02010E14(int slot, u8 *rec, int select);
-u8 sub_02010EA0(int slot, u8 *rec);
-u8 sub_02010EB4(int k);
-u32 func_02010EC0(u32 i);
+void sub_02010E14(int powerId, const GPowerData *table, int select);
+u8 sub_02010EA0(int powerId, const GPowerData *table);
+u8 sub_02010EB4(int type);
+u32 func_02010EC0(u32 type);
 int func_02010EEC(void);
 u8 func_02010F18(void);
-void func_02010F40(int idx, Entry *tbl);
-void func_02010F50(int idx);
-void *func_02010F7C(u32 heap);
-void func_02010F8C(void *p);
-unsigned int func_02010F94(struct Rec02010F94 *p, int idx);
-unsigned int func_02010FA0(struct Rec02010FA0 *p, int idx);
+void func_02010F40(int powerId, const GPowerData *table);
+void func_02010F50(int type);
+GPowerData *func_02010F7C(u32 heapId);
+void func_02010F8C(GPowerData *table);
+unsigned int func_02010F94(const GPowerData *table, int powerId);
+unsigned int func_02010FA0(const GPowerData *table, int powerId);
 void sub_02010FAC(void);
-u32 func_02010FB0(u32 v);
-u32 func_02010FF4(u32 v);
-int func_02011014(int a0);
-u32 func_0201102C(u32 v);
-u32 func_0201104C(void *box);
-u32 func_020110CC(void *box);
-u32 func_02011168(u32 v);
-u32 func_0201119C(u32 v);
-s32 func_020111BC(s32 v);
+u32 func_02010FB0(u32 rate);
+u32 func_02010FF4(u32 steps);
+int func_02011014(int friendship);
+u32 func_0201102C(u32 price);
+u32 func_0201104C(void *party);
+u32 func_020110CC(void *party);
+u32 func_02011168(u32 exp);
+u32 func_0201119C(u32 money);
+s32 func_020111BC(s32 rate);
 u32 func_020111E8(void);
 void func_020111EC(ScriptVm *vm);
 ScriptVm *func_0201121C(u32 heapId, const ScriptVmParams *params);
-void func_02011264(void *ptr);
+void func_02011264(ScriptVm *vm);
 void func_0201126C(ScriptVm *vm, void *user);
 void func_0201127C(ScriptVm *vm, u8 *pc);
 ScriptVm *sub_02011290(ScriptVm *vm);
 int func_02011298(ScriptVm *vm);
 void *sub_02011324(ScriptVm *vm);
 void sub_02011328(ScriptVm *vm, ScriptHookFn hook, void *arg);
-u16 func_02011330(struct Stream *s);
-u32 func_0201134C(struct Stream *s);
-void func_0201137C(struct Ring *r, u32 v);
-u32 func_02011398(struct Ring *r);
-void func_020113B0(struct Cur *c, u32 v);
-void func_020113B4(struct Ring *r, u32 v);
-u32 func_020113C4(struct Ring *r);
-void func_020113D0(char *p, int val);
-u32 func_020113D8(u32 row);
-int func_020113F0(int row, int col);
-u8 func_02011400(int row, int col);
-u32 func_02011410(u32 tz);
-void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4);
-void *func_0201147C(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
-void *func_020114D0(u32 heap, u32 a1, u32 a2);
-void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
-void func_02011558(struct IcaAnime *p);
-u32 func_02011590(struct IcaAnime *p, s32 v);
-u32 func_020115C0(struct IcaAnime *p, s32 v);
-void func_020115EC(struct IcaAnime *p, s32 v);
-u32 func_02011608(struct Obj11244 *p);
-u32 func_0201160C(struct Obj11245 *p);
-u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst);
-u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst);
-u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst);
-u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx);
-void func_020116C0(struct IcaAnime *p);
-void func_020116E0(u8 *p, u32 a1, u32 a2, u32 a3);
-void sub_02011770(u8 *p, int n);
-int func_020117D8(u8 *a0, int a1, u8 *a2, int a3);
-void func_0201183C(struct IcaAnime *s, s32 q);
-void func_02011B8C(void *dst, void *ctx);
-void func_02011CF0(void *a0, void *a1);
-void func_02011D0C(void *a0, void *a1);
-u32 func_02011D28(u32 (*fn)(void));
+u16 func_02011330(ScriptVm *vm);
+u32 func_0201134C(ScriptVm *vm);
+void func_0201137C(ScriptVm *vm, u32 value);
+u32 func_02011398(ScriptVm *vm);
+void func_020113B0(ScriptVm *vm, u8 *pc);
+void func_020113B4(ScriptVm *vm, u8 *pc);
+u8 *func_020113C4(ScriptVm *vm);
+void func_020113D0(ScriptVm *vm, ScriptWaitFn wait);
+u32 func_020113D8(u32 season);
+int func_020113F0(int season, int hour);
+u8 func_02011400(int season, int timeZone);
+u32 func_02011410(u32 season);
+struct IcaAnime *func_02011428(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
+struct IcaAnime *func_0201147C(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum, void *buffer, u32 bufferSize);
+struct IcaAnime *func_020114D0(u32 heapId, u32 arcId, u32 dataId);
+struct IcaAnime *func_02011510(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
+void func_02011558(struct IcaAnime *anime);
+u32 func_02011590(struct IcaAnime *anime, s32 step);
+u32 func_020115C0(struct IcaAnime *anime, s32 step);
+void func_020115EC(struct IcaAnime *anime, s32 frame);
+u32 func_02011608(struct IcaAnime *anime);
+u32 func_0201160C(struct IcaAnime *anime);
+u32 func_02011610(struct IcaAnime *anime, struct Vec3 *trans);
+u32 func_02011638(struct IcaAnime *anime, struct Vec3 *rot);
+u32 func_02011660(struct IcaAnime *anime, struct Vec3 *scale);
+u32 func_02011688(struct IcaAnime *anime, struct Vec3 *trans, u32 frame);
+void func_020116C0(struct IcaAnime *anime);
+void func_020116E0(struct IcaAnime *anime, u32 arcId, u32 dataId, u32 heapId);
+void func_02011770(struct IcaAnime *anime, int bufFrameNum);
+int func_020117D8(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int bufferSize);
+void func_0201183C(struct IcaAnime *anime, s32 frame);
+void func_02011B8C(void *camera, struct IcaAnime *anime);
+void func_02011CF0(void *camera, struct IcaAnime *anime);
+void func_02011D0C(void *camera, struct IcaAnime *anime);
+u32 func_02011D28(u32 (*func)(void));
 void func_02011D34(void);
 void func_02011D40(void);
 void func_02011D60(void);
 void func_02011D7C(void);
-u32 func_02011D9C(void *a0, u32 a1, u32 a2);
-u32 func_02011EAC(u32 a0, u32 a1, u32 a2, u32 a3);
-u32 func_02011EC0(u32 a0, u32 a1, u32 a2, u32 a3);
-void *func_02011EEC(u32 a0, u16 a1, struct Rec12 *a2, int a3);
+u32 func_02011D9C(struct Proc *proc, u32 *seq, u32 initParam);
+u32 func_02011EAC(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
+u32 func_02011EC0(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
+struct GameInitWork *func_02011EEC(u32 mode, u16 zoneId, struct Vec3 *position, int direction);
 u32 func_02011F24(void);
-void func_02011F28(struct IcaAnimeInst *p, u16 id, u32 a2);
-void func_02011F90(u32 *o);
-void func_02011FB8(struct IcaAnimeInst *p, u16 id, u32 a2);
-int func_02011FCC(char *p);
-void sub_0201209C(void *o, u32 v1, u32 v2);
-void func_020120A4(char *p);
-void func_020120B4(struct IcaAnimeInst *p, u32 id, void *a, void *b);
-void func_020120C0(struct IcaAnimeInst *p);
-int func_020120D8(char *p);
-u32 func_020120F0(const struct Ctx *p);
-void *func_020120F4(const struct Ctx *p);
-u8 *func_020120F8(const struct Ctx *p);
-u32 func_02012104(const struct Ctx *p);
-void func_02012108(struct Ctx *p, u32 v);
-void *func_0201210C(const struct Ctx *p);
-void func_02012110(struct Ctx *p, void *v);
-u32 func_02012114(const struct Ctx *p);
-void func_02012124(struct Ctx *p, u32 v);
-u8 func_0201212C(const struct Ctx *p);
-u32 func_02012134(const struct Ctx *p);
-u32 func_02012138(const struct Ctx *p);
-void func_0201213C(struct Ctx *p, u32 v);
-u8 func_02012144(const struct Ctx *p);
-u32 func_0201214C(const struct Ctx *p);
-void func_02012158(char *p, unsigned int v);
-u32 func_02012164(struct IcaAnimeInst *p);
-u32 func_020121CC(struct IcaAnimeInst *p);
-u32 func_02012204(const struct Ctx *p);
-void func_02012210(struct Ctx *p);
-void func_02012220(struct IcaAnimeInst *p);
-void func_02012248(struct IcaAnimeInst *p);
-void func_02012258(void *o);
-int func_02012264(int a0, int a1, int a2, int a3);
-void func_020122A4(u32 arg);
-void func_020122B4(void *o);
-struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size);
-int func_02012304(struct S02012304 *o);
-void func_02012314(char *p);
-void func_0201232C(char *p, int a1, int a2);
-void func_0201235C(struct S0201235C *o, u32 *out);
-void func_02012374(struct Evt *evt, struct Evt **out);
-int func_02012380(void *p);
-int func_020123C4(void *a0);
-int func_020123D8(void *o, u32 (*fn)(void *, void *), void *a2);
-int func_0201240C(void *o, u32 *state, u32 *item);
-void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
-int func_02012474(void *a0, u32 *a1, u32 *a2);
-struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
-void *sub_020124E4(struct Obj *p);
-void *sub_020124E8(struct Obj *p);
-u32 *sub_020124EC(struct Obj *p);
-void *sub_020124F0(struct Obj *p);
-void *func_020124F4(u16 heap);
-void func_02012704(u8 *p);
-u8 *func_02012798(u8 *p, int i);
-void *func_020127A4(struct SaveBlock *p);
-void *func_020127AC(struct SaveBlock *p, u32 idx);
-void *func_020127B8(void *p);
-u8 *func_020127C4(void *p);
-u8 *sub_020127D0(u8 *o, u32 idx);
-int func_020127E0(int a0);
-int func_020127F0(int a0);
-void func_02012800(u8 *obj, void *dst);
-void func_0201281C(u8 *obj);
-u32 func_0201283C(const struct BigObj *p);
-u32 func_02012844(const struct BigObj *p);
-struct Rec1C *func_0201284C(const struct BigObj *p);
-void func_02012854(struct BigObj *p, const struct Rec1C *src);
-struct Rec1C *func_02012870(const struct BigObj *p);
-void func_02012878(struct BigObj *p, const struct Rec1C *src);
-struct Rec1C *func_02012894(const struct BigObj *p);
-void func_0201289C(struct BigObj *p, const struct Rec1C *src);
-struct Rec1C *func_020128B8(const struct BigObj *p);
-void func_020128C0(struct BigObj *p, const struct Rec1C *src);
-struct Rec1C *func_020128DC(struct BigObj *p);
-void func_020128E4(struct BigObj *p, const struct Rec1C *src);
-void func_02012900(const struct BigObj *p, u16 v);
-extern u32 g_021461E8[];
-extern u8   g_02146228[];
-extern u8  g_0214621C[];
-extern u8  g_0214622A[];
-extern u8 g_02146208[];
-extern const char unit_020111EC_File[];
-extern const u8 tbl_0209DF24[][0x18];
-extern const u8 tbl_0209DF10[][5];
-extern u8    sIcaAnimeFile;
-extern u8    g020A7270[];
-extern u8    data_020A7270;
-extern struct Vec3 data_0209DF84;
-extern struct Vec3 data_0209DF90;
-extern struct G02146248 g_02146248;
+void func_02011F28(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
+void func_02011F90(struct GameSystem *gameSystem);
+void func_02011FB8(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
+int func_02011FCC(struct GameSystem *gameSystem);
+void sub_0201209C(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
+void func_020120A4(struct GameSystem *gameSystem);
+void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+void func_020120C0(struct GameSystem *gameSystem);
+int func_020120D8(struct GameSystem *gameSystem);
+u32 func_020120F0(const struct GameSystem *gameSystem);
+struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+struct PlayerWork *func_020120F8(const struct GameSystem *gameSystem);
+struct GameEvent *func_02012104(const struct GameSystem *gameSystem);
+void func_02012108(struct GameSystem *gameSystem, struct GameEvent *event);
+void *func_0201210C(const struct GameSystem *gameSystem);
+void func_02012110(struct GameSystem *gameSystem, void *fieldMap);
+u32 func_02012114(const struct GameSystem *gameSystem);
+void func_02012124(struct GameSystem *gameSystem, u32 state);
+u8 func_0201212C(const struct GameSystem *gameSystem);
+void *func_02012134(const struct GameSystem *gameSystem);
+struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+void func_0201213C(struct GameSystem *gameSystem, u32 blocked);
+u8 func_02012144(const struct GameSystem *gameSystem);
+u32 func_0201214C(const struct GameSystem *gameSystem);
+void func_02012158(struct GameSystem *gameSystem, unsigned int on);
+u32 func_02012164(struct GameSystem *gameSystem);
+u32 func_020121CC(struct GameSystem *gameSystem);
+u32 func_02012204(const struct GameSystem *gameSystem);
+void func_02012210(struct GameSystem *gameSystem);
+void func_02012220(struct GameSystem *gameSystem);
+void func_02012248(struct GameSystem *gameSystem);
+void func_02012258(struct GameSystem *gameSystem);
+int func_02012264(struct GameSystem *gameSystem);
+void func_020122A4(struct GameSystem *gameSystem);
+void func_020122B4(struct GameSystem *gameSystem);
+struct GameEvent *sub_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
+int func_02012304(struct GameEvent *event);
+void func_02012314(struct GameEvent *event);
+void func_0201232C(struct GameEvent *event, GameEventFunc func, u32 workSize);
+void func_0201235C(struct GameEvent *now, struct GameEvent *next);
+void func_02012374(struct GameEvent *parent, struct GameEvent *child);
+int func_02012380(struct GameSystem *gameSystem);
+int func_020123C4(struct GameSystem *gameSystem);
+int func_020123D8(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
+int func_0201240C(struct GameEvent *event, u32 *seq, void *work);
+void func_02012444(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
+int func_02012474(struct GameEvent *event, u32 *seq, void *work);
+struct GameEvent *func_020124AC(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
+struct GameSystem *sub_020124E4(struct GameEvent *event);
+void *sub_020124E8(struct GameEvent *event);
+u32 *sub_020124EC(struct GameEvent *event);
+struct GameEvent *sub_020124F0(struct GameEvent *event);
+struct GameData *func_020124F4(u16 heapId);
+void func_02012704(struct GameData *gameData);
+struct PlayerWork *func_02012798(struct GameData *gameData, int index);
+struct PlayerWork *func_020127A4(struct GameData *gameData);
+void *func_020127AC(struct GameData *gameData, u32 index);
+void *func_020127B8(struct GameData *gameData);
+u8 *func_020127C4(struct GameData *gameData);
+u8 *sub_020127D0(struct GameData *gameData, u32 index);
+u16 *func_020127E0(struct GameData *gameData);
+u8 *func_020127F0(struct GameData *gameData);
+void func_02012800(struct GameData *gameData, void *dst);
+void func_0201281C(struct GameData *gameData);
+u32 func_0201283C(const struct GameData *gameData);
+void *func_02012844(const struct GameData *gameData);
+struct Location *func_0201284C(const struct GameData *gameData);
+void func_02012854(struct GameData *gameData, const struct Location *location);
+struct Location *func_02012870(const struct GameData *gameData);
+void func_02012878(struct GameData *gameData, const struct Location *location);
+struct Location *func_02012894(const struct GameData *gameData);
+void func_0201289C(struct GameData *gameData, const struct Location *location);
+struct Location *func_020128B8(const struct GameData *gameData);
+void func_020128C0(struct GameData *gameData, const struct Location *location);
+struct Location *func_020128DC(struct GameData *gameData);
+void func_020128E4(struct GameData *gameData, const struct Location *location);
+void func_02012900(const struct GameData *gameData, u16 warpId);
+extern GPowerState _GPowerState;
+extern const char _VmFileName[];
+extern const u8 _TimeZoneTable[][0x18];
+extern const u8 _TimeZoneLightTable[][5];
+extern const char _IcaAnimeFileName[];
+extern struct Vec3 _IcaCameraForward;
+extern struct Vec3 _IcaCameraUp;
+extern struct GameSystemGlobal _GameSystemGlobal;
 extern u8 ov230_id[];
 extern u8 ov021_id[];
-extern u8 s0x021D359C;
-extern const char sub_020122C0_File[];
-extern char g_020A727C[];
-extern char  g_020A728C[];
+extern u8 FieldMapProcData;
+extern const char _GameEventFileName[];
+extern const char _GameDataFileName[];
 
 
-int func_02010D98(int a0, int a1, int a2, int a3){ func_0203133C((struct S020314B8 *)((struct Obj15617 *)((char *)(a3)))->f8); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); func_020306F0((int)0x5b); return 1; }
+int func_02010D98(struct Proc *proc, u32 *seq, void *param, struct SaveScreenWork *work)
+{
+    func_0203133C(work->procSys);
+    func_020315D4(proc);
+    func_020306F0(0x5b);
+    return 1;
+}
 
 
 /*
@@ -767,7 +672,7 @@ int func_02010D98(int a0, int a1, int a2, int a3){ func_0203133C((struct S020314
  */
 void func_02010DB4(void)
 {
-    func_02082BCC(g_021461E8, 0, 0x60);
+    MI_CpuFill8(&_GPowerState, 0, sizeof(GPowerState));
     func_02010DF4();
 }
 
@@ -784,11 +689,11 @@ void func_02010DB4(void)
  */
 void func_02010DCC(void)
 {
-    Slot i;
+    GPowerType type;
 
-    for (i = 0; i < SLOT_MAX; i++) {
-        if (g_021461E8[i] > 1) {
-            g_021461E8[i]--;
+    for (type = 0; type < GPOWER_TYPE_MAX; type++) {
+        if (_GPowerState.secondsLeft[type] > 1) {
+            _GPowerState.secondsLeft[type]--;
         }
     }
     sub_02010FAC();
@@ -812,12 +717,12 @@ void func_02010DCC(void)
  */
 void func_02010DF4(void)
 {
-    Slot i;
+    GPowerType type;
 
-    for (i = 0; i < SLOT_MAX; i++) {
-        func_02010F50(i);
+    for (type = 0; type < GPOWER_TYPE_MAX; type++) {
+        func_02010F50(type);
     }
-    g_02146228[0x1c] = SLOT_MAX;
+    _GPowerState.selectedType = GPOWER_TYPE_MAX;
 }
 
 
@@ -825,9 +730,9 @@ void func_02010DF4(void)
 /*
  * Records one play-time entry.  `rec` is an array of 0xc-byte records; the
  * record's +0xa byte is the SLOT (0..0xc) and +0xb is a count of hours, which
- * is stored as SECONDS in g_021461E8[slot] (0xe10 = 3600).  The +8 halfword
- * goes into the parallel halfword table at g_0214622A, and the selected-slot
- * byte g_02146228[0x1c] is cleared to 0xd when it named this slot and set to
+ * is stored as SECONDS in _GPowerState.secondsLeft[type] (0xe10 = 3600).  The +8 halfword
+ * goes into the parallel halfword table at _GPowerState.value, and the selected-slot
+ * byte _GPowerState.selectedType is cleared to 0xd when it named this slot and set to
  * this slot when `select` is 1.
  *
  * The four-case switch is emitted as a comparison TREE, not a table, because
@@ -846,25 +751,25 @@ void func_02010DF4(void)
  *   python tools/match.py one --src src/matched/sub_02010E14.c \
  *       --func sub_02010E14 --addr 0x02010E14 --cc 1.1p1 --thumb
  */
-void sub_02010E14(int slot, u8 *rec, int select)
+void sub_02010E14(int powerId, const GPowerData *table, int select)
 {
-    int k;
+    int type;
 
-    if (slot >= 0x30) {
+    if (powerId >= GPOWER_ID_NONE) {
         return;
     }
-    rec = rec + slot * 0xc;
-    k = rec[0xa];
-    g_0214621C[k] = (u8)slot;
-    g_021461E8[k] = rec[0xb] * 0xe10;
-    *(u16 *)(g_0214622A + k * 2) = ((struct Obj08965 *)rec)->f8;
-    if (g_02146228[0x1c] == k) {
-        g_02146228[0x1c] = 0xd;
+    table = table + powerId;
+    type = table->type;
+    _GPowerState.activeId[type] = (u8)powerId;
+    _GPowerState.secondsLeft[type] = table->durationHours * 3600;
+    _GPowerState.value[type] = table->value;
+    if (_GPowerState.selectedType == type) {
+        _GPowerState.selectedType = GPOWER_TYPE_NONE;
     }
     if (select == 1) {
-        g_02146228[0x1c] = (u8)k;
+        _GPowerState.selectedType = (u8)type;
     }
-    switch (k) {
+    switch (type) {
     case 0:
         func_02010F50(1);
         break;
@@ -890,7 +795,7 @@ void sub_02010E14(int slot, u8 *rec, int select)
  * sub_02010E14 writes with.
  *
  * The pointer must be ADVANCED into its own value first: writing the whole
- * thing as one subscript, `g_0214621C[rec[slot * 0xc + 0xa]]`, folds the
+ * thing as one subscript, `_GPowerState.activeId[rec[slot * 0xc + 0xa]]`, folds the
  * +0xa into the scaled index and gives `adds r2, #0xa; ldrb r1, [r1, r2]`
  * where the original has `adds r0, r1, r2; ldrb r1, [r0, #0xa]` - four bytes
  * in the same place, same size, and the only difference in the function.
@@ -901,10 +806,10 @@ void sub_02010E14(int slot, u8 *rec, int select)
  *   python tools/match.py one --src src/matched/sub_02010EA0.c \
  *       --func sub_02010EA0 --addr 0x02010EA0 --cc 1.1p1 --thumb
  */
-u8 sub_02010EA0(int slot, u8 *rec)
+u8 sub_02010EA0(int powerId, const GPowerData *table)
 {
-    rec = rec + slot * 0xc;
-    return g_0214621C[rec[0xa]];
+    table = table + powerId;
+    return _GPowerState.activeId[table->type];
 }
 
 
@@ -920,9 +825,9 @@ u8 sub_02010EA0(int slot, u8 *rec)
  *   python tools/match.py one --src src/matched/sub_02010EB4.c \
  *       --func sub_02010EB4 --addr 0x02010EB4 --cc 1.1p1 --thumb
  */
-u8 sub_02010EB4(int k)
+u8 sub_02010EB4(int type)
 {
-    return g_0214621C[k];
+    return _GPowerState.activeId[type];
 }
 
 
@@ -933,20 +838,20 @@ u8 sub_02010EB4(int k)
  *   python tools/match.py one --src src/matched/func_02010EC0.c \
  *       --func func_02010EC0 --addr 0x02010EC0 --thumb --cc 1.1p1
  */
-u32 func_02010EC0(u32 i)
+u32 func_02010EC0(u32 type)
 {
-    u32 r;
+    u32 minutes;
 
-    if (g_0214621C[i] == 0x30) {
+    if (_GPowerState.activeId[type] == GPOWER_ID_NONE) {
         return 0;
     }
-    r = ((u32 *)g_021461E8)[i] / 0x3c;
-    return r != 0 ? r : 1;
+    minutes = _GPowerState.secondsLeft[type] / 60;
+    return minutes != 0 ? minutes : 1;
 }
 
 
 /*
- * Index g_02146228[0x1c] selects one of thirteen u32 counters in g_021461E8;
+ * Index _GPowerState.selectedType selects one of thirteen u32 counters in _GPowerState.secondsLeft;
  * 0xd means "none" and answers 0, otherwise the counter is divided by 60 and
  * a zero quotient is lifted to 1.  The divide is unsigned (`_u32_div_f`), so the
  * counter is read as u32.
@@ -957,23 +862,23 @@ u32 func_02010EC0(u32 i)
  */
 int func_02010EEC(void)
 {
-    u8 idx = g_02146228[0x1c];
-    u32 v;
+    u8 type = _GPowerState.selectedType;
+    u32 minutes;
 
-    if (idx == 0xd) {
+    if (type == GPOWER_TYPE_NONE) {
         return 0;
     }
-    v = g_021461E8[idx] / 0x3c;
-    if (v == 0) {
-        v = 1;
+    minutes = _GPowerState.secondsLeft[type] / 60;
+    if (minutes == 0) {
+        minutes = 1;
     }
-    return v;
+    return minutes;
 }
 
 
 
 /*
- * Returns the byte-table entry g_0214621C of the first of the thirteen counter slots whose value is 1,
+ * Returns the byte-table entry _GPowerState.activeId of the first of the thirteen counter slots whose value is 1,
  * or 0x30 when none is. The loop index is the Slot enum (as in func_02010DF4): an int index lets
  * mwcc fold the constant entry guard away.
  *
@@ -981,13 +886,13 @@ int func_02010EEC(void)
  */
 u8 func_02010F18(void)
 {
-    Slot i;
+    GPowerType type;
 
-    for (i = 0; i < SLOT_MAX; i++) {
-        if (g_021461E8[i] == 1)
-            return g_0214621C[i];
+    for (type = 0; type < GPOWER_TYPE_MAX; type++) {
+        if (_GPowerState.secondsLeft[type] == 1)
+            return _GPowerState.activeId[type];
     }
-    return 0x30;
+    return GPOWER_ID_NONE;
 }
 
 
@@ -997,16 +902,16 @@ u8 func_02010F18(void)
  *
  * Addresses are Black-image addresses.
  */
-void func_02010F40(int idx, Entry *tbl)
+void func_02010F40(int powerId, const GPowerData *table)
 {
-    func_02010F50(tbl[idx].slot);
+    func_02010F50(table[powerId].type);
 }
 
 
 
 /*
  * Clears slot `idx` of the same thirteen-entry counter table and marks the byte
- * table g_0214621C; if the slot was the selected one (g_02146228[0x1c]) the
+ * table _GPowerState.activeId; if the slot was the selected one (_GPowerState.selectedType) the
  * selection is reset to 0xd.  The bound test is SIGNED (`bge`, not `bhs`): the
  * index is an int.
  *
@@ -1014,15 +919,15 @@ void func_02010F40(int idx, Entry *tbl)
  *   python tools/match.py one --src src/matched/func_02010F50.c \
  *       --func func_02010F50 --addr 0x02010F50 --cc 1.1p1 --thumb
  */
-void func_02010F50(int idx)
+void func_02010F50(int type)
 {
-    if (idx >= 0xd) {
+    if (type >= GPOWER_TYPE_NONE) {
         return;
     }
-    g_0214621C[idx] = 0x30;
-    g_021461E8[idx] = 0;
-    if (g_02146228[0x1c] == idx) {
-        g_02146228[0x1c] = 0xd;
+    _GPowerState.activeId[type] = GPOWER_ID_NONE;
+    _GPowerState.secondsLeft[type] = 0;
+    if (_GPowerState.selectedType == type) {
+        _GPowerState.selectedType = GPOWER_TYPE_NONE;
     }
 }
 
@@ -1033,9 +938,9 @@ void func_02010F50(int idx)
  *
  * Addresses are Black-image addresses.
  */
-void *func_02010F7C(u32 heap)
+GPowerData *func_02010F7C(u32 heapId)
 {
-    return func_02048F60(0x26, 0, heap);
+    return func_02048F60(0x26, 0, heapId);
 }
 
 
@@ -1045,9 +950,9 @@ void *func_02010F7C(u32 heap)
  *
  * Addresses are Black-image addresses.
  */
-void func_02010F8C(void *p)
+void func_02010F8C(GPowerData *table)
 {
-    func_020307B0(p);
+    func_020307B0(table);
 }
 
 
@@ -1055,9 +960,9 @@ void func_02010F8C(void *p)
 /*
  * Unlabelled Thumb leaf: byte at +0xa of the 12-byte record idx.
  */
-unsigned int func_02010F94(struct Rec02010F94 *p, int idx)
+unsigned int func_02010F94(const GPowerData *table, int powerId)
 {
-    return p[idx].f;
+    return table[powerId].type;
 }
 
 
@@ -1065,9 +970,9 @@ unsigned int func_02010F94(struct Rec02010F94 *p, int idx)
 /*
  * Unlabelled Thumb leaf: halfword at +0x2 of the 12-byte record idx.
  */
-unsigned int func_02010FA0(struct Rec02010FA0 *p, int idx)
+unsigned int func_02010FA0(const GPowerData *table, int powerId)
 {
-    return p[idx].f;
+    return table[powerId].cost;
 }
 
 
@@ -1099,25 +1004,25 @@ void sub_02010FAC(void)
  *   python tools/match.py one --src src/matched/func_02010FB0.c \
  *       --func func_02010FB0 --addr 0x02010FB0 --cc 1.1p1 --thumb
  */
-u32 func_02010FB0(u32 v)
+u32 func_02010FB0(u32 rate)
 {
-    if (g_02146208[0x14] != 0x30) {
-        v = *(u16 *)(g_02146228 + 2) * v / 100;
-        if (v > 100) v = 100;
-        return v;
+    if (_GPowerState.activeId[0] != GPOWER_ID_NONE) {
+        rate = _GPowerState.value[0] * rate / 100;
+        if (rate > 100) rate = 100;
+        return rate;
     }
-    if (g_02146208[0x15] != 0x30) {
-        v = *(u16 *)(g_02146228 + 4) * v / 100;
-        if (v > 100) v = 100;
+    if (_GPowerState.activeId[1] != GPOWER_ID_NONE) {
+        rate = _GPowerState.value[1] * rate / 100;
+        if (rate > 100) rate = 100;
     }
-    return v;
+    return rate;
 }
 
 
 
 /*
- * Scale by the u16 at +6 of g_02146228 unless the mode byte at +0x16 of
- * g_02146208 is 0x30.  The divide is unsigned (`_u32_div_f`, which the runtime
+ * Scale by _GPowerState.value[2] unless _GPowerState.activeId[2]
+ * is 0x30.  The divide is unsigned (`_u32_div_f`, which the runtime
  * table at 0x0209C2B0 calls `_div_by_zero_check`: mwcc's own symbol name for
  * the site is the `_u32_div_f` one, see docs/notes/pkt_0202EC44.c.txt), and the
  * multiply is spelled table-value-first: `x * v`, not `v * x`, or the result
@@ -1127,19 +1032,19 @@ u32 func_02010FB0(u32 v)
  *   python tools/match.py one --src src/matched/func_02010FF4.c \
  *       --func func_02010FF4 --addr 0x02010FF4 --cc 1.1p1 --thumb
  */
-u32 func_02010FF4(u32 v)
+u32 func_02010FF4(u32 steps)
 {
-    if (g_02146208[0x16] != 0x30)
-        v = *(u16 *)(g_02146228 + 6) * v / 100;
-    return v;
+    if (_GPowerState.activeId[2] != GPOWER_ID_NONE)
+        steps = _GPowerState.value[2] * steps / 100;
+    return steps;
 }
 
 
-int func_02011014(int a0)
+int func_02011014(int friendship)
 {
-    if (g_02146208[0x17] != 0x30)
-        a0 += *(unsigned short *)(g_02146228 + 8);
-    return a0;
+    if (_GPowerState.activeId[3] != GPOWER_ID_NONE)
+        friendship += _GPowerState.value[3];
+    return friendship;
 }
 
 
@@ -1151,11 +1056,11 @@ int func_02011014(int a0)
  *   python tools/match.py one --src src/matched/func_0201102C.c \
  *       --func func_0201102C --addr 0x0201102C --cc 1.1p1 --thumb
  */
-u32 func_0201102C(u32 v)
+u32 func_0201102C(u32 price)
 {
-    if (g_02146208[0x18] != 0x30)
-        v = *(u16 *)(g_02146228 + 0xa) * v / 100;
-    return v;
+    if (_GPowerState.activeId[4] != GPOWER_ID_NONE)
+        price = _GPowerState.value[4] * price / 100;
+    return price;
 }
 
 
@@ -1179,33 +1084,33 @@ u32 func_0201102C(u32 v)
  * a separate local from the box parameter (reassigning the parameter
  * swaps r4/r5).
  */
-u32 func_0201104C(void *box)
+u32 func_0201104C(void *party)
 {
-    void *p;
-    u32 idx;
-    u32 h;
-    int max;
-    int n;
+    void *pokemon;
+    u32 slot;
+    u32 fastMode;
+    int maxHp;
+    int hp;
 
-    if (g_02146208[0x19] != 0x30) {
-        if (*(u16 *)(g_02146228 + 0xc) == 999) {
-            func_0201BA34(box);
-            idx = 0;
+    if (_GPowerState.activeId[5] != GPOWER_ID_NONE) {
+        if (_GPowerState.value[5] == 999) {
+            func_0201BA34(party);
+            slot = 0;
         } else {
-            idx = func_0201AB08(box);
-            p = func_0201AB28(box, idx);
-            h = func_02017D30(p);
-            max = func_02017E1C(p, 0xa1, 0);
-            n = func_02017E1C(p, 0xa0, 0);
-            n = n + *(u16 *)(g_02146228 + 0xc);
-            if (n > max) {
-                n = max;
+            slot = func_0201AB08(party);
+            pokemon = func_0201AB28(party, slot);
+            fastMode = func_02017D30(pokemon);
+            maxHp = func_02017E1C(pokemon, 0xa1, 0);
+            hp = func_02017E1C(pokemon, 0xa0, 0);
+            hp = hp + _GPowerState.value[5];
+            if (hp > maxHp) {
+                hp = maxHp;
             }
-            func_02017E40(p, 0xa0, n);
-            func_02017D70(p, h);
+            func_02017E40(pokemon, 0xa0, hp);
+            func_02017D70(pokemon, fastMode);
         }
         func_02010F50(5);
-        return idx;
+        return slot;
     }
     return 0xff;
 }
@@ -1224,35 +1129,35 @@ u32 func_0201104C(void *box)
  * pointer, the record is its own local), which is what closed the
  * entry-order residue of docs/notes/pkt_0201104C.sub_020110CC.c.txt.
  */
-u32 func_020110CC(void *box)
+u32 func_020110CC(void *party)
 {
-    void *p;
-    u32 idx;
-    u32 h;
+    void *pokemon;
+    u32 slot;
+    u32 fastMode;
     u32 i;
     u32 move;
-    u32 max;
-    u32 v;
+    u32 maxPp;
+    u32 pp;
 
-    if (g_02146208[0x1a] != 0x30) {
-        idx = func_0201AB08(box);
-        p = func_0201AB28(box, idx);
-        h = func_02017D30(p);
+    if (_GPowerState.activeId[6] != GPOWER_ID_NONE) {
+        slot = func_0201AB08(party);
+        pokemon = func_0201AB28(party, slot);
+        fastMode = func_02017D30(pokemon);
         for (i = 0; i < 4; i++) {
-            move = func_02017E1C(p, (int)(0x36 + i), (int)0);
+            move = func_02017E1C(pokemon, (int)(0x36 + i), (int)0);
             if (move != 0) {
-                max = (u32)func_0201C158(move, (u8)func_02017E1C(p, (int)(0x3e + i), (int)0));
-                v = func_02017E1C(p, (int)(0x3a + i), (int)0);
-                v += *(u16 *)(g_02146228 + 0xe);
-                if (v > max) {
-                    v = max;
+                maxPp = (u32)func_0201C158(move, (u8)func_02017E1C(pokemon, (int)(0x3e + i), (int)0));
+                pp = func_02017E1C(pokemon, (int)(0x3a + i), (int)0);
+                pp += _GPowerState.value[6];
+                if (pp > maxPp) {
+                    pp = maxPp;
                 }
-                func_02017E40(p, (int)(0x3a + i), v);
+                func_02017E40(pokemon, (int)(0x3a + i), pp);
             }
         }
-        func_02017D70(p, h);
+        func_02017D70(pokemon, fastMode);
         func_02010F50(6);
-        return idx;
+        return slot;
     }
     return 0xff;
 }
@@ -1267,13 +1172,13 @@ u32 func_020110CC(void *box)
  *   python tools/match.py one --src src/matched/func_02011168.c \
  *       --func func_02011168 --addr 0x02011168 --cc 1.1p1 --thumb
  */
-u32 func_02011168(u32 v)
+u32 func_02011168(u32 exp)
 {
-    if (g_02146208[0x1b] != 0x30)
-        return *(u16 *)(g_02146228 + 0x10) * v / 100;
-    if (g_02146208[0x1c] != 0x30)
-        v = *(u16 *)(g_02146228 + 0x12) * v / 100;
-    return v;
+    if (_GPowerState.activeId[7] != GPOWER_ID_NONE)
+        return _GPowerState.value[7] * exp / 100;
+    if (_GPowerState.activeId[8] != GPOWER_ID_NONE)
+        exp = _GPowerState.value[8] * exp / 100;
+    return exp;
 }
 
 
@@ -1285,11 +1190,11 @@ u32 func_02011168(u32 v)
  *   python tools/match.py one --src src/matched/func_0201119C.c \
  *       --func func_0201119C --addr 0x0201119C --cc 1.1p1 --thumb
  */
-u32 func_0201119C(u32 v)
+u32 func_0201119C(u32 money)
 {
-    if (g_02146208[0x1d] != 0x30)
-        v = *(u16 *)(g_02146228 + 0x14) * v / 100;
-    return v;
+    if (_GPowerState.activeId[9] != GPOWER_ID_NONE)
+        money = _GPowerState.value[9] * money / 100;
+    return money;
 }
 
 
@@ -1307,10 +1212,10 @@ u32 func_0201119C(u32 v)
  * size but colours the mode load in r3 (r1 is the high half of the
  * result).  See docs/idioms/a-missing-return-hands-back-the-parameter.md.
  */
-s32 func_020111BC(s32 v)
+s32 func_020111BC(s32 rate)
 {
-    if (g_02146208[0x1e] != 0x30) {
-        return (s64)*(u16 *)(g_02146228 + 0x16) * v / 100;
+    if (_GPowerState.activeId[10] != GPOWER_ID_NONE) {
+        return (s64)_GPowerState.value[10] * rate / 100;
     }
 }
 
@@ -1402,7 +1307,7 @@ ScriptVm *func_0201121C(u32 heapId, const ScriptVmParams *params)
     ScriptVm *vm;
 
     size = params->ring_cap * 4 + sizeof(ScriptVm) + params->stack_cap * 4;
-    vm = (ScriptVm *)sub_02030734(heapId, size, 0, unit_020111EC_File, 96);
+    vm = (ScriptVm *)func_02030734(heapId, size, 0, _VmFileName, 96);
     MI_CpuFill8(vm, 0, size);
     vm->params = *params;
     vm->ring = (u32 *)(vm + 1);
@@ -1412,9 +1317,9 @@ ScriptVm *func_0201121C(u32 heapId, const ScriptVmParams *params)
 
 
 
-void func_02011264(void *ptr)
+void func_02011264(ScriptVm *vm)
 {
-    func_020307B0(ptr);
+    func_020307B0(vm);
 }
 
 
@@ -1532,7 +1437,7 @@ int func_02011298(ScriptVm *vm)
                 vm->state = 0;
                 return 0;
             }
-            op = func_02011330((struct Stream *)vm);
+            op = func_02011330(vm);
             if (op >= vm->params.cmd_count) {
                 vm->state = 0;
                 return 0;
@@ -1619,95 +1524,93 @@ void sub_02011328(ScriptVm *vm, ScriptHookFn hook, void *arg)
  *   python tools/match.py tu --src src/matched/unit_02011330.c \
  *       --addr 0x02011330 --thumb
  */
-u16 func_02011330(struct Stream *s)
+u16 func_02011330(ScriptVm *vm)
 {
-    u8  b0, b1;
-    u16 t;
+    u8  lo, hi;
+    u16 high;
 
-    b0 = *s->cursor;
-    s->cursor = s->cursor + 1;
-    b1 = *s->cursor;
-    s->cursor = s->cursor + 1;
-    t = (u16)(b1 << 8);
-    return b0 + t;
+    lo = *vm->pc;
+    vm->pc = vm->pc + 1;
+    hi = *vm->pc;
+    vm->pc = vm->pc + 1;
+    high = (u16)(hi << 8);
+    return lo + high;
 }
 
 
-u32 func_0201134C(struct Stream *s)
+u32 func_0201134C(ScriptVm *vm)
 {
     u8  b0, b1, b2, b3;
-    u32 v;
+    u32 value;
 
-    b0 = *s->cursor;
-    s->cursor = s->cursor + 1;
-    b1 = *s->cursor;
-    s->cursor = s->cursor + 1;
-    b2 = *s->cursor;
-    s->cursor = s->cursor + 1;
-    b3 = *s->cursor;
-    s->cursor = s->cursor + 1;
+    b0 = *vm->pc;
+    vm->pc = vm->pc + 1;
+    b1 = *vm->pc;
+    vm->pc = vm->pc + 1;
+    b2 = *vm->pc;
+    vm->pc = vm->pc + 1;
+    b3 = *vm->pc;
+    vm->pc = vm->pc + 1;
 
-    v = 0;
-    v = v + b3;
-    v = v << 8;
-    v = v + b2;
-    v = v << 8;
-    v = v + b1;
-    v = v << 8;
-    v = v + b0;
-    return v;
+    value = 0;
+    value = value + b3;
+    value = value << 8;
+    value = value + b2;
+    value = value << 8;
+    value = value + b1;
+    value = value << 8;
+    value = value + b0;
+    return value;
 }
 
 
 
-void func_0201137C(struct Ring *r, u32 v)
+void func_0201137C(ScriptVm *vm, u32 value)
 {
-    if (r->count + 1 < r->cap) {
-        r->buf[r->count] = v;
-        r->count = r->count + 1;
+    if (vm->depth + 1 < vm->params.stack_cap) {
+        vm->stack[vm->depth] = value;
+        vm->depth = vm->depth + 1;
     }
 }
 
 
-u32 func_02011398(struct Ring *r)
+u32 func_02011398(ScriptVm *vm)
 {
-    if (r->count == 0) {
+    if (vm->depth == 0) {
         return 0;
     }
-    r->count = r->count - 1;
-    return r->buf[r->count];
+    vm->depth = vm->depth - 1;
+    return vm->stack[vm->depth];
 }
 
 
 
-void func_020113B0(struct Cur *c, u32 v)
+void func_020113B0(ScriptVm *vm, u8 *pc)
 {
-    c->unk14 = v;
+    vm->pc = pc;
 }
 
 
-void func_020113B4(struct Ring *r, u32 v)
+void func_020113B4(ScriptVm *vm, u8 *pc)
 {
-    struct Cur *c = (struct Cur *)r;
-    u32 old = c->unk14;
-    func_0201137C(r, old);
-    c->unk14 = v;
+    u8 *ret = vm->pc;
+    func_0201137C(vm, (u32)ret);
+    vm->pc = pc;
 }
 
 
-u32 func_020113C4(struct Ring *r)
+u8 *func_020113C4(ScriptVm *vm)
 {
-    struct Cur *c = (struct Cur *)r;
-    c->unk14 = func_02011398(r);
-    return c->unk14;
+    vm->pc = (u8 *)func_02011398(vm);
+    return vm->pc;
 }
 
 
 
-void func_020113D0(char *p, int val)
+void func_020113D0(ScriptVm *vm, ScriptWaitFn wait)
 {
-    p[0xd] = 2;
-    *(int *)&((struct Obj00005 *)p)->f10 = val;
+    vm->state = 2;
+    vm->wait = wait;
 }
 
 /*
@@ -1729,12 +1632,12 @@ void func_020113D0(char *p, int val)
  *   python tools/match.py one --src src/matched/sub_020113D8.c \
  *       --func func_020113D8 --addr 0x020113D8 --cc 1.1p1 --lang c99 --thumb
  */
-u32 func_020113D8(u32 row)
+u32 func_020113D8(u32 season)
 {
-    u32 buf[3];
+    struct RtcTime time;
 
-    func_0203F4CC((struct RtcTime *)buf);
-    return func_020113F0(row, buf[0]);
+    func_0203F4CC(&time);
+    return func_020113F0(season, time.hour);
 }
 
 
@@ -1746,16 +1649,16 @@ u32 func_020113D8(u32 row)
  * park (byte-offset arithmetic, docs/notes/pkt_020113F0.c.txt) was capped on
  * the two single-pool rodata tables, which sole-ref/self now carries.
  */
-int func_020113F0(int row, int col)
+int func_020113F0(int season, int hour)
 {
-    return tbl_0209DF24[row][col];
+    return _TimeZoneTable[season][hour];
 }
 
 
 
-u8 func_02011400(int row, int col)
+u8 func_02011400(int season, int timeZone)
 {
-    return tbl_0209DF10[row][col];
+    return _TimeZoneLightTable[season][timeZone];
 }
 
 
@@ -1772,9 +1675,9 @@ u8 func_02011400(int row, int col)
  *    alignment padding up to the next function, which `one` reports as a
  *    size mismatch and would mark EXACT*.  The code itself is 54/22 bytes.)
  */
-u32 func_02011410(u32 tz)
+u32 func_02011410(u32 season)
 {
-    switch (func_020113D8(tz)) {
+    switch (func_020113D8(season)) {
     case 3:
     case 4:
         return 1;
@@ -1799,17 +1702,17 @@ u32 func_02011410(u32 tz)
  *   python tools/match.py one --src src/matched/func_02011428.c \
  *       --func func_02011428 --addr 0x02011428 --cc 1.1p1 --thumb
  */
-void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4)
+struct IcaAnime *func_02011428(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize)
 {
-    struct IcaAnime *p = func_02030734(heap, 0x38, 0, (const char *)&sIcaAnimeFile, 0x54);
+    struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x54);
 
-    func_020116C0(p);
-    func_020116E0((u8 *)p, a1, a2, heap);
-    if (func_020117D8((u8 *)p, p->f0c, (u8 *)a3, a4) == 0) {
+    func_020116C0(anime);
+    func_020116E0(anime, arcId, dataId, heapId);
+    if (func_020117D8(anime, anime->frameNum, buffer, bufferSize) == 0) {
         return 0;
     }
-    func_0201183C(p, 0);
-    return p;
+    func_0201183C(anime, 0);
+    return anime;
 }
 
 
@@ -1826,17 +1729,17 @@ void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4)
  *   python tools/match.py one --src src/matched/func_0201147C.c \
  *       --func func_0201147C --addr 0x0201147C --cc 1.1p1 --thumb
  */
-void *func_0201147C(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
+struct IcaAnime *func_0201147C(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum, void *buffer, u32 bufferSize)
 {
-    struct IcaAnime *p = func_02030734(heap, 0x38, 0, (const char *)&sIcaAnimeFile, 0x74);
+    struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x74);
 
-    func_020116C0(p);
-    func_020116E0((u8 *)p, a1, a2, heap);
-    if (func_020117D8((u8 *)p, a3, (u8 *)a4, a5) == 0) {
+    func_020116C0(anime);
+    func_020116E0(anime, arcId, dataId, heapId);
+    if (func_020117D8(anime, bufFrameNum, buffer, bufferSize) == 0) {
         return 0;
     }
-    func_0201183C(p, 0);
-    return p;
+    func_0201183C(anime, 0);
+    return anime;
 }
 
 
@@ -1847,22 +1750,22 @@ void *func_0201147C(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
  * the object straight from the allocator, which is why no move precedes it.
  *
  * The tail is the pair every one of these constructors ends with -
- * func_02011770(p, p->f0c) and func_0201183C(p, 0).
+ * func_02011770(anime, anime->frameNum) and func_0201183C(anime, 0).
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020114D0.c \
  *       --func func_020114D0 --addr 0x020114D0 --cc 1.1p1 --thumb
  */
-void *func_020114D0(u32 heap, u32 a1, u32 a2)
+struct IcaAnime *func_020114D0(u32 heapId, u32 arcId, u32 dataId)
 {
-    struct IcaAnime *p;
+    struct IcaAnime *anime;
 
-    p = func_02030734(heap, 0x38, 0, (const char *)&sIcaAnimeFile, 0x90);
-    func_020116C0(p);
-    func_020116E0((u8 *)p, a1, a2, heap);
-    func_02011770((u8 *)p, p->f0c);
-    func_0201183C(p, 0);
-    return p;
+    anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0x90);
+    func_020116C0(anime);
+    func_020116E0(anime, arcId, dataId, heapId);
+    func_02011770(anime, anime->frameNum);
+    func_0201183C(anime, 0);
+    return anime;
 }
 
 
@@ -1879,15 +1782,15 @@ void *func_020114D0(u32 heap, u32 a1, u32 a2)
  *   python tools/match.py one --src src/matched/func_02011510.c \
  *       --func func_02011510 --addr 0x02011510 --cc 1.1p1 --thumb
  */
-void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3)
+struct IcaAnime *func_02011510(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum)
 {
-    struct IcaAnime *p = func_02030734(heap, 0x38, 0, (const char *)&sIcaAnimeFile, 0xae);
+    struct IcaAnime *anime = func_02030734(heapId, sizeof(struct IcaAnime), 0, _IcaAnimeFileName, 0xae);
 
-    func_020116C0(p);
-    func_020116E0((u8 *)p, a1, a2, heap);
-    func_02011770((u8 *)p, a3);
-    func_0201183C(p, 0);
-    return p;
+    func_020116C0(anime);
+    func_020116E0(anime, arcId, dataId, heapId);
+    func_02011770(anime, bufFrameNum);
+    func_0201183C(anime, 0);
+    return anime;
 }
 
 
@@ -1906,18 +1809,18 @@ void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3)
  *    alignment padding up to the next function, which `one` reports as a
  *    size mismatch and would mark EXACT*.  The code itself is 54/22 bytes.)
  */
-void func_02011558(struct IcaAnime *p)
+void func_02011558(struct IcaAnime *anime)
 {
-    func_02049238(p->f04);
-    if (p->f34 != 0) {
-        if (p->f1c != 0)
-            func_020307B0((void *)p->f1c);
-        if (p->f20 != 0)
-            func_020307B0((void *)p->f20);
-        if (p->f24 != 0)
-            func_020307B0((void *)p->f24);
+    func_02049238(anime->arcHandle);
+    if (anime->bufAllocated != 0) {
+        if (anime->transBuf != 0)
+            func_020307B0(anime->transBuf);
+        if (anime->rotBuf != 0)
+            func_020307B0(anime->rotBuf);
+        if (anime->scaleBuf != 0)
+            func_020307B0(anime->scaleBuf);
     }
-    func_020307B0(p);
+    func_020307B0(anime);
 }
 
 
@@ -1950,60 +1853,60 @@ void func_02011558(struct IcaAnime *p)
  *   python tools/match.py tu --src src/matched/unit_02011590.c \
  *       --addr 0x02011590 --thumb
  */
-u32 func_02011590(struct IcaAnime *p, s32 v)
+u32 func_02011590(struct IcaAnime *anime, s32 step)
 {
-    s32 f;
-    u32 r = 0;
+    s32 frameIndex;
+    u32 looped = 0;
 
-    p->f10 = p->f10 + v;
-    f = p->f10 >> 12;
-    if (p->f0c <= (u32)f) {
-        p->f10 = 0;
-        f = 0;
-        r = 1;
+    anime->frame = anime->frame + step;
+    frameIndex = anime->frame >> 12;
+    if (anime->frameNum <= (u32)frameIndex) {
+        anime->frame = 0;
+        frameIndex = 0;
+        looped = 1;
     }
-    if (f < p->f14 || (p->f14 + p->f18) <= f)
-        func_0201183C(p, p->f10);
-    return r;
+    if (frameIndex < anime->bufTopFrame || (anime->bufTopFrame + anime->bufFrameNum) <= frameIndex)
+        func_0201183C(anime, anime->frame);
+    return looped;
 }
 
 
-u32 func_020115C0(struct IcaAnime *p, s32 v)
+u32 func_020115C0(struct IcaAnime *anime, s32 step)
 {
-    s32 f = p->f10 >> 12;
+    s32 frameIndex = anime->frame >> 12;
 
-    if ((u32)f < p->f0c) {
-        p->f10 = p->f10 + v;
-        f = p->f10 >> 12;
-        if (f < p->f14 || (p->f14 + p->f18) <= f)
-            func_0201183C(p, p->f10);
+    if ((u32)frameIndex < anime->frameNum) {
+        anime->frame = anime->frame + step;
+        frameIndex = anime->frame >> 12;
+        if (frameIndex < anime->bufTopFrame || (anime->bufTopFrame + anime->bufFrameNum) <= frameIndex)
+            func_0201183C(anime, anime->frame);
         return 0;
     }
     return 1;
 }
 
 
-void func_020115EC(struct IcaAnime *p, s32 v)
+void func_020115EC(struct IcaAnime *anime, s32 frame)
 {
-    s32 f = v >> 12;
+    s32 frameIndex = frame >> 12;
 
-    p->f10 = v;
-    if (f < p->f14 || (p->f14 + p->f18) <= f)
-        func_0201183C(p, v);
+    anime->frame = frame;
+    if (frameIndex < anime->bufTopFrame || (anime->bufTopFrame + anime->bufFrameNum) <= frameIndex)
+        func_0201183C(anime, frame);
 }
 
 
 
-u32 func_02011608(struct Obj11244 *p)
+u32 func_02011608(struct IcaAnime *anime)
 {
-    return p->fC;
+    return anime->frameNum;
 }
 
 
 
-u32 func_0201160C(struct Obj11245 *p)
+u32 func_0201160C(struct IcaAnime *anime)
 {
-    return p->f10;
+    return anime->frame;
 }
 
 
@@ -2031,30 +1934,30 @@ u32 func_0201160C(struct Obj11245 *p)
  *   python tools/match.py tu --src src/matched/unit_02011610.c \
  *       --addr 0x02011610 --thumb
  */
-u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst)
+u32 func_02011610(struct IcaAnime *anime, struct Vec3 *trans)
 {
-    if (p->f28 != 0) {
-        dst[0] = ((struct Rec12 *)p->f1c)[(p->f10 >> 12) - p->f14];
+    if (anime->hasTrans != 0) {
+        *trans = anime->transBuf[(anime->frame >> 12) - anime->bufTopFrame];
         return 1;
     }
     return 0;
 }
 
 
-u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst)
+u32 func_02011638(struct IcaAnime *anime, struct Vec3 *rot)
 {
-    if (p->f2c != 0) {
-        dst[0] = ((struct Rec12 *)p->f20)[(p->f10 >> 12) - p->f14];
+    if (anime->hasRot != 0) {
+        *rot = anime->rotBuf[(anime->frame >> 12) - anime->bufTopFrame];
         return 1;
     }
     return 0;
 }
 
 
-u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst)
+u32 func_02011660(struct IcaAnime *anime, struct Vec3 *scale)
 {
-    if (p->f30 != 0) {
-        dst[0] = ((struct Rec12 *)p->f24)[(p->f10 >> 12) - p->f14];
+    if (anime->hasScale != 0) {
+        *scale = anime->scaleBuf[(anime->frame >> 12) - anime->bufTopFrame];
         return 1;
     }
     return 0;
@@ -2063,7 +1966,7 @@ u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst)
 
 
 /*
- * Copy frame `idx % count` of the f1c Rec12 table out to dst when the table
+ * Copy frame `idx % count` of the f1c Vec3 table out to dst when the table
  * length at +0x18 equals the count at +0x0C; returns 1, else 0.  EXACT* because
  * the listing extent (56) includes the 2-byte `movs r0, r0` pad after the
  * second epilogue; the 54 code bytes are exact.
@@ -2072,12 +1975,12 @@ u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst)
  *  - `idx %= n;` writes the remainder back into the PARAMETER, which homes it
  *    in r2 (`adds r2, r1, #0` before the compare).  A named local coalesces
  *    with the helper's r1 return instead.
- *  - the table base as an integer: `u32 base = (u32)p->f1c;` with a u32 byte
+ *  - the table base as an integer: `u32 src = (u32)anime->transBuf;` with a u32 byte
  *    offset `off = idx * 12`, the first field read at base + off and the
  *    cursor advanced in place (`base += off`) for +4 and +8.  With the base as
  *    an integer the multiply goes into a copy of idx (`adds r3, r2, #0;
  *    muls r3, r0, r3`) and the base is loaded after 12, as in the image;
- *    every pointer spelling (&p->f1c[idx], t[idx], a struct cursor) multiplies
+ *    every pointer spelling (&transBuf[frame], t[frame], a struct cursor) multiplies
  *    idx in place.  Same family as
  *    docs/idioms/a-region-symbol-cast-to-u32-keeps-the-bound-an-add.md.
  *  - the two-return shape `if (==) { ...; return 1; } return 0;` gives the
@@ -2087,18 +1990,21 @@ u32 func_02011660(struct IcaAnime *p, struct Rec12 *dst)
  *   python tools/match.py one --src src/matched/func_02011688.c \
  *       --func func_02011688 --addr 0x02011688 --cc 1.1p1 --thumb
  */
-u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
+u32 func_02011688(struct IcaAnime *anime, struct Vec3 *trans, u32 frame)
 {
-    u32 n = p->f0c;
+    u32 frameNum = anime->frameNum;
 
-    idx %= n;
-    if (p->f18 == n) {
-        u32 off = idx * 12;
-        u32 base = (u32)p->f1c;
-        dst->a = *(s32_02011688 *)(base + off);
-        base += off;
-        dst->b = ((struct Obj11246 *)base)->f4;
-        dst->c = ((struct Obj11246 *)base)->f8;
+    frame %= frameNum;
+    if (anime->bufFrameNum == frameNum) {
+        /* stand-in: the image adds the byte offset after the first load;
+           transBuf[frame].x/.y/.z is 4 bytes longer, a Vec3 pointer 4 bytes shorter */
+        u32 offset = frame * sizeof(struct Vec3);
+        u32 src = (u32)anime->transBuf;
+
+        trans->x = *(s32 *)(src + offset);
+        src += offset;
+        trans->y = ((struct Vec3 *)src)->y;
+        trans->z = ((struct Vec3 *)src)->z;
         return 1;
     }
     return 0;
@@ -2106,31 +2012,29 @@ u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
 
 
 
-void func_020116C0(struct IcaAnime *p)
+void func_020116C0(struct IcaAnime *anime)
 {
-    unsigned char *p0 = (unsigned char *)p;
-
-    ((struct Obj00064 *)p0)->f0 = (unsigned short)0;
-    *(int *)&((struct Obj00064 *)p0)->f4 = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->f8 = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->fC = (int)0;
-    ((struct Obj00064 *)p0)->f10 = (int)0;
-    ((struct Obj00064 *)p0)->f14 = (int)0;
-    ((struct Obj00064 *)p0)->f18 = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->f1C = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->f20 = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->f24 = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->f28 = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->f2C = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->f30 = (int)0;
-    *(int *)&((struct Obj00064 *)p0)->f34 = (int)0;
+    anime->heapId = 0;
+    anime->arcHandle = 0;
+    anime->dataId = 0;
+    anime->frameNum = 0;
+    anime->frame = 0;
+    anime->bufTopFrame = 0;
+    anime->bufFrameNum = 0;
+    anime->transBuf = 0;
+    anime->rotBuf = 0;
+    anime->scaleBuf = 0;
+    anime->hasTrans = 0;
+    anime->hasRot = 0;
+    anime->hasScale = 0;
+    anime->bufAllocated = 0;
 }
 
 
 
 /*
  * Open four channels: a halfword tag at +0, a handset object at +4, a peer
- * object at +8, and then sub_0204944C(p->f04, p->f08, id, len, dest) for
+ * object at +8, and then func_0204944C(arcHandle, dataId, offset, len, dest) for
  * ids 0, 4, 5 and 6 -- the last three writing one byte each into buf[2],
  * buf[1] and buf[0], i.e. backwards from the end of the four-byte buffer.
  *
@@ -2148,94 +2052,94 @@ void func_020116C0(struct IcaAnime *p)
  *   python tools/match.py one --src src/matched/func_020116E0.c \
  *       --func func_020116E0 --addr 0x020116E0 --cc 1.1p1 --thumb
  */
-void func_020116E0(u8 *p, u32 a1, u32 a2, u32 a3)
+void func_020116E0(struct IcaAnime *anime, u32 arcId, u32 dataId, u32 heapId)
 {
-    u8 buf[4];
-    u32 v;
+    u8 channelFlags[4];
+    u32 hasScale;
 
-    ((struct Obj00064 *)p)->f0 = (u16)a3;
-    ((struct Obj00064 *)p)->f4 = sub_020490F4(a1, a3);
-    ((struct Obj00064 *)p)->f8 = a2;
-    sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, a2, 0, 4, p + 0xc);
-    sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, ((struct Obj00064 *)p)->f8, 4, 1, buf + 2);
-    sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, ((struct Obj00064 *)p)->f8, 5, 1, buf + 1);
-    sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, ((struct Obj00064 *)p)->f8, 6, 1, buf);
-    v = 1;
-    if (buf[2] == 0) {
-        v = 0;
+    anime->heapId = (u16)heapId;
+    anime->arcHandle = sub_020490F4(arcId, heapId);
+    anime->dataId = dataId;
+    func_0204944C(anime->arcHandle, dataId, 0, 4, &anime->frameNum);
+    func_0204944C(anime->arcHandle, anime->dataId, 4, 1, channelFlags + 2);
+    func_0204944C(anime->arcHandle, anime->dataId, 5, 1, channelFlags + 1);
+    func_0204944C(anime->arcHandle, anime->dataId, 6, 1, channelFlags);
+    hasScale = 1;
+    if (channelFlags[2] == 0) {
+        hasScale = 0;
     }
-    ((struct Obj00064 *)p)->f30 = v;
-    ((struct Obj00064 *)p)->f2C = (buf[1] != 0);
-    ((struct Obj00064 *)p)->f28 = (buf[0] != 0);
+    anime->hasScale = hasScale;
+    anime->hasRot = (channelFlags[1] != 0);
+    anime->hasTrans = (channelFlags[0] != 0);
 }
 
 
 
-void sub_02011770(u8 *p, int n)
+void func_02011770(struct IcaAnime *anime, int bufFrameNum)
 {
-    *(u32 *)&((struct Obj00064 *)p)->f18 = (u32)n;
-    if (((struct Obj00064 *)p)->f28 != 0) {
-        *(u32 *)&((struct Obj00064 *)p)->f1C = (u32)func_02030734((u32)((struct Obj00064 *)p)->f0, n * 0xc,
-                                                  0, (const char *)g020A7270, 0x25c);
+    anime->bufFrameNum = bufFrameNum;
+    if (anime->hasTrans != 0) {
+        anime->transBuf = func_02030734(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+                                        0, _IcaAnimeFileName, 0x25c);
     }
-    if (((struct Obj00064 *)p)->f2C != 0) {
-        *(u32 *)&((struct Obj00064 *)p)->f20 = (u32)func_02030734((u32)((struct Obj00064 *)p)->f0, n * 0xc,
-                                                  0, (const char *)g020A7270, 0x260);
+    if (anime->hasRot != 0) {
+        anime->rotBuf = func_02030734(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+                                      0, _IcaAnimeFileName, 0x260);
     }
-    if (((struct Obj00064 *)p)->f30 != 0) {
-        *(u32 *)&((struct Obj00064 *)p)->f24 = (u32)func_02030734((u32)((struct Obj00064 *)p)->f0, n * 0xc,
-                                                  0, (const char *)g020A7270, 0x264);
+    if (anime->hasScale != 0) {
+        anime->scaleBuf = func_02030734(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+                                        0, _IcaAnimeFileName, 0x264);
     }
-    ((struct Obj00064 *)p)->f34 = 1;
+    anime->bufAllocated = 1;
 }
 
 
 
 /*
- * Lay out `a1` rows of `a2` bytes each at stride a1*0xc into the three
- * buffers the record declares at +0x1c, +0x20 and +0x24, but only where the
- * matching flag word at +0x28, +0x2c and +0x30 is set.  a3 is the caller's
- * byte budget: if it is smaller than a1*0xc times the number of live flags
- * nothing is written and the call answers 0.  +0x18 records the row count.
+ * Carve the caller's buffer into the translate, rotate and scale tracks
+ * (bufFrameNum Vec3 each), only for the tracks the header enables.
+ * bufferSize is the caller's byte budget: if it is smaller than
+ * bufFrameNum * 12 times the number of enabled tracks nothing is written and
+ * the call answers 0.  bufFrameNum is recorded in the object.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020117D8.c \
  *       --func func_020117D8 --addr 0x020117D8 --cc 1.1p1 --thumb
  */
-int func_020117D8(u8 *a0, int a1, u8 *a2, int a3)
+int func_020117D8(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int bufferSize)
 {
-    int total;
-    int step;
-    int k;
+    int needSize;
+    int trackSize;
+    int track;
 
-    total = 0;
-    step = a1 * 0xc;
-    k = 0;
-    if (((struct Obj00064 *)a0)->f28 != 0) {
-        total += step;
+    needSize = 0;
+    trackSize = bufFrameNum * sizeof(struct Vec3);
+    track = 0;
+    if (anime->hasTrans != 0) {
+        needSize += trackSize;
     }
-    if (((struct Obj00064 *)a0)->f2C != 0) {
-        total += step;
+    if (anime->hasRot != 0) {
+        needSize += trackSize;
     }
-    if (((struct Obj00064 *)a0)->f30 != 0) {
-        total += step;
+    if (anime->hasScale != 0) {
+        needSize += trackSize;
     }
-    if (a3 < total) {
+    if (bufferSize < needSize) {
         return 0;
     }
-    if (((struct Obj00064 *)a0)->f28 != 0) {
-        *(u8 * *)&((struct Obj00064 *)a0)->f1C = a2;
-        k++;
+    if (anime->hasTrans != 0) {
+        anime->transBuf = (struct Vec3 *)buffer;
+        track++;
     }
-    if (((struct Obj00064 *)a0)->f2C != 0) {
-        *(u8 * *)&((struct Obj00064 *)a0)->f20 = a2 + step * k;
-        k++;
+    if (anime->hasRot != 0) {
+        anime->rotBuf = (struct Vec3 *)(buffer + trackSize * track);
+        track++;
     }
-    if (((struct Obj00064 *)a0)->f30 != 0) {
-        *(u8 * *)&((struct Obj00064 *)a0)->f24 = a2 + step * k;
-        k++;
+    if (anime->hasScale != 0) {
+        anime->scaleBuf = (struct Vec3 *)(buffer + trackSize * track);
+        track++;
     }
-    *(u32 *)&((struct Obj00064 *)a0)->f18 = a1;
+    anime->bufFrameNum = bufFrameNum;
     return 1;
 }
 
@@ -2246,115 +2150,100 @@ int func_020117D8(u8 *a0, int a1, u8 *a2, int a3)
 
 
 /*
- * Load one frame of an ICA animation: the frame index is (q >> 12) modulo
- * the frame count s->f0c; the file offset is 8 + 12 * index per enabled
- * channel and the read size 12 * s->f18 per enabled channel.  The floats are
+ * Load a window of an ICA animation: the frame index is (frame >> 12) modulo
+ * anime->frameNum; the file offset is 8 + 12 * index per enabled track and
+ * the read size 12 * anime->bufFrameNum per enabled track.  The floats are
  * read into a scratch buffer (func_0204944C, fifth argument = destination),
  * converted with the TwlSDK FX_F32_TO_FX32 macro into the three Vec3 tables
- * (f30 gates f24, f2c gates f20, f28 gates f1c), then freed; s->f14 = q >> 12.
+ * (hasScale gates scaleBuf, hasRot rotBuf, hasTrans transBuf), then freed;
+ * anime->bufTopFrame = frame >> 12.
  *
  * Levers (wave 10), each measured; together 631 bytes out -> EXACT:
  *  - 0x0209C95C is _fadd and 0x0209CB8C is _fsub (layout/runtime_arm9.txt
  *    had them swapped until 2026-09-28).  With them declared that way the
  *    plain SDK macro `x > 0 ? x*4096.0f + .5f : x*4096.0f - .5f` reproduces
  *    both arms, including the (0.5, prod) / (prod, 0.5) argument orders.
- *  - the conversion is a MACRO over `f[k + j]`, not an inline function, and
- *    the buffer is `volatile float *`: the element is then loaded for the
+ *  - the conversion is a MACRO over `floats[value + j]`, not an inline
+ *    function, and the buffer is `volatile float *` (stand-in: plain RAM, but
+ *    without volatile the element is loaded once; the image loads it for the
  *    compare and again in the taken arm, off a byte offset that gets its own
- *    stack slot per site (the image's nine slots sp+0x18..0x38).
+ *    stack slot per site, the nine slots sp+0x18..0x38).
  *  - func_0204944C takes five arguments; the fifth is the buffer ([sp]).
- *  - `q >> 12` is written twice (the modulo and the final store) and never
- *    named: its CSE temporary takes the lowest spill slot (sp+4).  A named
- *    `frame` local lands above the i*12 temporaries (14 bytes out).
+ *  - `frame >> 12` is written twice (the modulo and the final store) and
+ *    never named: its CSE temporary takes the lowest spill slot (sp+4).  A
+ *    named index local lands above the i*12 temporaries (14 bytes out).
  *  - `i = 0` sits between the alloc and the fill call (the image stores it
  *    there, sharing the alloc's zero), and the loop is `for (; i < ...)`.
- *  - declaration order i, k, f, size, ofs, n.
+ *  - declaration order frameIdx, value, floats, size, offset, index.
  */
-void func_0201183C(struct IcaAnime *s, s32 q)
+void func_0201183C(struct IcaAnime *anime, s32 frame)
 {
-    s32 i;
-    s32 k;
-    volatile float *f;
+    s32 frameIdx;
+    s32 value;
+    volatile float *floats;
     u32 size;
-    u32 ofs;
-    u32 n;
+    u32 offset;
+    u32 index;
 
-    n = (q >> 12) % s->f0c;
+    index = (frame >> 12) % anime->frameNum;
 
-    ofs = 8;
+    offset = 8;
     size = 0;
-    if (s->f30 != 0) ofs += n * 0xc;
-    if (s->f2c != 0) ofs += n * 0xc;
-    if (s->f28 != 0) ofs += n * 0xc;
-    if (s->f30 != 0) size += s->f18 * 0xc;
-    if (s->f2c != 0) size += s->f18 * 0xc;
-    if (s->f28 != 0) size += s->f18 * 0xc;
+    if (anime->hasScale != 0) offset += index * 0xc;
+    if (anime->hasRot != 0) offset += index * 0xc;
+    if (anime->hasTrans != 0) offset += index * 0xc;
+    if (anime->hasScale != 0) size += anime->bufFrameNum * 0xc;
+    if (anime->hasRot != 0) size += anime->bufFrameNum * 0xc;
+    if (anime->hasTrans != 0) size += anime->bufFrameNum * 0xc;
 
-    f = (volatile float *)func_02030734((u16)((s->f00 & 0x7fff) | 0x8000), size, 0, (const char *)&data_020A7270, 0x2bd);
-    i = 0;
-    func_0204944C((struct ArcFile *)s->f04, s->f08, ofs, size, (void *)f);
+    floats = (volatile float *)func_02030734((u16)((anime->heapId & 0x7fff) | 0x8000), size, 0, _IcaAnimeFileName, 0x2bd);
+    frameIdx = 0;
+    func_0204944C(anime->arcHandle, anime->dataId, offset, size, (void *)floats);
 
-    k = 0;
-    for (; i < s->f18; i++) {
-        if (s->f30 != 0) {
-            s->f24[i].x = FX_F32_TO_FX32(f[k]);
-            s->f24[i].y = FX_F32_TO_FX32(f[k + 1]);
-            s->f24[i].z = FX_F32_TO_FX32(f[k + 2]);
-            k += 3;
+    value = 0;
+    for (; frameIdx < anime->bufFrameNum; frameIdx++) {
+        if (anime->hasScale != 0) {
+            anime->scaleBuf[frameIdx].x = FX_F32_TO_FX32(floats[value]);
+            anime->scaleBuf[frameIdx].y = FX_F32_TO_FX32(floats[value + 1]);
+            anime->scaleBuf[frameIdx].z = FX_F32_TO_FX32(floats[value + 2]);
+            value += 3;
         }
-        if (s->f2c != 0) {
-            s->f20[i].x = FX_F32_TO_FX32(f[k]);
-            s->f20[i].y = FX_F32_TO_FX32(f[k + 1]);
-            s->f20[i].z = FX_F32_TO_FX32(f[k + 2]);
-            k += 3;
+        if (anime->hasRot != 0) {
+            anime->rotBuf[frameIdx].x = FX_F32_TO_FX32(floats[value]);
+            anime->rotBuf[frameIdx].y = FX_F32_TO_FX32(floats[value + 1]);
+            anime->rotBuf[frameIdx].z = FX_F32_TO_FX32(floats[value + 2]);
+            value += 3;
         }
-        if (s->f28 != 0) {
-            s->f1c[i].x = FX_F32_TO_FX32(f[k]);
-            s->f1c[i].y = FX_F32_TO_FX32(f[k + 1]);
-            s->f1c[i].z = FX_F32_TO_FX32(f[k + 2]);
-            k += 3;
+        if (anime->hasTrans != 0) {
+            anime->transBuf[frameIdx].x = FX_F32_TO_FX32(floats[value]);
+            anime->transBuf[frameIdx].y = FX_F32_TO_FX32(floats[value + 1]);
+            anime->transBuf[frameIdx].z = FX_F32_TO_FX32(floats[value + 2]);
+            value += 3;
         }
     }
-    func_020307B0((void *)f);
-    s->f14 = q >> 12;
+    func_020307B0((void *)floats);
+    anime->bufTopFrame = frame >> 12;
 }
 
 
 
 /*
- * Applies an HSV tint to a camera/light pair.  func_02011638 reports
- * the three fixed-point 4.12 HSV channels for the current scene; each
- * is converted to float, wrapped into range by repeated subtraction,
- * rescaled to the 0..65535 range func_020520FC wants, and turned back
- * into RGB.  The resulting colour is combined with the two constant
- * vectors at 0x0209DF84 and 0x0209DF90 (copied in as whole 12-byte
- * aggregates, ldm/stm), the scene's own basis is fetched by
- * func_02011610, and the three results are installed on the target.
- *
- * PARKED AT MATCH, not EXACT.  All 356 bytes are byte-correct and 33 of
- * the 35 relocation sites resolve; the two that do not are the ABS32
- * pool words at +0x150 and +0x154:
- *
- *   0209DF84   witnesses image wide: 1, of them inside this range: 1
- *   0209DF90   witnesses image wide: 1, of them inside this range: 1
- *
- * Blocking evidence class: `literal', and there is none.  Each address
- * appears in exactly one literal pool in the whole image (0x02011CDC
- * and 0x02011CE0), which is this function's own pool, so the only
- * witness for each is inside the compared range and attest() refuses
- * it.  `--suggest-split' confirms no cut helps: the range is one
- * function, and it reports "0 piece(s), 1 function(s) left out".
- * Nothing in the C is in question -- this unsticks the moment some
- * other function referencing 0x0209DF84 or 0x0209DF90 is filed EXACT,
- * or the two objects gain a `matched' witness of their own.
+ * Sets a camera from the current ICA frame: the rotate track gives three
+ * angles in degrees (fx 4.12); each is converted to float, wrapped into
+ * 0..360 by repeated addition, rescaled to the 0..65535 angle units
+ * func_020520FC wants, and turned into a rotation matrix.  The two constant
+ * vectors _IcaCameraForward and _IcaCameraUp (copied in as whole 12-byte
+ * aggregates, ldm/stm) are rotated by it; the translate track gives the
+ * camera position, position + rotated forward the target, and the rotated
+ * up vector the camera up.
  *
  * Shape notes that cost real time and are worth keeping:
- *   - the three channel values must be bound to named `u16' locals
+ *   - the three angle values must be bound to named `u16' locals
  *     before the func_020520FC call.  Written inline as
  *     `(u16)(u32)(65535.0f * (h / 360.0f))' the lsls/lsrs #0x10 pair
  *     after each _ffixu disappears (about 10 bytes short).
  *   - the scratch the two func_0207B51C calls share is 36 bytes, not
- *     12: `struct Vec3 rgb[3]'.  With a plain `struct Vec3' the whole
+ *     12: `struct Vec3 rotMtx[3]'.  With a plain `struct Vec3' the whole
  *     frame comes out `sub sp, #0x68' instead of `sub sp, #0x80' and
  *     nothing else differs, so the 24 extra bytes are real declared
  *     storage above 0x5c that this function never reads back.
@@ -2362,59 +2251,59 @@ void func_0201183C(struct IcaAnime *s, s32 q)
  *     add.  `h = h + 360.0f' puts the constant first (see docs/idioms/
  *     a-soft-float-add-puts-the-constant-first-unless-it-is-a-compound-
  *     assignment.md) and no longer matches.
- *   - declaration order is stack order: rgb highest, then hsv, a, b,
- *     basis, out, t0, t1.  Any other order shifts every sp offset.
+ *   - declaration order is stack order: rotMtx highest, then rotDeg,
+ *     forward, up, position, target, rotForward, rotUp.  Any other order shifts every sp offset.
  */
-void func_02011B8C(void *dst, void *ctx)
+void func_02011B8C(void *camera, struct IcaAnime *anime)
 {
-    struct Vec3 rgb[3];
-    s32 hsv[3];
-    struct Vec3 a;
-    struct Vec3 b;
-    struct Vec3 basis;
-    struct Vec3 out;
-    struct Vec3 t0;
-    struct Vec3 t1;
-    u16 ch;
-    u16 cs;
-    u16 cv;
-    float h;
-    float s;
-    float v;
+    struct Vec3 rotMtx[3];
+    struct Vec3 rotDeg;
+    struct Vec3 forward;
+    struct Vec3 up;
+    struct Vec3 position;
+    struct Vec3 target;
+    struct Vec3 rotForward;
+    struct Vec3 rotUp;
+    u16 angleX;
+    u16 angleY;
+    u16 angleZ;
+    float degX;
+    float degY;
+    float degZ;
 
-    a = data_0209DF84;
-    b = data_0209DF90;
+    forward = _IcaCameraForward;
+    up = _IcaCameraUp;
 
-    func_02011638(ctx, (struct Rec12 *)hsv);
+    func_02011638(anime, &rotDeg);
 
-    h = hsv[0] / 4096.0f;
-    s = hsv[1] / 4096.0f;
-    v = hsv[2] / 4096.0f;
+    degX = rotDeg.x / 4096.0f;
+    degY = rotDeg.y / 4096.0f;
+    degZ = rotDeg.z / 4096.0f;
 
-    while (h < 0.0f) {
-        h += 360.0f;
+    while (degX < 0.0f) {
+        degX += 360.0f;
     }
-    while (s < 0.0f) {
-        s += 360.0f;
+    while (degY < 0.0f) {
+        degY += 360.0f;
     }
-    while (v < 0.0f) {
-        v += 360.0f;
+    while (degZ < 0.0f) {
+        degZ += 360.0f;
     }
 
-    ch = (u16)(u32)(65535.0f * (h / 360.0f));
-    cs = (u16)(u32)(65535.0f * (s / 360.0f));
-    cv = (u16)(u32)(65535.0f * (v / 360.0f));
-    func_020520FC(ch, cs, cv, (struct Mtx33 *)rgb);
+    angleX = (u16)(u32)(65535.0f * (degX / 360.0f));
+    angleY = (u16)(u32)(65535.0f * (degY / 360.0f));
+    angleZ = (u16)(u32)(65535.0f * (degZ / 360.0f));
+    func_020520FC(angleX, angleY, angleZ, (struct Mtx33 *)rotMtx);
 
-    func_0207B51C(&a, rgb, &t0);
-    func_0207B51C(&b, rgb, &t1);
+    func_0207B51C(&forward, rotMtx, &rotForward);
+    func_0207B51C(&up, rotMtx, &rotUp);
 
-    func_02011610(ctx, (struct Rec12 *)&basis);
-    func_0207C9D0(&basis, &t0, &out);
+    func_02011610(anime, &position);
+    func_0207C9D0(&position, &rotForward, &target);
 
-    func_02048AFC(dst, &basis);
-    func_02048B44(dst, &out);
-    func_02048B20(dst, &t1);
+    func_02048AFC(camera, &position);
+    func_02048B44(camera, &target);
+    func_02048B20(camera, &rotUp);
 }
 
 
@@ -2428,12 +2317,12 @@ void func_02011B8C(void *dst, void *ctx)
  *   python tools/match.py one --src src/matched/func_02011CF0.c \
  *       --func func_02011CF0 --addr 0x02011CF0 --cc 1.1p1 --thumb
  */
-void func_02011CF0(void *a0, void *a1)
+void func_02011CF0(void *camera, struct IcaAnime *anime)
 {
-    u8 buf[0xc];
+    struct Vec3 position;
 
-    func_02011610(a1, (struct Rec12 *)buf);
-    func_02048AFC(a0, (struct Vec3 *)buf);
+    func_02011610(anime, &position);
+    func_02048AFC(camera, &position);
 }
 
 
@@ -2445,12 +2334,12 @@ void func_02011CF0(void *a0, void *a1)
  *   python tools/match.py one --src src/matched/func_02011D0C.c \
  *       --func func_02011D0C --addr 0x02011D0C --cc 1.1p1 --thumb
  */
-void func_02011D0C(void *a0, void *a1)
+void func_02011D0C(void *camera, struct IcaAnime *anime)
 {
-    u8 buf[0xc];
+    struct Vec3 target;
 
-    func_02011610(a1, (struct Rec12 *)buf);
-    func_02048B44(a0, (struct Vec3 *)buf);
+    func_02011610(anime, &target);
+    func_02048B44(camera, &target);
 }
 
 
@@ -2466,9 +2355,9 @@ void func_02011D0C(void *a0, void *a1)
  *
  * func_02011D40 and func_02011D7C, on either side of the function between
  * this pair, were a documented register-swap near miss on their single
- * `struct.unk04 += 1`; now EXACT (src/matched/func_02011D40.c and
+ * `_GameSystemGlobal.tamperCount += 1`; now EXACT (src/matched/func_02011D40.c and
  * src/matched/func_02011D7C.c). The fix was declaring the global as a
- * real struct and using field syntax (`g_02146248.unk04 += 1`) instead
+ * real struct and using field syntax (`_GameSystemGlobal.tamperCount += 1`) instead
  * of raw pointer-plus-offset arithmetic; not merged into this unit
  * because func_02011D60 between them stays out of the manifest (see
  * below).
@@ -2486,12 +2375,12 @@ void func_02011D0C(void *a0, void *a1)
  *   python tools/match.py tu --src src/matched/unit_02011D28.c \
  *       --addr 0x02011D28 --thumb
  */
-u32 func_02011D28(u32 (*fn)(void))
+u32 func_02011D28(u32 (*func)(void))
 {
-    if (fn != 0) {
-        fn();
+    if (func != 0) {
+        func();
     }
-    return ~(u32)fn;
+    return ~(u32)func;
 }
 
 
@@ -2509,7 +2398,7 @@ void func_02011D34(void)
  * wrapper, tagged with func_02011D34's own address (the SDK debug-tag
  * convention: the tag is the calling site, here literally the sibling
  * debug-marker function's address), discards the result, and bumps
- * g_02146248's +4 counter. See unit_02011D28.c's header for the sibling
+ * _GameSystemGlobal.tamperCount. See unit_02011D28.c's header for the sibling
  * func_02011D7C and the documented near miss on this increment.
  *
  * Verified with:
@@ -2519,7 +2408,7 @@ void func_02011D34(void)
 void func_02011D40(void)
 {
     sub_020056A0((u32)func_02011D34, 0, 0x7f);
-    g_02146248.unk04 += 1;
+    _GameSystemGlobal.tamperCount += 1;
 }
 
 
@@ -2536,11 +2425,11 @@ void func_02011D60(void)
  * wrapper, tagged with func_02011D34's own address (the SDK debug-tag
  * convention: the tag is the calling site, here literally the sibling
  * debug-marker function's address), discards the result, and bumps
- * g_02146248's +4 counter. See unit_02011D28.c's header for the sibling
+ * _GameSystemGlobal.tamperCount. See unit_02011D28.c's header for the sibling
  * func_02011D40 (src/matched/func_02011D40.c, converted to EXACT
  * alongside this one) and the formerly-documented near miss on this
- * increment: the `struct.unk04 += 1` register swap resolves when the
- * global is declared as a real struct (`g_02146248.unk04 += 1`) rather
+ * increment: the `_GameSystemGlobal.tamperCount += 1` register swap resolves when the
+ * global is declared as a real struct (`_GameSystemGlobal.tamperCount += 1`) rather
  * than accessed through raw pointer-plus-offset arithmetic.
  *
  * Verified with:
@@ -2550,7 +2439,7 @@ void func_02011D60(void)
 void func_02011D7C(void)
 {
     sub_020056A0((u32)func_02011D34, 0, 0x7f);
-    g_02146248.unk04 += 1;
+    _GameSystemGlobal.tamperCount += 1;
 }
 
 
@@ -2562,7 +2451,7 @@ void func_02011D7C(void)
  * probes over this family's own code (func_02011D28 to func_02011D40,
  * func_02011D60, func_02011D7C; each result compared with the complement of
  * the end address), creates three heaps through func_0203064C, allocates
- * the work block and publishes it to g_02146248, then, when the probe
+ * the work block and publishes it to _GameSystemGlobal, then, when the probe
  * results do not add up to a multiple of 0x12AF, runs a func_0200C258-counted
  * loop of func_02011D40.
  *
@@ -2588,44 +2477,44 @@ void func_02011D7C(void)
  * that listing: 25 of 25 sites (ov230_id as overlay_id, func_0215FA00
  * sole-ref/code with the ov010 hint).
  */
-u32 func_02011D9C(void *a0, u32 a1, u32 a2)
+u32 func_02011D9C(struct Proc *proc, u32 *seq, u32 initParam)
 {
-    u32 size;
-    u32 base;
-    u32 flag;
-    u32 off;
-    void *p;
-    s32 n;
+    u32 workSize;
+    u32 checkSum;
+    u32 intact;
+    u32 checkPenalty;
+    struct GameSystem *gameSystem;
+    s32 penaltyCount;
     s32 i;
-    u32 start;
+    u32 checkCaller;
 
-    size = func_02011F24();
-    start = (u32)func_02011D28;
-    base = 0xc35ffb;
+    workSize = func_02011F24();
+    checkCaller = (u32)func_02011D28;
+    checkSum = 0xc35ffb;
     func_02034AC4((int)ov230_id);
-    flag = 0;
-    if (func_021882A0((void (*)(void))start, func_02011D40, 0) == ~(u32)func_02011D40)
-        flag = 1;
-    base += flag * 0x47;
+    intact = 0;
+    if (func_021882A0((void (*)(void))checkCaller, func_02011D40, 0) == ~(u32)func_02011D40)
+        intact = 1;
+    checkSum += intact * 0x47;
     func_0203064C(1, 3, 0xa << 12);
-    flag = 1;
-    if (func_02188354((void (*)(void))start, func_02011D60, 0) != ~(u32)func_02011D60)
-        flag = 0;
-    off = 0;
-    if (flag == 0)
-        off = 0x191;
+    intact = 1;
+    if (func_02188354((void (*)(void))checkCaller, func_02011D60, 0) != ~(u32)func_02011D60)
+        intact = 0;
+    checkPenalty = 0;
+    if (intact == 0)
+        checkPenalty = 0x191;
     func_0203064C(1, 4, 4 << 14);
-    func_02188390((void (*)(void))start, func_02011D7C, 0);
+    func_02188390((void (*)(void))checkCaller, func_02011D7C, 0);
     func_0203064C(9, 5, 5 << 10);
     func_02034A5C((s32)ov230_id);
-    p = func_0203159C(a0, size, 3);
-    func_02082BCC(p, 0, size);
-    g_02146248.unk00 = p;
-    func_02011FB8(p, 3, a2);
-    func_02012108(p, func_0215FA00(p, a2));
-    if ((base + off) % 0x12af != 0) {
-        n = func_0200C258(func_02012F08(func_020120F4(p)));
-        for (i = 0; i < n; i++)
+    gameSystem = func_0203159C(proc, workSize, 3);
+    MI_CpuFill8(gameSystem, 0, workSize);
+    _GameSystemGlobal.gameSystem = gameSystem;
+    func_02011FB8(gameSystem, 3, initParam);
+    func_02012108(gameSystem, func_0215FA00(gameSystem, initParam));
+    if ((checkSum + checkPenalty) % 0x12af != 0) {
+        penaltyCount = func_0200C258(func_02012F08(func_020120F4(gameSystem)));
+        for (i = 0; i < penaltyCount; i++)
             func_02011D40();
     }
     return 1;
@@ -2649,9 +2538,9 @@ u32 func_02011D9C(void *a0, u32 a1, u32 a2)
  *   python tools/match.py one --src src/pending/func_02011EAC.c \
  *       --func func_02011EAC --addr 0x02011EAC --cc 1.1p1 --thumb
  */
-u32 func_02011EAC(u32 a0, u32 a1, u32 a2, u32 a3)
+u32 func_02011EAC(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
 {
-    if (func_02011FCC((char *)a3) != 0)
+    if (func_02011FCC(gameSystem) != 0)
         return 1;
     return 0;
 }
@@ -2669,10 +2558,10 @@ u32 func_02011EAC(u32 a0, u32 a1, u32 a2, u32 a3)
  *   python tools/match.py one --src src/matched/func_02011EC0.c \
  *       --func func_02011EC0 --addr 0x02011EC0 --cc 1.1p1 --thumb
  */
-u32 func_02011EC0(u32 a0, u32 a1, u32 a2, u32 a3)
+u32 func_02011EC0(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem)
 {
-    func_02012088((struct IcaAnimeInst *)a3);
-    func_020315D4((struct S020315D4 *)a0);
+    func_02012088(gameSystem);
+    func_020315D4(proc);
     func_020306F0(3);
     func_020306F0(4);
     func_020306F0(5);
@@ -2687,7 +2576,7 @@ u32 func_02011EC0(u32 a0, u32 a1, u32 a2, u32 a3)
  * 0x02146250 (the address of +0x08, used both for the 0x14-byte clear and
  * for the return value), 0x02146248 and 0x02146254 (= +0x0C, the destination
  * of the twelve-byte record copy).  So the struct is
- * `{ pad[8]; u32 f8; Rec12 rec; u16 f18; u16 f1a; }` and the function
+ * `{ pad[8]; u32 f8; Vec3 rec; u16 f18; u16 f1a; }` and the function
  * clears +0x08..+0x1C, stores two scalars, copies the record in and stores
  * one more scalar.
  *
@@ -2699,14 +2588,14 @@ u32 func_02011EC0(u32 a0, u32 a1, u32 a2, u32 a3)
  *   python tools/match.py one --src src/matched/func_02011EEC.c \
  *       --func func_02011EEC --addr 0x02011EEC --cc 1.1p1 --thumb
  */
-void *func_02011EEC(u32 a0, u16 a1, struct Rec12 *a2, int a3)
+struct GameInitWork *func_02011EEC(u32 mode, u16 zoneId, struct Vec3 *position, int direction)
 {
-    func_02082BCC(&g_02146248.f8, 0, 0x14);
-    g_02146248.f8 = a0;
-    g_02146248.f18 = a1;
-    g_02146248.rec = *a2;
-    g_02146248.f1a = a3;
-    return &g_02146248.f8;
+    MI_CpuFill8(&_GameSystemGlobal.initWork, 0, sizeof(struct GameInitWork));
+    _GameSystemGlobal.initWork.mode = mode;
+    _GameSystemGlobal.initWork.zoneId = zoneId;
+    _GameSystemGlobal.initWork.position = *position;
+    _GameSystemGlobal.initWork.direction = direction;
+    return &_GameSystemGlobal.initWork;
 }
 
 
@@ -2726,7 +2615,7 @@ void *func_02011EEC(u32 a0, u16 a1, struct Rec12 *a2, int a3)
  */
 u32 func_02011F24(void)
 {
-    return sizeof(struct Ctx);
+    return sizeof(struct GameSystem);
 }
 
 
@@ -2745,25 +2634,25 @@ u32 func_02011F24(void)
  * struct, not raw pointer casts.  EXACT* only because the 2-byte pad at
  * 0x02011F8E runs the extent to 0x02011F90.
  */
-void func_02011F28(struct IcaAnimeInst *p, u16 id, u32 a2)
+void func_02011F28(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
 {
-    p->f00 = id;
-    p->f04 = a2;
-    p->f08 = func_02031324(p->f00);
-    p->f0c = 0;
-    p->f10 = 0;
-    p->f14 = 0;
-    p->f18 = 0;
-    p->f1c = func_020124F4(p->f00);
-    p->f20 = 0;
-    p->f24 = func_020261E4(p->f00, p->f1c);
-    p->f28 = 0;
-    p->f2c = func_0202B4BC(p->f1c, id);
-    p->f32 = 0;
-    p->f33_0 = 0;
-    func_02012248(p);
-    func_020122A4((unsigned int)p);
-    func_020139B0(id);
+    gameSystem->heapId = heapId;
+    gameSystem->initParam = initParam;
+    gameSystem->procSys = func_02031324(gameSystem->heapId);
+    gameSystem->procStatus = 0;
+    gameSystem->eventCreator = 0;
+    gameSystem->eventCreatorArg = 0;
+    gameSystem->event = 0;
+    gameSystem->gameData = func_020124F4(gameSystem->heapId);
+    gameSystem->fieldMap = 0;
+    gameSystem->gameComm = func_020261E4(gameSystem->heapId, gameSystem->gameData);
+    gameSystem->reserved = 0;
+    gameSystem->issSystem = func_0202B4BC(gameSystem->gameData, heapId);
+    gameSystem->commBlocked = 0;
+    gameSystem->netOffBySleep = 0;
+    func_02012248(gameSystem);
+    func_020122A4(gameSystem);
+    func_020139B0(heapId);
 }
 
 
@@ -2778,13 +2667,13 @@ void func_02011F28(struct IcaAnimeInst *p, u16 id, u32 a2)
  *   python tools/match.py one --src src/matched/func_02011F90.c \
  *       --func func_02011F90 --addr 0x02011F90 --cc 1.1p1 --thumb
  */
-void func_02011F90(u32 *o)
+void func_02011F90(struct GameSystem *gameSystem)
 {
-    func_020122B4(o);
-    func_02012258(o);
-    func_0202B4F0((unsigned char *)o[0xb]);
-    func_02012704((unsigned char *)o[7]);
-    func_02026250((void *)o[9]);
+    func_020122B4(gameSystem);
+    func_02012258(gameSystem);
+    func_0202B4F0(gameSystem->issSystem);
+    func_02012704(gameSystem->gameData);
+    func_02026250(gameSystem->gameComm);
     func_02013A48();
 }
 
@@ -2804,10 +2693,10 @@ void func_02011F90(u32 *o)
  *   python tools/match.py one --src src/pending/func_02011FB8.c \
  *       --func func_02011FB8 --addr 0x02011FB8 --cc 1.1p1 --thumb
  */
-void func_02011FB8(struct IcaAnimeInst *p, u16 id, u32 a2)
+void func_02011FB8(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
 {
-    func_02011F28(p, id, a2);
-    func_020267BC((u32)p->f1c);
+    func_02011F28(gameSystem, heapId, initParam);
+    func_020267BC(gameSystem->gameData);
     func_02021438();
 }
 
@@ -2840,33 +2729,32 @@ void func_02011FB8(struct IcaAnimeInst *p, u16 id, u32 a2)
  *  - The state word at +0x0c is re-read from memory at each use rather than
  *    cached in a register, so it is spelled as the field every time.
  */
-int func_02011FCC(char *p)
+int func_02011FCC(struct GameSystem *gameSystem)
 {
-    func_020120A4(p);
-    if (func_02012A24((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)
+    func_020120A4(gameSystem);
+    if (func_02012A24(gameSystem->gameData) != 0)
         func_02035614(0x1e);
-    if (func_020129FC((struct BigObj *)((struct Obj01458 *)p)->f1C) == 0) {
-        func_020123D8(p, (unsigned int (*)(void *, void *))((struct Obj01458 *)p)->f10, (void *)((struct Obj01458 *)p)->f14);
-        func_0201205C((struct IcaAnimeInst *)p);
-        func_02012380(p);
-        func_0202627C((struct Comm *)((struct Obj01458 *)p)->f24);
+    if (func_020129FC(gameSystem->gameData) == 0) {
+        func_020123D8(gameSystem, gameSystem->eventCreator, gameSystem->eventCreatorArg);
+        func_0201205C(gameSystem);
+        func_02012380(gameSystem);
+        func_0202627C(gameSystem->gameComm);
     }
-    ((struct Obj01458 *)p)->fC = func_02031330((void *)((struct Obj01458 *)p)->f8);
-    func_02028A14((struct T *)func_02012A30((const struct BigObj *)((struct Obj01458 *)p)->f1C));
-    func_0202B500((unsigned char *)((struct Obj01458 *)p)->f2C);
-    func_02021464((unsigned char *)((struct Obj01458 *)p)->f1C);
-    if (func_02012A24((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)
+    gameSystem->procStatus = func_02031330(gameSystem->procSys);
+    func_02028A14(func_02012A30(gameSystem->gameData));
+    func_0202B500(gameSystem->issSystem);
+    func_02021464(gameSystem->gameData);
+    if (func_02012A24(gameSystem->gameData) != 0)
         func_02035614(0x3c);
-    if (((struct Obj01458 *)p)->fC == 2 || ((struct Obj01458 *)p)->fC == 0)
+    if (gameSystem->procStatus == 2 || gameSystem->procStatus == 0)
         func_0200F7B8(0);
-    if (((struct Obj01458 *)p)->fC == 0 && ((struct Obj01458 *)p)->f18 == 0)
+    if (gameSystem->procStatus == 0 && gameSystem->event == 0)
         return 1;
     return 0;
 }
 
 
-extern int func_02188BE8(void *v);   /* overlay-resident */
-extern u32 func_020121CC(struct IcaAnimeInst *p);
+extern int func_02188BE8(void *fieldMap);   /* overlay-resident */
 
 /*
  * Three nested tests sharing one epilogue: the object is driven through
@@ -2879,12 +2767,12 @@ extern u32 func_020121CC(struct IcaAnimeInst *p);
  *   python tools/match.py one --src src/matched/func_0201205C.c \
  *       --func func_0201205C --addr 0x0201205C --cc 1.1p1 --thumb
  */
-void func_0201205C(struct IcaAnimeInst *p)
+void func_0201205C(struct GameSystem *gameSystem)
 {
-    if (func_020120D8((char *)p) == 0) {
-        if (func_02012114((const struct Ctx *)p) == 1) {
-            if (func_02188BE8(func_0201210C((const struct Ctx *)p)) == 1)
-                func_020121CC(p);
+    if (func_020120D8(gameSystem) == 0) {
+        if (func_02012114(gameSystem) == 1) {
+            if (func_02188BE8(func_0201210C(gameSystem)) == 1)
+                func_020121CC(gameSystem);
         }
     }
 }
@@ -2892,7 +2780,7 @@ void func_0201205C(struct IcaAnimeInst *p)
 
 /*
  * The tail of the packet's small table walkers: two loads off the
- * g_02146228 pair and one store, 18 bytes, every relocation a label outside
+ * _GPowerState tables and one store, 18 bytes, every relocation a label outside
  * the range.  It re-verified EXACT after func_02010F50 and func_02010EEC were
  * filed in pkt_02010EEC (the same two tables), so the entry is a chain payoff.
  *
@@ -2900,10 +2788,10 @@ void func_0201205C(struct IcaAnimeInst *p)
  *   python tools/match.py one --src src/matched/func_02012088.c \
  *       --func func_02012088 --addr 0x02012088 --cc 1.1p1 --thumb
  */
-void func_02012088(struct IcaAnimeInst *p)
+void func_02012088(struct GameSystem *gameSystem)
 {
-    func_0203133C((struct S020314B8 *)p->f08);
-    func_02011F90((u32 *)p);
+    func_0203133C(gameSystem->procSys);
+    func_02011F90(gameSystem);
 }
 
 
@@ -2919,16 +2807,16 @@ void func_02012088(struct IcaAnimeInst *p)
  *   python tools/match.py one --src src/matched/sub_0201209C.c \
  *       --func sub_0201209C --addr 0x0201209C --cc 1.1p1 --thumb
  */
-void sub_0201209C(void *o, u32 v1, u32 v2)
+void sub_0201209C(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg)
 {
-    *(u32 *)&((struct Obj00020 *)o)->f10 = v1;
-    ((struct Obj00020 *)o)->f14 = v2;
+    gameSystem->eventCreator = creator;
+    gameSystem->eventCreatorArg = arg;
 }
 
 
-void func_020120A4(char *p)
+void func_020120A4(struct GameSystem *gameSystem)
 {
-    ((struct Obj15622 *)p)->f31 = (unsigned char)func_020123C4(p);
+    gameSystem->eventActive = (u8)func_020123C4(gameSystem);
 }
 
 
@@ -2948,9 +2836,9 @@ void func_020120A4(char *p)
  *   python tools/match.py one --src src/matched/func_020120B4.c \
  *       --func func_020120B4 --addr 0x020120B4 --cc 1.1p1 --thumb
  */
-void func_020120B4(struct IcaAnimeInst *p, u32 id, void *a, void *b)
+void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param)
 {
-    func_02031348(p->f08, id, a, b);
+    func_02031348(gameSystem->procSys, overlayId, procData, param);
 }
 
 
@@ -2960,7 +2848,7 @@ void func_020120B4(struct IcaAnimeInst *p, u32 id, void *a, void *b)
  *           ov021_id (21) resolves as `overlay_id` (a layout overlay index,
  *           loaded by a pc-relative load of this function, reaching the id
  *           register of a known overlay loader), which was the last blocker.
- * evidence: s0x021D359C lies in the windows of ov021 (data) and ov114 (bss),
+ * evidence: FieldMapProcData lies in the windows of ov021 (data) and ov114 (bss),
  *           so the ov021 hint needs outside support.  The same call passes
  *           ov021_id (0x15, attested `overlay_id`) and this pointer to the
  *           proc system: func_020120B4 -> func_02031348 -> func_020314F4 ->
@@ -2984,17 +2872,17 @@ void func_020120B4(struct IcaAnimeInst *p, u32 id, void *a, void *b)
  *   python tools/match.py one --src src/matched/func_020120C0.c \
  *       --func func_020120C0 --addr 0x020120C0 --cc 1.1p1 --thumb
  */
-void func_020120C0(struct IcaAnimeInst *p)
+void func_020120C0(struct GameSystem *gameSystem)
 {
-    func_020120B4(p, (u32)ov021_id, &s0x021D359C, p);
+    func_020120B4(gameSystem, (u32)ov021_id, &FieldMapProcData, gameSystem);
 }
 
 
-int func_020120D8(char *p)
+int func_020120D8(struct GameSystem *gameSystem)
 {
-    if (func_020123C4(p))
+    if (func_020123C4(gameSystem))
         return 1;
-    return ((struct Obj15623 *)p)->f31;
+    return gameSystem->eventActive;
 }
 
 
@@ -3027,9 +2915,9 @@ int func_020120D8(char *p)
  * in the image, so neither the `label` nor the `literal` class has a witness
  * outside the twelve bytes under test.  Every concrete byte reproduces from
  *
- *     void func_02012158(const struct Ctx *p, u32 v)
+ *     void func_02012158(struct GameSystem *gameSystem, unsigned int on)
  *     {
- *         func_02012BC8(p->unk1C, v);
+ *         func_02012BC8(gameSystem->gameData, on);
  *     }
  *
  * that closes 0x02012BC8 itself; see src/matched/unit_02012AE4.c.
@@ -3040,102 +2928,102 @@ int func_020120D8(char *p)
  *   python tools/match.py tu --src src/matched/unit_020120F0.c \
  *       --addr 0x020120F0 --thumb
  */
-u32 func_020120F0(const struct Ctx *p)
+u32 func_020120F0(const struct GameSystem *gameSystem)
 {
-    return p->unk0C;
+    return gameSystem->procStatus;
 }
 
 
-void *func_020120F4(const struct Ctx *p)
+struct GameData *func_020120F4(const struct GameSystem *gameSystem)
 {
-    return p->unk1C;
+    return gameSystem->gameData;
 }
 
 
-u8 *func_020120F8(const struct Ctx *p)
+struct PlayerWork *func_020120F8(const struct GameSystem *gameSystem)
 {
-    return func_020127A4(p->unk1C);
+    return func_020127A4(gameSystem->gameData);
 }
 
 
-u32 func_02012104(const struct Ctx *p)
+struct GameEvent *func_02012104(const struct GameSystem *gameSystem)
 {
-    return p->unk18;
+    return gameSystem->event;
 }
 
 
-void func_02012108(struct Ctx *p, u32 v)
+void func_02012108(struct GameSystem *gameSystem, struct GameEvent *event)
 {
-    p->unk18 = v;
+    gameSystem->event = event;
 }
 
 
-void *func_0201210C(const struct Ctx *p)
+void *func_0201210C(const struct GameSystem *gameSystem)
 {
-    return p->unk20;
+    return gameSystem->fieldMap;
 }
 
 
-void func_02012110(struct Ctx *p, void *v)
+void func_02012110(struct GameSystem *gameSystem, void *fieldMap)
 {
-    p->unk20 = v;
+    gameSystem->fieldMap = fieldMap;
 }
 
 
-u32 func_02012114(const struct Ctx *p)
+u32 func_02012114(const struct GameSystem *gameSystem)
 {
-    if (p->unk20 != 0) {
+    if (gameSystem->fieldMap != 0) {
         return 1;
     }
     return 0;
 }
 
 
-void func_02012124(struct Ctx *p, u32 v)
+void func_02012124(struct GameSystem *gameSystem, u32 state)
 {
-    p->unk30 = v;
+    gameSystem->fieldMapState = state;
 }
 
 
-u8 func_0201212C(const struct Ctx *p)
+u8 func_0201212C(const struct GameSystem *gameSystem)
 {
-    return p->unk30;
+    return gameSystem->fieldMapState;
 }
 
 
-u32 func_02012134(const struct Ctx *p)
+void *func_02012134(const struct GameSystem *gameSystem)
 {
-    return p->unk2C;
+    return gameSystem->issSystem;
 }
 
 
-u32 func_02012138(const struct Ctx *p)
+struct GameComm *func_02012138(const struct GameSystem *gameSystem)
 {
-    return p->unk24;
+    return gameSystem->gameComm;
 }
 
 
-void func_0201213C(struct Ctx *p, u32 v)
+void func_0201213C(struct GameSystem *gameSystem, u32 blocked)
 {
-    p->unk32 = v;
+    gameSystem->commBlocked = blocked;
 }
 
 
-u8 func_02012144(const struct Ctx *p)
+u8 func_02012144(const struct GameSystem *gameSystem)
 {
-    return p->unk32;
+    return gameSystem->commBlocked;
 }
 
 
-u32 func_0201214C(const struct Ctx *p)
+u32 func_0201214C(const struct GameSystem *gameSystem)
 {
-    return func_02012BB0(p->unk1C);
+    return func_02012BB0(gameSystem->gameData);
 }
 
 
-void func_02012158(char *p, unsigned int v)
+void func_02012158(struct GameSystem *gameSystem, unsigned int on)
 {
-    func_02012BC8((unsigned char *)((struct Obj15624 *)p)->f1C, v);
+    func_02012BC8(gameSystem->gameData, on);
 }
 
 
@@ -3152,19 +3040,19 @@ void func_02012158(char *p, unsigned int v)
  * byte through r1.  `id = func_02012AC8(func_020120F8(p))` then
  * `func_02013D34(id)` closes it.
  */
-u32 func_02012164(struct IcaAnimeInst *p)
+u32 func_02012164(struct GameSystem *gameSystem)
 {
-    u16 id;
+    u16 zoneId;
 
-    func_02012138((const struct Ctx *)p);
-    id = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)p));
-    if (p->f32 == 0
-     && func_02013D34(id) == 0
+    func_02012138(gameSystem);
+    zoneId = func_02012AC8(func_020120F8(gameSystem));
+    if (gameSystem->commBlocked == 0
+     && func_02013D34(zoneId) == 0
      && func_0200FB24() == 0
-     && func_0201214C((const struct Ctx *)p) == 1
-     && func_02158318((int)p) == 1
+     && func_0201214C(gameSystem) == 1
+     && func_02158318(gameSystem) == 1
      && !(func_02035390() == 1 && func_020353B0() == 1)) {
-        if (func_020090E0((const struct Sub020090B0Obj *)func_0200921C(p->f1c)) != 0) {
+        if (func_020090E0(func_0200921C(gameSystem->gameData)) != 0) {
             return 1;
         }
     }
@@ -3184,14 +3072,14 @@ u32 func_02012164(struct IcaAnimeInst *p)
  *   python tools/match.py one --src src/matched/func_020121CC.c \
  *       --func func_020121CC --addr 0x020121CC --cc 1.1p1 --thumb
  */
-u32 func_020121CC(struct IcaAnimeInst *p)
+u32 func_020121CC(struct GameSystem *gameSystem)
 {
-    u32 h = func_02012138((const struct Ctx *)p);
+    struct GameComm *gameComm = func_02012138(gameSystem);
 
     if (func_0203CD98() == 0) {
-        if (func_02026454((void *)h) == 0) {
-            if (func_02012164(p) == 1) {
-                func_020263D8((struct Comm *)h, 1, (u32)p);
+        if (func_02026454(gameComm) == 0) {
+            if (func_02012164(gameSystem) == 1) {
+                func_020263D8(gameComm, 1, gameSystem);
                 return 1;
             }
         }
@@ -3215,15 +3103,15 @@ u32 func_020121CC(struct IcaAnimeInst *p)
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02012204.c  *       --addr 0x02012204 --thumb
  */
-u32 func_02012204(const struct Ctx *p)
+u32 func_02012204(const struct GameSystem *gameSystem)
 {
-    return p->unk33_0;
+    return gameSystem->netOffBySleep;
 }
 
 
-void func_02012210(struct Ctx *p)
+void func_02012210(struct GameSystem *gameSystem)
 {
-    p->unk33_0 = 0;
+    gameSystem->netOffBySleep = 0;
 }
 
 
@@ -3242,11 +3130,11 @@ void func_02012210(struct Ctx *p)
  *   python tools/match.py one --src src/matched/func_02012220.c \
  *       --func func_02012220 --addr 0x02012220 --cc 1.1p1 --thumb
  */
-void func_02012220(struct IcaAnimeInst *p)
+void func_02012220(struct GameSystem *gameSystem)
 {
-    if (func_0201214C((const struct Ctx *)p) != 0) {
-        func_02012158((char *)p, 0);
-        p->f33_0 = 1;
+    if (func_0201214C(gameSystem) != 0) {
+        func_02012158(gameSystem, 0);
+        gameSystem->netOffBySleep = 1;
     }
 }
 
@@ -3269,20 +3157,35 @@ void func_02012220(struct IcaAnimeInst *p)
  *   python tools/match.py one --src src/matched/func_02012248.c \
  *       --func func_02012248 --addr 0x02012248 --cc 1.1p1 --thumb
  */
-void func_02012248(struct IcaAnimeInst *p)
+void func_02012248(struct GameSystem *gameSystem)
 {
-    func_02035138((void *)func_02012220, (u32)p);
+    func_02035138(func_02012220, gameSystem);
 }
 
 
-void func_02012258(void *o)
+void func_02012258(struct GameSystem *gameSystem)
 {
     func_02035138(0, 0);
 }
 
 
 
-int func_02012264(int a0, int a1, int a2, int a3){ int t0, t1, t2, t3, t4; t0 = func_02012138((const struct Ctx *)a0); t1 = func_02026454((void *)t0); if ((unsigned int)(t1) != (unsigned int)(0)) { return 1; } else { t2 = func_0203DA4C((int)t1); if ((unsigned int)(t2) != (unsigned int)(0)) { return 1; } else { t3 = func_020353B0(); if ((unsigned int)(t3) != (unsigned int)(0)) { return 0; } else { t4 = func_0201214C((const struct Ctx *)((a0 + 0) + 0)); if ((unsigned int)(t4) != (unsigned int)(0)) { return 1; } else { return 0; } } } } }
+int func_02012264(struct GameSystem *gameSystem)
+{
+    if (func_02026454(func_02012138(gameSystem)) != 0) {
+        return 1;
+    }
+    if (func_0203DA4C() != 0) {
+        return 1;
+    }
+    if (func_020353B0() != 0) {
+        return 0;
+    }
+    if (func_0201214C(gameSystem) != 0) {
+        return 1;
+    }
+    return 0;
+}
 
 
 
@@ -3299,13 +3202,13 @@ int func_02012264(int a0, int a1, int a2, int a3){ int t0, t1, t2, t3, t4; t0 = 
  *   python tools/match.py one --src src/matched/func_020122A4.c \
  *       --func func_020122A4 --addr 0x020122A4 --cc 1.1p1 --thumb
  */
-void func_020122A4(u32 arg)
+void func_020122A4(struct GameSystem *gameSystem)
 {
-    func_02035064((const void *)func_02012264, arg);
+    func_02035064(func_02012264, gameSystem);
 }
 
 
-void func_020122B4(void *o)
+void func_020122B4(struct GameSystem *gameSystem)
 {
     func_02035064(0, 0);
 }
@@ -3318,8 +3221,8 @@ void func_020122B4(void *o)
  * allocate the caller-sized payload off the same heap and hang it at +0xc,
  * and record the owner at +0x10.
  *
- * Both allocations go through sub_02030734, whose last two arguments are
- * the file/line debug site pair (see src/matched/sub_02030734.c).  The file
+ * Both allocations go through func_02030734, whose last two arguments are
+ * the file/line debug site pair (see src/matched/func_02030734.c).  The file
  * pointer is one pool word loaded twice, so it is a single ABS32 into the
  * packed string area and has to be declared as an extern pinned by address
  * (docs/idioms/file-string-is-an-abs32-into-the-string-area.md), never as a
@@ -3336,17 +3239,17 @@ void func_020122B4(void *o)
  *   python tools/match.py one --src src/matched/sub_020122C0.c \
  *       --func sub_020122C0 --addr 0x020122C0 --cc 1.1p1 --thumb
  */
-struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size)
+struct GameEvent *sub_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize)
 {
-    struct Desc *d;
+    struct GameEvent *event;
 
-    d = sub_02030734(4, sizeof(struct Desc), 1, sub_020122C0_File, 55);
-    d->unk_00 = a;
-    d->unk_04 = b;
-    d->unk_08 = 0;
-    d->unk_0c = sub_02030734(4, size, 1, sub_020122C0_File, 59);
-    d->unk_10 = owner;
-    return d;
+    event = func_02030734(4, sizeof(struct GameEvent), 1, _GameEventFileName, 55);
+    event->parent = parent;
+    event->func = func;
+    event->seq = 0;
+    event->work = func_02030734(4, workSize, 1, _GameEventFileName, 59);
+    event->gameSystem = gameSystem;
+    return event;
 }
 
 
@@ -3361,29 +3264,29 @@ struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size)
  *   python tools/match.py one --src src/matched/func_02012304.c \
  *       --func func_02012304 --addr 0x02012304 --cc 1.1p1 --thumb
  */
-int func_02012304(struct S02012304 *o)
+int func_02012304(struct GameEvent *event)
 {
-    return o->f04(o, (unsigned char *)o + 8, o->f0c);
+    return event->func(event, &event->seq, event->work);
 }
 
 
-void func_02012314(char *p)
+void func_02012314(struct GameEvent *event)
 {
-    void *q = ((struct Obj01023 *)p)->fC;
-    if (q) func_020307B0(q);
-    func_020307B0(p);
+    void *work = event->work;
+    if (work) func_020307B0(work);
+    func_020307B0(event);
 }
 
 
-void func_0201232C(char *p, int a1, int a2)
+void func_0201232C(struct GameEvent *event, GameEventFunc func, u32 workSize)
 {
-    void *q;
-    *(int *)&((struct Obj01023 *)p)->f8 = 0;
-    q = ((struct Obj01023 *)p)->fC;
-    *(int *)&((struct Obj01023 *)p)->f4 = a1;
-    if (q)
-        func_020307B0(q);
-    ((struct Obj01023 *)p)->fC = func_02030734(4, a2, 1, g_020A727C, 0x60);
+    void *work;
+    event->seq = 0;
+    work = event->work;
+    event->func = func;
+    if (work)
+        func_020307B0(work);
+    event->work = func_02030734(4, workSize, 1, _GameEventFileName, 0x60);
 }
 
 
@@ -3398,14 +3301,14 @@ void func_0201232C(char *p, int a1, int a2)
  *   python tools/match.py one --src src/matched/func_0201235C.c \
  *       --func func_0201235C --addr 0x0201235C --cc 1.1p1 --thumb
  */
-void func_0201235C(struct S0201235C *o, u32 *out)
+void func_0201235C(struct GameEvent *now, struct GameEvent *next)
 {
-    u32 t = o->f10;
-    u32 v = o->f00;
+    struct GameSystem *gameSystem = now->gameSystem;
+    struct GameEvent *parent = now->parent;
 
-    *out = v;
-    func_02012314((char *)o);
-    func_02012108((struct Ctx *)t, (u32)out);
+    next->parent = parent;
+    func_02012314(now);
+    func_02012108(gameSystem, next);
 }
 
 
@@ -3422,10 +3325,10 @@ void func_0201235C(struct S0201235C *o, u32 *out)
  *   python tools/match.py one --src src/matched/func_02012374.c \
  *       --func func_02012374 --addr 0x02012374 --cc 1.1p1 --thumb
  */
-void func_02012374(struct Evt *evt, struct Evt **out)
+void func_02012374(struct GameEvent *parent, struct GameEvent *child)
 {
-    *out = evt;
-    func_02012108(evt->unk_10, (u32)out);
+    child->parent = parent;
+    func_02012108(parent->gameSystem, child);
 }
 
 
@@ -3437,23 +3340,23 @@ void func_02012374(struct Evt *evt, struct Evt **out)
  * the compare chain keeps the compare and drops the branch.  An if chain
  * (docs/notes/pkt_02012380.c.txt, 38 out) never emits it.
  */
-int func_02012380(void *p)
+int func_02012380(struct GameSystem *gameSystem)
 {
-    void *v;
-    int x;
+    struct GameEvent *event;
+    struct GameEvent *parent;
 
     for (;;) {
-        v = (void *)sub_02012104(p);
-        if (v == 0)
+        event = func_02012104(gameSystem);
+        if (event == 0)
             return 0;
-        switch (sub_02012304(v)) {
+        switch (func_02012304(event)) {
         case 0:
             return 0;
         case 1:
-            x = (int)sub_020124F0(v);
-            sub_02012314(v);
-            sub_02012108(p, x);
-            if (x == 0)
+            parent = sub_020124F0(event);
+            func_02012314(event);
+            func_02012108(gameSystem, parent);
+            if (parent == 0)
                 return 1;
             break;
         case 0x21:
@@ -3464,7 +3367,13 @@ int func_02012380(void *p)
 
 
 
-int func_020123C4(void *a0){ unsigned int t0; t0 = func_02012104(a0); if ((unsigned int)(t0) != (unsigned int)(0)) {  return 1; } else {  return 0; } }
+int func_020123C4(struct GameSystem *gameSystem)
+{
+    if (func_02012104(gameSystem) != 0) {
+        return 1;
+    }
+    return 0;
+}
 
 
 
@@ -3494,17 +3403,17 @@ int func_020123C4(void *a0){ unsigned int t0; t0 = func_02012104(a0); if ((unsig
  *   python tools/match.py one --src src/matched/func_020123D8.c \
  *       --func func_020123D8 --addr 0x020123D8 --cc 1.1p1 --thumb
  */
-int func_020123D8(void *o, u32 (*fn)(void *, void *), void *a2)
+int func_020123D8(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg)
 {
-    u32 r;
+    struct GameEvent *event;
 
-    if (func_02012104(o) != 0)
+    if (func_02012104(gameSystem) != 0)
         return 0;
-    if (fn == 0)
+    if (creator == 0)
         return 0;
-    r = fn(o, a2);
-    if (r != 0) {
-        func_02012108(o, r);
+    event = creator(gameSystem, arg);
+    if (event != 0) {
+        func_02012108(gameSystem, event);
         return 1;
     }
     return 0;
@@ -3513,7 +3422,7 @@ int func_020123D8(void *o, u32 (*fn)(void *, void *), void *a2)
 
 
 /*
- * A three-state driver.  func_020124E4's result is bound before the switch and
+ * A three-state driver.  sub_020124E4's result is bound before the switch and
  * is still live in r0 at the case-0 call, which is why the two loads of the
  * state go to r1 (not r0) and the callee's argument registers are r1, r2, r3
  * with r0 carrying the earlier call's result.  Both arms leave through the
@@ -3525,17 +3434,18 @@ int func_020123D8(void *o, u32 (*fn)(void *, void *), void *a2)
  *   python tools/match.py one --src src/matched/func_0201240C.c \
  *       --func func_0201240C --addr 0x0201240C --cc 1.1p1 --thumb
  */
-int func_0201240C(void *o, u32 *state, u32 *item)
+int func_0201240C(struct GameEvent *event, u32 *seq, void *work)
 {
-    u32 v = (u32)func_020124E4(o);
+    struct ProcCallWork *call = work;
+    struct GameSystem *gameSystem = sub_020124E4(event);
 
-    switch (*state) {
+    switch (*seq) {
     case 0:
-        func_020120B4((struct IcaAnimeInst *)v, item[0], (void *)item[1], (void *)item[2]);
-        *state = *state + 1;
+        func_020120B4(gameSystem, call->overlayId, call->procData, call->param);
+        *seq = *seq + 1;
         break;
     case 1:
-        if (func_020120F0((void *)v) == 0)
+        if (func_020120F0(gameSystem) == 0)
             return 1;
         break;
     }
@@ -3556,17 +3466,17 @@ int func_0201240C(void *o, u32 *state, u32 *item)
  *   python tools/match.py one --src src/matched/func_02012444.c \
  *       --func func_02012444 --addr 0x02012444 --cc 1.1p1 --thumb
  */
-void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3)
+void func_02012444(struct GameEvent *parent, u32 overlayId, void *procData, void *param)
 {
-    struct Desc *d;
-    u32 *p;
+    struct GameEvent *event;
+    struct ProcCallWork *call;
 
-    d = sub_020122C0(obj->unk_10, 0, func_0201240C, 0xc);
-    p = sub_020124E8((struct Obj *)d);
-    p[0] = a1;
-    p[1] = a2;
-    p[2] = a3;
-    func_02012374((struct Evt *)obj, (struct Evt **)d);
+    event = sub_020122C0(parent->gameSystem, 0, func_0201240C, sizeof(struct ProcCallWork));
+    call = sub_020124E8(event);
+    call->overlayId = overlayId;
+    call->procData = procData;
+    call->param = param;
+    func_02012374(parent, event);
 }
 
 
@@ -3576,16 +3486,18 @@ void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3)
  *   python tools/match.py one --src src/matched/func_02012474.c \
  *       --func func_02012474 --addr 0x02012474 --cc 1.1p1 --thumb
  */
-int func_02012474(void *a0, u32 *a1, u32 *a2)
+int func_02012474(struct GameEvent *event, u32 *seq, void *work)
 {
-    sub_020124E4(a0);
-    switch (*a1) {
+    struct OverlayEventWork *overlay = work;
+
+    sub_020124E4(event);
+    switch (*seq) {
     case 0:
-        func_02012374(a0, (void *)a2[1]);
-        (*a1)++;
+        func_02012374(event, overlay->event);
+        (*seq)++;
         break;
     case 1:
-        func_02034A5C((int)a2[0]);
+        func_02034A5C((int)overlay->overlayId);
         return 1;
     }
     return 0;
@@ -3598,17 +3510,17 @@ int func_02012474(void *a0, u32 *a1, u32 *a2)
  *   python tools/match.py one --src src/matched/func_020124AC.c \
  *       --func func_020124AC --addr 0x020124AC --cc 1.1p1 --thumb
  */
-struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3)
+struct GameEvent *func_020124AC(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg)
 {
-    struct Desc *d;
-    u32 *p;
+    struct GameEvent *event;
+    struct OverlayEventWork *overlay;
 
-    d = sub_020122C0(a0, 0, func_02012474, 0x10);
-    p = sub_020124E8((struct Obj *)d);
-    p[0] = a1;
-    func_02034AC4(a1);
-    p[1] = fn(a0, a3);
-    return d;
+    event = sub_020122C0(gameSystem, 0, func_02012474, sizeof(struct OverlayEventWork));
+    overlay = sub_020124E8(event);
+    overlay->overlayId = overlayId;
+    func_02034AC4(overlayId);
+    overlay->event = creator(gameSystem, arg);
+    return event;
 }
 
 
@@ -3626,27 +3538,27 @@ struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3)
  *   python tools/match.py tu --src src/matched/unit_020124E4.c \
  *       --addr 0x020124E4 --thumb
  */
-void *sub_020124E4(struct Obj *p)
+struct GameSystem *sub_020124E4(struct GameEvent *event)
 {
-    return p->unk_10;
+    return event->gameSystem;
 }
 
 
-void *sub_020124E8(struct Obj *p)
+void *sub_020124E8(struct GameEvent *event)
 {
-    return p->unk_0c;
+    return event->work;
 }
 
 
-u32 *sub_020124EC(struct Obj *p)
+u32 *sub_020124EC(struct GameEvent *event)
 {
-    return &p->unk_08;
+    return &event->seq;
 }
 
 
-void *sub_020124F0(struct Obj *p)
+struct GameEvent *sub_020124F0(struct GameEvent *event)
 {
-    return p->unk_00;
+    return event->parent;
 }
 
 
@@ -3702,73 +3614,73 @@ void *sub_020124F0(struct Obj *p)
  *   python3 tools/match.py one --src src/pending/func_020124F4.c \
  *       --func func_020124F4 --addr 0x020124F4 --cc 1.1p1 --thumb
  */
-void *func_020124F4(u16 heap)
+struct GameData *func_020124F4(u16 heapId)
 {
-    u8 *p;
+    struct GameData *gameData;
     int i;
-    u32 n;
-    void *src;
-    void *obj;
+    u32 statusSize;
+    struct PlayerStatus *status;
+    void *eventData;
 
-    p = func_02030734(heap, 0x6B0, 1, g_020A728C, 0xAD);
-    *(u32 *)&((struct Obj00054 *)p)->f0 = (u32)func_020070A4();
-    ((struct Obj00054 *)p)->f1C4 = func_0202E888();
-    ((struct Obj00054 *)p)->f1C6 = 0;
+    gameData = func_02030734(heapId, sizeof(struct GameData), 1, _GameDataFileName, 0xAD);
+    gameData->saveControl = func_020070A4();
+    gameData->season = func_0202E888();
+    gameData->subscreenType = 0;
 
-    ((struct Obj00054 *)p)->f15C = (u32)func_02008854((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
-    *(u32 *)&((struct Obj00054 *)p)->f160 = func_02008844(((struct Obj00054 *)p)->f15C);
-    *(u32 *)&((struct Obj00054 *)p)->f164 = func_02008844(((struct Obj00054 *)p)->f15C);
-    *(u32 *)&((struct Obj00054 *)p)->f168 = (u32)func_02008848((struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C));
-    *(u32 *)&((struct Obj00054 *)p)->f16C = (u32)func_0200884C((struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C));
+    gameData->situation = (u32)func_02008854(gameData->saveControl);
+    gameData->startLocation = func_02008844(gameData->situation);
+    gameData->entranceLocation = func_02008844(gameData->situation);
+    gameData->specialLocation = func_02008848((struct Situation *)gameData->situation);
+    gameData->escapeLocation = func_0200884C((struct Situation *)gameData->situation);
 
-    ((struct Obj00054 *)p)->f1A4 = (u32)func_02006E40(heap);
+    gameData->bagCursor = (u32)func_02006E40(heapId);
 
     for (i = 0; i < 5; i++) {
-        func_02012A60((struct Rec44 *)(p + 4 + i * 0x44));
+        func_02012A60(&gameData->playerWork[i]);
     }
 
-    n = func_02008468();
-    src = func_02012944(p);
-    memcpy(func_02008730((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), src, n);
+    statusSize = func_02008468();
+    status = func_02012944(gameData);
+    memcpy(func_02008730(gameData->saveControl), status, statusSize);
 
-    ((struct Obj00054 *)p)->f158 = obj = (void *)func_0216237C(heap);
-    func_021623DC(obj);
-    ((struct Obj00054 *)p)->f1AC = (unsigned int)func_02012FE4((struct Sub020071CCCtrl *)(*(u32 *)&((struct Obj00054 *)p)->f0));
-    ((struct Obj00054 *)p)->f1B0 = (u32)func_02159B48(heap);
-    ((struct Obj00054 *)p)->f1A8 = (u32)func_0216CC58(heap, 0x40, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x33));
-    ((struct Obj00054 *)p)->f1B4 = (u32)func_02028844(p, heap);
-    *(u32 *)&((struct Obj00054 *)p)->f1B8 = func_02014428(heap);
-    ((struct Obj00054 *)p)->f18C = (u32)func_02008254(heap);
-    *(u32 *)&((struct Obj00054 *)p)->f190 = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x19);
-    *(u32 *)&((struct Obj00054 *)p)->f194 = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x1A);
-    ((struct Obj00054 *)p)->f198 = (u32)func_0200873C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
-    ((struct Obj00054 *)p)->f19C = (u32)func_02007AA4(heap, *(u32 *)&((struct Obj00054 *)p)->f0);
-    ((struct Obj00054 *)p)->f1A0 = (u32)func_020097C4(heap);
+    gameData->eventData = eventData = (void *)func_0216237C(heapId);
+    func_021623DC(eventData);
+    gameData->eventWork = func_02012FE4(gameData->saveControl);
+    gameData->fieldWork = (u32)func_02159B48(heapId);
+    gameData->occupyInfo = func_0216CC58(heapId, 0x40, (u32)func_020071CC(gameData->saveControl, 0x33));
+    gameData->bgmInfo = (u32)func_02028844(gameData, heapId);
+    gameData->moveModelSys = (void *)func_02014428(heapId);
+    gameData->mapMatrix = (u32)func_02008254(heapId);
+    gameData->myItem = func_020071CC(gameData->saveControl, 0x19);
+    gameData->myParty = func_020071CC(gameData->saveControl, 0x1A);
+    gameData->config = func_0200873C(gameData->saveControl);
+    gameData->boxManager = (u32)func_02007AA4(heapId, (u32)gameData->saveControl);
+    gameData->wifiList = (u32)func_020097C4(heapId);
 
     for (i = 0; i < 4; i++) {
-        func_0200BDE4((struct Rec1B0 *)(p + 0x1D4 + i * 0x10));
+        func_0200BDE4(gameData->battleRecSlot[i]);
     }
 
     for (i = 0; i < 2; i++) {
-        func_02161D98((char *)(p + 0x214 + i * 0x1E8));
+        func_02161D98(gameData->unionInfo[i]);
     }
 
-    ((struct Obj00054 *)p)->f6AC = (u32)func_0200857C(heap);
-    ((struct Obj00054 *)p)->f1C0 = 0;
-    func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)&((struct Obj00054 *)p)->f0));
+    gameData->playTime = func_0200857C(heapId);
+    gameData->saveStatus = 0;
+    func_020071E4(gameData->saveControl);
 
-    ((struct Obj00054 *)p)->f5E4 = (u32)func_0215E31C(heap);
-    func_0202E43C(p + 0x5E8);
-    func_02012C18(p);
-    ((struct Obj00054 *)p)->f680 = 0;
-    *(u32 *)&((struct Obj00054 *)p)->f688 = 0;
-    ((struct Obj00054 *)p)->f684 = (u32)func_0202E770((void *)heap);
-    ((struct Obj00054 *)p)->f68C = func_0202751C(heap, 0x8001);
-    ((struct Obj00054 *)p)->f690 = (u32)func_021647A0(p, heap);
-    ((struct Obj00054 *)p)->f6A4 = 0;
-    ((struct Obj00054 *)p)->f6A8 = 0;
+    gameData->fieldGimmick = (u32)func_0215E31C(heapId);
+    func_0202E43C(gameData->rtcWork);
+    func_02012C18(gameData);
+    gameData->eventState = 0;
+    gameData->currentEvent = 0;
+    gameData->pmsWork = (int)func_0202E770((void *)heapId);
+    gameData->itemUseWork = func_0202751C(heapId, 0x8001);
+    gameData->musicalWork = (u32)func_021647A0(gameData, heapId);
+    gameData->listCursor = 0;
+    gameData->externalWork = 0;
 
-    return p;
+    return gameData;
 }
 
 
@@ -3793,30 +3705,30 @@ void *func_020124F4(u16 heap)
  *   python tools/match.py one --src src/matched/func_02012704.c \
  *       --func func_02012704 --addr 0x02012704 --cc 1.1p1 --thumb
  */
-void func_02012704(u8 *p)
+void func_02012704(struct GameData *gameData)
 {
-    func_020307B0((void *)(((struct Obj01611 *)p)->f6AC));
-    func_021647D8(((struct Obj01611 *)p)->f690);
-    func_02027584((u8 *)(((struct Obj01611 *)p)->f68C));
-    func_0202E794((void *)(((struct Obj01611 *)p)->f684));
-    func_0215E334((void *)(((struct Obj01611 *)p)->f5E4));
-    func_02006E64((struct Sub02006E40Obj *)(((struct Obj01611 *)p)->f1A4));
-    func_020307B0((void *)(((struct Obj01611 *)p)->f1A0));
-    func_02007AC8((void *)(((struct Obj01611 *)p)->f19C));
-    func_020307B0((void *)(((struct Obj01611 *)p)->f18C));
-    func_0216CCB0(((struct Obj01611 *)p)->f1A8);
-    func_02159BBC((void *)(((struct Obj01611 *)p)->f1B0));
-    func_021623BC(((struct Obj01611 *)p)->f158);
-    func_02014444(((struct Obj01611 *)p)->f1B8);
-    func_0202889C((struct SoundSys *)(((struct Obj01611 *)p)->f1B4));
-    func_020307B0((void *)((u32)p));
+    func_020307B0(gameData->playTime);
+    func_021647D8(gameData->musicalWork);
+    func_02027584(gameData->itemUseWork);
+    func_0202E794((void *)gameData->pmsWork);
+    func_0215E334((void *)gameData->fieldGimmick);
+    func_02006E64((struct BagCursor *)gameData->bagCursor);
+    func_020307B0((void *)gameData->wifiList);
+    func_02007AC8((void *)gameData->boxManager);
+    func_020307B0((void *)gameData->mapMatrix);
+    func_0216CCB0((int)gameData->occupyInfo);
+    func_02159BBC((void *)gameData->fieldWork);
+    func_021623BC((int)gameData->eventData);
+    func_02014444((u32)gameData->moveModelSys);
+    func_0202889C((struct BgmInfo *)gameData->bgmInfo);
+    func_020307B0(gameData);
 }
 
 
 
-u8 *func_02012798(u8 *p, int i)
+struct PlayerWork *func_02012798(struct GameData *gameData, int index)
 {
-    return p + 4 + i * 0x44;
+    return &gameData->playerWork[index];
 }
 
 
@@ -3835,15 +3747,15 @@ u8 *func_02012798(u8 *p, int i)
  *   python tools/match.py tu --src src/matched/unit_020127A4.c \
  *       --addr 0x020127A4 --thumb
  */
-void *func_020127A4(struct SaveBlock *p)
+struct PlayerWork *func_020127A4(struct GameData *gameData)
 {
-    return p->unk_114;
+    return &gameData->playerWork[4];
 }
 
 
-void *func_020127AC(struct SaveBlock *p, u32 idx)
+void *func_020127AC(struct GameData *gameData, u32 index)
 {
-    return p->unk_1d4[idx];
+    return gameData->battleRecSlot[index];
 }
 
 
@@ -3862,9 +3774,9 @@ void *func_020127AC(struct SaveBlock *p, u32 idx)
  *   python tools/match.py one --src src/matched/func_020127B8.c \
  *       --func func_020127B8 --addr 0x020127B8 --cc 1.1p1 --thumb
  */
-void *func_020127B8(void *p)
+void *func_020127B8(struct GameData *gameData)
 {
-    return func_020127AC(p, 3);
+    return func_020127AC(gameData, 3);
 }
 
 
@@ -3882,9 +3794,9 @@ void *func_020127B8(void *p)
  *   python tools/match.py one --src src/matched/func_020127C4.c \
  *       --func func_020127C4 --addr 0x020127C4 --cc 1.1p1 --thumb
  */
-u8 *func_020127C4(void *p)
+u8 *func_020127C4(struct GameData *gameData)
 {
-    return sub_020127D0(p, 1);
+    return sub_020127D0(gameData, 1);
 }
 
 
@@ -3903,18 +3815,24 @@ u8 *func_020127C4(void *p)
  *   python tools/match.py one --src src/matched/sub_020127D0.c \
  *       --func sub_020127D0 --addr 0x020127D0 --cc 1.1p1 --thumb
  */
-u8 *sub_020127D0(u8 *o, u32 idx)
+u8 *sub_020127D0(struct GameData *gameData, u32 index)
 {
-    return o + 0x214 + idx * 0x1E8;
+    return gameData->unionInfo[index];
 }
 
 
 
-int func_020127E0(int a0){ int t0, t1; t0 = func_0200A864((int)((struct Obj15627 *)((char *)(a0)))->f0); t1 = func_0200A890((int)t0); return t1; }
+u16 *func_020127E0(struct GameData *gameData)
+{
+    return func_0200A890(func_0200A864(gameData->saveControl));
+}
 
 
 
-int func_020127F0(int a0){ int t0, t1; t0 = func_0200A864((int)((struct Obj15628 *)((char *)(a0)))->f0); t1 = func_0200A898((int)t0); return t1; }
+u8 *func_020127F0(struct GameData *gameData)
+{
+    return func_0200A898(func_0200A864(gameData->saveControl));
+}
 
 
 
@@ -3923,10 +3841,10 @@ int func_020127F0(int a0){ int t0, t1; t0 = func_0200A864((int)((struct Obj15628
  *   python tools/match.py one --src src/matched/func_02012800.c \
  *       --func func_02012800 --addr 0x02012800 --cc 1.1p1 --thumb
  */
-void func_02012800(u8 *obj, void *dst)
+void func_02012800(struct GameData *gameData, void *dst)
 {
-    func_02082D44(dst, obj + 0x214, 0x1e8);
-    func_02161D64((int)(obj + 0x214));
+    func_02082D44(dst, gameData->unionInfo[0], sizeof(gameData->unionInfo[0]));
+    func_02161D64((int)gameData->unionInfo[0]);
 }
 
 
@@ -3936,10 +3854,10 @@ void func_02012800(u8 *obj, void *dst)
  *   python tools/match.py one --src src/matched/func_0201281C.c \
  *       --func func_0201281C --addr 0x0201281C --cc 1.1p1 --thumb
  */
-void func_0201281C(u8 *obj)
+void func_0201281C(struct GameData *gameData)
 {
-    func_02082BCC(obj + 0x214, 0, 0x1e8);
-    func_02161D64((int)(obj + 0x3fc));
+    MI_CpuFill8(gameData->unionInfo[0], 0, sizeof(gameData->unionInfo[0]));
+    func_02161D64((int)gameData->unionInfo[1]);
 }
 
 
@@ -3957,10 +3875,10 @@ void func_0201281C(u8 *obj)
  * record at +0x170 all hold the same 28-byte thing, and each has a getter and
  * a setter.  28 bytes is three `ldm`/`stm` pairs plus a trailing `ldr`/`str`,
  * which is docs/idioms/aggregate-assignment-is-ldm-stm.md; the record has to
- * be declared four-aligned (u32 v[7], not u8 v[28]) or the copy becomes a
+ * be declared four-aligned (struct Location, u32 words[7], not u8 [28]) or the copy becomes a
  * byte loop.  The four pointer setters write through the pointer
- * (`*p->unk160 = *src`) and the fifth writes the inline record
- * (`p->unk170 = *src`), which is the difference between the `ldr r2, [r0, r1]`
+ * (`*gameData->startLocation = *location`) and the fifth writes the inline record
+ * (`gameData->warpLocation = *location`), which is the difference between the `ldr r2, [r0, r1]`
  * and the `adds r2, r0, r1` that opens each.
  *
  * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
@@ -3977,79 +3895,79 @@ void func_0201281C(u8 *obj)
  *   python tools/match.py tu --src src/matched/unit_0201283C.c \
  *       --addr 0x0201283C --thumb
  */
-u32 func_0201283C(const struct BigObj *p)
+u32 func_0201283C(const struct GameData *gameData)
 {
-    return p->unk1A0;
+    return gameData->wifiList;
 }
 
 
-u32 func_02012844(const struct BigObj *p)
+void *func_02012844(const struct GameData *gameData)
 {
-    return p->unk158;
+    return gameData->eventData;
 }
 
 
-struct Rec1C *func_0201284C(const struct BigObj *p)
+struct Location *func_0201284C(const struct GameData *gameData)
 {
-    return p->unk160;
+    return gameData->startLocation;
 }
 
 
-void func_02012854(struct BigObj *p, const struct Rec1C *src)
+void func_02012854(struct GameData *gameData, const struct Location *location)
 {
-    *p->unk160 = *src;
+    *gameData->startLocation = *location;
 }
 
 
-struct Rec1C *func_02012870(const struct BigObj *p)
+struct Location *func_02012870(const struct GameData *gameData)
 {
-    return p->unk164;
+    return gameData->entranceLocation;
 }
 
 
-void func_02012878(struct BigObj *p, const struct Rec1C *src)
+void func_02012878(struct GameData *gameData, const struct Location *location)
 {
-    *p->unk164 = *src;
+    *gameData->entranceLocation = *location;
 }
 
 
-struct Rec1C *func_02012894(const struct BigObj *p)
+struct Location *func_02012894(const struct GameData *gameData)
 {
-    return p->unk168;
+    return gameData->specialLocation;
 }
 
 
-void func_0201289C(struct BigObj *p, const struct Rec1C *src)
+void func_0201289C(struct GameData *gameData, const struct Location *location)
 {
-    *p->unk168 = *src;
+    *gameData->specialLocation = *location;
 }
 
 
-struct Rec1C *func_020128B8(const struct BigObj *p)
+struct Location *func_020128B8(const struct GameData *gameData)
 {
-    return p->unk16C;
+    return gameData->escapeLocation;
 }
 
 
-void func_020128C0(struct BigObj *p, const struct Rec1C *src)
+void func_020128C0(struct GameData *gameData, const struct Location *location)
 {
-    *p->unk16C = *src;
+    *gameData->escapeLocation = *location;
 }
 
 
-struct Rec1C *func_020128DC(struct BigObj *p)
+struct Location *func_020128DC(struct GameData *gameData)
 {
-    return &p->unk170;
+    return &gameData->warpLocation;
 }
 
 
-void func_020128E4(struct BigObj *p, const struct Rec1C *src)
+void func_020128E4(struct GameData *gameData, const struct Location *location)
 {
-    p->unk170 = *src;
+    gameData->warpLocation = *location;
 }
 
 
-void func_02012900(const struct BigObj *p, u16 v)
+void func_02012900(const struct GameData *gameData, u16 warpId)
 {
-    *func_02008850((void *)p->unk15C) = v;
+    *func_02008850((struct Situation *)gameData->situation) = warpId;
 }

@@ -1,8 +1,8 @@
 /*
  * file:     mystery_net.c
  * unit:     yes
- * function: func_021DD980, func_021DD9CC, func_021DDC30, func_021DDC44, func_021DDC58, func_021DDCF8, func_021DDD64, func_021DDF5C, func_021DDF84, func_021DE014, func_021DE024, func_021DE0AC, func_021DE0DC, func_021DE128, func_021DE154, func_021DE2A0, func_021DE2F0, func_021DE300, func_021DE308, func_021DE3E0, func_021DE4DC, func_021DE500, func_021DE550, func_021DE570, func_021DE5D8, func_021DE5F8, func_021DE618, func_021DE61C, func_021DE690, func_021DE6F8, func_021DE70C, func_021DE7BC, func_021DE7FC, func_021DE830, func_021DE8D0, func_021DE910, func_021DE958, func_021DEDC8, func_021DEE14, func_021DEE38, func_021DEE68, func_021DEE84, func_021DEE90, func_021DEEA4, func_021DEEAC, func_021DEED0, func_021DEEF8, func_021DEF38, func_021DEF54, func_021DEF6C
- * address:  0x021DD980
+ * function: func_021DE2A0, func_021DE2F0, func_021DE300, func_021DE308, func_021DE3E0, func_021DE4DC, func_021DE500, func_021DE550, func_021DE570, func_021DE5D8, func_021DE5F8, func_021DE618, func_021DE61C, func_021DE690, func_021DE6F8, func_021DE70C, func_021DE7BC, func_021DE7FC, func_021DE830, func_021DE8D0, func_021DE910, func_021DE958, func_021DEDC8, func_021DEE14, func_021DEE38, func_021DEE68, func_021DEE84, func_021DEE90, func_021DEEA4, func_021DEEAC, func_021DEED0, func_021DEEF8, func_021DEF38, func_021DEF54, func_021DEF6C
+ * address:  0x021DE2A0
  * region:   ov121
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,60 +11,12 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from mystery_net.c at 0x021DE2A0 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
- *   func_021DA3C0 0x021DA3C0 thumb ov121
- *   func_021DBEE4 0x021DBEE4 thumb ov121
- *   func_0204B84C 0x0204B84C arm
- *   func_021DAB50 0x021DAB50 thumb ov121
- *   func_02006984 0x02006984 thumb
- *   func_0204B454 0x0204B454 arm
- *   func_0204B5FC 0x0204B5FC arm
- *   func_021DE128 0x021DE128 thumb ov121
- *   func_021DE154 0x021DE154 thumb ov121
- *   func_0204B404 0x0204B404 arm
- *   func_02006BD0 0x02006BD0 thumb
- *   func_021DDC30 0x021DDC30 arm ov121
- *   func_021DDC44 0x021DDC44 arm ov121
- *   func_021DC064 0x021DC064 thumb ov121
- *   func_020490F4 0x020490F4 arm
- *   func_02049BDC 0x02049BDC arm
- *   func_02049658 0x02049658 arm
- *   func_020498F4 0x020498F4 arm
- *   func_020413B0 0x020413B0 arm
- *   func_020409B4 0x020409B4 arm
- *   func_02049238 0x02049238 arm
- *   func_021DBF10 0x021DBF10 thumb ov121
- *   func_021DBF40 0x021DBF40 thumb ov121
- *   func_021DBF9C 0x021DBF9C thumb ov121
- *   func_021DBF70 0x021DBF70 thumb ov121
- *   func_021DC024 0x021DC024 thumb ov121
- *   func_02049F78 0x02049F78 arm
  *   func_02082D44 0x02082D44 arm
- *   func_02049E74 0x02049E74 arm
- *   func_0204AA94 0x0204AA94 arm
- *   func_0204B6F4 0x0204B6F4 arm
- *   func_0204B3DC 0x0204B3DC arm
- *   func_0204ADEC 0x0204ADEC arm
- *   func_02082A48 0x02082A48 arm
- *   func_0204B5F4 0x0204B5F4 arm
- *   func_0204AEF4 0x0204AEF4 arm
- *   func_0207D63C 0x0207D63C arm
- *   func_02082A60 0x02082A60 arm
- *   func_021DA4A8 0x021DA4A8 thumb ov121
- *   func_021DA318 0x021DA318 thumb ov121
- *   func_02040588 0x02040588 arm
- *   func_020056A0 0x020056A0 thumb
- *   func_020414EC 0x020414EC arm
  *   func_02082BCC 0x02082BCC arm
- *   d_021DF858 0x021DF858 data a2
- *   d_021DF822 0x021DF822 data a1
- *   d_021DF82D 0x021DF82D data a1
- *   d_021DF944 0x021DF944 data a4
- *   _s32_div_f 0x0209C0A4 arm
- *   _u32_div_f 0x0209C2B0 arm
  *   func_02030734 0x02030734 arm
  *   d_021DFBC0 0x021DFBC0 data ov121 a1
  *   func_0203CD98 0x0203CD98 arm
@@ -107,7 +59,6 @@
  *   func_021C5DB4 0x021C5DB4 arm ov114
  *   func_0203F0A8 0x0203F0A8 arm
  *   func_0203C9AC 0x0203C9AC arm
- *   _ull_mul 0x0209C054 arm
  *   d_021DFBD8 0x021DFBD8 data a4
  *   d_021DFBD0 0x021DFBD0 data a4
  *   d_021DFBF8 0x021DFBF8 data a4
@@ -119,165 +70,12 @@
  *   func_021DEFAC 0x021DEFAC thumb ov121
  */
 
-#include "../../matched/include/Obj03789.h"
-
-struct Node;
-struct Actor;
-struct PtS;
 typedef unsigned char  u8;
 
 typedef unsigned int   u32;
 
 typedef unsigned short u16;
-
-typedef signed short s16;
-
-typedef struct { s16 x,y; } Point;
-
-typedef struct { s16 kind,x,y; } Output;
-
-extern void func_02030EAC(struct Node *n);
 extern unsigned int func_020307B0(void *p);
-extern void func_021DA3C0(u8 *p);
-extern void func_021DBEE4(u32 p);
-extern void func_0204B84C(void *,u8);
-extern void func_021DAB50(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
-extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern u16 func_0204B5FC(const struct Actor *actor);
-extern void func_021DE128(u8 *p, u16 b, int c, int d);
-extern void func_0204B404(void *,const Point *,u16);
-extern u32 func_02006BD0(u32 i);
-#pragma thumb off
-extern void func_021DDC30(int,int);
-extern void func_021DDC44(int,int);
-#pragma thumb on
-void func_021DD980(char *p);
-void func_021DD9CC(char *p);
-
-/*
- * extent: two bytes of zero alignment padding after the return.
- */
-void func_021DD980(char *p)
-{
-    if (((struct Obj03789 *)p)->f128) {
-        func_02030EAC(((struct Obj03789 *)p)->f128);
-        ((struct Obj03789 *)p)->f128=0;
-    }
-    if (((struct Obj03789 *)p)->f13C) func_020307B0(((struct Obj03789 *)p)->f13C);
-    if (((struct Obj03789 *)p)->f134) func_020307B0(((struct Obj03789 *)p)->f134);
-    func_021DA3C0(((struct Obj03789 *)p)->f144);
-    func_021DBEE4((u32)p);
-    func_020307B0(p);
-}
-
-/*
- * verdict: 612-byte lead; the rest of the 652-byte extent is the two ARM
- *   followers 021DDC30 and 021DDC44 (20 bytes each), filed as their own
- *   ARM leaves (pkt_ov121_021DDC30, pkt_ov121_021DDC44, W82 R11), which
- *   also resolve the ABS32 blend callbacks at +0x258/+0x25C.
- * lever: case 5 seeds the result flag with its own constant and ANDs the
- *   call in (done = 1; done &= f(...)); "f(...) & 1" or "1 & f(...)" CSEs
- *   the 1 with ok's r6 (11 bytes).
- */
-void func_021DD9CC(char *p)
-{
-    char *q=*(char **)(p+0x11c);
-    int layer,a,b,done,ok;
-    u16 tick;
-    void (*blend)(int,int);
-    Point pos;
-    int xy[2];
-    Output pt;
-    if(*(int *)(q+0x84)) { layer=14; blend=func_021DDC30; }
-    else { blend=func_021DDC44; layer=30; }
-    switch(*(u16 *)(p+0xdc)) {
-    case 1:
-        func_0204B84C(*(void **)(q+0x20),*(u32 *)(q+0x90));
-        *(u16 *)(p+0xdc)=2;
-        break;
-    case 2:
-        func_021DAB50((void *)layer,(u16 *)(q+0x24),(*(u16 *)(p+0xde)*0x7fff)/60,(u8)(*(u32 *)(q+0x88)),(const u16 *)(q+0x64),(const u16 *)(q+0x44));
-        tick=*(u16 *)(p+0xde);
-        a=tick*14/60;
-        b=tick*-12/60;
-        blend(a+2,b+12);
-        if((*(u16 *)(p+0xde))++>60) {
-            *(u16 *)(p+0xde)=0;
-            *(u16 *)(p+0xdc)=3;
-        }
-        break;
-    case 3: *(u16 *)(p+0xdc)=4; break;
-    case 4:
-        if(!*(int *)(p+0xe0))
-            *(u32 *)(p+0xe8)=func_02006984(*(u16 *)(p+0xe4),*(u16 *)(p+0xe6),64,0,0,0,0,0);
-        func_0204B454(*(void **)(q+0x20),(struct PtS *)(&pos),*(u32 *)(q+0x98));
-        func_021DE128((u8 *)(p+0xec),func_0204B5FC(*(void **)(q+0x20)),pos.x,pos.y);
-        *(u16 *)(p+0xdc)=5;
-        break;
-    case 5:
-        ok=1;
-        done=1;
-        done&=func_021DE154(p+0xec,&pt,xy);
-        pt.x=xy[0];
-        pt.y=xy[1];
-        func_0204B404(*(void **)(q+0x20),(Point *)&pt.x,*(u32 *)(q+0x98));
-        if(!*(int *)(p+0xe0)) {
-            if(func_02006BD0(*(u32 *)(p+0xe8))) ok=0;
-            done &= ok;
-        }
-        if(done) *(u16 *)(p+0xdc)=6;
-        break;
-    case 6:
-        func_021DAB50((void *)layer,(u16 *)(q+0x24),0x7fff-(*(u16 *)(p+0xde)*0x7fff)/60,(u8)(*(u32 *)(q+0x88)),(const u16 *)(q+0x64),(const u16 *)(q+0x44));
-        tick=*(u16 *)(p+0xde);
-        a=tick*-14/60;
-        b=tick*12/60;
-        blend(a+16,b);
-        if((*(u16 *)(p+0xde))++>60) {
-            *(u16 *)(p+0xde)=0;
-            *(u16 *)(p+0xdc)=7;
-        }
-        break;
-    case 7: *(u16 *)(p+0xdc)=8; break;
-    case 8:
-        func_0204B84C(*(void **)(q+0x20),*(u32 *)(q+0x8c));
-        *(u16 *)(p+0xdc)=0;
-        break;
-    }
-}
-
-#pragma thumb off
-
-
-
-void func_021DDC30(int a, int b);
-void func_021DDC44(int a, int b);
-
-/*
- * Unlabelled ARM follower of func_021DD9CC, referenced by its ABS32 pool
- * word at +0x258: main-screen blend callback writing BLDALPHA (0x04000052)
- * as eva | evb << 8.
- */
-void func_021DDC30(int a, int b)
-{
-    *(volatile u16 *)0x04000052 = a | (b << 8);
-}
-
-void func_021DDC44(int a, int b)
-{
-    *(volatile u16 *)0x04001052 = a | (b << 8);
-}
-
-#pragma thumb on
-
-#include "../../matched/include/Obj10421.h"
-#include "../../matched/include/Obj22908.h"
-#include "../../matched/include/Obj01931.h"
-#include "../../matched/include/Obj22910.h"
-#include "../../matched/include/Obj22911.h"
-#include "../../matched/include/Obj08098.h"
-#include "../../matched/include/Obj08099.h"
 #include "../../matched/include/Obj13959.h"
 #include "../../matched/include/Obj22912.h"
 #include "../../matched/include/Obj22913.h"
@@ -301,35 +99,8 @@ void func_021DDC44(int a, int b)
 
 #define Q(k) (*(u32 *)(q+(k)))
 #define W(k) (*(u32 *)(p+(k)))
-struct Obj;
-struct Actor;
 struct Req;
 struct Rec;
-
-
-
-
-
-
-
-
-typedef struct { u16 x,y; } Point_021DE0DC;
-
-typedef signed char s8;
-
-typedef struct { int x, y; } Pair;
-
-typedef struct {
-    u16 value, previous, next;
-    s8 direction;
-    u8 state;
-    u16 index, count;
-    u32 frame, frames;
-    int startx, starty;
-    Pair target, current;
-} State;
-
-typedef signed int     s32;
 
 typedef struct { u32 kind;u8 flag,pad;u16 heap;u32 bytes;void *data;u32 lang,align;u8 reserved[96];u32 last;} Config;
 
@@ -349,46 +120,9 @@ typedef unsigned long long u64;
 typedef struct { char pad[0x6e0];u32 flag; } Flag;
 
 typedef enum { NO_DIGIT = -1 } Digit;
-
-extern int func_021DC064(void *p);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u32 index);
-extern void func_02049238(void *);
-extern void *func_021DBF10(void *,u16);
-extern u32 func_021DBF40(void *);
-extern int func_021DBF9C(void *);
-extern u32 func_021DBF70(void *);
-extern int func_021DC024(void *);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
 extern u32 func_020307B0(void *p);
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_0204AA94(int,void *,u32,int,int);
-extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204ADEC(u32,void *,u32);
-extern void func_02082A48(u32,void *,u32);
-extern void func_0204B5F4(struct Actor *actor, u16 value);
-extern int func_0204AEF4(u32 idx, u32 alternate);
-extern void func_0207D63C(void *,int,int,int,int);
-extern void func_0204B84C(void *,u8);
-#pragma thumb off
-extern void func_021DDC30(int,int);
-extern void func_021DDC44(int,int);
-#pragma thumb on
-extern void func_02082A60(void *,const void *,int);
-extern void func_021DA4A8(u8 *p);
-extern void func_021DA318(u8 *p);
-extern void func_02040588(unsigned char which, unsigned char enable);
-extern void *func_020056A0(u32,u32,u32);
-extern void func_020414EC(unsigned);
 extern void func_02082BCC(void *,int,u32);
-extern int _s32_div_f(int, int);
-extern u32 _u32_div_f(u32, u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_0203CD98(void);
 extern char *func_0203D798(void);
@@ -433,17 +167,6 @@ extern void func_0203C9AC(int,u32,u32,u32);
 extern int func_021C5B80(void);
 extern unsigned short func_02045A98(void);
 extern int func_021DEFAC(struct Rec *r, void *gs, u16 heap);
-void func_021DDC58(const unsigned *p,void *context,u16 heap);
-void func_021DDCF8(unsigned *p,void *context,u16 heap);
-void func_021DDD64(char *p,char *q,u16 heap);
-void func_021DDF5C(u8 *p);
-void func_021DDF84(char *p);
-int func_021DE014(char *p);
-void func_021DE024(void *unused,char *p);
-void func_021DE0AC(u8 *p,u32 b);
-void func_021DE0DC(char *p);
-void func_021DE128(u8 *p,u16 b,int c,int d);
-int func_021DE154(State *p, u16 *out, Pair *position);
 void *func_021DE2A0(void *arg,int heap);
 void func_021DE2F0(u8 *p);
 void func_021DE300(char *p);
@@ -485,327 +208,12 @@ int func_021DEEF8(const signed char *p);
 int func_021DEF38(const unsigned *p, unsigned size);
 int func_021DEF54(char *p, int unused, int type);
 int func_021DEF6C(char *p, void *a, unsigned short b);
-extern u16 d_021DF858[];
-extern const s8 d_021DF822[];
-extern s8 d_021DF82D[];
-extern const Pair d_021DF944[];
 extern const char d_021DFBC0[];
 extern unsigned d_021DFABC[];
 extern u8 d_0209DF0C;
 extern char d_021DFBD8[],d_021DFBD0[],d_021DFBF8[],d_021DFBEC[];
 extern int d_021DFC00[];
 extern const signed char d_021DFA8C[][2];
-
-
-
-
-
-/*
- * extent: two bytes of zero alignment padding after the return.
- * lever: initialize resource after the first guard; const source orders loads before stack argument stores.
- */
-void func_021DDC58(const unsigned *p,void *context,u16 heap)
-{
-    int which=0;
-    int resource;
-    u16 id;
-    void *arc;
-    if (p[0]>=4) which=4;
-    resource=26;
-    if (p[0]<=3) resource=27;
-    id=func_021DC064(context);
-    arc=func_020490F4(34,heap);
-    func_02049BDC(arc,4,which,id*32,p[2]*32,32,heap);
-    func_02049658(arc,13,p[0],0,0,0,heap);
-    func_020498F4(arc,(u16)resource,p[0],0,0,0,heap);
-    func_020413B0((u8)p[0],0,0,34,24,p[2]);
-    func_020409B4((u8)p[0]);
-    func_02049238(arc);
-}
-
-
-
-
-
-/*
- * extent: two bytes of zero alignment padding after the return.
- */
-void func_021DDCF8(unsigned *p,void *context,u16 heap)
-{
-    int which=0;
-    u16 id;
-    void *arc;
-    if (p[0]>=4) which=4;
-    id=func_021DC064(context);
-    arc=func_020490F4(34,heap);
-    func_02049BDC(arc,4,which,id*32,p[2]*32,32,heap);
-    func_020413B0((u8)p[0],0,0,34,24,p[2]);
-    func_020409B4((u8)p[0]);
-    func_02049238(arc);
-}
-
-
-
-
-
-static inline void *palette(u32 off, int mode)
-{
-    if (mode==0) return (void *)(off+0x05000200);
-    else return (void *)(off+0x05000600);
-}
-
-
-
-
-
-/*
- * lever (wave 82, lane R10, retry): the palette base is an inline that adds
- *   the byte offset inside each arm (`if (mode==0) return off+0x05000200;
- *   else return off+0x05000600;`); the shared add cross-jumps into the
- *   `adds r1,r0,r1` join. A base-only inline plus `+ offset` at the call site,
- *   or a ternary on the base, if-converts to a default load plus override and
- *   misschedules the q+0xb0/q+0x98 loads (431 B). The heap stays u16 as in
- *   matched ov121 func_021DBF10 and matched caller func_021DE024: the earlier
- *   u32-heap owner gate does not apply.
- */
-void func_021DDD64(char *p,char *q,u16 heap)
-{
-    void *arc;
-    void *allocation;
-    void *allocation2;
-    void *res;
-    void *res2;
-    Point pt;
-    u16 *dest;
-    u32 offset;
-    int i;
-    arc=func_021DBF10(p,heap);
-    allocation=func_02049F78(arc,(int)func_021DBF40(p),(u32)(&res),(u16)(*(u16 *)(p+0x118)));
-    offset=*(u32 *)(q+0xb0)*32;
-    func_02082D44(*(void **)((char *)res+12),palette(offset,*(u32 *)(q+0x98)),96);
-    func_020307B0(allocation);
-    allocation2=func_02049E74(arc,(int)func_021DBF9C(p),(int)0,(u32)(&res2),*(u16 *)(p+0x118));
-    func_0204AA94(*(int *)(q+8),*(void **)((char *)res2+20),512,0,*(int *)(q+0x98));
-    func_020307B0(allocation2);
-    func_02049238(arc);
-    pt.x=216; pt.y=22;
-    if (func_021DC024(p)==2) {pt.x+=4;pt.y+=8;}
-    func_0204B6F4(*(void **)(q+28),(u8)func_021DBF70(p),0);
-    func_0204B404(*(void **)(q+28), (const Point *)&pt, *(u32 *)(q+0x98));
-    func_0204B3DC(*(void **)(q+28),1);
-    if (func_021DC024(p)==1) {
-        func_0204ADEC(*(u32 *)(q+16),*(void **)(*(char **)(p+0x140)+12),1);
-        func_02082D44(*(void **)(*(char **)(p+0x140)+12),q+0x64,32);
-        func_02082A48(0,q+0x44,32);
-        func_0204AA94(*(int *)(q+20),*(void **)(*(char **)(p+0x138)+20),0x1200,0,*(int *)(q+0x98));
-        func_0204B5F4(*(void **)(q+32),0);
-        func_0204B3DC(*(void **)(q+32),1);
-        if (*(u32 *)(q+0xa0)<4) dest=(u16 *)((u32)func_0204AEF4(*(u32 *)(q+16),*(u32 *)(q+0x98))+0x05000200);
-        else dest=(u16 *)((u32)func_0204AEF4(*(u32 *)(q+16),*(u32 *)(q+0x98))+0x05000600);
-        for(i=0;i<16;i++) dest[i]=*(u16 *)(q+0x44+i*2);
-        if (*(u32 *)(q+0xa0)<4)
-            func_0207D63C((void *)0x04000050,0,(1<<(u8)*(u32 *)(q+0xa0))|(1<<(u8)*(u32 *)(q+0xa4)),2,12);
-        else
-            func_0207D63C((void *)0x04001050,0,(1<<(u8)(*(u32 *)(q+0xa0)-4))|(1<<(u8)(*(u32 *)(q+0xa4)-4)),2,12);
-    } else func_0204B3DC(*(void **)(q+32),0);
-}
-
-
-
-
-
-void func_021DDF5C(u8 *p) { if(func_021DC024(p)==1 && ((struct Obj10421 *)p)->fDC==0) { ((struct Obj10421 *)p)->fDC=1; ((struct Obj10421 *)p)->fDE=0; } }
-
-
-
-
-
-void func_021DDF84(char *p)
-{
-    char *palette;
-    void (*blend)(int,int);
-    if (func_021DC024(p)==1) {
-        *(u16 *)(p+0xdc)=0;
-        *(u16 *)(p+0xde)=0;
-        func_0204B84C(*(void **)(*(char **)(p+0x11c)+0x20),*(unsigned *)(*(char **)(p+0x11c)+0x8c));
-        if (*(int *)(*(char **)(p+0x11c)+0x84)) {
-            palette=(char *)(func_0204AEF4((u32)(*(void **)(*(char **)(p+0x11c)+0x10)),*(int *)(*(char **)(p+0x11c)+0x98))+0x05000200);
-            blend=func_021DDC30;
-        } else {
-            palette=(char *)(func_0204AEF4((u32)(*(void **)(*(char **)(p+0x11c)+0x10)),*(int *)(*(char **)(p+0x11c)+0x98))+0x05000600);
-            blend=func_021DDC44;
-        }
-        blend(2,12);
-        func_02082A48(0,*(char **)(p+0x11c)+0x44,32);
-        func_02082A60(*(char **)(p+0x11c)+0x44,palette,32);
-    }
-}
-
-
-
-
-
-int func_021DE014(char *p)
-{
-    if (((struct Obj22908 *)p)->fDC==0) return 1;
-    return 0;
-}
-
-
-
-
-
-void func_021DE024(void *unused,char *p)
-{
-    if (((struct Obj01931 *)p)->f12C) return;
-    ((struct Obj01931 *)p)->f12C=1;
-    switch (((struct Obj01931 *)p)->f130) {
-    case 0: func_021DDC58((unsigned *)(*(char * *)&((struct Obj01931 *)p)->f11C+0xa0),p,((struct Obj01931 *)p)->f118); break;
-    case 1: func_021DDCF8((unsigned *)(*(char * *)&((struct Obj01931 *)p)->f11C+0xa0),p,((struct Obj01931 *)p)->f118); break;
-    }
-    func_021DDD64(p,((struct Obj01931 *)p)->f11C,((struct Obj01931 *)p)->f118);
-    func_021DA4A8(((struct Obj01931 *)p)->f144);
-    func_021DA318(**(void ** *)&((struct Obj01931 *)p)->f11C);
-    func_02040588((u8)(((struct Obj22910 *)(*(char * *)&((struct Obj01931 *)p)->f11C))->f96),(int)1);
-    func_02040588((u8)(((struct Obj22911 *)(*(char * *)&((struct Obj01931 *)p)->f11C))->f94),(int)1);
-}
-
-
-
-
-
-void func_021DE0AC(u8 *p,u32 b) { ((struct Obj08098 *)p)->f130=b; if(*(u32 *)&((struct Obj08098 *)p)->f128==0) ((struct Obj08098 *)p)->f128=func_020056A0((u32)func_021DE024,(u32)p,0); else ((struct Obj08098 *)p)->f12C=0; }
-
-
-
-
-void func_021DE0DC(char *p)
-{
-    Point_021DE0DC pt;
-    func_020414EC(4);
-    func_020409B4(4);
-    func_0204B3DC(((struct Obj08099 *)p)->f1C,0);
-    pt.x=184;
-    pt.y=112;
-    func_0204B404(((struct Obj08099 *)p)->f20, (const Point *)&pt, ((struct Obj08099 *)p)->f98);
-    func_0204B3DC(((struct Obj08099 *)p)->f20,0);
-    func_02040588(6,0);
-}
-
-
-
-
-/*
- * note pass 2 2026-10-06 P2L16: closed from 7/44. The function returns void (the only
- *   caller, ov121 021DD9CC, declares it void) and the +0 halfword is a direct copy
- *   `*(u16 *)p = *(u16 *)(p+2)` at its store position; the scheduler hoists the ldrh.
- *   The 11 store after the two b stores gives the image colours (b r7, c r4, d r6).
- *   The earlier u16 t local and return form stayed at 7 for every variant.
- */
-void func_021DE128(u8 *p,u16 b,int c,int d)
-{
-    func_02082BCC(p,0,44);
-    *(u16 *)(p+2)=b;
-    *(u16 *)(p+4)=b;
-    *(u16 *)(p+10)=11;
-    *(int *)(p+20)=c;
-    *(int *)(p+24)=d;
-    *(int *)(p+28)=c;
-    *(int *)(p+32)=d;
-    *(u16 *)p=*(u16 *)(p+2);
-    *(int *)(p+36)=c;
-    *(int *)(p+40)=d;
-}
-
-
-
-
-#pragma opt_propagation off
-
-
-
-
-/*
- * prior-checks: 1 runtime quotient helpers take two full-word arguments; no residual call setup; 2 ov121 search found no interpolation twin; 3 const char table reduced 13 to 9 bytes, State mutable and widths decoded from loads; 4 aggregate/cast/struct-copy idioms did not resolve residue; 5 fresh directory and ov121/ov122 neighbours reread, no stack aggregate residue.
- * budget: 8 iteration runs; first nonshrinking r3, 6 runs since, consecutive r6-r8=3; reorder/temporary cap 2/2; check 3 used 1/2; baseline emission check 1; once-only permuter 300 exhausted, no improvement.
- * residual: 332/332 bytes, 9 concrete bytes differ in scheduling at +0036..0040; seven relocations resolved by fixed one.
- * permuter: macro-free emitted baseline confirmed by fixed one; search best stayed 9 bytes, exit 1; no candidate accepted.
- * wave77-runs: const Pair table cast 9/332; const signed-byte tables 9/332; direct target member assignment 9/332; check3 State *const 9/332. Three consecutive nonshrinking changes; four fixed one runs; prior 300 search not repeated.
- * checks: 1 runtime helpers remain two word arguments; 2 DE308 and sibling table callers refreshed, no interpolation twin; 3 named u16 index and State *const compiled flat9; 4 long-index/coordinate-copy scheduling idioms read; 5 fresh full directory plus DE2F0/DE300 refreshed, no stack scratch-object residue. Next hypothesis: table-index shift scheduling tie, no sweep authorized.
- * wave78: FINAL retry exhausted; named signed-long index, unsigned-long index, u16 index and State *const all flat9/332, four runs. Three nonshrinking changes; prior once300 consumed, not repeated. Best prior C retained.
- * recoup 2026-10-05 (P21L9): 332 B real extent (lane size 60 was a label gap). Residue: only +0036..0040, the case-0 shift 'lsls r2,r0,#3' (index*8) is issued before 'ldr r1,[r4,#0x1c]' in ours, after 'ldrsb' direction in the original, so startx is in r2 instead of r1. Tried, all 9 B unless noted: six per-function pragmas (lifetimes, propagation, common_subs, dead_assignments, scheduling, peephole); const on the three small tables; __restrict on out/position; Pair-array extern with p->target = tbl[i] (13 B); Pair start struct copy p->start = p->target (17 B); target.x/.y as two table reads (16 B); non-const char table (13 B); source order startx,starty first (20 B) or direction,frames first (15 B); row pointer local with struct copy (9 B) or two field copies (22 B). Idioms read: a-load-scheduled-above-an-unrelated-store, a-const-source-pointer-pulls-field-loads-up, a-local-declared-at-its-first-use, a-data-pair-load-hoisted-into-locals, a-field-read-from-a-table-folds-the-field-offset. Twin search: grep -rl _s32_div_f src/matched/ov and grep -rl 021DF944 src/matched found no interpolation twin.
- * recoup 2026-10-05 P30R2: callees (_s32_div_f, _u32_div_f) are runtime helpers, no void/arity issue. Residue unchanged, 9 B at +0036..0040 (shift index*8 issued before ldr target.x). Tried, 11 compiles: byte-offset index (d + (index << 3)) with struct copy 9 B; two int-word reads 252 B; u64 copy 31 B; copy placed before direction/frames 33 B, between direction and frames 34 B, last with starty early 20 B; frame = 0 moved after the copy 29 B or after next 21 B; startx read into a local at case start 17 B, both start locals 40 B. Best honest form kept (9 B). Idioms read again: a-load-scheduled-above-an-unrelated-store, a-local-declared-at-its-first-use. Twin search: grep -rl _s32_div_f src/matched/ov (no interpolation twin).
- * final push 2026-10-05 G3L6: 33 compiles, still 9 B (+0036..0040). New: table as 'extern const Pair' with p->target = tbl[p->index] is 9 B and replaces the char cast; non-const int/u32/u8/u16/Pair tables 13 B (final two stores swap); memcpy for the pair 340 B; inline helpers (copy, whole case 0, row accessor) 9 B; Pair start member 9 B; p->start = p->target 19 B; row pointer or local Pair at case start 259-274 B; target pointer local 270 B. Finding: shift index*8 goes late only when startx/starty stores follow the dir/frames stores (p->start = p->target), which then moves str startx late; orig has str startx at +003C and shift after the dir load, so no source order tried gives both. Pre-RA scheduler (docs/SCHEDULER.md in inspiredrobot/mwcc): shift wins on height over the target.x load in ours. Matched-asm search for the adds/ldr[r,r]/ldr[r,#4] pair plus shift and ldrsb: no twin in any listing.
- * pass 2 2026-10-06 P2L20: 40 compiles, 3 rounds, best still 9 B (form kept). Finding: the late 'lsls r2,r0,#3' in the original is a register (WAR) wait on r2, which holds target.x until 'str startx'. Closest new shape: 'x = p->target.x;' read right after the next store, startx stored after the direction statement (10 B): ldr target.x lands at +0036 in r2 as in the original, but str startx comes after strb direction, so the shift waits to +0044. Tried, all worse or equal: x/y locals before next 38-40 B; temp for next 17 B; startx later 28-31 B; startx right after x 9 B (copy propagated); x read before next 17-19 B; s8 dir temp 16 B; comma 9 B; u32 start or Pair 9-10 B; u16 index local, opt_lifetimes/opt_propagation off, function-scope x, frame after previous 10 B; Pair pos[2] 9 B; int start[2] 9 B; fieldwise table copy 22 B; int target arrays 46 B; unused label 9 B; block split before the if 265 B; #pragma scheduling off identical. Research in scratchpad wD9r/p2_P2L20/research.md.
- * pass 3 2026-10-06 P3L10: EXACT. The direction table is read through a named const table pointer
- *   assigned after x = p->target.x and before the startx store, under opt_propagation off, with the
- *   direction table extern declared const. The live table pointer holds r1 at the startx store, so x
- *   takes r2 and the index*8 shift waits for the store. Non-const table or pointer: 8 B; no pointer: 9 B.
- * division: explicit runtime quotient preserves admitted zero-delta division.
- */
-int func_021DE154(State *p, u16 *out, Pair *position)
-{
-    int result = 0;
-    switch (p->state) {
-    case 0: {
-        const s8 *t;
-        int x;
-        p->frame = 0;
-        p->previous = p->next;
-        p->next = d_021DF858[p->index];
-        x = p->target.x;
-        t = d_021DF822;
-        p->startx = x;
-        p->direction = t[p->index];
-        p->frames = d_021DF82D[p->index];
-        p->starty = p->target.y;
-        p->target = d_021DF944[p->index];
-        if (p->direction > 0) {
-            p->previous = p->previous == 0xffff ? 0 : p->previous;
-            p->next = p->next == 0 ? 0xffff : p->next;
-        } else {
-            p->previous = p->previous == 0 ? 0xffff : p->previous;
-            p->next = p->next == 0xffff ? 0 : p->next;
-        }
-        p->state++;
-        break;
-    }
-    case 1: {
-        int x = p->startx;
-        int delta = p->target.x - x;
-        int sign = _s32_div_f(delta < 0 ? -delta : delta, delta);
-        int y, dy;
-        if (delta < 0) delta = -delta;
-        p->current.x = x + sign * _u32_div_f(p->frame * delta, p->frames);
-        y = p->starty;
-        dy = p->target.y - y;
-        if (dy < 0) dy = -dy;
-        p->current.y = y + sign * _u32_div_f(p->frame * dy, p->frames);
-        if (p->frame++ >= p->frames) {
-            p->value = p->next;
-            p->current = p->target;
-            p->state++;
-        }
-        break;
-    }
-    case 2:
-        p->index++;
-        if (p->index < p->count) p->state = 0;
-        else p->state++;
-        break;
-    case 3:
-        result = 1;
-        break;
-    }
-    if (out) *out = p->value;
-    if (position) *position = p->current;
-    return result;
-}
-
-
-
-
-#pragma opt_propagation reset
 
 
 

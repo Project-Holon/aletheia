@@ -29,7 +29,11 @@ typedef unsigned char u8;
 
 extern u8 g_Byte_02146A54;
 
-void sub_020461D4(u8 value)
+/* Stores the current text language code.  The getter at 0x020461E4 returns
+ * this byte; the message bank loader (msgdata.c) clamps it to the language
+ * count of the file it opens, and the config code and the save-control
+ * screen set it. */
+void sub_020461D4(u8 languageId)
 {
-    g_Byte_02146A54 = value;
+    g_Byte_02146A54 = languageId;
 }

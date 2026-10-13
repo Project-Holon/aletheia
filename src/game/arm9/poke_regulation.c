@@ -1,0 +1,1830 @@
+/*
+ * file:     poke_regulation.c
+ * unit:     yes
+ * function: func_02019A50, func_02019A7C, func_02019A9C, func_02019ABC, func_02019B04, func_02019B44, func_02019B58, func_02019B64, func_02019B94, func_02019BA4, func_02019C38, func_02019C54, func_02019C7C, func_02019C90, func_02019CA0, func_02019CE0, func_02019CF8, func_02019D00, func_02019D30, func_02019D58, func_02019D84, func_02019DA4, func_02019E54, func_02019ED4, func_02019FD0, func_0201A090, func_0201A26C, func_0201A2A8, func_0201A30C, func_0201A354, func_0201A364, func_0201A374, func_0201A3F4, func_0201A468, func_0201A48C, func_0201A4A0, func_0201A4B4, func_0201A4D4, func_0201A570, func_0201A59C, func_0201A5FC, func_0201A858, func_0201A918
+ * address:  0x02019A50
+ * region:   arm9
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from pokeparty.c at 0x0201A920 (__FILE__ anchor boundary, certain cut).
+ *
+ * symbols:
+ *   poke_regulation_File 0x020A72F0 data
+ *   gMsgBank   0x020A7370  data
+ *   gNameBuf   0x021462F0  data
+ *   func_02019B04_Table  0x0209E324  data
+ *   func_02048F4C  0x02048F4C  arm
+ *   gWordBuf       0x02146398  data
+ *   gBlockOrder  0x0209E3A4  data
+ *   g_02146270   0x02146270  data
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02017E40  0x02017E40  thumb
+ *   func_02018584  0x02018584  thumb
+ *   func_020185C4  0x020185C4  thumb
+ *   func_0201AE1C  0x0201AE1C  thumb
+ *   sub_0209E280_Map  0x0209E280  data
+ *   d_0209E42C 0x0209E42C data a2
+ *   func_0200AE54   0x0200AE54  thumb
+ *   func_0200AFD4   0x0200AFD4  thumb
+ *   func_0201AA18  0x0201AA18  thumb
+ *   MI_CpuFill8    0x02082BCC  arm
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_0201AA50   0x0201AA50  thumb
+ *   func_02048F60  0x02048F60  arm
+ *   func_0201EFA4   0x0201EFA4  thumb
+ *   func_020457B0   0x020457B0  arm
+ *   func_02045CAC   0x02045CAC  arm
+ *   func_0201F250   0x0201F250  thumb
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02030734 0x02030734  arm
+ *   func_02045808 0x02045808  arm
+ *   func_02045B38 0x02045B38  arm
+ *   tbl_0209E444  0x0209E444  data
+ *   func_02045C04   0x02045C04  arm
+ *   func_020307B0   0x020307B0  arm
+ *   g_0209E424      0x0209E424  data
+ *   sub_0201ADA4 0x0201ADA4 thumb
+ */
+struct MsgBank;
+struct Pokemon;
+struct Party;
+struct PersonalData;
+struct WordSet;
+struct Strbuf;
+typedef unsigned short u16;
+
+typedef unsigned int   u32;
+
+typedef signed char    s8;
+
+typedef unsigned char  u8;
+
+typedef signed int     s32;
+
+typedef unsigned long long u64;
+
+/* Box pokemon record: personality value, flags, four shuffled 32-byte
+ * blocks (order chosen from the personality value). */
+struct BoxPokemon {
+    u32 personality;
+    u16 flags;
+    u16 checksum;
+    u8  blocks[0x80];
+};
+
+/* Block A of a box pokemon (only the species is read here). */
+struct BoxPokemonBlockA {
+    u16 species;
+};
+
+/* Cache of the last personal-data record fetched (species, form, data). */
+struct PersonalCache {
+    u16 form;
+    u16 species;
+    u8  data[0x10];
+};
+
+/* Party pokemon record, 0xDC bytes. */
+struct PartyPokemon {
+    u32 words[0x37];
+};
+
+/* Battle regulation data (0x534 bytes in the save; only the fields read here). */
+struct Regulation {
+    u8 reserved0[2];
+    u8 minPartySize;
+    u8 maxPartySize;
+    u8 levelValue;
+    u8 levelRule;
+    u8 reserved6[2];
+    u8 speciesClause;
+    u8 itemClause;
+    u8 bannedSpecies[0x52];
+    u8 otherRules[0x4F];
+    u8 battleMode;
+};
+
+/* Regulation summary: the message bank, one label and one rule line per
+ * entry, and the battle mode used to pick the last line. */
+struct RegulationText {
+    struct MsgBank *bank;
+    struct Strbuf  *labels[6];
+    struct Strbuf  *lines[6];
+    u8              battleMode;
+};
+
+/* Builds one rule line: (regulation, word set, text, scratch, heap). */
+typedef struct Strbuf *(*RegulationLineFn)(const struct Regulation *, struct WordSet *,
+                                           struct RegulationText *, struct Strbuf *, u16);
+
+extern void func_02045F5C(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
+extern u32 func_0201F448(const u16 *a, const u16 *b);
+extern struct Pokemon *func_020185F0();
+extern u32   func_02017E88(struct Pokemon *mon, u32 paramId, u32 value);
+extern void  func_02017E64(struct Pokemon *mon, u32 paramId, const void *value);
+extern void  func_02048F4C(void *dst, u32 archiveId, u32 memberId);
+extern u32  func_02017E1C(struct Pokemon *mon, u32 paramId, u32 value);
+extern void func_02017E40(struct Pokemon *mon, u32 paramId, u32 value);
+extern u32  func_02018584(u16 species, u16 form, u16 level);
+extern void func_020185C4(struct Pokemon *mon);
+extern u32 func_0201AE1C(const struct PersonalData *data, u32 field);
+extern u32 func_0200AE54(const struct Regulation *reg, u32 ruleId);
+extern u32 func_0200AFD4(const struct Regulation *reg, u32 ruleId, s32 value);
+extern u32 func_0201AA18(struct Party *party);
+extern void MI_CpuFill8(void *dst, u8 v, u32 n);
+extern struct Pokemon *func_0201AB28(struct Party *party, u32 index);
+extern u32 func_0201AA50(struct Party *party);
+extern void *func_02048F60(unsigned int archiveId, unsigned int memberId, unsigned int heapId);
+extern void func_0201EFA4(struct WordSet *wordSet, u32 slot, u32 number, u32 digits, u32 padMode, u32 flags);
+extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *format);
+extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_02045808(struct Strbuf *str);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern u32 func_02045C04(struct MsgBank *bank);
+extern u32 func_020307B0(void *p);
+void func_02019A50(u16 *data, u32 size, u32 seed);
+u16 func_02019A7C(u32 *state);
+u16 func_02019A9C(const u16 *data, u32 size);
+u32 func_02019ABC(struct BoxPokemon *box);
+u32 func_02019B04(u32 nature, u32 stat, u32 statIndex);
+s8 func_02019B44(u32 nature, u32 statIndex);
+void func_02019B58(struct Pokemon *mon);
+void func_02019B64(struct Pokemon *mon);
+void func_02019B94(u32 species, void *dst);
+u32 func_02019BA4(u32 species, u32 index);
+u32 func_02019BBC(u32 item);
+void *func_02019C38(struct BoxPokemon *box, u32 personality, u32 blockIndex);
+void *func_02019C54(u32 species, u32 form);
+u32 func_02019C7C(const struct PersonalData *data);
+u32 func_02019C90(u16 species, u16 form, u32 field);
+void func_02019CA0(struct Pokemon *mon, u32 level);
+void func_02019CE0(const struct PartyPokemon *src, struct PartyPokemon *dest);
+unsigned int func_02019CF8(unsigned int item);
+u32 func_02019D00(u32 paramId);
+u32 func_02019D30(u16 species, u16 form);
+int func_02019D58(u16 species, int value);
+int func_02019D84(unsigned short species);
+int func_02019DA4(const struct Regulation *reg, struct Pokemon *mon);
+int func_02019E54(u32 reg, u32 party, u32 order);
+int sub_02019ED4(const struct Regulation *reg, struct Party *party);
+int func_02019FD0(const struct Regulation *reg, struct Pokemon *mon, u32 *flags);
+int func_0201A090(const struct Regulation *reg, struct Party *party, u32 *flags);
+u32 func_0201A26C(const struct Regulation *reg, u32 level);
+void func_0201A2A8(const struct Regulation *reg, struct Party *party);
+void func_0201A30C(const struct Regulation *reg, struct Party *party, u32 unused);
+void *func_0201A354(int memberId, int heapId);
+void func_0201A364(int memberId, void *dst);
+struct Strbuf *func_0201A374(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
+struct Strbuf *func_0201A3F4(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
+struct Strbuf *func_0201A468(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
+struct Strbuf *func_0201A48C(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
+struct Strbuf *func_0201A4A0(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
+struct Strbuf *func_0201A4B4(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
+struct RegulationText *func_0201A4D4(const struct Regulation *reg, struct WordSet *wordSet, u16 heapId, u32 battleMode);
+void func_0201A570(struct RegulationText *text);
+int func_0201A59C(const struct Regulation *reg, struct Party *party, char *picked);
+int func_0201A5FC(const struct Regulation *reg, struct Party *party, u8 *order, char *picked, u32 *flags);
+int func_0201A858(u8 *order);
+int func_0201A918(void);
+void sub_0201ADA4(u32 species, int form, void *dst);
+extern const char poke_regulation_File[];
+extern struct MsgBank *gMsgBank;
+extern u16   gNameBuf[];
+extern const s8 func_02019B04_Table[][5];
+extern u32   gWordBuf[];
+extern const u8 gBlockOrder[32][4];
+extern struct PersonalCache g_02146270;
+extern u16 sub_0209E280_Map[];
+extern const unsigned short d_0209E42C[];
+extern RegulationLineFn tbl_0209E444[6];
+extern const u8 g_0209E424[6];
+
+
+
+
+
+
+
+
+
+/*
+ * The three primitives the whole save record in this region is protected
+ * with.  func_02019A7C is one step of the linear congruential generator
+ * `s = s * 0x41C64E6D + 0x6073` returning the middle halfword of the new
+ * state, func_02019A50 XOR masks a byte range with that stream halfword by
+ * halfword, and func_02019A9C is the plain halfword sum used as the checksum.
+ *
+ * func_02019A50 opens `push {r0, r1, r2, r3}` and closes `pop {r3}` /
+ * `add sp, #0x10` / `bx r3`, which is what taking the address of a register
+ * parameter costs on this front end; see
+ * docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md.  The
+ * seed is passed by value and updated in place through that home slot, so a
+ * caller's seed is never modified, which is what lets func_02018D34 mask the
+ * same area twice with the same seed to undo itself.
+ *
+ * func_02019A7C carries no label in the generated listing.
+ */
+void func_02019A50(u16 *data, u32 size, u32 seed)
+{
+    u32 i = 0;
+    u32 halfwords = size >> 1;
+
+    if (halfwords != 0) {
+        u32 *state = &seed;
+
+        do {
+            data[i] ^= func_02019A7C(state);
+            i++;
+        } while (i < halfwords);
+    }
+}
+
+
+
+
+
+
+
+
+
+u16 func_02019A7C(u32 *state)
+{
+    *state = *state * 0x41C64E6D + 0x6073;
+    return (u16)(*state >> 16);
+}
+
+
+
+
+
+
+
+
+
+u16 func_02019A9C(const u16 *data, u32 size)
+{
+    u16 sum = 0;
+    u32 i = 0;
+    u32 halfwords = size >> 1;
+
+    if (halfwords != 0) {
+        do {
+            sum = (u16)(sum + data[i]);
+            i++;
+        } while (i < halfwords);
+    }
+    return sum;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * "Is the name in substruct C still the species' default name": it renders the
+ * species name for substruct A's species id into the shared 0x20 halfword
+ * buffer at 0x021462F0 and compares it with substruct C's own name, returning
+ * 1 when they are equal.  func_02019388 (src/matched/sub_02019388.c) calls it
+ * from ids 0x73 and 0x74 and stores the result in substruct B +0x10 bit 31,
+ * which is the bit func_02018E34 reads back as id 0x75.  Those two calls are
+ * the only references to this address in the image.
+ *
+ * The result local is declared before the two substruct fetches, which is what
+ * puts `movs r5, #0` in front of the first call rather than after the second.
+ *
+ * The message bank at 0x020A7370 is a global pointer, so its address is a
+ * build property and has to be re-derived for a White build rather than
+ * copied; the 0x20 is a halfword count and the species id is data, so nothing
+ * else here is version specific.
+ *
+ * Verified with
+ *   python tools/match.py tu --src src/matched/unit_02019ABC.c \
+ *       --addr 0x02019ABC --thumb
+ */
+u32 func_02019ABC(struct BoxPokemon *box)
+{
+    u32 isDefault = 0;
+    struct BoxPokemonBlockA *blockA = (struct BoxPokemonBlockA *)func_02019C38(box, box->personality, 0);
+    void *blockC = func_02019C38(box, box->personality, 2);
+
+    func_02045F5C(gMsgBank, blockA->species, gNameBuf, 0x20);
+    if (func_0201F448(gNameBuf, blockC) == 0) {
+        isDefault = 1;
+    }
+    return isDefault;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Scales b by a per (a, n) table entry of -1, 0 or 1; the multipliers are
+ * 0x5A and 0x6E, which are 90 and 110 percent. Both arms are written out in
+ * full and the compiler cross jumps their common muls/truncate/divide tail
+ * into one block that the missing default branches past, which is
+ * docs/idioms/switch-arms-tail-merge.md; hoisting the multiplication out of
+ * the switch puts the default branch to that block instead of past it and
+ * costs eight bytes.
+ *
+ * The table at 0x0209E324 is witnessed by the pool word of the neighbouring
+ * leaf sub_02019B44.c (seeded via layout/function_starts.txt), and this
+ * file's own pool word witnesses it for that one: the unit_02005DF8 /
+ * unit_02005E30 pairwise treatment.
+ *
+ * Verified with
+ *   python tools/match.py tu --src src/matched/unit_02019B04.c \
+ *       --addr 0x02019B04 --thumb
+ */
+u32 func_02019B04(u32 nature, u32 stat, u32 statIndex)
+{
+    s8 modifier;
+
+    if (statIndex >= 6) {
+        return stat;
+    }
+    modifier = func_02019B04_Table[nature][statIndex - 1];
+    switch (modifier) {
+    case 1:
+        stat = (u16)((u16)(stat * 0x6E) / 100);
+        break;
+    case -1:
+        stat = (u16)((u16)(stat * 0x5A) / 100);
+        break;
+    }
+    return stat;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * The unlabelled leaf whose pool word is the second image-wide reference to
+ * the table at 0x0209E324; traced via layout/function_starts.txt. Its pool
+ * word witnesses the table for unit_02019B04.c and vice versa.
+ *
+ * Verified with
+ *   python tools/match.py one --src src/matched/sub_02019B44.c \
+ *       --func func_02019B44 --addr 0x02019B44
+ */
+s8 func_02019B44(u32 nature, u32 statIndex)
+{
+    return func_02019B04_Table[nature][statIndex - 1];
+}
+
+
+
+
+
+
+
+
+
+/*
+ *           func_02019BBC
+ *
+ * The first five of the seven functions between func_02019ABC and the cache
+ * helper at 0x02019C54.  The range stops at 0x02019C38 on purpose: the two
+ * functions after it, func_02019C38 and func_02019C54, each reach a data
+ * object through a pool word that is the object's only reference in the whole
+ * image (0x0209E3A4 at 0x02019C50 and 0x02146274 at 0x02019C78), so the
+ * `literal` class has no outside witness for either and both cap at MATCH
+ * however they are written.  Cutting in front of them leaves these five
+ * clean.
+ *
+ * func_02019B58 reaches func_020185F0, which src/matched/unit_020185F0.c
+ * proves is an empty `bx lr`, and then calls func_02019B64 with whatever r0
+ * holds, with no register saved across the first call.  That only compiles
+ * from a declaration in which func_020185F0 returns a value, so this unit
+ * declares it `void *func_020185F0(void)` and passes the result straight on;
+ * declaring it `void` the way unit_020185F0.c does forces a callee-saved
+ * register and a four byte longer prologue.  The two declarations disagree,
+ * and the image cannot say which one the original header carried, because an
+ * empty function's return value is unobservable.
+ *
+ * func_02019B94 is docs/idioms/tail-call-is-a-pool-word-and-bx.md: it permutes
+ * three arguments into an ARM callee at 0x02048F4C and has no prologue at all.
+ *
+ * func_02019BBC is the plate-to-type table of ids 0xAE and 0xAF of
+ * func_02018E34: sixteen consecutive item ids from 0x12A map to sixteen type
+ * ids and everything else to 0.  The switch value arrives as a pool word
+ * rather than a `subs` immediate only because 0x12A does not fit the eight bit
+ * form, so it is an ordinary constant and not the linker symbol of
+ * docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
+ *
+ * VERSION SENSITIVITY: func_02019BBC's sixteen case labels are item ids and
+ * its sixteen results are type ids, and func_02019B64 passes id 5 (species)
+ * and id 0x74 (the name) of the record.  None of them is a version flag and
+ * there is no exclusive-species table here, but the item ids 0x12A..0x139 are
+ * content numbering and are the values to re-read first for a White build.
+ *
+ * Verified with
+ *   python tools/match.py tu --src src/matched/unit_02019B58.c \
+ *       --addr 0x02019B58 --thumb
+ */
+void func_02019B58(struct Pokemon *mon)
+{
+    func_02019B64(func_020185F0());
+}
+
+
+
+
+
+
+
+
+
+void func_02019B64(struct Pokemon *mon)
+{
+    u32 species = func_02017E88(mon, 5, 0);
+
+    func_02045F5C(gMsgBank, species, gNameBuf, 0x20);
+    func_02017E64(mon, 0x74, gNameBuf);
+}
+
+
+
+
+
+
+
+
+
+void func_02019B94(u32 species, void *dst)
+{
+    func_02048F4C(dst, 0x11, species);
+}
+
+
+
+
+
+
+
+
+
+u32 func_02019BA4(u32 species, u32 index)
+{
+    func_02019B94(species, gWordBuf);
+    return gWordBuf[index];
+}
+
+
+
+
+
+
+
+
+
+u32 func_02019BBC(u32 item)
+{
+    switch (item) {
+    case 0x12A: return 9;
+    case 0x12B: return 10;
+    case 0x12C: return 12;
+    case 0x12D: return 11;
+    case 0x12E: return 14;
+    case 0x12F: return 1;
+    case 0x130: return 3;
+    case 0x131: return 4;
+    case 0x132: return 2;
+    case 0x133: return 13;
+    case 0x134: return 6;
+    case 0x135: return 5;
+    case 0x136: return 7;
+    case 0x137: return 15;
+    case 0x138: return 16;
+    case 0x139: return 8;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * note:     28 bytes including its pool word, one function
+ * note:     re-verified 2026-09-21: EXACT.  The MATCH cap was lifted by the
+ *           sole-ref widening of 2026-09-21, not by any edit to the C:
+ *           the data address this file reaches now attests as
+ *           sole-ref/data.  Promoted from src/pending/ unchanged.
+ *
+ * The substruct permuter the whole poke_tool.c field machinery reaches every
+ * block through: bits 13 to 17 of the personality word select one of 32
+ * orderings, and the ordering's n-th byte is the offset of the n-th 0x20 byte
+ * substruct inside the 0x80 byte block area at +0x08, so the table at
+ * 0x0209E3A4 is 32 rows of four offsets drawn from 0x00, 0x20, 0x40 and 0x60.
+ * src/matched/sub_02019388.c, src/matched/unit_020188B4.c and
+ * src/pending/sub_02018E34.c all index through it, and ov188 calls it eight
+ * more times.
+ *
+ * Why it WAS capped (historical, resolved 2026-09-21): the one relocation is an ABS32 against the table at
+ * 0x0209E3A4, and a scan of every word in all 242 regions finds exactly one
+ * occurrence of that address, the pool word at 0x02019C50 inside this
+ * function.  The `literal` class discards its only witness under the honesty
+ * rule and no cut helps, because the range cannot be made smaller than the one
+ * function that holds the pool word.  The `matched` class never applies to
+ * data (docs/MATCHING.md, "The matched class"), so this is the same shape as
+ * src/matched/sub_02013FA8.c's private table and not the same shape as
+ * sub_02018E34's runtime helper.  It closes the day anything else in the image
+ * names 0x0209E3A4, or the day the table itself is a matched data entry.
+ *
+ * The neighbour func_02019C54, which is the one-entry memo in front of this
+ * function, has no such site and was cut off into
+ * src/matched/unit_02019C54.c rather than left capped with it
+ * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md is the same
+ * remedy applied to a data reference).
+ *
+ * What pinned the source: the mask is written `(pid & 0x3E000) >> 13` and not
+ * `(pid >> 13) & 0x1F`.  The first is the `movs #0x3E` / `lsls #0xC` / `ands`
+ * / `lsrs #0xD` the original has; the second folds to a `lsrs` and an `ands`
+ * against a pooled 0x1F.
+ *
+ * Verified with
+ *   python tools/match.py tu --src src/pending/sub_02019C38.c \
+ *       --addr 0x02019C38 --thumb
+ */
+void *func_02019C38(struct BoxPokemon *box, u32 personality, u32 blockIndex)
+{
+    return &box->blocks[gBlockOrder[(personality & 0x3E000) >> 13][blockIndex]];
+}
+
+
+
+
+
+
+
+
+
+/*
+ * A one-entry memo: the (a, b) key pair at 0x02146270 and the 0x10 byte
+ * object built for it at 0x02146274, rebuilt through sub_0201ADA4
+ * (src/matched/unit_0201ADA4.c) only when the key changes.  func_02019C90 in
+ * src/matched/unit_02019C7C.c is its only caller.
+ *
+ * Two things pin the source.
+ *
+ * The guard is one `||` expression rather than two ifs, which is what puts
+ * both stores and the call in one block, per
+ * docs/idioms/disjunction-must-be-one-expression-to-share-its-exit.md; and the
+ * arm that falls through the first `bne` is the second half of the
+ * disjunction, not the body.
+ *
+ * The two pool words 0x02146270 and 0x02146274 are one symbol and an addend,
+ * per docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md.
+ * Declared as two symbols, 0x02146274 would need a witness of its own and the
+ * only word in the image that holds it is the one under test.
+ *
+ * The neighbour func_02019C38 at the head of this packet is byte-correct but
+ * MATCH-capped on its private table and is parked in
+ * src/pending/sub_02019C38.c; this range is cut to exclude it.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02019C54.c \
+ *       --addr 0x02019C54 --thumb
+ */
+void *func_02019C54(u32 species, u32 form)
+{
+    if (species != g_02146270.species || form != g_02146270.form) {
+        g_02146270.form = (u16)form;
+        g_02146270.species = (u16)species;
+        sub_0201ADA4(species, form, g_02146270.data);
+    }
+    return g_02146270.data;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * func_02019CE0 carries no label in the generated listing: it saves r3 and r4
+ * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
+ * arrive as a run of .word between two literal pools.  See
+ * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  It is one
+ * struct assignment: 27 ldm/stm pairs of eight bytes plus a trailing word is
+ * 0xDC bytes, and the eight byte step is what says the record is at least four
+ * aligned, which is docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md.
+ *
+ * The range stops at 0x02019CF8, which is an eight byte tail call whose pool
+ * word names 0x02019BBC.  That address carries no func_ label and no other
+ * pool word in the image holds it, so neither the label nor the literal class
+ * can attest it and the stub cannot be matched from either side.
+ */
+u32 func_02019C7C(const struct PersonalData *data)
+{
+    if (func_0201AE1C(data, 0x1B) != 0) {
+        return 2;
+    }
+    return 1;
+}
+
+
+
+
+
+
+
+
+
+u32 func_02019C90(u16 species, u16 form, u32 field)
+{
+    return func_0201AE1C(func_02019C54(species, form), field);
+}
+
+
+
+
+
+
+
+
+
+void func_02019CA0(struct Pokemon *mon, u32 level)
+{
+    u32 species = func_02017E1C(mon, 5, 0);
+    u32 form = func_02017E1C(mon, 0x6F, 0);
+
+    func_02017E40(mon, 8, func_02018584((u16)species, (u16)form, (u16)level));
+    func_020185C4(mon);
+}
+
+
+
+
+
+
+
+
+
+void func_02019CE0(const struct PartyPokemon *src, struct PartyPokemon *dest)
+{
+    *dest = *src;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Plain forwarder to func_02019BBC (ldr r3, =target; bx r3).  Callee of
+ * ov170 func_021DD718.
+ */
+unsigned int func_02019CF8(unsigned int item)
+{
+    return func_02019BBC(item);
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Neither carries a label in the generated listing.  func_02019D00
+ * is a dense switch over 0x74..0x77 whose four arms each return a constant,
+ * and the `subs r0, #0x74` in front of the `cmp`/`bhi` is the compiler's
+ * normalisation of the range rather than anything the source wrote; see
+ * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md.
+ *
+ * The range stops at 0x02019D58.  The two unlabelled search loops after it,
+ * at 0x02019D58 and 0x02019D84, reproduce every concrete byte but read
+ * halfword tables at 0x0209E280 and 0x0209E42C, and each of those addresses
+ * appears in exactly one literal pool in the whole image, the one under test,
+ * so the literal class discards its only witness and no cut helps.
+ */
+u32 func_02019D00(u32 paramId)
+{
+    switch (paramId) {
+    case 0x74:
+        return 1;
+    case 0x75:
+        return 2;
+    case 0x76:
+        return 3;
+    case 0x77:
+        return 4;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+u32 func_02019D30(u16 species, u16 form)
+{
+    if (species != 0x28A) {
+        if ((s32)form >= (s32)func_02019C90(species, form, 0x20)) {
+            form = 0;
+        }
+        return form;
+    }
+    if (form >= 2) {
+        form = 0;
+    }
+    return form;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * note:     re-verified 2026-09-21: EXACT*.  The MATCH cap was lifted by the
+ *           sole-ref widening of 2026-09-21, not by any edit to the C:
+ *           the data address this file reaches now attests as
+ *           sole-ref/data.  Promoted from src/pending/ unchanged.
+ */
+int func_02019D58(u16 species, int value)
+{
+    u16 i;
+
+    if (value != 0) {
+        for (i = 0; i < 4; i++)
+            if (sub_0209E280_Map[i] == species)
+                return 0;
+    }
+    return value;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Witness leaf for ov119 func_021DD0CC: membership test in a 12 entry u16 table.
+ */
+int func_02019D84(unsigned short species)
+{
+    unsigned i;
+    for (i = 0; i < 12; i++) {
+        if (species == d_0209E42C[i])
+            return 1;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * A stat comparison against a threshold picked by selector 4 of the first
+ * argument: selector 5 (one over the limit) and 6 (under it) are both
+ * rejected with 2, and the tail reports 0x20 for the presence flag, 4 or
+ * 0x40 for the two range checks, and 1 when there is no object at all.  The
+ * two comparisons are signed, which is what `ble`/`bge` says.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02019DA4.c \
+ *       --func func_02019DA4 --addr 0x02019DA4 --cc 1.1p1 --thumb
+ */
+int func_02019DA4(const struct Regulation *reg, struct Pokemon *mon)
+{
+    u16 species = (u16)func_02017E1C(mon, 5, 0);
+    u16 item = (u16)func_02017E1C(mon, 6, 0);
+    int levelLimit;
+    int levelRule;
+    int level;
+    int reason;
+
+    if (reg == 0)
+        return 1;
+
+    levelLimit = func_0200AE54(reg, 4);
+    levelRule = func_0200AE54(reg, 5);
+    level = func_02017E1C(mon, 0x9E, 0);
+
+    switch (levelRule) {
+    case 1:
+        if (levelLimit > level)
+            return 2;
+        break;
+    case 2:
+        if (levelLimit < level)
+            return 2;
+        break;
+    }
+
+    reason = 0;
+    if (func_02017E1C(mon, 0x4C, 0) != 0)
+        return 0x20;
+    if (func_0200AFD4(reg, 9, species) != 0)
+        return 4;
+    if (func_0200AFD4(reg, 0xA, item) != 0)
+        reason = 0x40;
+    return reason;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Maps a flag word to a small code: the four bits 2, 4, 0x20 and 0x40 all
+ * answer 5 (one disjunction, so they share a single exit), then 8, 0x10,
+ * 0x100, 0x80 and 1 each answer their own code and zero answers 0.  The
+ * query is answered through two stack words whose addresses are passed to
+ * func_0201A5FC, and the caller's second and third registers are forwarded
+ * unchanged, so the query takes five arguments.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02019E54.c \
+ *       --func func_02019E54 --addr 0x02019E54 --cc 1.1p1 --thumb
+ */
+int func_02019E54(u32 reg, u32 party, u32 order)
+{
+    u64 picked;
+    u32 flags;
+
+    if (reg == 0)
+        return 0;
+
+    func_0201A5FC((struct Regulation *)reg, (struct Party *)party, (u8 *)order, (char *)(&picked), &flags);
+    if (flags == 0)
+        return 0;
+
+    if ((flags & 2) || (flags & 4) || (flags & 0x20) || (flags & 0x40))
+        return 5;
+    if (flags & 8)
+        return 2;
+    if (flags & 0x10)
+        return 3;
+    if (flags & 0x100)
+        return 1;
+    if (flags & 0x80)
+        return 7;
+    if (flags & 1)
+        return 4;
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * EXACT*: the inferred extent runs 2 bytes past the 250-byte body because the
+ * follower at 0x02019FD0 has no lr-saving prologue and so carries no label.
+ * No byte differs.
+ *
+ * The party "is this team legal for the rule set" check.  It reads each
+ * member's species (id 5) and form (id 0x9E) into two parallel u16[6] stack
+ * arrays, zeroes the species of any member func_02019DA4 rejects, then runs an
+ * O(n^2) duplicate-species scan that zeroes the worse of each colliding pair
+ * (worse = the larger form value) and decrements a running count.  If the
+ * surviving count is below what func_0200AE54(ctx, 2) requires it answers 4;
+ * otherwise the answer is 0 or 1 from func_0201A59C.
+ *
+ * Two layout tells pin the frame:
+ *   - the 12-byte MI_CpuFill8 buffer is declared LAST, not first: the later
+ *     declarator gets the lower stack address, which is what puts `pad` at
+ *     sp+0x10 and `species` at sp+0x28
+ *     (docs/idioms/local-declaration-order-is-stack-order.md).
+ *   - the outer scan loop assigns its counter before its bound (`i = 0;`
+ *     then `lim = n - 1;`), or the `movs r0,#0` and the `subs r0,r0,#1`
+ *     swap places
+ *     (docs/idioms/assign-the-loop-counter-before-the-loop-bound-or-zero-costs-a-pool-word.md).
+ *
+ * VERSION SENSITIVITY: party ids 5 and 0x9E and the rule-set keys 7 and 2 are
+ * content numbering; the team size 6 is the array bound and is structural.
+ *
+ * Verified with
+ *   python tools/match.py one --src src/matched/sub_02019ED4.c \
+ *       --func sub_02019ED4 --addr 0x02019ED4 --cc 1.1p1 --thumb
+ */
+int sub_02019ED4(const struct Regulation *reg, struct Party *party)
+{
+    u16 species[6];
+    u16 levels[6];
+    u8 unused[12];
+    int partyCount;
+    int usable;
+    int i;
+    int j;
+    int last;
+    int result;
+
+    partyCount = func_0201AA18(party);
+    usable = partyCount;
+    MI_CpuFill8(unused, 0, 12);
+    for (i = 0; i < partyCount; i++) {
+        struct Pokemon *mon = func_0201AB28(party, i);
+
+        species[i] = (u16)func_02017E1C(mon, 5, 0);
+        levels[i] = (u16)func_02017E1C(mon, 0x9E, 0);
+        if (func_02019DA4(reg, mon) != 0) {
+            species[i] = 0;
+            usable--;
+        }
+    }
+
+    if ((int)func_0200AE54(reg, 7) == 0 && partyCount > 1) {
+        i = 0;
+        last = partyCount - 1;
+        for (; i < last; i++) {
+            for (j = i + 1; j < partyCount; j++) {
+                if (species[i] == species[j] && species[i] != 0) {
+                    if (levels[i] > levels[j]) {
+                        species[i] = 0;
+                    } else {
+                        species[j] = 0;
+                    }
+                    usable--;
+                }
+            }
+        }
+    }
+
+    if (usable < (int)func_0200AE54(reg, 2)) {
+        return 4;
+    }
+
+    result = 0;
+    if (func_0201A59C(reg, party, 0) != 1) {
+        result = 1;
+    }
+    return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * EXACT* note: the 190 byte body reproduces exactly; the inferred extent runs to
+ * the next label because of two bytes of 00 00 padding at 0x0201A08E before the next labelled function at 0x0201A090.
+ *
+ * The same stat comparison as func_02019DA4, but it reports into the third
+ * argument's word with or-bits instead of returning a code: bit 1 for a
+ * selector 5 record above the threshold or a selector 6 one below it, bit 2
+ * for the range check, bit 6 for the second one, and the return value stays 1
+ * unless a bit was set.  The `*a2 |= 2; r = 0;` pair is written out in both
+ * arms and the compiler cross-jumps them.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02019FD0.c \
+ *       --func func_02019FD0 --addr 0x02019FD0 --cc 1.1p1 --thumb
+ */
+int func_02019FD0(const struct Regulation *reg, struct Pokemon *mon, u32 *flags)
+{
+    u16 species = (u16)func_02017E1C(mon, 5, 0);
+    u16 item = (u16)func_02017E1C(mon, 6, 0);
+    int allowed = 1;
+    int levelLimit;
+    int levelRule;
+    int level;
+
+    if (reg == 0)
+        return allowed;
+
+    levelLimit = func_0200AE54(reg, 4);
+    levelRule = func_0200AE54(reg, 5);
+    level = func_02017E1C(mon, 0x9E, 0);
+
+    switch (levelRule) {
+    case 1:
+        if (levelLimit > level) {
+            allowed = 0;
+            *flags |= 2;
+        }
+        break;
+    case 2:
+        if (levelLimit < level) {
+            allowed = 0;
+            *flags |= 2;
+        }
+        break;
+    }
+
+    if (func_0200AFD4(reg, 9, species) != 0) {
+        if (func_02017E1C(mon, 0x4C, 0) == 0) {
+            allowed = 0;
+            *flags |= 4;
+        }
+    }
+    if (func_0200AFD4(reg, 0xA, item) != 0) {
+        allowed = 0;
+        *flags |= 0x40;
+    }
+    return allowed;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * poke_tool.c (wave 13): the party legality check against a rule set.
+ * Three parallel six-entry u16 arrays (species, item, form) are collected
+ * from the non-egg members; the rule set's queries 2 (minimum count),
+ * 7 (duplicate species allowed), 8 (duplicate items allowed) and 0xB/0xC (a
+ * required species/form) set bits 0x01/0x08/0x10/0x80 of *mask and the
+ * error codes 4/2/3/7, a failing member check gives 5, and when nothing
+ * failed func_0201A59C decides between 0 and 1.
+ *
+ * WHAT CLOSED IT (docs/notes/func_0201A090.c.txt: 478 against 476, err
+ * spilled to sp+8 with a six-register push): the arrays are indexed plainly,
+ * `species[i]` -- the note's invented `j = i * 2; species[j >> 1]` was the
+ * source of the `lsls/bics` fixups; the compiler itself CSEs `i * 2` into
+ * the sp+8 slot.  Then the permuter (hill, one mutation) found the last
+ * lever: in the duplicate-item test the mask update comes BEFORE the error
+ * code (`*mask |= 0x10; err = 3;`), the opposite of the species test.  That
+ * order is what keeps err in r7 for the whole function.
+ *
+ * EXACT* only because of the two-byte alignment pad at 0x0201A26A; the
+ * follower 0x0201A26C is its own labelled EXACT entry.
+ */
+int func_0201A090(const struct Regulation *reg, struct Party *party, u32 *flags)
+{
+    u16 species[6];
+    u16 item[6];
+    u16 levels[6];
+    int i;
+    int total;
+    int levelSum;
+    int error;
+    struct Pokemon *mon;
+    int k;
+    int requiredSpecies, requiredForm;
+
+    levelSum = 0;
+    error = 0;
+    if (reg == 0)
+        return 0;
+    for (i = 0; i < 6; i++) {
+        species[i] = 0;
+        levels[i] = 0;
+        item[i] = 0;
+    }
+    total = func_0201AA50(party);
+    if (total < (int)func_0200AE54(reg, 2)) {
+        *flags |= 1;
+        error = 4;
+    }
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
+        mon = func_0201AB28(party, i);
+        if (func_02019FD0(reg, mon, flags) == 0)
+            error = 5;
+        if (func_02017E1C(mon, 0x4c, 0) == 0) {
+            species[i] = func_02017E1C(mon, 5, 0);
+            item[i] = func_02017E1C(mon, 6, 0);
+            levels[i] = func_02017E1C(mon, 0x6f, 0);
+            levelSum += func_02017E1C(mon, 0x9e, 0);
+        }
+    }
+    if ((int)func_0200AE54(reg, 7) == 0 && total > 1) {
+        for (i = 0; i < 5; i++) {
+            for (k = i + 1; k < 6; k++) {
+                if (species[i] == species[k] && species[i] != 0) {
+                    error = 2;
+                    *flags |= 8;
+                }
+            }
+        }
+    }
+    if ((int)func_0200AE54(reg, 8) == 0 && total > 1) {
+        for (i = 0; i < 5; i++) {
+            for (k = i + 1; k < 6; k++) {
+                if (item[i] == item[k] && species[i] != 0 && item[i] != 0) {
+                    *flags |= 0x10;
+                    error = 3;
+                }
+            }
+        }
+    }
+    requiredSpecies = (int)func_0200AE54(reg, 0xb);
+    requiredForm = (int)func_0200AE54(reg, 0xc);
+    i = 0;
+    if (requiredSpecies != 0 && total > 1) {
+        for (i = 0; i < 6; i++) {
+            if (requiredSpecies == species[i] && requiredForm == levels[i])
+                break;
+        }
+    }
+    if (i == 6) {
+        *flags |= 0x80;
+        error = 7;
+    }
+    if (error == 0 && func_0201A59C(reg, party, 0) == 0)
+        error = 1;
+    return error;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Picks the smaller (or larger, per selector 5) of a value read from the
+ * object and the caller's second argument, with the selector 3 / 4 / 5 arms
+ * emitted as a compare chain and the default falling through to the caller's
+ * value.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201A26C.c \
+ *       --func func_0201A26C --addr 0x0201A26C --cc 1.1p1 --thumb
+ */
+u32 func_0201A26C(const struct Regulation *reg, u32 level)
+{
+    u32 levelValue = func_0200AE54(reg, 4);
+    u32 levelRule = func_0200AE54(reg, 5);
+
+    switch (levelRule) {
+    case 3:
+        if (level > levelValue)
+            return levelValue;
+        break;
+    case 4:
+        return levelValue;
+    case 5:
+        if (level < levelValue)
+            return levelValue;
+        break;
+    }
+    return level;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * EXACT* note: the 98 byte body reproduces exactly; the inferred extent runs to
+ * the next label because of two bytes of 00 00 padding at 0x0201A30A before the next labelled function at 0x0201A30C.
+ *
+ * Sweeps the records of the second argument and rewrites those whose 0xA9
+ * flag is set and whose recomputed value disagrees with what the first
+ * argument's own query returns.  The value from before the loop is a spilled
+ * local, so it is re-read from the frame at the one place it is used.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201A2A8.c \
+ *       --func func_0201A2A8 --addr 0x0201A2A8 --cc 1.1p1 --thumb
+ */
+void func_0201A2A8(const struct Regulation *reg, struct Party *party)
+{
+    u32 levelValue = func_0200AE54(reg, 4);
+    int i;
+
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
+        struct Pokemon *mon = func_0201AB28(party, i);
+
+        if (func_02017E1C(mon, 0xA9, 0) != 0) {
+            u32 level = func_02017E1C(mon, 0x9E, 0);
+
+            if (func_0201A26C(reg, level) != level)
+                func_02019CA0(mon, levelValue);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * EXACT* note: the 70 byte body reproduces exactly; the inferred extent runs to
+ * the next label because of two bytes of 00 00 padding at 0x0201A352, then two unlabelled 12-byte argument-shuffling tail-call thunks at 0x0201A354 (calls 0x02048F60 with (0x69, a, b)) and 0x0201A364 (calls 0x02048F4C with (b, 0x69, a)), each followed by its own pool word, before the next labelled function at 0x0201A374.
+ *
+ * Guarded sweep over a record array: only when the object reports state zero
+ * does it walk the records and act on those whose 0xA9 flag is set.  The
+ * bound is re-evaluated at the bottom of the loop, so it stays a call in the
+ * condition.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201A30C.c \
+ *       --func func_0201A30C --addr 0x0201A30C --cc 1.1p1 --thumb
+ */
+void func_0201A30C(const struct Regulation *reg, struct Party *party, u32 unused)
+{
+    int i;
+
+    if (func_0200AE54(reg, 0x11) != 0)
+        return;
+
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
+        struct Pokemon *mon = func_0201AB28(party, i);
+
+        if (func_02017E1C(mon, 0xA9, 0) != 0)
+            func_02019B58(mon);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Witness leaf for ov021 func_021B574C and func_021B57CC.
+ */
+void *func_0201A354(int memberId, int heapId)
+{
+    return func_02048F60(0x69, memberId, heapId);
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Unlabelled Thumb argument-shuffling tail-call thunk: func_02048F4C(b, 0x69, a).
+ */
+void func_0201A364(int memberId, void *dst)
+{
+    func_02048F4C(dst, 0x69, memberId);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * Load one 0x40-byte sprite record whose mode word is chosen from the pair of
+ * bytes at a0+2/+3: (1,6) selects 6, equal bytes select 7, a byte above 1
+ * with 6 following selects 8 and anything else 9.  Both palette fields are
+ * stamped through func_0201EFA4, the record is allocated against a4, its
+ * slots are filled from *a2 through func_02045CAC and the pair is bound by
+ * func_0201F250.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201A374.c \
+ *       --func func_0201A374 --addr 0x0201A374 --cc 1.1p1 --thumb
+ */
+struct Strbuf *func_0201A374(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId)
+{
+    u32 messageId;
+    struct Strbuf *line;
+
+    if (reg->minPartySize == 1 && reg->maxPartySize == 6) {
+        messageId = 6;
+    } else if (reg->minPartySize == reg->maxPartySize) {
+        messageId = 7;
+    } else if (reg->minPartySize > 1 && reg->maxPartySize == 6) {
+        messageId = 8;
+    } else {
+        messageId = 9;
+    }
+    func_0201EFA4(wordSet, 0, reg->minPartySize, 1, 0, 1);
+    func_0201EFA4(wordSet, 1, reg->maxPartySize, 1, 0, 1);
+    line = func_020457B0(0x40, heapId);
+    func_02045CAC(text->bank, messageId, scratch);
+    func_0201F250(wordSet, line, scratch);
+    return line;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * poke_tool.c tail (wave 13), the twin of func_0201A374: pick the sprite
+ * record's mode from the format byte at a0+5 (0 -> 6, 4 -> 0xb, 1 -> 0xd,
+ * 2 -> 0xc, 3 -> 0xe, 5 -> 0xf, anything else 6; an if chain in that order,
+ * the image tests it in source order), stamp the byte at a0+4 through
+ * func_0201EFA4, allocate the 0x40-byte record against a4, fill it from *a2
+ * and bind it with func_0201F250.
+ *
+ * WHAT CLOSED IT (docs/notes/pkt_0201A3F4.c.txt: 8 bytes out, the byte at
+ * a0+4 loaded after the two outgoing stack stores instead of before): the
+ * record parameter is `const u8 *`.  A load through a const pointer may move
+ * above the stores to the outgoing-argument area; through a plain pointer it
+ * may not.  Same lever as func_02050C30 and func_02051838 this wave.
+ *
+ * EXACT* because the follower at 0x0201A468 (a leaf that scans 0x52 bytes
+ * from +0xa and tail-calls 0x02045EC0) carries no label.
+ */
+struct Strbuf *func_0201A3F4(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId)
+{
+    u32 messageId;
+    struct Strbuf *line;
+
+    if (reg->levelRule == 0) {
+        messageId = 6;
+    } else if (reg->levelRule == 4) {
+        messageId = 0xb;
+    } else if (reg->levelRule == 1) {
+        messageId = 0xd;
+    } else if (reg->levelRule == 2) {
+        messageId = 0xc;
+    } else if (reg->levelRule == 3) {
+        messageId = 0xe;
+    } else if (reg->levelRule == 5) {
+        messageId = 0xf;
+    } else {
+        messageId = 6;
+    }
+    func_0201EFA4(wordSet, 0, reg->levelValue, 3, 0, 1);
+    line = func_020457B0(0x40, heapId);
+    func_02045CAC(text->bank, messageId, scratch);
+    func_0201F250(wordSet, line, scratch);
+    return line;
+}
+
+
+
+
+
+
+struct Strbuf *func_0201A468(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId)
+{
+    int i;
+    u32 messageId;
+
+    for (i = 0; i < 0x52; i++) {
+        if (reg->bannedSpecies[i] != 0)
+            break;
+    }
+    messageId = 0x10;
+    if (i != 0x52)
+        messageId = 0x11;
+    return func_02045EC0(text->bank, messageId);
+}
+
+
+
+
+
+
+struct Strbuf *func_0201A48C(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId)
+{
+    u32 messageId = 0x12;
+
+    if (reg->speciesClause != 1)
+        messageId = 0x13;
+    return func_02045EC0(text->bank, messageId);
+}
+
+
+
+
+
+
+struct Strbuf *func_0201A4A0(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId)
+{
+    u32 messageId = 0x14;
+
+    if (reg->itemClause != 1)
+        messageId = 0x15;
+    return func_02045EC0(text->bank, messageId);
+}
+
+
+
+
+
+
+struct Strbuf *func_0201A4B4(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId)
+{
+    u32 messageId;
+    u8 battleMode = text->battleMode;
+
+    if (battleMode == 1) {
+        messageId = 0x16;
+    } else {
+        messageId = 0x17;
+        if (battleMode != 0)
+            messageId = 0x16;
+    }
+    return func_02045EC0(text->bank, messageId);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * Wave 17 lane untried_small. What closed it (from 6 halfwords out): the heap
+ * id parameter a2 is u16. The image homes it to the stack and reloads it for
+ * every use (the allocator's first argument included); declared u32 it stays
+ * in r2 and is copied, which was the whole parameter-homing residue.
+ */
+struct RegulationText *func_0201A4D4(const struct Regulation *reg, struct WordSet *wordSet, u16 heapId, u32 battleMode)
+{
+    struct RegulationText *text;
+    struct Strbuf *scratch;
+    int i;
+    u32 regulationMode;
+
+    text = (struct RegulationText *)func_02030734(heapId, 0x38, 1, poke_regulation_File, 0x312);
+    text->bank = func_02045B38(0, 2, 0xa5, heapId);
+    scratch = func_020457B0(0x40, heapId);
+    regulationMode = reg->battleMode;
+    if (regulationMode == 2)
+        text->battleMode = battleMode;
+    else
+        text->battleMode = regulationMode;
+    for (i = 0; i < 6; i++) {
+        text->labels[i] = func_02045EC0(text->bank, i);
+        text->lines[i] = tbl_0209E444[i](reg, wordSet, text, scratch, heapId);
+    }
+    func_02045808(scratch);
+    return text;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * EXACT* note: the 42 byte body reproduces exactly; the inferred extent runs to
+ * the next label because of two bytes of 00 00 padding at 0x0201A59A before the next labelled function at 0x0201A59C.
+ *
+ * Six records of 0x20 bytes, each with a pair of ARM calls at +4 and +0x1C,
+ * then the object's first word through the ARM at 0x02045C04 and the object
+ * itself through 0x020307B0.  The loop index is a signed int, so the bound
+ * test is `blt` and no truncation appears.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201A570.c \
+ *       --func func_0201A570 --addr 0x0201A570 --cc 1.1p1 --thumb
+ */
+void func_0201A570(struct RegulationText *text)
+{
+    int i;
+
+    for (i = 0; i < 6; i++) {
+        func_02045808(text->labels[i]);
+        func_02045808(text->lines[i]);
+    }
+    func_02045C04(text->bank);
+    func_020307B0(text);
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/pending/func_0201A59C.c \
+ *       --func func_0201A59C --addr 0x0201A59C --cc 1.1p1 --thumb
+ */
+int func_0201A59C(const struct Regulation *reg, struct Party *party, char *picked)
+{
+    char order[6];
+
+    order[0] = g_0209E424[0];
+    order[1] = g_0209E424[1];
+    order[2] = g_0209E424[2];
+    order[3] = g_0209E424[3];
+    order[4] = g_0209E424[4];
+    order[5] = g_0209E424[5];
+
+    if (func_0201A858((u8 *)order) != 0) {
+        do {
+            if (func_0201A5FC(reg, party, (u8 *)order, picked, 0) == 1) {
+                return 1;
+            }
+        } while (func_0201A858((u8 *)order) != 0);
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201A5FC.c  *       --func func_0201A5FC --addr 0x0201A5FC --cc 1.1p1 --thumb
+ */
+int func_0201A5FC(const struct Regulation *reg, struct Party *party, u8 *order, char *picked, u32 *flags)
+{
+    u8 count = 0;
+    u32 speciesList[6] = {0};
+    u32 formList[6] = {0};
+    u32 itemList[6] = {0};
+    u8 i;
+    int allowed;
+    u32 levelTotal;
+    struct Pokemon *mon;
+    u32 species;
+    u32 levelCost;
+    u32 levelBudget;
+    u8 slot;
+    u8 j;
+    u32 item;
+    u32 requiredSpecies;
+    u8 k;
+    u32 requiredForm;
+    u32 reason;
+    int found;
+
+    levelTotal = 0;
+    levelBudget = (u32)(int)func_0200AE54(reg, (int)6);
+
+    if (picked != 0)
+        *picked = 0;
+    if (flags != 0)
+        *flags = 0;
+
+    for (i = 0; i < 6; i++) {
+        if (order[i] == 0)
+            continue;
+        slot = (u8)(order[i] - 1);
+        if ((int)slot >= (int)func_0201AA18(party))
+            continue;
+        mon = func_0201AB28(party, slot);
+        species = func_02017E1C(mon, 5, 0);
+        item = func_02017E1C(mon, 6, 0);
+        levelCost = (u32)func_0201A26C(reg, func_02017E1C(mon, 0x9e, 0));
+        reason = func_02019DA4(reg, mon);
+        if (reason != 0) {
+            if (flags != 0)
+                *flags |= reason;
+            continue;
+        }
+        allowed = 1;
+        for (j = 0; j < count; j++) {
+            if ((int)func_0200AE54(reg, (int)7) == 0 && species == speciesList[j]) {
+                allowed = 0;
+                if (flags != 0)
+                    *flags |= 8;
+                break;
+            }
+            if ((int)func_0200AE54(reg, (int)8) == 0 && item != 0 && item == itemList[j]) {
+                allowed = 0;
+                if (flags != 0)
+                    *flags |= 0x10;
+                break;
+            }
+        }
+        if (allowed == 0)
+            continue;
+        if (levelBudget != 0 && (u32)(levelTotal + levelCost) > levelBudget) {
+            if (flags != 0)
+                *flags |= 0x100;
+            continue;
+        }
+        if (picked != 0)
+            picked[count] = (char)(slot + 1);
+        speciesList[count] = species;
+        formList[count] = func_02017E1C(mon, 0x6f, 0);
+        itemList[count] = item;
+        levelTotal = (u16)(levelTotal + (u16)levelCost);
+        count = (u8)(count + 1);
+        if ((int)count < (int)func_0200AE54(reg, (int)3))
+            continue;
+        if (flags != 0 && count < 6 && order[count] != 0)
+            *flags |= 1;
+        break;
+    }
+
+    if ((int)count >= (int)func_0200AE54(reg, (int)2)) {
+        requiredSpecies = (u32)(int)func_0200AE54(reg, (int)0xb);
+        found = 1;
+        if (requiredSpecies != 0) {
+            requiredForm = (u32)(int)func_0200AE54(reg, (int)0xc);
+            found = 0;
+            for (k = 0; k < count; k++) {
+                if (requiredSpecies == speciesList[k] && requiredForm == formList[k]) {
+                    found = 1;
+                    break;
+                }
+            }
+        }
+        if (found == 1)
+            return 1;
+        if (flags != 0)
+            *flags |= 0x80;
+    } else {
+        if (flags != 0)
+            *flags |= 1;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+/*
+ * A base-7 odometer with a distinctness test: six nested counters (a[0]
+ * outermost) over 0..6, and the innermost body returns 1 as soon as all six
+ * values differ.  The entry `a[5]++` is the source's own first statement, not
+ * a loop increment.
+ *
+ * The fifteen `!=` tests are one conjunction: every `cmp` in the listing
+ * branches to the same increment block (0x0201A8B8) on equality, which is the
+ * "guard chain sharing one exit block" spelling, not a chain of ifs.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_0201A858.c \
+ *       --func func_0201A858 --addr 0x0201A858 --cc 1.1p1 --thumb
+ */
+int func_0201A858(u8 *order)
+{
+    order[5]++;
+    while (order[0] <= 6) {
+        while (order[1] <= 6) {
+            while (order[2] <= 6) {
+                while (order[3] <= 6) {
+                    while (order[4] <= 6) {
+                        while (order[5] <= 6) {
+                            if (order[0] != order[1] && order[0] != order[2] &&
+                                order[0] != order[3] && order[0] != order[4] &&
+                                order[0] != order[5] && order[1] != order[2] &&
+                                order[1] != order[3] && order[1] != order[4] &&
+                                order[1] != order[5] && order[2] != order[3] &&
+                                order[2] != order[4] && order[2] != order[5] &&
+                                order[3] != order[4] && order[3] != order[5] &&
+                                order[4] != order[5]) {
+                                return 1;
+                            }
+                            order[5]++;
+                        }
+                        order[5] = 1;
+                        order[4]++;
+                    }
+                    order[4] = 1;
+                    order[3]++;
+                }
+                order[3] = 1;
+                order[2]++;
+            }
+            order[2] = 1;
+            order[1]++;
+        }
+        order[1] = 1;
+        order[0]++;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+/*
+ * Unlabelled leaf accessor matched to give overlay call sites a `matched`
+ * witness.  Addresses are Black-image addresses.
+ */
+int func_0201A918(void)
+{
+    return 0x534;
+}

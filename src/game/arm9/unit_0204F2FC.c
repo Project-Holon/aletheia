@@ -15,186 +15,86 @@
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
  */
-#include "../../matched/include/Obj16133.h"
-#include "../../matched/include/Obj16135.h"
-#include "../../matched/include/Obj16136.h"
-#include "../../matched/include/Obj08866.h"
-#include "../../matched/include/Obj16139.h"
-#include "../../matched/include/Obj16141.h"
-#include "../../matched/include/Obj16142.h"
-#include "../../matched/include/Obj17359.h"
-#include "../../matched/include/Obj17361.h"
-#include "../../matched/include/Obj17363.h"
+#include "billboard_types.h"
 
-typedef unsigned char u8;
+void func_0204F2FC(struct BbBoard *board, int imageIndex, u32 texKey);
+void func_0204F32C(struct BbBoard *board, int imageIndex, u32 *outPlttKey);
+void func_0204F344(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex);
+void func_0204F5A8(struct BbBoard *board, u32 elemIndex);
+void func_0204F5E4(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex);
+void func_0204F604(struct BbBoard *board, u32 elemIndex, u16 *imageIndex);
+void func_0204F654(struct BbBoard *board, int elemIndex, u16 *outCell);
+void func_0204F66C(struct BbBoard *board, int elemIndex, u16 *cell);
+void func_0204F6B4(struct BbBoard *board, int elemIndex, u8 *alpha);
+void func_0204F6DC(struct BbBoard *board, int elemIndex, u8 *polyId);
+u32 func_0204F704(struct BbBoard *board, int elemIndex);
 
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-struct Rec_0204F344 {
-    u8  pad00[4];
-    u16 hw;         /* +0x04 */
-    u8  pad06[2];
-    u8  x;          /* +0x08 */
-    u8  y;          /* +0x09 */
-    u8  pad0a[0xa];
-    u32 f14;        /* +0x14 */
-};
-
-typedef signed int     s32;
-
-struct Vec3 { s32 a, b, c; };
-
-struct Elem {
-    u16 id   : 14;
-    u16 mode : 2;
-    u16 f02;
-    struct Vec3 f04;
-    u16 f10;
-    u16 f12;
-    u16 f14;
-    u16 f16;
-    u16 k    : 5;
-    u16 b5   : 4;
-    u16 b9   : 1;
-    u16 b10  : 1;
-    u16 b11  : 1;
-    u16 w    : 4;
-    u16 f1a;
-};
-
-struct Board {
-    u8 pad00[8];
-    struct Elem *ptr1;
-    u16 count0;
-    u16 count1;
-};
-
-struct Rec {
-    u16 lo : 14;
-    u16 hi : 2;
-};
-
-struct F14 {
-    u16 f0 : 14;
-    u16 f1 : 2;
-};
-
-struct Trip {
-    u32 a;
-    u32 b;
-    u32 c;
-};
-
-struct Ent_0204F638 {
-    u8  pad_00[0x18];
-    u16 f18;
-    u8  pad_1a[2];
-};
-
-typedef struct { char pad[0x10]; u16 f10; char pad2[0xA]; } E1C_0204F654;
-
-typedef struct { int pad[2]; E1C_0204F654 *f8; } Mgr_0204F654;
-
-typedef short s16;
-
-struct Item0204F684 {
-    char pad[0x12];
-    s16 field_12;
-    s16 field_14;
-    char pad2[6];
-};
-
-struct Manager0204F684 {
-    char pad[8];
-    struct Item0204F684 *items;
-};
-
-struct Ent_0204F6B4 {
-    u8  pad_00[0x18];
-    u16 f0 : 5;      /* +0x18 bit 0, five bits  */
-    u16 f1 : 4;      /* +0x18 bit 5, four bits  */
-    u16 f2 : 1;      /* +0x18 bit 9             */
-    u16 f3 : 6;      /* +0x18 bit 10, the rest  */
-    u8  pad_1a[2];
-};
-
-void func_0204F2FC(u8 *p, int i, u32 value);
-void func_0204F32C(int p0, int p1, int p2);
-void func_0204F344(void *a0, u32 a1, int a2, int *out, int *in, u8 flag);
-void func_0204F5A8(void *p, u32 idx);
-void func_0204F5E4(u8 *a0, u32 i, u16 *out);
-void func_0204F604(void *p, u32 idx, u16 *src);
-void func_0204F654(Mgr_0204F654 *p, int i, u16 *out);
-void func_0204F66C(int p0, int p1, int p2);
-void func_0204F6B4(u8 *a0, int i, u8 *px);
-void func_0204F6DC(u8 *a0, int i, u8 *px);
-u32 func_0204F704(u8 *a0, int i);
-
-void func_0204F2FC(u8 *p, int i, u32 value)
+void func_0204F2FC(struct BbBoard *board, int imageIndex, u32 texKey)
 {
-    u32 off = i * 40;
-    *(u32 *)(*(u8 **)(p + 4) + off + 32) = value;
-    *(u32 *)(*(u8 **)(p + 4) + off + 12) = (*(u32 *)(*(u8 **)(p + 4) + off + 32) << 16) >> 13;
+    u32 off = imageIndex * sizeof(struct BbImage);
+    ((struct BbImage *)((u8 *)board->images + off))->texKey = texKey;
+    ((struct BbImage *)((u8 *)board->images + off))->vramAddr = (((struct BbImage *)((u8 *)board->images + off))->texKey << 16) >> 13;
 }
 
-void func_0204F32C(int p0, int p1, int p2){ *(int *)p2 = *(int *)(((p1 * 0x28 + *(int *)(p0 + 4)) + 36)); }
-
-
-void func_0204F344(void *a0, u32 a1, int a2, int *out, int *in, u8 flag)
+void func_0204F32C(struct BbBoard *board, int imageIndex, u32 *outPlttKey)
 {
-    struct Rec_0204F344 *p =
-        (struct Rec_0204F344 *)(*(u8 * *)&((struct Obj16133 *)a0)->f4 + a1 * 0x28);
-    int q;
+    *outPlttKey = ((struct BbImage *)(imageIndex * sizeof(struct BbImage) + (int)board->images))->plttKey;
+}
 
-    switch (p->f14) {
+
+void func_0204F344(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex)
+{
+    struct BbImage *image = (struct BbImage *)((u8 *)board->images + imageIndex * sizeof(struct BbImage));
+    int frameRow;
+
+    switch (image->texFmt) {
     case 3:
-        *in = p->y * ((p->x << 5) / 8) / 8;
+        *outFrameSize = image->cellHeight * ((image->cellWidth << 5) / 8) / 8;
         break;
     case 1:
     case 4:
     case 6:
-        *in = p->y * ((p->x << 6) / 8) / 8;
+        *outFrameSize = image->cellHeight * ((image->cellWidth << 6) / 8) / 8;
         break;
     case 2:
-        *in = p->y * ((p->x << 4) / 8) / 8;
+        *outFrameSize = image->cellHeight * ((image->cellWidth << 4) / 8) / 8;
         break;
     }
-    if (flag == 0) {
-        *out = a2 * *in;
+    if (useFrameIndex == 0) {
+        *outOffset = frame * *outFrameSize;
         return;
     }
-    q = a2 / p->hw;
-    *out = *in * q + p->x * (a2 % p->hw);
+    frameRow = frame / image->texWidth;
+    *outOffset = *outFrameSize * frameRow + image->cellWidth * (frame % image->texWidth);
 }
 
 
 /*
- * billboard.c: allocate a free 0x1c-byte element (id field 0x3FFF = free)
- * and initialise it.  Every earlier residue came from spelling the two
- * packed halfwords as hand masks; the source is plain bitfield assignment
- * (14/2 at +0x00, 5/4/1/1/1/4 at +0x18), in the image's store order.
+ * billboard.c: allocate a free 0x1c-byte element (image index field 0x3FFF
+ * = free) and initialise it. Every earlier residue came from spelling the
+ * two packed halfwords as hand masks; the source is plain bitfield
+ * assignment (14/2 at +0x00, 5/4/1/1/1/4 at +0x18), in the image's store
+ * order.
  */
-s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode)
+s32 func_0204F428(struct BbBoard *board, u32 imageIndex, u16 scaleX, u16 scaleY, VecFx32 *pos, u8 alpha, u32 light, u32 facingMode)
 {
     s32 i;
 
-    for (i = 0; i < b->count1; i++) {
-        if (b->ptr1[i].id == 0x3FFF) {
-            b->ptr1[i].id = (u16)id;
-            b->ptr1[i].mode = (u16)mode;
-            b->ptr1[i].f12 = v12;
-            b->ptr1[i].f14 = v14;
-            b->ptr1[i].f16 = 0;
-            b->ptr1[i].f04 = *src;
-            b->ptr1[i].k = k;
-            b->ptr1[i].b5 = 0;
-            b->ptr1[i].b9 = 0;
-            b->ptr1[i].w = (u16)w;
-            b->ptr1[i].b10 = 0;
-            b->ptr1[i].b11 = 0;
-            b->ptr1[i].f10 = 0;
+    for (i = 0; i < board->elemCount; i++) {
+        if (board->elems[i].imageIndex == BB_ELEM_FREE) {
+            board->elems[i].imageIndex = (u16)imageIndex;
+            board->elems[i].facingMode = (u16)facingMode;
+            board->elems[i].scaleX = scaleX;
+            board->elems[i].scaleY = scaleY;
+            board->elems[i].rotZ = 0;
+            board->elems[i].pos = *pos;
+            board->elems[i].alpha = alpha;
+            board->elems[i].polyId = 0;
+            board->elems[i].visible = 0;
+            board->elems[i].light = (u16)light;
+            board->elems[i].flipS = 0;
+            board->elems[i].flipT = 0;
+            board->elems[i].cell = 0;
             return i;
         }
     }
@@ -203,116 +103,109 @@ s32 func_0204F428(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u
 
 
 /*
- * If the low 14 bits of the u16 at the record field are not already all ones,
- * set them and leave the top two bits alone.  The 14-bit width only survives to
- * a plain lsl/lsr pair as a bitfield: a mask in C would need the value in a
- * register first (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
+ * If the low 14 bits of the u16 at the element are not already all ones,
+ * set them and leave the top two bits alone. The 14-bit width only survives
+ * to a plain lsl/lsr pair as a bitfield
+ * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
  */
-void func_0204F5A8(void *p, u32 idx)
+void func_0204F5A8(struct BbBoard *board, u32 elemIndex)
 {
-    struct Rec *r = (struct Rec *)(*(u8 * *)&((struct Obj16135 *)p)->f8 + idx * 0x1c);
+    struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
 
-    if (r->lo != 0x3fff) {
-        r->lo = 0x3fff;
+    if (elem->imageIndex != BB_ELEM_FREE) {
+        elem->imageIndex = BB_ELEM_FREE;
     }
 }
 
 
 /*
- * Fourteen-bit field getter on the 0x1c-byte entries at +8: the shift pair
- * is an equal `lsl #0x12` / `lsr #0x12`, i.e. a mask that is not an ARM
- * immediate, and the stride is spelled as byte arithmetic so it comes out as
- * `mul` rather than `mla`.
+ * Fourteen-bit field getter on the 0x1c-byte elements: the shift pair is an
+ * equal `lsl #0x12` / `lsr #0x12`, and the stride is spelled as byte
+ * arithmetic so it comes out as `mul` rather than `mla`.
  */
-void func_0204F5E4(u8 *a0, u32 i, u16 *out)
+void func_0204F5E4(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex)
 {
-    *out = ((struct F14 *)((u8 *)((struct Obj16136 *)a0)->f8 + i * 0x1c))->f0;
+    *outImageIndex = ((struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem)))->imageIndex;
 }
 
 
 /*
- * Same record and field as func_0204F5A8, but the low 14 bits are copied
- * in from the caller's u16.  The compiler reuses the inverted mask it
- * already needed as `lsr #18` rather than materialising 0x3fff twice.
+ * Same element and field as func_0204F5A8, but the low 14 bits are copied in
+ * from the caller's u16. The compiler reuses the inverted mask it already
+ * needed as `lsr #18` rather than materialising 0x3fff twice.
  */
-void func_0204F604(void *p, u32 idx, u16 *src)
+void func_0204F604(struct BbBoard *board, u32 elemIndex, u16 *imageIndex)
 {
-    u16 *q = (u16 *)(*(u8 * *)&((struct Obj08866 *)p)->f8 + idx * 0x1c);
+    u16 *packed = (u16 *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
 
-    *q = (u16)((*q & ~0x3fff) | (*src & 0x3fff));
+    *packed = (u16)((*packed & ~0x3fff) | (*imageIndex & 0x3fff));
 }
 
 
 /*
- * Twelve-byte aggregate copy out of the caller's record into offset +4 of
- * one 0x1c-byte entry: one `ldm`/`stm` of three registers.
+ * Twelve-byte aggregate copy out of the caller's vector into the position
+ * of one element: one `ldm`/`stm` of three registers.
  */
-void func_0204F638(u8 *a0, int i, struct Trip *src)
+void func_0204F638(struct BbBoard *board, int elemIndex, VecFx32 *pos)
 {
-    struct Ent_0204F638 *e = &((struct Ent_0204F638 *)((struct Obj16139 *)a0)->f8)[i];
+    struct BbElem *elem = &board->elems[elemIndex];
 
-    *(struct Trip *)((u8 *)e + 4) = *src;
+    elem->pos = *pos;
 }
 
 
-/*
- * Leaf witness for ov021 0x021BBF10 / 0x021BC138 (lane wA1-12).
- */
-void func_0204F654(Mgr_0204F654 *p, int i, u16 *out)
+void func_0204F654(struct BbBoard *board, int elemIndex, u16 *outCell)
 {
-    *out = p->f8[i].f10;
+    *outCell = board->elems[elemIndex].cell;
 }
 
 
-void func_0204F66C(int p0, int p1, int p2){ *(unsigned short *)(((p1 * 0x1c + ((struct Obj16141 *)p0)->f8) + 16)) = (unsigned short)((struct Obj16142 *)p2)->f0; }
-
-
-void func_0204F684(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14)
+void func_0204F66C(struct BbBoard *board, int elemIndex, u16 *cell)
 {
-    mgr->items[idx].field_12 = *p12;
-    mgr->items[idx].field_14 = *p14;
+    ((struct BbElem *)(elemIndex * sizeof(struct BbElem) + (int)board->elems))->cell = *cell;
+}
+
+
+void func_0204F684(struct BbBoard *board, int elemIndex, const s16 *scaleX, const s16 *scaleY)
+{
+    board->elems[elemIndex].scaleX = *scaleX;
+    board->elems[elemIndex].scaleY = *scaleY;
 }
 
 
 /*
  * The three accessors that follow func_0204F684, 0x0204F6B4..0x0204F720, on
- * the three bitfields of the packed halfword at +0x18 of one 0x1c-byte entry
- * of the descriptor's +8 array: five bits at bit 0, four bits at bit 5, and
- * the single bit at bit 9.
+ * the bitfields of the packed halfword at +0x18 of one element: five bits
+ * at bit 0 (alpha), four bits at bit 5 (polygon id offset), and the single
+ * bit at bit 9 (visible).
  *
  * All three are unlabelled in the generated listing, because none of them
  * saves a register in a prologue and `disasm.py` only auto-labels a function
  * whose prologue saves `lr`
- * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They were
- * read out of the bytes; the range is contiguous and this unit reproduces all
- * 108 bytes of it.
+ * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * Each one is a read-modify-write of the whole halfword, which is what a
- * bitfield assignment costs: `ldrh` the word, `bic` the field's mask out,
- * `orr` the shifted new value in, `strh` it back.  The widths and positions of
- * the three fields are exactly the masks in the image (0x1f at bit 0,
- * 0x1e0 at bit 5, bit 9 read with `lsl #22` / `lsr #31`), so nothing about the
- * field layout is guessed.
+ * bitfield assignment costs.
  */
-void func_0204F6B4(u8 *a0, int i, u8 *px)
+void func_0204F6B4(struct BbBoard *board, int elemIndex, u8 *alpha)
 {
-    struct Ent_0204F6B4 *e = &((struct Ent_0204F6B4 *)((struct Obj17359 *)a0)->f8)[i];
+    struct BbElem *elem = &board->elems[elemIndex];
 
-    e->f0 = *px;
+    elem->alpha = *alpha;
 }
 
 
-void func_0204F6DC(u8 *a0, int i, u8 *px)
+void func_0204F6DC(struct BbBoard *board, int elemIndex, u8 *polyId)
 {
-    struct Ent_0204F6B4 *e = &((struct Ent_0204F6B4 *)((struct Obj17361 *)a0)->f8)[i];
+    struct BbElem *elem = &board->elems[elemIndex];
 
-    e->f1 = *px;
+    elem->polyId = *polyId;
 }
 
 
-u32 func_0204F704(u8 *a0, int i)
+u32 func_0204F704(struct BbBoard *board, int elemIndex)
 {
-    struct Ent_0204F6B4 *e = &((struct Ent_0204F6B4 *)((struct Obj17363 *)a0)->f8)[i];
+    struct BbElem *elem = &board->elems[elemIndex];
 
-    return e->f2;
+    return elem->visible;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     backup_system.c
  * unit:     yes
- * function: func_020316C8, func_0203174C, func_0203192C, FSi_ConvertStringSjisToUnicode, func_0203195C, func_02031994, func_020319A4, func_020319C0, func_020319E4, func_020319F0, func_02031AE0, func_02031B8C, func_02031BB4, func_02031C04, func_02031C10, func_02031C30, func_02031DC0, func_02031E68, func_02031E70, func_02031E7C, func_02031EAC, func_02031ECC, func_02031EE8, func_02031EF8, func_02031F54, func_02031F94, func_02031F9C, cnt16, func_02031FE0, func_02032688, sub_020328E0, sub_02032930, sub_02032970, sub_020329AC, sub_02032A9C, sub_02032BF8, sub_02032C84, func_02032CD0, sub_020331A4, sub_020331D0, sub_02033200, sub_02033264, sub_020332A4, sub_020332FC, sub_0203331C, sub_0203335C, func_020333F8, func_02033410, func_02033478, func_02033494, func_020334B0, func_020334CC, func_020334E8, func_02033534, func_020335AC, func_020335E8, func_020336A4, func_020336B8, func_020337B8, func_0203386C, func_020338B8, func_020338F8, func_02033908, func_020339B4, func_020339D0, func_02033A3C, func_02033A88, func_02033B68, func_02033BAC, sub_02033BF0, sub_02033BF8, sub_02033C00, sub_02033C9C, sub_02033CA8, sub_02033CC0, sub_02033CFC, sub_02033E30, sub_02033F64, sub_02033FB0, sub_020340D0, sub_020341F0, func_0203422C, sub_020342F8, sub_02034348, sub_02034394, sub_020343C0, sub_020344C4, func_020344C8, sub_02034508, sub_02034520, func_02034558, func_020345DC, sub_020345F8, sub_02034630, sub_02034640, func_02034660, sub_020346B8, sub_020346D8, sub_020346EC, func_02034704, sub_02034714, sub_02034734
+ * function: func_020316C8, func_0203174C, func_0203192C, FSi_ConvertStringSjisToUnicode, func_0203195C, func_02031994, func_020319A4, func_020319C0, func_020319E4, func_020319F0, func_02031AE0, func_02031B8C, func_02031BB4, func_02031C04, func_02031C10, func_02031C30, func_02031DC0, func_02031E68, func_02031E70, func_02031E7C, func_02031EAC, func_02031ECC, func_02031EE8, func_02031EF8, func_02031F54, func_02031F94, func_02031F9C, BACKUP_SYSTEM_GetRecordCount, func_02031FE0, func_02032688, sub_020328E0, sub_02032930, sub_02032970, sub_020329AC, sub_02032A9C, sub_02032BF8, sub_02032C84, func_02032CD0, sub_020331A4, sub_020331D0, sub_02033200, sub_02033264, sub_020332A4, sub_020332FC, sub_0203331C, sub_0203335C, func_020333F8, func_02033410, func_02033478, func_02033494, func_020334B0, func_020334CC, func_020334E8
  * address:  0x020316C8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -11,6 +11,7 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from backup_system.c at 0x02033534 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
  *   func_02030734  0x02030734  arm
@@ -18,562 +19,206 @@
  *   func_020819B8  0x020819B8  arm
  *   str_020A7848   0x020A7848  data
  *   g_02146994     0x02146994  data
- *   func_02033BF8  0x02033BF8  arm
+ *   sub_02033BF8  0x02033BF8  arm
  *   func_02034714  0x02034714  arm
  *   str_020A7858   0x020A7858  data
  *   str_020A7868   0x020A7868  data
  *   func_02034F84  0x02034F84  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02034FB8  0x02034FB8  arm
- *   func_020329AC  0x020329AC  arm
- *   func_02033200  0x02033200  arm
- *   func_020331A4  0x020331A4  arm
  *   MATH_CalcCRC16CCITT  0x02081B8C  arm
  *   func_02082A60  0x02082A60  arm
- *   func_02033BF0  0x02033BF0  arm
- *   func_0203331C  0x0203331C  arm
- *   func_02081B8C  0x02081B8C  arm
- *   func_020332FC  0x020332FC  arm
- *   func_02032A9C  0x02032A9C  arm
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_020332A4  0x020332A4  arm
  *   str_020A7888   0x020A7888  data  a1
  *   MI_CpuFill8    0x02082BCC  arm
- *   str_020A78A0   0x020A78A0  data
- *   str_020A78B0   0x020A78B0  data
- *   func_02084EB8  0x02084EB8  arm
- *   func_02075E9C  0x02075E9C  arm
- *   func_02076B2C  0x02076B2C  arm
- *   func_02075EAC  0x02075EAC  arm
- *   func_02084F10  0x02084F10  arm
- *   CARDi_RequestStreamCommand 0x02076AC0  arm
- *   func_02076B80           0x02076B80  arm
- *   d_020A789C  0x020A789C  data
- *   g_02146998     0x02146998  data
- *   g_020A789C     0x020A789C  data
- *   func_02075DD8  0x02075DD8  arm
- *   func_02076B8C 0x02076B8C  arm
- *   func_02076B98 0x02076B98  arm
- *   g_020A78CC       0x020A78CC  data
- *   MIi_CpuClear32   0x02082A7C  arm
- *   str_020A78CC   0x020A78CC  data
- *   str_020A78D8   0x020A78D8  data
- *   str_020A78F0   0x020A78F0  data
- *   str_020A7908   0x020A7908  data
- *   func_02034734  0x02034734  arm
- *   str_020A793C   0x020A793C  data
- *   sub_02033C00_File  0x020A7958  data
- *   func_02033CFC  0x02033CFC  arm
- *   func_02033E30  0x02033E30  arm
- *   g_RunLenAny    0x020A06A0  data
- *   g_RunLenTail   0x020A05A0  data
- *   g_RunLenHead   0x020A04A0  data
- *   func_020342F8  0x020342F8  arm
- *   func_020343C0  0x020343C0  arm
- *   func_02034508  0x02034508  arm
- *   func_02033FB0  0x02033FB0  arm
- *   func_020340D0  0x020340D0  arm
- *   func_02034348  0x02034348  arm
- *   Areaman_RunMask   0x020A048C  data
- *   Areaman_TailMask  0x020A0495  data
- *   func_020344C4  0x020344C4  arm
- *   g_FlagTable  0x020A07C8  data
- *   sub_02030734  0x02030734  arm
- *   s_clact_c     0x020A7964  data
- *   g_Table1  0x020A07A0  data
- *   g_Table2  0x020A07A4  data
- *   func_02033CA8  0x02033CA8  arm
- *   sub_0203422C  0x0203422C  arm
- *   g_Sink  0x0214699C  data
- *   _u32_div_f    0x0209C2B0  arm
+ *   func_02033534 0x02033534 arm
+ *   func_020335AC 0x020335AC arm
+ *   func_020335E8 0x020335E8 arm
+ *   func_020336B8 0x020336B8 arm
+ *   func_020337B8 0x020337B8 arm
+ *   func_0203386C 0x0203386C arm
+ *   func_020338F8 0x020338F8 arm
+ *   func_02033908 0x02033908 arm
+ *   func_020339B4 0x020339B4 arm
+ *   func_020339D0 0x020339D0 arm
+ *   func_02033B68 0x02033B68 arm
+ *   func_02033BAC 0x02033BAC arm
+ *   sub_02033BF0 0x02033BF0 arm
  */
-#include "../../matched/include/Obj15875.h"
-#include "../../matched/include/Obj06929.h"
-#include "../../matched/include/Obj11324.h"
-#include "../../matched/include/Obj02604.h"
-#include "../../matched/include/Obj08815.h"
-#include "../../matched/include/Obj15878.h"
-#include "../../matched/include/Obj15879.h"
-#include "../../matched/include/Obj03443.h"
-#include "../../matched/include/Obj08816.h"
-#include "../../matched/include/Obj16793.h"
-#include "../../matched/include/Obj08817.h"
-#include "../../matched/include/Obj08818.h"
-#include "../../matched/include/Obj15881.h"
-#include "../../matched/include/Obj08819.h"
-#include "../../matched/include/Obj11327.h"
-#include "../../matched/include/Obj15882.h"
-#include "../../matched/include/Obj01312.h"
-#include "../../matched/include/Obj11330.h"
-#include "../../matched/include/Obj11331.h"
-#include "../../matched/include/Obj11332.h"
 
-struct MATHCRC16Table;
-struct Obj02033410;
-struct Obj02033BF0;
-struct Blk;
-struct In;
-struct T;
-struct SaveBackup;
-struct Save;
-struct Save_02032CD0;
-struct Obj020332FC;
-struct Obj0203335C;
-struct Save_020339B4;
-struct Struct_020344C8;
-struct AreaMan;
 typedef unsigned char  u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int   u32;
-
-struct SaveBackup {
-    u8  pad00[0x0C];
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
-    u8  unk18;
-    u8  unk19;
-    u8  pad1A[2];
-    u8  unk1C;
-    u8  pad1D[11];
-    u32 unk28;
-    u32 unk2C;
-    u32 unk30;
-    u32 unk34;
-    u8  unk38[0x108];
-    u32 unk140;
-    u32 unk144;
-};
-
-struct SaveMain {
-    u32 unk000;
-    u8 crcTable[0x200];
-    u32 unk204;
-    u32 unk208;
-    u16 unk20C;
-};
-
-struct In {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-};
-
-struct Blk {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u8  pad10[0x1c - 0x10];
-    u8  f1c;
-    u8  f1d;
-    u8  pad1e[0x24 - 0x1e];
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u32 f30;
-    u32 f34;
-    u8  pad38[0x138 - 0x38];
-    u32 f138;
-    u32 f13c;
-    u32 f140;
-};
-
-typedef struct Save Save;
-
-struct Save {
-    u8   pad00[0x2c];
-    u8  *f2c;
-    u32  f30;
-    u8  *f34;
-    u8   pad38[0x108];
-    u32  f140;
-};
-
-typedef struct Save_02032CD0 Save_02032CD0;
-
-struct Save_02032CD0 {
-    u32  f00;
-    u32  f04;
-    u8   pad08[0xc];
-    u32  f14;
-    u8   f18;
-    u8   f19;
-    u8   pad1A[0x12];
-    u8  *f2c;
-    u8   pad30[0x114];
-    u32  f144;
-    u32  f148;
-    u32  f14c;
-    u32  f150;
-};
-
-struct Obj020332FC {
-    char pad[0x138];
-    u32 *slots;
-};
-
-struct Obj0203335C {
-    char pad[0x2c];
-    void *unk2c;
-    char pad30[0x108];
-    u32 *slots;
-};
-
-struct Obj02033410 {
-    char pad[0x2c];
-    void *unk2c;
-    char pad30[0x108];
-    u32 *slots;
-    u32  nbytes;
-};
-
-typedef struct T {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-} T;
-
-struct Src { u32 id; void *fn; u32 w08; };
-
-struct Dst { u32 id; u32 size; u32 offset; };
-
-struct Save_020339B4 {
-    struct Src *src;   /* +0x00 */
-    u32 count;         /* +0x04 */
-    u32 f08;           /* +0x08 */
-    u32 f0c;           /* +0x0c */
-    u32 f10;           /* +0x10 */
-    struct Dst *dst;   /* +0x14 */
-    u32 f18;           /* +0x18 */
-};
-
-struct Obj02033BF0 {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0c;
-};
-
-struct AreaMan {
-    u16 unk00;
-    u16 unk02;
-    u32 *guard;
-    u32 unk08;
-    u8 bits[1];
-};
-
-struct Struct_020344C8 {
-    u8 pad[2];
-    u16 count;
-    u32 unk_4;
-    void *ptr;
-    u8 data[];
-};
-
-struct Job {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u8  pad_0c[0x10];
-    u8  f1c;
-};
-
-struct State {
-    u32 f00;
-    u32 f04;
-    u8  pad08[0x14];
-    u8  f1c;
-};
-
-struct Obj {
-    u32  f00;
-    u32  f04;
-    u8   pad08[0x16];
-    u8   f1e;
-    u8   f1f;
-    u32 *f20;
-    u8   pad24[4];
-    u32  f28;
-};
-
-typedef struct Obj02031DC0 {
-    u32 f00;
-    u32 f04;
-    u8  pad08[0x14];
-    u8  f1c;
-} Obj02031DC0;
-
-struct Footer {
-    u32 gen;
-    u32 size;
-    u32 id;
-    u16 pad;
-    u16 crc;
-};
-
 typedef signed int     s32;
 
-typedef struct {
-    u32 f0;
-    u32 size;
-    u32 off;
-} Ent;
+struct MATHCRC16Table;
 
-typedef struct {
-    u32 f0;
-    u32 f4;
-    u32 fn;
-} PtrEnt;
+/* The record table built by savedata.c (opaque here). */
+typedef struct SaveDataTable SaveDataTable;
 
-typedef u32 (*FP)(void);
+/*
+ * The backup system work (svsys), allocated once by func_020316C8.  The
+ * assert "svsys != NULL" in func_0203174C names the pointer.
+ */
+typedef struct BackupSystem {
+    u32 flash_exists;              /* 0x000 the backup device answered the identify */
+    u8  crc_table[0x200];          /* 0x004 MATHCRC16Table, CCITT polynomial */
+    void (*read_error_func)(void); /* 0x204 handed to every flash read */
+    u32 write_error_func;          /* 0x208 handed to every flash write */
+    u16 lock_id;                   /* 0x20C lock of the asynchronous write in flight */
+} BackupSystem;
 
-struct Obj02034508 {
-    char pad[8];
-    u32 unk08;
-};
+/*
+ * The description of one save data area the callers pass to the
+ * constructor (save_control.c keeps a table of these).
+ */
+typedef struct SaveDataParam {
+    const void *table_def; /* 0x00 record table definition for savedata.c */
+    u32 table_num;         /* 0x04 number of records */
+    u32 main_addr;         /* 0x08 flash address of the main copy */
+    u32 backup_addr;       /* 0x0C flash address of the backup copy (== main_addr: one copy) */
+    u32 savearea_size;     /* 0x10 flash bytes reserved for one copy */
+    u32 magic_id;          /* 0x14 id written into the footer */
+} SaveDataParam;
 
-struct FlagEntry {
-    u32 flag;
-    u32 value;
-};
+/*
+ * One save data area (sv).  The assert "svwk_size >= sv->savearea_size" in
+ * func_0203174C names the field at +0x08.
+ *
+ * block_area holds two bits per block: the records of the table, then the
+ * CRC table block (index table_num) and the footer (index table_num + 1).
+ * The value is the copy the block goes to or comes from: 1 the main copy,
+ * 2 the backup copy, 0 none.
+ */
+typedef struct BackupSaveData {
+    u32 area_addr[2];      /* 0x000 flash address of copy 1 (main) and copy 2 (backup) */
+    u32 savearea_size;     /* 0x008 */
+    u32 magic_id;          /* 0x00C */
+    u32 prev_save_count;   /* 0x010 save_count before the running save, restored on failure */
+    u32 write_block;       /* 0x014 block the save sequence is at */
+    u8  write_seq;         /* 0x018 state of func_02032CD0 */
+    u8  write_pass;        /* 0x019 copies written by the running save */
+    u8  pad_1A[2];
+    u8  data_exists;       /* 0x01C set by a good load or a failed save, cleared by the erase */
+    u8  work_allocated;    /* 0x01D svwk was allocated here (freed by the delete) */
+    u8  link_seq;          /* 0x01E state of the linked save (func_02031C30) */
+    u8  link_result;       /* 0x01F result of the linked area's last pass */
+    u32 *link_count;       /* 0x020 where the linked save stores the other area's save_count */
+    u32 reserved;          /* 0x024 cleared by the constructor, never read here */
+    u32 save_count;        /* 0x028 generation, written into the footer */
+    SaveDataTable *table;  /* 0x02C */
+    u32 data_size;         /* 0x030 bytes of one copy: records, CRC table, footer */
+    u8 *svwk;              /* 0x034 RAM image of the data */
+    u8  compare_buf[0x100];/* 0x038 flash chunk compared against svwk */
+    u32 *block_area;       /* 0x138 two bits per block, see above */
+    u32 block_area_size;   /* 0x13C bytes of block_area */
+    u32 crc_table_size;    /* 0x140 bytes of the CRC table block (u16 per record, 4-aligned) */
+    u32 written_size;      /* 0x144 record bytes written by the running save */
+    u32 compare_rest;      /* 0x148 resumable compare: bytes left */
+    u32 compare_budget;    /* 0x14C resumable compare: bytes since the last yield */
+    u32 compare_done;      /* 0x150 resumable compare: bytes done */
+} BackupSaveData;
 
-struct Bank {
-    void *data;
-    u16   height;
-    u16   base;
-};
+/* The 0x10-byte footer at the end of one copy. */
+typedef struct SaveFooter {
+    u32 save_count;
+    u32 data_size;
+    u32 magic_id;
+    u16 pad;
+    u16 crc;          /* CRC of the CRC table block */
+} SaveFooter;
 
-struct Struct020345DC {
-    void *ptr;
-};
+/* The four bytes after the payload of every record. */
+typedef struct SaveRecordFooter {
+    u16 count;        /* bumped by every save of the record */
+    u16 crc;          /* CRC of the payload */
+} SaveRecordFooter;
 
-struct Entry8 {
-    u32 key;
-    u32 pad;
-};
-
-struct Sentinel {
-    u32 lo;
-    u32 hi;
-};
-
-struct Owner {
-    void *unk_00;
-};
-
-struct Item020346D8 {
-    u16 pad0;
-    u16 pad2;
-    u16 unk04;
-    u16 unk06;
-    u8 pad_08[0x24];
-    void * f2C;
-    unsigned int f30;
-    unsigned int f34;
-    u8 pad_38[0x108];
-    unsigned int f140;
-};
-
-typedef void (*AssertHandler)(void);
-
-struct Sink {
-    u32 unk0;
-    u32 unk4;
-    u32 unk8;
-    AssertHandler handler;
-};
-
-extern void *func_02030734(u16 heap, u32 size, int align, const char *file,
+extern void *func_02030734(u16 heap_id, u32 size, int align, const char *file,
                          u16 line);
-extern void func_02082A7C(u32 a, void *p, u32 n);
+extern void func_02082A7C(u32 value, void *dst, u32 size);
 extern void func_020819B8(struct MATHCRC16Table *table, u16 poly);
-extern u32 func_02033BF8(struct Obj02033BF0 *p);
-extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_020307B0(void *p);
-extern void  func_02034F84(u32 a);
-extern void func_02034FB8(u32 v);
-extern void func_020329AC(void);
-extern u32 func_02033200(struct SaveBackup *p, u32 id);
-extern void func_02032970(struct SaveBackup *p, u32 flag);
-extern void func_020331D0(struct SaveBackup *p);
-extern void func_020331A4(struct SaveBackup *p, u32 result, u32 flag);
+extern void func_02034714(const char *file, u32 line, const char *expr);
+extern u32 func_020307B0(void *mem);
+extern void  func_02034F84(u32 flag);
+extern void func_02034FB8(u32 flag);
 extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
 extern void  func_02082A60(const void *src, void *dst, u32 size);
-extern u32 func_02033BF0(struct Obj02033BF0 *p);
-extern void func_0203331C(struct Obj020332FC *p, u32 idx, u32 val);
-extern u16 func_02081B8C(struct MATHCRC16Table *table, void *data, u32 dataLength);
-extern u32 func_020332FC(struct Obj020332FC *p, u32 idx);
-extern u32 func_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *a,
-                         u32 *b, u32 *c, u32 *d);
-extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern u16 func_020332A4(struct SaveBackup *p, u32 id);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern int  func_02084EB8(u32 a);
-extern void func_02075E9C(u16 a);
-extern int func_02076B2C(int type);
-extern void func_02075EAC(u16 a);
-extern void func_02084F10(u16 a);
-extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback,
-                                       void *arg, int is_async, int req_type,
-                                       int req_retry, int req_mode);
-extern int  func_02076B80(void);
-extern u32  func_02075DD8(void);
-extern u32 func_02076B8C(void);
-extern void func_02076B98(void);
-extern void  MIi_CpuClear32(u32 v, void *dst, u32 n);
-extern void func_02034734(const char *expr, u32 line, const char *file, ...);
-extern s32 func_02033CFC(struct AreaMan *p, u32 start, u32 limit, u32 len);
-extern s32 func_02033E30(struct AreaMan *p, u32 start, u32 limit, u32 len);
-extern s32 func_020342F8(u32 byte, u32 bit, u32 len);
-extern s32 func_020343C0(struct AreaMan *p, s32 pos, u32 len);
-extern void func_02034508(struct AreaMan *p, s32 pos, u32 len, u32 line);
-extern s32 func_02033FB0(struct AreaMan *p, u32 start, u32 limit, u32 len);
-extern s32 func_020340D0(struct AreaMan *p, u32 start, u32 limit, u32 len);
-extern s32 func_02034348(u32 byte, u32 bit, u32 len);
-extern void func_02034394(u8 *q, u32 bit, u32 len);
-extern void func_020344C4(u8 x);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern unsigned int func_02033C9C(void *a);
-extern u32 sub_020307B0(void *p);
-extern s32 func_02033CA8(struct AreaMan *p, u32 len);
-extern void sub_0203422C(struct AreaMan *p, u32 start, s32 len);
-void func_020316C8(u32 a0, u32 a1, u32 a2);
-struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
-u32 func_0203192C(void *a, void *b);
-struct Blk *FSi_ConvertStringSjisToUnicode(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
-void func_0203195C(u8 *p);
-u32 func_02031994(u8 *p, u32 *out);
-u32 func_020319A4(u8 *p, u32 id);
-void func_020319C0(u8 *p);
-void func_020319E4(void);
-int func_020319F0(struct Job *job, u32 heap);
-int func_02031AE0(struct State *o, u32 a1);
-void func_02031B8C(u8 *p);
-int func_02031BB4(u32 a0);
-void func_02031C04(struct SaveBackup *a0);
-void func_02031C10(u8 *a, u8 *b, u32 v);
-int func_02031C30(struct Obj *q, struct Obj *p);
-int func_02031DC0(Obj02031DC0 *a0, u32 a1, u32 a2);
-int func_02031E68(const char *ptr);
+void func_020316C8(u32 heap_id, u32 read_error_func, u32 write_error_func);
+BackupSaveData *func_0203174C(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
+BackupSaveData *func_0203192C(const SaveDataParam *param, u32 heap_id);
+BackupSaveData *FSi_ConvertStringSjisToUnicode(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
+void func_0203195C(BackupSaveData *sv);
+u8 *func_02031994(BackupSaveData *sv, u32 *size);
+u8 *func_020319A4(BackupSaveData *sv, u32 id);
+void func_020319C0(BackupSaveData *sv);
+void func_020319E4(BackupSaveData *sv, u32 *diff_size, u32 *total_size);
+int func_020319F0(BackupSaveData *sv, u32 heap_id);
+int func_02031AE0(BackupSaveData *sv, u32 heap_id);
+void func_02031B8C(BackupSaveData *sv);
+int func_02031BB4(BackupSaveData *sv);
+void func_02031C04(BackupSaveData *sv);
+void func_02031C10(BackupSaveData *main_sv, BackupSaveData *link_sv, u32 *link_count);
+int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv);
+int func_02031DC0(BackupSaveData *sv, u32 heap_id, u32 link_count);
+u32 func_02031E68(const BackupSaveData *sv);
 void * func_02031E70(void);
-u16 func_02031E7C(struct SaveBackup *p, u8 *buf);
-u32 func_02031EAC(u32 *p, u32 sel);
-int func_02031ECC(int p0);
-int func_02031EE8(int p0, int p1);
-u32 func_02031EF8(void *p, void *buf, u32 sel);
-void func_02031F54(const struct SaveBackup *p, u8 *buf);
-void func_02031F94(int *p, int v);
-void func_02031F9C(u32 *out, void *p, void *buf, u32 sel);
-int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen);
-int func_02032688(Save *self, int mode, int arg3);
-int sub_020328E0(struct SaveBackup *p, u32 sel);
-int sub_02032930(struct SaveBackup *p, u32 sel);
-void sub_02032970(struct SaveBackup *p, u32 flag);
-void sub_020329AC(struct SaveBackup *p, u32 *total, u32 *nominal);
-u32 sub_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *pa, u32 *pb, u32 *pc, u32 *pd);
-u16 sub_02032BF8(struct SaveBackup *p, u32 id, u32 x, u32 unused);
-int sub_02032C84(struct SaveBackup *p, u32 sel);
-int func_02032CD0(Save_02032CD0 *p, u32 *out);
-void sub_020331A4(struct SaveBackup *p, u32 result, u32 flag);
-void sub_020331D0(struct SaveBackup *p);
-u32 sub_02033200(struct SaveBackup *p, u32 id);
-u16 sub_02033264(struct SaveBackup *p, u32 id);
-u16 sub_020332A4(struct SaveBackup *p, u32 id);
-u32 sub_020332FC(struct Obj020332FC *p, u32 idx);
-void sub_0203331C(struct Obj020332FC *p, u32 idx, u32 val);
-void sub_0203335C(struct Obj0203335C *p);
-void func_020333F8(Save *self);
-void func_02033410(struct Obj02033410 *p, u32 val);
-void func_02033478(int a0, int a1, int a2);
-void func_02033494(int a0, int a1, int a2, int a3);
-void func_020334B0(u16 a0, int a1);
-int func_020334CC(u32 a, u32 b, u32 c);
-int func_020334E8(u8 *p, u32 b, u32 c, u32 d, u32 e);
-int func_02033534(u32 a);
-u32 func_020335AC(u32 a, u32 b, u32 c, u32 d);
-int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
-void func_020336A4(void);
-u16 func_020336B8(u32 a0, u32 a1, u32 a2, void *a3);
-int func_020337B8(u16 a0, u32 *a1, u32 a2);
-void func_0203386C(u16 a);
-void func_020338B8(u16 a, u32 b, void (*cb)(u32));
+u16 func_02031E7C(BackupSaveData *sv, u8 *buf);
+u32 func_02031EAC(BackupSaveData *sv, u32 area);
+u16 *func_02031ECC(BackupSaveData *sv);
+SaveFooter *func_02031EE8(BackupSaveData *sv, u8 *buf);
+u32 func_02031EF8(BackupSaveData *sv, u8 *buf, u32 area);
+void func_02031F54(const BackupSaveData *sv, u8 *buf);
+void func_02031F94(BackupSaveData *sv, u32 save_count);
+void func_02031F9C(u32 *result, BackupSaveData *sv, u8 *buf, u32 area);
+int func_02031FE0(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count);
+int func_02032688(BackupSaveData *sv, int mode, int link_count);
+int sub_020328E0(BackupSaveData *sv, u32 area);
+int sub_02032930(BackupSaveData *sv, u32 area);
+void sub_02032970(BackupSaveData *sv, u32 set_busy);
+void sub_020329AC(BackupSaveData *sv, u32 *diff_size, u32 *total_size);
+u32 sub_02032A9C(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget, u32 *done_size, u32 *yield);
+u16 sub_02032BF8(BackupSaveData *sv, u32 id, u32 area, u32 pass);
+int sub_02032C84(BackupSaveData *sv, u32 area);
+int func_02032CD0(BackupSaveData *sv, u32 *pass_done);
+void sub_020331A4(BackupSaveData *sv, u32 result, u32 clear_busy);
+void sub_020331D0(BackupSaveData *sv);
+u32 sub_02033200(BackupSaveData *sv, u32 area);
+u16 sub_02033264(BackupSaveData *sv, u32 id);
+u16 sub_020332A4(BackupSaveData *sv, u32 id);
+u32 sub_020332FC(BackupSaveData *sv, u32 block);
+void sub_0203331C(BackupSaveData *sv, u32 block, u32 area);
+void sub_0203335C(BackupSaveData *sv);
+void func_020333F8(BackupSaveData *sv);
+void func_02033410(BackupSaveData *sv, u32 area);
+void func_02033478(u32 flash_addr, u32 src, u32 size);
+u16 func_02033494(u32 flash_addr, u32 src, u32 size);
+int func_020334B0(u16 lock_id, u32 *success);
+int func_020334CC(u32 flash_addr, u32 dst, u32 size);
+int func_020334E8(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size);
+/* flash_access.c */
+int func_02033534(u32 unused_arg);
+u32 func_020335AC(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
+int func_020335E8(u32 flash_addr, u32 dst, u32 size, void (*read_error_func)(void));
+u16 func_020336B8(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
+int func_020337B8(u16 lock_id, u32 *success, u32 write_error_func);
+void func_0203386C(u16 lock_id);
 void *func_020338F8(void);
-void *func_02033908(u16 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-void func_020339B4(int *p);
-void func_020339D0(u32 a, T *sb);
-u32 func_02033A3C(u32 *p, u32 i);
-void func_02033A88(struct Save_020339B4 *p, u32 v);
-u32 func_02033B68(u8 *p, u32 i);
-u32 func_02033BAC(u8 *p, u32 i);
-u32 sub_02033BF0(struct Obj02033BF0 *p);
-u32 sub_02033BF8(struct Obj02033BF0 *p);
-struct AreaMan *sub_02033C00(u32 size, u16 heap);
-u32 sub_02033C9C(void *a);
-s32 sub_02033CA8(struct AreaMan *p, u32 len);
-s32 sub_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len);
-s32 sub_02033CFC(struct AreaMan *p, u32 start, u32 limit, u32 len);
-s32 sub_02033E30(struct AreaMan *p, u32 start, u32 limit, u32 len);
-s32 sub_02033F64(struct AreaMan *p, u32 start, u32 limit, u32 len);
-s32 sub_02033FB0(struct AreaMan *p, u32 start, u32 limit, u32 len);
-s32 sub_020340D0(struct AreaMan *p, u32 start, u32 limit, u32 len);
-s32 sub_020341F0(struct AreaMan *p, u32 start, u32 len);
-void func_0203422C(struct AreaMan *p, u32 start, s32 len);
-s32 sub_020342F8(u32 bits, u32 start, u32 len);
-s32 sub_02034348(u32 bits, u32 start, u32 len);
-void sub_02034394(u8 *p, u32 start, u32 len);
-s32 sub_020343C0(struct AreaMan *p, s32 start, u32 len);
-void sub_020344C4(void);
-void func_020344C8(struct Struct_020344C8 *param);
-void sub_02034508(struct Obj02034508 *p);
-u32 sub_02034520(u32 flags);
-struct Bank *func_02034558(u16 heapId, u32 kind, u32 flags, u32 base, u32 b);
-void func_020345DC(struct Struct020345DC *obj);
-u32 sub_020345F8(u32 key);
-void sub_02034630(struct Sentinel *p);
-int sub_02034640(struct Sentinel *p);
-int func_02034660(u8 *p, u32 a, void **out);
-void sub_020346B8(struct Owner *owner, struct Sentinel *p);
-u32 sub_020346D8(struct Item020346D8 *a, u32 *b);
-void sub_020346EC(u32 a, u32 b, u32 c);
-void func_02034704(u32 v);
-void sub_02034714(const char *expr, u32 line, const char *file);
-void sub_02034734(const char *expr, u32 line, const char *file, ...);
-extern struct SaveMain *g_02146994;
+/* savedata.c */
+SaveDataTable *func_02033908(u16 heap_id, const void *table_def, u32 table_num, u32 savearea_size, u32 footer_size, u32 record_footer_size, u32 crc_table_size);
+void func_020339B4(SaveDataTable *table);
+void func_020339D0(u8 *svwk, SaveDataTable *table);
+u32 func_02033B68(SaveDataTable *table, u32 id);
+u32 func_02033BAC(SaveDataTable *table, u32 id);
+u32 sub_02033BF0(SaveDataTable *table);
+u32 sub_02033BF8(SaveDataTable *table);
+extern BackupSystem *g_02146994;
 extern const char str_020A7848[];
 extern const u8 str_020A7858[];
 extern const u8 str_020A7868[];
 extern const char str_020A7888[];
-extern const u8 str_020A78A0[];
-extern const u8 str_020A78B0[];
-extern u32 d_020A789C;
-extern u32 g_02146998;
-extern u32  g_020A789C[];
-extern u32 g_020A78CC[];
-extern const u8 str_020A78CC[];
-extern const u8 str_020A78D8[];
-extern const u8 str_020A78F0[];
-extern const u8 str_020A7908[];
-extern const u8 str_020A793C[];
-extern const char sub_02033C00_File[];
-extern const u8 g_RunLenAny[256];
-extern const u8 g_RunLenTail[256];
-extern const u8 g_RunLenHead[256];
-extern const u8 Areaman_RunMask[];
-extern const u8 Areaman_TailMask[];
-extern const struct FlagEntry g_FlagTable[9];
-extern char  s_clact_c[];
-extern const struct Entry8 g_Table1[5];
-extern const struct Entry8 g_Table2[5];
-extern struct Sink g_Sink;
 
 
 
@@ -599,17 +244,17 @@ extern struct Sink g_Sink;
  *   python tools/match.py one --src src/pending/func_020316C8.c \
  *       --func func_020316C8 --addr 0x020316C8 --cc 1.1p1 --arm
  */
-void func_020316C8(u32 a0, u32 a1, u32 a2)
+void func_020316C8(u32 heap_id, u32 read_error_func, u32 write_error_func)
 {
-    struct SaveMain *p = func_02030734((u16)a0, 0x210, 0, str_020A7848, 0xdf);
+    BackupSystem *work = func_02030734((u16)heap_id, 0x210, 0, str_020A7848, 0xdf);
 
-    g_02146994 = p;
-    func_02082A7C(0, p, 0x210);
-    func_020819B8((struct MATHCRC16Table *)g_02146994->crcTable, 0x1100 - 0xdf);
-    g_02146994->unk204 = a1;
-    p = g_02146994;
-    p->unk208 = a2;
-    g_02146994->unk000 = func_02033534((u32)p);
+    g_02146994 = work;
+    func_02082A7C(0, work, 0x210);
+    func_020819B8((struct MATHCRC16Table *)g_02146994->crc_table, 0x1100 - 0xdf);
+    g_02146994->read_error_func = (void (*)(void))read_error_func;
+    work = g_02146994;
+    work->write_error_func = write_error_func;
+    g_02146994->flash_exists = func_02033534((u32)work);
 }
 
 
@@ -633,54 +278,54 @@ void func_020316C8(u32 a0, u32 a1, u32 a2)
  * with the `tst`/`addne` correction being the low-bit remainder test the
  * front end derives from `+ 2` / `& 0xf`.
  */
-struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
+BackupSaveData *func_0203174C(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode)
 {
-    struct Blk *b;
+    BackupSaveData *sv;
     u32 n;
-    void *tbl;
+    SaveDataTable *table;
 
     if (g_02146994 == 0)
         func_02034714(str_020A7848, 0x10c, (const char *)str_020A7858);
 
-    b = (struct Blk *)func_02030734(heap, 0x154, 1, str_020A7848, 0x10e);
-    b->f00 = in->f08;
-    b->f04 = in->f0c;
-    b->f08 = in->f10;
-    b->f0c = in->f14;
+    sv = func_02030734(heap_id, 0x154, 1, str_020A7848, 0x10e);
+    sv->area_addr[0] = param->main_addr;
+    sv->area_addr[1] = param->backup_addr;
+    sv->savearea_size = param->savearea_size;
+    sv->magic_id = param->magic_id;
 
-    if (c != 0 && d < b->f08)
+    if (svwk != 0 && svwk_size < sv->savearea_size)
         func_02034714(str_020A7848, 0x154 - 0x3e, (const char *)str_020A7868);
 
-    b->f140 = in->f04 << 1;
-    if ((in->f04 & 1) != 0)
-        b->f140 = b->f140 + 2;
+    sv->crc_table_size = param->table_num << 1;
+    if ((param->table_num & 1) != 0)
+        sv->crc_table_size = sv->crc_table_size + 2;
 
-    n = in->f04 + 2;
-    b->f13c = (n >> 4) << 2;
+    n = param->table_num + 2;
+    sv->block_area_size = (n >> 4) << 2;
     if ((n & 0xf) != 0)
-        b->f13c = b->f13c + 4;
+        sv->block_area_size = sv->block_area_size + 4;
 
-    b->f138 = (u32)func_02030734(heap, b->f13c, 1, str_020A7848,
+    sv->block_area = func_02030734(heap_id, sv->block_area_size, 1, str_020A7848,
                                  0x125);
-    tbl = func_02033908((u16)heap, in->f00, in->f04, b->f08, 0x10, 4, b->f140);
-    b->f2c = (u32)tbl;
-    b->f30 = func_02033BF8(tbl);
-    if (c != 0) {
-        b->f34 = c;
-        b->f1d = 0;
+    table = func_02033908((u16)heap_id, param->table_def, param->table_num, sv->savearea_size, 0x10, 4, sv->crc_table_size);
+    sv->table = table;
+    sv->data_size = sub_02033BF8(table);
+    if (svwk != 0) {
+        sv->svwk = svwk;
+        sv->work_allocated = 0;
     } else {
-        b->f34 = (u32)func_02030734(heap, b->f08, 1, str_020A7848,
+        sv->svwk = func_02030734(heap_id, sv->savearea_size, 1, str_020A7848,
                                     0x131);
-        b->f1d = 1;
+        sv->work_allocated = 1;
     }
-    b->f1c = 0;
-    b->f28 = 0;
-    b->f24 = 0;
-    if (e == 1)
-        func_020319C0((u8 *)b);
+    sv->data_exists = 0;
+    sv->save_count = 0;
+    sv->reserved = 0;
+    if (init_mode == 1)
+        func_020319C0(sv);
     else
-        func_02033410((struct Obj02033410 *)b, 1);
-    return b;
+        func_02033410(sv, 1);
+    return sv;
 }
 
 
@@ -698,16 +343,21 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
  *   python tools/match.py one --src src/matched/func_0203192C.c \
  *       --func func_0203192C --addr 0x0203192C --cc 1.1p1 --arm
  */
-u32 func_0203192C(void *a, void *b)
+BackupSaveData *func_0203192C(const SaveDataParam *param, u32 heap_id)
 {
-    return (u32)func_0203174C(a, (u32)b, 0, 0, 1);
+    return func_0203174C(param, heap_id, 0, 0, 1);
 }
 
 
 
-struct Blk *FSi_ConvertStringSjisToUnicode(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
+/*
+ * The public constructor for a caller-supplied work buffer: forwards all
+ * five arguments.  The FSi_ name is a false SDK match (layout/symbols_sdk.json
+ * lists it as rejected at this address); rename_map.tsv gives the game name.
+ */
+BackupSaveData *FSi_ConvertStringSjisToUnicode(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode)
 {
-    return func_0203174C(in, heap, c, d, e);
+    return func_0203174C(param, heap_id, svwk, svwk_size, init_mode);
 }
 
 
@@ -728,14 +378,14 @@ struct Blk *FSi_ConvertStringSjisToUnicode(const struct In *in, u32 heap, u32 c,
  *   python tools/match.py one --src src/matched/func_0203195C.c \
  *       --func func_0203195C --addr 0x0203195C --arm --cc 1.1p1
  */
-void func_0203195C(u8 *p)
+void func_0203195C(BackupSaveData *sv)
 {
-    func_020339B4((int *)(((struct Obj06929 *)p)->f2C));
-    func_020307B0(((struct Obj06929 *)p)->f138);
-    if (p[0x1d] == 1) {
-        func_020307B0(((struct Obj06929 *)p)->f34);
+    func_020339B4(sv->table);
+    func_020307B0(sv->block_area);
+    if (sv->work_allocated == 1) {
+        func_020307B0(sv->svwk);
     }
-    func_020307B0(p);
+    func_020307B0(sv);
 }
 
 
@@ -745,10 +395,10 @@ void func_0203195C(u8 *p)
  *   python tools/match.py one --src src/matched/func_02031994.c \\
  *       --func func_02031994 --addr 0x02031994 --arm --cc 1.1p1
  */
-u32 func_02031994(u8 *p, u32 *out)
+u8 *func_02031994(BackupSaveData *sv, u32 *size)
 {
-    *out = ((struct Obj11324 *)p)->f30;
-    return ((struct Obj11324 *)p)->f34;
+    *size = sv->data_size;
+    return sv->svwk;
 }
 
 
@@ -758,9 +408,9 @@ u32 func_02031994(u8 *p, u32 *out)
  *   python tools/match.py one --src src/matched/func_020319A4.c \\
  *       --func func_020319A4 --addr 0x020319A4 --arm --cc 1.1p1
  */
-u32 func_020319A4(u8 *p, u32 id)
+u8 *func_020319A4(BackupSaveData *sv, u32 id)
 {
-    return func_02033B68(*(u8 * *)&((struct Item020346D8 *)p)->f2C, id) + ((struct Item020346D8 *)p)->f34;
+    return func_02033B68(sv->table, id) + sv->svwk;
 }
 
 
@@ -773,17 +423,17 @@ u32 func_020319A4(u8 *p, u32 id)
  *   python tools/match.py one --src src/matched/func_020319C0.c \\
  *       --func func_020319C0 --addr 0x020319C0 --arm --cc 1.1p1
  */
-void func_020319C0(u8 *p)
+void func_020319C0(BackupSaveData *sv)
 {
-    func_020339D0(((struct Obj02604 *)p)->f34, (struct T *)*(u32 *)&((struct Obj02604 *)p)->f2C);
-    func_02033410((struct Obj02033410 *)p, 1);
+    func_020339D0(sv->svwk, sv->table);
+    func_02033410(sv, 1);
 }
 
 
 
-void func_020319E4(void)
+void func_020319E4(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
 {
-    func_020329AC();
+    sub_020329AC(sv, diff_size, total_size);
 }
 
 
@@ -798,7 +448,7 @@ void func_020319E4(void)
  * behind the global at 0x02146994, re-read once per page along with the base.
  *
  * The literal 1 is materialised ONCE into r4 and reused as the second
- * argument of the first func_02033200 call
+ * argument of the first sub_02033200 call
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md);
  * the second call's 2 is its own `mov`.  The 0x1000 page size is materialised
  * twice, once for the allocation and once into callee-saved r8 for the loop,
@@ -806,7 +456,7 @@ void func_020319E4(void)
  *
  * The lengths compare unsigned (`bls`/`blo`), so a zero-length device skips
  * the loop entirely; the +4 word is a second length whose inequality with
- * +0 triggers an extra func_02033200(obj, 2) pass before the fill.
+ * +0 triggers an extra sub_02033200(obj, 2) pass before the fill.
  *
  * Declaration order is one/off/page, which is what shares r4 between the
  * literal 1 and the loop cursor and leaves r5 for the scratch page
@@ -822,28 +472,29 @@ void func_020319E4(void)
  *   python tools/match.py one --src src/matched/func_020319F0.c \
  *       --func func_020319F0 --addr 0x020319F0 --cc 1.1p1 --arm
  */
-int func_020319F0(struct Job *job, u32 heap)
+int func_020319F0(BackupSaveData *sv, u32 heap_id)
 {
     u32 one;
     u32 off;
     void *page;
 
-    page = func_02030734((u16)heap, 0x1000, 0, str_020A7848, 0x1e8);
+    page = func_02030734((u16)heap_id, 0x1000, 0, str_020A7848, 0x1e8);
 
     one = 1;
     func_02034F84(one);
-    func_02033200((struct SaveBackup *)job, one);
-    if (job->f00 != job->f04)
-        func_02033200((struct SaveBackup *)job, 2);
+    sub_02033200(sv, one);
+    if (sv->area_addr[0] != sv->area_addr[1])
+        sub_02033200(sv, 2);
 
     func_02082A7C(0xFFFFFFFF, page, 0x1000);
 
-    for (off = 0; off < job->f08; off += 0x1000)
-        func_020335AC(off + job->f00, (u32)page, 0x1000, g_02146994->unk208);
+    for (off = 0; off < sv->savearea_size; off += 0x1000)
+        func_020335AC(off + sv->area_addr[0], (u32)page, 0x1000, g_02146994->write_error_func);
 
     func_020307B0(page);
-    func_020319C0((u8 *)job);
-    job->f1c = 0;
+    func_020319C0(sv);
+    sv->data_exists = 0;
+
     func_02034FB8(1);
     return 1;
 }
@@ -867,24 +518,24 @@ int func_020319F0(struct Job *job, u32 heap)
  *   python tools/match.py one --src src/matched/func_02031AE0.c \
  *       --func func_02031AE0 --addr 0x02031AE0 --cc 1.1p1 --arm
  */
-int func_02031AE0(struct State *o, u32 a1)
+int func_02031AE0(BackupSaveData *sv, u32 heap_id)
 {
-    u32 r;
+    u32 result;
 
-    if (g_02146994->unk000 == 0)
+    if (g_02146994->flash_exists == 0)
         return 4;
 
-    if (o->f00 != o->f04)
-        r = func_02031FE0((struct Save *)o, a1, 0, 0);
+    if (sv->area_addr[0] != sv->area_addr[1])
+        result = func_02031FE0(sv, heap_id, 0, 0);
     else
-        r = func_02032688((struct Save *)o, 0, 0);
+        result = func_02032688(sv, 0, 0);
 
-    switch (r) {
+    switch (result) {
     case 1:
-        o->f1c = 1;
+        sv->data_exists = 1;
         return 1;
     case 2:
-        o->f1c = 1;
+        sv->data_exists = 1;
         return 2;
     case 3:
         return 3;
@@ -903,10 +554,10 @@ int func_02031AE0(struct State *o, u32 a1)
  *   python tools/match.py one --src src/matched/func_02031B8C.c \\
  *       --func func_02031B8C --addr 0x02031B8C --arm --cc 1.1p1
  */
-void func_02031B8C(u8 *p)
+void func_02031B8C(BackupSaveData *sv)
 {
-    if (*(u32 *)(*(u32 *)0x02146994) != 0) {
-        func_02032970((struct SaveBackup *)p, 1);
+    if (g_02146994->flash_exists != 0) {
+        sub_02032970(sv, 1);
     }
 }
 
@@ -927,17 +578,17 @@ void func_02031B8C(u8 *p)
  *   python tools/match.py one --src src/pending/func_02031BB4.c \
  *       --func func_02031BB4 --addr 0x02031BB4 --cc 1.1p1 --arm
  */
-int func_02031BB4(u32 a0)
+int func_02031BB4(BackupSaveData *sv)
 {
-    int r;
-    u32 v;
+    int result;
+    u32 pass_done;
 
-    if (g_02146994->unk000 == 0)
+    if (g_02146994->flash_exists == 0)
         return 3;
-    r = func_02032CD0((struct Save_02032CD0 *)a0, &v);
-    if (r != 0 && r != 1)
-        func_020331A4((struct SaveBackup *)a0, r, 1);
-    return r;
+    result = func_02032CD0(sv, &pass_done);
+    if (result != 0 && result != 1)
+        sub_020331A4(sv, result, 1);
+    return result;
 }
 
 
@@ -947,9 +598,9 @@ int func_02031BB4(u32 a0)
  *   python tools/match.py one --src src/matched/func_02031C04.c \\
  *       --func func_02031C04 --addr 0x02031C04 --arm --cc 1.1p1
  */
-void func_02031C04(struct SaveBackup *a0)
+void func_02031C04(BackupSaveData *sv)
 {
-    func_020331D0(a0);
+    sub_020331D0(sv);
 }
 
 
@@ -959,91 +610,92 @@ void func_02031C04(struct SaveBackup *a0)
  *   python tools/match.py one --src src/matched/func_02031C10.c \\
  *       --func func_02031C10 --addr 0x02031C10 --arm --cc 1.1p1
  */
-void func_02031C10(u8 *a, u8 *b, u32 v)
+void func_02031C10(BackupSaveData *main_sv, BackupSaveData *link_sv, u32 *link_count)
 {
-    ((struct Obj08815 *)a)->f20 = v;
-    a[0x1e] = 0;
-    a[0x1f] = 2;
-    b[0x1e] = 0;
-    b[0x1f] = 2;
+    main_sv->link_count = link_count;
+    main_sv->link_seq = 0;
+    main_sv->link_result = 2;
+    link_sv->link_seq = 0;
+    link_sv->link_result = 2;
 }
+
 
 
 
 /*
  * Drive a two-copy save through func_02032CD0 (the write state machine),
  * one step per call, on the state byte at q+0x1E: open a generation on `p`
- * (sub_02032970), write `p`, copy its generation word to *q->f20 and open one
+ * (sub_02032970), write `p`, copy its generation word to *q->link_count and open one
  * on `q`, write `q` (on failure also report it against `p` when p's two
  * area words differ), finish `p` if its two area words differ, then finish
  * `q`, answering 3 when p's result byte says so.  Both objects are the same
- * save-record type (both go to func_02032CD0 and func_020331A4).
+ * save-record type (both go to func_02032CD0 and sub_020331A4).
  * Wave 11, 2026-09-23.
  *
  * The one lever the 2026-09-21 lanes named and did not reach: case 4 is
- * written with the UNEQUAL test first and the bare `q->f1e++` in the `else`
+ * written with the UNEQUAL test first and the bare `q->link_seq++` in the `else`
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).  That moves the
  * `state = s + 1` block out of line (0x02031D78) and lets case 1's
  * `state++; break;` share case 4's `b 0x02031C70`.  All four func_02032CD0
  * result tests are negated (`r != 0 && r != 1`), per the note.
  */
-int func_02031C30(struct Obj *q, struct Obj *p)
+int func_02031C30(BackupSaveData *main_sv, BackupSaveData *link_sv)
 {
-    u32 tmp;
-    int r;
+    u32 pass_done;
+    int result;
 
-    switch (q->f1e) {
+    switch (main_sv->link_seq) {
     case 0:
-        sub_02032970((struct SaveBackup *)p, 1);
-        q->f1e++;
+        sub_02032970(link_sv, 1);
+        main_sv->link_seq++;
         break;
     case 1:
-        r = func_02032CD0((struct Save_02032CD0 *)p, &tmp);
-        if (r != 0 && r != 1) {
-            func_020331A4((struct SaveBackup *)p, r, 1);
-            if (r == 3)
+        result = func_02032CD0(link_sv, &pass_done);
+        if (result != 0 && result != 1) {
+            sub_020331A4(link_sv, result, 1);
+            if (result == 3)
                 return 3;
-            q->f1e++;
+            main_sv->link_seq++;
             break;
         }
-        if (tmp == 1)
-            q->f1e++;
+        if (pass_done == 1)
+            main_sv->link_seq++;
         break;
     case 2:
-        *q->f20 = p->f28;
-        sub_02032970((struct SaveBackup *)q, 0);
-        q->f1e++;
+        *main_sv->link_count = link_sv->save_count;
+        sub_02032970(main_sv, 0);
+        main_sv->link_seq++;
         break;
     case 3:
-        r = func_02032CD0((struct Save_02032CD0 *)q, &tmp);
-        if (r != 0 && r != 1) {
-            func_020331A4((struct SaveBackup *)q, r, 1);
-            if (p->f00 != p->f04)
-                func_020331A4((struct SaveBackup *)p, r, 1);
+        result = func_02032CD0(main_sv, &pass_done);
+        if (result != 0 && result != 1) {
+            sub_020331A4(main_sv, result, 1);
+            if (link_sv->area_addr[0] != link_sv->area_addr[1])
+                sub_020331A4(link_sv, result, 1);
             return 3;
         }
-        if (tmp == 1)
-            q->f1e++;
+        if (pass_done == 1)
+            main_sv->link_seq++;
         break;
     case 4:
-        if (p->f00 != p->f04) {
-            r = func_02032CD0((struct Save_02032CD0 *)p, &tmp);
-            if (r != 0 && r != 1) {
-                func_020331A4((struct SaveBackup *)p, r, 0);
-                p->f1f = r;
-                q->f1e++;
+        if (link_sv->area_addr[0] != link_sv->area_addr[1]) {
+            result = func_02032CD0(link_sv, &pass_done);
+            if (result != 0 && result != 1) {
+                sub_020331A4(link_sv, result, 0);
+                link_sv->link_result = result;
+                main_sv->link_seq++;
             }
         } else {
-            q->f1e++;
+            main_sv->link_seq++;
         }
         break;
     case 5:
-        r = func_02032CD0((struct Save_02032CD0 *)q, &tmp);
-        if (r != 0 && r != 1) {
-            func_020331A4((struct SaveBackup *)q, r, 1);
-            if (p->f1f == 3)
-                r = 3;
-            return r;
+        result = func_02032CD0(main_sv, &pass_done);
+        if (result != 0 && result != 1) {
+            sub_020331A4(main_sv, result, 1);
+            if (link_sv->link_result == 3)
+                result = 3;
+            return result;
         }
         break;
     }
@@ -1085,22 +737,22 @@ int func_02031C30(struct Obj *q, struct Obj *p)
  *   python tools/match.py one --src src/matched/func_02031DC0.c \
  *       --func func_02031DC0 --addr 0x02031DC0 --cc 1.1p1 --arm
  */
-int func_02031DC0(Obj02031DC0 *a0, u32 a1, u32 a2)
+int func_02031DC0(BackupSaveData *sv, u32 heap_id, u32 link_count)
 {
-    int st;
+    int result;
 
-    if (g_02146994->unk000 == 0)
+    if (g_02146994->flash_exists == 0)
         return 4;
-    if (a0->f00 != a0->f04)
-        st = func_02031FE0((struct Save *)a0, a1, 1, a2);
+    if (sv->area_addr[0] != sv->area_addr[1])
+        result = func_02031FE0(sv, heap_id, 1, link_count);
     else
-        st = func_02032688((struct Save *)a0, 1, a2);
-    switch (st) {
+        result = func_02032688(sv, 1, link_count);
+    switch (result) {
     case 1:
-        a0->f1c = 1;
+        sv->data_exists = 1;
         return 1;
     case 2:
-        a0->f1c = 1;
+        sv->data_exists = 1;
         return 2;
     case 3:
         return 3;
@@ -1114,9 +766,9 @@ int func_02031DC0(Obj02031DC0 *a0, u32 a1, u32 a2)
 
 
 
-int func_02031E68(const char *ptr)
+u32 func_02031E68(const BackupSaveData *sv)
 {
-    return *(const int *)&((struct Obj15878 *)ptr)->f144;
+    return sv->written_size;
 }
 
 
@@ -1131,8 +783,8 @@ void * func_02031E70(void)
  * backup_system.c.  The CRC-16/CCITT of one backup record: the table is the
  * CRC table that lives inline at +4 of the object at 0x02146994 (the same
  * `struct { u8 pad000[4]; u8 crcTable[1]; }` shape src/matched/sub_020332A4.c
- * uses), the data starts at `buf + p->unk30 - 0x10 - p->unk140` and runs for
- * p->unk140 bytes.  The result is what src/matched/func_02031EF8.c compares
+ * uses), the data starts at `buf + p->data_size - 0x10 - p->crc_table_size` and runs for
+ * p->crc_table_size bytes.  The result is what src/matched/func_02031EF8.c compares
  * against the footer halfword and what src/matched/func_02031F54.c stores
  * into it.
  *
@@ -1142,24 +794,23 @@ void * func_02031E70(void)
  *   python tools/match.py one --src src/matched/func_02031E7C.c \
  *       --func func_02031E7C --addr 0x02031E7C --cc 1.1p1 --arm
  */
-u16 func_02031E7C(struct SaveBackup *p, u8 *buf)
+u16 func_02031E7C(BackupSaveData *sv, u8 *buf)
 {
-    return MATH_CalcCRC16CCITT(g_02146994->crcTable,
-                               buf + (p->unk30 - 0x10 - p->unk140),
-                               p->unk140);
+    return MATH_CalcCRC16CCITT(g_02146994->crc_table,
+                               buf + (sv->data_size - 0x10 - sv->crc_table_size),
+                               sv->crc_table_size);
 }
 
 
 /*
- * backup_system.c.  The length accessor of the backup header: it reports the
- * length word at +4, but only when the sequence word at +0 differs from it;
- * when the two agree the length at +0 is returned instead.  `sel` chooses the
- * copy: only sel == 2 gets the +4 length, everything else gets 0.  Callers
- * feed the answer straight to a read, e.g. src/pending/sub_02031FE0.c:
- * `func_020335E8(func_02031EAC(p, 1), buf0, p->unk30, ...)`.
+ * backup_system.c.  The flash address of one copy: area 2 gets the backup
+ * copy's address, any other area the main copy's.  When the two addresses
+ * are equal (an area with one copy) the main address is returned at once.
+ * Callers feed the answer straight to a flash read or write, e.g.
+ * `func_020335E8(func_02031EAC(sv, 1), work, sv->data_size, ...)`.
  *
  * Both loads happen in source order (+4 first), and the equal case returns the
- * halfword already in r0, so the tail is a bare `bxeq lr`.
+ * word already in r0, so the tail is a bare `bxeq lr`.
  *
  * Addresses are Black-image addresses.
  *
@@ -1167,23 +818,29 @@ u16 func_02031E7C(struct SaveBackup *p, u8 *buf)
  *   python tools/match.py one --src src/matched/func_02031EAC.c \
  *       --func func_02031EAC --addr 0x02031EAC --cc 1.1p1 --arm
  */
-u32 func_02031EAC(u32 *p, u32 sel)
+u32 func_02031EAC(BackupSaveData *sv, u32 area)
 {
-    u32 len;
+    u32 addr;
 
-    len = p[1];
-    if (p[0] == len)
-        return p[0];
-    if (sel != 2)
-        len = p[0];
-    return len;
+    addr = sv->area_addr[1];
+    if (sv->area_addr[0] == addr)
+        return sv->area_addr[0];
+    if (area != 2)
+        addr = sv->area_addr[0];
+    return addr;
 }
 
 
-int func_02031ECC(int p0){ return (*(int *)&((struct Item020346D8 *)p0)->f34 + ((*(int *)&((struct Item020346D8 *)p0)->f30 - 0x10) - *(int *)&((struct Item020346D8 *)p0)->f140)); }
+u16 *func_02031ECC(BackupSaveData *sv)
+{
+    return (u16 *)(sv->svwk + ((sv->data_size - 0x10) - sv->crc_table_size));
+}
 
 
-int func_02031EE8(int p0, int p1){ return (p1 + (((struct Obj15879 *)p0)->f30 - 0x10)); }
+SaveFooter *func_02031EE8(BackupSaveData *sv, u8 *buf)
+{
+    return (SaveFooter *)(buf + (sv->data_size - 0x10));
+}
 
 
 /*
@@ -1192,8 +849,8 @@ int func_02031EE8(int p0, int p1){ return (p1 + (((struct Obj15879 *)p0)->f30 - 
  * disagrees, 2 when the length or the sequence number disagrees.
  *
  * The footer descriptor comes from func_02031EE8(p, buf) (src/matched/
- * func_02031EE8.c): it is `buf + p->unk30 - 0x10`.  Word +4 and word +8 of that
- * footer are compared against p->unk30 and p->unkC, and the halfword at +0xE is
+ * func_02031EE8.c): it is `buf + p->data_size - 0x10`.  Word +4 and word +8 of that
+ * footer are compared against p->data_size and p->unkC, and the halfword at +0xE is
  * compared against func_02031E7C(p, buf), the CRC16 of the area (the packet's
  * only SDK call).  Only 0x02031F9C calls this function anywhere in the image,
  * which is why that file was parked at MATCH until this one landed; it can now
@@ -1209,17 +866,17 @@ int func_02031EE8(int p0, int p1){ return (p1 + (((struct Obj15879 *)p0)->f30 - 
  *   python tools/match.py one --src src/matched/func_02031EF8.c \
  *       --func func_02031EF8 --addr 0x02031EF8 --cc 1.1p1 --arm
  */
-u32 func_02031EF8(void *p, void *buf, u32 sel)
+u32 func_02031EF8(BackupSaveData *sv, u8 *buf, u32 area)
 {
-    u8 *q;
+    SaveFooter *footer;
 
-    q = (u8 *)func_02031EE8((int)p, (int)buf);
+    footer = func_02031EE8(sv, buf);
 
-    if (((struct Obj08816 *)q)->f4 != ((struct Obj03443 *)p)->f30)
+    if (footer->data_size != sv->data_size)
         return 2;
-    if (((struct Obj08816 *)q)->f8 != ((struct Obj03443 *)p)->fC)
+    if (footer->magic_id != sv->magic_id)
         return 2;
-    if (((struct Obj08816 *)q)->fE != func_02031E7C(p, buf))
+    if (footer->crc != func_02031E7C(sv, buf))
         return 1;
     return 0;
 }
@@ -1227,8 +884,8 @@ u32 func_02031EF8(void *p, void *buf, u32 sel)
 
 /*
  * backup_system.c.  Writes the footer descriptor that func_02031EF8 verifies,
- * at func_02031EE8(p, buf) (buf + p->unk30 - 0x10): generation p->unk28,
- * size p->unk30, id p->unk0C, then the CRC-16/CCITT from func_02031E7C at
+ * at func_02031EE8(p, buf) (buf + p->data_size - 0x10): generation p->save_count,
+ * size p->data_size, id p->magic_id, then the CRC-16/CCITT from func_02031E7C at
  * +0x0E.  Closed wave 12: the record pointer is `const`.  With a non-const
  * pointer every field load stays below the previous footer store (the
  * compiler must assume they alias) and six instructions come out in the
@@ -1240,17 +897,20 @@ u32 func_02031EF8(void *p, void *buf, u32 sel)
  *   python3 tools/match.py one --src src/matched/func_02031F54.c \
  *       --func func_02031F54 --addr 0x02031F54 --arm
  */
-void func_02031F54(const struct SaveBackup *p, u8 *buf)
+void func_02031F54(const BackupSaveData *sv, u8 *buf)
 {
-    struct Footer *q = (struct Footer *)func_02031EE8((int)p, (int)buf);
-    q->gen = p->unk28;
-    q->size = p->unk30;
-    q->id = p->unk0C;
-    q->crc = func_02031E7C((struct SaveBackup *)p, buf);
+    SaveFooter *footer = func_02031EE8((BackupSaveData *)sv, buf);
+    footer->save_count = sv->save_count;
+    footer->data_size = sv->data_size;
+    footer->magic_id = sv->magic_id;
+    footer->crc = func_02031E7C((BackupSaveData *)sv, buf);
 }
 
 
-void func_02031F94(int *p, int v){ p[10] = v; }
+void func_02031F94(BackupSaveData *sv, u32 save_count)
+{
+    sv->save_count = save_count;
+}
 
 
 /*
@@ -1266,34 +926,38 @@ void func_02031F94(int *p, int v){ p[10] = v; }
  * two copies of a backup area: word 0 is the verification answer from
  * 0x02031EF8 (0 both words of the footer agree, 1 the running check disagrees,
  * 2 the length or the sequence number disagrees), word 1 is the first word of
- * that footer, reached through 0x02031EE8, buf + (p->unk30 - 0x10).
+ * that footer, reached through 0x02031EE8, buf + (p->data_size - 0x10).
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02031F9C.c \
  *       --func func_02031F9C --addr 0x02031F9C --cc 1.1p1 --arm
  */
-void func_02031F9C(u32 *out, void *p, void *buf, u32 sel)
+void func_02031F9C(u32 *result, BackupSaveData *sv, u8 *buf, u32 area)
 {
-    u8 *q;
+    SaveFooter *footer;
 
-    q = (u8 *)func_02031EE8((int)p, (int)buf);
-    out[0] = func_02031EF8(p, buf, sel);
-    out[1] = ((struct Obj16793 *)q)->f0;
+    footer = func_02031EE8(sv, buf);
+    result[0] = func_02031EF8(sv, buf, area);
+    result[1] = footer->save_count;
 }
 
 
-static inline u16 cnt16(u8 *p){ return ((struct Obj15881 *)p)->f0; }
+
+static inline u16 BACKUP_SYSTEM_GetRecordCount(SaveRecordFooter *rec)
+{
+    return rec->count;
+}
 
 
 /*
  * backup_system.c.  The two-copy load: read both copies of the save area
- * (func_020335E8 at func_02031EAC(self, 1) into the staging buffer self->f34
+ * (func_020335E8 at func_02031EAC(self, 1) into the staging buffer self->svwk
  * and at (self, 2) into a heap block from func_02030734, line 0x429), repair
  * one copy from the other when only one read failed, check both footers
  * (func_02031F9C, the mode == 1 generation test), cross-copy the footer block
  * when exactly one is bad, pick the newer good copy, then walk every record
  * checking its CRC against both copies, marking each record 0/1/2 through
- * func_0203331C and retrying with the other copy if the walk breaks.  A
+ * sub_0203331C and retrying with the other copy if the walk breaks.  A
  * completed walk copies the marked records back and commits the generation
  * (func_02031F94).  The two-copy twin of func_02032688
  * (docs/notes/pkt_02031FE0.c.txt holds the history from wave 11).
@@ -1310,174 +974,174 @@ static inline u16 cnt16(u8 *p){ return ((struct Obj15881 *)p)->f0; }
  *   python3 tools/match.py one --src src/matched/func_02031FE0.c \
  *       --func func_02031FE0 --addr 0x02031FE0 --arm
  */
-int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
+int func_02031FE0(BackupSaveData *sv, u32 heap_id, u32 mode, u32 link_count)
 {
-    u32 pairB[2];
-    u32 pairA[2];
-    u8 *bufs[2];
-    u32 gens[2];
-    u32 ids[2];
-    u8 *h;
-    u16 *tbl;
-    u8 *cur;
-    u32 k;
-    u8 *buf;
-    int okA;
-    int okB;
-    unsigned long AB;
-    u8 *pa;
-    u8 *pb;
-    u32 i;
-    u32 A;
-    u32 B;
-    u32 off;
+    u32 info2[2];
+    u32 info1[2];
+    u8 *works[2];
+    u32 counts[2];
+    u32 areas[2];
+    u8 *work1;
+    u16 *crc_table;
+    u8 *cur_work;
+    u32 pass;
+    u8 *work2;
+    int read1;
+    int read2;
+    unsigned long footer_ofs;
+    SaveRecordFooter *rec1;
+    SaveRecordFooter *rec2;
+    u32 id;
+    u32 ofs;
+    u32 size;
+    u32 crc_ofs;
 
-    func_020333F8(self);
-    h = self->f34;
-    buf = func_02030734((u16)heap, self->f30, 0, str_020A7848, 0x429);
-    okA = func_020335E8(func_02031EAC((u32 *)self, 1), (u32)h, self->f30, (void (*)(void))g_02146994->unk204);
-    okB = func_020335E8(func_02031EAC((u32 *)self, 2), (u32)buf, self->f30, (void (*)(void))g_02146994->unk204);
-    if (okA == 0 && okB == 0) {
-        func_02033410((struct Obj02033410 *)self, 1);
-        func_02082A7C(0, h, self->f30);
-        func_020307B0(buf);
+    func_020333F8(sv);
+    work1 = sv->svwk;
+    work2 = func_02030734((u16)heap_id, sv->data_size, 0, str_020A7848, 0x429);
+    read1 = func_020335E8(func_02031EAC(sv, 1), (u32)work1, sv->data_size, g_02146994->read_error_func);
+    read2 = func_020335E8(func_02031EAC(sv, 2), (u32)work2, sv->data_size, g_02146994->read_error_func);
+    if (read1 == 0 && read2 == 0) {
+        func_02033410(sv, 1);
+        func_02082A7C(0, work1, sv->data_size);
+        func_020307B0(work2);
         return 0;
     }
-    if (okA == 1 && okB == 0) {
-        func_02033410((struct Obj02033410 *)self, 2);
-        func_02082A60(h, buf, self->f30);
-    } else if (okA == 0 && okB == 1) {
-        func_02033410((struct Obj02033410 *)self, 1);
-        func_02082A60(buf, h, self->f30);
+    if (read1 == 1 && read2 == 0) {
+        func_02033410(sv, 2);
+        func_02082A60(work1, work2, sv->data_size);
+    } else if (read1 == 0 && read2 == 1) {
+        func_02033410(sv, 1);
+        func_02082A60(work2, work1, sv->data_size);
     }
 
-    func_02031F9C(pairA, self, h, 0);
-    func_02031F9C(pairB, self, buf, 1);
+    func_02031F9C(info1, sv, work1, 0);
+    func_02031F9C(info2, sv, work2, 1);
     if (mode == 1) {
-        if (pairA[1] != gen)
-            pairA[0] = 2;
-        if (pairB[1] != gen)
-            pairB[0] = 2;
+        if (info1[1] != link_count)
+            info1[0] = 2;
+        if (info2[1] != link_count)
+            info2[0] = 2;
     }
 
-    if (pairA[0] == 0) {
-        if (pairB[0] != 0) {
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 2);
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 2);
-        off = self->f30 - 0x10 - self->f140;
-        func_02082A60(h + off, buf + off, self->f140 + 0x10);
+    if (info1[0] == 0) {
+        if (info2[0] != 0) {
+        sub_0203331C(sv, sub_02033BF0(sv->table), 2);
+        sub_0203331C(sv, sub_02033BF0(sv->table) + 1, 2);
+        crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
+        func_02082A60(work1 + crc_ofs, work2 + crc_ofs, sv->crc_table_size + 0x10);
         }
-    } else if (pairB[0] == 0) {
-        if (pairA[0] != 0) {
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 1);
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 1);
-        off = self->f30 - 0x10 - self->f140;
-        func_02082A60(buf + off, h + off, self->f140 + 0x10);
+    } else if (info2[0] == 0) {
+        if (info1[0] != 0) {
+        sub_0203331C(sv, sub_02033BF0(sv->table), 1);
+        sub_0203331C(sv, sub_02033BF0(sv->table) + 1, 1);
+        crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
+        func_02082A60(work2 + crc_ofs, work1 + crc_ofs, sv->crc_table_size + 0x10);
         }
     } else {
-        if (pairA[0] == 1 || pairB[0] == 1) {
-            func_02033410((struct Obj02033410 *)self, 1);
-            func_020307B0(buf);
+        if (info1[0] == 1 || info2[0] == 1) {
+            func_02033410(sv, 1);
+            func_020307B0(work2);
             return 3;
         }
-        func_02033410((struct Obj02033410 *)self, 1);
-        func_020307B0(buf);
+        func_02033410(sv, 1);
+        func_020307B0(work2);
         return 0;
     }
 
-    if (pairA[0] == 0
-        && ((pairA[1] == 0 && pairB[1] == 0xFFFFFFFF) || pairA[1] >= pairB[1]
-            || pairB[0] != 0)) {
-        bufs[0] = h;
-        bufs[1] = buf;
-        ids[0] = 1;
-        ids[1] = 2;
-        gens[0] = pairA[1];
-        gens[1] = pairB[1];
+    if (info1[0] == 0
+        && ((info1[1] == 0 && info2[1] == 0xFFFFFFFF) || info1[1] >= info2[1]
+            || info2[0] != 0)) {
+        works[0] = work1;
+        works[1] = work2;
+        areas[0] = 1;
+        areas[1] = 2;
+        counts[0] = info1[1];
+        counts[1] = info2[1];
     } else {
-        ids[0] = 2;
-        bufs[0] = buf;
-        bufs[1] = h;
-        ids[1] = 1;
-        gens[0] = pairB[1];
-        gens[1] = pairA[1];
+        areas[0] = 2;
+        works[0] = work2;
+        works[1] = work1;
+        areas[1] = 1;
+        counts[0] = info2[1];
+        counts[1] = info1[1];
     }
 
-    for (k = 0; k < 2; k++) {
-        off = self->f30 - 0x10 - self->f140;
-        cur = bufs[k];
-        tbl = (u16 *)(bufs[k] + off);
-        for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++) {
-            A = func_02033B68(self->f2c, i);
-            B = func_02033BAC(self->f2c, i);
-            AB = A + B;
-            pa = h + AB;
-            pb = buf + AB;
-            func_0203331C((struct Obj020332FC *)self, i, 0);
-            if (((struct Obj08817 *)pa)->f2 != tbl[i]
-                && ((struct Obj08818 *)pb)->f2 != tbl[i])
+    for (pass = 0; pass < 2; pass++) {
+        crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
+        cur_work = works[pass];
+        crc_table = (u16 *)(works[pass] + crc_ofs);
+        for (id = 0; id < sub_02033BF0(sv->table); id++) {
+            ofs = func_02033B68(sv->table, id);
+            size = func_02033BAC(sv->table, id);
+            footer_ofs = ofs + size;
+            rec1 = (SaveRecordFooter *)(work1 + footer_ofs);
+            rec2 = (SaveRecordFooter *)(work2 + footer_ofs);
+            sub_0203331C(sv, id, 0);
+            if (rec1->crc != crc_table[id]
+                && rec2->crc != crc_table[id])
                 break;
-            if (((struct Obj08817 *)pa)->f2 == tbl[i]) {
-                if (((struct Obj08817 *)pa)->f2 != func_02081B8C((struct MATHCRC16Table *)g_02146994->crcTable, h + A, B))
-                    func_0203331C((struct Obj020332FC *)self, i, 1);
+            if (rec1->crc == crc_table[id]) {
+                if (rec1->crc != MATH_CalcCRC16CCITT(g_02146994->crc_table, work1 + ofs, size))
+                    sub_0203331C(sv, id, 1);
             } else {
-                func_0203331C((struct Obj020332FC *)self, i, 1);
+                sub_0203331C(sv, id, 1);
             }
-            if (((struct Obj08818 *)pb)->f2 == tbl[i]) {
-                if (((struct Obj08818 *)pb)->f2 != func_02081B8C((struct MATHCRC16Table *)g_02146994->crcTable, buf + A, B)) {
-                    if (func_020332FC((struct Obj020332FC *)self, i) == 1)
+            if (rec2->crc == crc_table[id]) {
+                if (rec2->crc != MATH_CalcCRC16CCITT(g_02146994->crc_table, work2 + ofs, size)) {
+                    if (sub_020332FC(sv, id) == 1)
                         break;
-                    func_0203331C((struct Obj020332FC *)self, i, 2);
+                    sub_0203331C(sv, id, 2);
                 }
             } else {
-                if (func_020332FC((struct Obj020332FC *)self, i) == 1)
+                if (sub_020332FC(sv, id) == 1)
                     break;
-                func_0203331C((struct Obj020332FC *)self, i, 2);
+                sub_0203331C(sv, id, 2);
             }
-            if (func_020332FC((struct Obj020332FC *)self, i) == 0) {
-                if (cnt16(pa) != *(u16 *)(bufs[k] + AB))
-                    func_0203331C((struct Obj020332FC *)self, i, 1);
-                if (cnt16(pb) != *(u16 *)(bufs[k] + AB)) {
-                    if (func_020332FC((struct Obj020332FC *)self, i) == 1)
+            if (sub_020332FC(sv, id) == 0) {
+                if (BACKUP_SYSTEM_GetRecordCount(rec1) != ((SaveRecordFooter *)(works[pass] + footer_ofs))->count)
+                    sub_0203331C(sv, id, 1);
+                if (BACKUP_SYSTEM_GetRecordCount(rec2) != ((SaveRecordFooter *)(works[pass] + footer_ofs))->count) {
+                    if (sub_020332FC(sv, id) == 1)
                         break;
-                    func_0203331C((struct Obj020332FC *)self, i, 2);
+                    sub_0203331C(sv, id, 2);
                 }
             }
         }
-        if (i >= func_02033BF0((struct Obj02033BF0 *)self->f2c)) {
-            u32 id = ids[k ^ 1];
+        if (id >= sub_02033BF0(sv->table)) {
+            u32 area = areas[pass ^ 1];
 
-            func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, id);
-            func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), id);
+            sub_0203331C(sv, sub_02033BF0(sv->table) + 1, area);
+            sub_0203331C(sv, sub_02033BF0(sv->table), area);
             break;
         }
     }
-    if (k >= 2) {
-        func_02033410((struct Obj02033410 *)self, 1);
-        func_020307B0(buf);
+    if (pass >= 2) {
+        func_02033410(sv, 1);
+        func_020307B0(work2);
         return 3;
     }
 
-    off = self->f30 - 0x10 - self->f140;
-    func_02082A60(bufs[k] + off, h + off, self->f140 + 0x10);
-    for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++) {
-        if (func_020332FC((struct Obj020332FC *)self, i) == 1) {
-            A = func_02033B68(self->f2c, i);
-            B = func_02033BAC(self->f2c, i);
-            func_02082A60(buf + A, h + A, B + 4);
+    crc_ofs = sv->data_size - 0x10 - sv->crc_table_size;
+    func_02082A60(works[pass] + crc_ofs, work1 + crc_ofs, sv->crc_table_size + 0x10);
+    for (id = 0; id < sub_02033BF0(sv->table); id++) {
+        if (sub_020332FC(sv, id) == 1) {
+            ofs = func_02033B68(sv->table, id);
+            size = func_02033BAC(sv->table, id);
+            func_02082A60(work2 + ofs, work1 + ofs, size + 4);
         }
     }
-    func_02031F94((int *)self, gens[k]);
-    func_020307B0(buf);
-    for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++)
-        func_020332FC((struct Obj020332FC *)self, i);
+    func_02031F94(sv, counts[pass]);
+    func_020307B0(work2);
+    for (id = 0; id < sub_02033BF0(sv->table); id++)
+        sub_020332FC(sv, id);
     return 1;
 }
 
 
 /*
  * backup_system.c.  The one-copy load: read copy 1 of the save area into the
- * staging buffer self->f34 (func_020335E8 at func_02031EAC(self, 1)); on a
+ * staging buffer self->svwk (func_020335E8 at func_02031EAC(self, 1)); on a
  * read failure clear the marks (func_02033410(self, 1)), zero the buffer and
  * answer 0.  Otherwise check the footer (func_02031F9C; with mode == 1 a
  * generation other than arg3 counts as bad), answer 3 or 0 for a bad footer,
@@ -1501,65 +1165,65 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
  *   python3 tools/match.py one --src src/matched/func_02032688.c \
  *       --func func_02032688 --addr 0x02032688 --arm
  */
-int func_02032688(Save *self, int mode, int arg3)
+int func_02032688(BackupSaveData *sv, int mode, int link_count)
 {
-    u32 pair[2];
-    u8 *h;
-    u32 j, A, B;
-    int saved;
-    u8 *base;
-    u8 *gp;
-    u32 i;
+    u32 info[2];
+    u8 *work;
+    u32 id2, ofs, size;
+    int save_count;
+    u8 *crc_table;
+    SaveRecordFooter *rec;
+    u32 id;
 
-    func_020333F8(self);
-    h = self->f34;
-    if (func_020335E8(func_02031EAC((u32 *)self, 1), (u32)h, self->f30,
-                      (void (*)(void))g_02146994->unk204) == 0) {
-        func_02033410((struct Obj02033410 *)self, 1);
-        func_02082A7C(0, h, self->f30);
+    func_020333F8(sv);
+    work = sv->svwk;
+    if (func_020335E8(func_02031EAC(sv, 1), (u32)work, sv->data_size,
+                      g_02146994->read_error_func) == 0) {
+        func_02033410(sv, 1);
+        func_02082A7C(0, work, sv->data_size);
         return 0;
     }
-    func_02031F9C(pair, self, h, 0);
+    func_02031F9C(info, sv, work, 0);
     if (mode == 1) {
-        if ((s32)pair[1] != arg3)
-            pair[0] = 2;
+        if ((s32)info[1] != link_count)
+            info[0] = 2;
     }
-    if (pair[0] != 0) {
-        if (pair[0] == 1) {
-            func_02033410((struct Obj02033410 *)self, 1);
+    if (info[0] != 0) {
+        if (info[0] == 1) {
+            func_02033410(sv, 1);
             return 3;
         }
-        func_02033410((struct Obj02033410 *)self, 1);
+        func_02033410(sv, 1);
         return 0;
     }
 
-    base = h + (self->f30 - 0x10 - self->f140);
-    saved = (s32)pair[1];
-    for (i = 0; i < func_02033BF0((struct Obj02033BF0 *)self->f2c); i++) {
-        A = func_02033B68(self->f2c, i);
-        B = func_02033BAC(self->f2c, i);
-        gp = h + (A + B);
-        func_0203331C((struct Obj020332FC *)self, i, 0);
-        if (((struct Obj08819 *)gp)->f2 != *(u16 *)(base + i * 2))
+    crc_table = work + (sv->data_size - 0x10 - sv->crc_table_size);
+    save_count = (s32)info[1];
+    for (id = 0; id < sub_02033BF0(sv->table); id++) {
+        ofs = func_02033B68(sv->table, id);
+        size = func_02033BAC(sv->table, id);
+        rec = (SaveRecordFooter *)(work + (ofs + size));
+        sub_0203331C(sv, id, 0);
+        if (rec->crc != *(u16 *)(crc_table + id * 2))
             goto done;
-        if (((struct Obj08819 *)gp)->f2 == *(u16 *)(base + i * 2)) {
-            if (((struct Obj08819 *)gp)->f2 != func_02081B8C((struct MATHCRC16Table *)g_02146994->crcTable, h + A, B)) {
-                func_0203331C((struct Obj020332FC *)self, i, 1);
+        if (rec->crc == *(u16 *)(crc_table + id * 2)) {
+            if (rec->crc != MATH_CalcCRC16CCITT(g_02146994->crc_table, work + ofs, size)) {
+                sub_0203331C(sv, id, 1);
                 goto done;
             }
         }
     }
 done:
-    if (i >= func_02033BF0((struct Obj02033BF0 *)self->f2c)) {
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c) + 1, 1);
-        func_0203331C((struct Obj020332FC *)self, func_02033BF0((struct Obj02033BF0 *)self->f2c), 1);
+    if (id >= sub_02033BF0(sv->table)) {
+        sub_0203331C(sv, sub_02033BF0(sv->table) + 1, 1);
+        sub_0203331C(sv, sub_02033BF0(sv->table), 1);
     } else {
-        func_02033410((struct Obj02033410 *)self, 1);
+        func_02033410(sv, 1);
         return 3;
     }
-    func_02031F94((int *)self, saved);
-    for (j = 0; j < func_02033BF0((struct Obj02033BF0 *)self->f2c); j++)
-        func_020332FC((struct Obj020332FC *)self, j);
+    func_02031F94(sv, save_count);
+    for (id2 = 0; id2 < sub_02033BF0(sv->table); id2++)
+        sub_020332FC(sv, id2);
     return 1;
 }
 
@@ -1571,7 +1235,7 @@ done:
  * and no split can make one.  It closes the day a second caller turns up or
  * 0x02031F54 itself is matched.
  *
- * savedata.c.  Writes the sixteen byte footer of a backup record: the
+ * backup_system.c.  Writes the sixteen byte footer of a backup record: the
  * destination is the last sixteen bytes of the area that starts at +0x30
  * and runs for the length 0x02031EAC reports, the source is the matching
  * sixteen bytes of the staging buffer at +0x34, and the fourth argument is
@@ -1581,22 +1245,22 @@ done:
  * Verified with:
  *   python tools/match.py one --src src/pending/sub_020328E0.c  *       --func sub_020328E0 --addr 0x020328E0 --cc 1.1p1 --arm
  */
-int sub_020328E0(struct SaveBackup *p, u32 sel)
+int sub_020328E0(BackupSaveData *sv, u32 area)
 {
-    u32 dst;
-    u32 area;
-    u32 buf;
+    u32 flash_addr;
+    u32 data_size;
+    u8 *work;
 
-    area = p->unk30;
-    dst = area + func_02031EAC((u32 *)p, sel) - 0x10;
-    buf = p->unk34;
-    func_02031F54(p, (u8 *)buf);
-    return func_020336B8(dst, buf + (area - 0x10), 0xF, (void *)g_02146994->unk208);
+    data_size = sv->data_size;
+    flash_addr = data_size + func_02031EAC(sv, area) - 0x10;
+    work = sv->svwk;
+    func_02031F54(sv, work);
+    return func_020336B8(flash_addr, (u32)(work + (data_size - 0x10)), 0xF, g_02146994->write_error_func);
 }
 
 
 /*
- * savedata.c.  The one byte twin of sub_020328E0: same area and staging
+ * backup_system.c.  The one byte twin of sub_020328E0: same area and staging
  * buffer, but it rewrites only the single trailing byte of the record.
  * Unlike sub_020328E0 it does not touch 0x02031F54 first, so nothing has to
  * survive the call and the function gets away with three saved registers.
@@ -1604,17 +1268,17 @@ int sub_020328E0(struct SaveBackup *p, u32 sel)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02032930.c  *       --func sub_02032930 --addr 0x02032930 --cc 1.1p1 --arm
  */
-int sub_02032930(struct SaveBackup *p, u32 sel)
+int sub_02032930(BackupSaveData *sv, u32 area)
 {
-    u32 area = p->unk30;
-    u32 end = area + func_02031EAC((u32 *)p, sel);
+    u32 data_size = sv->data_size;
+    u32 end_addr = data_size + func_02031EAC(sv, area);
 
-    return func_020336B8(end - 1, p->unk34 + (area - 1), 1, (void *)g_02146994->unk208);
+    return func_020336B8(end_addr - 1, (u32)(sv->svwk + (data_size - 1)), 1, g_02146994->write_error_func);
 }
 
 
 /*
- * savedata.c.  Opens a new backup generation: clears the two status bytes
+ * backup_system.c.  Opens a new backup generation: clears the two status bytes
  * and the two counters, remembers the generation the write is going to
  * carry in +0x10 and bumps the running generation in +0x28, then, when the
  * caller asked for it, raises the "busy" flag through the setter veneer at
@@ -1623,26 +1287,26 @@ int sub_02032930(struct SaveBackup *p, u32 sel)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02032970.c  *       --func sub_02032970 --addr 0x02032970 --cc 1.1p1 --arm
  */
-void sub_02032970(struct SaveBackup *p, u32 flag)
+void sub_02032970(BackupSaveData *sv, u32 set_busy)
 {
-    u32 gen;
+    u32 save_count;
 
-    p->unk18 = 0;
-    p->unk14 = 0;
-    p->unk19 = 0;
-    gen = p->unk28;
-    p->unk28 = gen + 1;
-    p->unk144 = 0;
-    p->unk10 = gen;
+    sv->write_seq = 0;
+    sv->write_block = 0;
+    sv->write_pass = 0;
+    save_count = sv->save_count;
+    sv->save_count = save_count + 1;
+    sv->written_size = 0;
+    sv->prev_save_count = save_count;
 
-    if (flag == 1) {
+    if (set_busy == 1) {
         func_02034F84(1);
     }
 }
 
 
 /*
- * savedata.c.  Walks every record of the save table and reports two running
+ * backup_system.c.  Walks every record of the save table and reports two running
  * totals through the caller's two out-parameters: the nominal size of every
  * record, and the size actually accounted for.  A record 0x020332FC says is
  * not resident is pumped through the seven-argument step function at
@@ -1665,48 +1329,48 @@ void sub_02032970(struct SaveBackup *p, u32 flag)
  *   python tools/match.py one --src src/matched/sub_020329AC.c \
  *       --func sub_020329AC --addr 0x020329AC --cc 1.1p1 --arm
  */
-void sub_020329AC(struct SaveBackup *p, u32 *total, u32 *nominal)
+void sub_020329AC(BackupSaveData *sv, u32 *diff_size, u32 *total_size)
 {
-    u32 a;
-    u32 b;
-    u32 c;
-    u32 d;
+    u32 rest;
+    u32 budget;
+    u32 done_size;
+    u32 yield;
     u32 size;
     u32 i;
-    u32 r;
+    u32 result;
 
     i = 0;
     func_02034F84(1);
 
-    *total = 0;
-    *nominal = 0;
-    a = 0;
-    b = 0;
-    c = 0;
+    *diff_size = 0;
+    *total_size = 0;
+    rest = 0;
+    budget = 0;
+    done_size = 0;
 
     do {
-        size = func_02033BAC((u8 *)p->unk2C, i);
-        *nominal = *nominal + size;
+        size = func_02033BAC(sv->table, i);
+        *total_size = *total_size + size;
 
-        if (func_020332FC((struct Obj020332FC *)p, i) == 0) {
+        if (sub_020332FC(sv, i) == 0) {
             do {
-                r = func_02032A9C(p, i, 1, &a, &b, &c, &d);
-                if (r == 2) {
+                result = sub_02032A9C(sv, i, 1, &rest, &budget, &done_size, &yield);
+                if (result == 2) {
                     size = 0;
                 }
-            } while (r == 0);
+            } while (result == 0);
         }
 
-        *total = *total + size;
+        *diff_size = *diff_size + size;
         i++;
-    } while (i < func_02033BF0((struct Obj02033BF0 *)p->unk2C));
+    } while (i < sub_02033BF0(sv->table));
 
     func_02034FB8(1);
 }
 
 
 /*
- * savedata.c.  One resumable step of a record copy: read the record out of
+ * backup_system.c.  One resumable step of a record copy: read the record out of
  * Flash into the 0x38 scratch area 0x100 bytes at a time and hand each
  * chunk to 0x0203EFC8, stopping either when the record is exhausted (answer
  * 2) or when the running byte budget in *pb crosses 0x800 (answer 0, with
@@ -1722,77 +1386,77 @@ void sub_020329AC(struct SaveBackup *p, u32 *total, u32 *nominal)
  *   python tools/match.py one --src src/matched/sub_02032A9C.c \
  *       --func sub_02032A9C --addr 0x02032A9C --cc 1.1p1 --arm
  */
-u32 sub_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *pa, u32 *pb,
-                 u32 *pc, u32 *pd)
+u32 sub_02032A9C(BackupSaveData *sv, u32 id, u32 area, u32 *rest, u32 *budget,
+                 u32 *done_size, u32 *yield)
 {
-    u32 off;
-    u32 rem;
+    u32 flash_addr;
+    u32 rest_size;
     u32 chunk;
     u32 done;
-    u8 *src;
-    u32 acc;
+    u8 *record;
+    u32 total;
 
-    off = func_02031EAC((u32 *)p, mode);
-    off = off + func_02033B68((u8 *)p->unk2C, id);
+    flash_addr = func_02031EAC(sv, area);
+    flash_addr = flash_addr + func_02033B68(sv->table, id);
 
-    rem = *pa;
-    if (rem != 0) {
-        done = *pc;
-        off = off + done;
+    rest_size = *rest;
+    if (rest_size != 0) {
+        done = *done_size;
+        flash_addr = flash_addr + done;
     } else {
-        rem = func_02033BAC((u8 *)p->unk2C, id);
+        rest_size = func_02033BAC(sv->table, id);
         done = 0;
     }
 
-    src = (u8 *)func_020319A4((u8 *)p, id);
+    record = func_020319A4(sv, id);
 
-    *pa = 0;
-    *pc = 0;
-    *pd = 0;
+    *rest = 0;
+    *done_size = 0;
+    *yield = 0;
 
     do {
-        if (rem > 0x100) {
+        if (rest_size > 0x100) {
             chunk = 0x100;
-            rem = rem - 0x100;
+            rest_size = rest_size - 0x100;
         } else {
-            chunk = rem;
-            rem = 0;
+            chunk = rest_size;
+            rest_size = 0;
         }
 
-        acc = *pb + chunk;
-        *pb = acc;
-        if (acc > 0x800) {
-            *pd = 1;
-            *pb = 0;
+        total = *budget + chunk;
+        *budget = total;
+        if (total > 0x800) {
+            *yield = 1;
+            *budget = 0;
         }
 
-        if (func_020335E8(off, (u32)p->unk38, chunk, (void (*)(void))g_02146994->unk204) == 0) {
+        if (func_020335E8(flash_addr, (u32)sv->compare_buf, chunk, g_02146994->read_error_func) == 0) {
             return 1;
         }
 
-        if (func_0203EFC8(p->unk38, src + done, chunk) != 0) {
+        if (func_0203EFC8(sv->compare_buf, record + done, chunk) != 0) {
             return 1;
         }
 
         done = done + chunk;
-        off = off + chunk;
+        flash_addr = flash_addr + chunk;
 
-        if (*pd == 1) {
-            if (rem == 0) {
+        if (*yield == 1) {
+            if (rest_size == 0) {
                 return 2;
             }
-            *pa = rem;
-            *pc = done;
+            *rest = rest_size;
+            *done_size = done;
             return 0;
         }
-    } while (rem != 0);
+    } while (rest_size != 0);
 
     return 2;
 }
 
 
 /*
- * savedata.c.  Commits one record of a backup generation: refresh the
+ * backup_system.c.  Commits one record of a backup generation: refresh the
  * record's CRC through sub_020332A4 (src/matched/sub_020332A4.c) and file
  * it in the halfword table 0x02031ECC owns, then write the record itself,
  * four bytes longer than its payload, to the Flash offset that 0x02031EAC
@@ -1802,26 +1466,26 @@ u32 sub_02032A9C(struct SaveBackup *p, u32 id, u32 mode, u32 *pa, u32 *pb,
  *   python tools/match.py one --src src/matched/sub_02032BF8.c \
  *       --func sub_02032BF8 --addr 0x02032BF8 --cc 1.1p1 --arm
  */
-u16 sub_02032BF8(struct SaveBackup *p, u32 id, u32 x, u32 unused)
+u16 sub_02032BF8(BackupSaveData *sv, u32 id, u32 area, u32 pass)
 {
-    u16 *tbl;
-    u32 base;
-    u32 off;
-    u32 len;
-    u32 src;
+    u16 *crc_table;
+    u32 area_addr;
+    u32 ofs;
+    u32 size;
+    u8 *record;
 
-    tbl = (u16 *)func_02031ECC((int)p);
-    tbl[id] = func_020332A4(p, id);
-    base = func_02031EAC((u32 *)p, x);
-    off = func_02033B68((u8 *)p->unk2C, id);
-    len = func_02033BAC((u8 *)p->unk2C, id);
-    src = func_020319A4((u8 *)p, id);
-    func_020336B8(base + off, src, len + 4, (void *)g_02146994->unk208);
+    crc_table = func_02031ECC(sv);
+    crc_table[id] = sub_020332A4(sv, id);
+    area_addr = func_02031EAC(sv, area);
+    ofs = func_02033B68(sv->table, id);
+    size = func_02033BAC(sv->table, id);
+    record = func_020319A4(sv, id);
+    func_020336B8(area_addr + ofs, (u32)record, size + 4, g_02146994->write_error_func);
 }
 
 
 /*
- * savedata.c.  Writes the trailing block of a backup record: the length is
+ * backup_system.c.  Writes the trailing block of a backup record: the length is
  * the +0x140 field, the destination is that many bytes back from the end
  * of the area, and the source is whatever 0x02031ECC hands back.  The
  * destination has to be computed before the 0x02031ECC call so that the
@@ -1831,15 +1495,15 @@ u16 sub_02032BF8(struct SaveBackup *p, u32 id, u32 x, u32 unused)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02032C84.c \n *       --func sub_02032C84 --addr 0x02032C84 --cc 1.1p1 --arm
  */
-int sub_02032C84(struct SaveBackup *p, u32 sel)
+int sub_02032C84(BackupSaveData *sv, u32 area)
 {
-    u32 dst;
-    u32 src;
+    u32 flash_addr;
+    u16 *crc_table;
 
-    dst = p->unk30 + func_02031EAC((u32 *)p, sel);
-    dst = dst - 0x10 - p->unk140;
-    src = func_02031ECC((int)p);
-    return func_020336B8(dst, src, p->unk140, (void *)g_02146994->unk208);
+    flash_addr = sv->data_size + func_02031EAC(sv, area);
+    flash_addr = flash_addr - 0x10 - sv->crc_table_size;
+    crc_table = func_02031ECC(sv);
+    return func_020336B8(flash_addr, (u32)crc_table, sv->crc_table_size, g_02146994->write_error_func);
 }
 
 
@@ -1865,115 +1529,115 @@ int sub_02032C84(struct SaveBackup *p, u32 sel)
  * 0/1/2/3 live in callee-saved registers across the whole switch, which is
  * dsi/1.1p1's own habit (../2.0/sp2 is 957 bytes out).
  */
-int func_02032CD0(Save_02032CD0 *p, u32 *out)
+int func_02032CD0(BackupSaveData *sv, u32 *pass_done)
 {
-    u32 st;
-    u32 done;
-    u32 v;
-    u32 r;
+    u32 success;
+    u32 yield;
+    u32 area;
+    u32 result;
 
-    *out = 0;
-    switch (p->f18) {
+    *pass_done = 0;
+    switch (sv->write_seq) {
     case 0:
-        p->f148 = 0;
-        p->f14c = 0;
-        p->f150 = 0;
-        p->f18++;
+        sv->compare_rest = 0;
+        sv->compare_budget = 0;
+        sv->compare_done = 0;
+        sv->write_seq++;
     case 1:
-        done = 0;
+        yield = 0;
         do {
-            if (done == 1)
+            if (yield == 1)
                 return 0;
-            if (func_020332FC((struct Obj020332FC *)p, p->f14) == 0) {
-                r = sub_02032A9C((struct SaveBackup *)p, p->f14, 1, &p->f148, &p->f14c, &p->f150, &done);
-                if (r == 1) {
-                    func_0203331C((struct Obj020332FC *)p, p->f14, 1);
-                } else if (r == 0) {
-                    if (done != 1)
+            if (sub_020332FC(sv, sv->write_block) == 0) {
+                result = sub_02032A9C(sv, sv->write_block, 1, &sv->compare_rest, &sv->compare_budget, &sv->compare_done, &yield);
+                if (result == 1) {
+                    sub_0203331C(sv, sv->write_block, 1);
+                } else if (result == 0) {
+                    if (yield != 1)
                         func_02034714(str_020A7848, 0x72A, str_020A7888);
                     return 0;
                 } else {
                     goto next;
                 }
             }
-            sub_02033264((struct SaveBackup *)p, p->f14);
+            sub_02033264(sv, sv->write_block);
         next:
-            p->f14++;
-        } while (p->f14 < func_02033BF0((struct Obj02033BF0 *)p->f2c));
-        p->f18++;
+            sv->write_block++;
+        } while (sv->write_block < sub_02033BF0(sv->table));
+        sv->write_seq++;
         break;
     case 2:
-        p->f14 = 0;
-        p->f18++;
+        sv->write_block = 0;
+        sv->write_seq++;
     case 3:
-        for (; p->f14 < func_02033BF0((struct Obj02033BF0 *)p->f2c); p->f14++) {
-            v = func_020332FC((struct Obj020332FC *)p, p->f14);
-            if (v != 0) {
-                g_02146994->unk20C = sub_02032BF8((struct SaveBackup *)p, p->f14, v, p->f19);
-                p->f18++;
+        for (; sv->write_block < sub_02033BF0(sv->table); sv->write_block++) {
+            area = sub_020332FC(sv, sv->write_block);
+            if (area != 0) {
+                g_02146994->lock_id = sub_02032BF8(sv, sv->write_block, area, sv->write_pass);
+                sv->write_seq++;
                 break;
             }
         }
-        if (p->f14 >= func_02033BF0((struct Obj02033BF0 *)p->f2c)) {
-            p->f14 = 0;
-            p->f18 = 5;
+        if (sv->write_block >= sub_02033BF0(sv->table)) {
+            sv->write_block = 0;
+            sv->write_seq = 5;
         }
         break;
     case 4:
-        if (func_020337B8(g_02146994->unk20C, &st, g_02146994->unk208) == 0)
+        if (func_020337B8(g_02146994->lock_id, &success, g_02146994->write_error_func) == 0)
             break;
-        if (st == 0)
-            return p->f19 == 0 ? 3 : 2;
-        p->f144 += func_02033BAC(p->f2c, p->f14);
-        p->f14++;
-        p->f18 = 3;
+        if (success == 0)
+            return sv->write_pass == 0 ? 3 : 2;
+        sv->written_size += func_02033BAC(sv->table, sv->write_block);
+        sv->write_block++;
+        sv->write_seq = 3;
         break;
     case 5:
-        v = func_020332FC((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c));
-        if (v == 0) {
-            v = 1;
-            func_0203331C((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c), v);
+        area = sub_020332FC(sv, sub_02033BF0(sv->table));
+        if (area == 0) {
+            area = 1;
+            sub_0203331C(sv, sub_02033BF0(sv->table), area);
         }
-        g_02146994->unk20C = sub_02032C84((struct SaveBackup *)p, v);
-        p->f18++;
+        g_02146994->lock_id = sub_02032C84(sv, area);
+        sv->write_seq++;
     case 6:
-        if (func_020337B8(g_02146994->unk20C, &st, g_02146994->unk208) == 0)
+        if (func_020337B8(g_02146994->lock_id, &success, g_02146994->write_error_func) == 0)
             break;
-        if (st == 0)
-            return p->f19 == 0 ? 3 : 2;
-        p->f18++;
+        if (success == 0)
+            return sv->write_pass == 0 ? 3 : 2;
+        sv->write_seq++;
         break;
     case 7:
-        v = func_020332FC((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c) + 1);
-        if (v == 0) {
-            v = 1;
-            func_0203331C((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c) + 1, v);
+        area = sub_020332FC(sv, sub_02033BF0(sv->table) + 1);
+        if (area == 0) {
+            area = 1;
+            sub_0203331C(sv, sub_02033BF0(sv->table) + 1, area);
         }
-        g_02146994->unk20C = sub_020328E0((struct SaveBackup *)p, v);
-        p->f18++;
+        g_02146994->lock_id = sub_020328E0(sv, area);
+        sv->write_seq++;
     case 8:
-        if (func_020337B8(g_02146994->unk20C, &st, g_02146994->unk208) == 0)
+        if (func_020337B8(g_02146994->lock_id, &success, g_02146994->write_error_func) == 0)
             break;
-        if (st == 0)
-            return p->f19 == 0 ? 3 : 2;
-        p->f18++;
+        if (success == 0)
+            return sv->write_pass == 0 ? 3 : 2;
+        sv->write_seq++;
         return 1;
     case 9:
-        g_02146994->unk20C = sub_02032930((struct SaveBackup *)p, func_020332FC((struct Obj020332FC *)p, func_02033BF0((struct Obj02033BF0 *)p->f2c) + 1));
-        p->f18++;
+        g_02146994->lock_id = sub_02032930(sv, sub_020332FC(sv, sub_02033BF0(sv->table) + 1));
+        sv->write_seq++;
     case 10:
-        if (func_020337B8(g_02146994->unk20C, &st, g_02146994->unk208) == 0)
+        if (func_020337B8(g_02146994->lock_id, &success, g_02146994->write_error_func) == 0)
             break;
-        if (st == 0)
-            return p->f19 == 0 ? 3 : 2;
-        if (++p->f19 == 1 && p->f00 != p->f04) {
-            sub_0203335C((struct Obj0203335C *)p);
-            p->f18 = 2;
-            *out = 1;
+        if (success == 0)
+            return sv->write_pass == 0 ? 3 : 2;
+        if (++sv->write_pass == 1 && sv->area_addr[0] != sv->area_addr[1]) {
+            sub_0203335C(sv);
+            sv->write_seq = 2;
+            *pass_done = 1;
             return 0;
         }
-        func_020333F8((Save *)p);
-        p->f18++;
+        func_020333F8(sv);
+        sv->write_seq++;
         return 2;
     case 11:
         return 2;
@@ -1983,7 +1647,7 @@ int func_02032CD0(Save_02032CD0 *p, u32 *out)
 
 
 /*
- * savedata.c.  The completion callback of a backup write: on result 3 the
+ * backup_system.c.  The completion callback of a backup write: on result 3 the
  * generation counter is rolled back to the one the write carried, on any
  * other result the failure byte at +0x1C is raised instead, and either way
  * the "busy" flag is dropped through the veneer at 0x02034FB8 when the
@@ -1994,15 +1658,15 @@ int func_02032CD0(Save_02032CD0 *p, u32 *out)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020331A4.c  *       --func sub_020331A4 --addr 0x020331A4 --cc 1.1p1 --arm
  */
-void sub_020331A4(struct SaveBackup *p, u32 result, u32 flag)
+void sub_020331A4(BackupSaveData *sv, u32 result, u32 clear_busy)
 {
     if (result == 3) {
-        p->unk28 = p->unk10;
+        sv->save_count = sv->prev_save_count;
     } else {
-        p->unk1C = 1;
+        sv->data_exists = 1;
     }
 
-    if (flag == 1) {
+    if (clear_busy == 1) {
         func_02034FB8(1);
     }
 }
@@ -2013,7 +1677,7 @@ void sub_020331A4(struct SaveBackup *p, u32 result, u32 flag)
  * `bl` to 0x0203386C, which has exactly one caller image-wide, this one, so
  * `label` has nothing outside the range to point at.
  *
- * savedata.c.  The same completion path as sub_020331A4 but for the
+ * backup_system.c.  The same completion path as sub_020331A4 but for the
  * unconditional case: roll the generation back, hand the halfword at
  * +0x20C of the object the global at 0x02146994 points at to 0x0203386C,
  * and drop the busy flag.
@@ -2025,16 +1689,16 @@ void sub_020331A4(struct SaveBackup *p, u32 result, u32 flag)
  * Verified with:
  *   python tools/match.py one --src src/pending/sub_020331D0.c  *       --func sub_020331D0 --addr 0x020331D0 --cc 1.1p1 --arm
  */
-void sub_020331D0(struct SaveBackup *p)
+void sub_020331D0(BackupSaveData *sv)
 {
-    p->unk28 = p->unk10;
-    func_0203386C(g_02146994->unk20C);
+    sv->save_count = sv->prev_save_count;
+    func_0203386C(g_02146994->lock_id);
     func_02034FB8(1);
 }
 
 
 /*
- * savedata.c.  Blanks the sixteen byte footer of a backup record by
+ * backup_system.c.  Blanks the sixteen byte footer of a backup record by
  * pushing an all-0xFF block from the stack over it.  The 0x10 is kept in a
  * callee-saved register because it is both the fill length and the write
  * length, one on each side of the MI_CpuFill8 call.
@@ -2047,18 +1711,18 @@ void sub_020331D0(struct SaveBackup *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02033200.c \n *       --func sub_02033200 --addr 0x02033200 --cc 1.1p1 --arm
  */
-u32 sub_02033200(struct SaveBackup *p, u32 id)
+u32 sub_02033200(BackupSaveData *sv, u32 area)
 {
-    u8 tmp[0x10];
+    u8 blank[0x10];
 
-    MI_CpuFill8(tmp, 0xFF, sizeof(tmp));
-    return func_020335AC(p->unk30 + func_02031EAC((u32 *)p, id) - 0x10, (u32)tmp, sizeof(tmp),
-                  g_02146994->unk208);
+    MI_CpuFill8(blank, 0xFF, sizeof(blank));
+    return func_020335AC(sv->data_size + func_02031EAC(sv, area) - 0x10, (u32)blank, sizeof(blank),
+                  g_02146994->write_error_func);
 }
 
 
 /*
- * savedata.c.  Bumps the halfword counter that sits at the head of one of
+ * backup_system.c.  Bumps the halfword counter that sits at the head of one of
  * the records inside the staging buffer and answers the new value.  The
  * closing `ldrh` is not a redundant reload: reloading the halfword is one
  * instruction where truncating the incremented value in a register would
@@ -2067,22 +1731,22 @@ u32 sub_02033200(struct SaveBackup *p, u32 id)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02033264.c \n *       --func sub_02033264 --addr 0x02033264 --cc 1.1p1 --arm
  */
-u16 sub_02033264(struct SaveBackup *p, u32 id)
+u16 sub_02033264(BackupSaveData *sv, u32 id)
 {
-    u32 base;
-    u32 off;
-    u16 *q;
+    u32 ofs;
+    u32 size;
+    u16 *count;
 
-    base = func_02033B68((u8 *)p->unk2C, id);
-    off = func_02033BAC((u8 *)p->unk2C, id);
-    q = (u16 *)(p->unk34 + (base + off));
-    *q = *q + 1;
-    return *q;
+    ofs = func_02033B68(sv->table, id);
+    size = func_02033BAC(sv->table, id);
+    count = (u16 *)(sv->svwk + (ofs + size));
+    *count = *count + 1;
+    return *count;
 }
 
 
 /*
- * savedata.c.  Recomputes the CRC-16/CCITT of one record in the staging
+ * backup_system.c.  Recomputes the CRC-16/CCITT of one record in the staging
  * buffer and stores it in the halfword that follows the record.  The table
  * argument is the global at 0x02146994 plus four, i.e. a MATHCRC16Table
  * that lives inline at +4 of that object rather than a pointer kept there.
@@ -2092,19 +1756,19 @@ u16 sub_02033264(struct SaveBackup *p, u32 id)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020332A4.c \n *       --func sub_020332A4 --addr 0x020332A4 --cc 1.1p1 --arm
  */
-u16 sub_020332A4(struct SaveBackup *p, u32 id)
+u16 sub_020332A4(BackupSaveData *sv, u32 id)
 {
-    u32 base;
-    u32 len;
-    u16 *q;
-    u32 buf;
+    u32 ofs;
+    u32 size;
+    SaveRecordFooter *record_footer;
+    u8 *work;
 
-    base = func_02033B68((u8 *)p->unk2C, id);
-    len = func_02033BAC((u8 *)p->unk2C, id);
-    buf = p->unk34;
-    q = (u16 *)(buf + (base + len));
-    q[1] = MATH_CalcCRC16CCITT(g_02146994->crcTable, (void *)(buf + base), len);
-    return q[1];
+    ofs = func_02033B68(sv->table, id);
+    size = func_02033BAC(sv->table, id);
+    work = sv->svwk;
+    record_footer = (SaveRecordFooter *)(work + (ofs + size));
+    record_footer->crc = MATH_CalcCRC16CCITT(g_02146994->crc_table, work + ofs, size);
+    return record_footer->crc;
 }
 
 
@@ -2122,9 +1786,9 @@ u16 sub_020332A4(struct SaveBackup *p, u32 id)
  *   python tools/match.py tu --src src/matched/unit_020332FC.c \
  *       --addr 0x020332FC --arm
  */
-u32 sub_020332FC(struct Obj020332FC *p, u32 idx)
+u32 sub_020332FC(BackupSaveData *sv, u32 block)
 {
-    return (p->slots[idx >> 4] >> ((idx & 0xf) * 2)) & 3;
+    return (sv->block_area[block >> 4] >> ((block & 0xf) * 2)) & 3;
 }
 
 
@@ -2164,16 +1828,16 @@ u32 sub_020332FC(struct Obj020332FC *p, u32 idx)
  *   python tools/match.py one --src src/matched/sub_0203331C.c \
  *       --func sub_0203331C --addr 0x0203331C --cc 1.1p1 --arm
  */
-void sub_0203331C(struct Obj020332FC *p, u32 idx, u32 val)
+void sub_0203331C(BackupSaveData *sv, u32 block, u32 area)
 {
-    u32 sh = (idx & 0xf) * 2;
-    u32 tmp;
-    u32 tmp1;
+    u32 shift = (block & 0xf) * 2;
+    u32 word;
+    u32 word_index;
 
-    tmp1 = idx >> 4;
-    tmp = tmp1;
-    p->slots[tmp] &= (3 << ((idx & 0xf) * 2)) ^ -1;
-    p->slots[idx >> 4] |= val << sh;
+    word_index = block >> 4;
+    word = word_index;
+    sv->block_area[word] &= (3 << ((block & 0xf) * 2)) ^ -1;
+    sv->block_area[block >> 4] |= area << shift;
 }
 
 
@@ -2181,7 +1845,7 @@ void sub_0203331C(struct Obj020332FC *p, u32 idx, u32 val)
  * backup_system.c.  Swaps the two record marks across the whole packed
  * 2-bit-per-slot bitmap at +0x138: every slot holding 1 becomes 2 and every
  * slot holding 2 becomes 1 (0 and 3 are left alone).  The slot count is
- * sub_02033BF0(p->unk2c) + 2, the same count func_02033410 fills; the one-slot
+ * sub_02033BF0(p->table) + 2, the same count func_02033410 fills; the one-slot
  * getter and setter are src/matched/unit_020332FC.c and sub_0203331C.c.
  * Called by func_02032CD0 when a save generation completes.
  *
@@ -2206,55 +1870,55 @@ void sub_0203331C(struct Obj020332FC *p, u32 idx, u32 val)
  *   python tools/match.py one --src src/matched/sub_0203335C.c \
  *       --func sub_0203335C --addr 0x0203335C --cc 1.1p1 --arm
  */
-void sub_0203335C(struct Obj0203335C *p)
+void sub_0203335C(BackupSaveData *sv)
 {
-    u32 n;
-    u32 w;
-    u32 sh;
-    u32 n_;
-    u32 i;
-    u32 v;
+    u32 count;
+    u32 word;
+    u32 shift;
+    u32 count_copy;
+    u32 block;
+    u32 area;
 
-    n = sub_02033BF0(p->unk2c) + 2;
-    w = 0;
-    sh = 0;
-    i = 0;
-    n_ = n;
-    if (n == 0) {
+    count = sub_02033BF0(sv->table) + 2;
+    word = 0;
+    shift = 0;
+    block = 0;
+    count_copy = count;
+    if (count == 0) {
         return;
     }
     do {
-        v = (p->slots[(int)w] >> sh) & 3;
-        if (v != 0) {
-            if (v == 1) {
-                v = 2;
-            } else if (v == 2) {
-                v = 1;
+        area = (sv->block_area[(int)word] >> shift) & 3;
+        if (area != 0) {
+            if (area == 1) {
+                area = 2;
+            } else if (area == 2) {
+                area = 1;
             }
-            p->slots[w] &= (long long)(3 << sh) ^ -1;
-            p->slots[w] |= v << sh;
+            sv->block_area[word] &= (long long)(3 << shift) ^ -1;
+            sv->block_area[word] |= area << shift;
         }
-        sh += 2;
-        i++;
-        if (sh >= 0x20) {
-            sh -= 0x20;
-            w++;
+        shift += 2;
+        block++;
+        if (shift >= 0x20) {
+            shift -= 0x20;
+            word++;
         }
-    } while (i < n_);
+    } while (block < count_copy);
 }
 
 
-void func_020333F8(Save *self)
+void func_020333F8(BackupSaveData *sv)
 {
-    func_02082A7C(0, (void *)((struct Obj11327 *)self)->f138, ((struct Obj11327 *)self)->f13C);
+    func_02082A7C(0, sv->block_area, sv->block_area_size);
 }
 
 
 /*
  * backup_system.c.  Fills the whole packed 2-bit-per-slot bitmap at offset
  * 0x138 with one repeated value: MIi_CpuClear32 (func_02082A7C) wipes
- * p->nbytes bytes of it, then `val` is OR'd in two bits at a time for
- * sub_02033BF0(p->unk2c) + 2 slots.  The getter/setter for one slot of the
+ * p->block_area_size bytes of it, then `val` is OR'd in two bits at a time for
+ * sub_02033BF0(p->table) + 2 slots.  The getter/setter for one slot of the
  * same bitmap are src/matched/unit_020332FC.c and
  * src/matched/sub_0203331C.c.
  *
@@ -2279,36 +1943,39 @@ void func_020333F8(Save *self)
  *   python tools/match.py one --src src/matched/func_02033410.c \
  *       --func func_02033410 --addr 0x02033410 --cc 1.1p1 --arm
  */
-void func_02033410(struct Obj02033410 *p, u32 val)
+void func_02033410(BackupSaveData *sv, u32 area)
 {
-    u32 n;
-    u32 w;
-    u32 sh;
-    u32 n_;
-    u32 i;
+    u32 count;
+    u32 word;
+    u32 shift;
+    u32 count_copy;
+    u32 block;
 
-    func_02082A7C(0, p->slots, p->nbytes);
-    n = sub_02033BF0(p->unk2c) + 2;
-    w = 0;
-    sh = 0;
-    n_ = n;
-    i = 0;
-    if (n_ == 0) {
+    func_02082A7C(0, sv->block_area, sv->block_area_size);
+    count = sub_02033BF0(sv->table) + 2;
+    word = 0;
+    shift = 0;
+    count_copy = count;
+    block = 0;
+    if (count_copy == 0) {
         return;
     }
     do {
-        i++;
-        p->slots[w] |= val << sh;
-        sh += 2;
-        if (sh >= 0x20) {
-            sh -= 0x20;
-            w++;
+        block++;
+        sv->block_area[word] |= area << shift;
+        shift += 2;
+        if (shift >= 0x20) {
+            shift -= 0x20;
+            word++;
         }
-    } while (i < n_);
+    } while (block < count_copy);
 }
 
 
-void func_02033478(int a0, int a1, int a2){ func_020335AC((int)a0, (int)a1, (int)a2, (int)*(int *)(((char *)(*(int *)((char *)(0x2146994))) + 520))); }
+void func_02033478(u32 flash_addr, u32 src, u32 size)
+{
+    func_020335AC(flash_addr, src, size, g_02146994->write_error_func);
+}
 
 
 /*
@@ -2318,7 +1985,10 @@ void func_02033478(int a0, int a1, int a2){ func_020335AC((int)a0, (int)a1, (int
  * saves no lr), so it is invisible to `sole-ref/code` until this entry
  * exists; it is the witness that unblocks the thumb caller func_021DFE00.
  */
-void func_02033494(int a0, int a1, int a2, int a3){ func_020336B8((int)a0, (int)a1, (int)a2, (void *)((int)*(int *)(((char *)(*(int *)((char *)(0x2146994))) + 520)))); }
+u16 func_02033494(u32 flash_addr, u32 src, u32 size)
+{
+    return func_020336B8(flash_addr, src, size, g_02146994->write_error_func);
+}
 
 
 /*
@@ -2330,7 +2000,10 @@ void func_02033494(int a0, int a1, int a2, int a3){ func_020336B8((int)a0, (int)
  * `sole-ref/code` until this entry exists; it is the witness that
  * unblocks the thumb caller func_021DFE00.
  */
-void func_020334B0(u16 a0, int a1){ func_020337B8(a0, (u32 *)a1, g_02146994->unk208); }
+int func_020334B0(u16 lock_id, u32 *success)
+{
+    return func_020337B8(lock_id, success, g_02146994->write_error_func);
+}
 
 
 /*
@@ -2339,1310 +2012,16 @@ void func_020334B0(u16 a0, int a1){ func_020337B8(a0, (u32 *)a1, g_02146994->unk
  * calls it; its callers are Thumb blx in ov228, so the listing carried it as
  * raw words until the seed in layout/function_starts.txt.
  */
-int func_020334CC(u32 a, u32 b, u32 c)
+int func_020334CC(u32 flash_addr, u32 dst, u32 size)
 {
-    return func_020335E8(a, b, c, (void (*)(void))g_02146994->unk204);
+    return func_020335E8(flash_addr, dst, size, g_02146994->read_error_func);
 }
 
 
-int func_020334E8(u8 *p, u32 b, u32 c, u32 d, u32 e)
+int func_020334E8(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size)
 {
-    u32 n = func_02031EAC((u32 *)p, c + 1);
-    u32 m = func_02033B68(*(u8 * *)&((struct Obj15882 *)p)->f2C, b);
+    u32 area_addr = func_02031EAC(sv, area_index + 1);
+    u32 ofs = func_02033B68(sv->table, id);
 
-    return func_020335E8(n + m, d, e, (void (*)(void))g_02146994->unk204);
-}
-
-
-/*
- *           --suggest-split offers nothing (single function, the one
- *           unresolved site's only witness is inside this range).
- *           the only branch to it in the image is this function's own call.
- *           Every concrete byte of the body reproduces.
- */
-int func_02033534(u32 a)
-{
-    int id = func_02084EB8(a);
-    u32 h;
-
-    if (id == -3) {
-        func_02034714((const char *)str_020A78A0, 0x38, (const char *)str_020A78B0);
-    }
-    func_02075E9C((u16)id);
-    h = 0x00ff1302;
-    if (func_02076B2C(h) == 0) {
-        h = 0;
-    }
-    func_02075EAC((u16)id);
-    func_02084F10((u16)id);
-    return h != 0;
-}
-
-
-/*
- * The retry loop is a `while (call(...) == 0) ;` with an uninitialised `v`:
- * zeroing `v` first costs a `mov r4, #0` + `str r4, [sp]` the original does
- * not have, and 8 bytes of frame.  The second call site resolves on the
- * `literal` class (the word 0x020337B8 appears in the callee's own pool).
- */
-u32 func_020335AC(u32 a, u32 b, u32 c, u32 d)
-{
-    u32 v;
-    u16 h = func_020336B8(a, b, c, (void *)d);
-
-    while (func_020337B8(h, &v, d) == 0) {
-        ;
-    }
-    return v;
-}
-
-
-/*
- * EXACT* rather than EXACT: the follower at 0x020336A4 (20 bytes, an
- * unlabelled leaf holding a two-instruction store and `bx lr` between the
- * pool words) saves no lr, so disasm.py gives no label and the inferred
- * extent runs 188 -> 208.  Every concrete byte of the 188 is identical.
- * Report the follower rather than editing layout/function_starts.txt.
- * The result of CARDi_RequestStreamCommand lands in r6 only after the
- * intervening call to the void func_02076B80: mwcc keeps r0 live across a
- * void-returning call and defers the move.  Same body as func_02033534 with
- * a two-function stream instead of CARD_IdentifyBackup.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020335E8.c \
- *       --func func_020335E8 --addr 0x020335E8 --cc 1.1p1
- */
-int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void))
-{
-    int id = func_02084EB8(a0);
-    int r;
-
-    if (id == -3) {
-        func_02034714((const char *)str_020A78A0, 0xa4, (const char *)str_020A78B0);
-    }
-    func_02075E9C((u16)id);
-    r = CARDi_RequestStreamCommand(a0, a1, a2, 0, 0, 1, 6, 1, 0);
-    r = func_02076B80();
-    func_02075EAC((u16)id);
-    func_02084F10((u16)id);
-    if (r == 0 && a3 != 0) {
-        a3();
-    }
-    return r;
-}
-
-
-/*
- * The dma completion callback passed by func_020336B8: it raises the flag
- * that the synchronous path lowers before the asynchronous request.
- */
-void func_020336A4(void)
-{
-    d_020A789C = 1;
-}
-
-
-/*
- * Two stream commands plus a 4-byte status read into a stack word.  The
- * first passes is_async = 0 and the retry count exercises the function at
- * 0x020336A4 (an unlabelled leaf, the follower of func_020335E8, which sets
- * the flag at 0x02146998) as the dma callback.  d_02146998 is raised around
- * the synchronous read and d_020A789C lowered before the asynchronous one.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020336B8.c \
- *       --func func_020336B8 --addr 0x020336B8 --cc 1.1p1
- */
-u16 func_020336B8(u32 a0, u32 a1, u32 a2, void *a3)
-{
-    int id = func_02084EB8(a0);
-    u32 buf;
-
-    if (id == -3) {
-        func_02034714((const char *)str_020A78A0, 0xd4, (const char *)str_020A78B0);
-    }
-    func_02075E9C((u16)id);
-
-    g_02146998 = 1;
-    if (CARDi_RequestStreamCommand(0, (u32)&buf, 4, 0, 0, 0, 6, 1, 0) == 0) {
-        func_020338B8((u16)id, 1, a3);
-    }
-
-    d_020A789C = 0;
-    CARDi_RequestStreamCommand(a1, a0, a2, func_020336A4, 0, 1, 7, 10, 2);
-    return (u16)id;
-}
-
-
-int func_020337B8(u16 a0, u32 *a1, u32 a2)
-{
-    if (g_020A789C[0] == 1) {
-        func_02075EAC(a0);
-        func_02084F10(a0);
-        g_02146998 = 0;
-
-        switch (func_02075DD8()) {
-        case 0:
-            *a1 = 1;
-            break;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 7:
-        default:
-            *a1 = 0;
-            func_020338B8(a0, 0, (void (*)(u32))a2);
-            break;
-        case 6:
-            *a1 = 0;
-            func_020338B8(a0, 1, (void (*)(u32))a2);
-            break;
-        }
-        return 1;
-    }
-    return 0;
-}
-
-
-void func_0203386C(u16 a)
-{
-    if (func_02076B8C() == 0) {
-        func_02076B98();
-        func_02076B80();
-    }
-    if (g_02146998 != 1) {
-        return;
-    }
-    func_02075EAC(a);
-    func_02084F10(a);
-    g_02146998 = 0;
-}
-
-
-void func_020338B8(u16 a, u32 b, void (*cb)(u32))
-{
-    func_02075EAC(a);
-    func_02084F10(a);
-    g_02146998 = 0;
-    if (cb != 0) {
-        cb(b);
-    }
-}
-
-
-/*
- * Accessor for the singleton pointer at 0x02146998.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020338F8.c \
- *       --func func_020338F8 --addr 0x020338F8 --cc 1.1p1 --arm
- */
-void *func_020338F8(void)
-{
-    return (void *)g_02146998;
-}
-
-
-/*
- * Seven arguments, the last three on the stack.  A 0x1c-byte record is taken
- * from the pool `a0` names (tag 0x49) and cleared, four of the caller's
- * values are stored into it (- / +4 / +0x10 / +8 in that order), a second
- * run of 12 * a2 bytes is taken with tag 0x4f and its address goes to +0x14,
- * the last stack argument to +0x18, and the whole record plus the second
- * stack argument goes to func_02033A88.
- *
- * Blocked on: the call to func_02033A88 at +0x98 is the only branch to that
- * address anywhere in the image, so `label` refuses it (its sole witness is
- * this function's own call site) and the site stays wildcarded.  Every other
- * byte, including the other four relocation sites, is right.  0x02033A88 is
- * in pkt_02033A88, not this lane's packets; filing it first would turn this
- * row EXACT with no change to the C.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02033908.c \
- *       --func func_02033908 --addr 0x02033908 --cc 1.1p1 --arm
- */
-void *func_02033908(u16 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
-{
-    u8 *p = (u8 *)func_02030734(a0, 0x1c, 0, (const char *)g_020A78CC, 0x49);
-
-    MIi_CpuClear32(0, p, 0x1c);
-    *(u32 *)&((struct Obj01312 *)p)->f0 = a1;
-    ((struct Obj01312 *)p)->f4 = a2;
-    ((struct Obj01312 *)p)->f10 = a3;
-    ((struct Obj01312 *)p)->f8 = a4;
-    *(u32 *)&((struct Obj01312 *)p)->f14 = (u32)func_02030734(a0, a2 * 12, 1, (const char *)g_020A78CC, 0x4f);
-    ((struct Obj01312 *)p)->f18 = a6;
-    func_02033A88((struct Save_020339B4 *)p, a5);
-    return p;
-}
-
-
-/*
- * Destructor for one record: release the pointer held at +0x14, then the
- * record itself.  Both releases go through the overruled SDK address
- * 0x020307B0, which is already matched, so both PC24 sites attest on the
- * `matched` class.  This function is itself the only blocker for
- * src/matched/func_0203195C.c and the parked save-backup file
- * src/pending/sub_020331D0.c.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020339B4.c \
- *       --func func_020339B4 --addr 0x020339B4 --arm --cc 1.1p1
- */
-void func_020339B4(int *p)
-{
-    func_020307B0((void *)p[5]);
-    func_020307B0(p);
-}
-
-
-void func_020339D0(u32 a, T *sb)
-{
-    PtrEnt *ptrs = (PtrEnt *)sb->f00;
-    u32 n = sb->f04;
-    int i;
-
-    func_02082A7C(0, (void *)a, sb->f10);
-    for (i = 0; i < n; i++) {
-        u32 off = ((Ent *)sb->f14)[i].off;
-        func_02082A7C(0, (void *)(a + off), ((Ent *)sb->f14)[i].size);
-        ((void (*)(u32))ptrs[i].fn)(a + off);
-    }
-}
-
-
-u32 func_02033A3C(u32 *p, u32 i)
-{
-    FP fp;
-    u32 base = p[0];
-
-    if (i >= p[1]) {
-        func_02034714((const char *)str_020A78CC, 0x85, (const char *)str_020A78D8);
-    }
-    fp = *(FP *)(base + i * 0xc + 4);
-    return (fp() + 3) & ~3;
-}
-
-
-/*
- * note:     savedata.c: lay out the save blocks (id check, per-block size
- *           from func_02033A3C, offsets rounded up to 0x100) and assert the
- *           total fits.  Closed in wave 16 by two declaration facts:
- *           func_02034734 takes FIVE arguments (the total in r3 and the
- *           limit on the stack, which is what the image's `sub sp, sp, #8`
- *           and `str r4, [sp]` are), and the locals are declared src, i,
- *           count, dst, total (i before count puts i in r5 and count in r6).
- *           The `mov r1, r5` the old note called dead is func_02033A3C's
- *           second argument.
- */
-void func_02033A88(struct Save_020339B4 *p, u32 v)
-{
-    struct Src *src;
-    u32 i;
-    u32 count;
-    struct Dst *dst;
-    u32 total;
-    u32 size;
-    u32 off;
-    u32 pad;
-
-    src = p->src;
-    count = p->count;
-    dst = p->dst;
-    total = 0;
-
-    for (i = 0; i < count; i++) {
-        if (i != src[i].id) {
-            func_02034714((const char *)str_020A78CC, 0x9e, (const char *)str_020A78F0);
-        }
-        dst[i].id = src[i].id;
-        size = func_02033A3C((u32 *)p, i);
-        dst[i].size = size;
-        dst[i].offset = total;
-        off = v + size;
-        pad = off & 0xff;
-        if (pad != 0)
-            pad = 0x100 - pad;
-        else
-            pad = 0;
-        total += off + pad;
-    }
-    p->f0c = p->f08 + (total + p->f18);
-    if (p->f0c > p->f10) {
-        func_02034734((const char *)str_020A78CC, 0xb3, (const char *)str_020A7908, p->f0c, p->f10);
-    }
-}
-
-
-u32 func_02033B68(u8 *p, u32 i)
-{
-    if (i >= ((struct Obj11330 *)p)->f4) {
-        func_02034714((const char *)str_020A78CC, 0xc7, (const char *)str_020A793C);
-    }
-    return *(u32 *)(((struct Obj11330 *)p)->f14 + i * 0xc + 8);
-}
-
-
-u32 func_02033BAC(u8 *p, u32 i)
-{
-    if (i >= ((struct Obj11331 *)p)->f4) {
-        func_02034714((const char *)str_020A78CC, 0xd6, (const char *)str_020A793C);
-    }
-    return *(u32 *)(((struct Obj11331 *)p)->f14 + i * 0xc + 4);
-}
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Two plain field accessors on the same object, no relocations. Called
- * repeatedly through the rest of this packet.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02033BF0.c \
- *       --addr 0x02033BF0 --arm
- */
-u32 sub_02033BF0(struct Obj02033BF0 *p)
-{
-    return p->unk04;
-}
-
-
-u32 sub_02033BF8(struct Obj02033BF0 *p)
-{
-    return p->unk0c;
-}
-
-
-/*
- * alias: "areaman.c".  The pool word at 0x02033C94 holds 0x020A7958 and the
- * bytes there spell "areaman.c", so this range is the head of that file; the
- * `string` class closes the site because "gmdataid < svdt->table_max" ends
- * with its NUL at 0x020A7956 and two bytes of padding put the next string at
- * 0x020A7958 by construction.
- *
- * The constructor of the area manager: `size` is a count of areas, and the
- * object carries a bitmap one bit per area.  The byte count is rounded up
- * from the bit count and then up again to a multiple of four, the allocation
- * is 0xC bytes of header plus the bitmap plus the four byte guard word
- * 0x573C765A that is written immediately past the bitmap, and the bitmap
- * itself is cleared.  The guard word is what the checker in this subsystem
- * re-reads to catch an overrun.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033C00.c \
- *       --func sub_02033C00 --addr 0x02033C00 --cc 1.1p1 --arm
- */
-struct AreaMan *sub_02033C00(u32 size, u16 heap)
-{
-    struct AreaMan *p;
-    u32 n;
-    u16 nbytes;
-
-    n = ((size & 7) != 0) + (size >> 3);
-    while ((n & 3) != 0) {
-        n++;
-    }
-    nbytes = (u16)n;
-
-    p = func_02030734(heap, nbytes + 0x10, 0, sub_02033C00_File, 0x94);
-    p->unk00 = (u16)size;
-    p->unk02 = nbytes;
-    p->guard = (u32 *)(p->bits + nbytes);
-    *p->guard = 0x573C765A;
-    p->unk08 = 0;
-    MI_CpuFill8(p->bits, 0, nbytes);
-    return p;
-}
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Four to eight byte function with no prologue at all: a pool word and a
- * bx, exactly the tail-call veneer idiom recorded in
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md. No arguments are touched,
- * so the call forwards whatever the caller left in the argument registers.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02033C9C.c \
- *       --addr 0x02033C9C --arm
- */
-u32 sub_02033C9C(void *a)
-{
-    return func_020307B0(a);
-}
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * Previously parked at MATCH: the two dispatch arms 0x02033CFC and
- * 0x02033E30 are each reached by exactly one branch in the whole image, the
- * one in sub_02033CC0 itself, so neither had an outside witness.  Both now
- * close on the `matched` class (src/matched/sub_02033CFC.c and
- * src/matched/sub_02033E30.c); nothing in this file had to change.
- *
- * areaman.c, the front door of the variable length record allocator built on
- * the 0x02033C00 object.  sub_02033CA8 is the "search the whole bitmap" entry
- * point: it forwards to the ranged form with a start of zero and a limit of
- * the object's bit count.  sub_02033CC0 validates the request against the
- * bitmap extent and then dispatches on the run length: runs shorter than
- * eight bits go to the bit-at-a-time scanner at 0x02033CFC, longer runs to
- * the word-at-a-time scanner at 0x02033E30.  Both dispatch arms are written
- * out as their own return so that each gets its own `bl`/`pop` pair, which is
- * what the original has.
- *
- * The forwarding tail call in sub_02033CA8 is the pool-word-and-bx idiom
- * (docs/idioms/tail-call-is-a-pool-word-and-bx.md): one section per function
- * means the call to the very next function in the same file still costs a
- * pool word.  Keeping the two in one unit makes that site `local`, which is
- * what closes it without an outside witness.
- *
- * Verified with:
- *   python tools/match.py tu --src src/pending/unit_02033CA8.c \
- *       --addr 0x02033CA8 --arm
- */
-s32 sub_02033CA8(struct AreaMan *p, u32 len)
-{
-    return sub_02033CC0(p, 0, p->unk00, len);
-}
-
-
-s32 sub_02033CC0(struct AreaMan *p, u32 start, u32 limit, u32 len)
-{
-    if (limit < len || start + len > p->unk00) {
-        return -1;
-    }
-
-    if (len < 8) {
-        return func_02033CFC(p, start, limit, len);
-    }
-
-    return func_02033E30(p, start, limit, len);
-}
-
-
-s32 sub_02033CFC(struct AreaMan *p, u32 start, u32 limit, u32 len)
-{
-    s32 found;
-    s32 last;
-    s32 lastByte;
-    s32 i;
-    s32 bit;
-    u32 tail;
-
-    last = start + limit + 1 - len;
-    lastByte = last / 8;
-    i = start >> 3;
-    found = -1;
-
-    if ((start & 7) + len <= 8) {
-        bit = func_020342F8(p->bits[i], start & 7, len);
-        if (bit != -1) {
-            found = bit + i * 8;
-            goto done;
-        }
-    }
-
-    while (i <= lastByte) {
-        if (g_RunLenAny[p->bits[i]] >= len) {
-            bit = func_020342F8(p->bits[i], 0, len);
-            if (bit != -1) {
-                found = bit + i * 8;
-                goto done;
-            }
-        } else {
-            tail = g_RunLenTail[p->bits[i]];
-            if (tail != 0 && i < lastByte) {
-                if (g_RunLenHead[p->bits[i + 1]] >= len - tail) {
-                    found = (8 - tail) + i * 8;
-                    goto done;
-                }
-            }
-        }
-        i++;
-    }
-
-done:
-    if (found != -1 && found <= last) {
-        if (func_020343C0(p, found, len) == 0) {
-            return -1;
-        }
-        func_02034508(p, found, len, 0x17c);
-        return found;
-    }
-    return -1;
-}
-
-
-/*
- * areaman.c.  The word-at-a-time run scanner: the long-run arm of
- * sub_02033CC0's dispatch (see src/pending/unit_02033CA8.c), taken when the
- * requested run is eight bits or longer.  Where sub_02033CFC walks bit by
- * bit, this one anchors on the trailing free run of byte `i`, skips whole
- * zero bytes, and then checks the leading free run of the byte the tail
- * lands in.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033E30.c \
- *       --func sub_02033E30 --addr 0x02033E30 --cc 1.1p1 --arm
- */
-s32 sub_02033E30(struct AreaMan *p, u32 start, u32 limit, u32 len)
-{
-    u32 last;
-    s32 lastByte;
-    s32 run;
-    s32 t;
-    s32 n;
-    s32 i;
-    s32 q;
-    s32 j;
-    s32 r;
-    s32 found;
-
-    i = start >> 3;
-    last = start + limit - len;
-    lastByte = last / 8;
-
-    run = 8 - (start & 7);
-    t = g_RunLenTail[p->bits[i]];
-    if (t < run) {
-        run = t;
-    }
-
-    while (i <= lastByte) {
-        if (run != 0) {
-            n = len - run;
-            q = n / 8;
-            r = n % 8;
-            j = i + 1;
-            while (q != 0) {
-                if (p->bits[j] != 0) {
-                    break;
-                }
-                j++;
-                q--;
-            }
-            if (q == 0) {
-                found = -1;
-                if (r == 0) {
-                    found = (8 - run) + i * 8;
-                } else if (g_RunLenHead[p->bits[j]] >= r) {
-                    found = (8 - run) + i * 8;
-                }
-                if (found != -1) {
-                    if (func_020343C0(p, found, len) == 0) {
-                        return -1;
-                    }
-                    func_02034508(p, found, len, 0x1db);
-                    return found;
-                }
-            }
-        }
-        i++;
-        if (i <= lastByte) {
-            run = g_RunLenTail[p->bits[i]];
-        }
-    }
-
-    return -1;
-}
-
-
-s32 sub_02033F64(struct AreaMan *p, u32 start, u32 limit, u32 len)
-{
-    s32 pos;
-
-    if (limit < len) {
-        return -1;
-    }
-
-    if (len < 8) {
-        pos = func_02033FB0(p, start, limit, len);
-    } else {
-        pos = func_020340D0(p, start, limit, len);
-    }
-
-    func_02034508(p, pos, len, 0x230);
-    return pos;
-}
-
-
-/*
- * areaman.c.  The downward bit-at-a-time run scanner: the short-run arm of
- * sub_02033F64's dispatch (see src/pending/sub_02033F64.c), the mirror of
- * sub_02033CFC walking towards lower addresses.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02033FB0.c \
- *       --func sub_02033FB0 --addr 0x02033FB0 --cc 1.1p1 --arm
- */
-s32 sub_02033FB0(struct AreaMan *p, u32 start, u32 limit, u32 len)
-{
-    s32 i;
-    s32 last;
-    s32 lastByte;
-    s32 found;
-    s32 bit;
-    u32 head;
-
-    last = start - limit + 1;
-    lastByte = last / 8;
-    i = start >> 3;
-    found = -1;
-
-    if ((start & 7) != 0) {
-        bit = func_02034348(p->bits[i], start & 7, len);
-        if (bit != -1) {
-            found = bit + i * 8;
-            goto done;
-        }
-    }
-
-    while (i >= lastByte) {
-        if (g_RunLenAny[p->bits[i]] >= len) {
-            bit = func_02034348(p->bits[i], 7, len);
-            if (bit != -1) {
-                found = bit + i * 8;
-                goto done;
-            }
-        } else {
-            head = g_RunLenHead[p->bits[i]];
-            if (head != 0 && i > lastByte) {
-                if (g_RunLenTail[p->bits[i - 1]] >= len - head) {
-                    found = (8 - (len - head)) + (i - 1) * 8;
-                    goto done;
-                }
-            }
-        }
-        i--;
-    }
-
-done:
-    if (found != -1 && found >= last) {
-        if (func_020343C0(p, found, len) == 0) {
-            found = -1;
-        }
-        return found;
-    }
-    return -1;
-}
-
-
-/*
- * areaman.c.  The downward word-at-a-time run scanner: the long-run arm of
- * sub_02033F64's dispatch (see src/pending/sub_02033F64.c), the mirror of
- * sub_02033E30 walking towards lower addresses.  The anchor is the leading
- * free run of byte `i`, whole zero bytes are skipped downwards, and the
- * trailing free run of the byte the remainder lands in closes the request.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020340D0.c \
- *       --func sub_020340D0 --addr 0x020340D0 --cc 1.1p1 --arm
- */
-s32 sub_020340D0(struct AreaMan *p, u32 start, u32 limit, u32 len)
-{
-    s32 i;
-    u32 last;
-    s32 lastByte;
-    s32 run;
-    s32 r;
-    s32 t;
-    s32 n;
-    s32 q;
-    s32 j;
-    s32 found;
-
-    last = start - limit + 1;
-    i = start >> 3;
-    lastByte = last / 8;
-
-    run = (start & 7) + 1;
-    t = g_RunLenHead[p->bits[i]];
-    if (t < run) {
-        run = t;
-    }
-
-    while (i >= lastByte) {
-        if (run != 0) {
-            n = len - run;
-            q = n / 8;
-            r = n % 8;
-            j = i - 1;
-            while (q != 0) {
-                if (j < lastByte || p->bits[j] != 0) {
-                    break;
-                }
-                j--;
-                q--;
-            }
-            if (q == 0) {
-                found = -1;
-                if (r == 0) {
-                    found = (j + 1) * 8;
-                } else if (j >= lastByte && g_RunLenTail[p->bits[j]] >= r) {
-                    found = (8 - r) + j * 8;
-                }
-                if (found != -1 && found >= last) {
-                    if (func_020343C0(p, found, len) == 0) {
-                        found = -1;
-                    }
-                    return found;
-                }
-            }
-        }
-        i--;
-        if (i >= lastByte) {
-            run = g_RunLenHead[p->bits[i]];
-        }
-    }
-
-    return -1;
-}
-
-
-/*
- * areaman.c.  Test-and-report: ask the range checker at 0x020343C0 whether
- * the run [start, start+len) is free, and if it is not, report it through
- * the assert sink at 0x02034508 with line 0x304 before answering.  The
- * three arguments are held in callee-saved registers across the first call
- * precisely because the second call needs them again.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020341F0.c \
- *       --func sub_020341F0 --addr 0x020341F0 --cc 1.1p1 --arm
- */
-s32 sub_020341F0(struct AreaMan *p, u32 start, u32 len)
-{
-    if (func_020343C0(p, start, len) == 0) {
-        return 0;
-    }
-
-    func_02034508(p, start, len, 0x304);
-    return 1;
-}
-
-
-/*
- * areaman.c.  Clear `len` bits starting at bit `start` of the bitmap: a run
- * inside one byte goes to func_02034394 (q, bit, len); otherwise the head
- * bits are cleared with the tail mask, whole bytes are zeroed and the run
- * mask clears the head of the last byte.  func_020344C8 then refreshes the
- * manager.
- *
- * What closed it (wave 17, from 17 out): the byte cursor past the head is
- * the PARAMETER reused, `start = idx + 1;`, not idx incremented.  That puts
- * the cursor in start's own register r1 and rotates the zero and the count
- * to the image's r2 / r3; the same lever closed sub_020343C0.
- * docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203422C.c \
- *       --func func_0203422C --addr 0x0203422C --cc 1.1p1 --arm
- */
-void func_0203422C(struct AreaMan *p, u32 start, s32 len)
-{
-    u32 bit = start % 8;
-    u32 idx = start / 8;
-    s32 avail;
-    s32 rest;
-    u32 nfull;
-    u32 tail;
-    u32 mask;
-
-    if ((bit + len) <= 8) {
-        func_02034394(&p->bits[idx], bit, len);
-    } else {
-        avail = 8 - bit;
-        mask = Areaman_TailMask[avail];
-        rest = len - avail;
-        nfull = rest / 8;
-        tail = rest % 8;
-        p->bits[idx] &= (u8)~mask;
-        start = idx + 1;
-        while (nfull-- != 0) {
-            p->bits[start] = 0;
-            start++;
-        }
-        p->bits[start] &= (u8)~Areaman_RunMask[tail];
-    }
-    func_020344C8((struct Struct_020344C8 *)p);
-}
-
-
-/*
- * areaman.c.  The forward bit-run scanner inside one byte of the bitmap:
- * given the byte, a starting bit and a run length, walk the run mask down
- * from `start` and return the first bit position at which `len` consecutive
- * bits are all clear, or -1.
- *
- * 0x020A048C is a nine byte table, 00 80 C0 E0 F0 F8 FC FE FF, i.e. the
- * mask of the top `len` bits of a byte; the entry for len == 8 is the last,
- * which is why the length guard is `> 8` here and `>= 8` in the backward
- * scanner at 0x02034348 (that one indexes the same table after adding one).
- * The address has three pool words in the image (0x02034344, 0x02034390 and
- * 0x020343BC), so compiling this function alone leaves two of them outside
- * the compared range and the `literal` class closes the site.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020342F8.c \
- *       --func sub_020342F8 --addr 0x020342F8 --cc 1.1p1 --arm
- */
-s32 sub_020342F8(u32 bits, u32 start, u32 len)
-{
-    u8 mask;
-    u32 last;
-
-    if (len <= 8) {
-        last = 8 - len;
-        mask = Areaman_RunMask[len] >> start;
-
-        while (start <= last) {
-            if ((bits & mask) == 0) {
-                return start;
-            }
-            mask >>= 1;
-            start++;
-        }
-    }
-
-    return -1;
-}
-
-
-/*
- * areaman.c.  The backward twin of sub_020342F8: same run-mask table, but
- * the cursor walks down from `start` instead of up, so the mask is shifted
- * left each step and the loop ends when the signed cursor goes negative.
- * The cursor really is signed here, which is the only reason the original
- * can reuse the flags of the `subs` that computes it for both the entry
- * guard (`bmi`) and the loop back edge (`bpl`).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034348.c \
- *       --func sub_02034348 --addr 0x02034348 --cc 1.1p1 --arm
- */
-s32 sub_02034348(u32 bits, u32 start, u32 len)
-{
-    u8 mask;
-    s32 i;
-
-    if (len < 8) {
-        i = (s32)(start + 1) - (s32)len;
-        mask = Areaman_RunMask[len] >> i;
-
-        while (i >= 0) {
-            if ((bits & mask) == 0) {
-                return i;
-            }
-            mask <<= 1;
-            i--;
-        }
-    }
-
-    return -1;
-}
-
-
-/*
- * areaman.c.  Clears a run of `len` bits starting at bit `start` inside one
- * bitmap byte, using the same 0x020A048C run-mask table as the two scanners.
- * The `and r1, r1, #0xff` after the complement is the u8 truncation, not a
- * mask written in the source.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034394.c \
- *       --func sub_02034394 --addr 0x02034394 --cc 1.1p1 --arm
- */
-void sub_02034394(u8 *p, u32 start, u32 len)
-{
-    u8 mask = Areaman_RunMask[len] >> start;
-
-    *p = *p & (u8)~mask;
-}
-
-
-/*
- * areaman.c.  Mark `len` bits starting at bit `start` of the bitmap as used:
- * fails (0) past the managed range or when any target bit is already set
- * (dumping the mask and the byte through the release-empty hook
- * func_020344C4 when p->unk08 is set), otherwise sets the head bits, fills
- * whole bytes with 0xFF and ORs the tail mask into the last byte.
- *
- * What closed it (wave 17, from 44 out): the byte index is the PARAMETER
- * reused, `start = start / 8;`, not a fresh local.  That is the image's
- * `asr r1, r1, #3` into start's own register, which is what rotates the
- * index/count/tail registers to r1/r3/r2; with it the then-arm zeros go in
- * the natural order `nfull = 0; tail = 0;` (the image's `mov r3, #0` /
- * `mov r2, r3`).  docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020343C0.c \
- *       --func sub_020343C0 --addr 0x020343C0 --cc 1.1p1 --arm
- */
-s32 sub_020343C0(struct AreaMan *p, s32 start, u32 len)
-{
-    u32 bit;
-    u32 avail;
-    u32 nfull;
-    u32 tail;
-    u32 mask;
-    u8 *q;
-    u8 v;
-
-    if (start + len > p->unk00) {
-        return 0;
-    }
-
-    bit = start % 8;
-    avail = 8 - bit;
-    start = start / 8;
-    if (avail >= len) {
-        mask = Areaman_RunMask[len] >> bit;
-        nfull = 0;
-        tail = 0;
-    } else {
-        len = len - avail;
-        mask = Areaman_TailMask[avail];
-        nfull = len >> 3;
-        tail = len & 7;
-    }
-    q = &p->bits[start];
-    v = p->bits[start];
-    if ((mask & v) != 0) {
-        if (p->unk08 != 0) {
-            func_020344C4((u8)mask);
-            func_020344C4(p->bits[start]);
-        }
-        return 0;
-    }
-    start++;
-    *q = v | (u8)mask;
-    while (nfull-- != 0) {
-        p->bits[start] = 0xFF;
-        start++;
-    }
-    if (tail != 0) {
-        p->bits[start] |= Areaman_RunMask[tail];
-    }
-    return 1;
-}
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * A single instruction: `bx lr`. An empty function body, kept as a real
- * entry point because it is called through a pointer field elsewhere in
- * this packet (sub_020344C8 calls it once per loop iteration).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020344C4.c \
- *       --addr 0x020344C4 --arm
- */
-void sub_020344C4(void)
-{
-}
-
-
-void func_020344C8(struct Struct_020344C8 *param)
-{
-    if (param->ptr != 0) {
-        int i;
-        for (i = 0; i < param->count; i++) {
-            func_020344C4(param->data[i]);
-        }
-    }
-}
-
-
-/*
- * Guard-and-forward: calls the offset-8 field of `p` through
- * func_020344C8 only when that field is non-zero.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/unit_02034508.c \
- *       --func sub_02034508 --addr 0x02034508 --cc 1.1p1 --arm
- */
-void sub_02034508(struct Obj02034508 *p)
-{
-    if (p->unk08 != 0) {
-        func_020344C8((struct Struct_020344C8 *)p);
-    }
-}
-
-
-/*
- * Sums the values of a nine-entry {flags, value} table for every entry
- * whose flag bit is set in the argument, then scales the total left by
- * 10 (`<< 0xa`).
- *
- * Every concrete byte matches; g_FlagTable has no witness anywhere else
- * in the ARM9 image, so its one ABS32 site stays unresolved under the
- * honesty rule.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/sub_02034520.c \
- *       --func sub_02034520 --addr 0x02034520 --cc 1.1p1 --arm
- */
-u32 sub_02034520(u32 flags)
-{
-    u32 i;
-    u32 sum = 0;
-
-    for (i = 0; i < 9; i++) {
-        if (flags & g_FlagTable[i].flag) {
-            sum += g_FlagTable[i].value;
-        }
-    }
-    return sum << 0xa;
-}
-
-
-/*
- * vman.c: allocate a VRAM bank record and carve its area: the flag set's
- * size less the base, divided by the row height (0x20, or the caller's
- * value when kind is 1).  The 13-byte register rotation of
- * docs/notes/func_02034558.r6.c.txt was the height LOCAL: the image stores
- * the height into the record in each arm and the divide re-reads the field
- * (`strh` then `ldrh r1, [r5, #4]`), so there is no height value to
- * allocate.  Its two callees are matched now, so nothing caps it.
- */
-struct Bank *func_02034558(u16 heapId, u32 kind, u32 flags, u32 base, u32 b)
-{
-    struct Bank *bank;
-    u32 size;
-
-    bank = sub_02030734(heapId, 8, 0, s_clact_c, 0x7a);
-    size = sub_02034520(flags) - base;
-    if (kind == 1)
-        bank->height = sub_020345F8(b);
-    else
-        bank->height = 0x20;
-    bank->data = sub_02033C00(size / bank->height, heapId);
-    bank->base = base;
-    return bank;
-}
-
-
-void func_020345DC(struct Struct020345DC *obj)
-{
-    func_02033C9C(obj->ptr);
-    sub_020307B0(obj);
-}
-
-
-/*
- * A five-entry linear search over g_Table1 keyed by the argument,
- * returning the matching entry of g_Table2 or a default of 0x20.
- *
- * Every concrete byte matches; neither table is referenced by any other
- * pool word or ABS32 site anywhere else in the ARM9 image, so both stay
- * unresolved under the honesty rule.
- *
- * Verified with:
- *   python tools/match.py one --src src/pending/sub_020345F8.c \
- *       --func sub_020345F8 --addr 0x020345F8 --cc 1.1p1
- */
-u32 sub_020345F8(u32 key)
-{
-    u32 i;
-
-    for (i = 0; i < 5; i++) {
-        if (g_Table1[i].key == key) {
-            return g_Table2[i].key;
-        }
-    }
-    return 0x20;
-}
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The packet's first function, sub_020345F8 (a five-entry linear search
- * over two small tables, neither of which has a witness anywhere else in
- * the ARM9 image), matches byte for byte but keeps two wildcarded ABS32
- * sites, so it is MATCH rather than EXACT and lives at
- * src/pending/sub_020345F8.c instead of in this file.
- *
- * sub_02034630/sub_02034640 are a sentinel pair on a two-word struct:
- * sub_02034630 marks it invalid (both words 0xFFFFFFFF) and sub_02034640
- * reports whether it currently is.
- *
- * The rest of this packet (sub_02034660, sub_020346B8, sub_020346D8,
- * sub_020346EC) is a separate, non-contiguous piece of this same small
- * file; see unit_020346D8.c and unit_020346EC.c for the two of those four
- * that matched cleanly. sub_02034660 (calls sub_0209C2B0 twice and
- * sub_02033CA8) and sub_020346B8 (calls sub_0203422C then this file's own
- * sub_02034630) are left open: both reach into the array/table subsystem
- * around pkt_020339D0 whose argument shapes are not pinned down yet.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020345F8.c \
- *       --addr 0x02034630 --arm
- */
-void sub_02034630(struct Sentinel *p)
-{
-    p->lo = 0xFFFFFFFFu;
-    p->hi = 0xFFFFFFFFu;
-}
-
-
-int sub_02034640(struct Sentinel *p)
-{
-    return p->lo == 0xFFFFFFFFu && p->hi == 0xFFFFFFFFu;
-}
-
-
-int func_02034660(u8 *p, u32 a, void **out)
-{
-    u16 d = ((struct Obj11332 *)p)->f4;
-    u32 q = a / d;
-    u32 v;
-
-    if (a % d != 0) {
-        q++;
-    }
-    v = func_02033CA8((struct AreaMan *)(((struct Obj11332 *)p)->f0), q);
-    if (v != (u32)-1) {
-        out[0] = (void *)v;
-        out[1] = (void *)q;
-        return 1;
-    }
-    return 0;
-}
-
-
-/*
- * Hand a two-word handle back to the owner it came from and then invalidate
- * it in place.  The owner's first word is the object sub_0203422C works on;
- * the handle's two words are its argument pair, which is what the `ldm r4,
- * {r1, r2}` is: one aggregate read of the Sentinel that
- * src/matched/unit_02034630.c pins.
- *
- * The handle is copied into a callee-saved register before the call because
- * it is needed again afterwards for sub_02034630, and the owner load is not:
- * it is consumed by the first call and never referenced again.
- *
- * This is the function that unblocks src/matched/sub_0204A8D4.c, which is its
- * only caller image-wide and therefore had no `label` witness for the site.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020346B8.c \
- *       --func sub_020346B8 --addr 0x020346B8 --cc 1.1p1 --arm
- */
-void sub_020346B8(struct Owner *owner, struct Sentinel *p)
-{
-    sub_0203422C(owner->unk_00, p->lo, p->hi);
-    sub_02034630(p);
-}
-
-
-/*
- * A plain multiply-add accessor: two u16 fields of `a` combine with one
- * u32 read through `b` (itself dereferenced once) as `*b * a->unk04 +
- * a->unk06`. No relocations.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/unit_020346D8.c \
- *       --func sub_020346D8 --addr 0x020346D8 --cc 1.1p1 --arm
- */
-u32 sub_020346D8(struct Item020346D8 *a, u32 *b)
-{
-    return *b * a->unk04 + a->unk06;
-}
-
-
-/*
- * Stores its three call arguments into fixed offsets of a fixed global.
- * g_Sink is the same address sub_02034714 (pkt_02034714, this packet's
- * neighbour) reads back at +0xc as a callback pointer: this is the
- * "register" half of an assert/panic hook the next packet's first
- * function fires. This function only ever touches offsets 0, 4 and 8, so
- * the callback slot at +0xc is left out of the struct here.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/unit_020346EC.c \
- *       --func sub_020346EC --addr 0x020346EC --cc 1.1p1 --arm
- */
-void sub_020346EC(u32 a, u32 b, u32 c)
-{
-    g_Sink.unk8 = a;
-    g_Sink.unk4 = b;
-    g_Sink.unk0 = c;
-}
-
-
-void func_02034704(u32 v)
-{
-    g_Sink.handler = (AssertHandler)v;
-}
-
-
-/*
- * The assert/panic hook trampoline this territory's `bl 0x2034714` sites
- * all reach (see e.g. sub_02033A3C, which loads an expression string,
- * mov r1,#0x85, a file string, then calls here): if a handler is
- * registered at g_Sink+0xc (the field sub_020346EC in the neighbouring
- * packet never writes), call it. This is the forwarding-call idiom from
- * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md
- * read in reverse: the call is `h()`, zero C-visible arguments, and it is
- * only because this function never touches r1/r2 (its own `line`/`file`
- * parameters) anywhere else that they survive, unclobbered, into the
- * callee's argument registers. Writing the call as `h(line, file)`
- * forces two `mov`s that are not in the original and breaks the match.
- * `expr`, `line` and `file` are declared to keep the prototype honest for
- * callers but are otherwise dead in this function's own body.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/unit_02034714.c \
- *       --func sub_02034714 --addr 0x02034714 --cc 1.1p1 --arm
- */
-void sub_02034714(const char *expr, u32 line, const char *file)
-{
-    AssertHandler h = g_Sink.handler;
-
-    if (h) {
-        h();
-    }
-}
-
-
-/*
- * The printf-shaped sibling of sub_02034714 (src/matched/unit_02034714.c):
- * byte for byte the same body, dispatching the hook at g_Sink+0xC through
- * `blx` so a Thumb handler works, wrapped in a variadic frame.
- *
- * The whole difference between the two functions is the trailing `...`.
- * A variadic function homes all four argument registers so the callee's
- * va_list has somewhere contiguous to walk, which is the leading
- * `push {r0, r1, r2, r3}` here (the same shape
- * docs/idioms/address-of-a-register-parameter-is-a-push-of-all-four.md
- * describes for &param), and it is also what turns the epilogue from
- * `pop {r3, pc}` into `pop {r3, lr}` / `add sp, sp, #0x10` / `bx lr`:
- * the homed block has to be discarded before the return.  No `va_start`
- * appears because this function never reads the variadic tail itself; the
- * registered handler does.
- *
- * As in sub_02034714, the hook is called with no C-visible arguments.  The
- * named parameters survive into it only because nothing here clobbers
- * r0-r3 before the `blx`, so writing the call as `h(expr, line, file)`
- * would add `mov`s the original does not have.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02034734.c \
- *       --func sub_02034734 --addr 0x02034734 --cc 1.1p1 --arm
- */
-void sub_02034734(const char *expr, u32 line, const char *file, ...)
-{
-    AssertHandler h = g_Sink.handler;
-
-    if (h) {
-        h();
-    }
+    return func_020335E8(area_addr + ofs, dst, size, g_02146994->read_error_func);
 }

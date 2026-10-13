@@ -1,7 +1,7 @@
 /*
  * file:     field_fog.c
  * unit:     yes
- * function: func_0219F058, func_0219F0B0, func_0219F0F8, func_0219F114, func_0219F128, func_0219F17C, func_0219F188, func_0219F22C, func_0219F248, func_0219F25C, func_0219F2B0, func_0219F354, func_0219F3F0, func_0219F484, func_0219F490, func_0219F52C, func_0219F5C8, func_0219F5D4, func_0219F628, func_0219F634, func_0219F750, func_0219F7CC, func_0219F870, func_0219F8C8, func_0219F8E0, func_0219F8F4, func_0219F990, func_0219FAB4, func_0219FADC, func_0219FB20, func_0219FB2C, func_0219FB48, func_0219FB5C, func_0219FC5C, func_0219FC68, func_0219FCC0, func_0219FD1C, func_0219FD94, func_0219FE20, func_0219FE64, func_0219FE9C, func_0219FEB0, func_0219FFBC, func_0219FFD4, func_021A000C, func_021A006C, func_021A0084, func_021A00E0, func_021A00F4, func_021A00FC, func_021A0104, func_021A0138, func_021A0140, func_021A0170, func_021A01A4, func_021A01AC, func_021A01B4, func_021A01BC, func_021A01C4, func_021A01CC, func_021A01D4, func_021A01D8, func_021A01FC, func_021A0224, func_021A0244, func_021A0250, func_021A0260, func_021A0280, func_021A0290, func_021A02A8, func_021A02C4, func_021A02F4, func_021A030C, func_021A0338, func_021A0354, func_021A0358, func_021A0380, func_021A0390, func_021A03A4, func_021A03B8, func_021A03CC, func_021A03D0, func_021A0448, func_021A0458, func_021A0568, func_021A0590, func_021A05D8, func_021A0618, func_021A063C, func_021A065C, func_021A066C, func_021A0734, func_021A0748, func_021A07B0, func_021A07B4, func_021A07F8, func_021A0818, func_021A0860, func_021A08CC, func_021A0918, func_021A0974, func_021A0980, func_021A0A50, func_021A0B14, func_021A0B34, func_021A0B4C, func_021A0C50, func_021A0C60, func_021A0C74, func_021A0CE4, func_021A0CF4, func_021A0D44, func_021A0D68, func_021A0E58, func_021A0EB0, func_021A0ED4, func_021A0EE4, func_021A0F30, func_021A0F40, func_021A0F7C, func_021A0F90, func_021A0F94, func_021A0FA0, func_021A0FA8, func_021A0FB4, func_021A0FE8, func_021A1050, func_021A10C0, func_021A10D4, ov021_func_021A10E0, func_021A1138
+ * function: func_0219F058, func_0219F0B0, func_0219F0F8, func_0219F114, func_0219F128, func_0219F17C, func_0219F188, func_0219F22C, func_0219F248, func_0219F25C, func_0219F2B0, func_0219F354, func_0219F3F0, func_0219F484, func_0219F490, func_0219F52C, func_0219F5C8, func_0219F5D4, func_0219F628, func_0219F634, func_0219F750, func_0219F7CC, func_0219F870, func_0219F8C8, func_0219F8E0, func_0219F8F4, func_0219F990, func_0219FAB4, func_0219FADC, func_0219FB20, func_0219FB2C, func_0219FB48, func_0219FB5C, func_0219FC5C, func_0219FC68, func_0219FCC0, func_0219FD1C, func_0219FD94, func_0219FE20, func_0219FE64, func_0219FE9C, func_0219FEB0, func_0219FFBC, func_0219FFD4, func_021A000C, func_021A006C, func_021A0084, func_021A00E0, func_021A00F4, func_021A00FC, func_021A0104, func_021A0138, func_021A0140, func_021A0170, func_021A01A4, func_021A01AC, func_021A01B4, func_021A01BC, func_021A01C4, func_021A01CC, func_021A01D4, func_021A01D8, func_021A01FC, func_021A0224, func_021A0244, func_021A0250, func_021A0260, func_021A0280, func_021A0290, func_021A02A8, func_021A02C4, func_021A02F4, func_021A030C, func_021A0338, func_021A0354, func_021A0358, func_021A0380, func_021A0390, func_021A03A4, func_021A03B8, func_021A03CC, func_021A03D0, func_021A0448, func_021A0458, func_021A0568, func_021A0590, func_021A05D8, func_021A0618, func_021A063C, func_021A065C, func_021A066C, func_021A0734, func_021A0748, func_021A07B0, func_021A07B4, func_021A07F8, func_021A0818, func_021A0860, func_021A08CC, func_021A0918, func_021A0974, func_021A0980, func_021A0A50, func_021A0B14, func_021A0B34, func_021A0B4C, func_021A0C50, func_021A0C60, func_021A0C74, func_021A0CE4, func_021A0CF4, func_021A0D44, func_021A0D68, func_021A0E58, func_021A0EB0, func_021A0ED4, func_021A0EE4, func_021A0F30, func_021A0F40, func_021A0F7C, func_021A0F90, func_021A0F94, func_021A0FA0, func_021A0FA8, func_021A0FB4, func_021A0FE8, func_021A1050, func_021A10C0
  * address:  0x0219F058
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from field_fog.c at 0x021A10D4 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_021F29D8  0x021F29D8  thumb  ov029
  *   func_0216E3C4  0x0216E3C4  thumb  ov010
  *   func_0216D6F0  0x0216D6F0  thumb  ov010
  *   func_0216D910  0x0216D910  thumb  ov010
@@ -54,7 +54,6 @@
  *   func_021A3080  0x021A3080  thumb  ov021
  *   func_0216D8C0  0x0216D8C0  thumb  ov010
  *   func_02013D9C  0x02013D9C  thumb
- *   _s32_div_f     0x0209C0A4  arm
  *   func_020508EC  0x020508EC  arm
  *   func_0216D7A8  0x0216D7A8  thumb  ov010
  *   func_02082BCC  0x02082BCC  arm
@@ -85,7 +84,6 @@
  *   func_0204A380  0x0204A380  arm
  *   func_02082D44  0x02082D44  arm
  *   d_021DDE38  0x021DDE38  data  ov021
- *   _u32_div_f     0x0209C2B0  arm
  *   func_02048CA4  0x02048CA4  arm
  *   func_02048CDC  0x02048CDC  arm
  *   func_0206AA8C  0x0206AA8C  arm
@@ -134,9 +132,6 @@
  *   func_021F27D8  0x021F27D8  thumb  ov029
  *   func_021F2984  0x021F2984  thumb  ov029
  *   func_02034A5C  0x02034A5C  arm
- *   func_021F2980 0x021F2980 thumb ov029
- *   func_021F2994  0x021F2994  thumb  ov029
- *   func_021F2848  0x021F2848  thumb  ov029
  */
 #include "../../matched/include/Obj17977.h"
 #include "../../matched/include/Obj17978.h"
@@ -205,7 +200,6 @@ struct LightSlot;
 struct Big;
 struct Ctx;
 struct Sub020090B0Obj;
-struct Sub02009210Obj;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -291,8 +285,6 @@ typedef struct {
 } Lerp021A0860;
 
 typedef struct { s32 x, y, z; } V32;
-
-typedef int BOOL;
 
 typedef struct {
     u8 pad[0xF0];
@@ -428,10 +420,6 @@ void func_021A0FB4(u32 *p, u32 a);
 void ov021_func_021A0FE8(u32 *p);
 void ov021_func_021A1050(u32 *p);
 void func_021A10C0(u32 *p);
-u32 func_021F2980(u32 a);
-u32 func_021A10D4(u32 *p);
-extern int func_021F2994(int *p);
-extern u32 func_021F2848(u32, u32);
 void func_0219F058(u32 a, u16 *o1, u16 *o2);
 void func_0219F0B0(u32 a, u32 b, u32 c);
 void func_0219F0F8(u32 a);
@@ -547,7 +535,6 @@ void func_021A0D68(u32 *a);
 void func_021A0E58(u32 *a);
 int func_021A0EB0(u32 *p, u32 a);
 int func_021A0ED4(u32 a);
-u32 ov021_func_021A10E0(u32 *p, u32 x);
 extern const Vec d_021D854C;
 extern const U8x4 data_021D8548;
 extern char d_021DDE1C[];
@@ -3816,8 +3803,6 @@ u32 x;
     }
     return x;
 }
-
-
 int func_021A0F30(u32 a, u32 b)
 {
 ((struct Obj12083 *)((u8 *)(a)))->f4 = func_021A0EE4(a, b);
@@ -3975,36 +3960,4 @@ void func_021A10C0(u32 *p)
 {
     func_021F2984((char *)p[8]);
     func_02034A5C((int)abs_id_1d);
-}
-
-u32 func_021A10D4(u32 *p) { return func_021F2980(p[8]); }
-
-
-u32 ov021_func_021A10E0(u32 *p, u32 x)
-{
-    u32 a, b;
-    if (x != 0) {
-        a = (u32)func_02188C80((void *)p[5]);
-        b = (u32)func_02009210(func_02012EBC(func_020120F4((const struct Ctx *)a)));
-        if (func_02012204((const struct Ctx *)a) != 0) {
-            if (func_0201214C((const struct Ctx *)a) != 0) {
-                func_02012210((struct Ctx *)a);
-            } else if (func_021F2994((int *)p[8]) != 0) {
-                func_02009200(b, 0);
-                func_02012210((struct Ctx *)a);
-            }
-        }
-    }
-    return func_021F2848(p[8], x);
-}
-
-int func_021F29D8();
-typedef struct HidObj_021A1138 {
-    int f0[8];
-    char * f20;
-} HidObj_021A1138;
-
-int func_021A1138(HidObj_021A1138 *w, int b)
-{
-    return func_021F29D8(w->f20, b, w);
 }

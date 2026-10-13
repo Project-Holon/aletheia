@@ -12,26 +12,36 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-#include "../../matched/include/Obj08899.h"
-
-typedef unsigned char u8;
-
 typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
 
-typedef unsigned int u32;
-
-struct O02064140 {
-    u32 unk0;
+struct NNSG2dSRTControl {
+    u32 mode;
+    s32 scaleX;
+    s32 scaleY;
+    s16 transX;
+    s16 transY;
+    u16 rotZ;
+    u16 dirtyFlags;
 };
 
-int func_02064150(int a0);
+extern void func_02082A48(u32 data, void *dest, u32 size);
+int func_02064150(struct NNSG2dSRTControl *pSrtCtrl);
 
 
-void func_02064140(struct O02064140 *o, u32 a)
+void func_02064140(struct NNSG2dSRTControl *pSrtCtrl, u32 mode)
 {
-    o->unk0 = a;
-    func_02064150((int)o);
+    pSrtCtrl->mode = mode;
+    func_02064150(pSrtCtrl);
 }
 
 
-int func_02064150(int a0){ int t0; t0 = func_02082A48((int)0, (int)(a0 + 4), (int)0x18); ((struct Obj08899 *)((char *)(a0)))->f4 = (int)0x1000; ((struct Obj08899 *)((char *)(a0)))->f8 = (int)0x1000; return 0x1000; }
+int func_02064150(struct NNSG2dSRTControl *pSrtCtrl)
+{
+    func_02082A48(0, &pSrtCtrl->scaleX, 0x18);
+    pSrtCtrl->scaleX = 0x1000;
+    pSrtCtrl->scaleY = 0x1000;
+    return 0x1000;
+}

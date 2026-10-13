@@ -10,10 +10,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * Stores a byte at +0x15.
+ * Sets the flag bits of a server.
  */
 
-void func_0219E9AC(unsigned char *p, unsigned char v)
+#include "unit_0219E1EC_types.h"
+
+void func_0219E9AC(SBServer *server, unsigned char flags)
 {
-    p[0x15] = v;
+    server->flags = flags;
 }

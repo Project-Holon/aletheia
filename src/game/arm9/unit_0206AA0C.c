@@ -16,23 +16,15 @@
  *   g_02148B4C       0x02148B4C  data
  *   g_02148BCC       0x02148BCC  data
  */
-typedef unsigned int u32;
+#include "unit_0206A110_types.h"
 
-typedef struct {
-    u32 a;
-    u32 b;
-    u32 c;
-} Rec0206AA0C;
-
-void func_0206AA0C(Rec0206AA0C *p);
-void func_0206AA3C(int idx, int a, int b, int c);
-extern u32 g_02148B4C[];
-extern u32 g_02148BCC[];
+void func_0206AA0C(const VecFx32 *pScale);
+void func_0206AA3C(int lightId, int x, int y, int z);
 
 
 /*
- * Copies the caller's three-word record into the block at 0x02148C38 and
- * clears the 0xa4 bit pair of the flag word at 0x02148B4C + 0xFC.
+ * NNS_G3dGlbBaseScale: copies the caller's scale vector into the block at
+ * 0x02148C38 and clears the 0xa4 bit pair of the flag word at 0x02148B4C + 0xFC.
  *
  * The destination is spelled as one object with the flag word (0x02148C38 is
  * g_02148B4C + 0xEC) because that is what decides the schedule: with the two
@@ -45,25 +37,26 @@ extern u32 g_02148BCC[];
  *   python tools/match.py one --src src/matched/func_0206AA0C.c \
  *       --func func_0206AA0C --addr 0x0206AA0C --cc 1.1p1 --arm
  */
-void func_0206AA0C(Rec0206AA0C *p)
+void func_0206AA0C(const VecFx32 *pScale)
 {
-    if (p == 0) {
+    if (pScale == 0) {
         return;
     }
-    *(Rec0206AA0C *)(g_02148B4C + 0x3b) = *p;
-    g_02148B4C[0x3f] &= ~0xa4u;
+    NNS_G3dGlb.prmBaseScale = *pScale;
+    NNS_G3dGlb.flag &= ~NNS_G3D_GLB_FLAG_BASE_DEPENDENT;
 }
 
 
 /*
- * Packs three 10-bit fields (each taken from a signed value shifted right by
- * three) plus the slot index at bits 30..31 into one word of g_02148BCC.
+ * NNS_G3dGlbLightVector: packs three 10-bit fields (each taken from a signed
+ * value shifted right by three) plus the light index at bits 30..31 into one
+ * word of the lightVec array.
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0206AA3C.c \
  *       --func func_0206AA3C --addr 0x0206AA3C --cc 1.1p1 --arm
  */
-void func_0206AA3C(int idx, int a, int b, int c)
+void func_0206AA3C(int lightId, int x, int y, int z)
 {
-    g_02148BCC[idx] = (u32)(((a >> 3) & 0x3FF) | (((b >> 3) & 0x3FF) << 10)
-                            | (((c >> 3) & 0x3FF) << 20) | (idx << 30));
+    NNS_G3dGlb.lightVec[lightId] = (u32)(((x >> 3) & 0x3FF) | (((y >> 3) & 0x3FF) << 10)
+                                         | (((z >> 3) & 0x3FF) << 20) | (lightId << 30));
 }

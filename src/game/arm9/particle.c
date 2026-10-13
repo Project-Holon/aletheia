@@ -43,7 +43,6 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_02146A88      0x02146A88  data
- *   pkt_02050A70_File 0x020A7FC0  data
  *   g_020A7FC0     0x020A7FC0  data
  *   g_020A1590     0x020A1590  data
  *   g_020A1584     0x020A1584  data
@@ -92,439 +91,335 @@
  *   func_0205250C  0x0205250C  arm
  *   func_02048A24  0x02048A24  arm
  */
-#include "../../matched/include/Obj11450.h"
-#include "../../matched/include/Obj02015.h"
-#include "../../matched/include/Obj08867.h"
-#include "../../matched/include/Obj06991.h"
-#include "../../matched/include/Obj06992.h"
-#include "../../matched/include/Obj11453.h"
-#include "../../matched/include/Obj11454.h"
-#include "../../matched/include/Obj16154.h"
-#include "../../matched/include/Obj16155.h"
-#include "../../matched/include/Obj16156.h"
-#include "../../matched/include/Obj16157.h"
-#include "../../matched/include/Obj11455.h"
-#include "../../matched/include/Obj16158.h"
-#include "../../matched/include/Obj11456.h"
-#include "../../matched/include/Obj16160.h"
-#include "../../matched/include/Obj16161.h"
-#include "../../matched/include/Obj16163.h"
-#include "../../matched/include/Obj16164.h"
-#include "../../matched/include/Obj01319.h"
-#include "../../matched/include/Obj02319.h"
-#include "../../matched/include/Obj06994.h"
-#include "../../matched/include/Obj11458.h"
-#include "../../matched/include/Obj08873.h"
-#include "../../matched/include/Obj01197.h"
 
-struct AreaMan;
-struct Tagged;
-struct Ent;
-struct Owner;
-struct S14;
-struct Cmd;
-struct Dst648;
-struct Src648;
-struct Node;
-struct Head;
-struct Light;
 typedef unsigned char  u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int   u32;
-
-struct Blob28 { u32 w[7]; };
-
-struct Sys {
-    u16   f00;
-    u16   f02;
-    void *f04;
-    u32   f08;
-    void *f0C;
-    u16   f10;
-    u16   f12;
-    void *f14;
-    void *f18;
-    u16   f1C;
-    u16   f1E;
-    void *f20;
-};
-
-struct BbActEntry {
-    u32 f00;
-    u32 rest[9];
-};
-
-struct BbActSys_0204FE94 {
-    u16 f00;
-    u16 f02;
-    void *f04;
-    u32 f08;
-    void *f0C;
-    u16 f10;
-    u16 f12;
-    void *f14;
-    struct BbActEntry *f18;
-    u16 f1C;
-    u16 f1E;
-    void *f20;
-};
-
-struct BbActSlot { u16 id; u16 pad; u32 val; };
-
-struct BbActRec { u32 f00; u8 b4; u8 b5; u8 b6; u8 b7; u32 type; };
-
-struct BbActSys_02050084 {
-    u16 f00;
-    u16 f02;
-    void *f04;
-    u32 f08;
-    struct BbActSlot *f0C;
-    u16 f10;
-    u16 f12;
-    struct AreaMan *f14;
-};
-
+typedef signed short   s16;
 typedef signed int     s32;
 
-typedef signed short   s16;
+typedef struct Vec3 {
+    s32 x, y, z;
+} Vec3;
 
-struct Vec3 { s32 a, b, c; };
+typedef struct Mtx33 {
+    s32 m[9];
+} Mtx33;
 
-struct BbActEntry_02050340 {
-    u32   f00;
-    u16   f04;
-    u16   f06;
-    u32   f08;
-    u16   f0C;
-    u16   f0E;
-    u16   f10;
-    u16   f12;
-    u32   f14;
-    u32   f18;
-    u16   f1C;
-    u16   f1E;
-    u32   f20;
-    u32   f24;
+/* Saved 3D engine state (32 bytes) that DrawSystem restores after drawing. */
+typedef struct SavedGxState {
+    u32 w[8];
+} SavedGxState;
+
+struct AreaMan;          /* index range pool (docs/families/areaman.h) */
+struct BbBoard;          /* billboard board object, opaque in this file */
+struct PayloadBlock;     /* reference-counted payload of a slot, opaque */
+struct ParticleCamera;   /* camera object made by func_02048A24, opaque */
+struct TaskNode;         /* one-shot task node, opaque */
+struct BbActSys;
+struct BbActEntry;
+struct ParticleSys;
+
+/* ---- billboard_act ---- */
+
+/*
+ * Called by the board to move sprite data to VRAM: kind 0 is one texture
+ * frame, kind 1 is the 0x20-byte palette.
+ */
+typedef u32 (*BbActUploadFn)(u32 kind, u32 dst, u32 src, u32 size);
+typedef void (*BbActEntryHook)(struct BbActSys *sys, int entryIndex, u32 arg);
+
+/* 28-byte board setup block: the two counts, then fixed data from rodata. */
+struct BbActBoardInit {
+    u16 slotCount;
+    u16 entryCount;
+    u32 rest[6];
 };
 
-struct BbActDesc {          /* 0x24 bytes */
-    u16 slot;               /* 0x00 */
-    s16 v12;                /* 0x02 */
-    s16 v14;                /* 0x04 */
-    u8  k;                  /* 0x06 */
+/* One image slot: the board image id and the loaded payload behind it. */
+struct BbActSlot {
+    u16 boardId;             /* 0xFFFF: unused */
+    u16 pad02;
+    u32 payload;             /* struct PayloadBlock *, 0 when none */
+};
+
+/* Request record for func_020500F0 (create slots). */
+struct BbActRec {
+    u32 resource;
+    u8  format;
+    u8  sizeS;
+    u8  sizeT;
+    u8  paletteId;
+    u32 kind;                /* 0: board image, 1: board image plus commit, 2: external payload */
+};
+
+/* Animation command: a frame index, two flip flags and one argument. */
+struct BbActCmd {
+    u16 frame : 14;          /* values 0x3FFC..0x3FFF are control commands */
+    u16 flipX : 1;
+    u16 flipY : 1;
+    u16 arg;                 /* duration in frames; control commands use it as operand */
+};
+
+enum {
+    BBACT_CMD_JUMP     = 0x3FFC,   /* cursor = arg */
+    BBACT_CMD_LOOP     = 0x3FFD,   /* arg high byte: repeat count, low byte: target cursor */
+    BBACT_CMD_SET_LIST = 0x3FFE,   /* listIndex = arg, restart */
+    BBACT_CMD_END      = 0x3FFF    /* stop advancing */
+};
+
+/* One billboard instance (0x28 bytes) with its animation playback state. */
+struct BbActEntry {
+    u32 elemId;                    /* 0x00: board element id, 0xFFFF: free */
+    u16 slotIndex;                 /* 0x04 */
+    u16 pad06;
+    struct BbActCmd **cmdLists;    /* 0x08: array of command lists */
+    u16 listCount;                 /* 0x0C */
+    u16 listIndex;                 /* 0x0E: list being played */
+    u16 cursor;                    /* 0x10: next command in the list */
+    u16 waitFrames;                /* 0x12 */
+    u16 loopCount;                 /* 0x14 */
+    u16 pad16;
+    u32 enabled;                   /* 0x18: playback runs only when nonzero */
+    u16 lastCommand;               /* 0x1C: frame field of the last command read */
+    u16 pad1E;
+    BbActEntryHook hook;           /* 0x20: called every update when set */
+    u32 hookArg;                   /* 0x24 */
+};
+
+/* Creation record for one entry (0x24 bytes). */
+struct BbActDesc {
+    u16 slot;                /* 0x00: slot index, relative to the base slot */
+    s16 width;               /* 0x02 */
+    s16 height;              /* 0x04 */
+    u8  layer;               /* 0x06 */
     u8  pad07;
-    u32 flag;               /* 0x08 */
-    u32 w;                  /* 0x0c */
-    struct Vec3 pos;        /* 0x10 */
-    u32 f1c;                /* 0x1c */
-    u32 f20;                /* 0x20 */
+    u32 flags;               /* 0x08 */
+    u32 color;               /* 0x0C */
+    Vec3 pos;                /* 0x10 */
+    BbActEntryHook hook;     /* 0x1C */
+    u32 hookArg;             /* 0x20 */
 };
 
-struct BbActSys_02050340 {
-    u16 f00;
-    u16 f02;
-    void *f04;
-    u32 f08;
-    struct BbActSlot *f0C;
-    u16 f10;
-    u16 f12;
-    void *f14;
-    struct BbActEntry_02050340 *f18;
-    u16 f1C;
-    u16 f1E;
-    u32 f20;
+/* The billboard_act system object (0x24 bytes). */
+struct BbActSys {
+    u16 heapId;                    /* 0x00 */
+    u16 pad02;
+    struct BbBoard *board;         /* 0x04 */
+    BbActUploadFn uploadFn;        /* 0x08 */
+    struct BbActSlot *slots;       /* 0x0C */
+    u16 slotCount;                 /* 0x10 */
+    u16 pad12;
+    struct AreaMan *slotPool;      /* 0x14 */
+    struct BbActEntry *entries;    /* 0x18 */
+    u16 entryCount;                /* 0x1C */
+    u16 pad1E;
+    struct AreaMan *entryPool;     /* 0x20 */
 };
 
-struct BbActEntry_02050468 { u32 f00; u8 pad[0x24]; };
+typedef int (*BbActControlFn)(struct BbActEntry *entry, struct BbActCmd *cmd);
 
-struct BbActSys_02050468 {
-    u16 f00;
-    u16 f02;
-    void *f04;
-    u8  pad_08[0x10];
-    struct BbActEntry_02050468 *f18;
-    u16 f1C;
-    u16 f1E;
-    void *f20;
-};
+/* ---- DMA channel bank (not billboard code, see misplaced.tsv) ---- */
 
-typedef struct Cmd {
-    u16 a : 14;
-    u16 b : 1;
-    u16 c : 1;
-    u16 f02;
-} Cmd;
+/* Software copy of one DMA channel (16 bytes); the bank has four. */
+typedef struct DmaChannel {
+    u32 srcAddr;
+    u32 dstAddr;
+    u32 control;                /* packed: bit 1 irq, bit 5 width, 7-8 src, 9-10 dst, 11.. count */
+    u32 dirty       : 1;        /* bit 0 of +0x0C */
+    u32 programmed  : 1;        /* bit 1 */
+    u32 reprogram   : 1;        /* bit 2 */
+    u32             : 29;
+} DmaChannel;
 
-struct Ent {
-    u32   f00;
-    u16   f04;
-    u16   f06;
-    u32 **f08;
-    u16   f0c;
-    u16   f0e;
-    u16   f10;
-    u16   f12;
-    u16   f14;
-    u16   f16;
-    u32   f18;
-    u8    pad_1C[4];
-    void (*f20)(struct Owner *o, int i, u32 a);
-    u32   f24;
-};
+#define REG_DMA_CNT(ch) (*(volatile u32 *)(0x040000B8 + (ch) * 12))
 
-struct Rec8 {
-    u16 f00;
-    u16 f02;
-    u32 f04;
-};
-
-struct Owner {
-    u32  f00;
-    u32  f04;
-    void (*f08)(u32 a0, u32 a1, u32 a2, u32 a3);
-    u8  *f0c;
-    u8   pad_10[8];
-    struct Ent *f18;
-    u16  f1C;
-};
+/* ---- DWC list wrapper (not billboard code, see misplaced.tsv) ---- */
 
 typedef struct tagLISTCB {
     void *head;
     void *tail;
 } LISTCB;
 
-typedef struct { int f0; char pad[0x24]; } E28_020507D0;
+/* ---- particle ---- */
 
-typedef struct { int pad0; int f4; char pad[0x10]; E28_020507D0 *f18; } Mgr_020507D0;
+typedef u32 (*ParticleLoadFn)(u32 id, u32 arg);
 
-struct S8 {
-    u16 h;
-    u16 pad;
-    u32 w;
+/* Particle engine instance made by func_02052DC8; only the count is read here. */
+struct ParticleEngine {
+    u32 engineId;
+    u32 effectLimit;
+    int effectCount;
 };
 
-struct S40 {
-    u32 f0;
-    u16 f4;
-    u16 f6;
-    u32 f8;
-    u32 f12;
-    u32 f16;
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f32;
-    u32 f36;
+/* Projection setup for the system camera. */
+struct ParticleCameraParams {
+    u32 projType;
+    u32 fovSin;
+    u32 fovCos;
+    u32 aspect;
+    u32 orthoExtent;
+    u32 nearZ;
+    u32 farZ;
+    u32 projScale;
 };
 
-typedef struct { int f0; char pad[0x24]; } E28_020508C4;
+#define PARTICLE_LOAD_TEX_BULK    1   /* texture handles managed as one table */
+#define PARTICLE_LOAD_TEX_ENTRY   2   /* texture handles loaded one by one */
+#define PARTICLE_LOAD_PAL_BULK    4
+#define PARTICLE_LOAD_PAL_ENTRY   8
 
-typedef struct { char pad[0x18]; E28_020508C4 *f18; } Mgr_020508C4;
-
-struct S14 {
-    u16 f : 14;
-    u8 pad_02[0x6];
-    unsigned int f8;
-    unsigned short fC;
-    unsigned short fE;
-    unsigned short f10;
-    unsigned short f12;
-    unsigned short f14;
-    u8 pad_16[0x6];
-    unsigned short f1C;
-    u8 pad_1E[0x2];
+/* One particle system (0x260 bytes allocated, 0x25C used). */
+struct ParticleSys {
+    struct ParticleEngine *engine;      /* 0x00 */
+    void *resourceBlock;                /* 0x04: freed on delete unless flags bit 0 */
+    int activeEffect;                   /* 0x08: handle of the last effect started */
+    u32 workBase;                       /* 0x0C: caller's work buffer */
+    u32 workCursor;                     /* 0x10: bump allocator position */
+    u32 workEnd;                        /* 0x14 */
+    ParticleLoadFn texLoadFn;           /* 0x18 */
+    ParticleLoadFn palLoadFn;           /* 0x1C */
+    struct ParticleCamera *camera;      /* 0x20 */
+    u32 cameraShiftX;                   /* 0x24 */
+    u32 cameraShiftY;                   /* 0x28 */
+    u32 cameraShiftZ;                   /* 0x2C */
+    u16 cameraAngle;                    /* 0x30 */
+    u16 flags;                          /* 0x32: bit 0: resourceBlock is not owned */
+    Vec3 cameraPos;                     /* 0x34 */
+    Vec3 cameraTarget;                  /* 0x40 */
+    Vec3 cameraUp;                      /* 0x4C */
+    u32 texHandles[0x40];               /* 0x58 */
+    u32 palHandles[0x40];               /* 0x158 */
+    u8  loadMode;                       /* 0x258: PARTICLE_LOAD_* */
+    u8  pad259;
+    u8  slotIndex;                      /* 0x25A: index in ParticleMan.systems */
+    u8  projType;                       /* 0x25B */
+    u16 texCount;                       /* 0x25C */
+    u16 palCount;                       /* 0x25E */
 };
 
-typedef void (*Fn)(void);
-
-typedef struct Slot_02050A70 {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u32 active : 1;             /* bit 0 of +0x0C */
-    u32 torn   : 1;             /* bit 1 of +0x0C */
-    u32 kill   : 1;             /* bit 2 of +0x0C */
-    u32        : 29;
-} Slot_02050A70;
-
-typedef struct Slot_02050B14 {
-    u32 unk00;
-    u32 unk04;
-    u32 unk08;
-    u32 unk0C;
-} Slot_02050B14;
-
-struct Ctx {
-    u32  words[16];     /* 0x00 */
-    u32  f40;           /* 0x40 */
-    u32  f44;           /* 0x44 */
+/* The particle singleton (0x48 bytes). */
+struct ParticleMan {
+    struct ParticleSys *systems[16];    /* 0x00 */
+    int callbackArg;                    /* 0x40: user value while an effect starts */
+    struct ParticleSys *current;        /* 0x44: system whose handlers run */
 };
 
-typedef struct { u32 x, y, z; } Vec3;
-
-struct Emit {
-    u32  f00;
-    u8   pad04[0x08];
-    u32  f0c;
-    u32  f10;
-    u32  f14;
-    u8   pad18[0x1a];
-    u16  f32;
-    Vec3 f34;
-    Vec3 f40;
-    Vec3 f4c;
-    u8   pad58[0x202];
-    u8   f25a;
-};
-
-typedef struct {
-    u8 pad_00[0x10];
-    u8 *cur;
-} Arena_02050F1C;
-
-typedef struct {
-    u32 x, y, z;
-} VecFx32;
-
-typedef struct {
-    u32 m[9];
-} MtxFx33;
-
-typedef struct {
-    u32 w[8];
-} Blk32;
-
-typedef struct {
-    u32 w[9];
-} Blk36;
-
-struct Src648 {
-    u32 f00, f04, f08, f0c, f10, f14, f18, f1c;
-};
-
-struct Dst648 {
-    u8  pad00[0x20];
-    u32 f20;
-    u32 f24;
-    u32 f28;
-    u32 f2c;
-    u16 f30;
-    u8  pad32[0x229];
-    u8  f25b;
-};
-
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0204EBD4(u8 *src, void *heap);
-extern struct AreaMan *func_02033C00(u32 size, u32 heap);
-extern void func_0204F5A8(void *board, u32 idx);
-extern void func_0204ED24(void *board);
-extern u32 func_02033C9C(void *a);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
+extern struct BbBoard *func_0204EBD4(const struct BbActBoardInit *init, u32 heapId);
+extern struct AreaMan *func_02033C00(u32 size, u32 heapId);
+extern void func_0204F5A8(struct BbBoard *board, u32 elemId);
+extern void func_0204ED24(struct BbBoard *board);
+extern u32 func_02033C9C(struct AreaMan *pool);
 extern u32 func_020307B0(void *p);
-extern s32 func_02033CA8(struct AreaMan *p, u32 len);
-extern u16  func_0204EF58(void *board, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
-extern void func_0204F10C(void *board, u32 id);
-extern void func_0204F150(u8 *a0, int i);
-extern void func_02046EFC(struct Tagged *p);
-extern int func_0203422C(struct AreaMan *p, u32 start, s32 len);
-extern s32  func_0204F428(void *board, u32 id, s16 v12, s16 v14, const struct Vec3 *src, u8 k, u32 w, u32 mode);
-extern int func_0204F720(u32 a, u32 b, u32 *buf);
-extern void func_0204F66C(int p0, int p1, int p2);
-extern void func_0204F764(void *p, u32 idx, u32 *val);
-extern void func_0204F794(void *p, u32 idx, u32 *val);
-extern int func_020473D8(int a0);
-extern void func_0204F2B4(int p0, int p1, int p2);
-extern void func_0204F344(void *a0, u32 a1, int a2, int *out, int *in, u8 flag);
-extern int func_020473EC(int a0);
-extern u32 func_0204F2CC(u32 a, u16 b, u32 *out);
+extern s32 func_02033CA8(struct AreaMan *pool, u32 count);
+extern u16  func_0204EF58(struct BbBoard *board, u32 resource, u32 format, u32 sizeS, u8 sizeT, u8 paletteId);
+extern void func_0204F10C(struct BbBoard *board, u32 boardId);
+extern void func_0204F150(struct BbBoard *board, int boardId);
+extern void func_02046EFC(struct PayloadBlock *payload);
+extern int func_0203422C(struct AreaMan *pool, u32 start, s32 count);
+extern s32  func_0204F428(struct BbBoard *board, u32 boardId, s16 width, s16 height, const Vec3 *pos, u8 layer, u32 color, u32 mode);
+extern int func_0204F720(struct BbBoard *board, u32 elemId, const u32 *flags);
+extern void func_0204F66C(struct BbBoard *board, u32 elemId, u16 *frame);
+extern void func_0204F764(struct BbBoard *board, u32 elemId, u32 *flipX);
+extern void func_0204F794(struct BbBoard *board, u32 elemId, u32 *flipY);
+extern int func_020473D8(u32 payload);
+extern void func_0204F2B4(struct BbBoard *board, u32 boardId, u32 *texDst);
+extern void func_0204F344(struct BbBoard *board, u32 boardId, int frame, u32 *offset, u32 *size, u8 flag);
+extern int func_020473EC(u32 payload);
+extern u32 func_0204F2CC(struct BbBoard *board, u16 boardId, u32 *palDst);
 extern void DWCi_LSTlErase(void *ob);
-extern u32 func_0204F704(u8 *a0, int i);
+extern u32 func_0204F704(struct BbBoard *board, u32 elemId);
 extern u32  OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 s);
-extern u32   func_02052DC8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void  MI_CpuFill8(void *dst, u32 v, u32 n);
-extern void func_02051620(void);
-extern void func_0206168C(u32 *src);
-extern u32 func_020621FC(u32 h);
-extern void func_02061824(void *p);
-extern int func_02062594(u32 id);
-extern u32 func_02048AC4(void *ptr);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void OS_RestoreInterrupts(u32 state);
+extern struct ParticleEngine *func_02052DC8(u32 engineId, u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
+extern void  MI_CpuFill8(void *dst, u32 value, u32 size);
+extern void func_0206168C(u32 *table);
+extern u32 func_020621FC(u32 handle);
+extern void func_02061824(u32 *table);
+extern int func_02062594(u32 handle);
+extern u32 func_02048AC4(struct ParticleCamera *camera);
+extern struct ParticleCamera *func_02048F60(u32 archiveId, u32 member, u32 heapId);
 extern int func_02046BFC(void);
 extern int func_02046C10(void);
-extern void func_0206164C(u8 *p);
-extern void func_02061808(u8 *p);
-extern void func_02052A50(u32 a, u32 b);
-extern void func_02030DA8(u32 a, u32 b, u8 *c, u32 d);
-extern void func_020528A8(u32 a);
-extern void func_020528BC(u32 a);
-extern int  func_020528D0(u32 o, u32 alloc);
-extern int  func_02052984(u32 o, u32 alloc);
-extern void func_02030EAC(struct Node *n);
-extern void func_020467EC(int p0);
-extern void func_02046858(const u32 *src);
-extern void func_02046AFC(u8 *dst);
-extern void func_02046B40(u8 *a0);
+extern void func_0206164C(u32 *table);
+extern void func_02061808(u32 *table);
+extern void func_02052A50(struct ParticleEngine *engine, void *block);
+extern void func_02030DA8(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
+extern u32 func_02051A3C(u32 id, u32 arg);
+extern u32 func_02051A54(u32 id, u32 arg);
+extern u32 func_02051AA0(u32 id, u32 arg);
+extern u32 func_02051AB8(u32 id, u32 arg);
+extern void func_020528A8(struct ParticleEngine *engine);
+extern void func_020528BC(struct ParticleEngine *engine);
+extern int  func_020528D0(struct ParticleEngine *engine, ParticleLoadFn fn);
+extern int  func_02052984(struct ParticleEngine *engine, ParticleLoadFn fn);
+extern void func_02030EAC(struct TaskNode *task);
+extern void func_020467EC(SavedGxState *dst);
+extern void func_02046858(const SavedGxState *src);
+extern void func_02046AFC(Mtx33 *dst);
+extern void func_02046B40(Mtx33 *src);
 extern void func_020479D8(void);
-extern void func_02048AD0(struct Light *l);
-extern void func_020526A8(struct Head *h, u32 a);
-extern void func_0206A9DC(void *p);
-extern void func_0206AA0C(VecFx32 *p);
+extern void func_02048AD0(struct ParticleCamera *camera);
+extern void func_020526A8(struct ParticleEngine *engine, const u32 *drawParams);
+extern void func_0206A9DC(Vec3 *p);
+extern void func_0206AA0C(Vec3 *p);
 extern void func_0206DB80(void);
 extern void MI_Copy36B(const void *src, void *dst);
-extern void MTX_Identity33_(MtxFx33 *p);
-extern int func_02052770(u32 a);
-extern int func_02052634(char *p, int b, int c);
-extern int func_020525A0(char *p, int b, void (*fn)(void *));
-extern void func_020524C8(void *p);
-extern void func_0205250C(char *p, char *q);
-extern int func_02048A24(int a0, int a1, int a2, int a3, int a4, int a5,
-                         int a6, int a7, int a8, int a9, int a10, int a11);
-void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap);
-void func_0204FFFC(struct BbActSys_0204FE94 *o);
-u32 func_02050080(u32 *p);
-void func_02050088(struct BbActSlot *p0);
-void func_020500A0(int p0);
-void func_020500B8(u32 *p);
-u16 func_020500F0(struct BbActSys_02050084 *o, const struct BbActRec *recs, u32 n);
-u32 func_02050238(struct BbActSys_02050084 *p, u32 b, u32 c);
-void func_02050278(struct BbActSys_02050084 *o, u32 first, u32 count);
-int func_02050304(struct BbActSys_02050084 *o, u32 slot);
-u16 func_02050330(struct BbActSys_02050084 *o, int i);
-u16 func_02050340(struct BbActSys_02050340 *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
-void func_02050468(struct BbActSys_02050468 *o, u16 first, u32 count);
-void func_020504D8(struct Owner *o);
-void func_02050550(struct Owner *o, struct Ent *e);
-void func_020506B8(struct Owner *o, struct Rec8 *e, u32 a2);
-u32 func_02050738(void *p, void *q);
-void func_02050790(LISTCB *list, int b, int c);
-int func_020507A0(void *p, int idx, u32 x);
-int func_020507D0(Mgr_020507D0 *p, int i);
-void func_020507F0(void *p, int idx, u32 v);
-void func_02050804(void *p, int idx, u32 v, u16 h);
-void func_0205082C(void *p, int idx, u32 h);
-u16 func_02050848(u8 *p, int i);
-void func_0205085C(void *p, int idx, u32 v);
-u16 func_02050880(u8 *p, int i);
-int func_02050894(void *p, int idx, int j);
-int func_020508C4(Mgr_020508C4 *p, int i);
-u32 func_020508D8(u8 *o, u32 i);
-u32 func_020508EC(u8 *p, int i, u16 *out);
-int func_02050920(struct S14 *p);
-int func_02050944(void *p, struct S14 *q);
-Fn func_02050984(u32 id);
-int func_020509E0(void);
-int func_020509E8(void *p, void *q);
-int func_02050A00(struct Ent *e, struct Cmd *c);
-int func_02050A58(struct Ent *e, struct Cmd *c);
+extern void MTX_Identity33_(Mtx33 *p);
+extern int func_02052770(struct ParticleEngine *engine);
+extern int func_02052634(struct ParticleEngine *engine, int resId, int arg);
+extern int func_020525A0(struct ParticleEngine *engine, int resId, void (*callback)(void *));
+extern void func_020524C8(struct ParticleEngine *engine);
+extern void func_0205250C(struct ParticleEngine *engine, void *effect);
+extern struct ParticleCamera *func_02048A24(u32 projType, u32 fovSin, u32 fovCos, u32 aspect,
+                                            u32 orthoExtent, u32 nearZ, u32 farZ, u32 projScale,
+                                            Vec3 *pos, Vec3 *target, Vec3 *up, int heapId);
+
+struct BbActSys *func_0204FE94(u16 slotCount, u16 entryCount, BbActUploadFn uploadFn, int heapId);
+void func_0204FFFC(struct BbActSys *sys);
+struct BbBoard *func_02050080(struct BbActSys *sys);
+void func_02050088(struct BbActSlot *slot);
+void func_020500A0(struct BbActEntry *entry);
+void func_020500B8(struct BbActEntry *entry);
+u16 func_020500F0(struct BbActSys *sys, const struct BbActRec *recs, u32 count);
+u32 func_02050238(struct BbActSys *sys, u32 boardId, u32 payload);
+void func_02050278(struct BbActSys *sys, u32 first, u32 count);
+int func_02050304(struct BbActSys *sys, u32 slot);
+u16 func_02050330(struct BbActSys *sys, int slotIndex);
+u16 func_02050340(struct BbActSys *sys, u16 baseSlot, const struct BbActDesc *descs, u32 count, u32 mode);
+void func_02050468(struct BbActSys *sys, u16 first, u32 count);
+void func_020504D8(struct BbActSys *sys);
+void func_02050550(struct BbActSys *sys, struct BbActEntry *entry);
+void func_020506B8(struct BbActSys *sys, struct BbActSlot *slot, u32 frame);
+u32 func_02050738(struct BbActSys *sys, struct BbActSlot *slot);
+void func_02050790(LISTCB *list, int unused1, int unused2);
+int func_020507A0(struct BbActSys *sys, int entryIndex, u32 flags);
+int func_020507D0(struct BbActSys *sys, int entryIndex);
+void func_020507F0(struct BbActSys *sys, int entryIndex, u32 enabled);
+void func_02050804(struct BbActSys *sys, int entryIndex, struct BbActCmd **cmdLists, u16 listCount);
+void func_0205082C(struct BbActSys *sys, int entryIndex, u32 listIndex);
+u16 func_02050848(struct BbActSys *sys, int entryIndex);
+void func_0205085C(struct BbActSys *sys, int entryIndex, u32 cursor);
+u16 func_02050880(struct BbActSys *sys, int entryIndex);
+int func_02050894(struct BbActSys *sys, int entryIndex, int srcSlot);
+int func_020508C4(struct BbActSys *sys, int entryIndex);
+u32 func_020508D8(struct BbActSys *sys, u32 entryIndex);
+u32 func_020508EC(struct BbActSys *sys, int entryIndex, u16 *lastCommand);
+int func_02050920(struct BbActCmd *cmd);
+int func_02050944(struct BbActEntry *entry, struct BbActCmd *cmd);
+BbActControlFn func_02050984(u32 id);
+int func_020509E0(struct BbActEntry *entry, struct BbActCmd *cmd);
+int func_020509E8(struct BbActEntry *entry, struct BbActCmd *cmd);
+int func_02050A00(struct BbActEntry *entry, struct BbActCmd *cmd);
+int func_02050A58(struct BbActEntry *entry, struct BbActCmd *cmd);
 void func_02050A70(void);
-void func_02050B14(u32 idx);
-void func_02050B80(u32 heap);
+void func_02050B14(u32 channel);
+void func_02050B80(u32 heapId);
 void func_02050BE8(void);
-int func_02050C04(int a, int b, int c, int d);
-void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
-void func_02050DB8(u8 *p);
+struct ParticleSys *func_02050C04(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
+struct ParticleSys *func_02050C30(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId);
+void func_02050DB8(struct ParticleSys *sys);
 void func_02050ED4(void);
 void *func_02050F1C(u32 size);
 void *func_02050F4C(u32 size);
@@ -542,42 +437,39 @@ void *func_0205115C(u32 size);
 void *func_0205118C(u32 size);
 void *func_020511BC(u32 size);
 void *func_020511EC(u32 size);
-int func_0205121C(u32 a, u32 b, u32 c);
-void func_02051230(u8 *o, u32 a1, u32 a2, u32 a3);
-void func_02051360(void *p, unsigned int a1, unsigned int a2, unsigned int a3);
-void func_02051380(void *p, void *r);
-void func_02051394(u32 *p);
-void func_020513F8(void *p, int a);
-void func_02051414(u8 *a0);
-int func_020514F4(u32 *p);
+void *func_0205121C(u32 archiveId, u32 member, u32 heapId);
+void func_02051230(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
+void func_02051360(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
+void func_02051380(struct ParticleSys *sys, void *block);
+void func_02051394(struct ParticleSys *sys);
+void func_020513F8(struct TaskNode *task, struct ParticleSys *sys);
+void func_02051414(struct ParticleSys *sys);
+int func_020514F4(struct ParticleSys *sys);
 int func_02051504(void);
 int func_02051534(void);
 int func_02051574(void);
-int func_020515B4(void *p, int b, int c);
-int func_020515CC(int *p, int a, int b, int c);
-int func_02051614(int **p);
-void KeyValHashKey(void **p);
-void func_02051630(void **p, void *q);
-void *func_02051640(char *p);
-void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, Vec3 *a3, Vec3 *a4, Vec3 *a5, u32 a6);
-int func_02051758(int a0);
+int func_020515B4(struct ParticleSys *sys, int resId, int arg);
+int func_020515CC(struct ParticleSys *sys, int resId, void (*callback)(void *), int userArg);
+int func_02051614(struct ParticleSys *sys);
+void KeyValHashKey(struct ParticleSys *sys);
+void func_02051630(struct ParticleSys *sys, void *effect);
+void *func_02051640(struct ParticleSys *sys);
+void func_02051648(struct ParticleSys *sys, struct ParticleCameraParams *params, u16 angle,
+                   Vec3 *pos, Vec3 *target, Vec3 *up, u32 heapId);
+int func_02051758(struct ParticleSys *sys);
 extern const char sBillboardAct[];
-extern const struct Blob28 gBillboardActTpl;
-extern Slot_02050A70 *g_02146A84;
-extern struct Ctx *g_02146A88;
-extern const char pkt_02050A70_File[];
+extern const struct BbActBoardInit gBillboardActTpl;
+extern DmaChannel *g_02146A84;
+extern struct ParticleMan *g_02146A88;
 extern const char g_020A7FC0[];
 extern Vec3 g_020A1590;
 extern Vec3 g_020A1584;
 extern Vec3 g_020A1578;
 extern const u32 g_020A15A8[];
-extern VecFx32  g_020A159C;
+extern Vec3 g_020A159C;
 extern u32      g_02148B4C[];
 extern u32      g_02148B98[];
 extern u32      g_02148C08[];
-
-
-
 
 
 
@@ -590,22 +482,22 @@ extern u32      g_02148C08[];
  * independent check that this is one original translation unit.
  *
  * Allocate the 0x24-byte system object, stamp in the caller's heap id, the
- * two counts and the mode word, build the sub-board by copying a 28-byte
+ * two counts and the upload callback, build the sub-board by copying a 28-byte
  * template out of rodata onto the stack and overwriting its first two
  * halfwords with the two counts, then allocate the two parallel arrays (the
- * count0 * 8 slot array and the count1 * 0x28 entry array) with their two
+ * slotCount * 8 slot array and the entryCount * 0x28 entry array) with their two
  * index pools, and finally run the per-element initialisers over both.
  *
  * Three shapes are load-bearing:
  *
  *   - The 28-byte template is ONE aggregate assignment from a rodata object
- *     into a `struct Blob28` LOCAL, which mwcc expands to a 16-byte ldm/stm
+ *     into a `struct BbActBoardInit` LOCAL, which mwcc expands to a 16-byte ldm/stm
  *     pair with write-back plus a 12-byte pair without, reusing the bases the
  *     write-back left in sl and sb (the same expansion as the sibling
  *     constructor func_0204EBD4, src/matched/func_0204EBD4.c).  A byte array
  *     or a memcpy compiles to a copy loop instead.
- *   - The two halfword patches are written through casts ONTO the local
- *     (`*(u16 *)&tmp`), re-reading h->f10 and h->f1C rather than reusing the
+ *   - The two counts are patched into the first two fields of the local,
+ *     re-reading sys->slotCount and sys->entryCount rather than reusing the
  *     incoming parameters: the image issues `ldrh r2, [r6, #0x10]` and
  *     `ldrh r2, [r6, #0x1c]` between the stm and the call, which the
  *     parameters would not produce.
@@ -622,37 +514,37 @@ extern u32      g_02148C08[];
  *       --func func_0204FE94 --addr 0x0204FE94 --cc 1.1p1 --arm
  *   EXACT, 360 bytes, 10 relocation sites, all resolved.
  */
-void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap)
+struct BbActSys *func_0204FE94(u16 slotCount, u16 entryCount, BbActUploadFn uploadFn, int heapId)
 {
     const char *file = sBillboardAct;
-    struct Sys *h;
-    struct Blob28 tmp;
+    struct BbActSys *sys;
+    struct BbActBoardInit init;
     int i;
     int j;
 
-    h = (struct Sys *)func_02030734(heap, 0x24, 1, file, 94);
-    h->f00 = (u16)heap;
-    h->f08 = a2;
-    h->f10 = a0;
-    h->f1C = a1;
+    sys = func_02030734(heapId, 0x24, 1, file, 94);
+    sys->heapId = (u16)heapId;
+    sys->uploadFn = uploadFn;
+    sys->slotCount = slotCount;
+    sys->entryCount = entryCount;
 
-    tmp = gBillboardActTpl;
-    *(u16 *)&tmp = h->f10;
-    *((u16 *)&tmp + 1) = h->f1C;
-    h->f04 = func_0204EBD4((u8 *)(&tmp), (void *)heap);
+    init = gBillboardActTpl;
+    init.slotCount = sys->slotCount;
+    init.entryCount = sys->entryCount;
+    sys->board = func_0204EBD4(&init, heapId);
 
-    h->f0C = func_02030734(heap, h->f10 * 8, 1, file, 119);
-    h->f14 = func_02033C00(h->f10, heap);
-    h->f18 = func_02030734(heap, h->f1C * 0x28, 1, file, 123);
-    h->f20 = func_02033C00(h->f1C, heap);
+    sys->slots = func_02030734(heapId, sys->slotCount * 8, 1, file, 119);
+    sys->slotPool = func_02033C00(sys->slotCount, heapId);
+    sys->entries = func_02030734(heapId, sys->entryCount * 0x28, 1, file, 123);
+    sys->entryPool = func_02033C00(sys->entryCount, heapId);
 
-    for (i = 0; i < h->f10; i++) {
-        func_02050088((struct BbActSlot *)((u8 *)h->f0C + i * 8));
+    for (i = 0; i < sys->slotCount; i++) {
+        func_02050088(&sys->slots[i]);
     }
-    for (j = 0; j < h->f1C; j++) {
-        func_020500B8((u32 *)((u8 *)h->f18 + j * 0x28));
+    for (j = 0; j < sys->entryCount; j++) {
+        func_020500B8(&sys->entries[j]);
     }
-    return h;
+    return sys;
 }
 
 
@@ -668,21 +560,21 @@ void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap)
  * then passes on.  EXACT* because the unlabelled 8-byte getter at
  * 0x02050080 (`ldr r0,[r0,#4]; bx lr`, blx'd from ov021) follows the pool.
  */
-void func_0204FFFC(struct BbActSys_0204FE94 *o)
+void func_0204FFFC(struct BbActSys *sys)
 {
     int i;
 
-    for (i = 0; i < o->f1C; i++) {
-        if (o->f18[i].f00 != 0xFFFF) {
-            func_0204F5A8(o->f04, o->f18[i].f00);
+    for (i = 0; i < sys->entryCount; i++) {
+        if (sys->entries[i].elemId != 0xFFFF) {
+            func_0204F5A8(sys->board, sys->entries[i].elemId);
         }
     }
-    func_02033C9C(o->f20);
-    func_020307B0(o->f18);
-    func_02033C9C(o->f14);
-    func_020307B0(o->f0C);
-    func_0204ED24(o->f04);
-    func_020307B0(o);
+    func_02033C9C(sys->entryPool);
+    func_020307B0(sys->entries);
+    func_02033C9C(sys->slotPool);
+    func_020307B0(sys->slots);
+    func_0204ED24(sys->board);
+    func_020307B0(sys);
 }
 
 
@@ -693,9 +585,9 @@ void func_0204FFFC(struct BbActSys_0204FE94 *o)
  * func_02050084 (`bx lr`) is the return instruction of this getter: the layout has a function entry
  * there, but the bytes are the ones this function emits, so it has no separate definition.
  */
-u32 func_02050080(u32 *p)
+struct BbBoard *func_02050080(struct BbActSys *sys)
 {
-    return p[1];
+    return sys->board;
 }
 
 
@@ -712,10 +604,10 @@ u32 func_02050080(u32 *p)
 
 
 
-void func_02050088(struct BbActSlot *p0)
+void func_02050088(struct BbActSlot *slot)
 {
-    p0->id = 0xFFFF;
-    p0->val = 0;
+    slot->boardId = 0xFFFF;
+    slot->payload = 0;
 }
 
 
@@ -726,7 +618,13 @@ void func_02050088(struct BbActSlot *p0)
 
 
 
-void func_020500A0(int p0){ ((struct S14 *)p0)->f10 = (unsigned short)0; ((struct S14 *)p0)->f12 = (unsigned short)0; ((struct S14 *)p0)->f14 = (unsigned short)0; ((struct S14 *)p0)->f1C = (unsigned short)0; }
+void func_020500A0(struct BbActEntry *entry)
+{
+    entry->cursor = 0;
+    entry->waitFrames = 0;
+    entry->loopCount = 0;
+    entry->lastCommand = 0;
+}
 
 
 
@@ -744,16 +642,16 @@ void func_020500A0(int p0){ ((struct S14 *)p0)->f10 = (unsigned short)0; ((struc
  *   python tools/match.py one --src src/matched/func_020500B8.c \
  *       --func func_020500B8 --addr 0x020500B8 --cc 1.1p1 --arm
  */
-void func_020500B8(u32 *p)
+void func_020500B8(struct BbActEntry *entry)
 {
-    p[0] = 0xFFFF;
-    p[2] = 0;
-    ((struct Obj02015 *)p)->fC = 0;
-    ((struct Obj02015 *)p)->fE = 0;
-    func_020500A0((int)p);
-    p[6] = 0;
-    p[8] = 0;
-    p[9] = 0;
+    entry->elemId = 0xFFFF;
+    entry->cmdLists = 0;
+    entry->listCount = 0;
+    entry->listIndex = 0;
+    func_020500A0(entry);
+    entry->enabled = 0;
+    entry->hook = 0;
+    entry->hookArg = 0;
 }
 
 
@@ -771,31 +669,31 @@ void func_020500B8(u32 *p)
  * scheduling wall of the earlier notes was the missing `const` on the
  * request array (its byte loads then batch ahead of the outgoing-argument
  * stores, and case 2's payload load hoists above the sentinel store); with
- * it the plain subscript o->f0C[base + i] and literal zeros are exact.
+ * it the plain subscript sys->slots[base + i] and literal zeros are exact.
  */
-u16 func_020500F0(struct BbActSys_02050084 *o, const struct BbActRec *recs, u32 n)
+u16 func_020500F0(struct BbActSys *sys, const struct BbActRec *recs, u32 count)
 {
     int base;
     u32 i;
 
-    base = func_02033CA8(o->f14, n);
-    for (i = 0; i < n; i++) {
-        const struct BbActRec *e = &recs[i];
+    base = func_02033CA8(sys->slotPool, count);
+    for (i = 0; i < count; i++) {
+        const struct BbActRec *rec = &recs[i];
         u16 id;
-        switch (e->type) {
+        switch (rec->kind) {
         case 0:
-            o->f0C[base + i].id = func_0204EF58(o->f04, e->f00, e->b4, e->b5, e->b6, e->b7);
-            o->f0C[base + i].val = 0;
+            sys->slots[base + i].boardId = func_0204EF58(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+            sys->slots[base + i].payload = 0;
             break;
         case 1:
-            id = func_0204EF58(o->f04, e->f00, e->b4, e->b5, e->b6, e->b7);
-            func_0204F10C(o->f04, id);
-            o->f0C[base + i].id = id;
-            o->f0C[base + i].val = 0;
+            id = func_0204EF58(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+            func_0204F10C(sys->board, id);
+            sys->slots[base + i].boardId = id;
+            sys->slots[base + i].payload = 0;
             break;
         case 2:
-            o->f0C[base + i].id = 0xFFFF;
-            o->f0C[base + i].val = e->f00;
+            sys->slots[base + i].boardId = 0xFFFF;
+            sys->slots[base + i].payload = rec->resource;
             break;
         }
     }
@@ -827,13 +725,13 @@ u16 func_020500F0(struct BbActSys_02050084 *o, const struct BbActRec *recs, u32 
  *       --func func_02050238 --addr 0x02050238 --cc 1.1p1 --arm
  *   EXACT, 64 bytes, 1 relocation site, resolved [label].
  */
-u32 func_02050238(struct BbActSys_02050084 *p, u32 b, u32 c)
+u32 func_02050238(struct BbActSys *sys, u32 boardId, u32 payload)
 {
-    int idx = func_02033CA8(p->f14, 1);
+    int index = func_02033CA8(sys->slotPool, 1);
 
-    p->f0C[idx].id = b;
-    p->f0C[idx].val = c;
-    return (u16)idx;
+    sys->slots[index].boardId = boardId;
+    sys->slots[index].payload = payload;
+    return (u16)index;
 }
 
 
@@ -850,20 +748,20 @@ u32 func_02050238(struct BbActSys_02050084 *p, u32 b, u32 c)
  * index range to the pool.  func_0204F150 takes TWO arguments (the loaded
  * id is the r1 the image compares); the rest is plain subscripts.
  */
-void func_02050278(struct BbActSys_02050084 *o, u32 first, u32 count)
+void func_02050278(struct BbActSys *sys, u32 first, u32 count)
 {
     u32 i;
 
     for (i = 0; i < count; i++) {
-        if (o->f0C[first + i].id != 0xFFFF) {
-            func_0204F150(o->f04, o->f0C[first + i].id);
+        if (sys->slots[first + i].boardId != 0xFFFF) {
+            func_0204F150(sys->board, sys->slots[first + i].boardId);
         }
-        if (o->f0C[first + i].val != 0) {
-            func_02046EFC((struct Tagged *)o->f0C[first + i].val);
+        if (sys->slots[first + i].payload != 0) {
+            func_02046EFC((struct PayloadBlock *)sys->slots[first + i].payload);
         }
-        func_02050088(&o->f0C[first + i]);
+        func_02050088(&sys->slots[first + i]);
     }
-    func_0203422C(o->f14, first, count);
+    func_0203422C(sys->slotPool, first, count);
 }
 
 
@@ -871,10 +769,10 @@ void func_02050278(struct BbActSys_02050084 *o, u32 first, u32 count)
 
 
 
-int func_02050304(struct BbActSys_02050084 *o, u32 slot)
+int func_02050304(struct BbActSys *sys, u32 slot)
 {
-    func_02050088(&o->f0C[slot]);
-    return func_0203422C(o->f14, slot, 1);
+    func_02050088(&sys->slots[slot]);
+    return func_0203422C(sys->slotPool, slot, 1);
 }
 
 
@@ -883,9 +781,9 @@ int func_02050304(struct BbActSys_02050084 *o, u32 slot)
 
 
 
-u16 func_02050330(struct BbActSys_02050084 *o, int i)
+u16 func_02050330(struct BbActSys *sys, int slotIndex)
 {
-    return o->f0C[i].id;
+    return sys->slots[slotIndex].boardId;
 }
 
 
@@ -904,32 +802,32 @@ u16 func_02050330(struct BbActSys_02050084 *o, int i)
  * locals at function scope in the order p, e, idx, i, r (loop-scoped e/p
  * swap the i and p registers).
  */
-u16 func_02050340(struct BbActSys_02050340 *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode)
+u16 func_02050340(struct BbActSys *sys, u16 baseSlot, const struct BbActDesc *descs, u32 count, u32 mode)
 {
-    const struct BbActDesc *p;
-    struct BbActEntry_02050340 *e;
-    int idx;
+    const struct BbActDesc *desc;
+    struct BbActEntry *entry;
+    int first;
     u32 i;
-    s32 r;
+    s32 elemId;
 
-    idx = func_02033CA8((struct AreaMan *)o->f20, count);
-    if (idx == -1) {
+    first = func_02033CA8(sys->entryPool, count);
+    if (first == -1) {
         return 0xFFFF;
     }
     for (i = 0; i < count; i++) {
-        e = &o->f18[idx + i];
-        p = &d[i];
+        entry = &sys->entries[first + i];
+        desc = &descs[i];
 
-        func_020500B8((u32 *)e);
-        e->f04 = base + p->slot;
-        r = func_0204F428(o->f04, o->f0C[e->f04].id, p->v12, p->v14, &p->pos, p->k, p->w, mode);
-        e->f00 = r;
-        e->f20 = p->f1c;
-        e->f24 = p->f20;
-        func_0204F720((u32)o->f04, r, (u32 *)(&p->flag));
-        e->f1C = 0x3FFF;
+        func_020500B8(entry);
+        entry->slotIndex = baseSlot + desc->slot;
+        elemId = func_0204F428(sys->board, sys->slots[entry->slotIndex].boardId, desc->width, desc->height, &desc->pos, desc->layer, desc->color, mode);
+        entry->elemId = elemId;
+        entry->hook = desc->hook;
+        entry->hookArg = desc->hookArg;
+        func_0204F720(sys->board, elemId, &desc->flags);
+        entry->lastCommand = 0x3FFF;
     }
-    return idx;
+    return first;
 }
 
 
@@ -941,17 +839,17 @@ u16 func_02050340(struct BbActSys_02050340 *o, u16 base, const struct BbActDesc 
  * billboard_act.c: release `count` entries from `first` and give the index
  * range back to the pool.  The earlier 2-byte floor (add operand order) and
  * the hand-copied stride came from writing the address arithmetic by hand;
- * the source is plain subscripts, o->f18[first + i], in a for loop.
+ * the source is plain subscripts, sys->entries[first + i], in a for loop.
  */
-void func_02050468(struct BbActSys_02050468 *o, u16 first, u32 count)
+void func_02050468(struct BbActSys *sys, u16 first, u32 count)
 {
     u32 i;
 
     for (i = 0; i < count; i++) {
-        func_0204F5A8(o->f04, o->f18[first + i].f00);
-        func_020500B8((u32 *)(&o->f18[first + i]));
+        func_0204F5A8(sys->board, sys->entries[first + i].elemId);
+        func_020500B8(&sys->entries[first + i]);
     }
-    func_0203422C(o->f20, first, count);
+    func_0203422C(sys->entryPool, first, count);
 }
 
 
@@ -960,15 +858,15 @@ void func_02050468(struct BbActSys_02050468 *o, u16 first, u32 count)
 
 
 /*
- * Tick every live entry of the 0x28-stride array at o->f18: for each index
- * below the live count at o->f1C, skip the entry whose first word is the
+ * Tick every live entry of sys->entries (0x28 bytes each): for each index
+ * below the live count sys->entryCount, skip the entry whose first word is the
  * sentinel 0xFFFF, otherwise call its per-entry hook (a function pointer at
  * +0x20, taking the owner, the index and the entry's +0x24 word) when one is
  * installed, then hand the entry to func_02050550.
  *
  * Two shapes are load-bearing:
  *
- *   - The live count is re-read from o->f1C at the BOTTOM of the loop
+ *   - The live count is re-read from sys->entryCount at the BOTTOM of the loop
  *     (`ldrh r0, [r5, #0x1c]` at +0x60) as well as at the top, because the
  *     hook and func_02050550 may both change it.  Caching it in a local gives
  *     one load and a different loop shape.
@@ -990,25 +888,25 @@ void func_02050468(struct BbActSys_02050468 *o, u16 first, u32 count)
  *
  * Addresses are Black-image addresses.
  */
-void func_020504D8(struct Owner *o)
+void func_020504D8(struct BbActSys *sys)
 {
     int i = 0;
-    int n = o->f1C;
+    int n = sys->entryCount;
 
     if (n <= 0) {
         return;
     }
     do {
-            struct Ent *e = (struct Ent *)((u8 *)o->f18 + i * 0x28);
+            struct BbActEntry *entry = &sys->entries[i];
 
-            if (e->f00 != 0xFFFF) {
-                if (e->f20 != 0) {
-                    e->f20(o, i, e->f24);
+            if (entry->elemId != 0xFFFF) {
+                if (entry->hook != 0) {
+                    entry->hook(sys, i, entry->hookArg);
                 }
-                func_02050550(o, e);
+                func_02050550(sys, entry);
             }
         i++;
-    } while (i < o->f1C);
+    } while (i < sys->entryCount);
 }
 
 
@@ -1016,61 +914,60 @@ void func_020504D8(struct Owner *o)
 
 
 
-void func_02050550(struct Owner *o, struct Ent *e)
+void func_02050550(struct BbActSys *sys, struct BbActEntry *entry)
 {
-    Cmd *c;
-    u32  s2;
-    u32  s1;
-    u16  s0;
-    u16  rem;
-    u8  *p;
+    struct BbActCmd *cmd;
+    u32  flipXValue;
+    u32  flipYValue;
+    u16  frame;
+    u16  duration;
+    struct BbActSlot *slot;
 
-    if (e->f08 == 0 || e->f18 == 0) {
+    if (entry->cmdLists == 0 || entry->enabled == 0) {
         return;
     }
-    if (e->f12 != 0) {
-        e->f12 = e->f12 - 1;
+    if (entry->waitFrames != 0) {
+        entry->waitFrames = entry->waitFrames - 1;
         return;
     }
 
-    c = (Cmd *)((u8 *)e->f08[e->f0e] + e->f10 * 4);
-    while (func_02050920((struct S14 *)c)) {
-        if (func_02050944(e, (struct S14 *)c)) {
+    cmd = &entry->cmdLists[entry->listIndex][entry->cursor];
+    while (func_02050920(cmd)) {
+        if (func_02050944(entry, cmd)) {
             return;
         }
-        c = (Cmd *)((u8 *)e->f08[e->f0e] + e->f10 * 4);
+        cmd = &entry->cmdLists[entry->listIndex][entry->cursor];
     }
 
-    e->f10 = e->f10 + 1;
-    s0 = c->a;
-    rem = c->f02;
+    entry->cursor = entry->cursor + 1;
+    frame = cmd->frame;
+    duration = cmd->arg;
 
-    p = (u8 *)(e->f04 * 8);
-    p = p + (u32)o->f0c;
-    if (((struct Obj06991 *)p)->f4 != 0) {
-        func_020506B8(o, (struct Rec8 *)p, s0);
+    slot = (struct BbActSlot *)((u8 *)(entry->slotIndex * 8) + (u32)sys->slots);
+    if (slot->payload != 0) {
+        func_020506B8(sys, slot, frame);
     } else {
-        func_0204F66C(o->f04, e->f00, (int)(&s0));
+        func_0204F66C(sys->board, entry->elemId, &frame);
     }
 
-    if (c->b) {
-        s2 = 1;
+    if (cmd->flipX) {
+        flipXValue = 1;
     } else {
-        s2 = 0;
+        flipXValue = 0;
     }
-    if (c->c) {
-        s1 = 1;
+    if (cmd->flipY) {
+        flipYValue = 1;
     } else {
-        s1 = 0;
+        flipYValue = 0;
     }
 
-    func_0204F764((void *)o->f04, e->f00, &s2);
-    func_0204F794((void *)o->f04, e->f00, &s1);
+    func_0204F764(sys->board, entry->elemId, &flipXValue);
+    func_0204F794(sys->board, entry->elemId, &flipYValue);
 
-    if (rem != 0) {
-        rem = rem - 1;
+    if (duration != 0) {
+        duration = duration - 1;
     }
-    e->f12 = rem;
+    entry->waitFrames = duration;
 }
 
 
@@ -1078,20 +975,20 @@ void func_02050550(struct Owner *o, struct Ent *e)
 
 
 
-void func_020506B8(struct Owner *o, struct Rec8 *e, u32 a2)
+void func_020506B8(struct BbActSys *sys, struct BbActSlot *slot, u32 frame)
 {
-    u32 s4;
-    u32 s3;
-    u32 s2;
-    u32 base;
+    u32 texDst;
+    u32 frameOffset;
+    u32 frameSize;
+    u32 payloadBase;
     u32 zero;
 
-    base = func_020473D8(e->f04);
-    func_0204F2B4(o->f04, e->f00, (int)(&s4));
+    payloadBase = func_020473D8(slot->payload);
+    func_0204F2B4(sys->board, slot->boardId, &texDst);
     zero = 0;
-    func_0204F344((void *)o->f04, e->f00, a2, (int *)(&s3), (int *)(&s2), zero);
-    if (o->f08 != 0) {
-        o->f08(zero, s4, base + s3, s2);
+    func_0204F344(sys->board, slot->boardId, frame, &frameOffset, &frameSize, zero);
+    if (sys->uploadFn != 0) {
+        sys->uploadFn(zero, texDst, payloadBase + frameOffset, frameSize);
     }
 }
 
@@ -1113,16 +1010,16 @@ void func_020506B8(struct Owner *o, struct Rec8 *e, u32 a2)
  *   python tools/match.py one --src src/matched/func_02050738.c \
  *       --func func_02050738 --addr 0x02050738 --cc 1.1p1 --arm
  */
-u32 func_02050738(void *p, void *q)
+u32 func_02050738(struct BbActSys *sys, struct BbActSlot *slot)
 {
-    u32 v = func_020473EC(((struct Obj06992 *)q)->f4);
-    u32 t;
-    u32 r = func_0204F2CC(((struct Obj11453 *)p)->f4, ((struct Obj06992 *)q)->f0, &t);
-    u32 (*hook)(u32, u32, u32, u32) = *(u32 (**)(u32, u32, u32, u32))((char *)p + 8);
+    u32 paletteSrc = func_020473EC(slot->payload);
+    u32 paletteDst;
+    u32 result = func_0204F2CC(sys->board, slot->boardId, &paletteDst);
+    BbActUploadFn uploadFn = sys->uploadFn;
 
-    if (hook == 0)
-        return r;
-    return hook(1, t, v, 0x20);
+    if (uploadFn == 0)
+        return result;
+    return uploadFn(1, paletteDst, paletteSrc, 0x20);
 }
 
 
@@ -1133,7 +1030,7 @@ u32 func_02050738(void *p, void *q)
 /*
  * sdk:      DWCi_LSTlPopFront (libdwcutil.TWL.HYB.a list.o)
  */
-void func_02050790(LISTCB *list, int b, int c)
+void func_02050790(LISTCB *list, int unused1, int unused2)
 {
     DWCi_LSTlErase(list->tail);
 }
@@ -1166,11 +1063,11 @@ void func_02050790(LISTCB *list, int b, int c)
  *   python tools/match.py one --src src/matched/func_020507A0.c \
  *       --func func_020507A0 --addr 0x020507A0 --cc 1.1p1 --arm
  */
-int func_020507A0(void *p, int idx, u32 x)
+int func_020507A0(struct BbActSys *sys, int entryIndex, u32 flags)
 {
-    return func_0204F720(((struct Obj11454 *)p)->f4,
-                         *(u32 *)(((struct Obj11454 *)p)->f18 + idx * 40),
-                         &x);
+    return func_0204F720(sys->board,
+                         sys->entries[entryIndex].elemId,
+                         &flags);
 }
 
 
@@ -1181,9 +1078,9 @@ int func_020507A0(void *p, int idx, u32 x)
 /*
  * Leaf witness for ov021 0x021BBF10 / 0x021BC138 (lane wA1-12).
  */
-int func_020507D0(Mgr_020507D0 *p, int i)
+int func_020507D0(struct BbActSys *sys, int entryIndex)
 {
-    return func_0204F704((u8 *)p->f4, p->f18[i].f0);
+    return func_0204F704(sys->board, sys->entries[entryIndex].elemId);
 }
 
 
@@ -1191,10 +1088,10 @@ int func_020507D0(Mgr_020507D0 *p, int i)
 
 
 
-void func_020507F0(void *p, int idx, u32 v)
+void func_020507F0(struct BbActSys *sys, int entryIndex, u32 enabled)
 {
-    char *e = (char *)(((struct Obj16154 *)p)->f18 + idx * 40);
-    ((struct Obj16155 *)e)->f18 = v;
+    struct BbActEntry *entry = &sys->entries[entryIndex];
+    entry->enabled = enabled;
 }
 
 
@@ -1207,14 +1104,14 @@ void func_020507F0(void *p, int idx, u32 v)
  *   python tools/match.py one --src src/matched/func_02050804.c \
  *       --func func_02050804 --addr 0x02050804 --cc 1.1p1 --arm
  */
-void func_02050804(void *p, int idx, u32 v, u16 h)
+void func_02050804(struct BbActSys *sys, int entryIndex, struct BbActCmd **cmdLists, u16 listCount)
 {
-    char *e = (char *)(((struct Obj16156 *)p)->f18 + idx * 40);
+    struct BbActEntry *entry = &sys->entries[entryIndex];
 
-    ((struct S14 *)e)->f8 = v;
-    ((struct S14 *)e)->fC = h;
-    ((struct S14 *)e)->fE = 0;
-    func_020500A0((int)e);
+    entry->cmdLists = cmdLists;
+    entry->listCount = listCount;
+    entry->listIndex = 0;
+    func_020500A0(entry);
 }
 
 
@@ -1222,11 +1119,11 @@ void func_02050804(void *p, int idx, u32 v, u16 h)
 
 
 
-void func_0205082C(void *p, int idx, u32 h)
+void func_0205082C(struct BbActSys *sys, int entryIndex, u32 listIndex)
 {
-    char *e = (char *)(((struct Obj16157 *)p)->f18 + idx * 40);
-    ((struct S14 *)e)->fE = h;
-    func_020500A0((int)e);
+    struct BbActEntry *entry = &sys->entries[entryIndex];
+    entry->listIndex = listIndex;
+    func_020500A0(entry);
 }
 
 
@@ -1237,9 +1134,9 @@ void func_0205082C(void *p, int idx, u32 h)
 /*
  * Leaf witness for ov021 0x0219F058 and siblings (lane wA1-06).
  */
-u16 func_02050848(u8 *p, int i)
+u16 func_02050848(struct BbActSys *sys, int entryIndex)
 {
-    return *(u16 *)(*(u8 * *)&((struct Obj11455 *)p)->f18 + i * 40 + 0xe);
+    return sys->entries[entryIndex].listIndex;
 }
 
 
@@ -1252,12 +1149,12 @@ u16 func_02050848(u8 *p, int i)
  *   python tools/match.py one --src src/matched/func_0205085C.c \
  *       --func func_0205085C --addr 0x0205085C --cc 1.1p1 --arm
  */
-void func_0205085C(void *p, int idx, u32 v)
+void func_0205085C(struct BbActSys *sys, int entryIndex, u32 cursor)
 {
-    char *e = (char *)(((struct Obj16158 *)p)->f18 + idx * 40);
+    struct BbActEntry *entry = &sys->entries[entryIndex];
 
-    func_020500A0((int)e);
-    ((struct S14 *)e)->f10 = v;
+    func_020500A0(entry);
+    entry->cursor = cursor;
 }
 
 
@@ -1265,9 +1162,9 @@ void func_0205085C(void *p, int idx, u32 v)
 
 
 
-u16 func_02050880(u8 *p, int i)
+u16 func_02050880(struct BbActSys *sys, int entryIndex)
 {
-    return *(u16 *)(*(u8 * *)&((struct Obj11455 *)p)->f18 + i * 40 + 0x10);
+    return sys->entries[entryIndex].cursor;
 }
 
 
@@ -1295,15 +1192,15 @@ u16 func_02050880(u8 *p, int i)
  *   python tools/match.py one --src src/matched/func_02050894.c \
  *       --func func_02050894 --addr 0x02050894 --cc 1.1p1 --arm
  */
-int func_02050894(void *p, int idx, int j)
+int func_02050894(struct BbActSys *sys, int entryIndex, int srcSlot)
 {
-    struct S8  *arr = *(struct S8 * *)&((struct Obj11456 *)p)->fC;
-    struct S40 *rec = *(struct S40 * *)&((struct Obj11456 *)p)->f18;
-    u16 e = rec[idx].f4;
-    u32 v = arr[j].w;
+    struct BbActSlot *slots = sys->slots;
+    struct BbActEntry *entries = sys->entries;
+    u16 dstSlot = entries[entryIndex].slotIndex;
+    u32 payload = slots[srcSlot].payload;
 
-    arr[e].w = v;
-    return func_02050738(p, &arr[e]);
+    slots[dstSlot].payload = payload;
+    return func_02050738(sys, &slots[dstSlot]);
 }
 
 
@@ -1311,9 +1208,9 @@ int func_02050894(void *p, int idx, int j)
 
 
 
-int func_020508C4(Mgr_020508C4 *p, int i)
+int func_020508C4(struct BbActSys *sys, int entryIndex)
 {
-    return p->f18[i].f0;
+    return sys->entries[entryIndex].elemId;
 }
 
 
@@ -1321,9 +1218,9 @@ int func_020508C4(Mgr_020508C4 *p, int i)
 
 
 
-u32 func_020508D8(u8 *o, u32 i)
+u32 func_020508D8(struct BbActSys *sys, u32 entryIndex)
 {
-    return *(u16 *)(*(u8 * *)&((struct Obj16160 *)o)->f18 + i * 0x28 + 4);
+    return sys->entries[entryIndex].slotIndex;
 }
 
 
@@ -1331,11 +1228,12 @@ u32 func_020508D8(u8 *o, u32 i)
 
 
 
-u32 func_020508EC(u8 *p, int i, u16 *out)
+u32 func_020508EC(struct BbActSys *sys, int entryIndex, u16 *lastCommand)
 {
-    u16 v = *(u16 *)(*(u8 * *)&((struct Obj16161 *)p)->f18 + i * 40 + 0x1c);
-    *out = v;
-    return (u16)(v + 4 + 0xC000) <= 3;
+    u16 value = sys->entries[entryIndex].lastCommand;
+    *lastCommand = value;
+    /* true for BBACT_CMD_JUMP..BBACT_CMD_END; the range test must stay in this form */
+    return (u16)(value + 4 + 0xC000) <= 3;
 }
 
 
@@ -1348,9 +1246,9 @@ u32 func_020508EC(u8 *p, int i, u16 *out)
  *   python tools/match.py one --src src/matched/func_02050920.c \
  *       --func func_02050920 --addr 0x02050920 --cc 1.1p1 --arm
  */
-int func_02050920(struct S14 *p)
+int func_02050920(struct BbActCmd *cmd)
 {
-    return func_02050984(p->f) != 0;
+    return func_02050984(cmd->frame) != 0;
 }
 
 
@@ -1363,13 +1261,13 @@ int func_02050920(struct S14 *p)
  *   python tools/match.py one --src src/matched/func_02050944.c \
  *       --func func_02050944 --addr 0x02050944 --cc 1.1p1 --arm
  */
-int func_02050944(void *p, struct S14 *q)
+int func_02050944(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
-    int (*fn)(void *, struct S14 *);
+    BbActControlFn handler;
 
-    fn = (int (*)(void *, struct S14 *))func_02050984(q->f);
-    ((struct Obj16163 *)p)->f1C = q->f;
-    return fn(p, q);
+    handler = func_02050984(cmd->frame);
+    entry->lastCommand = cmd->frame;
+    return handler(entry, cmd);
 }
 
 
@@ -1411,13 +1309,13 @@ int func_02050944(void *p, struct S14 *q)
  *   python tools/match.py one --src src/matched/func_02050984.c \
  *       --func func_02050984 --addr 0x02050984 --cc 1.1p1 --arm
  */
-Fn func_02050984(u32 id)
+BbActControlFn func_02050984(u32 id)
 {
     switch (id) {
-    case 0x3FFF: return (Fn)func_020509E0;
-    case 0x3FFE: return (Fn)func_020509E8;
-    case 0x3FFD: return (Fn)func_02050A00;
-    case 0x3FFC: return (Fn)func_02050A58;
+    case BBACT_CMD_END:      return func_020509E0;
+    case BBACT_CMD_SET_LIST: return func_020509E8;
+    case BBACT_CMD_LOOP:     return func_02050A00;
+    case BBACT_CMD_JUMP:     return func_02050A58;
     }
     return 0;
 }
@@ -1436,7 +1334,7 @@ Fn func_02050984(u32 id)
  *   python tools/match.py one --src src/matched/func_020509E0.c \
  *       --func func_020509E0 --addr 0x020509E0 --cc 1.1p1 --arm
  */
-int func_020509E0(void)
+int func_020509E0(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
     return 1;
 }
@@ -1451,10 +1349,10 @@ int func_020509E0(void)
  *   python tools/match.py one --src src/matched/func_020509E8.c \
  *       --func func_020509E8 --addr 0x020509E8 --cc 1.1p1 --arm
  */
-int func_020509E8(void *p, void *q)
+int func_020509E8(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
-    ((struct S14 *)p)->fE = ((struct Obj16164 *)q)->f2;
-    func_020500A0((int)p);
+    entry->listIndex = cmd->arg;
+    func_020500A0(entry);
     return 0;
 }
 
@@ -1466,7 +1364,7 @@ int func_020509E8(void *p, void *q)
 /*
  * The third arm of the handler table func_02050984 dispatches through (see
  * src/pending/func_02050984.c).  88 bytes, a leaf: the command halfword at
- * c->f02 packs two bytes, a repeat count in the high half and a value in the
+ * cmd->arg packs two bytes, a repeat count in the high half and a value in the
  * low half.  While the entry's repeat counter at +0x14 is below the count,
  * store the value at +0x10 and bump the counter; once it reaches the count,
  * reset the counter and advance +0x10 by one instead.  +0x12 is zeroed on
@@ -1492,22 +1390,22 @@ int func_020509E8(void *p, void *q)
  *   python tools/match.py one --src src/matched/func_02050A00.c \
  *       --func func_02050A00 --addr 0x02050A00 --cc 1.1p1 --arm
  */
-int func_02050A00(struct Ent *e, struct Cmd *c)
+int func_02050A00(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
-    int v = c->f02;
-    int n = e->f14;
-    unsigned char hi = (unsigned char)((v & 0xff00) >> 8);
-    unsigned char lo = (unsigned char)v;
+    int operand = cmd->arg;
+    int count = entry->loopCount;
+    unsigned char repeats = (unsigned char)((operand & 0xff00) >> 8);
+    unsigned char target = (unsigned char)operand;
 
-    if (n < hi) {
-        e->f10 = lo;
-        e->f12 = 0;
-        e->f14 = (u16)(n + 1);
+    if (count < repeats) {
+        entry->cursor = target;
+        entry->waitFrames = 0;
+        entry->loopCount = (u16)(count + 1);
     } else {
-        int cur = e->f10;
-        e->f14 = 0;
-        e->f12 = 0;
-        e->f10 = (u16)(cur + 1);
+        int cursor = entry->cursor;
+        entry->loopCount = 0;
+        entry->waitFrames = 0;
+        entry->cursor = (u16)(cursor + 1);
     }
     return 0;
 }
@@ -1519,7 +1417,7 @@ int func_02050A00(struct Ent *e, struct Cmd *c)
 /*
  * The fourth arm of the handler table func_02050984 dispatches through (its
  * pool word at 0x02050980-ish; see src/pending/func_02050984.c).  Twenty
- * bytes, a leaf: it loads the command's second halfword (`c->f02`), zeroes the
+ * bytes, a leaf: it loads the command's second halfword (`cmd->arg`), zeroes the
  * entry's +0x12 counter, stores the halfword at +0x10 and returns 0.
  *
  * The zero is materialised once and reused for both the +0x12 store and the
@@ -1530,12 +1428,12 @@ int func_02050A00(struct Ent *e, struct Cmd *c)
  *   python tools/match.py one --src src/matched/func_02050A58.c \
  *       --func func_02050A58 --addr 0x02050A58 --cc 1.1p1 --arm
  */
-int func_02050A58(struct Ent *e, struct Cmd *c)
+int func_02050A58(struct BbActEntry *entry, struct BbActCmd *cmd)
 {
-    u16 v = c->f02;
+    u16 target = cmd->arg;
 
-    e->f12 = 0;
-    e->f10 = v;
+    entry->waitFrames = 0;
+    entry->cursor = target;
     return 0;
 }
 
@@ -1576,15 +1474,15 @@ void func_02050A70(void)
         return;
 
     for (i = 0; i < 4; i++) {
-        if (g_02146A84[i].active) {
-            g_02146A84[i].active = 0;
-            if (g_02146A84[i].unk08 >> 11) {
+        if (g_02146A84[i].dirty) {
+            g_02146A84[i].dirty = 0;
+            if (g_02146A84[i].control >> 11) {
                 func_02050B14(i);
-                g_02146A84[i].torn = 1;
+                g_02146A84[i].programmed = 1;
             }
         }
-        if (g_02146A84[i].kill) {
-            g_02146A84[i].kill = 0;
+        if (g_02146A84[i].reprogram) {
+            g_02146A84[i].reprogram = 0;
             func_02050B14(i);
         }
     }
@@ -1627,19 +1525,19 @@ void func_02050A70(void)
  *       --func func_02050B14 --addr 0x02050B14 --cc 1.1p1 --arm
  *   EXACT, 108 bytes, 3 relocation sites, all resolved.
  */
-void func_02050B14(u32 idx)
+void func_02050B14(u32 channel)
 {
-    u32 s = OS_DisableInterrupts();
-    u32 v = g_02146A84[idx].unk08;
+    u32 state = OS_DisableInterrupts();
+    u32 v = g_02146A84[channel].control;
 
-    *(volatile u32 *)(0x040000B8 + idx * 12) =
+    REG_DMA_CNT(channel) =
         ((v << 30) >> 31) << 30 |
         ((v << 26) >> 31) << 26 |
         ((v << 23) >> 30) << 23 |
         ((v << 21) >> 30) << 21 |
         (v >> 11);
 
-    OS_RestoreInterrupts(s);
+    OS_RestoreInterrupts(state);
 }
 
 
@@ -1659,21 +1557,21 @@ void func_02050B14(u32 idx)
  *
  * The global is a pointer VARIABLE, and both the zero loop and the two field
  * stores re-dereference it: a store through the pointer could overwrite the
- * pointer itself, so only `g[i] = 0` inside the loop and `g->f40`/`g->f44`
+ * pointer itself, so only `systems[i] = 0` inside the loop and `callbackArg`/`current`
  * afterwards reproduce the four separate loads of the global.
  */
-void func_02050B80(u32 heap)
+void func_02050B80(u32 heapId)
 {
     int i = 0;
 
-    g_02146A88 = func_02030734(heap, 0x48, i, pkt_02050A70_File, 190);
+    g_02146A88 = func_02030734(heapId, 0x48, i, g_020A7FC0, 190);
 
     for (i = 0; i < 16; i++) {
-        ((u32 *)g_02146A88)[i] = 0;
+        g_02146A88->systems[i] = 0;
     }
 
-    g_02146A88->f40 = 0;
-    g_02146A88->f44 = 0;
+    g_02146A88->callbackArg = 0;
+    g_02146A88->current = 0;
 }
 
 
@@ -1703,9 +1601,9 @@ void func_02050BE8(void)
  *   python tools/match.py one --src src/matched/func_02050C04.c \
  *       --func func_02050C04 --addr 0x02050C04 --cc 1.1p1 --arm
  */
-int func_02050C04(int a, int b, int c, int d)
+struct ParticleSys *func_02050C04(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId)
 {
-    return (int)func_02050C30(a, b, c, 5, 6, 63, d);
+    return func_02050C30(workBuf, workSize, withCamera, 5, 6, 63, heapId);
 }
 
 
@@ -1716,7 +1614,7 @@ int func_02050C04(int a, int b, int c, int d)
  * particle.c, the emitter constructor (wave 13): find a free slot among the
  * sixteen in the 0x02146A88 table, allocate a 0x260-byte emitter (particle.c
  * line 285), clear it, copy the three default vectors in as struct
- * assignments, clear flag bit 0, wire the span fields from (a0, a1), publish
+ * assignments, clear flag bit 0, wire the work-buffer span fields from (workBuf, workSize), publish
  * the emitter in its slot, optionally build the 3D block (a2 == 1), and store
  * func_02052DC8's handle at +0.
  *
@@ -1732,39 +1630,39 @@ int func_02050C04(int a, int b, int c, int d)
  * truncated with a (u16) cast at the use) and its three other decisions all
  * stand.
  */
-void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap)
+struct ParticleSys *func_02050C30(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId)
 {
-    struct Emit *e;
-    u32 *tab;
+    struct ParticleSys *sys;
+    struct ParticleSys **table;
     int i = 0;
 
-    tab = g_02146A88->words;
+    table = g_02146A88->systems;
     do {
-        if (tab[i] == 0)
+        if (table[i] == 0)
             break;
         i++;
     } while (i < 16);
     if (i >= 16)
         return 0;
 
-    e = (struct Emit *)func_02030734((u16)heap, 0x260, 0, g_020A7FC0, 285);
-    MI_CpuFill8(e, 0, 0x260);
-    e->f34 = g_020A1590;
-    e->f40 = g_020A1584;
-    e->f4c = g_020A1578;
-    e->f32 = e->f32 & ~1u;
-    MI_CpuFill8((void *)a0, 0, a1);
-    e->f0c = a0;
-    e->f10 = a0;
-    e->f14 = a0 + a1;
-    e->f25a = (u8)i;
-    g_02146A88->words[i] = (u32)e;
+    sys = func_02030734((u16)heapId, 0x260, 0, g_020A7FC0, 285);
+    MI_CpuFill8(sys, 0, 0x260);
+    sys->cameraPos = g_020A1590;
+    sys->cameraTarget = g_020A1584;
+    sys->cameraUp = g_020A1578;
+    sys->flags = sys->flags & ~1u;
+    MI_CpuFill8((void *)workBuf, 0, workSize);
+    sys->workBase = workBuf;
+    sys->workCursor = workBuf;
+    sys->workEnd = workBuf + workSize;
+    sys->slotIndex = (u8)i;
+    g_02146A88->systems[i] = sys;
 
-    if (a2 == 1)
-        func_02051648((struct Dst648 *)e, 0, 0x2000, 0, 0, 0, heap);
+    if (withCamera == 1)
+        func_02051648(sys, 0, 0x2000, 0, 0, 0, heapId);
 
-    e->f00 = func_02052DC8(g_020A15A8[i], 0x18, 0xc8, (u16)a3, (u16)a4, (u16)a5);
-    return e;
+    sys->engine = func_02052DC8(g_020A15A8[i], 0x18, 0xc8, (u16)limitA, (u16)limitB, (u16)maxResIndex);
+    return sys;
 }
 
 
@@ -1787,7 +1685,7 @@ void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap)
  *    them.  All nine sites resolve, none wildcarded.
  *
  * 2. The note's 20-byte register swap in the sixteen-entry search loop is
- *    closed by writing that loop WITHOUT a cursor local: `g_02146A88->words[j]`
+ *    closed by writing that loop WITHOUT a cursor local: `g_02146A88->systems[j]`
  *    drawn fresh at both the read and the store, not `a = g_02146A88; a[j]`.
  *    Found with tools/permuter.py (hill, budget 500, mutation `expand(a x2)`).
  *    The note ruled out declaration order, a separate index, hoisting the
@@ -1798,13 +1696,10 @@ void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap)
  *    local `t` before the compare, or the compare comes out `cmp r5, r0`.
  *
  * Two more spelling tells found on the way to size-exact, neither in the note:
- *   * the two 0x40-entry loops read the element as `((u32 *)(p + 0x58))[i]`
- *     but store it as `*(u32 *)(p + i * 4 + 0x58)`.  Spelled the SAME way at
- *     both ends the compiler CSEs the address into a callee-saved register
- *     and holds it across the call, which drops the image's second
- *     `add r0, r5, r6, lsl #2` -- four bytes per loop, eight in total, and a
- *     sixth register in the frame.  Two different spellings of one address
- *     defeat the CSE and give the image's recompute-per-use.
+ *   * the two 0x40-entry loops read texHandles[i] / palHandles[i] and store
+ *     the zero through the same subscript; the typed array form recomputes the
+ *     address at each use, as the image does (the raw-offset spelling needed
+ *     two different spellings of one address to avoid a CSE).
  *   * the +0x32 guard is `((u32)(f << 31) >> 31) == 0`: the cast to u32 is
  *     what makes the second shift `lsrs` rather than `asrs` (the u16 field
  *     promotes to int, and a plain `>> 31` on an int is arithmetic).  A
@@ -1816,43 +1711,43 @@ void *func_02050C30(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap)
  *       --func func_02050DB8 --addr 0x02050DB8 --cc 1.1p1 --arm
  *   EXACT, 284 bytes, 9 relocation sites, all resolved.
  */
-void func_02050DB8(u8 *p)
+void func_02050DB8(struct ParticleSys *sys)
 {
     int i;
     u32 z = 0;
 
-    func_02051620();
+    KeyValHashKey(sys);
 
-    if (p[0x258] & 1) {
-        func_0206168C((u32 *)(p + 0x58));
-    } else if (p[0x258] & 2) {
+    if (sys->loadMode & PARTICLE_LOAD_TEX_BULK) {
+        func_0206168C(sys->texHandles);
+    } else if (sys->loadMode & PARTICLE_LOAD_TEX_ENTRY) {
         for (i = 0; i < 0x40; i++) {
-            if (((u32 *)(p + 0x58))[i] != 0) {
-                func_020621FC(((u32 *)(p + 0x58))[i]);
-                *(u32 *)(p + i * 4 + 0x58) = z;
+            if (sys->texHandles[i] != 0) {
+                func_020621FC(sys->texHandles[i]);
+                sys->texHandles[i] = z;
             }
         }
     }
 
-    if (p[0x258] & 4) {
-        func_02061824(p + 0x158);
-    } else if (p[0x258] & 8) {
+    if (sys->loadMode & PARTICLE_LOAD_PAL_BULK) {
+        func_02061824(sys->palHandles);
+    } else if (sys->loadMode & PARTICLE_LOAD_PAL_ENTRY) {
         for (i = 0; i < 0x40; i++) {
-            if (((u32 *)(p + 0x158))[i] != 0) {
-                func_02062594(((u32 *)(p + 0x158))[i]);
-                *(u32 *)(p + i * 4 + 0x158) = z;
+            if (sys->palHandles[i] != 0) {
+                func_02062594(sys->palHandles[i]);
+                sys->palHandles[i] = z;
             }
         }
     }
 
     {
-        u32 h = ((struct Obj01319 *)p)->f4;
-        p[0x258] = (u8)z;
-        ((struct Obj01319 *)p)->f8 = z;
-        if (h != 0) {
-            if (((u32)((((struct Obj01319 *)p)->f32) << 31) >> 31) == 0) {
-                func_020307B0((void *)h);
-                ((struct Obj01319 *)p)->f4 = z;
+        void *block = sys->resourceBlock;
+        sys->loadMode = (u8)z;
+        sys->activeEffect = z;
+        if (block != 0) {
+            if (((u32)(sys->flags << 31) >> 31) == 0) {
+                func_020307B0(block);
+                sys->resourceBlock = (void *)z;
             }
         }
     }
@@ -1860,9 +1755,9 @@ void func_02050DB8(u8 *p)
     {
         int j = 0;
         for (;;) {
-            u32 t = g_02146A88->words[j];
-            if (t == (u32)p) {
-                g_02146A88->words[j] = z;
+            struct ParticleSys *t = g_02146A88->systems[j];
+            if (t == sys) {
+                g_02146A88->systems[j] = (struct ParticleSys *)z;
                 break;
             }
             j++;
@@ -1871,10 +1766,10 @@ void func_02050DB8(u8 *p)
         }
     }
 
-    if (((struct Obj01319 *)p)->f20 != 0)
-        func_02048AC4((void *)(((struct Obj01319 *)p)->f20));
+    if (sys->camera != 0)
+        func_02048AC4(sys->camera);
 
-    func_020307B0(p);
+    func_020307B0(sys);
 }
 
 
@@ -1897,12 +1792,12 @@ void func_02050ED4(void)
     int i;
 
     for (i = 0; i < 16; i++) {
-        u32 v = g_02146A88->words[i];
+        struct ParticleSys *sys = g_02146A88->systems[i];
 
-        if (v != 0)
-            func_02050DB8((u8 *)v);
+        if (sys != 0)
+            func_02050DB8(sys);
     }
-    func_020307B0((void *)((u32)g_02146A88));
+    func_020307B0(g_02146A88);
     g_02146A88 = 0;
 }
 
@@ -1910,224 +1805,224 @@ void func_02050ED4(void)
 
 void *func_02050F1C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[0];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[0];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_02050F4C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[1];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[1];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_02050F7C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[2];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[2];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_02050FAC(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[3];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[3];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_02050FDC(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[4];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[4];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_0205100C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[5];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[5];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_0205103C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[6];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[6];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_0205106C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[7];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[7];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_0205109C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[8];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[8];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_020510CC(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[9];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[9];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_020510FC(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[10];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[10];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_0205112C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[11];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[11];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_0205115C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[12];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[12];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_0205118C(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[13];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[13];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_020511BC(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[14];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[14];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
 
 void *func_020511EC(u32 size)
 {
-    Arena_02050F1C *a = (Arena_02050F1C *)g_02146A88->words[15];
-    u32 q = (u32)a->cur + size;
-    u32 r = (u32)a->cur;
-    if (q & 3) {
-        q += 4 - (q & 3);
+    struct ParticleSys *sys = g_02146A88->systems[15];
+    u32 next = sys->workCursor + size;
+    u32 start = sys->workCursor;
+    if (next & 3) {
+        next += 4 - (next & 3);
     }
-    a->cur = (u8 *)q;
-    return (void *)r;
+    sys->workCursor = next;
+    return (void *)start;
 }
 
 
@@ -2141,9 +2036,9 @@ void *func_020511EC(u32 size)
  * func_ label), so a `matched` entry is the only witness its callers can
  * use.
  */
-int func_0205121C(u32 a, u32 b, u32 c)
+void *func_0205121C(u32 archiveId, u32 member, u32 heapId)
 {
-    return (int)func_02048F60(a, b, (unsigned short)c);
+    return func_02048F60(archiveId, member, (unsigned short)heapId);
 }
 
 
@@ -2154,50 +2049,51 @@ int func_0205121C(u32 a, u32 b, u32 c)
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
  */
-void func_02051230(u8 *o, u32 a1, u32 a2, u32 a3)
+void func_02051230(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr)
 {
-    u32 f;
-    u32 v;
+    u32 mode;
+    u32 palMode;
     u32 z;
     s32 i;
+    struct ParticleEngine *engine;
 
     z = 0;
-    f = (func_02046BFC() == 1) ? 1 : 2;
-    v = func_02046C10();
-    if (v == 1)
-        v = 4;
+    mode = (func_02046BFC() == 1) ? 1 : 2;
+    palMode = func_02046C10();
+    if (palMode == 1)
+        palMode = 4;
     else
-        v = 8;
-    f |= v;
-    o[0x258] = (u8)f;
-    if (f & 1) {
-        func_0206164C(o + 0x58);
-        ((struct Obj02319 *)o)->f18 = 0x02051A3C;
-    } else if (f & 2) {
+        palMode = 8;
+    mode |= palMode;
+    sys->loadMode = (u8)mode;
+    if (mode & PARTICLE_LOAD_TEX_BULK) {
+        func_0206164C(sys->texHandles);
+        sys->texLoadFn = func_02051A3C;
+    } else if (mode & PARTICLE_LOAD_TEX_ENTRY) {
         for (i = 0; i < 0x40; i++)
-            *(u32 *)(o + 0x58 + i * 4) = z;
-        ((struct Obj02319 *)o)->f18 = 0x02051A54;
-        *(u16 *)(o + 0x200 + 0x5c) = z;
+            sys->texHandles[i] = z;
+        sys->texLoadFn = func_02051A54;
+        sys->texCount = z;
     }
-    if (f & 4) {
-        func_02061808(o + 0x158);
-        ((struct Obj02319 *)o)->f1C = 0x02051AA0;
-    } else if (f & 8) {
+    if (mode & PARTICLE_LOAD_PAL_BULK) {
+        func_02061808(sys->palHandles);
+        sys->palLoadFn = func_02051AA0;
+    } else if (mode & PARTICLE_LOAD_PAL_ENTRY) {
         for (i = 0; i < 0x40; i++)
-            *(u32 *)(o + 0x158 + i * 4) = z;
-        ((struct Obj02319 *)o)->f1C = 0x02051AB8;
-        *(u16 *)(o + 0x200 + 0x5e) = z;
+            sys->palHandles[i] = z;
+        sys->palLoadFn = func_02051AB8;
+        sys->palCount = z;
     }
-    v = ((struct Obj02319 *)o)->f0;
-    ((struct Obj02319 *)o)->f4 = a1;
-    func_02052A50(v, a1);
-    if (a2 == 1) {
-        func_02051394((u32 *)o);
+    engine = sys->engine;
+    sys->resourceBlock = block;
+    func_02052A50(engine, block);
+    if (applyNow == 1) {
+        func_02051394(sys);
         return;
     }
-    if (a3 == 0)
+    if (taskMgr == 0)
         return;
-    func_02030DA8(a3, 0x020513F8, o, 0);
+    func_02030DA8(taskMgr, func_020513F8, sys, 0);
 }
 
 
@@ -2209,10 +2105,10 @@ void func_02051230(u8 *o, u32 a1, u32 a2, u32 a3)
  *   python tools/match.py one --src src/matched/func_02051360.c \
  *       --func func_02051360 --addr 0x02051360 --cc 1.1p1 --arm
  */
-void func_02051360(void *p, unsigned int a1, unsigned int a2, unsigned int a3)
+void func_02051360(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr)
 {
-    func_02051230(p, a1, a2, a3);
-    ((struct Obj02319 *)p)->f32 = (u16)((((struct Obj02319 *)p)->f32 & ~1) | 1);
+    func_02051230(sys, block, applyNow, taskMgr);
+    sys->flags = (u16)((sys->flags & ~1) | 1);
 }
 
 
@@ -2224,9 +2120,9 @@ void func_02051360(void *p, unsigned int a1, unsigned int a2, unsigned int a3)
 /*
  * Tail call with two zero arguments. Filed as the witness for ov094 func_021FA12C.
  */
-void func_02051380(void *p, void *r)
+void func_02051380(struct ParticleSys *sys, void *block)
 {
-    func_02051230((u8 *)p, (u32)r, 0, 0);
+    func_02051230(sys, block, 0, 0);
 }
 
 
@@ -2264,28 +2160,28 @@ void func_02051380(void *p, void *r)
  *   python tools/match.py one --src src/matched/func_02051394.c \
  *       --func func_02051394 --addr 0x02051394 --cc 1.1p1 --arm
  */
-void func_02051394(u32 *p)
+void func_02051394(struct ParticleSys *sys)
 {
-    u32 a;
-    u32 v;
+    ParticleLoadFn fn;
+    struct ParticleEngine *engine;
 
-    g_02146A88->f44 = (u32)p;
+    g_02146A88->current = sys;
 
-    a = p[6];
-    v = p[0];
-    if (a == 0)
-        func_020528BC(v);
+    fn = sys->texLoadFn;
+    engine = sys->engine;
+    if (fn == 0)
+        func_020528BC(engine);
     else
-        func_02052984(v, a);
+        func_02052984(engine, fn);
 
-    a = p[7];
-    v = p[0];
-    if (a == 0)
-        func_020528A8(v);
+    fn = sys->palLoadFn;
+    engine = sys->engine;
+    if (fn == 0)
+        func_020528A8(engine);
     else
-        func_020528D0(v, a);
+        func_020528D0(engine, fn);
 
-    g_02146A88->f44 = 0;
+    g_02146A88->current = 0;
 }
 
 
@@ -2300,10 +2196,10 @@ void func_02051394(u32 *p)
  *   python tools/match.py one --src src/matched/func_020513F8.c \
  *       --func func_020513F8 --addr 0x020513F8 --cc 1.1p1 --arm
  */
-void func_020513F8(void *p, int a)
+void func_020513F8(struct TaskNode *task, struct ParticleSys *sys)
 {
-    func_02051394((u32 *)a);
-    func_02030EAC(p);
+    func_02051394(sys);
+    func_02030EAC(task);
 }
 
 
@@ -2334,33 +2230,33 @@ void func_020513F8(void *p, int a)
  * this function; the ROM word equals the relocation), func_020526A8 through
  * sole-ref/code.
  */
-void func_02051414(u8 *a0)
+void func_02051414(struct ParticleSys *sys)
 {
-    Blk32    b;
-    Blk36    g;
+    SavedGxState savedState;
+    Mtx33    savedMtx;
 
-    if (((struct Obj06994 *)a0)->f20 != 0) {
-        func_020467EC((int)(&b));
-        func_02046AFC((u8 *)(&g));
+    if (sys->camera != 0) {
+        func_020467EC(&savedState);
+        func_02046AFC(&savedMtx);
         {
-            VecFx32  v = g_020A159C;
-            MtxFx33  m;
-            VecFx32  z = {0, 0, 0};
-            MTX_Identity33_(&m);
-            func_0206A9DC(&z);
-            MI_Copy36B(&m, g_02148C08);
+            Vec3  viewVec = g_020A159C;
+            Mtx33 identity;
+            Vec3  zeroVec = {0, 0, 0};
+            MTX_Identity33_(&identity);
+            func_0206A9DC(&zeroVec);
+            MI_Copy36B(&identity, g_02148C08);
             g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;
-            func_0206AA0C(&v);
+            func_0206AA0C(&viewVec);
         }
-        func_02048AD0((struct Light *)(((struct Obj06994 *)a0)->f20));
+        func_02048AD0(sys->camera);
         func_020479D8();
         func_0206DB80();
     }
-    func_020526A8((struct Head *)(((struct Obj06994 *)a0)->f0), (u32)g_02148B98);
-    if (((struct Obj06994 *)a0)->f20 == 0)
+    func_020526A8(sys->engine, g_02148B98);
+    if (sys->camera == 0)
         return;
-    func_02046858((const u32 *)(&b));
-    func_02046B40((u8 *)(&g));
+    func_02046858(&savedState);
+    func_02046B40(&savedMtx);
     func_020479D8();
     func_0206DB80();
 }
@@ -2386,9 +2282,9 @@ void func_02051414(u8 *a0)
  *   python tools/match.py one --src src/matched/func_020514F4.c \
  *       --func func_020514F4 --addr 0x020514F4 --cc 1.1p1 --arm
  */
-int func_020514F4(u32 *p)
+int func_020514F4(struct ParticleSys *sys)
 {
-    return func_02052770(*p);
+    return func_02052770(sys->engine);
 }
 
 
@@ -2410,7 +2306,7 @@ int func_02051504(void)
     int i;
 
     for (i = 0; i < 16; i++) {
-        if (g_02146A88->words[i] != 0)
+        if (g_02146A88->systems[i] != 0)
             n++;
     }
     return n;
@@ -2436,8 +2332,8 @@ int func_02051534(void)
     int n = 0;
 
     for (i = 0; i < 16; i++) {
-        if (g_02146A88->words[i] != 0) {
-            func_02051414((u8 *)g_02146A88->words[i]);
+        if (g_02146A88->systems[i] != 0) {
+            func_02051414(g_02146A88->systems[i]);
             n++;
         }
     }
@@ -2463,8 +2359,8 @@ int func_02051574(void)
     int n = 0;
 
     for (i = 0; i < 16; i++) {
-        if (g_02146A88->words[i] != 0) {
-            func_020514F4((u32 *)g_02146A88->words[i]);
+        if (g_02146A88->systems[i] != 0) {
+            func_020514F4(g_02146A88->systems[i]);
             n++;
         }
     }
@@ -2486,11 +2382,11 @@ int func_02051574(void)
  *   python tools/match.py one --src src/matched/func_020515B4.c \
  *       --func func_020515B4 --addr 0x020515B4 --cc 1.1p1 --arm
  */
-int func_020515B4(void *p, int b, int c)
+int func_020515B4(struct ParticleSys *sys, int resId, int arg)
 {
-    int r = func_02052634((char *)(((struct Obj11458 *)p)->f0), b, c);
-    ((struct Obj11458 *)p)->f8 = r;
-    return r;
+    int effect = func_02052634(sys->engine, resId, arg);
+    sys->activeEffect = effect;
+    return effect;
 }
 
 
@@ -2510,16 +2406,16 @@ int func_020515B4(void *p, int b, int c)
  *   python tools/match.py one --src src/matched/func_020515CC.c \
  *       --func func_020515CC --addr 0x020515CC --cc 1.1p1 --arm
  */
-int func_020515CC(int *p, int a, int b, int c)
+int func_020515CC(struct ParticleSys *sys, int resId, void (*callback)(void *), int userArg)
 {
-    int r;
-    if (*(int *)((char *)((struct Obj08873 *)p)->f0 + 8) >= 0x18)
+    int effect;
+    if (sys->engine->effectCount >= 0x18)
         return -1;
-    g_02146A88->f40 = c;
-    r = func_020525A0((void *)p[0], a, (void (*)(void *))b);
-    g_02146A88->f40 = 0;
-    p[2] = r;
-    return r;
+    g_02146A88->callbackArg = userArg;
+    effect = func_020525A0(sys->engine, resId, callback);
+    g_02146A88->callbackArg = 0;
+    sys->activeEffect = effect;
+    return effect;
 }
 
 
@@ -2529,18 +2425,18 @@ int func_020515CC(int *p, int a, int b, int c)
 /*
  * Returns word 2 of the object at *p. Filed as the witness for ov094 func_021FC744.
  */
-int func_02051614(int **p)
+int func_02051614(struct ParticleSys *sys)
 {
-    return (*p)[2];
+    return sys->engine->effectCount;
 }
 
 
 
 
 
-void KeyValHashKey(void **p)
+void KeyValHashKey(struct ParticleSys *sys)
 {
-    func_020524C8(*p);
+    func_020524C8(sys->engine);
 }
 
 
@@ -2553,9 +2449,9 @@ void KeyValHashKey(void **p)
  * pointer.  Unlabelled ARM leaf in the ARM9 listing; matched so its overlay
  * callers get a `matched` witness.
  */
-void func_02051630(void **p, void *q)
+void func_02051630(struct ParticleSys *sys, void *effect)
 {
-    func_0205250C(*p, q);
+    func_0205250C(sys->engine, effect);
 }
 
 
@@ -2569,9 +2465,9 @@ void func_02051630(void **p, void *q)
  *
  * Addresses are Black-image addresses.
  */
-void *func_02051640(char *p)
+void *func_02051640(struct ParticleSys *sys)
 {
-    return ((struct Obj01319 *)p)->fC;
+    return (void *)sys->workBase;
 }
 
 
@@ -2604,7 +2500,7 @@ void *func_02051640(char *p)
  *   * `src != 0` is the FALL-THROUGH arm; the null arm is the `beq`.
  *   * the three pointer defaults are evaluated unconditionally before the
  *     branch and the compiler predicates each (`ldreq r3, [pc, ...]`).
- *   * `this->f25b = (u8)src->f00` casts the WORD field: the image is
+ *   * `sys->projType = (u8)params->projType` casts the WORD field: the image is
  *     `ldr r2, [lr]` then `strb`, not `ldrb`.
  *   * a6 is truncated at the USE with `(u16)`, not declared `u16`; declared
  *     u16 the compiler emits a single `ldrh` and the file is 2 bytes short
@@ -2615,30 +2511,30 @@ void *func_02051640(char *p)
  *       --func func_02051648 --addr 0x02051648 --cc 1.1p1 --arm
  *   EXACT, 272 bytes, 5 relocation sites, all resolved (label x2, literal x3).
  */
-void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, Vec3 *a3,
-                   Vec3 *a4, Vec3 *a5, u32 a6)
+void func_02051648(struct ParticleSys *sys, struct ParticleCameraParams *params, u16 angle,
+                   Vec3 *pos, Vec3 *target, Vec3 *up, u32 heapId)
 {
-    if (a3 == 0) a3 = &g_020A1590;
-    if (a4 == 0) a4 = &g_020A1584;
+    if (pos == 0) pos = &g_020A1590;
+    if (target == 0) target = &g_020A1584;
 
-    this->f24 = 0;
-    this->f28 = 0;
-    this->f2c = 0;
+    sys->cameraShiftX = 0;
+    sys->cameraShiftY = 0;
+    sys->cameraShiftZ = 0;
 
-    if (a5 == 0) a5 = &g_020A1578;
+    if (up == 0) up = &g_020A1578;
 
-    this->f30 = a2;
+    sys->cameraAngle = angle;
 
-    if (src != 0) {
-        this->f25b = (u8)src->f00;
-        this->f20 = func_02048A24(src->f00, src->f04, src->f08, src->f0c,
-                                  src->f10, src->f14, src->f18, src->f1c,
-                                  (int)a3, (int)a4, (int)a5, (u16)a6);
+    if (params != 0) {
+        sys->projType = (u8)params->projType;
+        sys->camera = func_02048A24(params->projType, params->fovSin, params->fovCos, params->aspect,
+                                    params->orthoExtent, params->nearZ, params->farZ, params->projScale,
+                                    pos, target, up, (u16)heapId);
     } else {
-        this->f25b = 0;
-        this->f20 = func_02048A24(0, 0xb50, 0xb50, 0x1555,
-                                  0, 0x1000, 0x384000, 0,
-                                  (int)a3, (int)a4, (int)a5, (u16)a6);
+        sys->projType = 0;
+        sys->camera = func_02048A24(0, 0xb50, 0xb50, 0x1555,
+                                    0, 0x1000, 0x384000, 0,
+                                    pos, target, up, (u16)heapId);
     }
 }
 
@@ -2646,11 +2542,9 @@ void func_02051648(struct Dst648 *this, struct Src648 *src, u16 a2, Vec3 *a3,
 
 
 
-int func_02051758(int a0)
+int func_02051758(struct ParticleSys *sys)
 {
-    struct Obj01197 *o = (struct Obj01197 *)a0;
-
-    func_02048AC4((void *)o->f20);
-    o->f20 = 0;
+    func_02048AC4(sys->camera);
+    sys->camera = 0;
     return 0;
 }

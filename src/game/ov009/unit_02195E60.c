@@ -12,36 +12,41 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-int func_02195E60(const int *p);
-void func_02195E68(int *p, int v);
-void func_02195E70(int *p, int v);
-int func_02195E78(const int *p);
+#include "unit_02195B20_types.h"
+
+int func_02195E60(const GTI2Socket *socket);
+void func_02195E68(GTI2Socket *socket, void *callback);
+void func_02195E70(GTI2Connection *connection, void *data);
+void *func_02195E78(const GTI2Connection *connection);
 
 /*
- * First word of the object, as a getter.
+ * Operating system socket handle behind a socket object.
  */
-int func_02195E60(const int *p)
+int func_02195E60(const GTI2Socket *socket)
 {
-    return *p;
+    return socket->socket;
 }
 
 /*
- * Stores a word at +0x30.
+ * Sets the callback for messages that belong to no connection.
  */
-void func_02195E68(int *p, int v)
+void func_02195E68(GTI2Socket *socket, void *callback)
 {
-    p[0xc] = v;
-}
-
-void func_02195E70(int *p, int v)
-{
-    p[0x10] = v;
+    socket->unrecognizedMessageCallback = callback;
 }
 
 /*
- * Word at +0x40.
+ * Sets the user data of a connection.
  */
-int func_02195E78(const int *p)
+void func_02195E70(GTI2Connection *connection, void *data)
 {
-    return p[0x10];
+    connection->data = data;
+}
+
+/*
+ * User data of a connection.
+ */
+void *func_02195E78(const GTI2Connection *connection)
+{
+    return connection->data;
 }

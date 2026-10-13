@@ -16,11 +16,12 @@
  *   func_0215437C  0x0215437C  thumb  ov003
  */
 
-typedef struct { unsigned a; unsigned b; } Arg;
+typedef struct { unsigned fieldMap; unsigned procKind; } LaunchRequest;
 
-extern void *func_0215437C(void *p, int a, int b);
+extern void *func_0215437C(void *gameSystem, int fieldMap, int procKind);
 
-void *func_021543BC(void *h, Arg *arg)
+/* Overlay entry point: unpacks the request and creates the event. */
+void *func_021543BC(void *gameSystem, LaunchRequest *request)
 {
-    return func_0215437C(h, arg->a, arg->b);
+    return func_0215437C(gameSystem, request->fieldMap, request->procKind);
 }

@@ -17,8 +17,6 @@
  *   GX_LoadTexPltt       0x0207FA40  arm
  *   GX_EndLoadTexPltt    0x0207FADC  arm
  */
-#include "../../matched/include/Obj16538.h"
-
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -44,17 +42,19 @@ typedef struct {
 extern void GX_BeginLoadTexPltt(void);
 extern void GX_LoadTexPltt(const void *pSrc, u32 destSlotAddr, u32 szByte);
 extern void GX_EndLoadTexPltt(void);
-int func_0206A110(int p);
-void func_0206A124(int *p, int v);
+u32 func_0206A110(NNSG3dResTex *pTex);
+void func_0206A124(NNSG3dResTex *pTex, u32 plttKey);
 void func_0206A12C(NNSG3dResTex *pTex, BOOL exec);
 
 
-int func_0206A110(int p)
+/* NNS_G3dPlttGetRequiredSize: palette block size in bytes (sizePltt is in 8-byte units). */
+u32 func_0206A110(NNSG3dResTex *pTex)
 {
-    return p ? (((struct Obj16538 *)p)->f30 << 3) : 0;
+    return pTex ? ((u32)pTex->plttInfo.sizePltt << 3) : 0;
 }
 
-void func_0206A124(int *p, int v){ p[0xb] = v; }
+/* NNS_G3dPlttSetPlttKey: store the VRAM key of the palette block. */
+void func_0206A124(NNSG3dResTex *pTex, u32 plttKey){ pTex->plttInfo.vramKey = plttKey; }
 
 /*
  * NitroSystem g3d palette upload (the NNS_G3dPlttLoad shape): bracket with
@@ -73,14 +73,14 @@ void func_0206A12C(NNSG3dResTex *pTex, BOOL exec)
         GX_BeginLoadTexPltt();
     }
     {
-        u32 sz;
-        const void *pData;
-        u32 from;
+        u32 szByte;
+        const void *pPlttData;
+        u32 destSlotAddr;
 
-        sz    = (u32)pTex->plttInfo.sizePltt << 3;
-        pData = (u8 *)pTex + pTex->plttInfo.ofsPlttData;
-        from  = (pTex->plttInfo.vramKey & 0xffff) << 3;
-        GX_LoadTexPltt(pData, from, sz);
+        szByte       = (u32)pTex->plttInfo.sizePltt << 3;
+        pPlttData    = (u8 *)pTex + pTex->plttInfo.ofsPlttData;
+        destSlotAddr = (pTex->plttInfo.vramKey & 0xffff) << 3;
+        GX_LoadTexPltt(pPlttData, destSlotAddr, szByte);
     }
     pTex->plttInfo.flag |= 1;
     if (exec) {

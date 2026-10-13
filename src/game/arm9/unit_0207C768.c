@@ -26,8 +26,8 @@ extern void sub_0207C930(u32 a, u32 b);
 extern u32  sub_0207C86C(void);
 extern void func_0207C8A0(fx32 denom);
 extern u32 func_0207C86C(void);
-u32 sub_0207C768(u32 a, u32 b);
-fx32 func_0207C778(fx32 v);
+u32 sub_0207C768(u32 numer, u32 denom);
+fx32 func_0207C778(fx32 denom);
 
 
 /*
@@ -41,15 +41,15 @@ fx32 func_0207C778(fx32 v);
  *   python tools/match.py one --src src/matched/sub_0207C768.c \
  *       --func sub_0207C768 --addr 0x0207C768 --cc 1.1p1 --arm
  */
-u32 sub_0207C768(u32 a, u32 b)
+u32 sub_0207C768(u32 numer, u32 denom)
 {
-    sub_0207C930(a, b);
+    sub_0207C930(numer, denom);
     return sub_0207C86C();
 }
 
 
-fx32 func_0207C778(fx32 v)
+fx32 func_0207C778(fx32 denom)
 {
-    func_0207C8A0(v);
+    func_0207C8A0(denom);
     return func_0207C86C();
 }

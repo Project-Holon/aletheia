@@ -18,15 +18,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-struct Hdr02066878 {
-    u32 w0;
-    u32 w1;
-    u32 base;
+struct CellTransferStateManager {
+    void *pTransferFunc;
+    u32 numStates;
+    u32 pStates;
 };
 
-extern struct Hdr02066878 g_02148B20;
+extern struct CellTransferStateManager g_02148B20;
 
-u8 *func_02066878(u32 i)
+u8 *func_02066878(u32 stateIdx)
 {
-    return (u8 *)g_02148B20.base + i * 0x30;
+    return (u8 *)g_02148B20.pStates + stateIdx * 0x30;
 }

@@ -12,48 +12,50 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-int func_02195E28(const int *p);
-unsigned short func_02195E30(const unsigned short *p);
-int func_02195E38(const int *p);
-unsigned short func_02195E40(const unsigned short *p);
-int func_02195E48(const int *p);
+#include "unit_02195B20_types.h"
+
+unsigned int func_02195E28(const GTI2Connection *connection);
+unsigned short func_02195E30(const GTI2Connection *connection);
+unsigned int func_02195E38(const GTI2Socket *socket);
+unsigned short func_02195E40(const GTI2Socket *socket);
+int func_02195E48(const GTI2Connection *connection);
 
 /*
- * First word of the object.
+ * Remote address of a connection.
  */
-int func_02195E28(const int *p)
+unsigned int func_02195E28(const GTI2Connection *connection)
 {
-    return *p;
+    return connection->ip;
 }
 
 /*
- * Halfword at +4.
+ * Remote port of a connection.
  */
-unsigned short func_02195E30(const unsigned short *p)
+unsigned short func_02195E30(const GTI2Connection *connection)
 {
-    return p[2];
+    return connection->port;
 }
 
 /*
- * Word at +4.
+ * Local address of a socket.
  */
-int func_02195E38(const int *p)
+unsigned int func_02195E38(const GTI2Socket *socket)
 {
-    return p[1];
+    return socket->ip;
 }
 
 /*
- * Halfword at +8.
+ * Local port of a socket.
  */
-unsigned short func_02195E40(const unsigned short *p)
+unsigned short func_02195E40(const GTI2Socket *socket)
 {
-    return p[4];
+    return socket->port;
 }
 
 /*
- * Word at +0x54.
+ * Size of the outgoing buffer of a connection.
  */
-int func_02195E48(const int *p)
+int func_02195E48(const GTI2Connection *connection)
 {
-    return p[0x15];
+    return connection->outgoingBuffer.size;
 }

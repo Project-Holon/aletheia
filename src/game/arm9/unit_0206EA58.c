@@ -12,23 +12,31 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-#include "../../matched/include/Obj08931.h"
-#include "../../matched/include/Obj11641.h"
-
 typedef unsigned char  u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int   u32;
-
 typedef signed short   s16;
 
-u16 *func_0206EA58(u16 *p, u32 arg, u32 v);
-unsigned char *func_0206EACC(void *p, u32 idx);
+/* One texture/palette pattern animation track (NNSG3dResTexPatAnm data). */
+typedef struct {
+    u16 numFrameValue;
+    u16 unused02;
+    s16 ratioDataFrame;
+    u16 ofsFrameValue;
+} TexPatAnmTrack;
 
+/* The pattern animation block: its dictionary starts at +12. */
+typedef struct {
+    u8  unused00[0x12];
+    u16 ofsEntry;
+} TexPatAnmBlock;
+
+u16 *func_0206EA58(u16 *pPatAnm, u32 trackIdx, u32 frame);
+unsigned char *func_0206EACC(void *pPatAnm, u32 trackIdx);
 
 /*
- * Bucket search in a BTX0-style table: the signed halfword at +4 of the block
+ * NNSi_G3dTexPatAnmGetFrameValue shape. Bucket search in a texture pattern
+ * animation track: the signed halfword at +4 of the track
  * func_0206EACC returns scales the key, the result is a fixed-point index, and
  * the two walks that follow step it down over entries >= v and then up over
  * entries <= v, returning the entry address.
@@ -41,25 +49,25 @@ unsigned char *func_0206EACC(void *p, u32 idx);
  *   python tools/match.py one --src src/matched/func_0206EA58.c \
  *       --func func_0206EA58 --addr 0x0206EA58 --cc 1.1p1 --arm
  */
-u16 *func_0206EA58(u16 *p, u32 arg, u32 v)
+u16 *func_0206EA58(u16 *pPatAnm, u32 trackIdx, u32 frame)
 {
-    u8 *h = func_0206EACC(p, arg);
-    s16 n = ((struct Obj08931 *)h)->f4;
-    u8 *t = (u8 *)p + ((struct Obj08931 *)h)->f6;
-    u32 i = (u32)(n * v) >> 12;
+    u8 *pTrack = func_0206EACC(pPatAnm, trackIdx);
+    s16 ratio = ((TexPatAnmTrack *)pTrack)->ratioDataFrame;
+    u8 *pFrameValues = (u8 *)pPatAnm + ((TexPatAnmTrack *)pTrack)->ofsFrameValue;
+    u32 valueIdx = (u32)(ratio * frame) >> 12;
 
-    while (i != 0 && *(u16 *)(t + i * 4) >= v)
-        i--;
-    while (i + 1 < ((struct Obj08931 *)h)->f0 && *(u16 *)(t + 4 + i * 4) <= v)
-        i++;
-    return (u16 *)(t + i * 4);
+    while (valueIdx != 0 && *(u16 *)(pFrameValues + valueIdx * 4) >= frame)
+        valueIdx--;
+    while (valueIdx + 1 < ((TexPatAnmTrack *)pTrack)->numFrameValue && *(u16 *)(pFrameValues + 4 + valueIdx * 4) <= frame)
+        valueIdx++;
+    return (u16 *)(pFrameValues + valueIdx * 4);
 }
 
 
 /*
- * The null test is on the *computed* pointer, not on `p`: the original opens
+ * The null test is on the *computed* pointer, not on `pPatAnm`: the original opens
  * with `adds r3, r0, #12` and branches on its zero flag.  The field reads for
- * the bound and the offset stay p-relative (+13, +18) while the indexed
+ * the bound and the offset stay pPatAnm-relative (+13, +18) while the indexed
  * halfword goes through the computed base - that mix of spellings is what
  * reproduces the register use, not a local `q` for all three.
  *
@@ -70,19 +78,19 @@ u16 *func_0206EA58(u16 *p, u32 arg, u32 v)
  *   python tools/match.py one --src src/matched/func_0206EACC.c \
  *       --func func_0206EACC --addr 0x0206EACC --cc 1.1p1 --arm
  */
-unsigned char *func_0206EACC(void *p, u32 idx)
+unsigned char *func_0206EACC(void *pPatAnm, u32 trackIdx)
 {
-    unsigned char *q = (unsigned char *)p + 12;
-    u16 off;
-    u16 n;
+    unsigned char *pDict = (unsigned char *)pPatAnm + 12;
+    u16 ofsEntry;
+    u16 sizeUnit;
 
-    if (q == 0)
+    if (pDict == 0)
         goto fail;
-    if (idx >= *((unsigned char *)p + 13))
+    if (trackIdx >= *((unsigned char *)pPatAnm + 13))
         goto fail;
-    off = ((struct Obj11641 *)p)->f12;
-    n = *(u16 *)(q + off);
-    return q + off + 4 + n * idx;
+    ofsEntry = ((TexPatAnmBlock *)pPatAnm)->ofsEntry;
+    sizeUnit = *(u16 *)(pDict + ofsEntry);
+    return pDict + ofsEntry + 4 + sizeUnit * trackIdx;
 fail:
     return 0;
 }

@@ -18,9 +18,9 @@
  */
 typedef unsigned int u32;
 
-extern void func_020895F8(u32 chan, u32 a);
-void func_02072974(u32 chan);
-void func_020729A4(u32 mask);
+extern void func_020895F8(u32 channelMask, u32 flags);
+void func_02072974(u32 channelMask);
+void func_020729A4(u32 channelMask);
 extern u32  g_0214DEC0[];
 
 
@@ -32,13 +32,13 @@ extern u32  g_0214DEC0[];
  *   python tools/match.py one --src src/matched/func_02072974.c \
  *       --func func_02072974 --addr 0x02072974 --cc 1.1p1 --arm
  */
-void func_02072974(u32 chan)
+void func_02072974(u32 channelMask)
 {
-    if (chan == 0) {
+    if (channelMask == 0) {
         return;
     }
-    func_020895F8(chan, 0);
-    g_0214DEC0[2] &= ~chan;
+    func_020895F8(channelMask, 0);
+    g_0214DEC0[2] &= ~channelMask;
 }
 
 
@@ -68,7 +68,7 @@ void func_02072974(u32 chan)
  *   python3 tools/match.py one --src src/matched/func_020729A4.c \
  *       --func func_020729A4 --addr 0x020729A4 --cc 1.1p1 --arm
  */
-void func_020729A4(u32 mask)
+void func_020729A4(u32 channelMask)
 {
-    g_0214DEC0[0] &= ~mask;
+    g_0214DEC0[0] &= ~channelMask;
 }

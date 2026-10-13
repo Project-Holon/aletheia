@@ -67,6 +67,7 @@ if TOOLS not in sys.path:
 
 import linkstats  # noqa: E402
 import ovstats  # noqa: E402
+import fnaddr  # noqa: E402  (function addresses whatever the name)
 
 REPORT_VERSION = 2
 DEFAULT_OUT = os.path.join(ROOT, "progress", "report.json")
@@ -132,9 +133,14 @@ def matched_set(region, listing):
                     continue
                 if a in labelset:
                     m.add(a)
-            for n in f.get("functions") or []:
-                if isinstance(n, str) and by_label.get(n) in labelset:
-                    m.add(by_label[n])
+            # every name the entry lists, by address (tools/fnaddr.py: a unit's
+            # `addresses`, a func_XXXXXXXX name, or its compiled layout), or by
+            # the listing label of that name
+            for n, a in fnaddr.listed_functions(f):
+                if a is None and isinstance(n, str):
+                    a = by_label.get(n)
+                if a in labelset:
+                    m.add(a)
     return m
 
 

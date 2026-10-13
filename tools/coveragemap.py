@@ -32,6 +32,7 @@ import worklist  # noqa: E402
 import ovstats  # noqa: E402
 import regmismatch  # noqa: E402  (layout/register_mismatch.txt)
 import placeholders  # noqa: E402  (EXACT entries whose source holds no code)
+import fnaddr  # noqa: E402  (function addresses whatever the name)
 
 # One palette per map, after the three legendaries of Pokemon Black and White:
 # Reshiram (white, flame) for the ARM9 map, Zekrom (electric blue, near black,
@@ -372,7 +373,8 @@ def panel(o, groups, y0, W, H):
         o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="none" stroke="%s" stroke-width="2"/>'
                  % (ux + 1, uy + 1, uw - 2, uh - 2, COL["line"]))
         if lab:
-            text = "%s %d%%" % (label, round(100 * um / ug) if ug else 0)
+            # a unit with no game bytes (all SDK or runtime) has no game percentage
+            text = ("%s %d%%" % (label, round(100 * um / ug))) if ug else ("%s SDK" % label)
             o.append('<text x="%.1f" y="%.1f" font-size="10" fill="%s">%s</text>'
                      % (ux + 5, uy + 12, COL["ink"], esc(text[:max(int((uw - 8) / 6.2), 4)])))
 
@@ -562,6 +564,11 @@ def aux_shard_status(region):
                     continue
                 if not str(out.get(a, "")).startswith("EXACT"):
                     out[a] = f.get("status", "")
+                # a unit's members by address (tools/fnaddr.py), whatever their names
+                if str(f.get("kind", "")).endswith("_unit"):
+                    for _n, ma in fnaddr.member_addresses(f):
+                        if ma is not None and not str(out.get(ma, "")).startswith("EXACT"):
+                            out[ma] = f.get("status", "")
     return out
 
 
@@ -588,7 +595,7 @@ def aux_functions():
             size = end - addr
             if size <= 0:
                 continue
-            st = entries.get(name) or entries.get(addr, "")
+            st = entries.get(addr) or entries.get(name, "")
             exact = st.startswith(("EXACT", "EXACT*"))
             if exact and (placeholders.is_placeholder(region, name)
                           or placeholders.is_placeholder(region, addr)):

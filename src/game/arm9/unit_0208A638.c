@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj16693.h"
 
-void *func_0208A638(char *p)
+void *func_0208A638(char *bank)
 {
-    return ((struct Obj16693 *)p)->f38;
+    return ((struct Obj16693 *)bank)->f38;
 }

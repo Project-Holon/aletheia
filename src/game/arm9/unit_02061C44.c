@@ -26,59 +26,44 @@
  *   func_02061EB8 0x02061EB8 arm
  */
 struct Obj02061BD0;
-struct Blk;
 typedef unsigned char u8;
 
 typedef unsigned int  u32;
 
 typedef signed int    s32;
 
-struct Req {
-    void *unk_00;
-    u32 unk_04;
-    u32 unk_08;
-    s32 size;   /* 0x0c, byte size consumed */
+struct GfdTransferTask {
+    void *pTaskFunc;    /* 0x00 */
+    u32 dstAddr;        /* 0x04 */
+    u32 pSrc;           /* 0x08 */
+    s32 szByte;         /* 0x0c, byte size consumed */
 };
 
-struct Queue {
-    u8 pad_00[0x10];
-    s32 total;  /* 0x10, running byte total */
+struct GfdTransferTaskQueue {
+    u8 ring[0x10];
+    s32 totalSzByte;  /* 0x10, running byte total */
 };
 
-struct Node {
-    u32 start;
-    u32 size;
-    struct Node *prev;
-    struct Node *next;
+struct GfdLnkBlock {
+    u32 start;                  /* 0x0 */
+    u32 size;                   /* 0x4 */
+    struct GfdLnkBlock *prev;   /* 0x8 */
+    struct GfdLnkBlock *next;   /* 0xc */
 };
 
-struct Range {
+struct GfdLnkRange {
     u32 start;
     u32 end;
 };
 
 typedef unsigned short u16;
 
-struct Node02061DFC {
-    u32 data0;                 /* 0x0 */
-    u32 data1;                 /* 0x4 */
-    struct Node02061DFC *prev; /* 0x8 */
-    struct Node02061DFC *next; /* 0xc */
+struct GfdLnkBlockPool {
+    struct GfdLnkBlock *freeList;
 };
 
-struct Node02061E48 {
-    u32 data0;                 /* 0x0 */
-    u32 data1;                 /* 0x4 */
-    struct Node02061E48 *prev; /* 0x8 */
-    struct Node02061E48 *next; /* 0xc */
-};
-
-struct Pool02061E48 {
-    struct Node02061E48 *free_list;
-};
-
-struct List02061E48 {
-    struct Node02061E48 *head;
+struct GfdLnkBlockList {
+    struct GfdLnkBlock *head;
 };
 
 extern u32 func_02061BB0(u8 *p);
@@ -87,15 +72,15 @@ extern void func_02061B2C(u32 *s);
 extern int func_02061860(u8 *p);
 extern u32 func_02061BC0(u8 *p);
 extern int func_02061B74(char *p);
-extern int func_02061EB8(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size, u32 alignment);
+extern int func_02061EB8(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size, u32 alignment);
 void func_02061C44(void);
-s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size);
-u32 func_02061D0C(struct Node **head1, struct Node **head2, struct Range *range);
-void NHTTPi_InitRequestInfo(u32 *reqInfo_p);
-struct Node02061DFC *func_02061DFC(struct Node02061DFC *arr, u32 count);
-u32 func_02061E48(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1);
-int DWCi_TSKlForm(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size);
-extern struct Queue g_02146B80;
+s32 sub_02061CA4(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte);
+u32 func_02061D0C(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range);
+void NHTTPi_InitRequestInfo(struct GfdLnkBlock **ppHead);
+struct GfdLnkBlock *func_02061DFC(struct GfdLnkBlock *blocks, u32 count);
+u32 func_02061E48(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size);
+int DWCi_TSKlForm(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size);
+extern struct GfdTransferTaskQueue g_02146B80;
 
 
 /*
@@ -114,12 +99,12 @@ extern struct Queue g_02146B80;
  */
 void func_02061C44(void)
 {
-    struct Req *n = (struct Req *)func_02061BB0((u8 *)(&g_02146B80));
+    struct GfdTransferTask *task = (struct GfdTransferTask *)func_02061BB0((u8 *)(&g_02146B80));
 
     while (func_02061BD0((struct Obj02061BD0 *)(&g_02146B80)) != 0) {
-        func_02061B2C((u32 *)n);
-        g_02146B80.total -= n->size;
-        n = (struct Req *)func_02061BB0((u8 *)(&g_02146B80));
+        func_02061B2C((u32 *)task);
+        g_02146B80.totalSzByte -= task->szByte;
+        task = (struct GfdTransferTask *)func_02061BB0((u8 *)(&g_02146B80));
     }
 }
 
@@ -148,21 +133,21 @@ void func_02061C44(void)
  *   python tools/match.py one --src src/matched/sub_02061CA4.c \
  *       --func sub_02061CA4 --addr 0x02061CA4 --cc 1.1p1 --arm
  */
-s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size)
+s32 sub_02061CA4(void *pTaskFunc, u32 pSrc, u32 dstAddr, s32 szByte)
 {
-    struct Req *req;
+    struct GfdTransferTask *req;
 
     if (func_02061860((u8 *)(&g_02146B80)) != 0) {
         return 0;
     }
 
-    req = (struct Req *)func_02061BC0((u8 *)(&g_02146B80));
-    req->unk_00 = p;
-    req->unk_04 = b;
-    req->unk_08 = a;
-    req->size = size;
+    req = (struct GfdTransferTask *)func_02061BC0((u8 *)(&g_02146B80));
+    req->pTaskFunc = pTaskFunc;
+    req->dstAddr = dstAddr;
+    req->pSrc = pSrc;
+    req->szByte = szByte;
     func_02061B74((char *)(&g_02146B80));
-    g_02146B80.total += req->size;
+    g_02146B80.totalSzByte += req->szByte;
     return 1;
 }
 
@@ -170,87 +155,87 @@ s32 sub_02061CA4(void *p, u32 a, u32 b, s32 size)
 
 
 
-u32 func_02061D0C(struct Node **head1, struct Node **head2, struct Range *range) {
-    struct Node *curr = *head1;
-    struct Node *next_node;
-    u32 ret = 0;
-    u32 zero1 = ret;
-    u32 zero2 = ret;
+u32 func_02061D0C(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range) {
+    struct GfdLnkBlock *block = *ppList;
+    struct GfdLnkBlock *nextBlock;
+    u32 merged = 0;
+    u32 zeroA = merged;
+    u32 zeroB = merged;
 
-    if (curr != 0) {
-        while (curr != 0) {
-            next_node = curr->next;
+    if (block != 0) {
+        while (block != 0) {
+            nextBlock = block->next;
 
-            if (curr->start == range->end) {
-                struct Node *next;
-                struct Node *prev;
-                struct Node *head2_curr;
+            if (block->start == range->end) {
+                struct GfdLnkBlock *next;
+                struct GfdLnkBlock *prev;
+                struct GfdLnkBlock *poolHead;
 
-                range->end = curr->start + curr->size;
-                ret |= 1;
+                range->end = block->start + block->size;
+                merged |= 1;
 
-                prev = curr->prev;
-                next = curr->next;
+                prev = block->prev;
+                next = block->next;
                 if (prev != 0) {
                     prev->next = next;
                 } else {
-                    *head1 = next;
+                    *ppList = next;
                 }
                 if (next != 0) {
                     next->prev = prev;
                 }
 
-                head2_curr = *head2;
-                if (head2_curr != 0) {
-                    head2_curr->prev = curr;
+                poolHead = *ppPool;
+                if (poolHead != 0) {
+                    poolHead->prev = block;
                 }
-                curr->next = *head2;
-                curr->prev = (struct Node *)zero1;
-                *head2 = curr;
+                block->next = *ppPool;
+                block->prev = (struct GfdLnkBlock *)zeroA;
+                *ppPool = block;
             }
 
-            if (range->start == curr->start + curr->size) {
-                struct Node *next;
-                struct Node *prev;
-                struct Node *head2_curr;
+            if (range->start == block->start + block->size) {
+                struct GfdLnkBlock *next;
+                struct GfdLnkBlock *prev;
+                struct GfdLnkBlock *poolHead;
 
-                range->start = curr->start;
-                ret |= 1;
+                range->start = block->start;
+                merged |= 1;
 
-                prev = curr->prev;
-                next = curr->next;
+                prev = block->prev;
+                next = block->next;
                 if (prev != 0) {
                     prev->next = next;
                 } else {
-                    *head1 = next;
+                    *ppList = next;
                 }
                 if (next != 0) {
                     next->prev = prev;
                 }
 
-                head2_curr = *head2;
-                if (head2_curr != 0) {
-                    head2_curr->prev = curr;
+                poolHead = *ppPool;
+                if (poolHead != 0) {
+                    poolHead->prev = block;
                 }
-                curr->next = *head2;
-                curr->prev = (struct Node *)zero2;
-                *head2 = curr;
+                block->next = *ppPool;
+                block->prev = (struct GfdLnkBlock *)zeroB;
+                *ppPool = block;
             }
 
-            curr = next_node;
+            block = nextBlock;
         }
     }
 
-    return ret;
+    return merged;
 }
 
 
 
 
 
-void NHTTPi_InitRequestInfo(u32 *reqInfo_p)
+void NHTTPi_InitRequestInfo(struct GfdLnkBlock **ppHead)
 {
-    *reqInfo_p = 0;
+    *ppHead = 0;
 }
 
 
@@ -261,57 +246,57 @@ void NHTTPi_InitRequestInfo(u32 *reqInfo_p)
  * note:     closed 2026-09-21 by tools/permuter.py (hill, --types, ret-var): the function
  *           returns the array pointer it was given; the void version freed r0 too early (2 bytes)
  */
-struct Node02061DFC *func_02061DFC(struct Node02061DFC *arr, u32 count)
+struct GfdLnkBlock *func_02061DFC(struct GfdLnkBlock *blocks, u32 count)
 {
     u32 last = count - 1;
     u32 i = 0;
     u32 *end;
 
     if (last != 0) {
-        struct Node02061DFC *p = arr;
+        struct GfdLnkBlock *prevBlock = blocks;
         do {
-            struct Node02061DFC *next_node = &arr[i + 1];
-            arr[i].next = next_node;
-            (&arr[i])[1].prev = p;
+            struct GfdLnkBlock *nextBlock = &blocks[i + 1];
+            blocks[i].next = nextBlock;
+            (&blocks[i])[1].prev = prevBlock;
             i++;
-            p++;
+            prevBlock++;
         } while (i < last);
     }
 
-    arr[0].prev = 0;
-    end = (u32 *)&arr[count];
+    blocks[0].prev = 0;
+    end = (u32 *)&blocks[count];
     end[-1] = 0;
-    return arr;
+    return blocks;
 }
 
 
 
 
 
-u32 func_02061E48(struct List02061E48 *list, struct Pool02061E48 *pool, u32 d0, u32 d1)
+u32 func_02061E48(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size)
 {
-    struct Node02061E48 *node = pool->free_list;
+    struct GfdLnkBlock *block = pool->freeList;
 
-    if (node != 0) {
-        pool->free_list = node->next;
+    if (block != 0) {
+        pool->freeList = block->next;
     }
 
-    if (node == 0) {
+    if (block == 0) {
         goto err;
     }
 
-    node->data0 = d0;
-    node->data1 = d1;
-    node->prev = 0;
-    node->next = 0;
+    block->start = start;
+    block->size = size;
+    block->prev = 0;
+    block->next = 0;
 
     if (list->head != 0) {
-        list->head->prev = node;
+        list->head->prev = block;
     }
 
-    node->next = list->head;
-    node->prev = 0;
-    list->head = node;
+    block->next = list->head;
+    block->prev = 0;
+    list->head = block;
 
     return 1;
 
@@ -320,7 +305,7 @@ err:
 }
 
 
-int DWCi_TSKlForm(struct Blk **list, struct Blk **pool, u32 *pRet, u32 size)
+int DWCi_TSKlForm(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size)
 {
-    return func_02061EB8(list, pool, pRet, size, 0);
+    return func_02061EB8(ppList, ppPool, pAddr, size, 0);
 }

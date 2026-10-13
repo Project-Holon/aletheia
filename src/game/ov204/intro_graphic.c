@@ -221,7 +221,7 @@ extern u32 func_02048AC4(void *ptr);
 extern void func_02046788(void);
 /* Original consumes 02048AD0's live r0 through the next veneer call. */
 extern void *func_02048AD0(struct Light *);
-extern void func_02047964(void *);
+extern void func_02047964(void);
 extern void func_020479D8(void);
 extern void func_02047970(void);
 int func_021BDA40(struct Obj0203159C *owner, int unused, char *args);
@@ -576,7 +576,7 @@ void func_021BE0D4(u8 *p)
 }
 
 
-void func_021BE0EC(char *p){func_02047964(func_02048AD0(*(struct Light * *)&((struct Obj25337 *)p)->f0));func_020479D8();}
+void func_021BE0EC(char *p){func_02048AD0(*(struct Light * *)&((struct Obj25337 *)p)->f0);func_02047964();func_020479D8();}
 
 
 void func_021BE100(char *unused){func_02047970();}

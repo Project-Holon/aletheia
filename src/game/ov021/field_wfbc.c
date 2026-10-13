@@ -1,8 +1,8 @@
 /*
  * file:     field_wfbc.c
  * unit:     yes
- * function: func_02193628, func_02193790, func_021938AC, func_021938D4, func_021938F4, func_021938FC, func_02193904, func_0219390C, func_0219391C, func_02193920, func_02193924, func_021939C0, func_02193ABC, func_02193AFC, func_02193B04, func_02193B20, func_02193B40, func_02193B68, func_02193BC4, func_02193BE4, func_02193C00, func_02193C04, func_02193C08, func_02193C80, func_02193CBC, func_02193D08, func_02193D30, func_02193E54, func_02193EB4, func_02193EE8, func_02193EFC, func_02193F34, func_02193F6C, func_02193F80, func_02193FBC, func_02193FD4, func_02193FE8, func_02194014, func_02194038, func_02194044, func_02194078, func_02194084, func_02194128, func_02194284, func_021942C8, func_02194300, func_02194354, func_02194384, func_021943EC, func_02194418, func_02194434, func_021944BC, func_021944C8, func_021944D8, func_02194588, func_021945A0, func_021945A4, func_021945E0, func_02194670, func_02194704, func_0219470C, func_02194760, func_02194764, func_02194798, func_021947E8, func_02194848, func_02194888, func_021948CC, func_0219492C, func_02194940, func_02194950, func_02194960, func_02194974, func_02194984, func_02194990, func_0219499C, func_02194A00, func_02194A24, func_02194A34, func_02194A48, func_02194A58, func_02194A74, func_02194A84, func_02194A94, func_02194AC8, func_02194B3C, func_02194B70, func_02194B78, func_02194B84, func_02194C60, func_02194CE8, func_02194D1C, func_02194E74, func_02194E90, func_02194F5C, func_02194F84, func_02195128, func_0219518C, func_02195338, func_021953D4, func_0219545C, func_02195490, func_021954CC, func_02195530, func_02195588, func_021955EC, func_02195938, func_02195E54, func_02195E70, func_02195E80, func_02195E90, func_02196030, func_02196034, func_0219603C, func_021961A4, func_02196228, func_02196290, func_021962C4, func_021962F4, func_0219630C, func_02196454, func_0219649C, func_021964B0, func_02196538, func_021966B0, func_021966F0, func_02196768, func_021967BC, func_02196804, func_0219686C, func_021968D8, func_021968DC, func_02196944, func_02196974, func_02196A4C, func_02196A60, func_02196ACC, func_02196B24, func_02196B28, func_02196B7C, func_02196B90, func_02196B94, func_02196BF8, func_02196C68, func_02196CD8, func_02196D20, func_02196D24, func_02196D88, func_02196D94, func_02196E04, func_02196E70, func_02196EC8, func_02196ECC, func_02196F44, func_02196FF0, func_02196FFC, func_02197058, func_0219707C, func_02197190
- * address:  0x02193628
+ * function: func_021938AC, func_021938D4, func_021938F4, func_021938FC, func_02193904, func_0219390C, func_0219391C, func_02193920, func_02193924, func_021939C0, func_02193ABC, func_02193AFC, func_02193B04, func_02193B20, func_02193B40, func_02193B68, func_02193BC4, func_02193BE4, func_02193C00, func_02193C04, func_02193C08, func_02193C80, func_02193CBC, func_02193D08, func_02193D30, func_02193E54, func_02193EB4, func_02193EE8, func_02193EFC, func_02193F34, func_02193F6C, func_02193F80, func_02193FBC, func_02193FD4, func_02193FE8, func_02194014, func_02194038, func_02194044, func_02194078, func_02194084, func_02194128, func_02194284, func_021942C8, func_02194300, func_02194354, func_02194384, func_021943EC, func_02194418, func_02194434, func_021944BC, func_021944C8, func_021944D8, func_02194588, func_021945A0, func_021945A4, func_021945E0, func_02194670, func_02194704, func_0219470C, func_02194760, func_02194764, func_02194798, func_021947E8, func_02194848, func_02194888, func_021948CC, func_0219492C, func_02194940, func_02194950, func_02194960, func_02194974, func_02194984, func_02194990, func_0219499C, func_02194A00, func_02194A24, func_02194A34, func_02194A48, func_02194A58, func_02194A74, func_02194A84, func_02194A94, func_02194AC8, func_02194B3C, func_02194B70, func_02194B78, func_02194B84, func_02194C60, func_02194CE8, func_02194D1C, func_02194E74, func_02194E90, func_02194F5C, func_02194F84, func_02195128, func_0219518C, func_02195338, func_021953D4, func_0219545C, func_02195490, func_021954CC, func_02195530, func_02195588, func_021955EC, func_02195938, func_02195E54, func_02195E70, func_02195E80, func_02195E90, func_02196030, func_02196034, func_0219603C, func_021961A4, func_02196228, func_02196290, func_021962C4, func_021962F4, func_0219630C, func_02196454, func_0219649C, func_021964B0, func_02196538, func_021966B0, func_021966F0, func_02196768, func_021967BC, func_02196804, func_0219686C, func_021968D8, func_021968DC, func_02196944, func_02196974, func_02196A4C, func_02196A60, func_02196ACC, func_02196B24, func_02196B28, func_02196B7C, func_02196B90, func_02196B94, func_02196BF8, func_02196C68, func_02196CD8, func_02196D20, func_02196D24, func_02196D88, func_02196D94, func_02196E04, func_02196E70, func_02196EC8, func_02196ECC, func_02196F44, func_02196FF0, func_02196FFC, func_02197058, func_0219707C, func_02197190
+ * address:  0x021938AC
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,28 +11,9 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from field_wfbc.c at 0x021938AC (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_02169520  0x02169520  thumb ov010
- *   func_0216959C  0x0216959C  thumb ov010
- *   func_02169530  0x02169530  thumb ov010
- *   func_021695BC  0x021695BC  thumb ov010
- *   func_02169620  0x02169620  thumb ov010
- *   func_02169528  0x02169528  thumb ov010
- *   func_02169540  0x02169540  thumb ov010
- *   func_02169580  0x02169580  thumb ov010
- *   func_02169560  0x02169560  thumb ov010
- *   func_02169578  0x02169578  thumb ov010
- *   func_02169598  0x02169598  thumb ov010
- *   func_0218DD04  0x0218DD04  thumb ov021
- *   func_0218DD08  0x0218DD08  thumb ov021
- *   func_0218DD0C  0x0218DD0C  thumb ov021
- *   func_0218DD10  0x0218DD10  thumb ov021
- *   func_0218B974  0x0218B974  thumb ov021
- *   func_0218DCF4  0x0218DCF4  thumb ov021
- *   func_0218DCFC  0x0218DCFC  thumb ov021
- *   func_021A7410  0x021A7410  thumb ov021
- *   _ll_mul        0x0209C054  arm
  *   func_0207C768  0x0207C768  arm
  *   func_02030734  0x02030734  arm  arm9
  *   d_021DDA60     0x021DDA60  data   ov021  a1
@@ -75,9 +56,6 @@
  *   func_021867B0  0x021867B0  thumb  ov020
  *   func_02082D44  0x02082D44  arm  arm9
  *   func_02186278  0x02186278  thumb  ov020
- *   _u32_div_f     0x0209C2B0  arm
- *   _s32_div_f     0x0209C0A4  arm
- *   _ull_mul       0x0209C054  arm
  *   d_021DDA70     0x021DDA70  data  a4
  *   func_0216D684  0x0216D684  thumb  ov010
  *   func_0216D854  0x0216D854  thumb  ov010
@@ -261,8 +239,6 @@
  *   d_021D3F8C     0x021D3F8C  data   a1
  *   d_021D3F94     0x021D3F94  data   a1
  */
-#include "../../matched/include/Obj03576.h"
-#include "../../matched/include/Obj07438.h"
 #include "../../matched/include/Obj17939.h"
 #include "../../matched/include/Obj07440.h"
 #include "../../matched/include/Obj19614.h"
@@ -347,7 +323,6 @@
 #define reg_G3_SPE_EMI         (*(volatile u32 *)0x040004C4)
 #define reg_G3_BEGIN_VTXS      (*(volatile u32 *)0x04000500)
 #define reg_G3_END_VTXS        (*(volatile u32 *)0x04000504)
-struct S;
 struct X;
 struct E50;
 struct V_02193628;
@@ -392,38 +367,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef signed short s16;
-
-typedef int fx32_02193628;
-
-typedef long long s64;
-
-typedef struct Vec {
-    fx32_02193628 x;
-    fx32_02193628 y;
-    fx32_02193628 z;
-} Vec;
-
-typedef struct Tile {
-    s16 n0[3];
-    s16 n1[3];
-    fx32_02193628 d0;
-    fx32_02193628 d1;
-    u32 attr : 31;
-    u32 flag : 1;
-} Tile;
-
-typedef struct Plane {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-    u32 attr;
-    fx32_02193628 height;
-    int w[0x3C];
-    int valid;
-} Plane;
-
-typedef signed char s8;
 
 typedef struct { u8 a; u8 b; u16 c; } Cell_02193FE8;
 
@@ -651,26 +594,6 @@ typedef struct FieldWfbcWork {
     u8 pad2A0[0x2F4 - 0x2A0];
     int f2F4;
 } FieldWfbcWork;
-
-extern int func_02169520(int a0, int a1);
-extern void func_0216959C(u8 *p);
-extern void func_02169530(unsigned char *a, int *out);
-extern void func_021695BC(struct S *p, int b);
-extern int func_02169620(struct S *p);
-extern void func_02169528(unsigned char *a, int *out);
-extern void func_02169540(unsigned char *a, unsigned int v);
-extern int func_02169580(int a0);
-extern int func_02169560(unsigned char *a);
-extern int func_02169578(unsigned char *a);
-extern unsigned int func_02169598(u8 *p);
-extern int func_0218DD04(u8 *p);
-extern int func_0218DD08(u8 *p);
-extern int func_0218DD0C(u8 *p);
-extern u16 func_0218DD10(u8 *p);
-extern int func_0218B974(int a, int o, void *p, int n);
-extern int func_0218DCF4(unsigned int *a0);
-extern int func_0218DCFC(unsigned int *a0);
-extern int func_021A7410(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
@@ -856,12 +779,9 @@ extern void func_0204B3B4(struct Obj_02196F44 *p);
 extern FieldWfbcWork *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B3DC(FieldWfbcWork *obj, unsigned int on);
 extern void func_0204B688(struct Actor *actor, u32 value);
-int func_02193628(u8 *o, unsigned int *q);
-void func_02193790(Plane *out, const int *map, Vec *pos, fx32_02193628 size, fx32_02193628 base);
 void *func_021938AC(u32 heap);
 u32 func_021938D4(void *a);
 int func_021938F4(unsigned char *p);
-;
 void *func_0219390C(void *a, u32 b);
 u8 func_0219391C(u8 *p);
 u8 func_02193920(u8 *p);
@@ -1049,275 +969,6 @@ extern B5 d_021D3FA8;
 extern const Tbl3 d_021D3FA0;
 extern const Tbl3 d_021D3F8C;
 extern const Tbl3 d_021D3F94;
-
-;
-
-
-;
-
-
-
-;
-
-
-
-
-;
-
-
-
-
-
-;
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-int func_02193628(u8 *o, unsigned int *q)
-{
-    u16 *st;
-    int x;
-    char *h;
-    int boff;
-    char *base;
-    int j;
-    int y0;
-    int g;
-    int id;
-    u16 c;
-    char *p;
-    int off;
-    int r;
-    int n;
-    int i;
-    int x0;
-
-    func_0218DD10((u8 *)q);
-    func_02169520((int)o, (int)(&st));
-    switch (*st) {
-    case 1:
-        func_0216959C((u8 *)o);
-        func_02169530((unsigned char *)o, &x);
-        func_021695BC((struct S *)o, x);
-        *st = 2;
-        break;
-    case 2:
-        if (func_02169620((struct S *)o) != 0)
-            break;
-        ((struct Obj03576 *)st)->f18 = 1;
-        ((struct Obj03576 *)st)->f1C = 1;
-        ((struct Obj03576 *)st)->f20 = 1;
-        *st = 3;
-        break;
-    case 3:
-        func_02169528((unsigned char *)o, (int *)(&h));
-        p = h;
-        func_02169540((unsigned char *)o, (unsigned int)(p + ((struct Obj07438 *)p)->f4));
-        off = ((struct Obj07438 *)p)->fC;
-        if (off != ((struct Obj07438 *)p)->f10)
-            r = func_0218B974(func_0218DD04((u8 *)q), (int)o, h + off + 4, *(int *)(h + off));
-        g = func_0218DD04((u8 *)q);
-        base = h;
-        boff = ((struct Obj07438 *)p)->f8;
-        n = func_0218DD0C((u8 *)q);
-        id = func_0218DD08((u8 *)q);
-        c = func_0218DD10((u8 *)q);
-        x0 = (n % 2) * 4;
-        y0 = (n / 2) * 4;
-        for (j = 0; j < 4; j++) {
-            for (i = 0; i < 4; i++) {
-                r = func_02193924((u8 *)id, base + boff, g, (int)o, r, x0 + i, y0 + j, c);
-            }
-        }
-        func_02169580((int)o);
-        if (func_0218DCF4(q))
-            func_021A7410(func_0218DCFC((unsigned int *)q), func_02169560((unsigned char *)o), func_02169578((unsigned char *)o), func_02169598(o));
-        *st = 4;
-        break;
-    case 4:
-        *st = 0;
-        return 0;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-static inline fx32_02193628 FX_MUL(fx32_02193628 a, fx32_02193628 b)
-{
-    return (fx32_02193628)(((s64)a * b + 0x800LL) >> 12);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-static inline void VecSet(Plane *p, int x, int y, int z)
-{
-    p->x = x;
-    p->y = y;
-    p->z = z;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void func_02193790(Plane *out, const int *map, Vec *pos, fx32_02193628 size, fx32_02193628 base)
-{
-    fx32_02193628 half = size / 2;
-    fx32_02193628 z = pos->z + half;
-    fx32_02193628 x = pos->x + half;
-    int lx = x % 0x10000;
-    int lz = z % 0x10000;
-    Tile *t = (Tile *)((char *)map + map[2] + 4) + (x / 0x10000 + ((size >> 12) / 16) * (z / 0x10000));
-    fx32_02193628 d;
-
-    if (t->flag == 0) {
-        if (lx + lz < 0x10000) {
-            VecSet(out, t->n0[0], t->n0[1], -t->n0[2]);
-            d = t->d0;
-        } else {
-            VecSet(out, t->n1[0], t->n1[1], -t->n1[2]);
-            d = t->d1;
-        }
-    } else {
-        if (lx > lz) {
-            VecSet(out, t->n0[0], t->n0[1], -t->n0[2]);
-            d = t->d0;
-        } else {
-            VecSet(out, t->n1[0], t->n1[1], -t->n1[2]);
-            d = t->d1;
-        }
-    }
-    {
-        fx32_02193628 ny = out->y;
-        fx32_02193628 mz = FX_MUL(out->z, pos->z);
-        fx32_02193628 mx = FX_MUL(out->x, pos->x);
-        out->attr = t->attr;
-        out->height = base + func_0207C768(-(d + (mx + mz)), ny);
-    }
-    out->valid = 1;
-}
 
 
 

@@ -10,10 +10,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * Word at +0x1c.
+ * Ping time of a server (the update time field).
  */
 
-int func_0219E8F8(const int *p)
+#include "unit_0219E1EC_types.h"
+
+int func_0219E8F8(const SBServer *server)
 {
-    return p[7];
+    return server->updatetime;
 }

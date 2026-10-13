@@ -17,7 +17,7 @@ struct FSFile;
 extern u32 func_02078A94(struct FSFile *file);
 extern int func_02077F44(const char *path);
 int func_02078C34(const char *path);
-u32 func_02078C28(struct FSFile *a0){ return func_02078A94(a0); }
+u32 func_02078C28(struct FSFile *file){ return func_02078A94(file); }
 
 int func_02078C34(const char *path)
 {

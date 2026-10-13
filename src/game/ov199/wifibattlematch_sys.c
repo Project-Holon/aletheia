@@ -80,8 +80,8 @@
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_02031324 0x02031324 arm
  *   func_0203133C 0x0203133C arm
- *   veneer_02031330 0x02031330 arm
- *   veneer_02031348 0x02031348 arm
+ *   func_02031330 0x02031330 arm
+ *   func_02031348 0x02031348 arm
  *   func_02005E30 0x02005E30 thumb
  *   func_0203A5E4 0x0203A5E4 arm
  */
@@ -319,8 +319,8 @@ extern unsigned func_02017E1C(void *,unsigned,unsigned);
 extern int func_02167ED8(void *date, void *time);
 extern void *func_02031324(int);
 extern void func_0203133C(struct S020314B8 *p);
-extern int veneer_02031330(int);
-extern int veneer_02031348(int, int, int, int);
+extern int func_02031330(int);
+extern int func_02031348(int, int, int, int);
 extern void func_02005E30(unsigned);
 extern void func_0203A5E4(u32_02213850 key);
 int func_02212560(void *a, int unused, u8 *arg);
@@ -1147,7 +1147,7 @@ int func_02213754(S *s)
             s->f4 = r(s, s->f8, s->fc);
         else
             s->f4 = 0;
-        veneer_02031348(s->f0,
+        func_02031348(s->f0,
                         *(int *)((char *)s->f10 + (s->f1a << 4)),
                         *(int *)((char *)s->f10 + 4 + (s->f1a << 4)),
                         s->f4);
@@ -1155,7 +1155,7 @@ int func_02213754(S *s)
         break;
     }
     case 2:
-        s->f1c = veneer_02031330(s->f0);
+        s->f1c = func_02031330(s->f0);
         if (s->f1c == 0)
             s->f1b = 3;
         break;

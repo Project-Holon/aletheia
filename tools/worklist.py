@@ -113,6 +113,7 @@ Usage
 """
 
 import argparse
+import bisect
 import glob
 import json
 import os
@@ -321,7 +322,25 @@ RE_UNIT_MEMBER_DEF = re.compile(
 _UNIT_MEMBER_CACHE = {}
 
 
-def find_unit_member_addrs(source_path):
+def member_functions(ent):
+    """[(name, address or None)] for the names an entry's `functions` list holds.
+
+    A unit's members are placed by address (tools/fnaddr.py member_addresses:
+    the entry's `addresses` list, a func_XXXXXXXX name, or the unit's compiled
+    layout), so a member renamed to a real name stays counted.  Other entries
+    (a runtime entry's vendor names) keep the rule of a name ending in an
+    address; their rows come from `covers`."""
+    import fnaddr  # noqa: E402
+    if str(ent.get("kind", "")).endswith("_unit"):
+        return fnaddr.member_addresses(ent)
+    out = []
+    for member in ent.get("functions", []) or []:
+        m = re.search(r"([0-9A-Fa-f]{8})$", member)
+        out.append((member, int(m.group(1), 16) if m else None))
+    return out
+
+
+def find_unit_member_addrs(source_path, ent=None):
     """Function addresses DEFINED (not merely declared) in a matched source.
 
     A game_unit manifest entry sometimes names only its entry address even
@@ -333,10 +352,18 @@ def find_unit_member_addrs(source_path):
     directly catches those without editing layout/matched/: a line is a
     definition rather than an extern declaration when it is not itself an
     `extern` line and does not end in a semicolon.
+
+    With the manifest entry `ent`, the unit's compiled layout (tools/fnaddr.py
+    defined_addresses: every function symbol of the object, placed from the
+    header address) is added, so a sibling whose name carries no address (a
+    real name) is still found by its address.
     """
     if source_path in _UNIT_MEMBER_CACHE:
         return _UNIT_MEMBER_CACHE[source_path]
     addrs = set()
+    if ent is not None:
+        import fnaddr  # noqa: E402
+        addrs.update(fnaddr.defined_addresses(ent))
     full = os.path.join(ROOT, source_path.replace("/", os.sep))
     try:
         with open(full, encoding="utf-8", errors="replace") as fh:
@@ -426,6 +453,10 @@ def cover_from_entries(entries, matched_status):
     one of those rows under runtime, not matched.
     """
     cover = {}
+    import fnaddr  # noqa: E402
+    # the game_units' compiled layouts, in parallel (find_unit_member_addrs)
+    fnaddr.prefetch_layouts(e for e in entries if e.get("region") == REGION
+                            and e.get("kind") == "game_unit" and e.get("status") in matched_status)
     for ent in entries:
         if ent.get("region") != REGION:
             continue
@@ -438,10 +469,9 @@ def cover_from_entries(entries, matched_status):
         addrs = []
         if ent.get("address"):
             addrs.append((int(ent["address"], 16), name))
-        for member in ent.get("functions", []) or []:
-            m = re.search(r"([0-9A-Fa-f]{8})$", member)
-            if m:
-                addrs.append((int(m.group(1), 16), member))
+        for member, maddr in member_functions(ent):
+            if maddr is not None:
+                addrs.append((maddr, member))
         if kind == "runtime":
             for c in ent.get("covers", []) or []:
                 addrs.append((int(c, 16), name))
@@ -466,7 +496,7 @@ def cover_from_entries(entries, matched_status):
         # sole_ref_subkind() below.
         if kind == "game_unit" and ent.get("source"):
             listed = set(a for a, _who in addrs)
-            for addr in find_unit_member_addrs(ent["source"]):
+            for addr in find_unit_member_addrs(ent["source"], ent):
                 if addr in listed:
                     continue
                 cover.setdefault(
@@ -826,6 +856,22 @@ def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
         fn["sdk_name"] = sdk[addr]
         if ment is not None and not held:
             fn["matched_name"] = ment["name"]
+        elif ment is None:
+            # an SDK row that is a label inside a larger SDK symbol (an asm
+            # routine the listing splits at branch targets, such as the four
+            # labels inside MI_CpuMove): credit it to the parent when the
+            # parent's EXACT/EXACT* entry compared bytes past the label
+            pos = bisect.bisect_left(sdk_ext, (addr, 0, ""))
+            for start, end, pname in reversed(sdk_ext[max(0, pos - 16):pos]):
+                if start < addr < end:
+                    pent = matched.get(start)
+                    if (pent is not None
+                            and pent.get("status") in ("EXACT", "EXACT*")
+                            and not pent.get("placeholder")
+                            and start + int(pent.get("compared_bytes") or 0) > addr):
+                        fn["matched_name"] = "%s+0x%X" % (pname, addr - start)
+                        fn["matched_interior"] = True
+                    break
     elif not proven_game and sdk_interior(sdk_ext, addr) is not None:
         # a label inside a sized SDK symbol: an interior kernel, not a
         # function (owner decision 2026-09-23, see load_sdk_extents)
@@ -1663,10 +1709,9 @@ def load_matched_sources():
         addrs = []
         if ent.get("address"):
             addrs.append(int(ent["address"], 16))
-        for member in ent.get("functions", []) or []:
-            m = re.search(r"([0-9A-Fa-f]{8})$", member)
-            if m:
-                addrs.append(int(m.group(1), 16))
+        for _member, maddr in member_functions(ent):
+            if maddr is not None:
+                addrs.append(maddr)
         for addr in addrs:
             out.append((addr, src))
     out.sort(key=lambda pair: pair[0])

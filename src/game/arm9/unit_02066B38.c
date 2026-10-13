@@ -38,40 +38,40 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-struct Cell {
+struct CellTransferState {
     u8  pad_00[0x0c];
-    u32 unk_0c;
-    u32 unk_10;
-    u32 unk_14;
-    u32 unk_18;
-    u32 unk_1c;
-    u32 unk_20;
-    u32 unk_24;
-    u32 unk_28;
-    u32 unk_2c;
+    u32 taskArg0;
+    u32 taskArg1;
+    u32 taskArg2;
+    u32 taskArg3;
+    u32 inUse;
+    u32 changedMask;
+    u32 requestMask;
+    u32 baseAddr;
+    u32 callbackArg;
 };
 
-struct Bank {
+struct CellTransferStateManager {
     u8           pad_00[8];
-    struct Cell *cells;
+    struct CellTransferState *pStates;
 };
 
-extern struct Bank gUnk_02148B20;
+extern struct CellTransferStateManager gUnk_02148B20;
 typedef signed int     s32;
 extern void sub_020640B0(s32 *tbl);
 
-void sub_02066B38(u32 idx)
+void sub_02066B38(u32 stateIdx)
 {
-    struct Cell *c = &gUnk_02148B20.cells[idx];
+    struct CellTransferState *state = &gUnk_02148B20.pStates[stateIdx];
 
-    sub_020640B0((s32 *)c);
-    c->unk_0c = 0;
-    c->unk_10 = 0;
-    c->unk_14 = 0;
-    c->unk_18 = 0;
-    c->unk_1c = 0;
-    c->unk_20 = 0;
-    c->unk_24 = 0;
-    c->unk_28 = 0;
-    c->unk_2c = 0;
+    sub_020640B0((s32 *)state);
+    state->taskArg0 = 0;
+    state->taskArg1 = 0;
+    state->taskArg2 = 0;
+    state->taskArg3 = 0;
+    state->inUse = 0;
+    state->changedMask = 0;
+    state->requestMask = 0;
+    state->baseAddr = 0;
+    state->callbackArg = 0;
 }

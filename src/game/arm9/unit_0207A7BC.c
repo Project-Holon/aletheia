@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj02340.h"
 
-void *func_0207A7BC(char *p)
+void *func_0207A7BC(char *file)
 {
-    return ((struct Obj02340 *)p)->f24;
+    return ((struct Obj02340 *)file)->f24;
 }

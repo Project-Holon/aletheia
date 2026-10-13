@@ -43,37 +43,37 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-struct Rec {
+struct CellTransferState {
     u8  pad_00[0xc];
-    u32 unk_0c, unk_10, unk_14, unk_18, unk_1c, unk_20, unk_24, unk_28, unk_2c;
+    u32 taskArg0, taskArg1, taskArg2, taskArg3, inUse, changedMask, requestMask, baseAddr, callbackArg;
 };
 
-struct Bank {
-    void       *cb;     /* 0x00 */
-    u32         count;  /* 0x04 */
-    struct Rec *recs;   /* 0x08 */
+struct CellTransferStateManager {
+    void       *pTransferFunc;  /* 0x00 */
+    u32         numStates;      /* 0x04 */
+    struct CellTransferState *pStates;  /* 0x08 */
 };
 
-extern struct Bank gUnk_02148B20;
+extern struct CellTransferStateManager gUnk_02148B20;
 typedef signed int     s32;
 extern void sub_020640B0(s32 *tbl);
 
-void func_02066934(struct Rec *recs, u32 n, void *cb)
+void func_02066934(struct CellTransferState *pStates, u32 numStates, void *pTransferFunc)
 {
     u32 i = 0;
 
-    gUnk_02148B20.cb    = cb;
-    gUnk_02148B20.recs  = recs;
-    gUnk_02148B20.count = n;
+    gUnk_02148B20.pTransferFunc = pTransferFunc;
+    gUnk_02148B20.pStates       = pStates;
+    gUnk_02148B20.numStates     = numStates;
 
-    if (n == 0) return;
+    if (numStates == 0) return;
 
     do {
-        sub_020640B0((s32 *)recs);
-        recs->unk_0c = 0; recs->unk_10 = 0; recs->unk_14 = 0;
-        recs->unk_18 = 0; recs->unk_1c = 0; recs->unk_20 = 0;
-        recs->unk_24 = 0; recs->unk_28 = 0; recs->unk_2c = 0;
-        recs++;
+        sub_020640B0((s32 *)pStates);
+        pStates->taskArg0 = 0; pStates->taskArg1 = 0; pStates->taskArg2 = 0;
+        pStates->taskArg3 = 0; pStates->inUse = 0; pStates->changedMask = 0;
+        pStates->requestMask = 0; pStates->baseAddr = 0; pStates->callbackArg = 0;
+        pStates++;
         i++;
-    } while (i < n);
+    } while (i < numStates);
 }

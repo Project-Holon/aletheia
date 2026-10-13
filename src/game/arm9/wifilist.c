@@ -18,7 +18,7 @@
  *   func_02009584  0x02009584  thumb
  *   func_0200856C  0x0200856C  thumb
  *   func_02009794  0x02009794  thumb
- *   g_020A7198      0x020A7198  data
+ *   sWifilistFile  0x020A7198  data
  *   MI_CpuCopy8  0x02082D44  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02034A5C  0x02034A5C  arm
@@ -32,96 +32,94 @@
  *   func_02045994         0x02045994  arm
  *   func_02045A38         0x02045A38  arm
  */
-#define BLOCK_ID 0x23
-struct Sub020071CCCtrl;
-struct Sub0200852CObj;
-struct Sub02009470Obj_02009448;
+#define GAME_SYNC_BLOCK_ID 0x23
+#define WIFI_HISTORY_BLOCK_ID 0x1D
+#define WIFI_HISTORY_ENTRY_MAX 20
+#define WIFI_HISTORY_COUNTRY_MAX 0xE9
+#define WIFILIST_FRIEND_MAX 32
+
+struct SaveControl;
+struct MyStatus;
 struct Strbuf;
 struct U16Vec;
 typedef unsigned char u8;
-
+typedef unsigned short u16;
 typedef unsigned int  u32;
 
-struct Sub02009448Obj {
-    u8 unk0000[0x1338];
+/* Save block 0x23 (0x1338 bytes). This file only sizes, fetches and clears it. */
+struct GameSyncData {
+    u8 data[0x1338];
 };
 
-struct Sub02009470Obj_02009448 {
-    u8 unk000[0x344];
-    u8 unk344;
-    u8 unk345;
-    u8 unk346[2];
-    u8 unk348[0xFF0];
+/* One player met over Wi-Fi: the player's MyStatus bytes. */
+struct PlayerRecord {
+    u8 data[0x20];
 };
 
-typedef unsigned short u16;
-
-struct Sub02009470Ent {
-    u8  unk00[0x20];
-    u16 unk20;
-    u16 unk22;
-    u8  unk24;
-    u8  unk25;
-    u8  unk26_0 : 3;
-    u8  unk26_3 : 1;
-    u8  unk26_4 : 1;
-    u8  unk26_5 : 3;
-    u8  unk27;
+/* One slot of the 20-entry history table (0x28 bytes). */
+struct HistoryEntry {
+    struct PlayerRecord record;     /* 0x00 */
+    u16 meetCount;                  /* 0x20 */
+    u16 swapCount;                  /* 0x22 */
+    u8  rank;                       /* 0x24 */
+    u8  score;                      /* 0x25 */
+    u8  greeting : 3;               /* 0x26, set only below 5 */
+    u8  isMarked : 1;
+    u8  isOccupied : 1;
+    u8  : 3;
+    u8  reserved27;                 /* 0x27 */
 };
 
-struct Sub02009470Obj_020095C8 {
-    struct Sub02009470Ent unk000[20];
-    u8 unk320[0x1D];
-    u8 unk33D[7];
-    u8 unk344;
-    u8 unk345;
-    u8 unk346;
-    u8 unk347;
-    u8 unk348[0xFF0];
+/*
+ * Save block 0x1D (0x1338 bytes): the Wi-Fi history. 20 entries, a bit per
+ * country (1..232) and a grid of 2-bit states indexed by country and region.
+ */
+struct WifiHistory {
+    struct HistoryEntry entries[WIFI_HISTORY_ENTRY_MAX];    /* 0x000 */
+    u8 visitedCountryBits[0x1D];                            /* 0x320 */
+    u8 reserved33D[7];
+    u8 mode;                        /* 0x344 */
+    u8 visitedCountryCount;         /* 0x345, saturates at 0xE9 */
+    u8 greetingSet;                 /* 0x346, set only below 9 */
+    u8 ratingLevel;                 /* 0x347, set only below 5 */
+    u8 countryRegionState[0xFF0];   /* 0x348, 16 bytes per country row */
 };
 
-struct Sub020097BCObj {
-    u8 unk000[0x7C4];
+/* Save block 0x1E: the Wi-Fi friend list (same layout as in mystery_data.c). */
+struct DWCFriendData {
+    u8 data[0xC];
 };
 
-struct Sub020097BCObj_020097F0 {
-    u8 unk000[0x7C4];
+struct WifiFriendInfo {
+    u8  nameData[0x1C];
+    u32 trainerId;
+    u32 profileId;
+    u16 battleWins;
+    u16 battleLosses;
+    u16 tradeCount;
+    u16 lastYear;
+    u8  lastMonth;
+    u8  lastDay;
+    u8  language;
+    u8  gender : 2;
+    u8  statusFlags : 6;
 };
 
-struct Sub020097BCFriend {
-    u8 unk00[0xC];
+struct WifiList {
+    u8 userData[0x40];                                      /* DWC user data */
+    struct DWCFriendData friendData[WIFILIST_FRIEND_MAX];   /* 0x040 */
+    struct WifiFriendInfo friendInfo[WIFILIST_FRIEND_MAX];  /* 0x1C0 */
+    u8 reserved[4];                                         /* 0x7C0 */
 };
 
-struct Sub020097BCEnt {
-    u8  unk00[0x1C];
-    u32 unk1C;
-    u32 unk20;
-    u16 unk24;
-    u16 unk26;
-    u16 unk28;
-    u16 unk2A;
-    u8  unk2C;
-    u8  unk2D;
-    u8  unk2E;
-    u8  unk2F_0 : 2;
-    u8  unk2F_2 : 6;
-};
-
-struct Sub020097BCObj_02009860 {
-    u8 unk000[0x40];
-    struct Sub020097BCFriend unk040[0x20];
-    struct Sub020097BCEnt    unk1C0[32];
-    u8 unk7C0[4];
-};
-
-extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *sub_020071CC(struct SaveControl *saveControl, u32 blockId);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern void sub_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
-extern u8 func_02009584(const struct Sub02009470Obj_02009448 *obj);
-extern u8 func_0200856C(const struct Sub0200852CObj *obj);
-extern u32 func_02009794(const struct Sub02009470Obj_02009448 *obj, u32 n);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02009800(void *p);
+extern void sub_02008574(struct MyStatus *status, u8 country, u8 region);
+extern u8 func_02009584(const struct WifiHistory *history);
+extern u8 func_0200856C(const struct MyStatus *status);
+extern u32 func_02009794(const struct WifiHistory *history, u32 country);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern void func_02009800(struct WifiList *list);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void func_02082BCC(void *dst, int val, unsigned n);
 extern void func_02034A5C(int handle);
@@ -129,43 +127,43 @@ extern int func_02034AC4(int id);
 extern void func_02157138(void *p);
 extern int  DWC_IsValidFriendData(const void *friendData);
 extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-struct Sub02009448Obj *sub_02009448(void *sys);
+extern void func_02045A38(struct U16Vec *src, u16 *dest, u32 size);
+struct GameSyncData *sub_02009448(struct SaveControl *saveControl);
 u32 sub_02009454(void);
-void sub_0200945C(struct Sub02009448Obj *obj);
-struct Sub02009470Obj_02009448 *sub_02009470(void *sys);
-void sub_0200947C(struct Sub02009470Obj_02009448 *obj, struct Sub0200852CObj *p, u8 row, u8 col);
-u32 sub_0200949C(const struct Sub02009470Obj_02009448 *obj, int row, int col);
-void sub_020094D8(struct Sub02009470Obj_02009448 *obj, int row, int col, int value);
-u8 sub_02009524(const struct Sub02009470Obj_02009448 *obj);
-void sub_0200952C(struct Sub02009470Obj_02009448 *obj);
-u8 sub_02009584(const struct Sub02009470Obj_02009448 *obj);
-u8 func_02009590(void *a, u32 b, u32 c);
-u8 sub_020095C8(const struct Sub02009470Obj_020095C8 *obj);
-void sub_020095E8(struct Sub02009470Obj_020095C8 *obj);
-void sub_020095FC(struct Sub02009470Obj_020095C8 *obj, int value);
-u8 sub_0200960C(const struct Sub02009470Obj_020095C8 *obj);
-void sub_02009618(struct Sub02009470Obj_020095C8 *obj, int value);
-u8 sub_02009628(const struct Sub02009470Obj_020095C8 *obj);
-u32 sub_02009634(const struct Sub02009470Obj_020095C8 *obj, u32 i, u32 field);
-void sub_02009698(struct Sub02009470Obj_020095C8 *obj, int i, u32 field, u32 value);
-struct Sub02009470Ent *sub_0200973C(struct Sub02009470Obj_020095C8 *obj, int i);
+void sub_0200945C(struct GameSyncData *data);
+struct WifiHistory *sub_02009470(struct SaveControl *saveControl);
+void sub_0200947C(struct WifiHistory *history, struct MyStatus *status, u8 country, u8 region);
+u32 sub_0200949C(const struct WifiHistory *history, int country, int region);
+void sub_020094D8(struct WifiHistory *history, int country, int region, int state);
+u8 sub_02009524(const struct WifiHistory *history);
+void sub_0200952C(struct WifiHistory *history);
+u8 sub_02009584(const struct WifiHistory *history);
+u8 func_02009590(struct WifiHistory *history, struct MyStatus *status, int flag);
+u8 sub_020095C8(const struct WifiHistory *history);
+void sub_020095E8(struct WifiHistory *history);
+void sub_020095FC(struct WifiHistory *history, int value);
+u8 sub_0200960C(const struct WifiHistory *history);
+void sub_02009618(struct WifiHistory *history, int value);
+u8 sub_02009628(const struct WifiHistory *history);
+u32 sub_02009634(const struct WifiHistory *history, u32 index, u32 field);
+void sub_02009698(struct WifiHistory *history, int index, u32 field, u32 value);
+struct HistoryEntry *sub_0200973C(struct WifiHistory *history, int index);
 void sub_0200974C(void);
-u32 sub_02009750(struct Sub02009470Obj_020095C8 *obj, u32 n);
-u32 sub_02009794(const struct Sub02009470Obj_020095C8 *obj, u32 n);
+u32 sub_02009750(struct WifiHistory *history, u32 country);
+u32 sub_02009794(const struct WifiHistory *history, u32 country);
 u32 sub_020097BC(void);
-void *func_020097C4(int a0);
-void sub_020097F0(const struct Sub020097BCObj_020097F0 *src, struct Sub020097BCObj_020097F0 *dest);
-void sub_02009800(void *p);
-struct Sub020097BCObj_02009860 *sub_02009860(struct Sub020097BCObj_02009860 *obj);
-u32 sub_02009864(const struct Sub020097BCObj_02009860 *obj, u32 i, u32 field);
-void sub_02009918(struct Sub020097BCObj_02009860 *obj, u32 i, u32 field, u32 value);
-struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj_02009860 *obj, int i);
-struct Sub020097BCEnt *sub_020099D4(struct Sub020097BCObj_02009860 *obj, int i);
-void sub_020099E4(struct Sub020097BCObj_02009860 *obj, int i, void *dest);
-void sub_02009A00(struct Sub020097BCObj_02009860 *obj, int i, void *dest);
-int sub_02009A1C(struct Sub020097BCObj_02009860 *obj, u32 i);
-extern char g_020A7198[];
+struct WifiList *func_020097C4(int heapId);
+void sub_020097F0(const struct WifiList *src, struct WifiList *dest);
+void sub_02009800(struct WifiList *list);
+struct WifiList *sub_02009860(struct WifiList *list);
+u32 sub_02009864(const struct WifiList *list, u32 index, u32 field);
+void sub_02009918(struct WifiList *list, u32 index, u32 field, u32 value);
+struct DWCFriendData *sub_020099C8(struct WifiList *list, int index);
+struct WifiFriendInfo *sub_020099D4(struct WifiList *list, int index);
+void sub_020099E4(struct WifiList *list, int index, struct Strbuf *dest);
+void sub_02009A00(struct WifiList *list, int index, struct U16Vec *dest);
+int sub_02009A1C(struct WifiList *list, u32 index);
+extern char sWifilistFile[];
 extern unsigned char ov_id_09[];
 extern unsigned char ov_id_0A[];
 extern unsigned char ov_id_0B[];
@@ -207,9 +205,9 @@ static inline void MI_CpuClear32(void *dest, u32 size)
  *   python tools/match.py tu --src src/matched/unit_02009448.c \
  *       --addr 0x02009448 --thumb
  */
-struct Sub02009448Obj *sub_02009448(void *sys)
+struct GameSyncData *sub_02009448(struct SaveControl *saveControl)
 {
-    return sub_020071CC(sys, BLOCK_ID);
+    return sub_020071CC(saveControl, GAME_SYNC_BLOCK_ID);
 }
 
 
@@ -218,16 +216,16 @@ struct Sub02009448Obj *sub_02009448(void *sys)
 
 u32 sub_02009454(void)
 {
-    return sizeof(struct Sub02009448Obj);
+    return sizeof(struct GameSyncData);
 }
 
 
 
 
 
-void sub_0200945C(struct Sub02009448Obj *obj)
+void sub_0200945C(struct GameSyncData *data)
 {
-    MI_CpuClear32(obj, sizeof(struct Sub02009448Obj));
+    MI_CpuClear32(data, sizeof(struct GameSyncData));
 }
 
 
@@ -257,24 +255,24 @@ void sub_0200945C(struct Sub02009448Obj *obj)
  * a bitfield.  Two spellings are load bearing there.  The mask is `0xFF ^
  * (3 << sh)` and not `~(3 << sh)`: the second gives a single `mvns`, two bytes
  * shorter, and the whole file after it shifts.  And the element is reached
- * through a pointer computed once, `u8 *p = &obj->unk348[i]`, not through an
+ * through a pointer computed once, `u8 *cell = &history->countryRegionState[i]`, not through an
  * index into the array: with the index spelling the compiler evaluates the
  * column modulo before the base address and twenty-four bytes are in the wrong
  * order with every register renumbered.
  *
  * NEAR MISS, 0x02009590, 56 bytes, 2 bytes wrong, skipped.  It is
  *
- *   u8 sub_02009590(const struct Sub02009470Obj *obj,
- *                   const struct Sub0200852CObj *p, int flag)
+ *   u8 sub_02009590(const struct WifiHistory *history,
+ *                   const struct MyStatus *status, int flag)
  *   {
- *       u8 v = sub_02009584(obj);
+ *       u8 v = sub_02009584(history);
  *
  *       if (flag == 0) {
- *           u8 t = sub_0200856C(p);
+ *           u8 t = sub_0200856C(status);
  *
  *           if (t == 0) {
  *               v = 0;
- *           } else if (sub_02009794(obj) != 0 && v != 0) {
+ *           } else if (sub_02009794(history) != 0 && v != 0) {
  *               v = v - 1;
  *           }
  *       }
@@ -302,9 +300,9 @@ void sub_0200945C(struct Sub02009448Obj *obj)
  *   python tools/match.py tu --src src/matched/unit_02009470.c \
  *       --addr 0x02009470 --thumb
  */
-struct Sub02009470Obj_02009448 *sub_02009470(void *sys)
+struct WifiHistory *sub_02009470(struct SaveControl *saveControl)
 {
-    return sub_020071CC(sys, 0x1D);
+    return sub_020071CC(saveControl, WIFI_HISTORY_BLOCK_ID);
 }
 
 
@@ -312,71 +310,71 @@ struct Sub02009470Obj_02009448 *sub_02009470(void *sys)
 
 
 
-void sub_0200947C(struct Sub02009470Obj_02009448 *obj, struct Sub0200852CObj *p,
-                  u8 row, u8 col)
+void sub_0200947C(struct WifiHistory *history, struct MyStatus *status,
+                  u8 country, u8 region)
 {
-    sub_02008574(p, row, col);
-    sub_020094D8(obj, row, col, 3);
+    sub_02008574(status, country, region);
+    sub_020094D8(history, country, region, 3);
 }
 
 
 
-u32 sub_0200949C(const struct Sub02009470Obj_02009448 *obj, int row, int col)
+u32 sub_0200949C(const struct WifiHistory *history, int country, int region)
 {
-    if (row == 0) {
+    if (country == 0) {
         return 0;
     }
-    return (obj->unk348[col / 4 + (row - 1) * 16] >> ((col % 4) * 2)) & 3;
+    return (history->countryRegionState[region / 4 + (country - 1) * 16] >> ((region % 4) * 2)) & 3;
 }
 
 
 
-void sub_020094D8(struct Sub02009470Obj_02009448 *obj, int row, int col, int value)
+void sub_020094D8(struct WifiHistory *history, int country, int region, int state)
 {
-    u8 *p;
-    int sh;
+    u8 *cell;
+    int shift;
 
-    if (row == 0) {
+    if (country == 0) {
         return;
     }
-    p = &obj->unk348[col / 4 + (row - 1) * 16];
-    sh = (col % 4) * 2;
-    *p &= 0xFF ^ (3 << sh);
-    *p |= value << sh;
+    cell = &history->countryRegionState[region / 4 + (country - 1) * 16];
+    shift = (region % 4) * 2;
+    *cell &= 0xFF ^ (3 << shift);
+    *cell |= state << shift;
 }
 
 
 
-u8 sub_02009524(const struct Sub02009470Obj_02009448 *obj)
+u8 sub_02009524(const struct WifiHistory *history)
 {
-    return obj->unk344;
+    return history->mode;
 }
 
 
 
-void sub_0200952C(struct Sub02009470Obj_02009448 *obj)
+void sub_0200952C(struct WifiHistory *history)
 {
-    int i;
-    int j;
-    u8 v;
+    int byteIndex;
+    int shift;
+    u8 cells;
 
-    for (i = 0; i < 0xFF0; i++) {
-        v = obj->unk348[i];
-        for (j = 0; j < 8; j += 2) {
-            if (((v >> j) & 3) == 1) {
-                v &= 0xFF ^ (3 << j);
-                v |= 2 << j;
+    for (byteIndex = 0; byteIndex < 0xFF0; byteIndex++) {
+        cells = history->countryRegionState[byteIndex];
+        for (shift = 0; shift < 8; shift += 2) {
+            if (((cells >> shift) & 3) == 1) {
+                cells &= 0xFF ^ (3 << shift);
+                cells |= 2 << shift;
             }
         }
-        obj->unk348[i] = v;
+        history->countryRegionState[byteIndex] = cells;
     }
 }
 
 
 
-u8 sub_02009584(const struct Sub02009470Obj_02009448 *obj)
+u8 sub_02009584(const struct WifiHistory *history)
 {
-    return obj->unk345;
+    return history->visitedCountryCount;
 }
 
 
@@ -389,20 +387,20 @@ u8 sub_02009584(const struct Sub02009470Obj_02009448 *obj)
  *   python tools/match.py tu --src src/matched/unit_02009590.c \
  *       --addr 0x02009590 --thumb
  */
-u8 func_02009590(void *a, u32 b, u32 c)
+u8 func_02009590(struct WifiHistory *history, struct MyStatus *status, int flag)
 {
-    u8 res = func_02009584(a);
+    u8 count = func_02009584(history);
 
-    if (c == 0) {
-        int r = func_0200856C((const struct Sub0200852CObj *)b);
-        if (r == 0) {
-            res = 0;
-        } else if (func_02009794(a, r) && res != 0) {
-            res--;
+    if (flag == 0) {
+        int country = func_0200856C(status);
+        if (country == 0) {
+            count = 0;
+        } else if (func_02009794(history, country) && count != 0) {
+            count--;
         }
     }
 
-    return res;
+    return count;
 }
 
 
@@ -433,7 +431,7 @@ u8 func_02009590(void *a, u32 b, u32 c)
  * docs/idioms/empty-switch-arms-are-what-make-the-table.md.
  *
  * The setter also has to reach the record through a pointer,
- * `e = &obj->unk000[i]`, while the getter's `obj->unk000[i].field` spelling
+ * `entry = &history->entries[i]`, while the getter's `history->entries[i].field` spelling
  * would do: written with the index in each arm the multiply by 0x28 is
  * recomputed inside every case instead of being hoisted in front of the
  * switch, and seventy bytes move.
@@ -460,12 +458,12 @@ u8 func_02009590(void *a, u32 b, u32 c)
  *   python tools/match.py tu --src src/matched/unit_020095C8.c \
  *       --addr 0x020095C8 --thumb
  */
-u8 sub_020095C8(const struct Sub02009470Obj_020095C8 *obj)
+u8 sub_020095C8(const struct WifiHistory *history)
 {
     int i;
 
-    for (i = 0; i < 20; i++) {
-        if (obj->unk000[i].unk26_4 == 0) {
+    for (i = 0; i < WIFI_HISTORY_ENTRY_MAX; i++) {
+        if (history->entries[i].isOccupied == 0) {
             break;
         }
     }
@@ -474,84 +472,84 @@ u8 sub_020095C8(const struct Sub02009470Obj_020095C8 *obj)
 
 
 
-void sub_020095E8(struct Sub02009470Obj_020095C8 *obj)
+void sub_020095E8(struct WifiHistory *history)
 {
-    if (obj->unk345 < 0xE9) {
-        obj->unk345++;
+    if (history->visitedCountryCount < WIFI_HISTORY_COUNTRY_MAX) {
+        history->visitedCountryCount++;
     }
 }
 
 
 
-void sub_020095FC(struct Sub02009470Obj_020095C8 *obj, int value)
+void sub_020095FC(struct WifiHistory *history, int value)
 {
     if (value < 5) {
-        obj->unk347 = value;
+        history->ratingLevel = value;
     }
 }
 
 
 
-u8 sub_0200960C(const struct Sub02009470Obj_020095C8 *obj)
+u8 sub_0200960C(const struct WifiHistory *history)
 {
-    return obj->unk347;
+    return history->ratingLevel;
 }
 
 
 
-void sub_02009618(struct Sub02009470Obj_020095C8 *obj, int value)
+void sub_02009618(struct WifiHistory *history, int value)
 {
     if (value < 9) {
-        obj->unk346 = value;
+        history->greetingSet = value;
     }
 }
 
 
 
-u8 sub_02009628(const struct Sub02009470Obj_020095C8 *obj)
+u8 sub_02009628(const struct WifiHistory *history)
 {
-    return obj->unk346;
+    return history->greetingSet;
 }
 
 
 
-u32 sub_02009634(const struct Sub02009470Obj_020095C8 *obj, u32 i, u32 field)
+u32 sub_02009634(const struct WifiHistory *history, u32 index, u32 field)
 {
-    const struct Sub02009470Ent *e;
+    const struct HistoryEntry *entry;
 
-    if (i >= 20) {
+    if (index >= WIFI_HISTORY_ENTRY_MAX) {
         return 0;
     }
-    e = &obj->unk000[i];
+    entry = &history->entries[index];
     switch (field) {
     case 0:
-        return e->unk20;
+        return entry->meetCount;
     case 1:
-        return e->unk22;
+        return entry->swapCount;
     case 2:
-        return e->unk24;
+        return entry->rank;
     case 3:
-        return e->unk25;
+        return entry->score;
     case 4:
-        return e->unk26_0;
+        return entry->greeting;
     case 5:
-        return e->unk26_3;
+        return entry->isMarked;
     case 6:
-        return e->unk26_4;
+        return entry->isOccupied;
     }
     return 0;
 }
 
 
 
-void sub_02009698(struct Sub02009470Obj_020095C8 *obj, int i, u32 field, u32 value)
+void sub_02009698(struct WifiHistory *history, int index, u32 field, u32 value)
 {
-    struct Sub02009470Ent *e;
+    struct HistoryEntry *entry;
 
-    if (i >= 20) {
+    if (index >= WIFI_HISTORY_ENTRY_MAX) {
         return;
     }
-    e = &obj->unk000[i];
+    entry = &history->entries[index];
     switch (field) {
     case 0:
     case 1:
@@ -560,21 +558,21 @@ void sub_02009698(struct Sub02009470Obj_020095C8 *obj, int i, u32 field, u32 val
         break;
     case 4:
         if (value < 5) {
-            e->unk26_0 = value;
+            entry->greeting = value;
         }
         break;
     case 5:
         if (value) {
-            e->unk26_3 = 1;
+            entry->isMarked = 1;
         } else {
-            e->unk26_3 = 0;
+            entry->isMarked = 0;
         }
         break;
     case 6:
         if (value) {
-            e->unk26_4 = 1;
+            entry->isOccupied = 1;
         } else {
-            e->unk26_4 = 0;
+            entry->isOccupied = 0;
         }
         break;
     }
@@ -582,12 +580,12 @@ void sub_02009698(struct Sub02009470Obj_020095C8 *obj, int i, u32 field, u32 val
 
 
 
-struct Sub02009470Ent *sub_0200973C(struct Sub02009470Obj_020095C8 *obj, int i)
+struct HistoryEntry *sub_0200973C(struct WifiHistory *history, int index)
 {
-    if (i >= 20) {
+    if (index >= WIFI_HISTORY_ENTRY_MAX) {
         return 0;
     }
-    return &obj->unk000[i];
+    return &history->entries[index];
 }
 
 
@@ -598,28 +596,28 @@ void sub_0200974C(void)
 
 
 
-u32 sub_02009750(struct Sub02009470Obj_020095C8 *obj, u32 n)
+u32 sub_02009750(struct WifiHistory *history, u32 country)
 {
-    u32 ret = 0;
+    u32 isNew = 0;
 
-    if (n == 0) {
-        return ret;
+    if (country == 0) {
+        return isNew;
     }
-    if (n < 0xE9) {
-        if (sub_02009794(obj, n) == 0) {
-            ret = 1;
+    if (country < WIFI_HISTORY_COUNTRY_MAX) {
+        if (sub_02009794(history, country) == 0) {
+            isNew = 1;
         }
-        obj->unk320[n >> 3] |= (u8)(1 << (u8)(n & 7));
+        history->visitedCountryBits[country >> 3] |= (u8)(1 << (u8)(country & 7));
     }
-    return ret;
+    return isNew;
 }
 
 
 
-u32 sub_02009794(const struct Sub02009470Obj_020095C8 *obj, u32 n)
+u32 sub_02009794(const struct WifiHistory *history, u32 country)
 {
-    if (n < 0xE9) {
-        u8 bit = (obj->unk320[n >> 3] >> (u8)(n & 7)) & 1;
+    if (country < WIFI_HISTORY_COUNTRY_MAX) {
+        u8 bit = (history->visitedCountryBits[country >> 3] >> (u8)(country & 7)) & 1;
 
         if (bit != 0) {
             return 1;
@@ -632,16 +630,16 @@ u32 sub_02009794(const struct Sub02009470Obj_020095C8 *obj, u32 n)
 
 u32 sub_020097BC(void)
 {
-    return sizeof(struct Sub020097BCObj);
+    return sizeof(struct WifiList);
 }
 
 
 
-void *func_020097C4(int a0)
+struct WifiList *func_020097C4(int heapId)
 {
-    void *p = func_02030734((unsigned short)a0, 0x7c4, 1, g_020A7198, 0x39);
-    func_02009800(p);
-    return p;
+    struct WifiList *list = func_02030734((unsigned short)heapId, sizeof(struct WifiList), 1, sWifilistFile, 0x39);
+    func_02009800(list);
+    return list;
 }
 
 
@@ -661,9 +659,9 @@ void *func_020097C4(int a0)
  *   python tools/match.py tu --src src/matched/unit_020097F0.c \
  *       --addr 0x020097F0 --thumb
  */
-void sub_020097F0(const struct Sub020097BCObj_020097F0 *src, struct Sub020097BCObj_020097F0 *dest)
+void sub_020097F0(const struct WifiList *src, struct WifiList *dest)
 {
-    MI_CpuCopy8(src, dest, sizeof(struct Sub020097BCObj_020097F0));
+    MI_CpuCopy8(src, dest, sizeof(struct WifiList));
 }
 
 
@@ -688,14 +686,14 @@ void sub_020097F0(const struct Sub020097BCObj_020097F0 *src, struct Sub020097BCO
  * the four declared as extern data symbols all four sites resolve and every
  * concrete byte reproduces.
  */
-void sub_02009800(void *p)
+void sub_02009800(struct WifiList *list)
 {
-    func_02082BCC(p, 0, 0x7c4);
+    func_02082BCC(list, 0, sizeof(struct WifiList));
     func_02034A5C((int)ov_id_0A);
     func_02034A5C((int)ov_id_0B);
     func_02034AC4((int)ov_id_0D);
     func_02034AC4((int)ov_id_09);
-    func_02157138(p);
+    func_02157138(list);
     func_02034A5C((int)ov_id_09);
     func_02034A5C((int)ov_id_0D);
     func_02034AC4((int)ov_id_0A);
@@ -758,108 +756,108 @@ void sub_02009800(void *p)
  *   python tools/match.py tu --src src/matched/unit_02009800.c \
  *       --addr 0x02009800 --thumb
  */
-struct Sub020097BCObj_02009860 *sub_02009860(struct Sub020097BCObj_02009860 *obj)
+struct WifiList *sub_02009860(struct WifiList *list)
 {
-    return obj;
+    return list;
 }
 
 
-u32 sub_02009864(const struct Sub020097BCObj_02009860 *obj, u32 i, u32 field)
+u32 sub_02009864(const struct WifiList *list, u32 index, u32 field)
 {
     u32 value = 0;
 
     switch (field) {
     case 0:
-        value = obj->unk1C0[i].unk20;
+        value = list->friendInfo[index].profileId;
         break;
     case 1:
-        value = obj->unk1C0[i].unk1C;
+        value = list->friendInfo[index].trainerId;
         break;
     case 2:
-        value = obj->unk1C0[i].unk24;
+        value = list->friendInfo[index].battleWins;
         break;
     case 3:
-        value = obj->unk1C0[i].unk26;
+        value = list->friendInfo[index].battleLosses;
         break;
     case 4:
-        value = obj->unk1C0[i].unk28;
+        value = list->friendInfo[index].tradeCount;
         break;
     case 5:
-        value = obj->unk1C0[i].unk2A;
+        value = list->friendInfo[index].lastYear;
         break;
     case 6:
-        value = obj->unk1C0[i].unk2C;
+        value = list->friendInfo[index].lastMonth;
         break;
     case 7:
-        value = obj->unk1C0[i].unk2D;
+        value = list->friendInfo[index].lastDay;
         break;
     case 9:
-        value = obj->unk1C0[i].unk2F_0;
+        value = list->friendInfo[index].gender;
         break;
     case 8:
-        value = obj->unk1C0[i].unk2E;
+        value = list->friendInfo[index].language;
         break;
     }
     return value;
 }
 
 
-void sub_02009918(struct Sub020097BCObj_02009860 *obj, u32 i, u32 field, u32 value)
+void sub_02009918(struct WifiList *list, u32 index, u32 field, u32 value)
 {
     switch (field) {
     case 0:
-        obj->unk1C0[i].unk20 = value;
+        list->friendInfo[index].profileId = value;
         break;
     case 1:
-        obj->unk1C0[i].unk1C = value;
+        list->friendInfo[index].trainerId = value;
         break;
     case 5:
-        obj->unk1C0[i].unk2A = value;
+        list->friendInfo[index].lastYear = value;
         break;
     case 6:
-        obj->unk1C0[i].unk2C = value;
+        list->friendInfo[index].lastMonth = value;
         break;
     case 7:
-        obj->unk1C0[i].unk2D = value;
+        list->friendInfo[index].lastDay = value;
         break;
     case 9:
-        obj->unk1C0[i].unk2F_0 = value;
+        list->friendInfo[index].gender = value;
         break;
     case 8:
-        obj->unk1C0[i].unk2E = value;
+        list->friendInfo[index].language = value;
         break;
     }
 }
 
 
-struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj_02009860 *obj, int i)
+struct DWCFriendData *sub_020099C8(struct WifiList *list, int index)
 {
-    return &obj->unk040[i];
+    return &list->friendData[index];
 }
 
 
-struct Sub020097BCEnt *sub_020099D4(struct Sub020097BCObj_02009860 *obj, int i)
+struct WifiFriendInfo *sub_020099D4(struct WifiList *list, int index)
 {
-    return &obj->unk1C0[i];
+    return &list->friendInfo[index];
 }
 
 
-void sub_020099E4(struct Sub020097BCObj_02009860 *obj, int i, void *dest)
+void sub_020099E4(struct WifiList *list, int index, struct Strbuf *dest)
 {
-    func_02045994(dest, (const u16 *)&obj->unk1C0[i], 0x10);
+    func_02045994(dest, (const u16 *)&list->friendInfo[index], 0x10);
 }
 
 
-void sub_02009A00(struct Sub020097BCObj_02009860 *obj, int i, void *dest)
+void sub_02009A00(struct WifiList *list, int index, struct U16Vec *dest)
 {
-    func_02045A38(dest, (u16 *)(&obj->unk1C0[i]), 0x10);
+    func_02045A38(dest, (u16 *)(&list->friendInfo[index]), 0x10);
 }
 
 
-int sub_02009A1C(struct Sub020097BCObj_02009860 *obj, u32 i)
+int sub_02009A1C(struct WifiList *list, u32 index)
 {
-    if (i >= 0x20) {
+    if (index >= WIFILIST_FRIEND_MAX) {
         return 0;
     }
-    return DWC_IsValidFriendData(&obj->unk040[i]);
+    return DWC_IsValidFriendData(&list->friendData[index]);
 }

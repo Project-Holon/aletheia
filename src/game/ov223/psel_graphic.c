@@ -151,7 +151,7 @@
  *   d_020A1EB8 0x020A1EB8 data a4
  *   func_02048AC4  0x02048AC4  arm
  *   func_02046788  0x02046788  arm
- *   veneer_02047964  0x02047964  arm
+ *   func_02047964  0x02047964  arm
  *   func_02048AD0    0x02048AD0  arm
  *   func_020479D8    0x020479D8  arm
  *   func_02047970 0x02047970 arm
@@ -352,7 +352,7 @@ extern void func_02046440(int,int,int,int,int,int,void (*)(void));
 extern int func_02048A24(int,int,int,int,int,int,int,int,const int *,const int *,const int *,int);
 extern u32 func_02048AC4(void *ptr);
 extern int func_02046788(int);
-extern void veneer_02047964(void *p);
+extern void func_02047964(void);
 extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 extern void func_02047970(void);
@@ -1251,7 +1251,7 @@ void func_021BC6CC(int *p)
 
 void func_021BC6DC(int *p)
 {
-    veneer_02047964(p);
+    func_02047964();
     func_02048AD0((struct Light *)(*p));
     func_020479D8();
 }

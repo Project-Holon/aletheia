@@ -10,10 +10,10 @@
  * isa:      arm
  * status:   EXACT
  *
- * Returns the word a pointer points at.
+ * Returns the first word of the dynamic array header (its element count).
  */
 
-int func_02184200(const int *p)
+int func_02184200(const int *array)
 {
-    return *p;
+    return *array;
 }

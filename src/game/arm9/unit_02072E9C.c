@@ -11,7 +11,7 @@
  * status:   EXACT
  */
 
-void func_02072E9C(void **r0)
+void func_02072E9C(void **handle)
 {
-    *r0 = 0;
+    *handle = 0;
 }

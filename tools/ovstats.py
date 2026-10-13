@@ -40,6 +40,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import stampcache  # noqa: E402  (stamp-validated pickle caches)
 import placeholders  # noqa: E402  (EXACT entries whose source holds no code)
+import fnaddr  # noqa: E402  (function addresses whatever the name)
 
 HDR_RANGE = re.compile(r"address range\s+0x([0-9A-Fa-f]+)\.\.0x([0-9A-Fa-f]+)\s+\(0x([0-9A-Fa-f]+) bytes\)")
 HDR_CODE = re.compile(r"classified\s+0x([0-9A-Fa-f]+) bytes code\s+\(([0-9.]+)%\),\s+0x([0-9A-Fa-f]+) bytes data")
@@ -196,6 +197,10 @@ def _load_shards():
                 by_region.setdefault(os.path.basename(os.path.dirname(path)), []).append(docs[path])
         _SHARDS["docs"] = docs
         _SHARDS["by_region"] = by_region
+        # units whose member names carry no address: compile their layouts in
+        # parallel once, before shard_entries() asks for them one at a time
+        fnaddr.prefetch(e for d in docs.values() if isinstance(d, dict)
+                        for e in d.get("functions", []) if isinstance(e, dict))
     return _SHARDS
 
 
@@ -231,7 +236,9 @@ def shard_entries(overlay):
     function listed in two shards is one address.  A unit entry (kind ``game_unit``
     or ``sdk_unit``: one translation unit compiled once, whose ``functions`` list
     names every member it reproduces, match.py attest_matched rule 3) also adds
-    one key per member, the member's name.  A key counts as matched when any entry
+    one key per member: its address (tools/fnaddr.py member_addresses: the
+    entry's ``addresses`` list, a func_XXXXXXXX name, or the unit's compiled
+    layout), or its name when none of these places it.  A key counts as matched when any entry
     for it is EXACT or EXACT*; the result does not depend on read order or on
     which duplicate is seen first.
     """
@@ -252,9 +259,11 @@ def shard_entries(overlay):
             status = f.get("status", "")
             put(key, status)
             if str(f.get("kind", "")).endswith("_unit"):
-                for member in f.get("functions", []):
-                    if isinstance(member, str) and member:
-                        put(member, status)
+                # members by address (tools/fnaddr.py: the entry's `addresses`, a
+                # func_XXXXXXXX name, or the unit's compiled layout); a member none
+                # of these places stays keyed by its name
+                for member, a in fnaddr.member_addresses(f):
+                    put(a if a is not None else member, status)
     return entries
 
 

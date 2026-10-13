@@ -15,20 +15,20 @@
  * symbols:
  *   func_020964F4  0x020964F4  arm
  */
-extern void func_02086004(void *mutex);
-extern void func_02086028(void *mutex);
-extern void func_02086078(void *mutex);
-extern long long func_020964F4(unsigned int a0);
-void func_0217F0FC(void *mutex);
-void func_0217F108(void *mutex);
-void func_0217F114(void *mutex);
-void func_0217F120(void *p);
-long long func_0217F124(unsigned int a0);
+extern void func_02086004(void *criticalSection);
+extern void func_02086028(void *criticalSection);
+extern void func_02086078(void *criticalSection);
+extern long long func_020964F4(unsigned int string);
+void func_0217F0FC(void *criticalSection);
+void func_0217F108(void *criticalSection);
+void func_0217F114(void *criticalSection);
+void func_0217F120(void *criticalSection);
+long long func_0217F124(unsigned int string);
 
 
-void func_0217F0FC(void *mutex)
+void func_0217F0FC(void *criticalSection)
 {
-    func_02086004(mutex);
+    func_02086004(criticalSection);
 }
 
 
@@ -37,21 +37,21 @@ void func_0217F0FC(void *mutex)
  * target`, which this compiler emits for a tail call to a callee whose
  * address has to come from a pool.
  */
-void func_0217F108(void *mutex)
+void func_0217F108(void *criticalSection)
 {
-    func_02086028(mutex);
+    func_02086028(criticalSection);
 }
 
 
-void func_0217F114(void *mutex)
+void func_0217F114(void *criticalSection)
 {
-    func_02086078(mutex);
+    func_02086078(criticalSection);
 }
 
 /*
  * Empty stub; nothing but a return.
  */
-void func_0217F120(void *p)
+void func_0217F120(void *criticalSection)
 {
 }
 
@@ -65,7 +65,7 @@ void func_0217F120(void *p)
  * EXACT arm9 shard entry (pkt_020964F4) reproducing the defaulting thunk, so
  * the ABS32 site resolves via `matched`.  Verified EXACT.
  */
-long long func_0217F124(unsigned int a0)
+long long func_0217F124(unsigned int string)
 {
-    return func_020964F4(a0);
+    return func_020964F4(string);
 }

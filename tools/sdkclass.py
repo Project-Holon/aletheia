@@ -69,6 +69,11 @@ def union(catalog=CATALOG, scan=OUT):
         for region, d in json.load(open(scan, encoding="utf-8")).get("regions", {}).items():
             for a, e in d.items():
                 add(region, int(a, 16), e.get("name"), int(e.get("size") or 0), "scan")
+    extra = os.path.join(ROOT, "layout", "sdk_class_extra.json")   # evidence-based reclassification (not regenerated)
+    if os.path.exists(extra):
+        for region, d in json.load(open(extra, encoding="utf-8")).get("regions", {}).items():
+            for a, e in d.items():
+                add(region, int(a, 16), e.get("name"), int(e.get("size") or 0), "extra")
     return out
 
 

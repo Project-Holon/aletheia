@@ -12,13 +12,13 @@
  *
  * wih_dwc.c: the wireless/DWC helper unit, with net_err.c's error window in
  * front and net_save.c's save task at the end.  The wih_dwc state is one
- * global (g_021461E0): the 0x328-byte context object and a 0xA00-byte buffer.
+ * global (gWihDwc): the 0x328-byte context object and a 0xA00-byte buffer.
  *
  * symbols:
  *   func_0202EB0C  0x0202EB0C  thumb
- *   g_0214617C     0x0214617C  data
- *   tbl_0209DEB0   0x0209DEB0  data  a2
- *   tbl_0209DED0   0x0209DED0  data  a2
+ *   gNetErrWork     0x0214617C  data
+ *   sNetErrMessageIdsDS   0x0209DEB0  data  a2
+ *   sNetErrMessageIdsTwl   0x0209DED0  data  a2
  *   G2_GetBG1ScrPtr   0x0207DFB4  arm
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   MIi_CpuClear16    0x02082A48  arm
@@ -36,8 +36,8 @@
  *   func_0201D83C     0x0201D83C  thumb
  *   func_0201ED04     0x0201ED04  thumb
  *   func_020437AC     0x020437AC  arm
- *   g_021461E0     0x021461E0  data
- *   sWihDwc        0x020A7240  data
+ *   gWihDwc     0x021461E0  data
+ *   sWihDwcAssertArg        0x020A7240  data
  *   sWihDwcFile    0x020A7244  data
  *   func_02034714  0x02034714  arm
  *   func_0203D7C8  0x0203D7C8  arm
@@ -60,8 +60,8 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   func_02177B80     0x02177B80  thumb  ov014
  *   sub_0202E8D8      0x0202E8D8  thumb
- *   s0x020A725C       0x020A725C  data
- *   d_020A7250        0x020A7250  data
+ *   sNetSaveFile       0x020A725C  data
+ *   sWihBeaconSsidTag        0x020A7250  data
  *   func_02030734     0x02030734  arm
  *   func_020399A8     0x020399A8  arm
  *   func_02039C68     0x02039C68  arm
@@ -77,9 +77,9 @@
  *   sub_020092EC   0x020092EC  thumb
  *   ov115_id       0x00000073  data  a1
  *   ov123_id       0x0000007B  data  a1
- *   d_021D6338     0x021D6338  data  ov115
- *   d_021DA9A8     0x021DA9A8  data  ov123
- *   d_021D654C     0x021D654C  data  ov115
+ *   gNetSaveMainProc     0x021D6338  data  ov115
+ *   gNetSaveCheckProc     0x021DA9A8  data  ov123
+ *   gNetSaveRetryProc     0x021D654C  data  ov115
  *   func_020312CC  0x020312CC  arm
  *   func_0200F7B8  0x0200F7B8  thumb
  */
@@ -93,161 +93,161 @@ typedef signed short   s16;
 struct Bmp;
 struct GfFont;
 struct MsgBank;
-struct Obj020437AC;
-struct Rec;
+struct Strbuf;
 struct U16Vec;
 struct WordSet;
+struct LinkHandle;
 struct Link;
-struct Entry;
-struct Obj0203159C;
-struct Big;
-struct Sub02009448Obj;
-struct Sub02009210Obj;
+struct BmpWindow;
+struct SaveControl;
+struct GameSyncData;
 
 /* net_err.c module state at 0x0214617C (only the fields used here) */
-struct NetErrBlock {
-    u32 id;
-    u32 unk4;
-    u32 unk8;
-    u32 reason;     /* error code, 0x3EE..0x3F7 are mapped to message ids */
+struct NetErrInfo {
+    u32 errorCode;
+    u32 errorType;
+    u32 errorParam;
+    u32 reasonCode;     /* 0x3EE..0x3F7 are mapped to message ids */
 };
 
-struct NetErr {
-    u8 unk00[0x48];
-    struct NetErrBlock blk;     /* +0x48 */
-    u8 f58;
-    u8 f59;
-    u8 f5A;
+struct NetErrWork {
+    u8 unused00[0x48];
+    struct NetErrInfo errorInfo;    /* +0x48 */
+    u8 netErrorFlag;
+    u8 netType;
+    u8 fatalRaised;
     u8 pad5B[5];
-    u32 f60;
+    u32 messageId;
 };
 
-/* one 0xC0-byte record the ov014 receive callback queues */
-struct WihRec {
-    u8 unk00[0xA];
-    u16 fA;
-    u8 name[0x20];      /* +0x0C */
-    u16 f2C;
-    u8 unk2E[0x92];
+/* One 0xC0-byte beacon record (a WMBssDesc) that the ov014 receive callback queues */
+struct WihBssDesc {
+    u8 bssid[6];
+    u16 length;
+    u16 rssi;
+    u16 ssidLength;
+    u8 ssid[0x20];      /* +0x0C */
+    u16 capaInfo;       /* +0x2C, bit 0x10 is the privacy flag */
+    u8 rest[0x92];
 };
 
 /* the 0xA00-byte buffer behind the global's second word */
-struct WihBuf {
-    u8 unk000[0x600];
-    u8 f600[0x40];
-    u8 slot[3][0x100];  /* +0x640 */
+struct WihFilterBuf {
+    u8 scanWork[0x600];
+    u8 filterState[0x40];
+    u8 ssidSlot[3][0x100];  /* +0x640 */
     u8 pad940[0xC0];
 };
 
-/* the 0x328-byte context object func_02010360 allocates */
-struct WihObj {
-    struct WihRec rec[4];
-    void *f300;
-    struct WihBuf *f304;
+/* the 0x328-byte context object WIH_DWC_Create allocates */
+struct WihContext {
+    struct WihBssDesc beacon[4];
+    void *matchWork;                    /* +0x300 */
+    struct WihFilterBuf *filterBuf;     /* +0x304 */
     u8 pad308[4];
-    u16 f30C;
-    u16 f30E;
-    u16 f310;
-    u16 f312;
-    u16 f314;
-    u16 f316;
-    s32 f318;
-    s32 f31C;
-    s32 f320;
-    s32 f324;
+    u16 paused;                         /* +0x30C, nonzero stops the timers */
+    u16 alertCooldown;                  /* +0x30E */
+    u16 maxBeacons;                     /* +0x310 */
+    u16 alertLevel;                     /* +0x312 */
+    u16 pendingAlertLevel;              /* +0x314 */
+    u16 beaconCount;                    /* +0x316 */
+    s32 knownGameTimer;                 /* +0x318 */
+    s32 taggedGameTimer;                /* +0x31C */
+    s32 openNetworkTimer;               /* +0x320 */
+    s32 securedNetworkTimer;            /* +0x324 */
 };
 
 /* the global at 0x021461E0 */
-struct WihCtx {
-    struct WihObj *obj;
-    struct WihBuf *buf;
+struct WihGlobals {
+    struct WihContext *context;
+    struct WihFilterBuf *filterBuf;
 };
 
-struct WihInfo {
+struct WihSsidInfo {
     int kind;          /* +0x00 */
     u8  rest[0x3C];    /* +0x04 */
 };
 
 /* the connection state block func_0203D798 returns (fields used here) */
-struct WihNetState {
-    u8 unk00[0x62];
-    u8 f62;
-    u8 unk63[4];
-    u8 f67;
+struct GFLNetInitializeStruct {
+    u8 unused00[0x62];
+    u8 slotCount;
+    u8 unused63[4];
+    u8 connectState;
 };
 
 /* the 0x14-byte net_save.c task object */
-struct WihTask {
-    void (*f0)(u32 arg);
-    u32 f4;
-    void (*f8)(struct WihTask *p);
-    u32 fC;
-    s32 f10;
+struct NetSaveTask {
+    void (*progressCallback)(u32 arg);
+    u32 callbackArg;
+    void (*step)(struct NetSaveTask *task);
+    u32 gameData;
+    s32 delayFrames;
 };
 
-struct SaveRecA {
-    void *sys;
-    u32 f4;
-    u32 f8;
-    u32 fC;
-    void *buf;
+struct NetSaveScreenArgs {
+    void *gameData;
+    u32 mode;
+    u32 enable;
+    u32 waitFrames;
+    void *saveBuf;
 };
 
-struct SaveRecB {
-    void *sys;
-    void *buf;
+struct NetSaveCheckArgs {
+    void *gameData;
+    void *saveBuf;
     u16 heapId;
     u8 pad[2];
 };
 
-struct SaveRecC {
-    void *sys;
-    u32 f4;
-    u32 f8;
+struct NetSaveRetryArgs {
+    void *gameData;
+    u32 mode;
+    u32 enable;
 };
 
 /* the 0x1D8-byte net_save.c save task record */
-struct SaveCtx {
-    struct SaveRecA a;      /* +0x00 */
-    u32 f14;
+struct NetSaveProcWork {
+    struct NetSaveScreenArgs screenArgs;    /* +0x00 */
+    u32 retryRequested;                     /* +0x14 */
     u8 pad18[4];
-    u32 f1C;
+    u32 cancelled;                          /* +0x1C */
     u8 pad20[8];
-    struct SaveRecC c;      /* +0x28 */
+    struct NetSaveRetryArgs retryArgs;      /* +0x28 */
     u8 pad34[0x10];
-    void *sys;              /* +0x44 */
-    struct SaveRecB b;      /* +0x48 */
-    u32 f54;
-    u32 f58;
-    u8 buf5C[0x174];
-    u16 heapId;             /* +0x1D0 */
+    void *gameData;                         /* +0x44 */
+    struct NetSaveCheckArgs checkArgs;      /* +0x48 */
+    u32 skipFinalSave;                      /* +0x54 */
+    u32 saveFailed;                         /* +0x58 */
+    u8 saveBuf[0x174];                      /* +0x5C */
+    u16 heapId;                             /* +0x1D0 */
     u8 pad1D2[2];
-    u32 state;              /* +0x1D4 */
+    u32 state;                              /* +0x1D4 */
 };
 
 extern u32 func_0202EB0C(void);
 extern u16 *G2_GetBG1ScrPtr(void);
 extern u8  *G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
-extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern struct WordSet *func_0201EC64(u32 heap);
+extern struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
+extern struct WordSet *func_0201EC64(u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flags);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void func_0201F250(struct WordSet *wordSet, void *dst, void *src);
+extern void func_0201C7D0(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_0201ED04(struct WordSet *p);
-extern void func_020437AC(struct Obj020437AC *p);
+extern u32 func_02045C04(struct MsgBank *bank);
+extern u32 func_0201D83C(void *font);
+extern u32 func_0201ED04(struct WordSet *wordSet);
+extern void func_020437AC(struct Bmp *bmp);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
+extern void *func_0203D7C8(u32 heapId, u32 size, const char *file, u16 line);
 extern u32  func_0205D010(void);
 extern int func_02034AC4(int id);
-extern void func_0217963C(u32 v);
+extern void func_0217963C(u32 callback);
 extern void func_0203D7FC(void *p);
 extern void func_02034A5C(int handle);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
@@ -255,85 +255,85 @@ extern u32 func_0203F004(const u8 *s);
 extern s32 func_0203EFC8(const void *a, const void *b, u32 n);
 extern void *func_0203D798(void);
 extern int  func_0203D1B4(void);
-extern u32 func_0203CF10(u32 a);
-extern u8   func_02178098(u8 i);
-extern int  func_0205D01C(void *buf, struct WihRec *rec, struct WihInfo *out);
-extern void func_0205FAA8(u8 *p, u32 v);
+extern u32 func_0203CF10(u32 slot);
+extern u8   func_02178098(u8 slot);
+extern int  func_0205D01C(void *work, struct WihBssDesc *beacon, struct WihSsidInfo *out);
+extern void func_0205FAA8(u8 *filterState, u32 value);
 extern int  func_0203CD98(void);
 extern void OS_GetMacAddress(u8 *mac);
-extern u8 func_02177B80(int i);
-extern int sub_0202E8D8(char *a0, int a1, char *a2);
-extern void *func_02030734(u32 a, u32 b, int c, const char *file, u16 line);
-extern struct Entry *func_020399A8(void);
-extern void func_02039C68(struct Link *ctx, u32 id, u32 size);
-extern u32 func_020307B0(void *p);
+extern u8 func_02177B80(int slot);
+extern int sub_0202E8D8(char *record, int key, char *mac);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern struct Link *func_020399A8(void);
+extern void func_02039C68(struct Link *link, u32 timingId, u32 size);
+extern u32 func_020307B0(void *task);
 extern u32  func_0200FB24(void);
-extern void func_02012E08(u32 handle);
-extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
-extern int func_02012DAC(u32 handle);
-extern int  func_02012DD0(u32 handle);
-extern u32  func_020056EC(u32 v);
-extern void  func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_0203159C(void *obj, u32 size, u32 heap);
+extern void func_02012E08(u32 gameData);
+extern u32 func_02039CB4(struct Link *link, u32 timingId, u32 size);
+extern int func_02012DAC(u32 gameData);
+extern int  func_02012DD0(u32 gameData);
+extern u32  func_020056EC(u32 frames);
+extern void  func_0203064C(u32 a, u32 heapId, u32 size);
+extern void *func_0203159C(void *proc, u32 size, u32 heapId);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
-extern void *sub_020124F4(u16 heap);
-extern void *sub_02012EBC(struct Big *p);
-extern struct Sub02009448Obj *sub_02009448(void *sys);
-extern u8 sub_020092EC(const struct Sub02009210Obj *obj);
-extern void func_020312CC(u32 ovl, const void *proc, void *arg);
-extern u32 func_0200F7B8(u32 a0);
+extern void *sub_020124F4(u16 heapId);
+extern struct SaveControl *sub_02012EBC(void *gameData);
+extern struct GameSyncData *sub_02009448(struct SaveControl *saveControl);
+extern u8 sub_020092EC(const struct GameSyncData *data);
+extern void func_020312CC(u32 overlayId, const void *procData, void *arg);
+extern u32 func_0200F7B8(u32 mode);
 extern int func_020053EC(void);
 extern int func_02034F5C(int a);
 extern int func_02005BC0(int a);
 extern int func_020065FC(int a);
 
-u32 sub_02010158(struct NetErrBlock *obj, u32 a);
-void func_020101D4(u32 a0, u32 a1);
+u32 sub_02010158(struct NetErrInfo *info, u32 a);
+void func_020101D4(u32 messageVariant, u32 useGenericMessage);
 int func_0201034C(void);
-struct WihObj *sub_02010360(int idx, void *heap);
-void func_020103E4(struct WihObj *p);
+struct WihContext *sub_02010360(int maxBeacons, void *heap);
+void func_020103E4(struct WihContext *context);
 void func_0201042C(void);
 void func_02010444(void);
-void func_0201045C(const void *src);
+void func_0201045C(const void *beacon);
 void sub_02010498(void);
-int sub_020104F8(struct WihRec *obj);
-int func_0201054C(const struct WihRec *obj);
-u32 func_0201057C(const struct WihRec *rec);
-u32 func_0201058C(void *key);
-void func_02010794(u32 heap);
+int sub_020104F8(struct WihBssDesc *beacon);
+int func_0201054C(const struct WihBssDesc *beacon);
+u32 func_0201057C(const struct WihBssDesc *beacon);
+u32 func_0201058C(void *searchKey);
+void func_02010794(u32 heapId);
 void func_020107CC(void);
-int sub_020107FC(void *key);
+int sub_020107FC(void *searchKey);
 u16 func_02010848(void);
-void func_02010864(u32 v);
+void func_02010864(u32 level);
 void func_02010884(void);
-void func_02010888(struct WihTask *p, void (*f)(struct WihTask *p));
-struct WihTask *func_0201088C(u32 heap, u32 a1);
-struct WihTask *func_020108C4(u32 heap, u32 a1, void (*cb)(u32 arg), u32 arg);
-u32 func_02010904(struct WihTask *p);
-void func_02010934(struct WihTask *p);
-void func_0201093C(struct WihTask *p);
-void func_02010964(struct WihTask *p);
-void func_02010994(struct WihTask *p);
-void func_020109B8(struct WihTask *p);
-void func_020109E0(struct WihTask *p);
-void func_02010A04(struct WihTask *p);
-void func_02010A3C(struct WihTask *p);
-int sub_02010A5C(void *a0);
-int func_02010AC4(u32 a0, u32 a1, u32 a2, struct SaveCtx *ctx);
-extern struct NetErr g_0214617C;
-extern const u16 tbl_0209DEB0[];
-extern const u16 tbl_0209DED0[];
-extern struct WihCtx g_021461E0;
-extern u8 sWihDwc;
+void func_02010888(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task));
+struct NetSaveTask *func_0201088C(u32 heapId, u32 gameData);
+struct NetSaveTask *func_020108C4(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg);
+u32 func_02010904(struct NetSaveTask *task);
+void func_02010934(struct NetSaveTask *task);
+void func_0201093C(struct NetSaveTask *task);
+void func_02010964(struct NetSaveTask *task);
+void func_02010994(struct NetSaveTask *task);
+void func_020109B8(struct NetSaveTask *task);
+void func_020109E0(struct NetSaveTask *task);
+void func_02010A04(struct NetSaveTask *task);
+void func_02010A3C(struct NetSaveTask *task);
+int sub_02010A5C(void *proc);
+int func_02010AC4(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork *work);
+extern struct NetErrWork gNetErrWork;
+extern const u16 sNetErrMessageIdsDS[];
+extern const u16 sNetErrMessageIdsTwl[];
+extern struct WihGlobals gWihDwc;
+extern u8 sWihDwcAssertArg;
 extern u8 sWihDwcFile[];
 extern u8 ov015_id[];
-extern u8 s0x020A725C;
-extern u8 d_020A7250[];
+extern u8 sNetSaveFile;
+extern u8 sWihBeaconSsidTag[];
 extern u8 ov115_id[];
 extern u8 ov123_id[];
-extern u8 d_021D6338[];
-extern u8 d_021DA9A8[];
-extern u8 d_021D654C[];
+extern u8 gNetSaveMainProc[];
+extern u8 gNetSaveCheckProc[];
+extern u8 gNetSaveRetryProc[];
 
 
 /*
@@ -351,11 +351,11 @@ extern u8 d_021D654C[];
  * 0x020109D0; the words are 0x0214617C / 0x0209DEB0 / 0x0209DED0, and the
  * case 0x3F7 arm shares case 0x3EE's block (both table slots 0x12).
  */
-u32 sub_02010158(struct NetErrBlock *obj, u32 a)
+u32 sub_02010158(struct NetErrInfo *info, u32 a)
 {
-    u32 v;
+    u32 errorNumber;
 
-    switch (obj->reason) {
+    switch (info->reasonCode) {
     case 0x3ee:
     case 0x3f7:
         return 0xd;
@@ -371,17 +371,17 @@ u32 sub_02010158(struct NetErrBlock *obj, u32 a)
         return 0x28;
     }
     if (func_0202EB0C() != 0) {
-        v = g_0214617C.f60;
-        if (v >= 0x10) {
+        errorNumber = gNetErrWork.messageId;
+        if (errorNumber >= 0x10) {
             return 0xb;
         }
-        return tbl_0209DED0[v];
+        return sNetErrMessageIdsTwl[errorNumber];
     }
-    v = g_0214617C.f60;
-    if (v >= 0x10) {
+    errorNumber = gNetErrWork.messageId;
+    if (errorNumber >= 0x10) {
         return 0xb;
     }
-    return tbl_0209DEB0[v];
+    return sNetErrMessageIdsDS[errorNumber];
 }
 
 
@@ -394,71 +394,71 @@ u32 sub_02010158(struct NetErrBlock *obj, u32 a)
  * everything.  The non-link arm's message index is the same variable as the
  * constant 1 its two calls pass (idx = 1 kept unless a0 != 1).
  */
-void func_020101D4(u32 a0, u32 a1)
+void func_020101D4(u32 messageVariant, u32 useGenericMessage)
 {
-    struct NetErr *g = &g_0214617C;
-    u16 *scr;
-    void *surf;
-    void *obj;
-    s32 x;
-    void *arc;
-    u32 idx;
-    void *k;
-    void *buf;
-    s32 y;
-    void *pal;
-    u16 *res;
-    u16 c;
+    struct NetErrWork *errWork = &gNetErrWork;
+    u16 *screen;
+    struct Bmp *bmp;
+    struct WordSet *wordSet;
+    s32 tileX;
+    struct MsgBank *msgBank;
+    u32 messageIndex;
+    void *message;
+    struct U16Vec *textBuf;
+    s32 tileY;
+    struct GfFont *font;
+    u16 *bg1ScrPtr;
+    u16 tileIndex;
 
-    res = G2_GetBG1ScrPtr();
-    scr = res;
-    c = 0x20;
-    for (y = 4; y < 0x14; y++) {
-        for (x = 1; x < 0x1f; x++) {
-            scr[y * 0x20 + x] = c;
-            c = (u16)(c + 1);
+    bg1ScrPtr = G2_GetBG1ScrPtr();
+    screen = bg1ScrPtr;
+    tileIndex = 0x20;
+    for (tileY = 4; tileY < 0x14; tileY++) {
+        for (tileX = 1; tileX < 0x1f; tileX++) {
+            screen[tileY * 0x20 + tileX] = tileIndex;
+            tileIndex = (u16)(tileIndex + 1);
         }
     }
     MIi_CpuClear16(0x7777, G2_GetBG1CharPtr() + 0x400, 0x3c00);
-    surf = func_02043754(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
-    obj = func_0201EC64(1);
-    pal = func_0201D7EC(0x17, 0, 0, 0, 1);
+    bmp = func_02043754(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
+    wordSet = func_0201EC64(1);
+    font = func_0201D7EC(0x17, 0, 0, 0, 1);
 
-    if (a1 == 1) {
-        arc = func_02045B38(0, 2, 0xe8, 1);
-        idx = 0x40;
+    if (useGenericMessage == 1) {
+        msgBank = func_02045B38(0, 2, 0xe8, 1);
+        messageIndex = 0x40;
     } else {
-        u8 m = g->f59;
+        u8 netType = errWork->netType;
 
-        if (m == 1 || m == 2 || m == 6) {
-            func_0201EFA4(obj, 0, g->blk.id, 5, 2, 1);
-            arc = func_02045B38(0, 2, 0xe8, 1);
-            if (g->f5A != 0) {
-                idx = g->f60;
-                g->f5A = 0;
+        if (netType == 1 || netType == 2 || netType == 6) {
+            func_0201EFA4(wordSet, 0, errWork->errorInfo.errorCode, 5, 2, 1);
+            msgBank = func_02045B38(0, 2, 0xe8, 1);
+            if (errWork->fatalRaised != 0) {
+                messageIndex = errWork->messageId;
+                errWork->fatalRaised = 0;
             } else {
-                idx = sub_02010158(&g->blk, g->f60);
+                messageIndex = sub_02010158(&errWork->errorInfo, errWork->messageId);
             }
         } else {
-            func_0201EFA4(obj, 0, g->f58, 5, 2, 1);
-            arc = func_02045B38(0, 2, 0x52, 1);
-            idx = 1;
-            if (a0 != 1) {
-                idx = 0;
+            func_0201EFA4(wordSet, 0, errWork->netErrorFlag, 5, 2, 1);
+            msgBank = func_02045B38(0, 2, 0x52, 1);
+            messageIndex = 1;
+            if (messageVariant != 1) {
+                messageIndex = 0;
             }
         }
     }
 
-    k = func_02045EC0(arc, idx);
-    buf = func_020457B0(0x189, 1);
-    func_0201F250(obj, buf, k);
-    func_0201C7D0(surf, 0, 0, buf, pal, 0x1167);
-    func_02045808(buf);
-    func_02045808(k);
-    func_02045C04(arc);
-    func_0201D83C(pal);
-    func_0201ED04(obj);
-    func_020437AC(surf);
+    message = func_02045EC0(msgBank, messageIndex);
+    textBuf = func_020457B0(0x189, 1);
+    func_0201F250(wordSet, textBuf, message);
+    func_0201C7D0(bmp, 0, 0, textBuf, font, 0x1167);
+    func_02045808(textBuf);
+    func_02045808(message);
+    func_02045C04(msgBank);
+    func_0201D83C(font);
+    func_0201ED04(wordSet);
+    func_020437AC(bmp);
 }
 
 
@@ -513,24 +513,24 @@ int func_0201034C(void)
  *   python tools/match.py one --src src/pending/sub_02010360.c \
  *       --func sub_02010360 --addr 0x02010360 --thumb
  */
-struct WihObj *sub_02010360(int idx, void *heap)
+struct WihContext *sub_02010360(int maxBeacons, void *heap)
 {
-    struct WihObj *p;
+    struct WihContext *context;
 
-    if (idx > 4) {
-        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
+    if (maxBeacons > 4) {
+        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
-    if (g_021461E0.obj != 0) {
-        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
+    if (gWihDwc.context != 0) {
+        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
-    p = func_0203D7C8((u32)heap, 0x328, (const char *)sWihDwcFile, 0x49);
-    p->f310 = idx;
-    p->f300 = func_0203D7C8((u32)heap, func_0205D010(), (const char *)sWihDwcFile, 0x4C);
+    context = func_0203D7C8((u32)heap, 0x328, (const char *)sWihDwcFile, 0x49);
+    context->maxBeacons = maxBeacons;
+    context->matchWork = func_0203D7C8((u32)heap, func_0205D010(), (const char *)sWihDwcFile, 0x4C);
     func_0217963C((u32)func_0201045C);
-    g_021461E0.obj = p;
-    p->f304 = g_021461E0.buf;
+    gWihDwc.context = context;
+    context->filterBuf = gWihDwc.filterBuf;
     func_02034AC4((int)ov015_id);
-    return p;
+    return context;
 }
 
 
@@ -586,15 +586,15 @@ struct WihObj *sub_02010360(int idx, void *heap)
  *   MATCH, 72 bytes, 7 relocation sites, 6 resolved, 1 wildcard:
  *     +001A THM_CALL func_0217963C - unresolved, no outside witness.
  */
-void func_020103E4(struct WihObj *p)
+void func_020103E4(struct WihContext *context)
 {
-    if (g_021461E0.obj == 0) {
-        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
+    if (gWihDwc.context == 0) {
+        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     func_0217963C(0);
-    func_0203D7FC(p->f300);
-    func_0203D7FC(p);
-    g_021461E0.obj = 0;
+    func_0203D7FC(context->matchWork);
+    func_0203D7FC(context);
+    gWihDwc.context = 0;
     func_02034A5C((int)ov015_id);
 }
 
@@ -619,20 +619,20 @@ void func_020103E4(struct WihObj *p)
  */
 void func_0201042C(void)
 {
-    struct WihObj *o = g_021461E0.obj;
+    struct WihContext *context = gWihDwc.context;
 
-    if (o != 0) {
-        o->f30C = 1;
+    if (context != 0) {
+        context->paused = 1;
     }
 }
 
 
 void func_02010444(void)
 {
-    struct WihObj *o = g_021461E0.obj;
+    struct WihContext *context = gWihDwc.context;
 
-    if (o != 0) {
-        o->f30C = 0;
+    if (context != 0) {
+        context->paused = 0;
     }
 }
 
@@ -643,13 +643,13 @@ void func_02010444(void)
  * index at +0x316.  sub_02010360 hands this function's address to the ov014
  * setter, so it is a receive callback.  MI_CpuCopy8 takes three arguments.
  */
-void func_0201045C(const void *src)
+void func_0201045C(const void *beacon)
 {
-    struct WihObj *o = g_021461E0.obj;
+    struct WihContext *context = gWihDwc.context;
 
-    if (o->f310 != 0 && o->f316 < o->f310 && o->f316 < 4) {
-        MI_CpuCopy8(src, &o->rec[o->f316], 0xC0);
-        g_021461E0.obj->f316 = g_021461E0.obj->f316 + 1;
+    if (context->maxBeacons != 0 && context->beaconCount < context->maxBeacons && context->beaconCount < 4) {
+        MI_CpuCopy8(beacon, &context->beacon[context->beaconCount], 0xC0);
+        gWihDwc.context->beaconCount = gWihDwc.context->beaconCount + 1;
     }
 }
 
@@ -662,29 +662,29 @@ void func_0201045C(const void *src)
  *           function_starts.txt line 337 seeds this leaf at 0x0201049C (4 bytes
  *           too high); the real prologue and byte-exact fit are at 0x02010498,
  *           per docs/notes/unit_0201045C.c.txt.
- * blocked:  +005C ABS32 g_021461E0 : unresolved: no address for 'g_021461E0':
+ * blocked:  +005C ABS32 gWihDwc : unresolved: no address for 'gWihDwc':
  *           not in the symbols: block, not an address-bearing name, not in
  *           layout/symbols_sdk.json
  */
 void sub_02010498(void)
 {
-    struct WihObj *o = g_021461E0.obj;
+    struct WihContext *context = gWihDwc.context;
 
-    if (o != 0 && o->f30C != 0)
+    if (context != 0 && context->paused != 0)
         return;
-    if (o == 0)
+    if (context == 0)
         return;
-    if (o->f318 > 0)
-        o->f318 = o->f318 - 1;
-    o = g_021461E0.obj;
-    if (o->f31C > 0)
-        o->f31C = o->f31C - 1;
-    o = g_021461E0.obj;
-    if (o->f320 > 0)
-        o->f320 = o->f320 - 1;
-    o = g_021461E0.obj;
-    if (o->f324 > 0)
-        o->f324 = o->f324 - 1;
+    if (context->knownGameTimer > 0)
+        context->knownGameTimer = context->knownGameTimer - 1;
+    context = gWihDwc.context;
+    if (context->taggedGameTimer > 0)
+        context->taggedGameTimer = context->taggedGameTimer - 1;
+    context = gWihDwc.context;
+    if (context->openNetworkTimer > 0)
+        context->openNetworkTimer = context->openNetworkTimer - 1;
+    context = gWihDwc.context;
+    if (context->securedNetworkTimer > 0)
+        context->securedNetworkTimer = context->securedNetworkTimer - 1;
 }
 
 
@@ -727,18 +727,18 @@ void sub_02010498(void)
  *   python tools/match.py one --src src/matched/sub_020104F8.c \
  *       --func sub_020104F8 --addr 0x020104F8 --cc 1.1p1 --thumb
  */
-int sub_020104F8(struct WihRec *obj)
+int sub_020104F8(struct WihBssDesc *beacon)
 {
-    int i = 0;
-    u8 *q = obj->name;
+    int slotIndex = 0;
+    u8 *ssid = beacon->ssid;
 
-    for (; i < 3; i++) {
-        u8 *slot = g_021461E0.obj->f304->slot[i];
-        int n = func_0203F004(slot);
+    for (; slotIndex < 3; slotIndex++) {
+        u8 *slot = gWihDwc.context->filterBuf->ssidSlot[slotIndex];
+        int slotLength = func_0203F004(slot);
 
-        if (n > 0) {
-            slot = g_021461E0.obj->f304->slot[i];
-            if (func_0203EFC8(slot, q, n) == 0)
+        if (slotLength > 0) {
+            slot = gWihDwc.context->filterBuf->ssidSlot[slotIndex];
+            if (func_0203EFC8(slot, ssid, slotLength) == 0)
                 return 1;
         }
     }
@@ -764,11 +764,11 @@ int sub_020104F8(struct WihRec *obj)
  *   python tools/match.py one --src src/matched/func_0201054C.c \
  *       --func func_0201054C --addr 0x0201054C --cc 1.1p1 --thumb
  */
-int func_0201054C(const struct WihRec *obj)
+int func_0201054C(const struct WihBssDesc *beacon)
 {
-    if (obj->fA == 8) {
-        if (func_0203EFC8(d_020A7250, obj->name, 8) != 0) {
-            if ((obj->f2C & 0x10) == 0) {
+    if (beacon->ssidLength == 8) {
+        if (func_0203EFC8(sWihBeaconSsidTag, beacon->ssid, 8) != 0) {
+            if ((beacon->capaInfo & 0x10) == 0) {
                 return 1;
             }
         }
@@ -792,9 +792,9 @@ int func_0201054C(const struct WihRec *obj)
  *   python tools/match.py one --src src/matched/sub_0201057C.c \
  *       --func func_0201057C --addr 0x0201057C --cc 1.1p1
  */
-u32 func_0201057C(const struct WihRec *rec)
+u32 func_0201057C(const struct WihBssDesc *beacon)
 {
-    if (rec->f2C & 0x10) {
+    if (beacon->capaInfo & 0x10) {
         return 1;
     }
     return 0;
@@ -841,79 +841,79 @@ u32 func_0201057C(const struct WihRec *rec)
  *   python tools/match.py one --src src/pending/func_0201058C.c \
  *       --func func_0201058C --addr 0x0201058C --thumb
  */
-u32 func_0201058C(void *key)
+u32 func_0201058C(void *searchKey)
 {
     u32 flags = 0;
-    struct WihNetState *st = func_0203D798();
-    int i;
-    int j;
-    struct WihRec *rec;
-    struct WihInfo info;
-    u8 s;
+    struct GFLNetInitializeStruct *netState = func_0203D798();
+    int slot;
+    int beaconIndex;
+    struct WihBssDesc *beacon;
+    struct WihSsidInfo ssidInfo;
+    u8 slotState;
 
-    if (g_021461E0.obj == 0)
+    if (gWihDwc.context == 0)
         return flags;
 
-    if (sub_020107FC(key) != -1)
+    if (sub_020107FC(searchKey) != -1)
         flags |= 8;
-    if (st->f67 == 2 && func_0203D1B4() > 1)
+    if (netState->connectState == 2 && func_0203D1B4() > 1)
         flags |= 4;
 
-    for (i = 0; i < st->f62; i++) {
-        if (func_0203CF10(i) != 0) {
-            s = func_02178098(i);
-            if (s >= 0x14 && s <= 0x1B)
+    for (slot = 0; slot < netState->slotCount; slot++) {
+        if (func_0203CF10(slot) != 0) {
+            slotState = func_02178098(slot);
+            if (slotState >= 0x14 && slotState <= 0x1B)
                 flags |= 0x10;
-            else if (s == 9)
+            else if (slotState == 9)
                 flags |= 0x20;
         }
     }
 
-    for (j = 0; j < g_021461E0.obj->f316; j++) {
-        rec = &g_021461E0.obj->rec[j];
-        if (sub_020104F8(rec)) {
-            g_021461E0.obj->f318 = 600;
-        } else if (func_0201054C(rec)) {
-            g_021461E0.obj->f31C = 600;
-        } else if (func_0205D01C(g_021461E0.obj->f300, rec, &info)) {
-            switch (info.kind) {
+    for (beaconIndex = 0; beaconIndex < gWihDwc.context->beaconCount; beaconIndex++) {
+        beacon = &gWihDwc.context->beacon[beaconIndex];
+        if (sub_020104F8(beacon)) {
+            gWihDwc.context->knownGameTimer = 600;
+        } else if (func_0201054C(beacon)) {
+            gWihDwc.context->taggedGameTimer = 600;
+        } else if (func_0205D01C(gWihDwc.context->matchWork, beacon, &ssidInfo)) {
+            switch (ssidInfo.kind) {
             case 0: case 1: case 2: case 3:
             case 10: case 11: case 12:
-                g_021461E0.obj->f318 = 600;
+                gWihDwc.context->knownGameTimer = 600;
                 break;
             case 4: case 5: case 6: case 8:
-                g_021461E0.obj->f31C = 600;
+                gWihDwc.context->taggedGameTimer = 600;
                 break;
             case 7: case 9:
                 break;
             }
-        } else if (rec->fA != 0) {
-            if (func_0201057C(rec) == 0)
-                g_021461E0.obj->f320 = 400;
+        } else if (beacon->ssidLength != 0) {
+            if (func_0201057C(beacon) == 0)
+                gWihDwc.context->openNetworkTimer = 400;
             else
-                g_021461E0.obj->f324 = 400;
+                gWihDwc.context->securedNetworkTimer = 400;
         }
     }
 
-    if (g_021461E0.obj->f318 > 0)
+    if (gWihDwc.context->knownGameTimer > 0)
         flags |= 0x40;
-    if (g_021461E0.obj->f31C > 0)
+    if (gWihDwc.context->taggedGameTimer > 0)
         flags |= 0x80;
-    if (g_021461E0.obj->f320 > 0)
+    if (gWihDwc.context->openNetworkTimer > 0)
         flags |= 0x100;
-    if (g_021461E0.obj->f324 > 0)
+    if (gWihDwc.context->securedNetworkTimer > 0)
         flags |= 0x200;
-    if (g_021461E0.obj->f30E != 0)
-        g_021461E0.obj->f30E = g_021461E0.obj->f30E - 1;
+    if (gWihDwc.context->alertCooldown != 0)
+        gWihDwc.context->alertCooldown = gWihDwc.context->alertCooldown - 1;
 
     if (flags == 0) {
-        g_021461E0.obj->f312 = 0;
-    } else if (g_021461E0.obj->f314 != 0 && g_021461E0.obj->f30E == 0) {
-        g_021461E0.obj->f312 = g_021461E0.obj->f314;
-        g_021461E0.obj->f30E = 400;
-        g_021461E0.obj->f314 = 0;
+        gWihDwc.context->alertLevel = 0;
+    } else if (gWihDwc.context->pendingAlertLevel != 0 && gWihDwc.context->alertCooldown == 0) {
+        gWihDwc.context->alertLevel = gWihDwc.context->pendingAlertLevel;
+        gWihDwc.context->alertCooldown = 400;
+        gWihDwc.context->pendingAlertLevel = 0;
     }
-    g_021461E0.obj->f316 = 0;
+    gWihDwc.context->beaconCount = 0;
     return flags | 2;
 }
 
@@ -939,12 +939,12 @@ u32 func_0201058C(void *key)
  *   python tools/match.py one --src src/matched/func_02010794.c \
  *       --func func_02010794 --addr 0x02010794 --cc 1.1p1 --thumb
  */
-void func_02010794(u32 heap)
+void func_02010794(u32 heapId)
 {
-    if (g_021461E0.buf != 0) {
-        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
+    if (gWihDwc.filterBuf != 0) {
+        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
-    g_021461E0.buf = func_0203D7C8(heap, 0xA00, (const char *)sWihDwcFile, 0x1C0);
+    gWihDwc.filterBuf = func_0203D7C8(heapId, 0xA00, (const char *)sWihDwcFile, 0x1C0);
 }
 
 
@@ -974,10 +974,10 @@ void func_02010794(u32 heap)
  */
 void func_020107CC(void)
 {
-    if (g_021461E0.buf == 0) {
-        func_02034714((const char *)(&sWihDwc), 0, (const char *)(&sWihDwc));
+    if (gWihDwc.filterBuf == 0) {
+        func_02034714((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
-    func_0205FAA8(g_021461E0.buf->f600, 0);
+    func_0205FAA8(gWihDwc.filterBuf->filterState, 0);
 }
 
 
@@ -1013,17 +1013,17 @@ void func_020107CC(void)
  *   python tools/match.py one --src src/pending/sub_020107FC.c \
  *       --func sub_020107FC --addr 0x020107FC --thumb
  */
-int sub_020107FC(void *key)
+int sub_020107FC(void *searchKey)
 {
     u8 mac[8];
-    int i;
+    int slot;
 
     if (func_0203CD98() != 0) {
         func_0203D798();
         OS_GetMacAddress(mac);
-        for (i = 0; i < 0x10; i++) {
-            if (func_02177B80(i) == 0x20 && sub_0202E8D8((void *)func_0203CF10(i), (int)key, (char *)mac) != 0) {
-                return i;
+        for (slot = 0; slot < 0x10; slot++) {
+            if (func_02177B80(slot) == 0x20 && sub_0202E8D8((void *)func_0203CF10(slot), (int)searchKey, (char *)mac) != 0) {
+                return slot;
             }
         }
     }
@@ -1058,18 +1058,18 @@ int sub_020107FC(void *key)
  */
 u16 func_02010848(void)
 {
-    if (g_021461E0.obj != 0)
-        return g_021461E0.obj->f312;
+    if (gWihDwc.context != 0)
+        return gWihDwc.context->alertLevel;
     return 0;
 }
 
 
-void func_02010864(u32 v)
+void func_02010864(u32 level)
 {
-    struct WihObj *o = g_021461E0.obj;
+    struct WihContext *context = gWihDwc.context;
 
-    if (o != 0 && (int)o->f314 < (int)v && v < 4)
-        o->f314 = v;
+    if (context != 0 && (int)context->pendingAlertLevel < (int)level && level < 4)
+        context->pendingAlertLevel = level;
 }
 
 
@@ -1088,9 +1088,9 @@ void func_02010884(void)
  *   python tools/match.py one --src src/matched/func_02010888.c \
  *       --func func_02010888 --addr 0x02010888 --thumb --cc 1.1p1
  */
-void func_02010888(struct WihTask *p, void (*f)(struct WihTask *p))
+void func_02010888(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task))
 {
-    p->f8 = f;
+    task->step = step;
 }
 
 
@@ -1146,49 +1146,49 @@ void func_02010888(struct WihTask *p, void (*f)(struct WihTask *p))
  *   python tools/match.py tu --src src/matched/unit_0201088C.c \
  *       --addr 0x0201088C --thumb
  */
-struct WihTask *func_0201088C(u32 heap, u32 a1)
+struct NetSaveTask *func_0201088C(u32 heapId, u32 gameData)
 {
-    struct WihTask *p;
+    struct NetSaveTask *task;
 
-    p = func_02030734(heap, 0x14, 1, (const char *)&s0x020A725C, 0x75);
-    p->fC = a1;
-    func_02039C68((struct Link *)func_020399A8(), 0x71, 8);
-    func_02010888(p, func_0201093C);
-    return p;
+    task = func_02030734(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
+    task->gameData = gameData;
+    func_02039C68(func_020399A8(), 0x71, 8);
+    func_02010888(task, func_0201093C);
+    return task;
 }
 
 
-struct WihTask *func_020108C4(u32 heap, u32 a1, void (*cb)(u32 arg), u32 arg)
+struct NetSaveTask *func_020108C4(u32 heapId, u32 gameData, void (*callback)(u32 arg), u32 callbackArg)
 {
-    struct WihTask *p;
+    struct NetSaveTask *task;
 
-    p = func_02030734(heap, 0x14, 1, (const char *)&s0x020A725C, 0x87);
-    p->f0 = cb;
-    p->f4 = arg;
-    p->fC = a1;
-    func_02039C68((struct Link *)func_020399A8(), 0x71, 8);
-    func_02010888(p, func_0201093C);
-    return p;
+    task = func_02030734(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x87);
+    task->progressCallback = callback;
+    task->callbackArg = callbackArg;
+    task->gameData = gameData;
+    func_02039C68(func_020399A8(), 0x71, 8);
+    func_02010888(task, func_0201093C);
+    return task;
 }
 
 
-u32 func_02010904(struct WihTask *p)
+u32 func_02010904(struct NetSaveTask *task)
 {
-    if (p->f8 != 0)
-        p->f8(p);
+    if (task->step != 0)
+        task->step(task);
     if (func_0200FB24() != 0) {
-        if (p->fC != 0)
-            func_02012E08(p->fC);
+        if (task->gameData != 0)
+            func_02012E08(task->gameData);
         return 1;
     }
-    if (p->f8 == 0)
+    if (task->step == 0)
         return 1;
     return 0;
 }
 
-void func_02010934(struct WihTask *p)
+void func_02010934(struct NetSaveTask *task)
 {
-    func_020307B0(p);
+    func_020307B0(task);
 }
 
 
@@ -1197,11 +1197,11 @@ void func_02010934(struct WihTask *p)
  *   python tools/match.py one --src src/matched/func_0201093C.c \
  *       --func func_0201093C --addr 0x0201093C --thumb --cc 1.1p1
  */
-void func_0201093C(struct WihTask *p)
+void func_0201093C(struct NetSaveTask *task)
 {
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x71, 8) != 0) {
-        func_02012DAC(p->fC);
-        func_02010888(p, func_02010964);
+    if (func_02039CB4(func_020399A8(), 0x71, 8) != 0) {
+        func_02012DAC(task->gameData);
+        func_02010888(task, func_02010964);
     }
 }
 
@@ -1211,12 +1211,12 @@ void func_0201093C(struct WihTask *p)
  *   python tools/match.py one --src src/matched/func_02010964.c \
  *       --func func_02010964 --addr 0x02010964 --thumb --cc 1.1p1
  */
-void func_02010964(struct WihTask *p)
+void func_02010964(struct NetSaveTask *task)
 {
-    if (func_02012DD0(p->fC) == 1) {
-        func_02039C68((struct Link *)func_020399A8(), 0x72, 8);
-        p->f10 = func_020056EC(0x3c);
-        func_02010888(p, func_02010994);
+    if (func_02012DD0(task->gameData) == 1) {
+        func_02039C68(func_020399A8(), 0x72, 8);
+        task->delayFrames = func_020056EC(0x3c);
+        func_02010888(task, func_02010994);
     }
 }
 
@@ -1226,10 +1226,10 @@ void func_02010964(struct WihTask *p)
  *   python tools/match.py one --src src/matched/func_02010994.c \
  *       --func func_02010994 --addr 0x02010994 --thumb --cc 1.1p1
  */
-void func_02010994(struct WihTask *p)
+void func_02010994(struct NetSaveTask *task)
 {
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x72, 8) != 0) {
-        func_02010888(p, func_020109B8);
+    if (func_02039CB4(func_020399A8(), 0x72, 8) != 0) {
+        func_02010888(task, func_020109B8);
     }
 }
 
@@ -1239,14 +1239,14 @@ void func_02010994(struct WihTask *p)
  *   python tools/match.py one --src src/matched/func_020109B8.c \
  *       --func func_020109B8 --addr 0x020109B8 --thumb --cc 1.1p1
  */
-void func_020109B8(struct WihTask *p)
+void func_020109B8(struct NetSaveTask *task)
 {
-    s32 v = p->f10 - 1;
+    s32 framesLeft = task->delayFrames - 1;
 
-    p->f10 = v;
-    if (v < 0) {
-        func_02039C68((struct Link *)func_020399A8(), 0x73, 8);
-        func_02010888(p, func_020109E0);
+    task->delayFrames = framesLeft;
+    if (framesLeft < 0) {
+        func_02039C68(func_020399A8(), 0x73, 8);
+        func_02010888(task, func_020109E0);
     }
 }
 
@@ -1256,10 +1256,10 @@ void func_020109B8(struct WihTask *p)
  *   python tools/match.py one --src src/matched/func_020109E0.c \
  *       --func func_020109E0 --addr 0x020109E0 --thumb --cc 1.1p1
  */
-void func_020109E0(struct WihTask *p)
+void func_020109E0(struct NetSaveTask *task)
 {
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x73, 8) != 0) {
-        func_02010888(p, func_02010A04);
+    if (func_02039CB4(func_020399A8(), 0x73, 8) != 0) {
+        func_02010888(task, func_02010A04);
     }
 }
 
@@ -1269,15 +1269,15 @@ void func_020109E0(struct WihTask *p)
  *   python tools/match.py one --src src/matched/func_02010A04.c \
  *       --func func_02010A04 --addr 0x02010A04 --thumb --cc 1.1p1
  */
-void func_02010A04(struct WihTask *p)
+void func_02010A04(struct NetSaveTask *task)
 {
-    if (p->f0 != 0) {
-        p->f0(p->f4);
+    if (task->progressCallback != 0) {
+        task->progressCallback(task->callbackArg);
     }
-    if (func_02012DD0(p->fC) == 2) {
-        p->fC = 0;
-        func_02039C68((struct Link *)func_020399A8(), 0x74, 8);
-        func_02010888(p, func_02010A3C);
+    if (func_02012DD0(task->gameData) == 2) {
+        task->gameData = 0;
+        func_02039C68(func_020399A8(), 0x74, 8);
+        func_02010888(task, func_02010A3C);
     }
 }
 
@@ -1287,31 +1287,31 @@ void func_02010A04(struct WihTask *p)
  *   python tools/match.py one --src src/matched/func_02010A3C.c \
  *       --func func_02010A3C --addr 0x02010A3C --thumb --cc 1.1p1
  */
-void func_02010A3C(struct WihTask *p)
+void func_02010A3C(struct NetSaveTask *task)
 {
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x74, 8) != 0) {
-        func_02010888(p, 0);
+    if (func_02039CB4(func_020399A8(), 0x74, 8) != 0) {
+        func_02010888(task, 0);
     }
 }
 
 
-int sub_02010A5C(void *a0)
+int sub_02010A5C(void *proc)
 {
-    struct SaveCtx *p;
-    void *sys;
+    struct NetSaveProcWork *work;
+    void *gameData;
 
     func_0203064C(1, 0x67, 0x78000);
-    p = func_0203159C(a0, 0x1d8, 0x67);
-    func_02082BCC(p, 0, 0x1d8);
-    p->heapId = 0x67;
-    sys = sub_020124F4(0x67);
-    p->sys = sys;
-    if (sub_020092EC((const struct Sub02009210Obj *)sub_02009448(sub_02012EBC(sys))) != 0) {
-        p->state = 1;
-        p->f54 = 1;
+    work = func_0203159C(proc, 0x1d8, 0x67);
+    func_02082BCC(work, 0, 0x1d8);
+    work->heapId = 0x67;
+    gameData = sub_020124F4(0x67);
+    work->gameData = gameData;
+    if (sub_020092EC(sub_02009448(sub_02012EBC(gameData))) != 0) {
+        work->state = 1;
+        work->skipFinalSave = 1;
     } else {
-        p->state = 0;
-        p->f54 = 0;
+        work->state = 0;
+        work->skipFinalSave = 0;
     }
     return 1;
 }
@@ -1322,7 +1322,7 @@ int sub_02010A5C(void *a0)
  * starts overlay 0x73's proc 0x021D6338 on the record, case 1 starts overlay
  * 0x7B's proc on +0x48 unless +0x1C says finished, case 2 hands off to
  * func_0200F7B8(0), case 3 restarts overlay 0x73 with proc 0x021D654C on +0x28
- * or ends the task.  d_021DA9A8 lies in the windows of several overlays; the
+ * or ends the task.  gNetSaveCheckProc lies in the windows of several overlays; the
  * ov123 hint is supported by the proc table bytes there (three Thumb
  * pointers into ov123).
  */
@@ -1347,7 +1347,7 @@ int sub_02010A5C(void *a0)
  *           block there, so sole-ref/data refuses the contested hint, and the
  *           choice rests on the hint plus the overlay_id 0x73 site in this
  *           same function.  EXACT, seed round 10.
- * evidence: d_021DA9A8 lies in the windows of ov016, ov021, ov123, ov125
+ * evidence: gNetSaveCheckProc lies in the windows of ov016, ov021, ov123, ov125
  *           and ov175, so the ov123 hint needs outside support.  Case 1
  *           passes ov123_id (0x7B, attested `overlay_id`) and this pointer
  *           in one func_020312CC call; func_020314F4 -> func_02031538 stores
@@ -1368,48 +1368,48 @@ int sub_02010A5C(void *a0)
  * Wave 13: the earlier DIFF read both small pool words as distinct symbols
  * and the size argument as 0x1A8; they are the arguments (0x73, proc, arg).
  */
-int func_02010AC4(u32 a0, u32 a1, u32 a2, struct SaveCtx *ctx)
+int func_02010AC4(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork *work)
 {
-    switch (ctx->state) {
+    switch (work->state) {
     case 0:
-        ctx->a.sys = ctx->sys;
-        ctx->a.f4 = 0;
-        ctx->a.f8 = 1;
-        ctx->a.fC = 0x32;
-        ctx->a.buf = ctx->buf5C;
-        func_020312CC((u32)ov115_id, d_021D6338, ctx);
-        ctx->state += 1;
+        work->screenArgs.gameData = work->gameData;
+        work->screenArgs.mode = 0;
+        work->screenArgs.enable = 1;
+        work->screenArgs.waitFrames = 0x32;
+        work->screenArgs.saveBuf = work->saveBuf;
+        func_020312CC((u32)ov115_id, gNetSaveMainProc, work);
+        work->state += 1;
         break;
     case 1:
-        if (ctx->f1C == 1) {
-            ctx->state = 4;
+        if (work->cancelled == 1) {
+            work->state = 4;
             break;
         }
-        ctx->b.sys = ctx->sys;
-        ctx->b.heapId = ctx->heapId;
-        ctx->b.buf = ctx->buf5C;
-        func_020312CC((u32)ov123_id, d_021DA9A8, &ctx->b);
-        ctx->state += 1;
+        work->checkArgs.gameData = work->gameData;
+        work->checkArgs.heapId = work->heapId;
+        work->checkArgs.saveBuf = work->saveBuf;
+        func_020312CC((u32)ov123_id, gNetSaveCheckProc, &work->checkArgs);
+        work->state += 1;
         break;
     case 2:
-        if (ctx->f54 == 1) {
-            ctx->state = 4;
+        if (work->skipFinalSave == 1) {
+            work->state = 4;
             break;
         }
         func_0200F7B8(0);
-        ctx->state += 1;
+        work->state += 1;
         break;
     case 3:
-        if (func_0203CD98() == 0 || ctx->f58 == 1) {
-            ctx->f14 = 1;
-            ctx->state = 0;
+        if (func_0203CD98() == 0 || work->saveFailed == 1) {
+            work->retryRequested = 1;
+            work->state = 0;
             break;
         }
-        ctx->c.sys = ctx->sys;
-        ctx->c.f4 = 0;
-        ctx->c.f8 = 1;
-        func_020312CC((u32)ov115_id, d_021D654C, &ctx->c);
-        ctx->state += 1;
+        work->retryArgs.gameData = work->gameData;
+        work->retryArgs.mode = 0;
+        work->retryArgs.enable = 1;
+        func_020312CC((u32)ov115_id, gNetSaveRetryProc, &work->retryArgs);
+        work->state += 1;
         break;
     default:
         return 1;

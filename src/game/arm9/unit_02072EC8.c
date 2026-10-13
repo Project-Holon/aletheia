@@ -27,7 +27,7 @@ typedef unsigned short u16;
 
 extern u8 g_0214E46C[];
 
-u16 func_02072EC8(u32 idx)
+u16 func_02072EC8(u32 playerNo)
 {
-    return *(u16 *)(g_0214E46C + idx * 0x24);
+    return *(u16 *)(g_0214E46C + playerNo * 0x24);
 }

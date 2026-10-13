@@ -10,18 +10,18 @@
  * isa:      arm
  * status:   EXACT
  *
- * Address of the module state object.
+ * Returns the address of the CPS interface work block (initialised flag,
+ * send mutex, receive and send callbacks, AP MAC address; see WCMCpsifWork
+ * in twl/nwmif.c and unit_02166304.c).
  *
  * symbols:
  *   g_021AA7DC  0x021AA7DC  data
  */
 
-#include "../../matched/include/G_WCMCpsifWork.h"
-
-extern struct WCMCpsifWork g_021AA7DC;
+extern unsigned char g_021AA7DC[];
 
 void *func_02166378(void)
 {
-    return ((char *)&g_021AA7DC);
+    return g_021AA7DC;
 }
 

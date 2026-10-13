@@ -26,9 +26,10 @@ typedef struct Pair {
     int b;
 } Pair;
 
-extern int func_02154BF8(int a, int b, int c);
+extern int func_02154BF8(int gameSystem, int b, int c);
 
-int func_02154C20(int x, Pair *p)
+/* Overlay entry point: unpacks the request pair and creates the event. */
+int func_02154C20(int gameSystem, Pair *request)
 {
-    return func_02154BF8(x, p->a, p->b);
+    return func_02154BF8(gameSystem, request->a, request->b);
 }

@@ -48,6 +48,14 @@ These are not the linker veneers. The real ones stay unwritten:
 The sign of a real veneer is the interworking prefix or the direct `ldr pc`; the
 two stub forms above have neither and sit where a function would start.
 
+Caveat: mwldarm also emits the 12-byte form `ldr ip, [pc]; bx ip; .word target`
+as a real veneer, for an ARM caller whose `bl` cannot reach a far Thumb target.
+The two cases differ by the pool word and the callers. A veneer has an odd pool
+word (Thumb target) and every caller is out of `bl` range (+-32 MB) of that
+target. An even pool word, or a target that an ARM caller could reach directly,
+means the stub is compiled C: write it as a function. tools/disasm.py
+`mark_veneers` applies the same rule and labels the other stubs `func_`.
+
 Why it matters: a gap tool that calls the stubs veneers makes every translation
 unit around one look like it has an unfilled linker gap, so the parts on both
 sides are never merged. After the stub is written as a function the two parts

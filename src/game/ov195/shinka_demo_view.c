@@ -594,7 +594,7 @@ extern void func_02046440(int, int, int, int, int, void *, void *);
 extern u32 func_02048A24(int, int, int, int, int, int, int, int, void *, void *, void *, void *);
 extern u32 func_02048AC4(void *ptr);
 extern void func_02046788(int);
-extern void func_02047964(void *);
+extern void func_02047964(void);
 extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 extern void func_02047970(void);
@@ -1129,7 +1129,7 @@ void func_02205C48(int *p)
 
 void func_02205C58(char *a)
 {
-    func_02047964(a);
+    func_02047964();
     func_02048AD0((struct Light *)((struct Obj24957 *)a)->f0);
     func_020479D8();
 }

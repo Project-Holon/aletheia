@@ -36,95 +36,114 @@
  *   func_02026400  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
  */
-struct Ctx;
-struct IcaAnime;
-struct Evt;
-struct Desc;
-struct Obj;
-struct Comm;
+struct GameSystem;
+struct GameEvent;
+struct GameData;
+struct GameComm;
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
-extern u32 func_02012138(const struct Ctx *p);
-extern u32 func_02026454(void *obj);
+/* Parameter block read by the Wi-Fi battle match overlay (ov199), 0x14 bytes. */
+typedef struct WifiBattleMatchParam {
+    struct GameData *gameData;
+    u32 matchKind;
+    u32 entryMode;
+    u32 ratedFlag;
+    u32 reserved;
+} WifiBattleMatchParam;
+
+/* Work of the Wi-Fi battle match event (0x20 bytes). */
+typedef struct WifiBattleMatchEventWork {
+    u32 savedBgmNo;
+    struct GameSystem *gameSystem;
+    int fieldMap;
+    WifiBattleMatchParam *param;
+    u32 entryMode;
+    u32 ratedFlag;
+    u32 matchKind;
+    u32 hideFieldObjects;
+} WifiBattleMatchEventWork;
+
+extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern u32 func_02026454(void *gameComm);
 extern u16 func_02005C44(void);
-extern void func_02005E30(u32 a);
-extern int func_020144DC(int a0, int a1);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020120F4(const struct Ctx *p);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
-extern void  func_02005D90(u32 a0, u32 a1);
-extern void func_02005DF8(u32 a);
-extern void *func_020145CC(void *a0);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_02005E30(u32 frames);
+extern int func_020144DC(int gameSystem, int fieldMap);
+extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 func_020120F0(const struct GameSystem *gameSystem);
+extern void  func_02005D90(u32 bgmNo, u32 fadeTarget);
+extern void func_02005DF8(u32 frames);
+extern void *func_020145CC(void *gameSystem);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 func_020307B0(void *p);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-void func_02026400(struct Comm *p);
-void *func_020124E8(struct Obj *p);
-u32 func_021542C0(void *obj, u32 *mode, u32 *args);
-void *func_021543E8(void *p, int a1, int a2, int a3, int a4);
+extern int func_021BE8D4(void *gameSystem, int fieldMap, int sel, int d);
+extern int func_021BE92C(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
+void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+void func_02026400(struct GameComm *gameComm);
+void *func_020124E8(struct GameEvent *event);
+u32 func_021542C0(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work);
+void *func_021543E8(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind);
 extern char ov199_id[];
 extern char d_02213C4C[];
 extern char d_02154460[];
 
 
-u32 func_021542C0(void *obj, u32 *mode, u32 *args)
+u32 func_021542C0(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work)
 {
-    u32 a0 = args[1];
-    u32 *p;
+    struct GameSystem *gameSystem = work->gameSystem;
+    WifiBattleMatchParam *param;
 
-    switch (*mode) {
+    switch (*seq) {
     case 0:
-        if (func_02026454((void *)func_02012138((const struct Ctx *)a0)) == 0) {
-            args[0] = func_02005C44();
+        if (func_02026454(func_02012138(gameSystem)) == 0) {
+            work->savedBgmNo = func_02005C44();
             func_02005E30(6);
-            (*mode)++;
+            (*seq)++;
         }
         break;
     case 1:
-        if (args[7])
-            func_02012374(obj, (struct Evt **)func_021BE8D4((void *)a0, args[2], 0, 0));
-        (*mode)++;
+        if (work->hideFieldObjects)
+            func_02012374(event, (struct GameEvent **)func_021BE8D4(gameSystem, work->fieldMap, 0, 0));
+        (*seq)++;
         break;
     case 2:
-        func_02012374(obj, (struct Evt **)func_020144DC(a0, args[2]));
-        (*mode)++;
+        func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, work->fieldMap));
+        (*seq)++;
         break;
     case 3:
-        p = func_02030734(4, 0x14, 1, d_02154460, 0x86);
-        args[3] = (u32)p;
-        p[2] = args[4];
-        p[0] = (u32)func_020120F4((const struct Ctx *)a0);
-        p[1] = args[6];
-        p[3] = args[5];
-        func_020120B4((struct IcaAnime *)a0, (u32)ov199_id, d_02213C4C, (void *)args[3]);
-        (*mode)++;
+        param = func_02030734(4, 0x14, 1, d_02154460, 0x86);
+        work->param = param;
+        param->entryMode = work->entryMode;
+        param->gameData = func_020120F4(gameSystem);
+        param->matchKind = work->matchKind;
+        param->ratedFlag = work->ratedFlag;
+        func_020120B4(gameSystem, (u32)ov199_id, d_02213C4C, work->param);
+        (*seq)++;
         break;
     case 4:
-        if (func_020120F0((const struct Ctx *)a0) == 0) {
-            func_020307B0((void *)args[3]);
-            (*mode)++;
+        if (func_020120F0(gameSystem) == 0) {
+            func_020307B0(work->param);
+            (*seq)++;
         }
         break;
     case 5:
-        (*mode)++;
+        (*seq)++;
         break;
     case 6:
-        func_02012374(obj, func_020145CC((void *)a0));
-        func_02005D90(args[0], 0xFFFF);
+        func_02012374(event, func_020145CC(gameSystem));
+        func_02005D90(work->savedBgmNo, 0xFFFF);
         func_02005DF8(0x3C);
-        (*mode)++;
+        (*seq)++;
         break;
     case 7:
-        if (args[7])
-            func_02012374(obj, (struct Evt **)func_021BE92C((void *)a0, args[2], 0, 0, 1, 0, 0));
-        (*mode)++;
+        if (work->hideFieldObjects)
+            func_02012374(event, (struct GameEvent **)func_021BE92C(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
+        (*seq)++;
         break;
     case 8:
         return 1;
@@ -136,19 +155,19 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
 /*
  * Allocator + guard + link setup, stores five constructor arguments.
  */
-void *func_021543E8(void *p, int a1, int a2, int a3, int a4)
+void *func_021543E8(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind)
 {
-    void *r0v = func_020122C0(p, 0, func_021542C0, 0x20);
-    int *obj;
+    void *event = func_020122C0(gameSystem, 0, func_021542C0, 0x20);
+    WifiBattleMatchEventWork *work;
 
-    if (func_02026454((void *)func_02012138(p)))
-        func_02026400((struct Comm *)func_02012138(p));
-    obj = func_020124E8(r0v);
-    obj[1] = (int)p;
-    obj[2] = a1;
-    obj[4] = (u16)a2;
-    obj[5] = a3;
-    obj[6] = a4;
-    obj[7] = 0;
-    return r0v;
+    if (func_02026454(func_02012138(gameSystem)))
+        func_02026400(func_02012138(gameSystem));
+    work = func_020124E8(event);
+    work->gameSystem = gameSystem;
+    work->fieldMap = fieldMap;
+    work->entryMode = (u16)entryMode;
+    work->ratedFlag = ratedFlag;
+    work->matchKind = matchKind;
+    work->hideFieldObjects = 0;
+    return event;
 }

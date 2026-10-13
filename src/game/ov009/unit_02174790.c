@@ -22,8 +22,7 @@
  *   func_021685CC  0x021685CC  arm  ov009
  *   func_0219E084  0x0219E084  arm  ov009
  *   func_0219F078  0x0219F078  arm  ov009
- *   @24222         0x021A20A4  data
- *   @26585         0x021A21BC  data
+ *   d_021A20A4     0x021A20A4  data
  *   _s32_div_f     0x0209C0A4 arm
  *   g_021A19C0     0x021A19C0 data
  *   g_021A21BC     0x021A21BC data
@@ -92,6 +91,7 @@ void func_02174930(void);
 void func_02174AA0(int keyid, void *outbuf);
 extern int g_021A19C0[6];
 extern char g_021A21BC[];
+extern char d_021A20A4[];      /* dwc_pid: unit_0216F014.c uses it too (one dwc_match.o) */
 extern struct gamekey_s g_021AAA40[154];
 
 
@@ -110,7 +110,7 @@ static int func_02174790(int sort)
     for (i = 0; i < func_0219F068(((DWCstMatchControl *)func_02175F3C())->sb); i++) {
         server = func_0219F058(((DWCstMatchControl *)func_02175F3C())->sb, i);
         if (((DWCstMatchControl *)func_02175F3C())->qr2IsReserved == 0) {
-            profileID = func_0219E120(server, "dwc_pid", 0);
+            profileID = func_0219E120(server, d_021A20A4, 0);
             localDelete = 0;
             if (func_021763AC(profileID)) {
                 func_0219EFA8(((DWCstMatchControl *)func_02175F3C())->sb, server);
@@ -125,18 +125,18 @@ static int func_02174790(int sort)
             if (eval > 0) {
                 if (eval > 0x7fffff)
                     eval = 0x7fffff;
-                func_0219E084(server, "dwc_eval", (eval << 8) | func_021685CC(0x100));
+                func_0219E084(server, g_021A21BC, (eval << 8) | func_021685CC(0x100));
             } else {
                 func_0219EFA8(((DWCstMatchControl *)func_02175F3C())->sb, server);
                 deleteFlag = 1;
                 i--;
             }
         } else {
-            func_0219E084(server, "dwc_eval", func_021685CC(0x80));
+            func_0219E084(server, g_021A21BC, func_021685CC(0x80));
         }
     }
     if (sort && func_0219F068(((DWCstMatchControl *)func_02175F3C())->sb))
-        func_0219F078(((DWCstMatchControl *)func_02175F3C())->sb, 0, "dwc_eval", 0);
+        func_0219F078(((DWCstMatchControl *)func_02175F3C())->sb, 0, g_021A21BC, 0);
     if (deleteFlag && func_0219F068(((DWCstMatchControl *)func_02175F3C())->sb) == 0)
         return 0;
     return 1;

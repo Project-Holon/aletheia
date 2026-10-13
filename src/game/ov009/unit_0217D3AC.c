@@ -97,9 +97,9 @@ extern char g_021A3720[];
 extern void *func_020913D0(unsigned long heap);
 extern void func_020913E8(void *p);
 extern void *func_020913FC(unsigned long a0, unsigned long a1);
-void *func_0217EA58(unsigned long heap);
+void *func_0217EA58(unsigned long size);
 void func_0217EA64(void *p);
-void *func_0217EA70(unsigned long a0, unsigned long a1);
+void *func_0217EA70(unsigned long block, unsigned long size);
 
 
 
@@ -932,9 +932,9 @@ unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint)
     return byteSize;
 }
 
-void *func_0217EA58(unsigned long heap)
+void *func_0217EA58(unsigned long size)
 {
-    return func_020913D0(heap);
+    return func_020913D0(size);
 }
 
 void func_0217EA64(void *p)
@@ -942,7 +942,7 @@ void func_0217EA64(void *p)
     func_020913E8(p);
 }
 
-void *func_0217EA70(unsigned long a0, unsigned long a1)
+void *func_0217EA70(unsigned long block, unsigned long size)
 {
-    return func_020913FC(a0, a1);
+    return func_020913FC(block, size);
 }

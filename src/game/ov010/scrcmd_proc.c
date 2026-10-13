@@ -167,39 +167,22 @@
  *   func_020124E8  0x020124E8  thumb
  *   d_02172900     0x02172900  data
  */
-#include "../../matched/include/Obj04130.h"
-#include "../../matched/include/Obj17690.h"
-#include "../../matched/include/Obj00005.h"
-#include "../../matched/include/Obj04131.h"
-#include "../../matched/include/Obj17693.h"
-#include "../../matched/include/Obj17694.h"
-#include "../../matched/include/Obj17695.h"
 
-struct BigObj;
-struct Stream;
-struct Sav;
-struct Buf;
-struct Sub0200852CObj;
-struct U16Vec;
-struct Blk37;
-struct Ctx;
+struct GameData;
+struct ScriptVm;
+struct PokemonParam;
+struct Strbuf;
+struct MyStatus;
+struct ZukanSave;
+struct GameSystem;
 struct Party;
-struct PartyMon;
 struct MsgBank;
-struct Personal;
-struct SaveBlock;
-struct Rec44;
-struct Sub02007454Entry;
-struct Spec;
-struct Blk34;
-struct IcaAnime;
-struct Pair;
-struct Rec;
-struct Big;
-struct Out;
-struct Desc;
-struct Evt;
-struct Obj;
+struct PersonalData;
+struct PlayerWork;
+struct BoxPokemonParam;
+struct MiscSave;
+struct GameEvent;
+struct PlayerProfile;
 typedef unsigned short u16;
 
 typedef unsigned char u8;
@@ -208,397 +191,356 @@ typedef unsigned int u32;
 
 typedef short s16;
 
-typedef struct {
-    u16 h;
-    void *p0;
-    void *p1;
-    void *p2;
-    int z;
-    int c0;
-    int c1;
-    int c2;
-    int c3;
-} Req;
-
-typedef struct {
-    u16 h;
-    int p0;
-    int p1;
-    int p2;
-    int z;
-    int c0;
-    int c1;
-    int c2;
-    int c3;
-} Req_0215BBD0;
-
-typedef struct Spec_0 {
-    u16 f00;            /* 0x00 */
-    u16 pad02;
-    u32 f04;            /* 0x04 */
-    u32 f08;            /* 0x08 */
-    u32 f0c;            /* 0x0C */
-    u32 f10;            /* 0x10 */
-    u32 f14;            /* 0x14 */
-    u32 f18;            /* 0x18 */
-    u32 f1c;            /* 0x1C */
-    u32 f20;            /* 0x20 */
-} Spec_0;
-
-typedef struct Spec_1 {
-    u16 f00;            /* 0x00 */
-    u16 pad02;
-    int f04;            /* 0x04 */
-    int f08;            /* 0x08 */
-    int f0c;            /* 0x0C */
-    int f10;            /* 0x10 */
-    int f14;            /* 0x14 */
-    int f18;            /* 0x18 */
-    int f1c;            /* 0x1C */
-    int f20;            /* 0x20 */
-} Spec_1;
+typedef signed int     s32;
 
 typedef unsigned long long u64;
 
-typedef struct Spec {
-    u16 f00, pad02;
-    u32 f04, f08, f0c, f10, f14, f18, f1c, f20;
-} Spec;
-
-typedef struct ProcHandoff {
-    void *work;         /* 0x00 */
-    u32 arg1;           /* 0x04 */
-    u32 arg0;           /* 0x08 */
-} ProcHandoff;
-
 typedef enum { B_FALSE, B_TRUE } Bool;
 
-typedef struct Outputs { u16 *first; u16 *second; } Outputs;
-
-typedef struct Context { char pad[0x34]; u32 first; u32 second; } Context;
-
-typedef struct Pair { Context *context; Outputs *outputs; } Pair;
-
-typedef struct Rec {
-    u32 *src;
-    u16 *dst;
-} Rec;
-
-typedef struct Relearn {
-    void *mon;          /* 0x00 */
-    void *sess;         /* 0x04 */
-    u32 f08;            /* 0x08 */
-    void *sys;          /* 0x0C */
-    void *moves;        /* 0x10 */
-    u8 pad14[5];
-    u8 f19;             /* 0x19 */
-} Relearn;
-
-typedef struct Name20 {
-    u16 s[20];
-} Name20;
-
-typedef struct Profile16 {
-    u32 w[4];
-} Profile16;
-
-typedef struct Rec28 {
-    u8 data[0x28];
-} Rec28;
-
-typedef struct LinkState {
-    u8 pad00[0x86];
-    u16 self : 3;       /* 0x086 */
-    u16 rest : 13;
-    u8 pad88[0x1AC - 0x88];
-    Rec28 recs[1];      /* 0x1AC */
-} LinkState;
-
-typedef struct ProfileWork {
-    void *sys;          /* 0x00 */
-    Name20 name;        /* 0x04 */
-    Profile16 profile;  /* 0x2C */
-    u8 slot;            /* 0x3C */
-    u8 remote;          /* 0x3D */
-    u8 pad3E[2];
-} ProfileWork;
-
-typedef struct Box8_0215CAB4 {
-    u16 v;              /* 0x00 */
+/* Creation request shared by the party and box helpers (offsets as read). */
+typedef struct PokemonSpec {
+    u16 heapId;         /* 0x00 */
     u16 pad02;
-    void *sys;          /* 0x04 */
-} Box8_0215CAB4;
+    int species;        /* 0x04 */
+    int form;           /* 0x08 */
+    int level;          /* 0x0C */
+    int heldItem;       /* 0x10 */
+    int genderMode;     /* 0x14 */
+    int natureMode;     /* 0x18 */
+    int shinyMode;      /* 0x1C */
+    int ballItem;       /* 0x20 */
+} PokemonSpec;
 
-typedef struct Box8_0215CB08 {
-    void *sys;          /* 0x00 */
-    u32 v;              /* 0x04 */
-} Box8_0215CB08;
+/* Record the overlay-launch helper parks in the script's event slot. */
+typedef struct ScriptProcHandoff {
+    void *work;         /* 0x00 */
+    u32 userData;       /* 0x04 */
+    u32 onFinish;       /* 0x08, function called with the record when set */
+} ScriptProcHandoff;
 
-typedef struct Req_0215C40C {
-    void *sys;          /* 0x00 */
-    u32 one;            /* 0x04 */
+typedef struct BagResultVars { u16 *selectedVar; u16 *itemVar; } BagResultVars;
+
+typedef struct BagParamResult { char pad[0x34]; u32 selected; u32 itemId; } BagParamResult;
+
+typedef struct BagCloseData { BagParamResult *bagParam; BagResultVars *resultVars; } BagCloseData;
+
+typedef struct GtsParam {
+    void *gameData;     /* 0x00 */
+    u32 result;         /* 0x04, written by the overlay */
+} GtsParam;
+
+typedef struct GtsCallbackData {
+    GtsParam *param;
+    u16 *resultVar;
+} GtsCallbackData;
+
+typedef struct MoveRelearnParam {
+    void *mon;          /* 0x00 */
+    void *myStatus;     /* 0x04 */
+    u32 flags;          /* 0x08 */
+    void *gameSystem;   /* 0x0C */
+    void *relearnMoves; /* 0x10 */
+    u8 pad14[5];
+    u8 enabled;         /* 0x19 */
+    u8 learned;         /* 0x1A, set by the overlay */
+} MoveRelearnParam;
+
+typedef struct RelearnCallbackData {
+    MoveRelearnParam *param;
+    u16 *resultVar;
+} RelearnCallbackData;
+
+typedef struct PlayerName {
+    u16 chars[20];
+} PlayerName;
+
+typedef struct PlayerProfile {
+    u32 words[4];
+} PlayerProfile;
+
+typedef struct PlayerRecord {
+    u8 data[0x28];
+} PlayerRecord;
+
+typedef struct CommState {
+    u8 pad00[0x86];
+    u16 localPlayerId : 3;  /* 0x086 */
+    u16 reserved : 13;
+    u8 pad88[0x1AC - 0x88];
+    PlayerRecord records[1];    /* 0x1AC */
+} CommState;
+
+typedef struct ProfileProcWork {
+    void *gameSystem;   /* 0x00 */
+    PlayerName name;    /* 0x04 */
+    PlayerProfile profile;  /* 0x2C */
+    u8 playerIndex;     /* 0x3C */
+    u8 isRemote;        /* 0x3D */
+    u8 pad3E[2];
+} ProfileProcWork;
+
+typedef struct ValueProcParam {
+    u16 value;          /* 0x00 */
+    u16 pad02;
+    void *gameData;     /* 0x04 */
+} ValueProcParam;
+
+typedef struct ModeProcParam {
+    void *gameData;     /* 0x00 */
+    u32 value;          /* 0x04 */
+} ModeProcParam;
+
+typedef struct WifiBattleMatchParam {
+    void *fieldMap;     /* 0x00 */
+    u32 enabled;        /* 0x04 */
     u32 flag;           /* 0x08 */
-    u32 kind;           /* 0x0C */
-} Req_0215C40C;
+    u32 matchKind;      /* 0x0C */
+} WifiBattleMatchParam;
 
-typedef signed int     s32;
+typedef struct MenuProcParam { u32 fieldMap; u32 mode; } MenuProcParam;
 
-typedef struct { u32 a; u32 b; } Arg;
-
-typedef struct { u32 pad[15]; u32 f3c; } O8;
-
-typedef struct { u8 pad[15]; u8 fF; } OC;
-
-typedef struct {
-    void *f0;
-    void *f4;
-    O8 *f8;
-    OC *fC;
-    u16 *f10;
-} Ctx_0215D1E4;
-
-typedef struct {
-    void *f00;
+typedef struct PartyMenuParam {
+    void *party;        /* 0x00 */
     u32 pad04[2];
-    u32 f0c;
+    u32 listWork;       /* 0x0C */
     u32 pad10[9];
-    u32 f34;
-    u32 f38;
-    u32 f3c;
-} A;
+    u32 menuType;       /* 0x34 */
+    u32 cursorPos;      /* 0x38 */
+    u32 selectedPos;    /* 0x3C */
+} PartyMenuParam;
 
-typedef struct {
-    void *f00;
-    u32 f04;
-    u32 f08;
-    u8 f0c;
-    u8 f0d;
-    u8 f0e;
-    u8 f0f;
-    u8 f10;
+typedef struct PartyMenuState {
+    void *party;        /* 0x00 */
+    u32 listWork;       /* 0x04 */
+    u32 gameData;       /* 0x08 */
+    u8 enabled;         /* 0x0C */
+    u8 cursor;          /* 0x0D */
+    u8 partyCount;      /* 0x0E */
+    u8 selectedPos;     /* 0x0F */
+    u8 reserved10;      /* 0x10 */
     u8 pad11[7];
-    u32 f18;
-} B;
+    u32 zukanSave;      /* 0x18 */
+} PartyMenuState;
 
-typedef struct {
-    void *f0;
-    u32 f4;
-    A *f8;
-    B *fC;
-    u32 f10;
-} Ctx_0215D2A4;
+typedef struct DaycareEventWork {
+    void *gameSystem;           /* 0x00 */
+    void *fieldMap;             /* 0x04 */
+    PartyMenuParam *menuParam;  /* 0x08 */
+    PartyMenuState *menuState;  /* 0x0C */
+    u16 *resultVar;             /* 0x10 */
+} DaycareEventWork;
 
-extern u16 func_02159B10(void *,void *);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02012934(const struct BigObj *p);
-extern u32 func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_0201BA34(void *a0);
-extern u16 func_02011330(struct Stream *s);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_0201AB08(void *p);
-extern u32 func_0201AB18(void *p);
-extern u32 func_0201AA14(void *p);
-extern u32 func_0201AA1C(void *p);
-extern u32 func_0201AA50(void *p);
-extern u32 func_0201AA88(void *p);
-extern u32 func_0201AAD4(void *p);
-extern u32 func_0201293C(const struct BigObj *p);
+extern u16 func_02159B10(void *, void *);
+extern u16 *func_02159AE8(void *, void *);
+extern void *func_0215A5E4(void *);
+extern void *func_02012934(const struct GameData *);
+extern u32 func_0201AA18(void *);
+extern void *func_0201AB28(void *, u32 idx);
+extern u32 func_02017E1C(void *, u32 id, u32);
+extern void func_0201BA34(void *);
+extern u16 func_02011330(struct ScriptVm *);
+extern void func_02017E40(void *, u32 id, u32);
+extern u32 func_0201AB08(void *);
+extern u32 func_0201AB18(void *);
+extern u32 func_0201AA14(void *);
+extern u32 func_0201AA1C(void *);
+extern u32 func_0201AA50(void *);
+extern u32 func_0201AA88(void *);
+extern u32 func_0201AAD4(void *);
+extern u32 func_0201293C(const struct GameData *);
 extern int func_02007984(void *);
 extern int func_020079A0(void *);
-extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5DC(void *);
 extern u16 func_0215A5CC(void *);
-extern u8 *func_02012944(void *p);
-extern u32 func_02017D30(struct Sav *p);
-extern void func_020180F4(void *p, int move);
-extern void func_020181F4(void *p, u16 move, u32 slot);
-extern u32 func_02017D70(struct Sav *p, u32 f);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u8 *func_02012944(void *);
+extern u32 func_02017D30(struct PokemonParam *);
+extern void func_020180F4(void *, int move);
+extern void func_020181F4(void *, u16 move, u32 slot);
+extern u32 func_02017D70(struct PokemonParam *, u32);
+extern u32 func_02008530(const struct MyStatus *obj);
+extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02008500(void *player, void *str);
-extern int func_0204589C(struct Buf *a, struct Buf *b);
-extern void func_02045808(struct U16Vec *vec);
-extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_0215A5F4(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02017988(void *p, u32 a);
+extern int func_0204589C(struct Strbuf *, struct Strbuf *);
+extern void func_02045808(struct Strbuf *vec);
+extern u8 func_02008550(const struct MyStatus *obj);
+extern void *func_0215A5F4(void *);
+extern void *func_020120F4(const struct GameSystem *);
+extern u32 func_02017988(void *, u32);
 extern void *func_0200CA1C(void *);
-extern void func_0200CFA0(struct Blk37 *p, void *m);
-extern u32 func_02017A20(void *p, u32 idx, u32 val);
+extern void func_0200CFA0(struct ZukanSave *, void *);
+extern u32 func_02017A20(void *, u32 idx, u32 val);
 extern u16 *func_0216F948(void *mon, u32 heap);
-extern int func_0216FAA0(u16 *p);
-extern u32 func_020307B0(void *p);
+extern int func_0216FAA0(u16 *);
+extern u32 func_020307B0(void *);
 extern void func_020185C4(void *);
 extern void *func_020173F0(u32 species, u32 level, u64 id, u32 heap);
-extern void *func_02008510(void *a, int tag);
+extern void *func_02008510(void *, int tag);
 extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
-extern u32 func_0201AE1C(const struct Personal *p, u32 field);
-extern void func_0201AE14(void *p);
+extern u32 func_0201AE1C(const struct PersonalData *, u32 field);
+extern void func_0201AE14(void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0202F190(void *mon, u32 a1, void *a2, u32 a3, u32 heap);
-extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern void func_0202F190(void *mon, u32, void *, u32, u32 heap);
+extern u32 func_0201A98C(struct Party *, const struct PokemonParam *src);
+extern u32 func_020186C8(u32, int, int, int, int, int);
 extern void *func_02017430(u16, u16, u64, u32, u64, u16);
 extern int func_02020FE4(u16, u32, u16);
-extern unsigned short func_0202142C(int a0);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
+extern unsigned short func_0202142C(int);
+extern void *func_020127A4(struct GameData *);
+extern u16 func_02012AC8(const struct PlayerWork *);
 extern u32 func_02013E4C(u32 id);
-extern void *func_020185F4(void *p);
-extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
-extern void func_0200CDE0(struct Blk37 *p, void *m);
-extern void *func_02012F08(int *p);
-extern u32 func_0200C278(struct Blk34 *p, u32 v);
-extern u32 func_0200C29C(struct Blk34 *p, u32 v);
-extern u32 func_0200C274(struct Blk34 *p);
+extern void *func_020185F4(void *);
+extern int func_020074D8(void **save, const struct BoxPokemonParam *src);
+extern void func_0200CDE0(struct ZukanSave *, void *);
+extern void *func_02012F08(int *);
+extern u32 func_0200C278(struct MiscSave *, u32);
+extern u32 func_0200C29C(struct MiscSave *, u32);
+extern u32 func_0200C274(struct MiscSave *);
 extern void *func_020145CC(void *);
 extern void func_0215897C(void *, void *);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_020144DC(int a0, int a1);
-extern void *func_02158FB4(void *p);
+extern void *func_0201210C(const struct GameSystem *);
+extern int func_020144DC(int, int);
+extern void *func_02158FB4(void *);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern void func_020113D0(char *p, int val);
-extern u32 func_02158FB8(void *p);
-extern u32 func_020120F0(const struct Ctx *p);
+extern void func_020120B4(struct GameSystem *, u32 id, void *, void *);
+extern void func_020113D0(char *, int val);
+extern u32 func_02158FB8(void *);
+extern u32 func_020120F0(const struct GameSystem *);
 extern int func_02158FBC();
-extern void *func_0202E474(const struct BigObj *a0, int a1, int a2, int a3);
-extern void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern void *func_0202E474(const struct GameData *, int, int, int);
+extern void *func_02014840(char *, int, int, int, int, int, int);
 extern int func_0216F940();
 extern void *func_0216F918(u32 heap);
-extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_02158344(int a0);
-extern u8 func_02012B58(const struct BigObj *p);
-extern u8 func_0215841C(void *p);
-extern int func_02175FB4(u8 *p);
-extern Name20 *func_0215840C(LinkState *s, int idx);
-extern void *func_02012EBC(struct Big *p);
-extern u16 *func_0200BE48(void *sys);
-extern void func_02175648(void *sv, struct Out *o);
-extern void *func_02158F50(void *p);
-extern void *func_02161B90(void *p, void *a1, int kind, int sub, int flag);
+extern void *func_02014808(char *, int, int, int, int, int, int);
+extern u32 func_02012138(const struct GameSystem *);
+extern int func_02158344(int);
+extern u8 func_02012B58(const struct GameData *);
+extern u8 func_0215841C(void *);
+extern int func_02175FB4(u8 *);
+extern PlayerName *func_0215840C(CommState *, int idx);
+extern void *func_02012EBC(struct GameData *);
+extern u16 *func_0200BE48(void *);
+extern void func_02175648(void *sv, struct PlayerProfile *o);
+extern void *func_02158F50(void *);
+extern void *func_02161B90(void *, void *, int kind, int sub, int flag);
 extern void func_02165344(void);
-extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
-extern void func_02154438(s32 a, s32 *b);
+extern struct GameEvent *func_020124AC(void *, u32, u32 (*fn)(void *, u32), u32);
+extern void func_02154438(s32, s32 *);
 extern void func_021543BC(void);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern void func_021F36C0(unsigned int a0, int a1, int a2);
+extern void func_021F36C0(unsigned int, int, int);
 extern void func_021F36E8(void *, int);
-extern void func_021F3724(unsigned int a0, int a1);
-extern void func_021F3768(unsigned int a0, unsigned short **a1);
-extern void func_021F3800(unsigned int a0);
-extern void *func_02188D50(void *a0);
-extern int func_021C3400(void *a);
+extern void func_021F3724(unsigned int, int);
+extern void func_021F3768(unsigned int, unsigned short **);
+extern void func_021F3800(unsigned int);
+extern void *func_02188D50(void *);
+extern int func_021C3400(void *);
 extern void func_021C32F4(unsigned int *, unsigned int);
-extern void func_021C335C(void **p);
+extern void func_021C335C(void **);
 extern void *func_0200BDB0(void *);
 extern void func_021C3204(unsigned int *, unsigned int, unsigned int);
 extern void func_021C3270(unsigned int *, unsigned int, unsigned int);
 extern int func_021C340C();
-extern u8 func_021C34C4(void **p);
+extern u8 func_021C34C4(void **);
 extern void *func_021C34F8(void *, unsigned int);
 extern int func_021C341C(unsigned int *, unsigned int);
-extern int func_021C3490(void **,int);
-extern int func_021C34B4(void **,int);
+extern int func_021C3490(void **, int);
+extern int func_021C34B4(void **, int);
 extern void *func_021BE8D4(void *, void *, int, int);
 extern void *func_021BE92C(void *, void *, int, int, int, int, int);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_02014910(char *a0, int a1, int a2, int a3);
-extern u32 func_0200CA38(struct Blk37 *p);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-int func_0215B488(int a,int b);
-int func_0215B4AC(void *a0, u32 a1, void **a2);
-int func_0215B4DC(void *a0, void *a1, void *a2);
-int func_0215B500(int a0, int a1);
-int func_0215B558(int a0, int a1);
-int func_0215B5A8(int a0, int a1);
-int func_0215B5BC(void *a0, void *a1);
-int func_0215B660(int a0, int a1, int a2);
-int func_0215B6C0(int a0, int a1, int a2);
-int func_0215B704(int a0, int a1, int a2);
-int func_0215B74C(int a0, int a1);
-int func_0215B7E8(int a,int b);
-int func_0215B824(int a0, int a1, int a2);
-int func_0215B848(int a0, int a1);
-int func_0215B888(void *a0, void *a1);
-int func_0215B904(void *a0, void *a1);
-int func_0215B994(void *a0, void *a1);
-int func_0215BA18(void *a0, void *a1);
-int func_0215BAB0(int a0, int a1, int a2);
-int func_0215BAF4(void *a0, void *a1);
-int func_0215BB50(void *a0, void *a1);
-int func_0215BBD0(void *a0, void *a1);
-int func_0215BCA0(int a0, int a1, int a2);
-int func_0215BCE8(void *a0, void *a1);
-int func_0215BD2C(void *c, void *vm);
-int func_0215BE24(void *c, void *vm);
-int func_0215BF30(void *a0, void *a1);
-int func_0215BF7C(void *a0, void *a1);
-int func_0215BFD4(int a0, int a1, int a2);
-int func_0215C01C(void *a0, void *a1);
-int func_0215C064(void *a0, void *a1);
-int func_0215C0D0(void *a0, void *a1);
-int func_0215C138(void *c, void *vm);
-int func_0215C180(void *c, void *vm);
-int func_0215C200(void *c, void *vm);
-int func_0215C2D0(void *c, void *vm);
-void *func_0215C40C(void *a, Spec *s);
-int func_0215C4C8(void *a, void *b);
-int func_0215C510(void *a, void *b);
-int func_0215C558(int a,int b);
-int func_0215C584(int a,int b);
-int func_0215C5B0(void *a, void *b);
-int func_0215C5EC(void *a0, void *a1);
-int func_0215C610(int a0, int a1);
-void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
-int func_0215C69C(int a0, int a1);
-int func_0215C6F0(int a0, int a1);
-void func_0215C700(Pair *p);
-int func_0215C72C(void *c, void *vm);
-void func_0215C7C4(Rec *r);
-int func_0215C7E0(void *c, void *vm);
-int func_0215C870(int a0, int a1);
-int func_0215C89C(void *c, void *vm);
-int func_0215C95C(void *c, void *vm);
-int func_0215CA64(void *c, void *vm);
-int func_0215CAB4(void *c, void *vm);
-int func_0215CB08(void *c, void *vm);
-int func_0215CBF0(void *c, void *vm);
-int func_0215CC38(int a0, int a1);
-int func_0215CC4C(void *c, void *vm);
-int func_0215CCE8(void *a, void *b);
-int func_0215CD3C(void *a, void *b);
-int func_0215CD80(void *a, void *b);
-int func_0215CDB8(void *a, void *b);
-int func_0215CDF0(void *a, void *b);
-int func_0215CE70(void *a, void *b);
-int func_0215CE98(int a0, int a1);
-int func_0215CEBC(void *a, void *b);
-int func_0215CEE8(int a0, int a1);
-int func_0215CF00(void *a, void *b);
-int func_0215CF54(void *a, void *b);
-int func_0215CF84(void *a, void *b);
-int func_0215CFB4(int a0, int a1);
-int func_0215CFD8(int a0, int a1);
-int func_0215CFFC(void *a, void *b);
-int func_0215D034(void *a, void *b);
-int func_0215D06C(void *a, void *b);
-int func_0215D0A4(void *a, void *b);
-int func_0215D0D4(void *a,void *b);
-int func_0215D110(void *a,void *b);
-int func_0215D14C(void *a, void *b);
-int func_0215D198(void *x);
-int func_0215D1E4(void *a, u32 *st, Ctx_0215D1E4 *c);
-void *func_0215D2A4(void *a, u32 b, u32 c);
+extern void func_02012374(struct GameEvent *evt, struct GameEvent **out);
+extern void *func_02014910(char *, int, int, int);
+extern u32 func_0200CA38(struct ZukanSave *);
+extern struct GameEvent *func_020122C0(void *owner, void *, void *, u32 size);
+extern void *func_020124E8(struct GameEvent *);
+int func_0215B488(int, int);
+int func_0215B4AC(void *, u32, void **);
+int func_0215B4DC(void *, void *, void *);
+int func_0215B500(int, int);
+int func_0215B558(int, int);
+int func_0215B5A8(int, int);
+int func_0215B5BC(void *, void *);
+int func_0215B660(int, int, int);
+int func_0215B6C0(int, int, int);
+int func_0215B704(int, int, int);
+int func_0215B74C(int, int);
+int func_0215B7E8(int, int);
+int func_0215B824(int, int, int);
+int func_0215B848(int, int);
+int func_0215B888(void *, void *);
+int func_0215B904(void *, void *);
+int func_0215B994(void *, void *);
+int func_0215BA18(void *, void *);
+int func_0215BAB0(int, int, int);
+int func_0215BAF4(void *, void *);
+int func_0215BB50(void *, void *);
+int func_0215BBD0(void *, void *);
+int func_0215BCA0(int, int, int);
+int func_0215BCE8(void *, void *);
+int func_0215BD2C(void *, void *);
+int func_0215BE24(void *, void *);
+int func_0215BF30(void *, void *);
+int func_0215BF7C(void *, void *);
+int func_0215BFD4(int, int, int);
+int func_0215C01C(void *, void *);
+int func_0215C064(void *, void *);
+int func_0215C0D0(void *, void *);
+int func_0215C138(void *, void *);
+int func_0215C180(void *, void *);
+int func_0215C200(void *, void *);
+int func_0215C2D0(void *, void *);
+void *func_0215C40C(void *, PokemonSpec *);
+int func_0215C4C8(void *, void *);
+int func_0215C510(void *, void *);
+int func_0215C558(int, int);
+int func_0215C584(int, int);
+int func_0215C5B0(void *, void *);
+int func_0215C5EC(void *, void *);
+int func_0215C610(int, int);
+void func_0215C63C(void *, void *, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData);
+int func_0215C69C(int, int);
+int func_0215C6F0(int, int);
+void func_0215C700(BagCloseData *closeData);
+int func_0215C72C(void *, void *);
+void func_0215C7C4(GtsCallbackData *callbackData);
+int func_0215C7E0(void *, void *);
+int func_0215C870(int, int);
+int func_0215C89C(void *, void *);
+int func_0215C95C(void *, void *);
+int func_0215CA64(void *, void *);
+int func_0215CAB4(void *, void *);
+int func_0215CB08(void *, void *);
+int func_0215CBF0(void *, void *);
+int func_0215CC38(int, int);
+int func_0215CC4C(void *, void *);
+int func_0215CCE8(void *, void *);
+int func_0215CD3C(void *, void *);
+int func_0215CD80(void *, void *);
+int func_0215CDB8(void *, void *);
+int func_0215CDF0(void *, void *);
+int func_0215CE70(void *, void *);
+int func_0215CE98(int, int);
+int func_0215CEBC(void *, void *);
+int func_0215CEE8(int, int);
+int func_0215CF00(void *, void *);
+int func_0215CF54(void *, void *);
+int func_0215CF84(void *, void *);
+int func_0215CFB4(int, int);
+int func_0215CFD8(int, int);
+int func_0215CFFC(void *, void *);
+int func_0215D034(void *, void *);
+int func_0215D06C(void *, void *);
+int func_0215D0A4(void *, void *);
+int func_0215D0D4(void *, void *);
+int func_0215D110(void *, void *);
+int func_0215D14C(void *, void *);
+int func_0215D198(void *);
+int func_0215D1E4(void *event, u32 *seq, DaycareEventWork *work);
+void *func_0215D2A4(void *gameSystem, void *fieldMap, u16 *resultVar);
 extern const u16 d_02171170[];
 extern u8 g0209DF08;
 extern u16 d_02171180[];
-extern struct { u16 a; u16 b; } d_0217118E[6];
+extern struct { u16 paramId; u16 maxValue; } d_0217118E[6];
 extern const u8 d_02171182[];
 extern void *g_020A7370;
 extern const char d_021728F0[];
@@ -629,46 +571,41 @@ extern const char d_02172900[];
 /*
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  */
-int func_0215B488(int a,int b)
+int func_0215B488(int vm,int cmdWork)
 {
-    int k = func_02159B10((void *)a,(void *)b);
-    u16 *out = func_02159AE8((void *)a,(void *)b);
-    *out = d_02171170[k];
+    int tableIndex = func_02159B10((void *)vm,(void *)cmdWork);
+    u16 *resultVar = func_02159AE8((void *)vm,(void *)cmdWork);
+    *resultVar = d_02171170[tableIndex];
     return 0;
 }
 
 
 
-int func_0215B4AC(void *a0, u32 a1, void **a2)
+int func_0215B4AC(void *cmdWork, u32 partyIndex, void **outMemberArg)
 {
-    int t4;
-    u32 t5;
-    void **t6;
-    int n;
-    void *p;
-    void *v0;
-    void *v1;
+    int isValid;
+    u32 slotIndex;
+    void **outMember;
+    int partyCount;
+    void *member;
+    void *gameData;
+    void *party;
 
-t5 = a1 + 0;
-t6 = a2;
-    v0 = func_0215A5E4(a0);
-loc_0215B4B6:
-    v1 = func_02012934(v0);
-loc_0215B4BA:
-    n = func_0201AA18(v1);
-loc_0215B4C0:
-    if (t5 >= (unsigned)n) goto loc_0215B4C8;
-loc_0215B4C4:
-t4 = 1;
-    goto loc_0215B4CC;
-loc_0215B4C8:
-t4 = 0;
-t5 = 0;
-loc_0215B4CC:
-    p = func_0201AB28(v1, t5);
-loc_0215B4D4:
-*t6 = p;
-    return t4;}
+slotIndex = partyIndex + 0;
+outMember = outMemberArg;
+    gameData = func_0215A5E4(cmdWork);
+    party = func_02012934(gameData);
+    partyCount = func_0201AA18(party);
+    if (slotIndex >= (unsigned)partyCount) goto outOfRange;
+isValid = 1;
+    goto store;
+outOfRange:
+isValid = 0;
+slotIndex = 0;
+store:
+    member = func_0201AB28(party, slotIndex);
+*outMember = member;
+    return isValid;}
 
 
 
@@ -676,103 +613,91 @@ loc_0215B4D4:
  * Unpacks a record into a local and, when the overlay call says it took,
  * forwards the record and the third argument to the arm9 side.
  */
-int func_0215B4DC(void *a0, void *a1, void *a2)
+int func_0215B4DC(void *cmdWork, void *partyIndex, void *paramId)
 {
-    int v;
+    int member;
 
-    if (func_0215B4AC(a0, (u32)a1, (void **)(&v)) == 1)
-        return func_02017E1C((void *)v, (u32)a2, 0);
+    if (func_0215B4AC(cmdWork, (u32)partyIndex, (void **)(&member)) == 1)
+        return func_02017E1C((void *)member, (u32)paramId, 0);
 
     return 0;
 }
 
 
 
-int func_0215B500(int a0, int a1)
+int func_0215B500(int callArg0, int callArg1)
 {
-    int a2;
-    int t4;
-    int t5;
-    int t6;
+    int callArg2;
+    int moveIdCopy;
+    int monCopy;
+    int zero;
 
-t4 = a1 + 0;
-a1 = 0x4c;
-a2 = 0;
-t5 = a0 + 0;
-t6 = 0;
-    a0 = func_02017E1C((void *)a0, a1, a2);
-loc_0215B510:
-    if (a0 == 0) goto loc_0215B518;
-loc_0215B514:
-a0 = t6 + 0;
-    return a0;
-loc_0215B518:
-a0 = t5 + 0;
-a1 = 0x36;
-a2 = t6 + 0;
-    a0 = func_02017E1C((void *)a0, a1, a2);
-loc_0215B522:
-    if (t4 == a0) goto loc_0215B550;
-loc_0215B526:
-a0 = t5 + 0;
-a1 = 0x37;
-a2 = t6 + 0;
-    a0 = func_02017E1C((void *)a0, a1, a2);
-loc_0215B530:
-    if (t4 == a0) goto loc_0215B550;
-loc_0215B534:
-a0 = t5 + 0;
-a1 = 0x38;
-a2 = t6 + 0;
-    a0 = func_02017E1C((void *)a0, a1, a2);
-loc_0215B53E:
-    if (t4 == a0) goto loc_0215B550;
-loc_0215B542:
-a0 = t5 + 0;
-a1 = 0x39;
-a2 = t6 + 0;
-    a0 = func_02017E1C((void *)a0, a1, a2);
-loc_0215B54C:
-    if (t4 != a0) goto loc_0215B554;
-loc_0215B550:
-a0 = 1;
-    return a0;
-loc_0215B554:
-a0 = t6 + 0;
-    return a0;}
+moveIdCopy = callArg1 + 0;
+callArg1 = 0x4c;
+callArg2 = 0;
+monCopy = callArg0 + 0;
+zero = 0;
+    callArg0 = func_02017E1C((void *)callArg0, callArg1, callArg2);
+    if (callArg0 == 0) goto checkSlots;
+callArg0 = zero + 0;
+    return callArg0;
+checkSlots:
+callArg0 = monCopy + 0;
+callArg1 = 0x36;
+callArg2 = zero + 0;
+    callArg0 = func_02017E1C((void *)callArg0, callArg1, callArg2);
+    if (moveIdCopy == callArg0) goto found;
+callArg0 = monCopy + 0;
+callArg1 = 0x37;
+callArg2 = zero + 0;
+    callArg0 = func_02017E1C((void *)callArg0, callArg1, callArg2);
+    if (moveIdCopy == callArg0) goto found;
+callArg0 = monCopy + 0;
+callArg1 = 0x38;
+callArg2 = zero + 0;
+    callArg0 = func_02017E1C((void *)callArg0, callArg1, callArg2);
+    if (moveIdCopy == callArg0) goto found;
+callArg0 = monCopy + 0;
+callArg1 = 0x39;
+callArg2 = zero + 0;
+    callArg0 = func_02017E1C((void *)callArg0, callArg1, callArg2);
+    if (moveIdCopy != callArg0) goto notFound;
+found:
+callArg0 = 1;
+    return callArg0;
+notFound:
+callArg0 = zero + 0;
+    return callArg0;}
 
 
-int func_0215B558(int a0, int a1)
+int func_0215B558(int vm, int cmdWork)
 {
-    u16 *p = func_02159AE8((void *)a0, (void *)a1);
-    u16 *q = func_02159AE8((void *)a0, (void *)a1);
-    int obj;
-    if (func_0215B4AC((void *)a1, func_02159B10((void *)a0, (void *)a1), (void **)(&obj)) == 1) {
-        *p = func_02017E1C((void *)obj, 0xAE, 0);
-        *q = func_02017E1C((void *)obj, 0xAF, 0);
+    u16 *firstResultVar = func_02159AE8((void *)vm, (void *)cmdWork);
+    u16 *secondResultVar = func_02159AE8((void *)vm, (void *)cmdWork);
+    int mon;
+    if (func_0215B4AC((void *)cmdWork, func_02159B10((void *)vm, (void *)cmdWork), (void **)(&mon)) == 1) {
+        *firstResultVar = func_02017E1C((void *)mon, 0xAE, 0);
+        *secondResultVar = func_02017E1C((void *)mon, 0xAF, 0);
     } else {
-        *p = 0;
-        *q = 0;
+        *firstResultVar = 0;
+        *secondResultVar = 0;
     }
     return 0;
 }
 
 
 
-int func_0215B5A8(int a0, int a1)
+int func_0215B5A8(int callArg0, int callArg1)
 {
-    void *v0;
-    void *v1;
+    void *gameData;
+    void *party;
 
-a0 = a1 + 0;
-    v0 = func_0215A5E4((void *)a0);
-loc_0215B5B0:
-    v1 = func_02012934(v0);
-loc_0215B5B4:
-    func_0201BA34(v1);
-loc_0215B5B8:
-a0 = 0;
-    return a0;}
+callArg0 = callArg1 + 0;
+    gameData = func_0215A5E4((void *)callArg0);
+    party = func_02012934(gameData);
+    func_0201BA34(party);
+callArg0 = 0;
+    return callArg0;}
 
 
 #pragma opt_lifetimes off
@@ -787,22 +712,22 @@ a0 = 0;
  * and the initial sum) merge into one register and the first add folds to
  * adds r0,r0,#0 (35 B off, 166 B). opt_lifetimes off alone: 2 B off.
  */
-int func_0215B5BC(void *a0, void *a1)
+int func_0215B5BC(void *vm, void *cmdWork)
 {
-    u16 *out = (u16 *)func_02159AE8(a0, a1);
-    int idx = func_02159B10(a0, a1);
-    int z = 0;
-    u16 sum = 0;
-    void *obj;
-    if (func_0215B4AC(a1, idx, &obj) == 1) {
-        sum = z + (u16)func_02017E1C(obj, 0xD, z);
-        sum = sum + (u16)func_02017E1C(obj, 0xE, z);
-        sum = sum + (u16)func_02017E1C(obj, 0xF, z);
-        sum = sum + (u16)func_02017E1C(obj, 0x10, z);
-        sum = sum + (u16)func_02017E1C(obj, 0x11, z);
-        sum = sum + (u16)func_02017E1C(obj, 0x12, z);
+    u16 *resultVar = (u16 *)func_02159AE8(vm, cmdWork);
+    int partyIndex = func_02159B10(vm, cmdWork);
+    int zero = 0;
+    u16 evTotal = 0;
+    void *mon;
+    if (func_0215B4AC(cmdWork, partyIndex, &mon) == 1) {
+        evTotal = zero + (u16)func_02017E1C(mon, 0xD, zero);
+        evTotal = evTotal + (u16)func_02017E1C(mon, 0xE, zero);
+        evTotal = evTotal + (u16)func_02017E1C(mon, 0xF, zero);
+        evTotal = evTotal + (u16)func_02017E1C(mon, 0x10, zero);
+        evTotal = evTotal + (u16)func_02017E1C(mon, 0x11, zero);
+        evTotal = evTotal + (u16)func_02017E1C(mon, 0x12, zero);
     }
-    *out = sum;
+    *resultVar = evTotal;
     return 0;
 }
 
@@ -814,468 +739,430 @@ int func_0215B5BC(void *a0, void *a1)
 
 
 
-int func_0215B660(int a0, int a1, int a2)
+int func_0215B660(int callArg0, int callArg1, int callArg2)
 {
-    unsigned char fr[4];
-    int t5;
-    int t6;
-    u16 *q;
-t6 = a0 + 0;
-t5 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
-loc_0215B66C:
-a0 = t6 + 0;
-a1 = t5 + 0;
-    a0 = func_02159B10((void *)a0, (void *)a1);
-loc_0215B676:
-a1 = a0 + 0;
-t6 = 0;
-a0 = t5 + 0;
-a2 = (int)(fr + 0);
-*q = t6;
-    a0 = func_0215B4AC((void *)a0, a1, (void **)a2);
-loc_0215B684:
-    if (a0 != 1) goto loc_0215B6BA;
-loc_0215B688:
-    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
-a1 = 0xa0;
-a2 = t6 + 0;
-    a0 = (int)func_02017E1C((void *)a0, a1, a2);
-loc_0215B692:
-a0 = a0 << 0x10;
-t5 = (unsigned)a0 >> 0x10;
-    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
-a1 = 0xa1;
-a2 = t6 + 0;
-    a0 = (int)func_02017E1C((void *)a0, a1, a2);
-loc_0215B6A0:
-a0 = a0 << 0x10;
-a0 = (unsigned)a0 >> 0x10;
-    if (t5 == a0) goto loc_0215B6B6;
-loc_0215B6A8:
-    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
-a1 = 0x4c;
-a2 = t6 + 0;
-    a0 = (int)func_02017E1C((void *)a0, a1, a2);
-loc_0215B6B2:
-    if (a0 != 1) goto loc_0215B6BA;
-loc_0215B6B6:
-a0 = 1;
-*q = a0;
-loc_0215B6BA:
-a0 = 0;
-    return a0;
+    unsigned char monSlot[4];
+    int workOrValue;
+    int vmOrZero;
+    u16 *resultVar;
+vmOrZero = callArg0 + 0;
+workOrValue = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = vmOrZero + 0;
+callArg1 = workOrValue + 0;
+    callArg0 = func_02159B10((void *)callArg0, (void *)callArg1);
+callArg1 = callArg0 + 0;
+vmOrZero = 0;
+callArg0 = workOrValue + 0;
+callArg2 = (int)(monSlot + 0);
+*resultVar = vmOrZero;
+    callArg0 = func_0215B4AC((void *)callArg0, callArg1, (void **)callArg2);
+    if (callArg0 != 1) goto done;
+    callArg0 = *(int *)monSlot;
+callArg1 = 0xa0;
+callArg2 = vmOrZero + 0;
+    callArg0 = (int)func_02017E1C((void *)callArg0, callArg1, callArg2);
+callArg0 = callArg0 << 0x10;
+workOrValue = (unsigned)callArg0 >> 0x10;
+    callArg0 = *(int *)monSlot;
+callArg1 = 0xa1;
+callArg2 = vmOrZero + 0;
+    callArg0 = (int)func_02017E1C((void *)callArg0, callArg1, callArg2);
+callArg0 = callArg0 << 0x10;
+callArg0 = (unsigned)callArg0 >> 0x10;
+    if (workOrValue == callArg0) goto differ;
+    callArg0 = *(int *)monSlot;
+callArg1 = 0x4c;
+callArg2 = vmOrZero + 0;
+    callArg0 = (int)func_02017E1C((void *)callArg0, callArg1, callArg2);
+    if (callArg0 != 1) goto done;
+differ:
+callArg0 = 1;
+*resultVar = callArg0;
+done:
+callArg0 = 0;
+    return callArg0;
 }
 
 
 
-int func_0215B6C0(int a0, int a1, int a2)
+int func_0215B6C0(int callArg0, int callArg1, int callArg2)
 {
-    unsigned char fr[4];
-    int t5;
-    int t6;
-    u16 *q;
-t6 = a0 + 0;
-t5 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
-loc_0215B6CC:
-a0 = t6 + 0;
-a1 = t5 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_0215B6D6:
-a1 = a0 + 0;
-t6 = 0;
-a0 = t5 + 0;
-a2 = (int)(fr + 0);
-*q = t6;
-    a0 = func_0215B4AC((void *)a0, a1, (void **)a2);
-loc_0215B6E4:
-    if (a0 != 1) goto loc_0215B6FE;
-loc_0215B6E8:
-    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
-a1 = 0x4c;
-a2 = t6 + 0;
-    a0 = func_02017E1C((void *)a0, a1, a2);
-loc_0215B6F2:
-    if (a0 != 0) goto loc_0215B6FA;
-loc_0215B6F6:
-*q = t6;
-    goto loc_0215B6FE;
-loc_0215B6FA:
-a0 = 1;
-*q = a0;
-loc_0215B6FE:
-a0 = 0;
-    return a0;
+    unsigned char monSlot[4];
+    int cmdWorkCopy;
+    int vmOrZero;
+    u16 *resultVar;
+vmOrZero = callArg0 + 0;
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = vmOrZero + 0;
+callArg1 = cmdWorkCopy + 0;
+    callArg0 = (int)func_02159B10((void *)callArg0, (void *)callArg1);
+callArg1 = callArg0 + 0;
+vmOrZero = 0;
+callArg0 = cmdWorkCopy + 0;
+callArg2 = (int)(monSlot + 0);
+*resultVar = vmOrZero;
+    callArg0 = func_0215B4AC((void *)callArg0, callArg1, (void **)callArg2);
+    if (callArg0 != 1) goto done;
+    callArg0 = *(int *)monSlot;
+callArg1 = 0x4c;
+callArg2 = vmOrZero + 0;
+    callArg0 = func_02017E1C((void *)callArg0, callArg1, callArg2);
+    if (callArg0 != 0) goto isEgg;
+*resultVar = vmOrZero;
+    goto done;
+isEgg:
+callArg0 = 1;
+*resultVar = callArg0;
+done:
+callArg0 = 0;
+    return callArg0;
 }
 
 
 
-int func_0215B704(int a0, int a1, int a2)
+int func_0215B704(int callArg0, int callArg1, int callArg2)
 {
-    unsigned char fr[4];
-    int t5;
-    int t6;
-    u16 *q;
-t6 = a0 + 0;
-t5 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
-loc_0215B710:
-a0 = t6 + 0;
-a1 = t5 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_0215B71A:
-a1 = a0 + 0;
-t6 = 0;
-a0 = t5 + 0;
-a2 = (int)(fr + 0);
-*q = t6;
-    a0 = func_0215B4AC((void *)a0, a1, (void **)a2);
-loc_0215B728:
-    if (a0 != 1) goto loc_0215B746;
-loc_0215B72C:
-    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
-a1 = 0x4c;
-a2 = t6 + 0;
-    a0 = (int)func_02017E1C((void *)a0, (u32)a1, (u32)a2);
-loc_0215B736:
-    if (a0 != 0) goto loc_0215B746;
-loc_0215B73A:
-    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
-a1 = 9;
-a2 = t6 + 0;
-    a0 = (int)func_02017E1C((void *)a0, (u32)a1, (u32)a2);
-loc_0215B744:
-*q = a0;
-loc_0215B746:
-a0 = 0;
-    return a0;
+    unsigned char monSlot[4];
+    int cmdWorkCopy;
+    int vmOrZero;
+    u16 *resultVar;
+vmOrZero = callArg0 + 0;
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = vmOrZero + 0;
+callArg1 = cmdWorkCopy + 0;
+    callArg0 = (int)func_02159B10((void *)callArg0, (void *)callArg1);
+callArg1 = callArg0 + 0;
+vmOrZero = 0;
+callArg0 = cmdWorkCopy + 0;
+callArg2 = (int)(monSlot + 0);
+*resultVar = vmOrZero;
+    callArg0 = func_0215B4AC((void *)callArg0, callArg1, (void **)callArg2);
+    if (callArg0 != 1) goto done;
+    callArg0 = *(int *)monSlot;
+callArg1 = 0x4c;
+callArg2 = vmOrZero + 0;
+    callArg0 = (int)func_02017E1C((void *)callArg0, (u32)callArg1, (u32)callArg2);
+    if (callArg0 != 0) goto done;
+    callArg0 = *(int *)monSlot;
+callArg1 = 9;
+callArg2 = vmOrZero + 0;
+    callArg0 = (int)func_02017E1C((void *)callArg0, (u32)callArg1, (u32)callArg2);
+*resultVar = callArg0;
+done:
+callArg0 = 0;
+    return callArg0;
 }
 
 
-int func_0215B74C(int a0, int a1)
+int func_0215B74C(int vm, int cmdWork)
 {
-    int a = func_02159B10((void *)a0, (void *)a1);
-    int b = func_02159B10((void *)a0, (void *)a1);
-    int mode = func_02011330((struct Stream *)a0);
-    int obj = 0;
-    u8 v;
-    if (func_0215B4AC((void *)a1, a, (void **)(&obj)) == 0) {
+    int partyIndex = func_02159B10((void *)vm, (void *)cmdWork);
+    int amount = func_02159B10((void *)vm, (void *)cmdWork);
+    int operation = func_02011330((struct ScriptVm *)vm);
+    int mon = 0;
+    u8 friendship;
+    if (func_0215B4AC((void *)cmdWork, partyIndex, (void **)(&mon)) == 0) {
         return 0;
     }
-    if (func_02017E1C((void *)obj, 0x4C, 0) == 1) {
+    if (func_02017E1C((void *)mon, 0x4C, 0) == 1) {
         return 0;
     }
-    v = func_02017E1C((void *)obj, 9, 0);
-    switch (mode) {
+    friendship = func_02017E1C((void *)mon, 9, 0);
+    switch (operation) {
     case 0:
-        if ((u32)b > 0xFF) {
-            v = 0xFF;
+        if ((u32)amount > 0xFF) {
+            friendship = 0xFF;
         } else {
-            v = b;
+            friendship = amount;
         }
         break;
     case 1:
-        if (v + b > 0xFF) {
-            v = 0xFF;
+        if (friendship + amount > 0xFF) {
+            friendship = 0xFF;
         } else {
-            v = v + (u8)b;
+            friendship = friendship + (u8)amount;
         }
         break;
     case 2:
-        if (v < b) {
-            v = 0;
+        if (friendship < amount) {
+            friendship = 0;
         } else {
-            v = v - (u8)b;
+            friendship = friendship - (u8)amount;
         }
         break;
     }
-    func_02017E40((void *)obj, 9, v);
+    func_02017E40((void *)mon, 9, friendship);
     return 0;
 }
 
 
-int func_0215B7E8(int a,int b)
+int func_0215B7E8(int vm,int cmdWork)
 {
-    u16 *out = func_02159AE8((void *)a,(void *)b);
-    int k = func_02159B10((void *)a,(void *)b);
-    if (func_0215B4DC((void *)b,(void *)k,(void *)0x4C) != 0) *out = 0x28A; else *out = func_0215B4DC((void *)b,(void *)k,(void *)5);
+    u16 *resultVar = func_02159AE8((void *)vm,(void *)cmdWork);
+    int partyIndex = func_02159B10((void *)vm,(void *)cmdWork);
+    if (func_0215B4DC((void *)cmdWork,(void *)partyIndex,(void *)0x4C) != 0) *resultVar = 0x28A; else *resultVar = func_0215B4DC((void *)cmdWork,(void *)partyIndex,(void *)5);
     return 0;
 }
 
 
 
-int func_0215B824(int a0, int a1, int a2)
+int func_0215B824(int callArg0, int callArg1, int callArg2)
 {
-    int t5;
-    int t6;
-    u16 *q;
+    int cmdWorkCopy;
+    int vmCopy;
+    u16 *resultVar;
 
-t6 = a0 + 0;
-t5 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
-loc_0215B82E:
-a0 = t6 + 0;
-a1 = t5 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_0215B838:
-a1 = a0 + 0;
-a0 = t5 + 0;
-a2 = 0x6f;
-    a0 = func_0215B4DC((void *)a0, (void *)a1, (void *)a2);
-loc_0215B842:
-*q = a0;
-a0 = 0;
-    return a0;}
+vmCopy = callArg0 + 0;
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = vmCopy + 0;
+callArg1 = cmdWorkCopy + 0;
+    callArg0 = (int)func_02159B10((void *)callArg0, (void *)callArg1);
+callArg1 = callArg0 + 0;
+callArg0 = cmdWorkCopy + 0;
+callArg2 = 0x6f;
+    callArg0 = func_0215B4DC((void *)callArg0, (void *)callArg1, (void *)callArg2);
+*resultVar = callArg0;
+callArg0 = 0;
+    return callArg0;}
 
 
 
-int func_0215B848(int a0, int a1)
+int func_0215B848(int callArg0, int callArg1)
 {
-    int t4;
-    int t5;
-    unsigned short *v0;
-    void *p;
+    int vmOrMode;
+    int cmdWorkCopy;
+    unsigned short *resultVar;
+    void *party;
 
-t4 = a0 + 0;
-t5 = a1 + 0;
-    v0 = func_02159AE8((void *)a0, (void *)a1);
-loc_0215B852:
-a0 = t4 + 0;
-a1 = t5 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_0215B85C:
-t4 = a0 + 0;
-a0 = t5 + 0;
-    p = func_0215A5E4((void *)a0);
-loc_0215B864:
-    p = func_02012934(p);
-loc_0215B868:
-    if (t4 == 1) goto loc_0215B87A;
-loc_0215B86C:
-    if (t4 != 2) goto loc_0215B880;
-loc_0215B870:
-    a0 = func_0201AB08(p);
-loc_0215B874:
-a0 = a0 << 0x10;
-a0 = (unsigned)a0 >> 0x10;
-    goto loc_0215B882;
-loc_0215B87A:
-    a0 = func_0201AB18(p);
-loc_0215B87E:
-    goto loc_0215B874;
-loc_0215B880:
-a0 = 0;
-loc_0215B882:
-((struct Obj17690 *)((char *)v0))->f0 = a0;
-a0 = 0;
-    return a0;}
+vmOrMode = callArg0 + 0;
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = vmOrMode + 0;
+callArg1 = cmdWorkCopy + 0;
+    callArg0 = (int)func_02159B10((void *)callArg0, (void *)callArg1);
+vmOrMode = callArg0 + 0;
+callArg0 = cmdWorkCopy + 0;
+    party = func_0215A5E4((void *)callArg0);
+    party = func_02012934(party);
+    if (vmOrMode == 1) goto nonEgg;
+    if (vmOrMode != 2) goto none;
+    callArg0 = func_0201AB08(party);
+truncate:
+callArg0 = callArg0 << 0x10;
+callArg0 = (unsigned)callArg0 >> 0x10;
+    goto store;
+nonEgg:
+    callArg0 = func_0201AB18(party);
+    goto truncate;
+none:
+callArg0 = 0;
+store:
+*resultVar = callArg0;
+callArg0 = 0;
+    return callArg0;}
 
 
 
-int func_0215B888(void *a0, void *a1)
+int func_0215B888(void *vm, void *cmdWork)
 {
-    u16 *out = func_02159AE8(a0, a1);
-    int sel = func_02159B10(a0, a1);
-    void *h = func_02012934(func_0215A5E4(a1));
-    int r;
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    int countKind = func_02159B10(vm, cmdWork);
+    void *party = func_02012934(func_0215A5E4(cmdWork));
+    int result;
 
-    switch (sel) {
+    switch (countKind) {
     case 0:
-        r = func_0201AA18(h);
+        result = func_0201AA18(party);
         break;
     case 1:
-        r = func_0201AA1C(h);
+        result = func_0201AA1C(party);
         break;
     case 2:
-        r = func_0201AA50(h);
+        result = func_0201AA50(party);
         break;
     case 3:
-        r = func_0201AA88(h);
+        result = func_0201AA88(party);
         break;
     case 4:
-        r = func_0201AAD4(h);
+        result = func_0201AAD4(party);
         break;
     case 5: {
-        int a = func_0201AA14(h);
-        int b = func_0201AA18(h);
-        if (a < b) {
-            r = 0;
+        int capacity = func_0201AA14(party);
+        int count = func_0201AA18(party);
+        if (capacity < count) {
+            result = 0;
         } else {
-            r = a - b;
+            result = capacity - count;
         }
         break;
     }
     default:
-        r = 0;
+        result = 0;
         break;
     }
-    *out = r;
+    *resultVar = result;
     return 0;
 }
 
 
 
-int func_0215B904(void *a0, void *a1)
+int func_0215B904(void *vm, void *cmdWork)
 {
-    u32 key = func_02159B10(a0, a1);
-    u16 *out = func_02159AE8(a0, a1);
-    void *list = func_02012934(func_0215A5E4(a1));
-    u16 n = func_0201AA18(list);
-    u16 cnt = 0;
+    u32 species = func_02159B10(vm, cmdWork);
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    void *party = func_02012934(func_0215A5E4(cmdWork));
+    u16 partyCount = func_0201AA18(party);
+    u16 matchCount = 0;
     int i;
 
-    if (key != 0 && key <= 0x289) {
-        for (i = 0; i < n; i++) {
-            void *e = func_0201AB28(list, i);
-            u16 t;
+    if (species != 0 && species <= 0x289) {
+        for (i = 0; i < partyCount; i++) {
+            void *member = func_0201AB28(party, i);
+            u16 memberSpecies;
 
-            if (e != 0 && func_02017E1C(e, 0x4C, 0) == 0) {
-                t = func_02017E1C(e, 5, 0);
-                if (t == key) {
-                    cnt++;
+            if (member != 0 && func_02017E1C(member, 0x4C, 0) == 0) {
+                memberSpecies = func_02017E1C(member, 5, 0);
+                if (memberSpecies == species) {
+                    matchCount++;
                 }
             }
         }
-        *out = cnt;
+        *resultVar = matchCount;
     } else {
-        *out = 0;
+        *resultVar = 0;
     }
     return 0;
 }
 
 
 
-int func_0215B994(void *a0, void *a1)
+int func_0215B994(void *vm, void *cmdWork)
 {
-    u16 *out = func_02159AE8(a0, a1);
-    int sel = func_02159B10(a0, a1);
-    void *h = func_0215A5E4(a1);
-    void *d = (void *)func_0201293C(h);
-    int r;
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    int countKind = func_02159B10(vm, cmdWork);
+    void *gameData = func_0215A5E4(cmdWork);
+    void *boxManager = (void *)func_0201293C(gameData);
+    int result;
 
-    func_02012934(h);
-    switch (sel) {
+    func_02012934(gameData);
+    switch (countKind) {
     case 0:
-        r = func_02007984(d);
+        result = func_02007984(boxManager);
         break;
     case 1:
     case 2:
-        r = func_020079A0(d);
+        result = func_020079A0(boxManager);
         break;
     case 3:
-        r = func_02007984(d) - func_020079A0(d);
+        result = func_02007984(boxManager) - func_020079A0(boxManager);
         break;
     case 5: {
-        int v = func_02007984(d);
-        if (v > 720) {
-            r = 0;
+        int storedCount = func_02007984(boxManager);
+        if (storedCount > 720) {
+            result = 0;
         } else {
-            r = 720 - v;
+            result = 720 - storedCount;
         }
         break;
     }
     default:
-        r = 0;
+        result = 0;
         break;
     }
-    *out = r;
+    *resultVar = result;
     return 0;
 }
 
 
 
-int func_0215BA18(void *a0, void *a1)
+int func_0215BA18(void *vm, void *cmdWork)
 {
-    u32 key = func_02159B10(a0, a1);
-    u16 *out = func_02159AE8(a0, a1);
-    u16 *idx = func_02159AE8(a0, a1);
-    void *list = func_02012934(func_0215A5E4(a1));
-    u16 n = func_0201AA18(list);
+    u32 species = func_02159B10(vm, cmdWork);
+    u16 *foundVar = func_02159AE8(vm, cmdWork);
+    u16 *indexVar = func_02159AE8(vm, cmdWork);
+    void *party = func_02012934(func_0215A5E4(cmdWork));
+    u16 partyCount = func_0201AA18(party);
     int i;
 
-    if (key != 0 && key <= 0x289) {
-        for (i = 0; i < n; i++) {
-            void *e = func_0201AB28(list, i);
-            u16 t;
+    if (species != 0 && species <= 0x289) {
+        for (i = 0; i < partyCount; i++) {
+            void *member = func_0201AB28(party, i);
+            u16 memberSpecies;
 
-            if (e != 0 && func_02017E1C(e, 0x4C, 0) == 0) {
-                t = func_02017E1C(e, 5, 0);
-                if (t == key) {
+            if (member != 0 && func_02017E1C(member, 0x4C, 0) == 0) {
+                memberSpecies = func_02017E1C(member, 5, 0);
+                if (memberSpecies == species) {
                     break;
                 }
             }
         }
-        if (i < n) {
-            *out = 1;
-            *idx = i;
+        if (i < partyCount) {
+            *foundVar = 1;
+            *indexVar = i;
         } else {
-            *out = 0;
+            *foundVar = 0;
         }
     } else {
-        *out = 0;
+        *foundVar = 0;
     }
     return 0;
 }
 
 
 
-int func_0215BAB0(int a0, int a1, int a2)
+int func_0215BAB0(int callArg0, int callArg1, int callArg2)
 {
-    int v0;
-    int t5;
-    int t6;
-    int t7;
-    u16 *q;
-t6 = a0 + 0;
-t5 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
-loc_0215BABA:
-a0 = t6 + 0;
-a1 = t5 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_0215BAC4:
-t7 = a0 + 0;
-a0 = t6 + 0;
-a1 = t5 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_0215BACE:
-a1 = a0 + 0;
-a0 = 0;
-*q = a0;
-a0 = t5 + 0;
-a2 = (int)&v0;
-    a0 = func_0215B4AC((void *)a0, a1, (void **)a2);
-loc_0215BADC:
-    if (a0 != 1) goto loc_0215BAF0;
-loc_0215BAE0:
-    a0 = v0;
-a1 = t7 + 0;
-    a0 = func_0215B500(a0, a1);
-loc_0215BAE8:
-    if (a0 != 1) goto loc_0215BAF0;
-loc_0215BAEC:
-a0 = 1;
-*q = a0;
-loc_0215BAF0:
-a0 = 0;
-    return a0;
+    int mon;
+    int cmdWorkCopy;
+    int vmCopy;
+    int moveId;
+    u16 *resultVar;
+vmCopy = callArg0 + 0;
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = vmCopy + 0;
+callArg1 = cmdWorkCopy + 0;
+    callArg0 = (int)func_02159B10((void *)callArg0, (void *)callArg1);
+moveId = callArg0 + 0;
+callArg0 = vmCopy + 0;
+callArg1 = cmdWorkCopy + 0;
+    callArg0 = (int)func_02159B10((void *)callArg0, (void *)callArg1);
+callArg1 = callArg0 + 0;
+callArg0 = 0;
+*resultVar = callArg0;
+callArg0 = cmdWorkCopy + 0;
+callArg2 = (int)&mon;
+    callArg0 = func_0215B4AC((void *)callArg0, callArg1, (void **)callArg2);
+    if (callArg0 != 1) goto done;
+    callArg0 = mon;
+callArg1 = moveId + 0;
+    callArg0 = func_0215B500(callArg0, callArg1);
+    if (callArg0 != 1) goto done;
+callArg0 = 1;
+*resultVar = callArg0;
+done:
+callArg0 = 0;
+    return callArg0;
 }
 
 
 
-int func_0215BAF4(void *a0, void *a1)
+int func_0215BAF4(void *vm, void *cmdWork)
 {
-    void *list = func_02012934(func_0215A5E4(a1));
-    u16 *out = func_02159AE8(a0, a1);
-    void *key = (void *)func_02159B10(a0, a1);
+    void *party = func_02012934(func_0215A5E4(cmdWork));
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    void *moveId = (void *)func_02159B10(vm, cmdWork);
     int i;
-    int n = func_0201AA18(list);
+    int partyCount = func_0201AA18(party);
 
-    *out = 6;
-    for (i = 0; i < n; i++) {
-        if (func_0215B500((int)func_0201AB28(list, i), (int)key) == 1) {
-            *out = i;
+    *resultVar = 6;
+    for (i = 0; i < partyCount; i++) {
+        if (func_0215B500((int)func_0201AB28(party, i), (int)moveId) == 1) {
+            *resultVar = i;
             break;
         }
     }
@@ -1284,35 +1171,35 @@ int func_0215BAF4(void *a0, void *a1)
 
 
 
-int func_0215BB50(void *a0, void *a1)
+int func_0215BB50(void *vm, void *cmdWork)
 {
-    void *h;
-    u16 n;
-    u16 *out;
-    void *t1;
-    void *t2;
-    void *t3;
-    Req r;
+    void *gameData;
+    u16 heapId;
+    u16 *resultVar;
+    int species;
+    int form;
+    int level;
+    PokemonSpec spec;
 
-    func_0215A5DC(a1);
-    h = func_0215A5E4(a1);
-    n = func_0215A5CC(a1);
-    func_02012934(h);
-    func_02012944(h);
-    out = func_02159AE8(a0, a1);
-    t1 = (void *)func_02159B10(a0, a1);
-    t2 = (void *)func_02159B10(a0, a1);
-    t3 = (void *)func_02159B10(a0, a1);
-    r.h = n;
-    r.p0 = t1;
-    r.p1 = t2;
-    r.p2 = t3;
-    r.z = 0;
-    r.c0 = 2;
-    r.c1 = 2;
-    r.c2 = 2;
-    r.c3 = 4;
-    *out = func_0215C510(h, &r);
+    func_0215A5DC(cmdWork);
+    gameData = func_0215A5E4(cmdWork);
+    heapId = func_0215A5CC(cmdWork);
+    func_02012934(gameData);
+    func_02012944(gameData);
+    resultVar = func_02159AE8(vm, cmdWork);
+    species = func_02159B10(vm, cmdWork);
+    form = func_02159B10(vm, cmdWork);
+    level = func_02159B10(vm, cmdWork);
+    spec.heapId = heapId;
+    spec.species = species;
+    spec.form = form;
+    spec.level = level;
+    spec.heldItem = 0;
+    spec.genderMode = 2;
+    spec.natureMode = 2;
+    spec.shinyMode = 2;
+    spec.ballItem = 4;
+    *resultVar = func_0215C510(gameData, &spec);
     return 0;
 }
 
@@ -1327,51 +1214,51 @@ int func_0215BB50(void *a0, void *a1)
  * three, three of them clamped to 2), and of func_0215C200: the u16 locals
  * are what make the second clamp reload its value from the spill slot.
  */
-int func_0215BBD0(void *a0, void *a1)
+int func_0215BBD0(void *vm, void *cmdWork)
 {
-    void *h;
-    u16 n;
-    u16 *out;
-    u16 t1;
-    u16 t2;
-    u16 t3;
-    u16 t4;
-    u16 t5;
-    u16 t6;
-    u16 t7;
-    u16 t8;
-    Req_0215BBD0 r;
+    void *gameData;
+    u16 heapId;
+    u16 *resultVar;
+    u16 species;
+    u16 form;
+    u16 level;
+    u16 genderMode;
+    u16 natureMode;
+    u16 shinyMode;
+    u16 heldItem;
+    u16 ballItem;
+    PokemonSpec spec;
 
-    func_0215A5DC(a1);
-    h = func_0215A5E4(a1);
-    n = func_0215A5CC(a1);
-    func_02012934(h);
-    func_02012944(h);
-    out = func_02159AE8(a0, a1);
-    t1 = func_02159B10(a0, a1);
-    t2 = func_02159B10(a0, a1);
-    t3 = func_02159B10(a0, a1);
-    t4 = func_02159B10(a0, a1);
-    t5 = func_02159B10(a0, a1);
-    t6 = func_02159B10(a0, a1);
-    t7 = func_02159B10(a0, a1);
-    t8 = func_02159B10(a0, a1);
-    r.h = n;
-    r.p0 = t1;
-    r.p1 = t2;
-    r.p2 = t3;
-    r.z = t7;
-    r.c0 = t4;
-    if (r.c0 >= 3)
-        r.c0 = 2;
-    r.c1 = t5;
-    if (r.c1 >= 3)
-        r.c1 = 2;
-    r.c2 = t6;
-    if (r.c2 >= 3)
-        r.c2 = 2;
-    r.c3 = t8;
-    *out = func_0215C510(h, &r);
+    func_0215A5DC(cmdWork);
+    gameData = func_0215A5E4(cmdWork);
+    heapId = func_0215A5CC(cmdWork);
+    func_02012934(gameData);
+    func_02012944(gameData);
+    resultVar = func_02159AE8(vm, cmdWork);
+    species = func_02159B10(vm, cmdWork);
+    form = func_02159B10(vm, cmdWork);
+    level = func_02159B10(vm, cmdWork);
+    genderMode = func_02159B10(vm, cmdWork);
+    natureMode = func_02159B10(vm, cmdWork);
+    shinyMode = func_02159B10(vm, cmdWork);
+    heldItem = func_02159B10(vm, cmdWork);
+    ballItem = func_02159B10(vm, cmdWork);
+    spec.heapId = heapId;
+    spec.species = species;
+    spec.form = form;
+    spec.level = level;
+    spec.heldItem = heldItem;
+    spec.genderMode = genderMode;
+    if (spec.genderMode >= 3)
+        spec.genderMode = 2;
+    spec.natureMode = natureMode;
+    if (spec.natureMode >= 3)
+        spec.natureMode = 2;
+    spec.shinyMode = shinyMode;
+    if (spec.shinyMode >= 3)
+        spec.shinyMode = 2;
+    spec.ballItem = ballItem;
+    *resultVar = func_0215C510(gameData, &spec);
     return 0;
 }
 
@@ -1381,48 +1268,42 @@ int func_0215BBD0(void *a0, void *a1)
 
 
 
-int func_0215BCA0(int a0, int a1, int a2)
+int func_0215BCA0(int callArg0, int callArg1, int callArg2)
 {
-    int v0;
-    int t4;
-    int t5;
-    int t6;
-    u16 *q;
-t5 = a0 + 0;
-t4 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
-loc_0215BCAA:
-a0 = t5 + 0;
-a1 = t4 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_0215BCB4:
-a1 = a0 + 0;
-a0 = t4 + 0;
-a2 = (int)&v0;
-t5 = 0;
-    a0 = func_0215B4AC((void *)a0, a1, (void **)a2);
-loc_0215BCC0:
-    if (a0 != 1) goto loc_0215BCE0;
-loc_0215BCC4:
-t4 = t5 + 0;
-t6 = t5 + 0;
-loc_0215BCC8:
-a1 = t4 + 0;
-    a0 = v0;
-a1 = a1 + 0x36;
-a2 = t6 + 0;
-    a0 = func_02017E1C((void *)a0, a1, a2);
-loc_0215BCD4:
-    if (a0 == 0) goto loc_0215BCDA;
-loc_0215BCD8:
-t5 = t5 + 1;
-loc_0215BCDA:
-t4 = t4 + 1;
-    if (t4 < 4) goto loc_0215BCC8;
-loc_0215BCE0:
-*q = t5;
-a0 = 0;
-    return a0;
+    int mon;
+    int moveSlot;
+    int moveCount;
+    int zero;
+    u16 *resultVar;
+moveCount = callArg0 + 0;
+moveSlot = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = moveCount + 0;
+callArg1 = moveSlot + 0;
+    callArg0 = (int)func_02159B10((void *)callArg0, (void *)callArg1);
+callArg1 = callArg0 + 0;
+callArg0 = moveSlot + 0;
+callArg2 = (int)&mon;
+moveCount = 0;
+    callArg0 = func_0215B4AC((void *)callArg0, callArg1, (void **)callArg2);
+    if (callArg0 != 1) goto store;
+moveSlot = moveCount + 0;
+zero = moveCount + 0;
+countSlot:
+callArg1 = moveSlot + 0;
+    callArg0 = mon;
+callArg1 = callArg1 + 0x36;
+callArg2 = zero + 0;
+    callArg0 = func_02017E1C((void *)callArg0, callArg1, callArg2);
+    if (callArg0 == 0) goto nextSlot;
+moveCount = moveCount + 1;
+nextSlot:
+moveSlot = moveSlot + 1;
+    if (moveSlot < 4) goto countSlot;
+store:
+*resultVar = moveCount;
+callArg0 = 0;
+    return callArg0;
 }
 
 
@@ -1431,20 +1312,20 @@ a0 = 0;
 
 
 
-int func_0215BCE8(void *a0, void *a1)
+int func_0215BCE8(void *vm, void *cmdWork)
 {
-    u16 *out;
-    void *k;
-    char *p;
-    void *v;
+    u16 *resultVar;
+    void *partyIndex;
+    char *moveSlot;
+    void *mon;
 
-    out = func_02159AE8(a0, a1);
-    k = (char *)func_02159B10(a0, a1);
-    p = (char *)func_02159B10(a0, a1);
-    if (func_0215B4AC(a1, (u32)k, &v) == 1) {
-        *out = func_02017E1C(v, (u32)(p + 0x36), 0);
+    resultVar = func_02159AE8(vm, cmdWork);
+    partyIndex = (char *)func_02159B10(vm, cmdWork);
+    moveSlot = (char *)func_02159B10(vm, cmdWork);
+    if (func_0215B4AC(cmdWork, (u32)partyIndex, &mon) == 1) {
+        *resultVar = func_02017E1C(mon, (u32)(moveSlot + 0x36), 0);
     } else {
-        *out = 0;
+        *resultVar = 0;
     }
     return 0;
 }
@@ -1461,9 +1342,9 @@ int func_0215BCE8(void *a0, void *a1)
  * the slot, shifting the later moves (ids 0x36 move, 0x3A pp, 0x3E pp-ups)
  * down one; otherwise func_020181F4 sets the move into the slot.
  */
-int func_0215BD2C(void *c, void *vm)
+int func_0215BD2C(void *vm, void *cmdWork)
 {
-    u16 slot;
+    u16 partyIndex;
     u16 moveSlot;
     u16 move;
     void *mon;
@@ -1473,10 +1354,10 @@ int func_0215BD2C(void *c, void *vm)
     u32 ppUp;
     u32 pp;
 
-    slot = func_02159B10(c, vm);
-    moveSlot = func_02159B10(c, vm);
-    move = func_02159B10(c, vm);
-    if (func_0215B4AC(vm, slot, &mon) == 0) {
+    partyIndex = func_02159B10(vm, cmdWork);
+    moveSlot = func_02159B10(vm, cmdWork);
+    move = func_02159B10(vm, cmdWork);
+    if (func_0215B4AC(cmdWork, partyIndex, &mon) == 0) {
         return 0;
     }
     saved = func_02017D30(mon);
@@ -1523,57 +1404,57 @@ int func_0215BD2C(void *c, void *vm)
  * test), the name test as `== 0` (func_0204589C answers "equal"), and the
  * version read into a local before the compare (`cmp r0, r1`).
  */
-int func_0215BE24(void *c, void *vm)
+int func_0215BE24(void *vm, void *cmdWork)
 {
-    void *player;
+    void *myStatus;
     void *mon;
-    u16 *res;
-    u32 slot;
-    u32 heap;
-    void *a;
-    void *b;
-    u32 ver;
+    u16 *resultVar;
+    u32 partyIndex;
+    u32 heapId;
+    void *monOtName;
+    void *playerName;
+    u32 gameVersion;
 
-    res = func_02159AE8(c, vm);
-    slot = func_02159B10(c, vm);
-    player = func_02012944(func_0215A5E4(vm));
+    resultVar = func_02159AE8(vm, cmdWork);
+    partyIndex = func_02159B10(vm, cmdWork);
+    myStatus = func_02012944(func_0215A5E4(cmdWork));
     mon = 0;
-    if (!func_0215B4AC(vm, slot, &mon)) {
-        *res = 0;
+    if (!func_0215B4AC(cmdWork, partyIndex, &mon)) {
+        *resultVar = 0;
         return 0;
     }
-    if (func_02017E1C(mon, 7, 0) != func_02008530(player)) {
-        *res = 0;
+    if (func_02017E1C(mon, 7, 0) != func_02008530(myStatus)) {
+        *resultVar = 0;
         return 0;
     }
-    heap = func_0215A5CC(vm);
-    a = func_020457B0(16, heap);
-    b = func_020457B0(16, heap);
-    if (a != 0 && b != 0) {
-        func_02017E1C(mon, 0x8D, (u32)a);
-        func_02008500(player, b);
-        if (func_0204589C(a, b) == 0) {
-            func_02045808(a);
-            func_02045808(b);
-            *res = 0;
+    heapId = func_0215A5CC(cmdWork);
+    monOtName = func_020457B0(16, heapId);
+    playerName = func_020457B0(16, heapId);
+    if (monOtName != 0 && playerName != 0) {
+        func_02017E1C(mon, 0x8D, (u32)monOtName);
+        func_02008500(myStatus, playerName);
+        if (func_0204589C(monOtName, playerName) == 0) {
+            func_02045808(monOtName);
+            func_02045808(playerName);
+            *resultVar = 0;
             return 0;
         }
     } else {
-        *res = 0;
+        *resultVar = 0;
         return 0;
     }
-    func_02045808(a);
-    func_02045808(b);
-    if (func_02017E1C(mon, 0x9A, 0) != func_02008550(player)) {
-        *res = 0;
+    func_02045808(monOtName);
+    func_02045808(playerName);
+    if (func_02017E1C(mon, 0x9A, 0) != func_02008550(myStatus)) {
+        *resultVar = 0;
         return 0;
     }
-    ver = func_02017E1C(mon, 0x77, 0);
-    if (ver != g0209DF08) {
-        *res = 0;
+    gameVersion = func_02017E1C(mon, 0x77, 0);
+    if (gameVersion != g0209DF08) {
+        *resultVar = 0;
         return 0;
     }
-    *res = 1;
+    *resultVar = 1;
     return 0;
 }
 
@@ -1583,18 +1464,18 @@ int func_0215BE24(void *c, void *vm)
 
 
 
-int func_0215BF30(void *a0, void *a1)
+int func_0215BF30(void *vm, void *cmdWork)
 {
-    void *k = (void *)func_02159B10(a0, a1);
-    void *v = (void *)func_02159B10(a0, a1);
-    void *h;
-    void *e;
+    void *partyIndex = (void *)func_02159B10(vm, cmdWork);
+    void *form = (void *)func_02159B10(vm, cmdWork);
+    void *gameData;
+    void *mon;
 
-    func_0215A5F4(a1);
-    h = func_020120F4(func_0215A5DC(a1));
-    e = func_0201AB28(func_02012934(h), (u32)k);
-    func_02017988(e, (u32)v);
-    func_0200CFA0(func_0200CA1C(h), e);
+    func_0215A5F4(cmdWork);
+    gameData = func_020120F4(func_0215A5DC(cmdWork));
+    mon = func_0201AB28(func_02012934(gameData), (u32)partyIndex);
+    func_02017988(mon, (u32)form);
+    func_0200CFA0(func_0200CA1C(gameData), mon);
     return 0;
 }
 
@@ -1604,19 +1485,19 @@ int func_0215BF30(void *a0, void *a1)
 
 
 
-int func_0215BF7C(void *a0, void *a1)
+int func_0215BF7C(void *vm, void *cmdWork)
 {
-    void *k = (void *)func_02159B10(a0, a1);
-    void *v = (void *)func_02159B10(a0, a1);
-    void *w = (void *)func_02159B10(a0, a1);
-    void *h;
-    void *e;
+    void *partyIndex = (void *)func_02159B10(vm, cmdWork);
+    void *form = (void *)func_02159B10(vm, cmdWork);
+    void *moveSlot = (void *)func_02159B10(vm, cmdWork);
+    void *gameData;
+    void *mon;
 
-    func_0215A5F4(a1);
-    h = func_020120F4(func_0215A5DC(a1));
-    e = func_0201AB28(func_02012934(h), (u32)k);
-    func_02017A20(e, (u32)w, (u32)v);
-    func_0200CFA0(func_0200CA1C(h), e);
+    func_0215A5F4(cmdWork);
+    gameData = func_020120F4(func_0215A5DC(cmdWork));
+    mon = func_0201AB28(func_02012934(gameData), (u32)partyIndex);
+    func_02017A20(mon, (u32)moveSlot, (u32)form);
+    func_0200CFA0(func_0200CA1C(gameData), mon);
     return 0;
 }
 
@@ -1626,45 +1507,38 @@ int func_0215BF7C(void *a0, void *a1)
 
 
 
-int func_0215BFD4(int a0, int a1, int a2)
+int func_0215BFD4(int callArg0, int callArg1, int callArg2)
 {
-    int v0;
-    int t5;
-    int t6;
-    int t7;
-    void *buf;
-    u16 *q;
-t6 = a0 + 0;
-t5 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
-loc_0215BFDE:
-a0 = t6 + 0;
-a1 = t5 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
-loc_0215BFE8:
-t6 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_0215A5CC((void *)a0);
-loc_0215BFF0:
-t7 = a0 + 0;
-a0 = t5 + 0;
-a1 = t6 + 0;
-a2 = (int)&v0;
-    a0 = func_0215B4AC((void *)a0, a1, (void **)a2);
-loc_0215BFFC:
-    if (a0 != 1) goto loc_0215C016;
-loc_0215C000:
-    a0 = v0;
-a1 = t7 + 0;
-    buf = func_0216F948((void *)a0, a1);
-loc_0215C008:
-    a0 = func_0216FAA0(buf);
-loc_0215C00E:
-*q = a0;
-    a0 = func_020307B0(buf);
-loc_0215C016:
-a0 = 0;
-    return a0;
+    int mon;
+    int cmdWorkCopy;
+    int partyIndex;
+    int heapId;
+    void *relearnMoves;
+    u16 *resultVar;
+partyIndex = callArg0 + 0;
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = partyIndex + 0;
+callArg1 = cmdWorkCopy + 0;
+    callArg0 = (int)func_02159B10((void *)callArg0, (void *)callArg1);
+partyIndex = callArg0 + 0;
+callArg0 = cmdWorkCopy + 0;
+    callArg0 = func_0215A5CC((void *)callArg0);
+heapId = callArg0 + 0;
+callArg0 = cmdWorkCopy + 0;
+callArg1 = partyIndex + 0;
+callArg2 = (int)&mon;
+    callArg0 = func_0215B4AC((void *)callArg0, callArg1, (void **)callArg2);
+    if (callArg0 != 1) goto done;
+    callArg0 = mon;
+callArg1 = heapId + 0;
+    relearnMoves = func_0216F948((void *)callArg0, callArg1);
+    callArg0 = func_0216FAA0(relearnMoves);
+*resultVar = callArg0;
+    callArg0 = func_020307B0(relearnMoves);
+done:
+callArg0 = 0;
+    return callArg0;
 }
 
 
@@ -1673,17 +1547,17 @@ a0 = 0;
 
 
 
-int func_0215C01C(void *a0, void *a1)
+int func_0215C01C(void *vm, void *cmdWork)
 {
-    u16 *out = func_02159AE8(a0, a1);
-    int k = func_02159B10(a0, a1);
-    int j = func_02159B10(a0, a1);
-    u16 t = func_0215B4DC(a1, (void *)k, (void *)0x95);
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    int partyIndex = func_02159B10(vm, cmdWork);
+    int tableIndex = func_02159B10(vm, cmdWork);
+    u16 monValue = func_0215B4DC(cmdWork, (void *)partyIndex, (void *)0x95);
 
-    if (t == d_02171180[j]) {
-        *out = 1;
+    if (monValue == d_02171180[tableIndex]) {
+        *resultVar = 1;
     } else {
-        *out = 0;
+        *resultVar = 0;
     }
     return 0;
 }
@@ -1694,21 +1568,21 @@ int func_0215C01C(void *a0, void *a1)
 
 
 
-int func_0215C064(void *a0, void *a1)
+int func_0215C064(void *vm, void *cmdWork)
 {
-    u16 *o0 = func_02159AE8(a0, a1);
-    u16 *o1 = func_02159AE8(a0, a1);
-    u16 *o2 = func_02159AE8(a0, a1);
-    void *v;
+    u16 *firstResultVar = func_02159AE8(vm, cmdWork);
+    u16 *secondResultVar = func_02159AE8(vm, cmdWork);
+    u16 *thirdResultVar = func_02159AE8(vm, cmdWork);
+    void *mon;
 
-    if (func_0215B4AC(a1, func_02159B10(a0, a1), &v) == 1) {
-        *o0 = func_02017E1C(v, 0x92, 0);
-        *o1 = func_02017E1C(v, 0x93, 0);
-        *o2 = func_02017E1C(v, 0x94, 0);
+    if (func_0215B4AC(cmdWork, func_02159B10(vm, cmdWork), &mon) == 1) {
+        *firstResultVar = func_02017E1C(mon, 0x92, 0);
+        *secondResultVar = func_02017E1C(mon, 0x93, 0);
+        *thirdResultVar = func_02017E1C(mon, 0x94, 0);
     } else {
-        *o0 = 0;
-        *o1 = 0;
-        *o2 = 0;
+        *firstResultVar = 0;
+        *secondResultVar = 0;
+        *thirdResultVar = 0;
     }
     return 0;
 }
@@ -1719,19 +1593,19 @@ int func_0215C064(void *a0, void *a1)
 
 
 
-int func_0215C0D0(void *a0, void *a1)
+int func_0215C0D0(void *vm, void *cmdWork)
 {
-    int k = func_02159B10(a0, a1);
-    u32 x = func_02159B10(a0, a1);
-    u32 y = func_02159B10(a0, a1);
-    void *v;
+    int partyIndex = func_02159B10(vm, cmdWork);
+    u32 paramId = func_02159B10(vm, cmdWork);
+    u32 value = func_02159B10(vm, cmdWork);
+    void *mon;
     u32 i;
 
     for (i = 0; i < 6; i++) {
-        if (x == d_0217118E[i].a) {
-            if (y <= d_0217118E[i].b && func_0215B4AC(a1, k, &v) == 1) {
-                func_02017E40(v, x, y);
-                func_020185C4(v);
+        if (paramId == d_0217118E[i].paramId) {
+            if (value <= d_0217118E[i].maxValue && func_0215B4AC(cmdWork, partyIndex, &mon) == 1) {
+                func_02017E40(mon, paramId, value);
+                func_020185C4(mon);
             }
             return 0;
         }
@@ -1747,22 +1621,22 @@ int func_0215C0D0(void *a0, void *a1)
 /*
  * lever: selector remains live in r2 and is func_0215B4DC's third argument.
  */
-int func_0215C138(void *c, void *vm)
+int func_0215C138(void *vm, void *cmdWork)
 {
-    u16 *dst;
-    u32 arg;
-    u32 sel;
+    u16 *resultVar;
+    u32 partyIndex;
+    u32 paramId;
     u32 i;
-    dst = func_02159AE8(c, vm);
-    arg = func_02159B10(c, vm);
-    sel = func_02159B10(c, vm);
+    resultVar = func_02159AE8(vm, cmdWork);
+    partyIndex = func_02159B10(vm, cmdWork);
+    paramId = func_02159B10(vm, cmdWork);
     for (i = 0; i < 12; i++) {
-        if (sel == d_02171182[i]) {
-            *dst = func_0215B4DC(vm, (void *)arg, (void *)sel);
+        if (paramId == d_02171182[i]) {
+            *resultVar = func_0215B4DC(cmdWork, (void *)partyIndex, (void *)paramId);
             return 0;
         }
     }
-    *dst = 0;
+    *resultVar = 0;
     return 0;
 }
 
@@ -1775,35 +1649,35 @@ int func_0215C138(void *c, void *vm)
  * fills a 0x24-byte spec on the stack (function 0x0215C4C8 consumes it)
  * and stores the returned value through the destination.
  */
-int func_0215C180(void *c, void *vm)
+int func_0215C180(void *vm, void *cmdWork)
 {
-    void *sys;
-    u16 v;
-    u16 *dst;
-    u32 a;
-    u32 b;
-    u32 d;
-    Spec_0 s;
+    void *gameData;
+    u16 heapId;
+    u16 *resultVar;
+    u32 species;
+    u32 form;
+    u32 level;
+    PokemonSpec spec;
 
-    func_0215A5DC(vm);
-    sys = func_0215A5E4(vm);
-    v = func_0215A5CC(vm);
-    func_02012934(sys);
-    func_02012944(sys);
-    dst = func_02159AE8(c, vm);
-    a = func_02159B10(c, vm);
-    b = func_02159B10(c, vm);
-    d = func_02159B10(c, vm);
-    s.f00 = v;
-    s.f04 = a;
-    s.f08 = b;
-    s.f0c = d;
-    s.f10 = 0;
-    s.f14 = 2;
-    s.f18 = 2;
-    s.f1c = 2;
-    s.f20 = 4;
-    *dst = func_0215C4C8(sys, &s);
+    func_0215A5DC(cmdWork);
+    gameData = func_0215A5E4(cmdWork);
+    heapId = func_0215A5CC(cmdWork);
+    func_02012934(gameData);
+    func_02012944(gameData);
+    resultVar = func_02159AE8(vm, cmdWork);
+    species = func_02159B10(vm, cmdWork);
+    form = func_02159B10(vm, cmdWork);
+    level = func_02159B10(vm, cmdWork);
+    spec.heapId = heapId;
+    spec.species = species;
+    spec.form = form;
+    spec.level = level;
+    spec.heldItem = 0;
+    spec.genderMode = 2;
+    spec.natureMode = 2;
+    spec.shinyMode = 2;
+    spec.ballItem = 4;
+    *resultVar = func_0215C4C8(gameData, &spec);
     return 0;
 }
 
@@ -1820,54 +1694,54 @@ int func_0215C180(void *c, void *vm)
  * into each int field is why the clamp of the spilled one reloads its
  * slot, and comparing the int field (not the u16 local) gives blt.
  */
-int func_0215C200(void *c, void *vm)
+int func_0215C200(void *vm, void *cmdWork)
 {
-    void *sys;
-    u16 v;
-    u16 *dst;
-    u16 a;
-    u16 b;
-    u16 d;
-    u16 e;
-    u16 f;
-    u16 g;
-    u16 h;
-    u16 i;
-    Spec_1 s;
+    void *gameData;
+    u16 heapId;
+    u16 *resultVar;
+    u16 species;
+    u16 form;
+    u16 level;
+    u16 genderMode;
+    u16 natureMode;
+    u16 shinyMode;
+    u16 heldItem;
+    u16 ballItem;
+    PokemonSpec spec;
 
-    func_0215A5DC(vm);
-    sys = func_0215A5E4(vm);
-    v = func_0215A5CC(vm);
-    func_02012934(sys);
-    func_02012944(sys);
-    dst = func_02159AE8(c, vm);
-    a = func_02159B10(c, vm);
-    b = func_02159B10(c, vm);
-    d = func_02159B10(c, vm);
-    e = func_02159B10(c, vm);
-    f = func_02159B10(c, vm);
-    g = func_02159B10(c, vm);
-    h = func_02159B10(c, vm);
-    i = func_02159B10(c, vm);
-    s.f00 = v;
-    s.f04 = a;
-    s.f08 = b;
-    s.f0c = d;
-    s.f10 = h;
-    s.f14 = e;
-    if (s.f14 >= 3) {
-        s.f14 = 2;
+    func_0215A5DC(cmdWork);
+    gameData = func_0215A5E4(cmdWork);
+    heapId = func_0215A5CC(cmdWork);
+    func_02012934(gameData);
+    func_02012944(gameData);
+    resultVar = func_02159AE8(vm, cmdWork);
+    species = func_02159B10(vm, cmdWork);
+    form = func_02159B10(vm, cmdWork);
+    level = func_02159B10(vm, cmdWork);
+    genderMode = func_02159B10(vm, cmdWork);
+    natureMode = func_02159B10(vm, cmdWork);
+    shinyMode = func_02159B10(vm, cmdWork);
+    heldItem = func_02159B10(vm, cmdWork);
+    ballItem = func_02159B10(vm, cmdWork);
+    spec.heapId = heapId;
+    spec.species = species;
+    spec.form = form;
+    spec.level = level;
+    spec.heldItem = heldItem;
+    spec.genderMode = genderMode;
+    if (spec.genderMode >= 3) {
+        spec.genderMode = 2;
     }
-    s.f18 = f;
-    if (s.f18 >= 3) {
-        s.f18 = 2;
+    spec.natureMode = natureMode;
+    if (spec.natureMode >= 3) {
+        spec.natureMode = 2;
     }
-    s.f1c = g;
-    if (s.f1c >= 3) {
-        s.f1c = 2;
+    spec.shinyMode = shinyMode;
+    if (spec.shinyMode >= 3) {
+        spec.shinyMode = 2;
     }
-    s.f20 = i;
-    *dst = func_0215C4C8(sys, &s);
+    spec.ballItem = ballItem;
+    *resultVar = func_0215C4C8(gameData, &spec);
     return 0;
 }
 
@@ -1881,50 +1755,50 @@ int func_0215C200(void *c, void *vm)
  * from message 0x28A), writing 1 to the result word, or 0 when the
  * party is full. First draft.
  */
-int func_0215C2D0(void *c, void *vm)
+int func_0215C2D0(void *vm, void *cmdWork)
 {
-    void *sys;
-    u32 heap;
+    void *gameData;
+    u32 heapId;
     void *party;
-    void *my;
-    u16 *res;
+    void *myStatus;
+    u16 *resultVar;
     u32 species;
     u32 form;
     void *mon;
-    u32 t;
-    u32 info;
-    u32 v;
+    u32 tempStrbuf;
+    u32 personal;
+    u32 hatchCycles;
 
-    func_0215A5DC(vm);
-    sys = func_0215A5E4(vm);
-    heap = func_0215A5CC(vm);
-    party = func_02012934(sys);
-    my = func_02012944(sys);
-    res = func_02159AE8(c, vm);
-    species = func_02159B10(c, vm);
-    form = func_02159B10(c, vm);
+    func_0215A5DC(cmdWork);
+    gameData = func_0215A5E4(cmdWork);
+    heapId = func_0215A5CC(cmdWork);
+    party = func_02012934(gameData);
+    myStatus = func_02012944(gameData);
+    resultVar = func_02159AE8(vm, cmdWork);
+    species = func_02159B10(vm, cmdWork);
+    form = func_02159B10(vm, cmdWork);
     if ((int)func_0201AA14(party) <= (int)func_0201AA18(party)) {
-        *res = 0;
+        *resultVar = 0;
         return 0;
     }
-    mon = func_020173F0(species, 1, (u64)-1, heap);
+    mon = func_020173F0(species, 1, (u64)-1, heapId);
     func_02017E40(mon, 0x6F, form);
-    t = (u32)func_02008510(func_02012944(sys), heap);
-    func_02017E40(mon, 0x8D, t);
-    func_02045808((struct U16Vec *)t);
-    info = (u32)func_0201ADE4((u16)func_02017E1C(mon, 5, 0), (u16)func_02017E1C(mon, 0x6F, 0), heap);
-    v = func_0201AE1C((const struct Personal *)info, 0x15);
-    func_0201AE14((void *)info);
-    func_02017E40(mon, 9, v);
+    tempStrbuf = (u32)func_02008510(func_02012944(gameData), heapId);
+    func_02017E40(mon, 0x8D, tempStrbuf);
+    func_02045808((struct Strbuf *)tempStrbuf);
+    personal = (u32)func_0201ADE4((u16)func_02017E1C(mon, 5, 0), (u16)func_02017E1C(mon, 0x6F, 0), heapId);
+    hatchCycles = func_0201AE1C((const struct PersonalData *)personal, 0x15);
+    func_0201AE14((void *)personal);
+    func_02017E40(mon, 9, hatchCycles);
     func_02017E40(mon, 0x4C, 1);
-    t = (u32)func_02045EC0(g_020A7370, 0x28A);
-    func_02017E40(mon, 0x73, t);
-    func_02045808((struct U16Vec *)t);
+    tempStrbuf = (u32)func_02045EC0(g_020A7370, 0x28A);
+    func_02017E40(mon, 0x73, tempStrbuf);
+    func_02045808((struct Strbuf *)tempStrbuf);
     func_020185C4(mon);
-    func_0202F190(mon, 5, my, 0xEA63, heap);
+    func_0202F190(mon, 5, myStatus, 0xEA63, heapId);
     func_0201A98C(party, mon);
     func_020307B0(mon);
-    *res = 1;
+    *resultVar = 1;
     return 0;
 }
 
@@ -1936,22 +1810,22 @@ int func_0215C2D0(void *c, void *vm)
  * lever: func_02017430's matched signature has two u64 inputs; widening the
  * personality result to u64 schedules its high zero before the low-word store.
  */
-void *func_0215C40C(void *a, Spec *s)
+void *func_0215C40C(void *gameData, PokemonSpec *spec)
 {
-    void *r7;
-    void *r4;
-    u32 t;
-    r7 = func_02012944(a);
-    r4 = (void *)func_02008530((const struct Sub0200852CObj *)func_02012944(a));
-    t = func_020186C8((u32)r4, (u16)s->f04, (u16)s->f08, (u32)s->f18, (u32)s->f14, (u32)s->f1c);
-    r4 = func_02017430(s->f04, s->f0c, (u32)r4, -1, t, s->f00);
-    func_02017E40(r4, 0x6F, s->f08);
-    func_02017E40(r4, 6, s->f10);
-    if (func_02020FE4(s->f20, 0xF, s->f00) == 4)
-        func_02017E40(r4, 0x98, (u32)func_0202142C((u16)s->f20));
-    func_0202F190(r4, 0, (void *)r7, func_02013E4C(func_02012AC8(func_020127A4(a))), s->f00);
-    func_020185C4(r4);
-    return r4;
+    void *myStatus;
+    void *trainerIdOrMon;
+    u32 personalRnd;
+    myStatus = func_02012944(gameData);
+    trainerIdOrMon = (void *)func_02008530((const struct MyStatus *)func_02012944(gameData));
+    personalRnd = func_020186C8((u32)trainerIdOrMon, (u16)spec->species, (u16)spec->form, (u32)spec->natureMode, (u32)spec->genderMode, (u32)spec->shinyMode);
+    trainerIdOrMon = func_02017430(spec->species, spec->level, (u32)trainerIdOrMon, -1, personalRnd, spec->heapId);
+    func_02017E40(trainerIdOrMon, 0x6F, spec->form);
+    func_02017E40(trainerIdOrMon, 6, spec->heldItem);
+    if (func_02020FE4(spec->ballItem, 0xF, spec->heapId) == 4)
+        func_02017E40(trainerIdOrMon, 0x98, (u32)func_0202142C((u16)spec->ballItem));
+    func_0202F190(trainerIdOrMon, 0, (void *)myStatus, func_02013E4C(func_02012AC8(func_020127A4(gameData))), spec->heapId);
+    func_020185C4(trainerIdOrMon);
+    return trainerIdOrMon;
 }
 
 
@@ -1959,18 +1833,18 @@ void *func_0215C40C(void *a, Spec *s)
 
 
 
-int func_0215C4C8(void *a, void *b)
+int func_0215C4C8(void *gameData, void *spec)
 {
-    void *r6;
-    void *r5;
+    void *boxManager;
+    void *mon;
 
-    r6 = (void *)func_0201293C(a);
-    if (func_02007984(r6) >= 0x2D0)
+    boxManager = (void *)func_0201293C(gameData);
+    if (func_02007984(boxManager) >= 0x2D0)
         return 0;
-    r5 = func_0215C40C(a, b);
-    func_020074D8(r6, (const struct Sub02007454Entry *)((u32)func_020185F4(r5)));
-    func_0200CDE0(func_0200CA1C(a), r5);
-    func_020307B0(r5);
+    mon = func_0215C40C(gameData, spec);
+    func_020074D8(boxManager, (const struct BoxPokemonParam *)((u32)func_020185F4(mon)));
+    func_0200CDE0(func_0200CA1C(gameData), mon);
+    func_020307B0(mon);
     return 1;
 }
 
@@ -1979,18 +1853,18 @@ int func_0215C4C8(void *a, void *b)
 
 
 
-int func_0215C510(void *a, void *b)
+int func_0215C510(void *gameData, void *spec)
 {
-    void *r6;
-    void *r5;
+    void *party;
+    void *mon;
 
-    r6 = func_02012934(a);
-    if ((int)func_0201AA14(r6) <= (int)func_0201AA18(r6))
+    party = func_02012934(gameData);
+    if ((int)func_0201AA14(party) <= (int)func_0201AA18(party))
         return 0;
-    r5 = func_0215C40C(a, b);
-    func_0201A98C(r6, r5);
-    func_0200CDE0(func_0200CA1C(a), r5);
-    func_020307B0(r5);
+    mon = func_0215C40C(gameData, spec);
+    func_0201A98C(party, mon);
+    func_0200CDE0(func_0200CA1C(gameData), mon);
+    func_020307B0(mon);
     return 1;
 }
 
@@ -2001,13 +1875,13 @@ int func_0215C510(void *a, void *b)
 /*
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  */
-int func_0215C558(int a,int b)
+int func_0215C558(int vm,int cmdWork)
 {
-    void *p = func_0215A5E4((void *)b);
-    int k;
-    func_020127A4(p);
-    k = func_02159B10((void *)a,(void *)b);
-    func_0200C278(func_02012F08(p),k);
+    void *gameData = func_0215A5E4((void *)cmdWork);
+    int value;
+    func_020127A4(gameData);
+    value = func_02159B10((void *)vm,(void *)cmdWork);
+    func_0200C278(func_02012F08(gameData),value);
     return 0;
 }
 
@@ -2015,13 +1889,13 @@ int func_0215C558(int a,int b)
 
 
 
-int func_0215C584(int a,int b)
+int func_0215C584(int vm,int cmdWork)
 {
-    void *p = func_0215A5E4((void *)b);
-    int k;
-    func_020127A4(p);
-    k = func_02159B10((void *)a,(void *)b);
-    func_0200C29C(func_02012F08(p),k);
+    void *gameData = func_0215A5E4((void *)cmdWork);
+    int value;
+    func_020127A4(gameData);
+    value = func_02159B10((void *)vm,(void *)cmdWork);
+    func_0200C29C(func_02012F08(gameData),value);
     return 0;
 }
 
@@ -2030,13 +1904,13 @@ int func_0215C584(int a,int b)
 
 
 
-int func_0215C5B0(void *a, void *b)
+int func_0215C5B0(void *vm, void *cmdWork)
 {
-    u16 *p = func_02159AE8(a, b);
-    unsigned int v = func_02159B10(a, b);
-    void *q = func_0215A5E4(b);
-    func_020127A4(q);
-    *p = v <= func_0200C274(func_02012F08(q)) ? 1 : 0;
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    unsigned int value = func_02159B10(vm, cmdWork);
+    void *gameData = func_0215A5E4(cmdWork);
+    func_020127A4(gameData);
+    *resultVar = value <= func_0200C274(func_02012F08(gameData)) ? 1 : 0;
     return 0;
 }
 
@@ -2048,11 +1922,11 @@ int func_0215C5B0(void *a, void *b)
  * Two overlay lookups on the second argument, the second of them classified
  * by an arm9 call, then submitted together.
  */
-int func_0215C5EC(void *a0, void *a1)
+int func_0215C5EC(void *vm, void *cmdWork)
 {
-    void *v = func_0215A5F4(a1);
+    void *eventSlot = func_0215A5F4(cmdWork);
 
-    func_0215897C(v, func_020145CC(func_0215A5DC(a1)));
+    func_0215897C(eventSlot, func_020145CC(func_0215A5DC(cmdWork)));
 
     return 1;
 }
@@ -2064,29 +1938,24 @@ int func_0215C5EC(void *a0, void *a1)
 
 
 
-int func_0215C610(int a0, int a1)
+int func_0215C610(int callArg0, int callArg1)
 {
-    int t4;
-    void *v0;
-    void *v1;
-    void *v2;
+    int cmdWorkCopy;
+    void *eventSlot;
+    void *gameSystem;
+    void *fieldMap;
 
-t4 = a1 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_0215C61A:
-a0 = t4 + 0;
-    v1 = func_0215A5DC((void *)a0);
-loc_0215C622:
-    v2 = func_0201210C(v1);
-loc_0215C628:
-    a0 = func_020144DC((int)v1, (int)v2);
-loc_0215C630:
-a1 = a0 + 0;
-    func_0215897C(v0, (void *)a1);
-loc_0215C638:
-a0 = 1;
-    return a0;}
+cmdWorkCopy = callArg1 + 0;
+callArg0 = cmdWorkCopy + 0;
+    eventSlot = func_0215A5F4((void *)callArg0);
+callArg0 = cmdWorkCopy + 0;
+    gameSystem = func_0215A5DC((void *)callArg0);
+    fieldMap = func_0201210C(gameSystem);
+    callArg0 = func_020144DC((int)gameSystem, (int)fieldMap);
+callArg1 = callArg0 + 0;
+    func_0215897C(eventSlot, (void *)callArg1);
+callArg0 = 1;
+    return callArg0;}
 
 
 
@@ -2102,21 +1971,21 @@ a0 = 1;
  * launches the process over the work with func_020120B4, parks the record in the
  * script's slot and waits on func_0215C69C.
  */
-void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1)
+void func_0215C63C(void *vm, void *cmdWork, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData)
 {
-    void *sys;
-    void **slot;
-    ProcHandoff *h;
+    void *gameSystem;
+    void **handoffSlot;
+    ScriptProcHandoff *handoff;
 
-    sys = func_0215A5DC(vm);
-    slot = func_02158FB4(func_0215A5F4(vm));
-    h = func_02030734(4, sizeof(ProcHandoff), 1, d_021728F0, 0x8B);
-    h->work = work;
-    h->arg1 = arg1;
-    h->arg0 = arg0;
-    func_020120B4(sys, ovId, (void *)proc, work);
-    *slot = h;
-    func_020113D0(c, (int)func_0215C69C);
+    gameSystem = func_0215A5DC(cmdWork);
+    handoffSlot = func_02158FB4(func_0215A5F4(cmdWork));
+    handoff = func_02030734(4, sizeof(ScriptProcHandoff), 1, d_021728F0, 0x8B);
+    handoff->work = procWork;
+    handoff->userData = userData;
+    handoff->onFinish = onFinish;
+    func_020120B4(gameSystem, overlayId, (void *)procData, procWork);
+    *handoffSlot = handoff;
+    func_020113D0(vm, (int)func_0215C69C);
 }
 
 
@@ -2127,53 +1996,43 @@ void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u3
 
 
 
-int func_0215C69C(int a0, int a1)
+int func_0215C69C(int callArg0, int callArg1)
 {
-    int t4;
-    int t5;
-    void *t6;
+    int cmdWorkOrSlot;
+    int handoff;
+    void *gameSystem;
 
-t4 = a1 + 0;
-a0 = t4 + 0;
-    t6 = func_0215A5DC((void *)a0);
-loc_0215C6A6:
-a0 = t4 + 0;
-    a0 = (int)func_0215A5F4((void *)a0); /* int-typed on purpose: pointer local changes codegen */
-loc_0215C6AE:
-t4 = a0 + 0;
-    a0 = func_02158FB8((void *)a0);
-loc_0215C6B4:
-t5 = a0 + 0;
-    a0 = func_020120F0(t6);
-loc_0215C6BC:
-    if (a0 == 0) goto loc_0215C6C4;
-loc_0215C6C0:
-a0 = 0;
-    return a0;
-loc_0215C6C4:
-a1 = *(int *)&((struct Obj00005 *)t5)->f8;
-    if (a1 == 0) goto loc_0215C6D0;
-loc_0215C6CA:
-a0 = t5 + 0;
-    a0 = ((int (*)())a1)(a0);
-loc_0215C6CE:
-    goto loc_0215C6E4;
-loc_0215C6D0:
-a0 = *(int *)&((struct Obj00005 *)((char *)t5))->f0;
-    if (a0 == 0) goto loc_0215C6DA;
-loc_0215C6D6:
-    func_020307B0((void *)a0);
-loc_0215C6DA:
-a0 = *(int *)&((struct Obj00005 *)t5)->f4;
-    if (a0 == 0) goto loc_0215C6E4;
-loc_0215C6E0:
-    func_020307B0((void *)a0);
-loc_0215C6E4:
-a0 = t4 + 0;
-    a0 = func_02158FBC(a0);
-loc_0215C6EA:
-a0 = 1;
-    return a0;}
+cmdWorkOrSlot = callArg1 + 0;
+callArg0 = cmdWorkOrSlot + 0;
+    gameSystem = func_0215A5DC((void *)callArg0);
+callArg0 = cmdWorkOrSlot + 0;
+    callArg0 = (int)func_0215A5F4((void *)callArg0); /* int-typed on purpose: pointer local changes codegen */
+cmdWorkOrSlot = callArg0 + 0;
+    callArg0 = func_02158FB8((void *)callArg0);
+handoff = callArg0 + 0;
+    callArg0 = func_020120F0(gameSystem);
+    if (callArg0 == 0) goto checkCallback;
+callArg0 = 0;
+    return callArg0;
+checkCallback:
+callArg1 = (int)((ScriptProcHandoff *)handoff)->onFinish;
+    if (callArg1 == 0) goto noCallback;
+callArg0 = handoff + 0;
+    callArg0 = ((int (*)())callArg1)(callArg0);
+    goto clearSlot;
+noCallback:
+callArg0 = (int)((ScriptProcHandoff *)handoff)->work;
+    if (callArg0 == 0) goto freeUserData;
+    func_020307B0((void *)callArg0);
+freeUserData:
+callArg0 = (int)((ScriptProcHandoff *)handoff)->userData;
+    if (callArg0 == 0) goto clearSlot;
+    func_020307B0((void *)callArg0);
+clearSlot:
+callArg0 = cmdWorkOrSlot + 0;
+    callArg0 = func_02158FBC(callArg0);
+callArg0 = 1;
+    return callArg0;}
 
 
 
@@ -2183,17 +2042,15 @@ a0 = 1;
 
 
 
-int func_0215C6F0(int a0, int a1)
+int func_0215C6F0(int callArg0, int callArg1)
 {
-    void *v0;
+    void *eventSlot;
 
-a0 = a1 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_0215C6F8:
-    a0 = func_02158FBC(v0);
-loc_0215C6FC:
-a0 = 1;
-    return a0;}
+callArg0 = callArg1 + 0;
+    eventSlot = func_0215A5F4((void *)callArg0);
+    callArg0 = func_02158FBC(eventSlot);
+callArg0 = 1;
+    return callArg0;}
 
 
 
@@ -2205,17 +2062,17 @@ a0 = 1;
  * lever: Stores in both if/else arms retain the zero-first full branch;
  * a local flag (u32, u16, or enum) folds to 42 bytes and DIFF 33.
  */
-void func_0215C700(Pair *p)
+void func_0215C700(BagCloseData *closeData)
 {
-    Context *c = p->context;
-    Outputs *o = p->outputs;
-    if (c->first == 0)
-        *o->first = B_FALSE;
+    BagParamResult *bagParam = closeData->bagParam;
+    BagResultVars *resultVars = closeData->resultVars;
+    if (bagParam->selected == 0)
+        *resultVars->selectedVar = B_FALSE;
     else
-        *o->first = B_TRUE;
-    *o->second = c->second;
-    func_020307B0(p->outputs);
-    func_020307B0(p->context);
+        *resultVars->selectedVar = B_TRUE;
+    *resultVars->itemVar = bagParam->itemId;
+    func_020307B0(closeData->resultVars);
+    func_020307B0(closeData->bagParam);
 }
 
 
@@ -2235,31 +2092,31 @@ void func_0215C700(Pair *p)
  * witness; ov070_id then resolved through the overlay_id walk (func_0215C63C
  * is a registered consumer). Source unchanged.
  */
-int func_0215C72C(void *c, void *vm)
+int func_0215C72C(void *vm, void *cmdWork)
 {
-    u32 sel;
-    u32 a;
-    u32 b;
-    u32 k;
-    void *work;
-    u32 *h;
+    u32 bagMode;
+    u32 selectedVar;
+    u32 itemVar;
+    u32 bagType;
+    void *bagParam;
+    u32 *closeData;
 
-    func_0215A5DC(vm);
-    func_0215A5F4(vm);
-    sel = func_02159B10(c, vm);
-    a = (u32)func_02159AE8(c, vm);
-    b = (u32)func_02159AE8(c, vm);
-    if (sel == 0)
-        k = 4;
-    else if (sel == 1)
-        k = 5;
+    func_0215A5DC(cmdWork);
+    func_0215A5F4(cmdWork);
+    bagMode = func_02159B10(vm, cmdWork);
+    selectedVar = (u32)func_02159AE8(vm, cmdWork);
+    itemVar = (u32)func_02159AE8(vm, cmdWork);
+    if (bagMode == 0)
+        bagType = 4;
+    else if (bagMode == 1)
+        bagType = 5;
     else
-        k = 0;
-    work = func_0202E474((const struct BigObj *)func_0215A5E4(vm), 0, k, 4);
-    h = func_02030734(4, 8, 1, d_021728F0, 0x118);
-    h[0] = a;
-    h[1] = b;
-    func_0215C63C(c, vm, (u32)ov070_id, d_021BB96C, work, (u32)func_0215C700, (u32)h);
+        bagType = 0;
+    bagParam = func_0202E474((const struct GameData *)func_0215A5E4(cmdWork), 0, bagType, 4);
+    closeData = func_02030734(4, 8, 1, d_021728F0, 0x118);
+    closeData[0] = selectedVar;
+    closeData[1] = itemVar;
+    func_0215C63C(vm, cmdWork, (u32)ov070_id, d_021BB96C, bagParam, (u32)func_0215C700, (u32)closeData);
     return 1;
 }
 
@@ -2273,13 +2130,13 @@ int func_0215C72C(void *c, void *vm)
  * first record's word at +4 equals 1 into the halfword the second record
  * points to, then frees the first record's first word.
  */
-void func_0215C7C4(Rec *r)
+void func_0215C7C4(GtsCallbackData *callbackData)
 {
-    if (r->src[1] == 1)
-        *r->dst = 1;
+    if (callbackData->param->result == 1)
+        *callbackData->resultVar = 1;
     else
-        *r->dst = 0;
-    func_020307B0(r->src);
+        *callbackData->resultVar = 0;
+    func_020307B0(callbackData->param);
 }
 
 
@@ -2297,25 +2154,25 @@ void func_0215C7C4(Rec *r)
  *
  * 2026-10-05 (wave D9): EXACT. d_021C78A4 resolves once its symbols line carries the ov136 token (the overlay the function loads); func_0215C7C4 has its own witness.
  */
-int func_0215C7E0(void *c, void *vm)
+int func_0215C7E0(void *vm, void *cmdWork)
 {
-    void *slot;
-    void *sys;
-    void *w;
-    void *x;
-    u32 *a;
-    u32 *b;
+    void *eventSlot;
+    void *gameSystem;
+    void *gameData;
+    void *fieldMap;
+    u32 *gtsParam;
+    u32 *callbackData;
 
-    slot = func_0215A5F4(vm);
-    sys = func_0215A5DC(vm);
-    w = func_020120F4(sys);
-    x = func_0201210C(sys);
-    a = func_02030734(4, 8, 0, d_021728F0, 0x14F);
-    b = func_02030734(4, 8, 0, d_021728F0, 0x150);
-    a[0] = (u32)w;
-    b[0] = (u32)a;
-    b[1] = (u32)func_02159AE8(c, vm);
-    func_0215897C(slot, func_02014840(sys, (int)x, (u32)ov136_id, (int)d_021C78A4, (int)a, (int)((void *)func_0215C7C4), (int)b));
+    eventSlot = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    gameData = func_020120F4(gameSystem);
+    fieldMap = func_0201210C(gameSystem);
+    gtsParam = func_02030734(4, 8, 0, d_021728F0, 0x14F);
+    callbackData = func_02030734(4, 8, 0, d_021728F0, 0x150);
+    gtsParam[0] = (u32)gameData;
+    callbackData[0] = (u32)gtsParam;
+    callbackData[1] = (u32)func_02159AE8(vm, cmdWork);
+    func_0215897C(eventSlot, func_02014840(gameSystem, (int)fieldMap, (u32)ov136_id, (int)d_021C78A4, (int)gtsParam, (int)((void *)func_0215C7C4), (int)callbackData));
     return 1;
 }
 
@@ -2326,32 +2183,29 @@ int func_0215C7E0(void *c, void *vm)
 
 
 
-int func_0215C870(int a0, int a1)
+int func_0215C870(int callArg0, int callArg1)
 {
-    int t4;
+    int callbackData;
 
-t4 = a0 + 0;
-a0 = ((struct Obj04131 *)((char *)t4))->f0;
-a0 = ((struct Obj04131 *)a0)->f1A;
-    if (a0 == 0) goto loc_0215C880;
-loc_0215C87C:
-    if (a0 == 1) goto loc_0215C884;
-loc_0215C880:
-a1 = 0;
-    goto loc_0215C886;
-loc_0215C884:
-a1 = 1;
-loc_0215C886:
-a0 = ((struct Obj04131 *)t4)->f4;
-*(u16 *)&((struct Obj04131 *)((char *)a0))->f0 = a1;
-a0 = ((struct Obj04131 *)((char *)t4))->f0;
-a0 = ((struct Obj04131 *)a0)->f10;
-    a0 = (int)func_020307B0((void *)a0);
-loc_0215C892:
-a0 = ((struct Obj04131 *)((char *)t4))->f0;
-    a0 = func_0216F940(a0);
-loc_0215C898:
-    return a0;}
+callbackData = callArg0 + 0;
+callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
+callArg0 = ((MoveRelearnParam *)callArg0)->learned;
+    if (callArg0 == 0) goto notLearned;
+    if (callArg0 == 1) goto learned;
+notLearned:
+callArg1 = 0;
+    goto store;
+learned:
+callArg1 = 1;
+store:
+callArg0 = (int)((RelearnCallbackData *)callbackData)->resultVar;
+*(u16 *)callArg0 = callArg1;
+callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
+callArg0 = (int)((MoveRelearnParam *)callArg0)->relearnMoves;
+    callArg0 = (int)func_020307B0((void *)callArg0);
+callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
+    callArg0 = func_0216F940(callArg0);
+    return callArg0;}
 
 
 
@@ -2360,16 +2214,16 @@ loc_0215C898:
 
 
 
-static inline void init_record(Relearn *r, void *mon, void *sess, void *sys, void *moves)
+static inline void MoveRelearnParam_Init(MoveRelearnParam *param, void *mon, void *myStatus, void *gameSystem, void *moves)
 {
     enum One { ONE = 1 } one;
-    r->mon = mon;
-    r->sess = sess;
-    r->f08 = 0;
-    r->sys = sys;
-    r->moves = moves;
+    param->mon = mon;
+    param->myStatus = myStatus;
+    param->flags = 0;
+    param->gameSystem = gameSystem;
+    param->relearnMoves = moves;
     one = ONE;
-    r->f19 = one;
+    param->enabled = one;
 }
 
 
@@ -2379,38 +2233,38 @@ static inline void init_record(Relearn *r, void *mon, void *sess, void *sys, voi
 
 
 /*
- * lever: enum one assigned immediately before the f19 store in the inline
+ * lever: enum one assigned immediately before the enabled store in the inline
  * record initializer separates it from the constant return and selects r0.
  */
-int func_0215C89C(void *c, void *vm)
+int func_0215C89C(void *vm, void *cmdWork)
 {
-    void *slot;
-    void *sys;
-    void *w;
-    void *x;
-    u32 a;
-    u32 idx;
+    void *eventSlot;
+    void *gameSystem;
+    void *gameData;
+    void *fieldMap;
+    u32 resultVar;
+    u32 partyIndex;
     void *mon;
-    void *sess;
-    void *moves;
-    Relearn *r;
-    u32 *h;
+    void *myStatus;
+    void *relearnMoves;
+    MoveRelearnParam *relearnParam;
+    u32 *callbackData;
 
-    slot = func_0215A5F4(vm);
-    sys = func_0215A5DC(vm);
-    w = func_020120F4(sys);
-    x = func_0201210C(sys);
-    a = (u32)func_02159AE8(c, vm);
-    idx = func_02159B10(c, vm);
-    mon = func_0201AB28(func_02012934(w), idx);
-    sess = func_02012944(w);
-    moves = func_0216F948(mon, 4);
-    r = func_0216F918(4);
-    init_record(r, mon, sess, sys, moves);
-    h = func_02030734(4, 8, 0, d_021728F0, 0x19B);
-    h[0] = (u32)r;
-    h[1] = a;
-    func_0215897C(slot, func_02014808(sys, (int)x, (u32)ov173_id, (int)d_021B81D0, (int)r, (int)((void *)func_0215C870), (int)h));
+    eventSlot = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    gameData = func_020120F4(gameSystem);
+    fieldMap = func_0201210C(gameSystem);
+    resultVar = (u32)func_02159AE8(vm, cmdWork);
+    partyIndex = func_02159B10(vm, cmdWork);
+    mon = func_0201AB28(func_02012934(gameData), partyIndex);
+    myStatus = func_02012944(gameData);
+    relearnMoves = func_0216F948(mon, 4);
+    relearnParam = func_0216F918(4);
+    MoveRelearnParam_Init(relearnParam, mon, myStatus, gameSystem, relearnMoves);
+    callbackData = func_02030734(4, 8, 0, d_021728F0, 0x19B);
+    callbackData[0] = (u32)relearnParam;
+    callbackData[1] = resultVar;
+    func_0215897C(eventSlot, func_02014808(gameSystem, (int)fieldMap, (u32)ov173_id, (int)d_021B81D0, (int)relearnParam, (int)((void *)func_0215C870), (int)callbackData));
     return 1;
 }
 
@@ -2437,37 +2291,37 @@ int func_0215C89C(void *c, void *vm)
  *
  * 2026-10-05 (wave D9): d_021BA758 now resolves with the ov099 token on its symbols line (`data  ov099  a1`; other covering overlays stay contested or unresolved). Only ov071_id remains: it reaches func_0215C63C, which is not in match.py OVERLAY_ID_CONSUMERS (forwards r2 to func_020120B4 r1); a data token on the id line does not help. Needs the consumer entry (tools), not C.
  */
-int func_0215C95C(void *c, void *vm)
+int func_0215C95C(void *vm, void *cmdWork)
 {
-    void *sys;
-    void *p;
-    void *q;
-    ProfileWork *w;
-    LinkState *st;
-    u8 idx;
+    void *gameSystem;
+    void *gameComm;
+    void *gameData;
+    ProfileProcWork *work;
+    CommState *commState;
+    u8 playerIndex;
 
-    sys = func_0215A5DC(vm);
-    p = (void *)func_02012138(sys);
-    q = func_020120F4(sys);
-    func_0215A5F4(vm);
-    st = (LinkState *)func_02158344((int)p);
-    w = func_02030734(4, sizeof(ProfileWork), 1, d_021728F0, 0x1BC);
-    if (st != 0 && st->self != func_02012B58(q)
-        && func_02175FB4((u8 *)(&st->recs[func_0215841C(q)])) == 1
-        && ((u8 *)st)[0x922] == 1) {
-        idx = func_0215841C(q);
-        w->name = *func_0215840C(st, idx);
-        w->profile = *(Profile16 *)((u8 *)st + 0x914);
-        w->remote = 1;
+    gameSystem = func_0215A5DC(cmdWork);
+    gameComm = (void *)func_02012138(gameSystem);
+    gameData = func_020120F4(gameSystem);
+    func_0215A5F4(cmdWork);
+    commState = (CommState *)func_02158344((int)gameComm);
+    work = func_02030734(4, sizeof(ProfileProcWork), 1, d_021728F0, 0x1BC);
+    if (commState != 0 && commState->localPlayerId != func_02012B58(gameData)
+        && func_02175FB4((u8 *)(&commState->records[func_0215841C(gameData)])) == 1
+        && ((u8 *)commState)[0x922] == 1) {
+        playerIndex = func_0215841C(gameData);
+        work->name = *func_0215840C(commState, playerIndex);
+        work->profile = *(PlayerProfile *)((u8 *)commState + 0x914);
+        work->isRemote = 1;
     } else {
-        func_0200BE48(func_02012EBC(q));
-        func_02175648(q, (struct Out *)(&w->profile));
-        idx = 0;
-        w->remote = 0;
+        func_0200BE48(func_02012EBC(gameData));
+        func_02175648(gameData, (struct PlayerProfile *)(&work->profile));
+        playerIndex = 0;
+        work->isRemote = 0;
     }
-    w->sys = sys;
-    w->slot = idx;
-    func_0215C63C(c, vm, (u32)ov071_id, d_021BA758, w, 0, 0);
+    work->gameSystem = gameSystem;
+    work->playerIndex = playerIndex;
+    func_0215C63C(vm, cmdWork, (u32)ov071_id, d_021BA758, work, 0, 0);
     return 1;
 }
 
@@ -2482,18 +2336,18 @@ int func_0215C95C(void *c, void *vm)
  * Script command: reads two words and stores func_02161B90's result
  * (over the system and the script's cell) in the script's slot.
  */
-int func_0215CA64(void *c, void *vm)
+int func_0215CA64(void *vm, void *cmdWork)
 {
-    void *slot;
-    void *sys;
-    u32 a;
-    u32 b;
+    void *eventSlot;
+    void *gameSystem;
+    u32 firstArg;
+    u32 secondArg;
 
-    slot = func_0215A5F4(vm);
-    sys = func_0215A5DC(vm);
-    a = func_02159B10(c, vm);
-    b = func_02159B10(c, vm);
-    func_0215897C(slot, func_02161B90(sys, func_02158F50(slot), a, b, 0));
+    eventSlot = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    firstArg = func_02159B10(vm, cmdWork);
+    secondArg = func_02159B10(vm, cmdWork);
+    func_0215897C(eventSlot, func_02161B90(gameSystem, func_02158F50(eventSlot), firstArg, secondArg, 0));
     return 1;
 }
 
@@ -2514,16 +2368,16 @@ int func_0215CA64(void *c, void *vm)
  * proc table lives in ov174, which this function loads) gave the witness; the
  * ov174_id word then resolved through the overlay_id walk. Source unchanged.
  */
-int func_0215CAB4(void *c, void *vm)
+int func_0215CAB4(void *vm, void *cmdWork)
 {
-    u16 v;
-    Box8_0215CAB4 *b;
+    u16 value;
+    ValueProcParam *param;
 
-    v = func_02159B10(c, vm);
-    b = func_02030734(4, 8, 1, d_021728F0, 0x205);
-    b->v = v;
-    b->sys = func_0215A5E4(vm);
-    func_0215C63C(c, vm, (u32)ov174_id, d_021B74A0, b, 0, 0);
+    value = func_02159B10(vm, cmdWork);
+    param = func_02030734(4, 8, 1, d_021728F0, 0x205);
+    param->value = value;
+    param->gameData = func_0215A5E4(cmdWork);
+    func_0215C63C(vm, cmdWork, (u32)ov174_id, d_021B74A0, param, 0, 0);
     return 1;
 }
 
@@ -2549,39 +2403,39 @@ int func_0215CAB4(void *c, void *vm)
  *
  * 2026-10-05 (wave D9): re-tried overlay tokens on the contested hints; they stay contested because the id sites do not attest. Residue is the three id words (ov221_id, ov222_id, ov224_id) reaching func_0215C63C, which is not in OVERLAY_ID_CONSUMERS; add that consumer (r2 -> func_020120B4 r1) and the hints resolve. Not fixable in C.
  */
-int func_0215CB08(void *c, void *vm)
+int func_0215CB08(void *vm, void *cmdWork)
 {
-    void *sys;
-    void *sub;
-    u32 mode;
-    u32 v;
-    Box8_0215CB08 *b;
-    void **w;
+    void *gameData;
+    void *myStatus;
+    u32 screenMode;
+    u32 value;
+    ModeProcParam *param;
+    void **myStatusParam;
 
-    sys = func_020120F4(func_0215A5DC(vm));
-    sub = func_02012944(sys);
-    mode = func_02159B10(c, vm);
-    v = func_02159B10(c, vm);
-    if (mode != 2) {
+    gameData = func_020120F4(func_0215A5DC(cmdWork));
+    myStatus = func_02012944(gameData);
+    screenMode = func_02159B10(vm, cmdWork);
+    value = func_02159B10(vm, cmdWork);
+    if (screenMode != 2) {
         func_02165344();
     }
-    switch (mode) {
+    switch (screenMode) {
     case 0:
-        b = func_02030734(4, 8, 1, d_021728F0, 0x22B);
-        b->sys = sys;
-        b->v = v;
-        func_0215C63C(c, vm, (u32)ov221_id, d_021BA1A4, b, 0, 0);
+        param = func_02030734(4, 8, 1, d_021728F0, 0x22B);
+        param->gameData = gameData;
+        param->value = value;
+        func_0215C63C(vm, cmdWork, (u32)ov221_id, d_021BA1A4, param, 0, 0);
         break;
     case 1:
-        b = func_02030734(4, 8, 1, d_021728F0, 0x233);
-        b->sys = sys;
-        b->v = v;
-        func_0215C63C(c, vm, (u32)ov222_id, d_021BA250, b, 0, 0);
+        param = func_02030734(4, 8, 1, d_021728F0, 0x233);
+        param->gameData = gameData;
+        param->value = value;
+        func_0215C63C(vm, cmdWork, (u32)ov222_id, d_021BA250, param, 0, 0);
         break;
     case 2:
-        w = func_02030734(4, 4, 1, d_021728F0, 0x23C);
-        *w = sub;
-        func_0215C63C(c, vm, (u32)ov224_id, d_021B9BF8, w, 0, 0);
+        myStatusParam = func_02030734(4, 4, 1, d_021728F0, 0x23C);
+        *myStatusParam = myStatus;
+        func_0215C63C(vm, cmdWork, (u32)ov224_id, d_021B9BF8, myStatusParam, 0, 0);
         break;
     }
     return 1;
@@ -2602,15 +2456,15 @@ int func_0215CB08(void *c, void *vm)
  *
  * 2026-10-05 (wave D8): ov223_id and d_021BC8C4 are data with no witness; not fixable in C. Source re-read against the listing, unchanged.
  */
-int func_0215CBF0(void *c, void *vm)
+int func_0215CBF0(void *vm, void *cmdWork)
 {
-    u32 v;
-    u32 *w;
+    u32 value;
+    u32 *param;
 
-    v = (u32)func_02159AE8(c, vm);
-    w = func_02030734(4, 8, 1, d_021728F0, 0x254);
-    w[0] = v;
-    func_0215C63C(c, vm, (u32)ov223_id, d_021BC8C4, w, 0, 0);
+    value = (u32)func_02159AE8(vm, cmdWork);
+    param = func_02030734(4, 8, 1, d_021728F0, 0x254);
+    param[0] = value;
+    func_0215C63C(vm, cmdWork, (u32)ov223_id, d_021BC8C4, param, 0, 0);
     return 1;
 }
 
@@ -2621,21 +2475,19 @@ int func_0215CBF0(void *c, void *vm)
 
 
 
-int func_0215CC38(int a0, int a1)
+int func_0215CC38(int callArg0, int callArg1)
 {
-    int t4;
-    void *v0;
-    void *v1;
+    int cmdWorkCopy;
+    void *eventSlot;
+    void *gameSystem;
 
-t4 = a1 + 0;
-a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
-loc_0215CC42:
-a0 = t4 + 0;
-    v1 = func_0215A5DC((void *)a0);
-loc_0215CC48:
-a0 = 1;
-    return a0;}
+cmdWorkCopy = callArg1 + 0;
+callArg0 = cmdWorkCopy + 0;
+    eventSlot = func_0215A5F4((void *)callArg0);
+callArg0 = cmdWorkCopy + 0;
+    gameSystem = func_0215A5DC((void *)callArg0);
+callArg0 = 1;
+    return callArg0;}
 
 
 
@@ -2649,50 +2501,50 @@ a0 = 1;
  * builds a four-word request on the stack and launches func_02154438
  * (ov002) through func_020124AC, parking the result in the script's slot.
  */
-int func_0215CC4C(void *c, void *vm)
+int func_0215CC4C(void *vm, void *cmdWork)
 {
-    void *slot;
-    void *sys;
-    u32 kind;
-    u32 flag;
-    u32 k;
-    u32 f;
-    Req_0215C40C r;
+    void *eventSlot;
+    void *gameSystem;
+    u32 kindVar;
+    u32 flagVar;
+    u32 kindIndex;
+    u32 flagValue;
+    WifiBattleMatchParam param;
 
-    slot = func_0215A5F4(vm);
-    sys = func_0215A5DC(vm);
-    kind = func_02159B10(c, vm);
-    flag = func_02159B10(c, vm);
-    switch (kind) {
+    eventSlot = func_0215A5F4(cmdWork);
+    gameSystem = func_0215A5DC(cmdWork);
+    kindVar = func_02159B10(vm, cmdWork);
+    flagVar = func_02159B10(vm, cmdWork);
+    switch (kindVar) {
     case 0xF:
-        k = 0;
+        kindIndex = 0;
         break;
     case 0x10:
-        k = 1;
+        kindIndex = 1;
         break;
     case 0x11:
-        k = 2;
+        kindIndex = 2;
         break;
     case 0x12:
-        k = 3;
+        kindIndex = 3;
         break;
     case 0x13:
-        k = 4;
+        kindIndex = 4;
         break;
     }
-    switch (flag) {
+    switch (flagVar) {
     case 0:
-        f = 0;
+        flagValue = 0;
         break;
     case 1:
-        f = 1;
+        flagValue = 1;
         break;
     }
-    r.sys = func_0201210C(sys);
-    r.one = 1;
-    r.flag = f;
-    r.kind = k;
-    func_0215897C(slot, func_020124AC(sys, (u32)ov002_id, (void *)func_02154438, (u32)(&r)));
+    param.fieldMap = func_0201210C(gameSystem);
+    param.enabled = 1;
+    param.flag = flagValue;
+    param.matchKind = kindIndex;
+    func_0215897C(eventSlot, func_020124AC(gameSystem, (u32)ov002_id, (void *)func_02154438, (u32)(&param)));
     return 1;
 }
 
@@ -2707,15 +2559,15 @@ int func_0215CC4C(void *c, void *vm)
  * The ov003 callback 0x021543BC (unlabelled leaf, formerly the blocker) is
  * matched in pkt_ov003_021543BC and attests as matched.
  */
-int func_0215CCE8(void *a, void *b)
+int func_0215CCE8(void *vm, void *cmdWork)
 {
-    Arg arg;
-    void *t = func_0215A5F4(b);
-    void *h = func_0215A5DC(b);
-    u32 k = !func_02159B10(a, b) ? 1 : 2;
-    arg.a = (u32)func_0201210C(h);
-    arg.b = k;
-    func_0215897C(t, func_020124AC(h, (u32)ov003_id, (void *)func_021543BC, (u32)(&arg)));
+    MenuProcParam param;
+    void *eventSlot = func_0215A5F4(cmdWork);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    u32 mode = !func_02159B10(vm, cmdWork) ? 1 : 2;
+    param.fieldMap = (u32)func_0201210C(gameSystem);
+    param.mode = mode;
+    func_0215897C(eventSlot, func_020124AC(gameSystem, (u32)ov003_id, (void *)func_021543BC, (u32)(&param)));
     return 1;
 }
 
@@ -2726,13 +2578,13 @@ int func_0215CCE8(void *a, void *b)
 
 
 
-int func_0215CD3C(void *a, void *b)
+int func_0215CD3C(void *vm, void *cmdWork)
 {
-    void *h = func_0215A5DC(b);
-    u16 *p = func_02159AE8(a, b);
-    u16 *q = func_02159AE8(a, b);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    u16 *firstVar = func_02159AE8(vm, cmdWork);
+    u16 *secondVar = func_02159AE8(vm, cmdWork);
     func_02034AC4((u32)ov037_id);
-    func_021F36C0((unsigned int)h, *p, *q);
+    func_021F36C0((unsigned int)gameSystem, *firstVar, *secondVar);
     func_02034A5C((u32)ov037_id);
     return 0;
 }
@@ -2744,12 +2596,12 @@ int func_0215CD3C(void *a, void *b)
 
 
 
-int func_0215CD80(void *a, void *b)
+int func_0215CD80(void *vm, void *cmdWork)
 {
-    void *p = func_0215A5DC(b);
-    int v = func_02159B10(a, b);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    int value = func_02159B10(vm, cmdWork);
     func_02034AC4((int)ov037_id);
-    func_021F36E8(p, v);
+    func_021F36E8(gameSystem, value);
     func_02034A5C((int)ov037_id);
     return 0;
 }
@@ -2760,12 +2612,12 @@ int func_0215CD80(void *a, void *b)
 
 
 
-int func_0215CDB8(void *a, void *b)
+int func_0215CDB8(void *vm, void *cmdWork)
 {
-    void *p = func_0215A5DC(b);
-    int v = func_02159B10(a, b);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    int value = func_02159B10(vm, cmdWork);
     func_02034AC4((int)ov037_id);
-    func_021F3724((unsigned int)p, v);
+    func_021F3724((unsigned int)gameSystem, value);
     func_02034A5C((int)ov037_id);
     return 0;
 }
@@ -2776,20 +2628,20 @@ int func_0215CDB8(void *a, void *b)
 
 
 
-int func_0215CDF0(void *a, void *b)
+int func_0215CDF0(void *vm, void *cmdWork)
 {
-    unsigned short *v[8];
-    void *h = func_0215A5DC(b);
-    v[0] = func_02159AE8(a, b);
-    v[1] = func_02159AE8(a, b);
-    v[2] = func_02159AE8(a, b);
-    v[3] = func_02159AE8(a, b);
-    v[4] = func_02159AE8(a, b);
-    v[5] = func_02159AE8(a, b);
-    v[6] = func_02159AE8(a, b);
-    v[7] = func_02159AE8(a, b);
+    unsigned short *resultVars[8];
+    void *gameSystem = func_0215A5DC(cmdWork);
+    resultVars[0] = func_02159AE8(vm, cmdWork);
+    resultVars[1] = func_02159AE8(vm, cmdWork);
+    resultVars[2] = func_02159AE8(vm, cmdWork);
+    resultVars[3] = func_02159AE8(vm, cmdWork);
+    resultVars[4] = func_02159AE8(vm, cmdWork);
+    resultVars[5] = func_02159AE8(vm, cmdWork);
+    resultVars[6] = func_02159AE8(vm, cmdWork);
+    resultVars[7] = func_02159AE8(vm, cmdWork);
     func_02034AC4((u32)ov037_id);
-    func_021F3768((unsigned int)h, v);
+    func_021F3768((unsigned int)gameSystem, resultVars);
     func_02034A5C((u32)ov037_id);
     return 0;
 }
@@ -2800,11 +2652,11 @@ int func_0215CDF0(void *a, void *b)
 
 
 
-int func_0215CE70(void *a, void *b)
+int func_0215CE70(void *vm, void *cmdWork)
 {
-    void *p = func_0215A5DC(b);
+    void *gameSystem = func_0215A5DC(cmdWork);
     func_02034AC4((int)ov037_id);
-    func_021F3800((unsigned int)p);
+    func_021F3800((unsigned int)gameSystem);
     func_02034A5C((int)ov037_id);
     return 0;
 }
@@ -2821,26 +2673,21 @@ int func_0215CE70(void *a, void *b)
  *   `matched, overlay`.  Extent runs 36 bytes against 34 compiled: the
  *   unlabelled follower.
  */
-int func_0215CE98(int a0, int a1)
-{    int t5;
-    unsigned short *v0;
-    void *v1;
-    void *v2;
+int func_0215CE98(int callArg0, int callArg1)
+{    int cmdWorkCopy;
+    unsigned short *resultVar;
+    void *gameSystem;
+    void *fieldMap;
 
-t5 = a1 + 0;
-    v0 = func_02159AE8((void *)a0, (void *)a1);
-loc_0215CEA0:
-a0 = t5 + 0;
-    v1 = func_0215A5DC((void *)a0);
-loc_0215CEA8:
-    v2 = func_0201210C(v1);
-loc_0215CEAC:
-    a0 = func_021C3400(func_02188D50(v2));
-loc_0215CEB0:
-loc_0215CEB4:
-((struct Obj17693 *)((char *)v0))->f0 = a0;
-a0 = 0;
-    return a0;}
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = cmdWorkCopy + 0;
+    gameSystem = func_0215A5DC((void *)callArg0);
+    fieldMap = func_0201210C(gameSystem);
+    callArg0 = func_021C3400(func_02188D50(fieldMap));
+*resultVar = callArg0;
+callArg0 = 0;
+    return callArg0;}
 
 
 
@@ -2848,11 +2695,11 @@ a0 = 0;
 
 
 
-int func_0215CEBC(void *a, void *b)
+int func_0215CEBC(void *vm, void *cmdWork)
 {
-    void *p = func_0215A5DC(b);
-    void *q = func_02012934(func_0215A5E4(b));
-    func_021C32F4(func_02188D50(func_0201210C(p)), (unsigned int)q);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    void *party = func_02012934(func_0215A5E4(cmdWork));
+    func_021C32F4(func_02188D50(func_0201210C(gameSystem)), (unsigned int)party);
     return 0;
 }
 
@@ -2862,21 +2709,17 @@ int func_0215CEBC(void *a, void *b)
 
 
 
-int func_0215CEE8(int a0, int a1)
+int func_0215CEE8(int callArg0, int callArg1)
 {
-    void *v0;
-    void *v1;
+    void *gameSystem;
+    void *fieldMap;
 
-a0 = a1 + 0;
-    v0 = func_0215A5DC((void *)a0);
-loc_0215CEF0:
-    v1 = func_0201210C(v0);
-loc_0215CEF4:
-    func_021C335C((void **)func_02188D50(v1));
-loc_0215CEF8:
-loc_0215CEFC:
-a0 = 0;
-    return a0;}
+callArg0 = callArg1 + 0;
+    gameSystem = func_0215A5DC((void *)callArg0);
+    fieldMap = func_0201210C(gameSystem);
+    func_021C335C((void **)func_02188D50(fieldMap));
+callArg0 = 0;
+    return callArg0;}
 
 
 
@@ -2884,16 +2727,16 @@ a0 = 0;
 
 
 
-int func_0215CF00(void *a, void *b)
+int func_0215CF00(void *vm, void *cmdWork)
 {
-    void *t = func_0215A5F4(b);
-    unsigned short *v = func_02159AE8(a, b);
-    void *p = func_0215A5E4(b);
-    void *h = func_0215A5DC(b);
-    void *s = func_0201210C(h);
-    func_02012934(p);
-    func_0200BDB0(func_02012EBC(p));
-    func_0215897C(t, func_0215D2A4(h, (u32)s, (u32)v));
+    void *eventSlot = func_0215A5F4(cmdWork);
+    unsigned short *resultVar = func_02159AE8(vm, cmdWork);
+    void *gameData = func_0215A5E4(cmdWork);
+    void *gameSystem = func_0215A5DC(cmdWork);
+    void *fieldMap = func_0201210C(gameSystem);
+    func_02012934(gameData);
+    func_0200BDB0(func_02012EBC(gameData));
+    func_0215897C(eventSlot, func_0215D2A4(gameSystem, fieldMap, resultVar));
     return 1;
 }
 
@@ -2903,11 +2746,11 @@ int func_0215CF00(void *a, void *b)
 
 
 
-int func_0215CF54(void *a, void *b)
+int func_0215CF54(void *vm, void *cmdWork)
 {
-    int v = func_02159B10(a, b);
-    void *q = func_02012934(func_0215A5E4(b));
-    func_021C3204(func_02188D50(func_0201210C(func_0215A5DC(b))), (unsigned int)q, v);
+    int partyIndex = func_02159B10(vm, cmdWork);
+    void *party = func_02012934(func_0215A5E4(cmdWork));
+    func_021C3204(func_02188D50(func_0201210C(func_0215A5DC(cmdWork))), (unsigned int)party, partyIndex);
     return 0;
 }
 
@@ -2917,11 +2760,11 @@ int func_0215CF54(void *a, void *b)
 
 
 
-int func_0215CF84(void *a, void *b)
+int func_0215CF84(void *vm, void *cmdWork)
 {
-    int v = func_02159B10(a, b);
-    void *q = func_02012934(func_0215A5E4(b));
-    func_021C3270(func_02188D50(func_0201210C(func_0215A5DC(b))), v, (unsigned int)q);
+    int daycareSlot = func_02159B10(vm, cmdWork);
+    void *party = func_02012934(func_0215A5E4(cmdWork));
+    func_021C3270(func_02188D50(func_0201210C(func_0215A5DC(cmdWork))), daycareSlot, (unsigned int)party);
     return 0;
 }
 
@@ -2931,26 +2774,21 @@ int func_0215CF84(void *a, void *b)
 
 
 
-int func_0215CFB4(int a0, int a1)
-{    int t5;
-    unsigned short *v0;
-    void *v1;
-    void *v2;
+int func_0215CFB4(int callArg0, int callArg1)
+{    int cmdWorkCopy;
+    unsigned short *resultVar;
+    void *gameSystem;
+    void *fieldMap;
 
-t5 = a1 + 0;
-    v0 = func_02159AE8((void *)a0, (void *)a1);
-loc_0215CFBC:
-a0 = t5 + 0;
-    v1 = func_0215A5DC((void *)a0);
-loc_0215CFC4:
-    v2 = func_0201210C(v1);
-loc_0215CFC8:
-    a0 = func_021C340C(func_02188D50(v2));
-loc_0215CFCC:
-loc_0215CFD0:
-((struct Obj17694 *)((char *)v0))->f0 = a0;
-a0 = 0;
-    return a0;}
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = cmdWorkCopy + 0;
+    gameSystem = func_0215A5DC((void *)callArg0);
+    fieldMap = func_0201210C(gameSystem);
+    callArg0 = func_021C340C(func_02188D50(fieldMap));
+*resultVar = callArg0;
+callArg0 = 0;
+    return callArg0;}
 
 
 
@@ -2958,26 +2796,21 @@ a0 = 0;
 
 
 
-int func_0215CFD8(int a0, int a1)
-{    int t5;
-    unsigned short *v0;
-    void *v1;
-    void *v2;
+int func_0215CFD8(int callArg0, int callArg1)
+{    int cmdWorkCopy;
+    unsigned short *resultVar;
+    void *gameSystem;
+    void *fieldMap;
 
-t5 = a1 + 0;
-    v0 = func_02159AE8((void *)a0, (void *)a1);
-loc_0215CFE0:
-a0 = t5 + 0;
-    v1 = func_0215A5DC((void *)a0);
-loc_0215CFE8:
-    v2 = func_0201210C(v1);
-loc_0215CFEC:
-    a0 = func_021C34C4((void **)func_02188D50(v2));
-loc_0215CFF0:
-loc_0215CFF4:
-((struct Obj17695 *)((char *)v0))->f0 = a0;
-a0 = 0;
-    return a0;}
+cmdWorkCopy = callArg1 + 0;
+    resultVar = func_02159AE8((void *)callArg0, (void *)callArg1);
+callArg0 = cmdWorkCopy + 0;
+    gameSystem = func_0215A5DC((void *)callArg0);
+    fieldMap = func_0201210C(gameSystem);
+    callArg0 = func_021C34C4((void **)func_02188D50(fieldMap));
+*resultVar = callArg0;
+callArg0 = 0;
+    return callArg0;}
 
 
 
@@ -2989,12 +2822,12 @@ a0 = 0;
  * interface: func_021C34F8 has two observed inputs. Its full ov021 body
  * and 0200BCA8/0200BC2C read r0/r1 only; legacy trailing r2/r3 are omitted.
  */
-int func_0215CFFC(void *a, void *b)
+int func_0215CFFC(void *vm, void *cmdWork)
 {
-    u16 *p = func_02159AE8(a, b);
-    int v = func_02159B10(a, b);
-    void *q = func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC(b))), v);
-    *p = func_02017E1C(q, 5, 0);
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    int daycareSlot = func_02159B10(vm, cmdWork);
+    void *daycareMon = func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC(cmdWork))), daycareSlot);
+    *resultVar = func_02017E1C(daycareMon, 5, 0);
 
     return 0;
 }
@@ -3005,12 +2838,12 @@ int func_0215CFFC(void *a, void *b)
 
 
 
-int func_0215D034(void *a, void *b)
+int func_0215D034(void *vm, void *cmdWork)
 {
-    u16 *p = func_02159AE8(a, b);
-    int v = func_02159B10(a, b);
-    void *q = func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC(b))), v);
-    *p = func_02017E1C(q, 111, 0);
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    int daycareSlot = func_02159B10(vm, cmdWork);
+    void *daycareMon = func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC(cmdWork))), daycareSlot);
+    *resultVar = func_02017E1C(daycareMon, 111, 0);
 
     return 0;
 }
@@ -3021,12 +2854,12 @@ int func_0215D034(void *a, void *b)
 
 
 
-int func_0215D06C(void *a, void *b)
+int func_0215D06C(void *vm, void *cmdWork)
 {
-    u16 *p = func_02159AE8(a, b);
-    int v = func_02159B10(a, b);
-    void *q = func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC(b))), v);
-    *p = func_02017E1C(q, 110, 0);
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    int daycareSlot = func_02159B10(vm, cmdWork);
+    void *daycareMon = func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC(cmdWork))), daycareSlot);
+    *resultVar = func_02017E1C(daycareMon, 110, 0);
 
     return 0;
 }
@@ -3037,11 +2870,11 @@ int func_0215D06C(void *a, void *b)
 
 
 
-int func_0215D0A4(void *a, void *b)
+int func_0215D0A4(void *vm, void *cmdWork)
 {
-    u16 *p = func_02159AE8(a, b);
-    int v = func_02159B10(a, b);
-    *p = func_021C341C(func_02188D50(func_0201210C(func_0215A5DC(b))), v);
+    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    int daycareSlot = func_02159B10(vm, cmdWork);
+    *resultVar = func_021C341C(func_02188D50(func_0201210C(func_0215A5DC(cmdWork))), daycareSlot);
 
     return 0;
 }
@@ -3051,13 +2884,13 @@ int func_0215D0A4(void *a, void *b)
 
 
 
-int func_0215D0D4(void *a,void *b)
+int func_0215D0D4(void *vm,void *cmdWork)
 {
- u16 *p = func_02159AE8(a,b);
- int i = func_02159B10(a,b);
- void **q = func_02188D50(func_0201210C(func_0215A5DC(b)));
- func_021C34F8(q,i);
- *p = func_021C3490(q,i);
+ u16 *resultVar = func_02159AE8(vm,cmdWork);
+ int daycareSlot = func_02159B10(vm,cmdWork);
+ void **daycare = func_02188D50(func_0201210C(func_0215A5DC(cmdWork)));
+ func_021C34F8(daycare,daycareSlot);
+ *resultVar = func_021C3490(daycare,daycareSlot);
  return 0;
 }
 
@@ -3066,13 +2899,13 @@ int func_0215D0D4(void *a,void *b)
 
 
 
-int func_0215D110(void *a,void *b)
+int func_0215D110(void *vm,void *cmdWork)
 {
- u16 *p = func_02159AE8(a,b);
- int i = func_02159B10(a,b);
- void **q = func_02188D50(func_0201210C(func_0215A5DC(b)));
- func_021C34F8(q,i);
- *p = func_021C34B4(q,i);
+ u16 *resultVar = func_02159AE8(vm,cmdWork);
+ int daycareSlot = func_02159B10(vm,cmdWork);
+ void **daycare = func_02188D50(func_0201210C(func_0215A5DC(cmdWork)));
+ func_021C34F8(daycare,daycareSlot);
+ *resultVar = func_021C34B4(daycare,daycareSlot);
  return 0;
 }
 
@@ -3082,19 +2915,19 @@ int func_0215D110(void *a,void *b)
 
 
 
-int func_0215D14C(void *a, void *b)
+int func_0215D14C(void *vm, void *cmdWork)
 {
-    int f;
-    u16 *p;
-    void *r;
-    void *s = func_02188D50(func_0201210C(func_0215A5DC(b)));
-    p = func_02159AE8(a, b);
-    f = func_02159B10(a, b);
-    r = func_021C34F8(s, func_02159B10(a, b));
-    if (f == 0)
-        *p = func_0215D198(r);
+    int queryKind;
+    u16 *resultVar;
+    void *daycareMon;
+    void *daycare = func_02188D50(func_0201210C(func_0215A5DC(cmdWork)));
+    resultVar = func_02159AE8(vm, cmdWork);
+    queryKind = func_02159B10(vm, cmdWork);
+    daycareMon = func_021C34F8(daycare, func_02159B10(vm, cmdWork));
+    if (queryKind == 0)
+        *resultVar = func_0215D198(daycareMon);
     else
-        *p = 0;
+        *resultVar = 0;
     return 0;
 }
 
@@ -3104,16 +2937,16 @@ int func_0215D14C(void *a, void *b)
 
 
 
-int func_0215D198(void *x)
+int func_0215D198(void *mon)
 {
-    int a = func_02017E1C(x, 5, 0);
-    int b = func_02017E1C(x, 0x6e, 0);
-    if (a == 0x20 || a == 0x1d) {
-        a = 0;
-        if (func_02017E1C(x, 0x75, 0) == 0)
-            return a;
+    int species = func_02017E1C(mon, 5, 0);
+    int gender = func_02017E1C(mon, 0x6e, 0);
+    if (species == 0x20 || species == 0x1d) {
+        species = 0;
+        if (func_02017E1C(mon, 0x75, 0) == 0)
+            return species;
     }
-    switch (b) {
+    switch (gender) {
     case 2:
     default: return 0;
     case 0: return 1;
@@ -3127,36 +2960,36 @@ int func_0215D198(void *x)
 
 
 
-int func_0215D1E4(void *a, u32 *st, Ctx_0215D1E4 *c)
+int func_0215D1E4(void *event, u32 *seq, DaycareEventWork *work)
 {
-    u32 s = *st;
-    void *p0 = c->f0;
-    switch (s) {
+    u32 seqValue = *seq;
+    void *gameSystem = work->gameSystem;
+    switch (seqValue) {
     case 0:
-        func_02012374(a, func_021BE8D4(p0, c->f4, 0, 0));
-        *st = 1;
+        func_02012374(event, func_021BE8D4(gameSystem, work->fieldMap, 0, 0));
+        *seq = 1;
         break;
     case 1:
-        func_02012374(a, (struct Evt **)func_020144DC((int)p0, (int)c->f4));
-        c->f8->f3c = c->fC->fF;
-        *st = 2;
+        func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, (int)work->fieldMap));
+        work->menuParam->selectedPos = work->menuState->selectedPos;
+        *seq = 2;
         break;
     case 2:
-        func_02012374(a, func_02014910(p0, (int)c->f4, (int)c->f8, (int)c->fC));
-        *st = 3;
+        func_02012374(event, func_02014910(gameSystem, (int)work->fieldMap, (int)work->menuParam, (int)work->menuState));
+        *seq = 3;
         break;
     case 3:
-        func_02012374(a, func_020145CC(p0));
-        *st = 4;
+        func_02012374(event, func_020145CC(gameSystem));
+        *seq = 4;
         break;
     case 4:
-        func_02012374(a, func_021BE92C(p0, c->f4, 0, 0, 1, 0, 0));
-        *st = 5;
+        func_02012374(event, func_021BE92C(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
+        *seq = 5;
         break;
     case 5:
-        *c->f10 = c->f8->f3c;
-        func_020307B0(c->f8);
-        func_020307B0(c->fC);
+        *work->resultVar = work->menuParam->selectedPos;
+        func_020307B0(work->menuParam);
+        func_020307B0(work->menuState);
         return 1;
     }
     return 0;
@@ -3168,35 +3001,35 @@ int func_0215D1E4(void *a, u32 *st, Ctx_0215D1E4 *c)
 
 
 
-void *func_0215D2A4(void *a, u32 b, u32 c)
+void *func_0215D2A4(void *gameSystem, void *fieldMap, u16 *resultVar)
 {
-    void *r7 = func_020120F4(a);
-    void *v = func_02012934(r7);
-    u32 w = (u32)func_0200CA1C(r7);
-    A *x = func_02030734(4, 0x98, 0, d_02172900, 0x22B);
-    B *y;
-    Ctx_0215D2A4 *ctx;
-    void *h;
-    x->f00 = v;
-    x->f34 = 0x12;
-    x->f38 = 0;
-    x->f3c = 0;
-    y = func_02030734(4, 0x28, 0, d_02172900, 0x232);
-    y->f00 = x->f00;
-    y->f04 = x->f0c;
-    y->f08 = (u32)r7;
-    y->f0c = 1;
-    y->f0e = func_0201AA18(v);
-    y->f0d = 0;
-    y->f10 = 0;
-    y->f0f = 0;
-    y->f18 = func_0200CA38((struct Blk37 *)w);
-    h = func_020122C0(a, 0, (void *)func_0215D1E4, 0x14);
-    ctx = func_020124E8(h);
-    ctx->f0 = a;
-    ctx->f4 = b;
-    ctx->f8 = x;
-    ctx->fC = y;
-    ctx->f10 = c;
-    return h;
+    void *gameData = func_020120F4(gameSystem);
+    void *party = func_02012934(gameData);
+    u32 zukanSave = (u32)func_0200CA1C(gameData);
+    PartyMenuParam *menuParam = func_02030734(4, 0x98, 0, d_02172900, 0x22B);
+    PartyMenuState *menuState;
+    DaycareEventWork *work;
+    void *event;
+    menuParam->party = party;
+    menuParam->menuType = 0x12;
+    menuParam->cursorPos = 0;
+    menuParam->selectedPos = 0;
+    menuState = func_02030734(4, 0x28, 0, d_02172900, 0x232);
+    menuState->party = menuParam->party;
+    menuState->listWork = menuParam->listWork;
+    menuState->gameData = (u32)gameData;
+    menuState->enabled = 1;
+    menuState->partyCount = func_0201AA18(party);
+    menuState->cursor = 0;
+    menuState->reserved10 = 0;
+    menuState->selectedPos = 0;
+    menuState->zukanSave = func_0200CA38((struct ZukanSave *)zukanSave);
+    event = func_020122C0(gameSystem, 0, (void *)func_0215D1E4, 0x14);
+    work = func_020124E8(event);
+    work->gameSystem = gameSystem;
+    work->fieldMap = fieldMap;
+    work->menuParam = menuParam;
+    work->menuState = menuState;
+    work->resultVar = resultVar;
+    return event;
 }

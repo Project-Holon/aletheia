@@ -15,9 +15,10 @@
 
 typedef int s32;
 
-extern void *func_021543E8(void *p, int a1, int a2, int a3, int a4);
+extern void *func_021543E8(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind);
 
-void func_02154438(s32 a, s32 *b)
+/* Overlay entry point: unpacks the four-word request and creates the event. */
+void func_02154438(s32 gameSystem, s32 *request)
 {
-    func_021543E8((void *)a, b[0], b[1], b[2], b[3]);
+    func_021543E8((void *)gameSystem, request[0], request[1], request[2], request[3]);
 }

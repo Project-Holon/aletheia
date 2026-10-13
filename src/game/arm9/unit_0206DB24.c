@@ -20,12 +20,13 @@ typedef unsigned int u32;
 
 extern void   func_0206DB80(void);
 int CTRDGi_IsTaskAvailable(void);
-void func_0206DB40(u32 *p);
+void func_0206DB40(u32 *cmdBuffer);
 void *func_0206DB60(void);
 extern char d_0214BAB4;
 extern char *g_0214BAB4;
 
 
+/* NNS_G3dGeIsBufferExist (the SDK table names this address CTRDGi_IsTaskAvailable; wrong). */
 int CTRDGi_IsTaskAvailable(void)
 {
     return *(void **)&d_0214BAB4 != 0;
@@ -37,11 +38,12 @@ int CTRDGi_IsTaskAvailable(void)
  *   python tools/match.py one --src src/matched/func_0206DB40.c \
  *       --func func_0206DB40 --addr 0x0206DB40 --cc 1.1p1 --arm
  */
-void func_0206DB40(u32 *p)
+/* NNS_G3dGeSetBuffer: install the geometry command buffer (empty) if none is set. */
+void func_0206DB40(u32 *cmdBuffer)
 {
     if (g_0214BAB4 == 0) {
-        *p = 0;
-        g_0214BAB4 = (char *)p;
+        *cmdBuffer = 0;
+        g_0214BAB4 = (char *)cmdBuffer;
     }
 }
 
@@ -51,12 +53,13 @@ void func_0206DB40(u32 *p)
  *   python tools/match.py one --src src/matched/func_0206DB60.c \
  *       --func func_0206DB60 --addr 0x0206DB60 --cc 1.1p1 --arm
  */
+/* NNS_G3dGeReleaseBuffer: flush the pending commands, then hand the buffer back. */
 void *func_0206DB60(void)
 {
-    void *r;
+    void *cmdBuffer;
 
     func_0206DB80();
-    r = g_0214BAB4;
+    cmdBuffer = g_0214BAB4;
     g_0214BAB4 = 0;
-    return r;
+    return cmdBuffer;
 }

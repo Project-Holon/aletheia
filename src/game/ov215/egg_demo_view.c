@@ -255,7 +255,7 @@ extern void func_02046440(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void 
 extern void *func_02048A24(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,const struct Vec3 *,const struct Vec3 *,const struct Vec3 *,u16);
 extern u32 func_02048AC4(void *ptr);
 extern void func_02046788(int);
-extern void func_02047964(void *);
+extern void func_02047964(void);
 extern void func_02048AD0(struct Light *);
 extern void func_020479D8(void);
 extern void func_02047970(void);
@@ -635,7 +635,7 @@ void func_021F669C(int *p)
 /*
  * extent: includes cleared tiny follower func_021F66C0; no further code included.
  */
-void func_021F66AC(void *p){func_02047964(p);func_02048AD0(*(struct Light * *)&((struct Obj25755 *)p)->f0);func_020479D8();}
+void func_021F66AC(void *p){func_02047964();func_02048AD0(*(struct Light * *)&((struct Obj25755 *)p)->f0);func_020479D8();}
 
 
 

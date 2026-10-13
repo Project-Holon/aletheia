@@ -22,13 +22,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Bmp { u8 pad00[6]; u16 h6; };
-struct S { int f0; u32 f4; struct Bmp *p8; };
+/* NNSG3dResVisAnm: only the node count is read. */
+struct VisAnm { u8 unused00[6]; u16 numNode; };
+/* NNSG3dAnmObj: current frame (fx32), blend ratio, animation resource. */
+struct AnmObj { int frame; u32 ratio; struct VisAnm *pResAnm; };
 
-void func_02070C24(u32 *out, struct S *s, int idx)
+/* NNSi_G3dAnmCalcNsBva shape: read the visibility bit of node nodeIdx at the current frame. */
+void func_02070C24(u32 *pResult, struct AnmObj *pAnmObj, int nodeIdx)
 {
-    struct Bmp *b = s->p8;
-    u32 n = (s->f0 >> 12) * b->h6 + idx;
+    struct VisAnm *pResAnm = pAnmObj->pResAnm;
+    u32 bitIdx = (pAnmObj->frame >> 12) * pResAnm->numNode + nodeIdx;
 
-    *out = *(u32 *)((u8 *)b + ((n >> 5) * 4) + 0xc) & (1u << (n & 0x1f));
+    *pResult = *(u32 *)((u8 *)pResAnm + ((bitIdx >> 5) * 4) + 0xc) & (1u << (bitIdx & 0x1f));
 }

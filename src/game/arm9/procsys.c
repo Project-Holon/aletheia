@@ -13,95 +13,29 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   g_02146990 0x02146990 data
- *   data_020A783C  0x020A783C  data
+ *   g_ProcSys 0x02146990 data
+ *   ProcSys_AllocSiteName  0x020A783C  data
  *   ENV_SetResourceSet  0x020307B0  arm
  *   func_020882D0       0x020882D0  arm
  *   func_02030734       0x02030734  arm
- *   func_02031538_File  0x020A783C  data
+ *   ProcNew_AllocSiteName  0x020A783C  data
  *   func_020307B0  0x020307B0  arm
- *   func_0203159C_File 0x020A783C  data
+ *   ProcAllocWork_AllocSiteName 0x020A783C  data
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  */
 
-struct Obj020314F4;
-struct S020314DC;
-struct S020314B8;
-struct Obj02031538;
 typedef unsigned int u32;
 
 typedef unsigned short u16;
 
 typedef unsigned char  u8;
 
-typedef struct Node Node;
+typedef signed int     s32;
 
-struct Node {
-    u32 pad[6];
-    Node *prev;
-    Node *next;
-};
+struct Proc;
 
-typedef struct {
-    u16 heap;
-    u16 pad02;
-    u32 f04;
-    Node *node;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-} Obj;
-
-struct S020314B8 {
-    char  pad[8];
-    void *field8;
-};
-
-struct S020314DC {
-    char pad[0x10];
-    u32  field10;
-    u32  field14;
-    u32  field18;
-    u32  field1c;
-};
-
-struct Obj020314F4 {
-    u16 f00;
-    u16 pad02;
-    u32 pad04;
-    void *buffer;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-};
-
-struct Obj02031538 {
-    u32 f00;
-    u32 f04;
-    u32 f08;
-    u32 f0c;
-    u32 f10;
-    u32 f14;
-    u32 f18;
-    u32 f1c;
-};
-
-struct Obj0203159C {
-    u32 pad00[5];
-    void *buffer;
-};
-
-struct S020315D4 {
-    char  pad[0x14];
-    void *field14;
-};
-
-typedef u32 (*ProcFunc)(void *proc, u32 *seq, u32 pwork, u32 work);
+typedef u32 (*ProcFunc)(struct Proc *proc, u32 *subSeq, void *procWork, void *work);
 
 typedef struct {
     ProcFunc init;
@@ -109,28 +43,30 @@ typedef struct {
     ProcFunc end;
 } ProcData;
 
-typedef struct {
+/* One running process; a stack of these is linked through prev/next. */
+typedef struct Proc {
     const ProcData *data;
-    u32 ovl;
-    u32 seq;
-    u32 subseq;
-    u32 pwork;
-    u32 work;
+    u32 overlayId;      /* -1: no overlay to load */
+    u32 seq;            /* 0 load overlay, 1 init, 2 main, 3 end */
+    u32 subSeq;
+    void *procWork;     /* argument given by the caller */
+    void *work;         /* buffer owned by the process (func_0203159C) */
+    struct Proc *prev;  /* parent */
+    struct Proc *next;  /* child */
 } Proc;
 
-typedef signed int     s32;
-
-struct Obj03442 {
-    unsigned short f0;
-    unsigned char pad_2[2];
-    int f4;
-    int f8;
-    int fC;
-    int f10;
-    int f14;
-    int f18;
-    int f1C;
-};
+/* The process manager object (0x20 bytes). */
+typedef struct {
+    u16 heapId;
+    u16 padding02;
+    u32 unused04;       /* initialised to -1, never read here */
+    Proc *current;      /* process on top of the stack */
+    u32 pushPending;    /* a child process is queued */
+    u32 replacePending; /* the current process is to be replaced */
+    u32 nextOverlayId;  /* queued process: overlay, data, argument */
+    const ProcData *nextData;
+    void *nextProcWork;
+} ProcSys;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020882D0(void *p);
@@ -138,214 +74,198 @@ extern void ENV_SetResourceSet(void *p);
 extern u32 func_020307B0(void *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-void func_0203129C(int a0);
+void func_0203129C(int heapId);
 int func_020312B4(void);
-void func_020312CC(u32 a1, u32 a2, u32 a3);
-void func_020312F8(u32 a1, u32 a2, u32 a3);
-void *func_02031324(int a0);
-unsigned int func_02031330(void *p);
-void sub_0203133C(struct S020314B8 *p);
-void func_02031348(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3);
-void *func_02031354(int a0);
-Node *func_020313A0(Obj *p);
-u32 func_020313EC(Obj *p);
-void sub_020314B8(struct S020314B8 *p);
-void sub_020314DC(struct S020314DC *p, u32 a, u32 b, u32 c);
-void func_020314F4(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3);
-struct Obj02031538 *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap);
-void func_02031590(void *ptr);
-void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-void sub_020315D4(struct S020315D4 *p);
-u32 func_020315F0(Proc *p);
-extern void *g_02146990;
-extern char data_020A783C[];
-extern const char func_02031538_File[];
-extern const char func_0203159C_File[];
+void func_020312CC(u32 overlayId, const ProcData *data, void *procWork);
+void func_020312F8(u32 overlayId, const ProcData *data, void *procWork);
+void *func_02031324(int heapId);
+unsigned int func_02031330(ProcSys *sys);
+void sub_0203133C(ProcSys *sys);
+void func_02031348(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
+ProcSys *func_02031354(int heapId);
+Proc *func_020313A0(ProcSys *sys);
+u32 func_020313EC(ProcSys *sys);
+void sub_020314B8(ProcSys *sys);
+void sub_020314DC(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
+void func_020314F4(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
+Proc *func_02031538(u32 overlayId, const ProcData *data, void *procWork, u32 heapId);
+void func_02031590(Proc *proc);
+void *func_0203159C(Proc *proc, u32 size, u32 heapId);
+void sub_020315D4(Proc *proc);
+u32 func_020315F0(Proc *proc);
+extern ProcSys *g_ProcSys;
+extern char ProcSys_AllocSiteName[];
+extern const char ProcNew_AllocSiteName[];
+extern const char ProcAllocWork_AllocSiteName[];
 
 
-void func_0203129C(int a0)
+void func_0203129C(int heapId)
 {
-    g_02146990 = func_02031354(a0);
+    g_ProcSys = func_02031354(heapId);
 }
 
 
 /*
- * Tail-call forwarder passing g_02146990 to func_020313EC.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_020312B4.c \
- *       --func func_020312B4 --addr 0x020312B4 --cc 1.1p1 --arm
+ * Tail-call forwarder passing g_ProcSys to func_020313EC.
  */
 int func_020312B4(void)
 {
-    return func_020313EC(g_02146990);
+    return func_020313EC(g_ProcSys);
 }
 
 
 /*
- * Forwarder: passes the object held in g_02146990 to func_020314F4 with
+ * Forwarder: passes the object held in g_ProcSys to func_020314F4 with
  * the caller's three arguments.  Formerly mislabelled SDK EL_LinkFileEx.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/arm9/func_020312CC.c \
- *       --func func_020312CC --addr 0x020312CC --cc 1.1p1 --arm
  */
-void func_020312CC(u32 a1, u32 a2, u32 a3)
+void func_020312CC(u32 overlayId, const ProcData *data, void *procWork)
 {
-    func_020314F4(g_02146990, a1, a2, a3);
+    func_020314F4(g_ProcSys, overlayId, data, procWork);
 }
 
 
 /*
- * Forwarder: passes the object held in g_02146990 to sub_020314DC with
+ * Forwarder: passes the object held in g_ProcSys to sub_020314DC with
  * the caller's three arguments.  Formerly mislabelled SDK EL_LinkFileEx.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/arm9/func_020312F8.c \
- *       --func func_020312F8 --addr 0x020312F8 --cc 1.1p1 --arm
  */
-void func_020312F8(u32 a1, u32 a2, u32 a3)
+void func_020312F8(u32 overlayId, const ProcData *data, void *procWork)
 {
-    sub_020314DC(g_02146990, a1, a2, a3);
+    sub_020314DC(g_ProcSys, overlayId, data, procWork);
 }
 
 
-void *func_02031324(int a0)
+void *func_02031324(int heapId)
 {
-    return func_02031354(a0);
+    return func_02031354(heapId);
 }
 
 
-unsigned int func_02031330(void *p)
+unsigned int func_02031330(ProcSys *sys)
 {
-    return func_020313EC(p);
+    return func_020313EC(sys);
 }
 
 
 /*
- * A four-instruction tail call to sub_020314B8
- * (src/matched/sub_020314B8.c, this same packet), attested by the
- * `matched` class: sub_020314B8's own EXACT entry pins its address, and
- * this call is the only branch to it found in the ROM.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203133C.c \
- *       --func sub_0203133C --addr 0x0203133C --cc 1.1p1
+ * A four-instruction tail call to sub_020314B8, attested by the `matched`
+ * class: sub_020314B8's own EXACT entry pins its address, and this call is
+ * the only branch to it found in the ROM.
  */
-void sub_0203133C(struct S020314B8 *p)
+void sub_0203133C(ProcSys *sys)
 {
-    sub_020314B8(p);
+    sub_020314B8(sys);
 }
 
 
-void func_02031348(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3)
+void func_02031348(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
 {
-    func_020314F4(obj, a1, a2, a3);
+    func_020314F4(sys, overlayId, data, procWork);
 }
 
 
 /*
- * Allocates a 0x20-byte node and lays down a sentinel ring: the first
- * halfword is the caller's key, +4 and +0x14 hold -1 (the two ends of a list
- * with no members) and every other word is 0.  The linker merges the two
- * adjacent zero stores at +4/+8 into one `stmib r0, {r1, r4}`.
+ * Allocates a 0x20-byte ProcSys and sets it empty: the first halfword is the
+ * caller's heap id, +4 and +0x14 hold -1 (no overlay) and every other word
+ * is 0.  The linker merges the two adjacent zero stores at +4/+8 into one
+ * `stmib r0, {r1, r4}`.
  *
  * The first argument handed to func_02030734 is the caller's own parameter -
- * the original never writes r0 before the call, so r0 still holds a0.  A
- * literal first argument makes the compiler materialise it and shifts the
+ * the original never writes r0 before the call, so r0 still holds heapId.
+ * A literal first argument makes the compiler materialise it and shifts the
  * whole prologue.
  *
  * The pool word 0x020A783C is a `literal` site: it appears in ten other
  * pools in the image, e.g. 0x0203158C.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02031354.c \
- *       --func func_02031354 --addr 0x02031354 --cc 1.1p1 --arm
  */
-void *func_02031354(int a0)
+ProcSys *func_02031354(int heapId)
 {
-    char *p = func_02030734(a0, 0x20, 0, (const char *)((int)data_020A783C), 0xc5);
+    ProcSys *sys = func_02030734(heapId, 0x20, 0, (const char *)((int)ProcSys_AllocSiteName), 0xc5);
 
-    ((struct Obj03442 *)p)->f0 = a0;
-    ((struct Obj03442 *)p)->f4 = -1;
-    ((struct Obj03442 *)p)->f8 = 0;
-    ((struct Obj03442 *)p)->fC = 0;
-    ((struct Obj03442 *)p)->f10 = 0;
-    ((struct Obj03442 *)p)->f14 = -1;
-    ((struct Obj03442 *)p)->f18 = 0;
-    ((struct Obj03442 *)p)->f1C = 0;
-    return p;
+    sys->heapId = heapId;
+    sys->unused04 = -1;
+    sys->current = 0;
+    sys->pushPending = 0;
+    sys->replacePending = 0;
+    sys->nextOverlayId = -1;
+    sys->nextData = 0;
+    sys->nextProcWork = 0;
+    return sys;
 }
 
 
-Node *func_020313A0(Obj *p)
+/*
+ * Pushes the queued process on top of the stack as a child of the current
+ * one, then clears the queue.
+ */
+Proc *func_020313A0(ProcSys *sys)
 {
-    Node *n = (Node *)func_02031538(p->f14, p->f18, p->f1c, p->heap);
+    Proc *child = func_02031538(sys->nextOverlayId, sys->nextData, sys->nextProcWork, sys->heapId);
 
-    n->prev = p->node;
-    p->node->next = n;
-    p->node = n;
-    p->f0c = 0;
-    p->f14 = 0xFFFFFFFF;
-    p->f18 = 0;
-    p->f1c = 0;
-    return n;
+    child->prev = sys->current;
+    sys->current->next = child;
+    sys->current = child;
+    sys->pushPending = 0;
+    sys->nextOverlayId = 0xFFFFFFFF;
+    sys->nextData = 0;
+    sys->nextProcWork = 0;
+    return child;
 }
 
 
 
 
 /*
- * procsys.c: advance the process chain one frame.  A pending call at +0xC
- * is pushed first (func_020313A0); then the current process at +8 runs one
- * step (func_020315F0) and, when it finishes, is freed and replaced either
- * by a freshly built process from the parked parameters at +0x14..+0x1C
- * (+0x10 set) or by its parent.
+ * procsys.c: advance the process chain one frame.  A pending push
+ * (pushPending) is applied first (func_020313A0); then the current process
+ * runs one step (func_020315F0) and, when it finishes, is freed and replaced
+ * either by a freshly built process from the queued parameters
+ * (replacePending set) or by its parent.  Returns 0 when the stack is empty,
+ * 2 when a process just finished, 1 otherwise.
  *
  * The earlier 12-byte residue (docs/notes/pkt_020313EC.c.txt) was the
- * `prev = p->node->prev;` load written once above the test: written as
- * the first statement of BOTH arms, the compiler hoists the common load
- * below the compare, which is the image's order (ldr f10, cmp, ldr node,
- * ldr prev, beq).
+ * `parent = sys->current->prev;` load written once above the test: written
+ * as the first statement of BOTH arms, the compiler hoists the common load
+ * below the compare, which is the image's order (ldr replacePending, cmp,
+ * ldr current, ldr prev, beq).
  */
-u32 func_020313EC(Obj *p)
+u32 func_020313EC(ProcSys *sys)
 {
-    u32 r;
-    Node *prev;
+    u32 status;
+    Proc *parent;
 
-    if (p->node == 0) {
+    if (sys->current == 0) {
         return 0;
     }
-    if (p->f0c != 0) {
-        func_020313A0(p);
+    if (sys->pushPending != 0) {
+        func_020313A0(sys);
     }
-    r = func_020315F0((Proc *)p->node);
-    if (r == 1) {
-        if (p->f10 != 0) {
-            prev = p->node->prev;
-            func_02031590(p->node);
-            p->node = (Node *)func_02031538(p->f14, p->f18, p->f1c, p->heap);
-            if (prev != 0) {
-                prev->next = p->node;
+    status = func_020315F0(sys->current);
+    if (status == 1) {
+        if (sys->replacePending != 0) {
+            parent = sys->current->prev;
+            func_02031590(sys->current);
+            sys->current = func_02031538(sys->nextOverlayId, sys->nextData, sys->nextProcWork, sys->heapId);
+            if (parent != 0) {
+                parent->next = sys->current;
             }
-            p->node->prev = prev;
-            p->f10 = 0;
-            p->f14 = 0xFFFFFFFF;
-            p->f18 = 0;
-            p->f1c = 0;
+            sys->current->prev = parent;
+            sys->replacePending = 0;
+            sys->nextOverlayId = 0xFFFFFFFF;
+            sys->nextData = 0;
+            sys->nextProcWork = 0;
         } else {
-            prev = p->node->prev;
-            func_02031590(p->node);
-            p->node = prev;
-            if (prev != 0) {
-                prev->next = 0;
+            parent = sys->current->prev;
+            func_02031590(sys->current);
+            sys->current = parent;
+            if (parent != 0) {
+                parent->next = 0;
             }
         }
     }
-    if (p->node == 0) {
+    if (sys->current == 0) {
         return 0;
     }
-    return (r == 1) ? 2 : 1;
+    return (status == 1) ? 2 : 1;
 }
 
 
@@ -353,21 +273,16 @@ u32 func_020313EC(Obj *p)
 
 
 /*
- * Frees an owned sub-object at +8 if present, then re-registers the object
- * itself with ENV_SetResourceSet. The same shutdown/re-init shape as
- * sub_02031140 and sub_020315D4 in the neighbouring packets, all working
- * the TwlSDK ENV resource-set table.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020314B8.c \
- *       --func sub_020314B8 --addr 0x020314B8 --cc 1.1p1
+ * Frees the current process if present, then frees the ProcSys itself
+ * (ENV_SetResourceSet is the heap free).  The same shutdown shape as
+ * sub_02031140 and sub_020315D4 in the neighbouring packets.
  */
-void sub_020314B8(struct S020314B8 *p)
+void sub_020314B8(ProcSys *sys)
 {
-    if (p->field8 != 0) {
-        func_020882D0(p->field8);
+    if (sys->current != 0) {
+        func_020882D0(sys->current);
     }
-    ENV_SetResourceSet(p);
+    ENV_SetResourceSet(sys);
 }
 
 
@@ -375,19 +290,16 @@ void sub_020314B8(struct S020314B8 *p)
 
 
 /*
- * A four-field constructor: marks the object valid (+0x10 = 1) and stores
- * the three remaining arguments at +0x14, +0x18 and +0x1c. No relocations.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020314DC.c \
- *       --func sub_020314DC --addr 0x020314DC --cc 1.1p1
+ * Queues a replacement of the current process: marks it pending
+ * (replacePending = 1) and stores the new overlay, data and argument.
+ * No relocations.
  */
-void sub_020314DC(struct S020314DC *p, u32 a, u32 b, u32 c)
+void sub_020314DC(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
 {
-    p->field10 = 1;
-    p->field14 = a;
-    p->field18 = b;
-    p->field1c = c;
+    sys->replacePending = 1;
+    sys->nextOverlayId = overlayId;
+    sys->nextData = data;
+    sys->nextProcWork = procWork;
 }
 
 
@@ -395,9 +307,9 @@ void sub_020314DC(struct S020314DC *p, u32 a, u32 b, u32 c)
 
 
 /*
- * procsys.c: queue a call for the process at obj, or start it now.  When
- * the +8 node already exists the three parameters are parked at +0x14..
- * +0x1C with the pending flag at +0xC; otherwise the node is built with
+ * procsys.c: queue a call for the process at sys, or start it now.  When
+ * a current process already exists the three parameters are parked in the
+ * queue fields with pushPending set; otherwise the process is built with
  * the object's own u16 head as the heap id.
  *
  * The earlier DIFF (72 against 68, docs/notes/pkt_020314F4.c.txt) was the
@@ -405,15 +317,15 @@ void sub_020314DC(struct S020314DC *p, u32 a, u32 b, u32 c)
  * first and the stores in the else arm, the compiler predicates the else
  * arm (movne, four strne, popne) and places it ahead of the call.
  */
-void func_020314F4(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3)
+void func_020314F4(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork)
 {
-    if (obj->buffer == 0) {
-        obj->buffer = func_02031538(a1, a2, a3, obj->f00);
+    if (sys->current == 0) {
+        sys->current = func_02031538(overlayId, data, procWork, sys->heapId);
     } else {
-        obj->f0c = 1;
-        obj->f14 = a1;
-        obj->f18 = a2;
-        obj->f1c = a3;
+        sys->pushPending = 1;
+        sys->nextOverlayId = overlayId;
+        sys->nextData = data;
+        sys->nextProcWork = procWork;
     }
 }
 
@@ -421,113 +333,101 @@ void func_020314F4(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3)
 
 
 /*
- * Build a 0x20-byte object from the allocator and fill its tail with the
- * three parameters.  The allocator is three-parameter with the size second
- * (see func_0203159C), plus __FILE__/__LINE__; 0x162 does not fit an ARM
- * immediate so it costs its own pool word loaded early into ip.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02031538.c \
- *       --func func_02031538 --addr 0x02031538 --cc 1.1p1 --arm
+ * Build a 0x20-byte Proc from the allocator and fill it.  The allocator is
+ * three-parameter with the size second (see func_0203159C), plus
+ * __FILE__/__LINE__; 0x162 does not fit an ARM immediate so it costs its own
+ * pool word loaded early into ip.
  */
-struct Obj02031538 *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap)
+Proc *func_02031538(u32 overlayId, const ProcData *data, void *procWork, u32 heapId)
 {
-    struct Obj02031538 *obj;
+    Proc *proc;
 
-    obj = (struct Obj02031538 *)func_02030734(heap, 0x20, 0,
-                                              func_02031538_File, 0x162);
-    obj->f04 = a0;
-    obj->f00 = a1;
-    obj->f08 = 0;
-    obj->f0c = 0;
-    obj->f10 = a2;
-    obj->f14 = 0;
-    obj->f18 = 0;
-    obj->f1c = 0;
-    return obj;
+    proc = (Proc *)func_02030734(heapId, 0x20, 0,
+                                 ProcNew_AllocSiteName, 0x162);
+    proc->overlayId = overlayId;
+    proc->data = data;
+    proc->seq = 0;
+    proc->subSeq = 0;
+    proc->procWork = procWork;
+    proc->work = 0;
+    proc->prev = 0;
+    proc->next = 0;
+    return proc;
 }
 
 
 
 
-void func_02031590(void *ptr)
+void func_02031590(Proc *proc)
 {
-    func_020307B0(ptr);
+    func_020307B0(proc);
 }
 
 
 
 
 /*
- * Allocate the object's +0x14 buffer.  The size never reaches a register
- * of its own: it arrives in r1 and is handed straight to the allocator's
- * r1, which is the arity tell, three parameters with the size second, not
- * two with a size read from the object.
+ * Allocate the process's work buffer.  The size never reaches a register of
+ * its own: it arrives in r1 and is handed straight to the allocator's r1,
+ * which is the arity tell, three parameters with the size second, not two
+ * with a size read from the object.
  *
  * __LINE__ is 390 and does not fit an ARM immediate, so it costs its own
  * pool word next to the __FILE__ pointer.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_0203159C.c \
- *       --func func_0203159C --addr 0x0203159C --cc 1.1p1 --arm
  */
-void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap)
+void *func_0203159C(Proc *proc, u32 size, u32 heapId)
 {
-    obj->buffer = func_02030734(heap, size, 0, func_0203159C_File, 390);
-    return obj->buffer;
+    proc->work = func_02030734(heapId, size, 0, ProcAllocWork_AllocSiteName, 390);
+    return proc->work;
 }
 
 
 
 
 /*
- * Unregisters a stored resource-set pointer at +0x14 with
- * ENV_SetResourceSet and clears the field.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020315D4.c \
- *       --func sub_020315D4 --addr 0x020315D4 --cc 1.1p1
+ * Frees the process's work buffer (ENV_SetResourceSet is the heap free) and
+ * clears the field.
  */
-void sub_020315D4(struct S020315D4 *p)
+void sub_020315D4(Proc *proc)
 {
-    ENV_SetResourceSet(p->field14);
-    p->field14 = 0;
+    ENV_SetResourceSet(proc->work);
+    proc->work = 0;
 }
 
 
 
 
 /*
- * procsys.c: run one step of a process.  State at +8 walks 0 (load the
- * overlay at +4 unless it is -1), 1 (init callback), 2 (main callback),
- * 3 (end callback, then unload the overlay and report finished).  Each
- * callback returns 1 when its phase is done; the sub-sequence counter at
- * +0xC is passed by address and cleared on every phase change.
+ * procsys.c: run one step of a process.  seq walks 0 (load the overlay
+ * unless it is -1), 1 (init callback), 2 (main callback), 3 (end callback,
+ * then unload the overlay and report finished).  Each callback returns 1
+ * when its phase is done; the sub-sequence counter is passed by address and
+ * cleared on every phase change.
  */
-u32 func_020315F0(Proc *p)
+u32 func_020315F0(Proc *proc)
 {
-    switch (p->seq) {
+    switch (proc->seq) {
     case 0:
-        if (p->ovl != 0xFFFFFFFF) {
-            func_02034AC4(p->ovl);
+        if (proc->overlayId != 0xFFFFFFFF) {
+            func_02034AC4(proc->overlayId);
         }
-        p->seq = 1;
+        proc->seq = 1;
     case 1:
-        if (p->data->init(p, &p->subseq, p->pwork, p->work) == 1) {
-            p->seq = 2;
-            p->subseq = 0;
+        if (proc->data->init(proc, &proc->subSeq, proc->procWork, proc->work) == 1) {
+            proc->seq = 2;
+            proc->subSeq = 0;
         }
         break;
     case 2:
-        if (p->data->main(p, &p->subseq, p->pwork, p->work) == 1) {
-            p->seq = 3;
-            p->subseq = 0;
+        if (proc->data->main(proc, &proc->subSeq, proc->procWork, proc->work) == 1) {
+            proc->seq = 3;
+            proc->subSeq = 0;
         }
         break;
     case 3:
-        if (p->data->end(p, &p->subseq, p->pwork, p->work) == 1) {
-            if (p->ovl != 0xFFFFFFFF) {
-                func_02034A5C(p->ovl);
+        if (proc->data->end(proc, &proc->subSeq, proc->procWork, proc->work) == 1) {
+            if (proc->overlayId != 0xFFFFFFFF) {
+                func_02034A5C(proc->overlayId);
             }
             return 1;
         }

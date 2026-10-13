@@ -21,7 +21,7 @@ typedef unsigned short u16;
 extern s32 func_02084D78(u16 lockID);
 
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
-asm void func_02084D98(int a)
+asm void func_02084D98(int lockID)
 {
     ldr r1, =func_02084D78
     bx r1

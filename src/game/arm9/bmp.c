@@ -1,7 +1,7 @@
 /*
  * file:     bmp.c
  * unit:     yes
- * function: func_0204335C, func_020433E0, func_0204349C, func_020434B4, func_020434CC, func_020434DC, func_02043534, func_02043558, func_02043570, func_02043588, func_02043598, func_020435F4, func_0204361C, func_0204363C, func_02043658, func_02043668, func_02043678, func_020436FC, func_02043754, func_020437AC, func_020437D4, func_020437DC, func_020437E4, func_020437EC, func_02043814, func_0204384C, func_02043900, func_02043994, func_020439A0, func_02043AAC, func_02043AF4, sub_02043B5C, func_02043B98, func_02043F4C, func_0204427C, func_020445F4, func_02044954, func_02044BF0, func_02044CE0, func_02044D88, func_02044EBC, func_02044F64, func_02045088, func_020450C8, func_020450F0, func_02045180, func_02045210, func_020452E8, func_02045334, func_02045374, func_020454E0, func_020456F8, func_02045730, func_02045738, func_02045740, func_02045748, func_02045750, func_02045758, func_02045760, func_02045768, func_02045770, func_02045778, func_02045780, func_02045788, func_02045790, func_02045798, func_020457A0, func_020457B0, func_02045808, func_0204581C, sub_02045838, sub_02045874, func_0204589C, sub_020458F8, sub_02045900, func_02045924, func_02045994, func_02045A00, func_02045A38, sub_02045A90, func_02045A98, func_02045AA8, func_02045AFC, func_02045B38, func_02045C04, func_02045C44, func_02045CAC, func_02045E04, func_02045E3C, func_02045EC0, func_02045F50, func_02045F5C, func_02046084, func_02046110, sub_02046180, sub_020461B8
+ * function: func_0204335C, func_020433E0, func_0204349C, func_020434B4, func_020434CC, func_020434DC, func_02043534, func_02043558, func_02043570, func_02043588, func_02043598, func_020435F4, func_0204361C, func_0204363C, func_02043658, func_02043668, func_02043678, func_020436FC, func_02043754, func_020437AC, func_020437D4, func_020437DC, func_020437E4, func_020437EC, func_02043814, func_0204384C, func_02043900, func_02043994, func_020439A0, func_02043AAC, func_02043AF4, sub_02043B5C, func_02043B98, func_02043F4C, func_0204427C, func_020445F4, func_02044954, func_02044BF0, func_02044CE0, func_02044D88, func_02044EBC, func_02044F64, func_02045088, func_020450C8, func_020450F0, func_02045180, func_02045210, func_020452E8, func_02045334, func_02045374, func_020454E0, func_020456F8, func_02045730, func_02045738, func_02045740, func_02045748, func_02045750, func_02045758, func_02045760, func_02045768, func_02045770, func_02045778, func_02045780, func_02045788, func_02045790, func_02045798, func_020457A0, func_020457B0, func_02045808, func_0204581C, sub_02045838, sub_02045874, func_0204589C, sub_020458F8, sub_02045900, func_02045924, func_02045994, func_02045A00, func_02045A38, sub_02045A90, func_02045A98, func_02045AA8, func_02045AFC
  * address:  0x0204335C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -11,6 +11,7 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from bmp.c at 0x02045B38 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
  *   func_0208068C  0x0208068C  arm
@@ -36,77 +37,35 @@
  *   func_0208083C  0x0208083C  arm
  *   func_02080294  0x02080294  arm
  *   func_0208040C  0x0208040C  arm
- *   g_02146A48     0x02146A48  data
- *   gVisiblePlane  0x02146A48  data
- *   func_02043558  0x02043558  arm
+ *   gVisiblePlanes  0x02146A48  data
  *   func_0207D46C  0x0207D46C  arm
  *   func_02030734  0x02030734  arm
  *   bmp_File       0x020A7E68  data
  *   func_020307B0  0x020307B0  arm
- *   func_02082A90  0x02082A90  arm
- *   func_0204384C_File  0x020A7E68  data
  *   func_0204A1BC       0x0204A1BC  arm
  *   func_02062A4C       0x02062A4C  arm
  *   OS_Terminate        0x02088234  arm
- *   func_02043900_File  0x020A7E68  data
  *   MIi_CpuCopy32       0x02082A90  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   _s32_div_f     0x0209C0A4  arm
- *   g_02146A50     0x02146A50  data
- *   str_020A7E70   0x020A7E70  data
+ *   sBmpWinHeapRecord     0x02146A50  data
+ *   bmpWin_File   0x020A7E70  data
  *   func_0204169C  0x0204169C  arm
  *   func_0203FA08  0x0203FA08  arm
  *   func_0203FAF0  0x0203FAF0  arm
  *   sub_0203FB44  0x0203FB44  arm
- *   sub_020437AC  0x020437AC  arm
- *   sub_020307B0  0x020307B0  arm
  *   sub_020416B8  0x020416B8  arm
- *   sub_020437D4  0x020437D4  arm
  *   sub_02040B1C  0x02040B1C  arm
  *   func_02041680  0x02041680  arm
  *   func_020410D0  0x020410D0  arm
  *   func_02041300  0x02041300  arm
- *   sub_02041300  0x02041300  arm
- *   g_020A7E7C  0x020A7E7C  data
- *   sub_02030734  0x02030734  arm
+ *   sStrbufStatics  0x020A7E7C  data
  *   MI_CpuCopy8  0x02082D44  arm
- *   sStrbufEnd      0x020A7E7C  data
- *   d_020A7E7C  0x020A7E7C  data
- *   g_020A7E8C     0x020A7E8C  data
- *   func_020461B8  0x020461B8  arm
- *   func_020490F4  0x020490F4  arm
- *   func_02049578  0x02049578  arm
- *   func_02049238  0x02049238  arm
- *   func_0204581C  0x0204581C  arm
- *   func_02045E04  0x02045E04  arm
- *   func_02046180  0x02046180  arm
- *   func_020495F4  0x020495F4  arm
- *   func_0204960C  0x0204960C  arm
- *   sub_02045E3C  0x02045E3C  arm
- *   sub_0204960C  0x0204960C  arm
- *   sub_020495F4  0x020495F4  arm
- *   sub_02045CAC  0x02045CAC  arm
- *   func_02082D44  0x02082D44  arm
- *   sub_02046110  0x02046110  arm
- *   sub_020461E4  0x020461E4  arm
  */
-#include "../../matched/include/Obj04758.h"
-#include "../../matched/include/Obj11411.h"
-#include "../../matched/include/Obj03010.h"
-#include "../../matched/include/Obj11412.h"
-#include "../../matched/include/Obj08850.h"
 
-struct BmpInfo;
-struct NitroFileHeader;
 struct Bmp;
-struct Obj020437AC;
-struct ArcFile;
-struct Header;
-struct MsgDataVol;
-struct Buf;
-struct Obj;
-struct U16Vec;
-struct MsgData;
+struct CharData;
+struct Strbuf;
+struct BmpWin;
 typedef unsigned int u32;
 
 typedef enum {
@@ -134,291 +93,121 @@ struct DispVram {
     GXOBJVRamModeChar sub_mapping;      /* +0x2C */
 };
 
-struct Flags {
-    u32 unk_00;
-    u32 unk_04;
-};
-
 typedef unsigned short u16;
 
 typedef unsigned char u8;
 
-struct Bmp {
-    u8  *pixels; /* 0x00 */
-    u16  width;  /* 0x04 */
-    u16  height; /* 0x06 */
-    u16  depth;  /* 0x08 */
-    u16  kind;   /* 0x0a */
+/*
+ * Where a bitmap's pixels live (Bmp.storage).  A VRAM destination cannot be
+ * written a byte at a time, so the VRAM workers read-modify-write halfwords.
+ */
+enum {
+    BMP_STORAGE_OWNED    = 0,   /* pixel buffer allocated with the Bmp, freed with it */
+    BMP_STORAGE_BORROWED = 1,   /* caller's buffer, not freed by BMP_Delete */
+    BMP_STORAGE_VRAM     = 2    /* caller's buffer in VRAM, halfword writes only */
 };
 
-struct Obj020437AC {
-    void *buffer; /* 0x00 */
-    u16   pad04[3];
-    u16   unk0a;  /* 0x0a */
+/* Tile byte sizes (Bmp.tileBytes): one 8x8 tile at 4 and at 8 bits per pixel. */
+#define BMP_TILE_BYTES_4BPP 0x20
+#define BMP_TILE_BYTES_8BPP 0x40
+
+/*
+ * A tiled character bitmap.  width and height are in pixels, the pixels are
+ * stored as 8x8 tiles of tileBytes bytes each.
+ */
+struct Bmp {
+    u8  *pixels;     /* 0x00 */
+    u16  width;      /* 0x04 */
+    u16  height;     /* 0x06 */
+    u16  tileBytes;  /* 0x08 */
+    u16  storage;    /* 0x0a, BMP_STORAGE_* */
 };
 
 typedef signed int     s32;
 
-struct BmpInfo {
-    u16   cellsX;
-    u16   cellsY;
-    u32   format;
-    u8    pad08[8];
-    u32   size;
-    void *src;
-};
-
-typedef short          s16;
-
-struct CharBuf {
-    u8  *pixels;
-    u16 width;
-    u16 height;
-    u16 tileSize;
+/* Unpacked character resource (the NNS_G2d character data record). */
+struct CharData {
+    u16   heightTiles;       /* +0x00 */
+    u16   widthTiles;        /* +0x02 */
+    u32   pixelFormat;       /* +0x04, 3 = 4bpp, 4 = 8bpp */
+    u32   mappingType;       /* +0x08 */
+    u32   characterFormat;   /* +0x0C */
+    u32   size;              /* +0x10, byte size of rawData */
+    void *rawData;           /* +0x14 */
 };
 
 typedef signed short   s16_p07;
 
-struct BgLayer {
-    u16 tag : 15;
-    u16 is8bpp : 1;
-    u8  layer;
-    u8  screenBase;
-    u8  charBase;
-    u8  width;
-    u8  height;
-    u8  width2;
-    u8  height2;
-    u8  palette;
-    u16 charOffset;
-    void *tiles;
-};
+#define BMP_WIN_MAGIC 0x7fb2
 
-struct Descriptor {
-    u16   unk0_0 : 15;
-    u16   unk0_15 : 1;
-    u8    unk2;
-    u8    unk3;
-    u8    unk4;
-    u8    unk5;
-    u8    unk6;
-    u8    unk7;
-    u8    unk8;
-    u8    unk9;
-    u16   unkA;
-    void *heap;
-};
-
-struct Descriptor_02045334 {
-    u16   unk0;
-    u8    unk2;
-    u8    unk3;
-    u8    unk4;
-    u8    unk5;
-    u8    unk6;
-    u8    unk7;
-    u8    unk8;
-    u8    unk9;
-    u16   unkA;
-    void *heap;
-};
-
-struct Cfg {
-    u8  pad_00[2];
-    u8  unk_02;
-    u8  unk_03;
-    u8  unk_04;
-    u8  unk_05;
-    u8  unk_06;
-    u8  unk_07;
-    u8  unk_08;
-    u8  unk_09;
-    u16 unk_0a;
-};
-
-
-
-struct Descriptor_02045730 {
-    u8    unk0;
-    u8    unk1;
-    u8    unk2;
-    u8    unk3;
-    u8    unk4;
-    u8    unk5;
-    u8    unk6;
-    u8    unk7;
-    u8    unk8;
-    u8    unk9;
-    u16   unkA;
-    void *heap;
+/*
+ * A bitmap window: a rectangle of a BG layer backed by a Bmp.  One object
+ * for every view the accessors and the constructors take.
+ */
+struct BmpWin {
+    u16 magic : 15;          /* +0x00, BMP_WIN_MAGIC while live */
+    u16 is8bpp : 1;          /*        BG layer uses 8bpp characters */
+    u8  bgLayer;             /* +0x02 */
+    u8  posX;                /* +0x03, in tiles */
+    u8  posY;                /* +0x04 */
+    u8  width;               /* +0x05, in tiles */
+    u8  height;              /* +0x06 */
+    u8  dispWidth;           /* +0x07, on-screen extent, starts equal to width */
+    u8  dispHeight;          /* +0x08, starts equal to height */
+    u8  palette;             /* +0x09 */
+    u16 charOffset;          /* +0x0a, first character number in BG VRAM */
+    struct Bmp *bmp;         /* +0x0c */
 };
 
 /*
- * The global based at 0x020A7E7C is one small object, not two independent
- * words: sub_020457B0 loads 0x020A7E80 out of a pool as the allocators
+ * The data at 0x020A7E7C is one small object, not two independent
+ * words: STRBUF_Create loads 0x020A7E80 out of a pool as the allocators
  * fourth argument, and that word is this symbol plus four
  * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  * Reading it as a separate object splits one symbol into two and loses
  * the relocation: 0x020A7E80 has exactly one pool reference image-wide
  * and so no witness of its own, while the base has thirty-six.
  */
-struct AllocStamp {
-    u16  value;      /* 0x020A7E7C, the stamp every object copies to +0x8 */
+struct StrbufStatics {
+    u16  eosChar;    /* 0x020A7E7C, the end-of-string code (0xFFFF) */
     u16  pad;
-    char site[1];    /* 0x020A7E80, the allocators fourth argument */
+    char file[1];    /* 0x020A7E80, the "strbuf.c" file name handed to the allocator */
 };
 
-struct U16Vec {
-    u16 capacity;
-    u16 used;
-    u32 magic;
-    u16 slots[1];
-};
+#define STRBUF_MAGIC 0xB6F8D2ECu
 
-struct Buf {
-    u8  pad00[8];
-    u16 w[0];
-};
-
+/* A bounded string of u16 characters; chars[] holds capacity entries plus the end code. */
 struct Strbuf {
-    u16     cap;            /* +0x00 */
-    u16     n;              /* +0x02 */
-    u8      pad04[4];
-    u16     buf[1];         /* +0x08 */
-};
-
-struct Buf_p12 {
-    u16 len;
-    u16 count;
-    u32 unk_04;
-    u8  data[0];
-};
-
-struct MsgEntry {
-    u32 off;
-    u16 len;
-    u16 pad_06;
-};
-
-struct MsgFile {
-    u16 langCount;
-    u16 count;
-    u32 size;
-    u32 unk_08;
-    u32 langOff[1];
-};
-
-struct MsgBank_22 {
-    const struct MsgFile *file;
-    void                 *base;
-    struct MsgEntry       cache;
-    u32                   origin;
-    void                 *stream;
-    u16                   heapId;
-    u8                    langIndex;
-    u8                    resident;
-};
-
-struct Rec {
-    void *unk_00;
-    void *unk_04;
-    u8    pad_08[0xc];
-    void *unk_14;
-};
-
-struct MsgFile_p14 {
-    u16 langCount;
-    u16 count;
-    u32 unk_04;
-    u32 unk_08;
-    u32 langOff[1];
-};
-
-struct MsgBank_23 {
-    const struct MsgFile_p14 *file;
-    void                 *base;
-    struct MsgEntry       cache;
-    u32                   origin;
-    void                 *stream;
-    u16                   heapId;
-    u8                    langIndex;
-    u8                    resident;
-};
-
-struct Obj_02045E04 {
-    u8 unk_00[1];
-};
-
-struct Head {
-    u8  pad_00[2];
-    u16 unk_02;
-};
-
-struct Obj_02045F50 {
-    struct Head *head;
-};
-
-struct MsgEntry_p15 {
-    u32 offset;
-    u16 count;
-    u16 pad;
-};
-
-struct MsgArchive {
-    u16 bankCount;
-    u16 unk02;
-    u32 unk04;
-    u32 unk08;
-    u32 bankOffset[1];
-};
-
-struct MsgData {
-    struct MsgArchive *archive; /* +0x00 */
-    void *bank;                 /* +0x04 */
-    struct MsgEntry_p15 entry;      /* +0x08 */
-    u32 baseOffset;             /* +0x10 */
-    void *file;                 /* +0x14 */
-    u16 unk18;                  /* +0x18 */
-    u8 bankIndex;               /* +0x1A */
-    u8 mode;                    /* +0x1B */
-};
-
-struct MsgFileHdr {
-    u16 langCount;
-    u16 count;
-    u32 size;
-    u32 unk_08;
-};
-
-struct MsgDataVol {
-    struct MsgArchive * volatile archive;
-    void *bank;
-    u32 unk08;
-    u32 unk0C;
-    u32 baseOffset;
-    void *file;
-    u16 unk18;
-    u8 bankIndex;
-    u8 mode;
-};
-
-struct Header {
-    u16 count;
-};
-
-struct Obj {
-    struct Header *header;
-    u8             pad_04[0x16];
-    u8             index;
-    u8             enabled;
+    u16 capacity;    /* +0x00 */
+    u16 length;      /* +0x02 */
+    u32 magic;       /* +0x04, STRBUF_MAGIC while live */
+    u16 chars[1];    /* +0x08 */
 };
 
 extern void func_0208068C(u32 banks);
 extern void func_02082AC0(u32 data, void *dest, u32 size);
 extern void func_02080B98(void);
 extern int func_020808F4(void);
-extern void func_02043558(void);
 extern void func_0207D46C(void);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_020307B0(void *p);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern s32 func_02062A4C(void *resource, struct CharData **out);
+extern void  OS_Terminate(void);
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
+extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+extern u8 func_0204169C(int channel);
+extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
+extern u32 func_0203FAF0(u32 layer, u32 offset, u32 units);
+extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
+extern u8 sub_020416B8(int channel);
+extern void sub_02040B1C(int index, const void *src, u32 size, u32 tile);
+extern u8 func_02041680(int channel);
+extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
+extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
+extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+void sub_0204335C(u32 keepBanks);
+void func_020433E0(const struct DispVram *banks);
 void sub_0204349C(void);
 void sub_020434B4(void);
 void sub_020434CC(void);
@@ -433,138 +222,79 @@ void func_0204361C(void);
 void func_0204363C(u32 swap);
 u32 func_02043658(void);
 u32 func_02043668(void);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-extern void func_02082A90(void *dst, const void *src, u32 size);
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
-extern void  OS_Terminate(void);
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern u8 func_0204169C(int channel);
-extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
-extern u32 func_0203FAF0(u32 layer, u32 offset, u32 units);
-extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
-extern void sub_020437AC(struct Obj020437AC *p);
-extern u32 sub_020307B0(void *p);
-extern u8 sub_020416B8(int channel);
-extern void *sub_020437D4(const struct Bmp *bmp);
-extern void sub_02040B1C(int index, const void *src, u32 size, u32 tile);
-extern u8 func_02041680(int channel);
-extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
-extern void sub_02041300(int a, int b, int c, int d, int e, int f, int g);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
-                          u16 tag);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_02049578(struct ArcFile *arc, u32 member);
-extern s32 func_020461B8(struct Header *h);
-extern void func_02049238(void *handle);
-extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
-extern void func_0204960C(void *stream, u32 pos);
-extern void func_0204581C(struct U16Vec *vec);
-extern void func_02045E04(struct Obj *o, u32 mode);
-extern void func_02046180(struct Obj *o);
-extern u32 sub_02045E3C(u16 *str, u32 count, u32 msgIndex);
-extern void  sub_0204960C(void *stream, u32 offset);
-extern void sub_020495F4(struct ArcFile *arc, u32 size, void *dst);
-extern void  sub_02045CAC(struct MsgBank_23 *bank, u32 index, void *buf);
-extern void func_02082D44(const void *src, void *dest, u32 size);
-extern void sub_02046110(struct MsgData *msg);
-extern s32 sub_020461E4(struct Header *h);
-void sub_0204335C(u32 keep);
-struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-void func_020437AC(struct Obj020437AC *p);
+struct Bmp *func_02043678(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+struct Bmp *func_020436FC(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+struct Bmp *func_02043754(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+void func_020437AC(struct Bmp *bmp);
 void *func_020437D4(const struct Bmp *bmp);
 u16 func_020437DC(const struct Bmp *bmp);
 u16 func_020437E4(const struct Bmp *bmp);
 u32 func_020437EC(const struct Bmp *bmp);
-void func_02043814(struct Bmp *dst, const struct Bmp *src);
-struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
-void func_02043900(struct Bmp *b, struct BmpInfo *info, u32 heap);
-u8 func_02043994(struct Bmp *b);
-void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u16 key);
-void func_02043AAC(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u16 a10);
-void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u16 a5, u8 a6);
-void sub_02043B5C(struct CharBuf *buf, u8 value);
-void func_02043B98(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 dy, u32 w, u32 h, u16 key);
-void func_02043F4C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 dy, u32 w, u32 h, u16 key);
-void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 dy, u32 w, u32 h, u16 key, u8 pal);
-void func_020445F4(struct Bmp *src, struct Bmp *dst, u16 x, u16 y, s16_p07 dx, s16_p07 dy, u16 w, u16 h, u16 key);
-void func_02044954(struct Bmp *src, struct Bmp *dst, u16 x, u16 y, s16_p07 dx, s16_p07 dy, u16 w, u16 h, u16 key);
-void func_02044BF0(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u32 value);
-void func_02044CE0(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value);
-void func_02044D88(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value);
-void func_02044EBC(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value);
-struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap);
+void func_02043814(const struct Bmp *src, struct Bmp *dst);
+struct Bmp *func_0204384C(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
+void func_02043900(struct Bmp *bmp, struct CharData *charData, u32 heapId);
+u8 func_02043994(struct Bmp *bmp);
+void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u16 colorKey);
+void func_02043AAC(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 w, u32 h, u16 colorKey, u16 paletteBase);
+void func_02043AF4(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+void sub_02043B5C(struct Bmp *bmp, u8 value);
+void func_02043B98(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
+void func_02043F4C(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
+void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey, u8 paletteBase);
+void func_020445F4(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey);
+void func_02044954(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey);
+void func_02044BF0(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u32 value);
+void func_02044CE0(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
+void func_02044D88(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
+void func_02044EBC(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
+struct Bmp *func_02044F64(struct Bmp *bmp, u32 keepCopy, u16 heapId);
 void sub_02045088(u16 heapId);
 void sub_020450C8(void);
-u32 sub_020450F0(u32 layer, u32 a, u32 b, u8 tiles, u8 c, u8 d, u8 slot);
-u32 sub_02045180(u32 layer, u32 a, u32 b, u8 tiles, u8 c, u8 d, u32 offset);
-struct BgLayer *sub_02045210(u32 layer, u32 screenBase, u32 charBase, u8 width, u8 height, u8 palette, u32 charOffset, u8 is8bpp);
-u32 sub_020452E8(struct Descriptor *d);
-void sub_02045334(struct Descriptor_02045334 *d);
-void sub_02045374(struct Cfg *cfg);
-void func_020454E0(struct Cfg *cfg, u16 base, u32 pal);
-void sub_020456F8(struct Descriptor_02045334 *d);
-u8 sub_02045730(struct Descriptor_02045730 *p);
-u8 sub_02045738(struct Descriptor_02045730 *p);
-u8 sub_02045740(struct Descriptor_02045730 *p);
-u8 sub_02045748(struct Descriptor_02045730 *p);
-u8 sub_02045750(struct Descriptor_02045730 *p);
-u8 sub_02045758(struct Descriptor_02045730 *p);
-u8 sub_02045760(struct Descriptor_02045730 *p);
-u16 sub_02045768(struct Descriptor_02045730 *p);
-void *sub_02045770(struct Descriptor_02045730 *p);
-u8 sub_02045778(struct Descriptor_02045730 *p);
-void sub_02045780(struct Descriptor_02045730 *p, u8 v);
-void sub_02045788(struct Descriptor_02045730 *p, u8 v);
-void sub_02045790(struct Descriptor_02045730 *p, u8 v);
-void sub_02045798(struct Descriptor_02045730 *p, u8 v);
-void sub_020457A0(u16 stamp);
-struct U16Vec *sub_020457B0(u32 capacity, u32 heapId);
-void sub_02045808(struct U16Vec *vec);
-void sub_0204581C(struct U16Vec *vec);
-void sub_02045838(struct U16Vec *dst, struct U16Vec *src);
-struct U16Vec *sub_02045874(struct U16Vec *src, u32 heapId);
-int func_0204589C(struct Buf *a, struct Buf *b);
-u16 sub_020458F8(struct U16Vec *vec);
-void sub_02045900(struct U16Vec *vec, u32 index);
-void func_02045924(struct Strbuf *o, const u16 *src);
-void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
-void func_02045A00(struct Buf_p12 *buf, const void *src, u32 n);
-void sub_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-u16 *sub_02045A90(struct U16Vec *vec);
+struct BmpWin *sub_020450F0(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct BmpWin *sub_02045180(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset);
+struct BmpWin *sub_02045210(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset, u8 is8bpp);
+u32 sub_020452E8(struct BmpWin *win);
+void sub_02045334(struct BmpWin *win);
+void sub_02045374(struct BmpWin *win);
+void func_020454E0(struct BmpWin *win, u16 baseTile, u32 palette);
+void sub_020456F8(struct BmpWin *win);
+u8 sub_02045730(struct BmpWin *win);
+u8 sub_02045738(struct BmpWin *win);
+u8 sub_02045740(struct BmpWin *win);
+u8 sub_02045748(struct BmpWin *win);
+u8 sub_02045750(struct BmpWin *win);
+u8 sub_02045758(struct BmpWin *win);
+u8 sub_02045760(struct BmpWin *win);
+u16 sub_02045768(struct BmpWin *win);
+struct Bmp *sub_02045770(struct BmpWin *win);
+u8 sub_02045778(struct BmpWin *win);
+void sub_02045780(struct BmpWin *win, u8 posX);
+void sub_02045788(struct BmpWin *win, u8 posY);
+void sub_02045790(struct BmpWin *win, u8 dispHeight);
+void sub_02045798(struct BmpWin *win, u8 palette);
+void sub_020457A0(u16 eosChar);
+struct Strbuf *sub_020457B0(u32 capacity, u32 heapId);
+void sub_02045808(struct Strbuf *strbuf);
+void sub_0204581C(struct Strbuf *strbuf);
+void sub_02045838(struct Strbuf *dst, struct Strbuf *src);
+struct Strbuf *sub_02045874(struct Strbuf *src, u32 heapId);
+int func_0204589C(struct Strbuf *lhs, struct Strbuf *rhs);
+u16 sub_020458F8(struct Strbuf *strbuf);
+void sub_02045900(struct Strbuf *strbuf, u32 newLength);
+void func_02045924(struct Strbuf *strbuf, const u16 *srcChars);
+void func_02045994(struct Strbuf *strbuf, const u16 *srcChars, u32 charCount);
+void func_02045A00(struct Strbuf *strbuf, const void *srcChars, u32 charCount);
+void sub_02045A38(struct Strbuf *strbuf, u16 *out, u32 maxChars);
+u16 *sub_02045A90(struct Strbuf *strbuf);
 u16 func_02045A98(void);
-void sub_02045AA8(struct U16Vec *dst, struct U16Vec *src);
-void sub_02045AFC(struct U16Vec *vec, u16 value);
-struct MsgBank_22 *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-u32 func_02045C04(struct Rec *rec);
-struct MsgBank_23 *func_02045C44(const void *file, u32 heapId);
-void func_02045CAC(struct MsgBank_23 *bank, u32 index, void *dest);
-void sub_02045E04(struct Obj_02045E04 *o, u32 mode);
-u32 func_02045E3C(u16 *str, u32 count, u32 msgIndex);
-void *sub_02045EC0(struct MsgBank_23 *bank, u32 index);
-u16 sub_02045F50(const struct Obj_02045F50 *o);
-void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId);
-void func_02046110(struct MsgDataVol *msg);
-void sub_02046180(struct Obj *o);
-s32 sub_020461B8(struct Header *h);
-extern struct Flags g_02146A48;
-extern u32 gVisiblePlane[2];
-extern const char bmp_File[];
-extern const char func_0204384C_File[];
-extern const char func_02043900_File[];
-extern u16 *g_02146A50;
-extern const char str_020A7E70[];
-extern struct AllocStamp g_020A7E7C;
-extern u16 sStrbufEnd;
-extern volatile u16 d_020A7E7C;
-extern char g_020A7E8C[];
+void sub_02045AA8(struct Strbuf *dst, struct Strbuf *src);
+void sub_02045AFC(struct Strbuf *strbuf, u16 ch);
+/* [0] = sub engine, [1] = main engine; bit n = BG n, bit 4 = OBJ */
+extern u32 gVisiblePlanes[2];
+extern const char bmp_File[];       /* "bmp.c" */
+extern u16 *sBmpWinHeapRecord;      /* 4-byte block, first halfword = the heap id */
+extern const char bmpWin_File[];    /* "bmp_win.c" */
+extern struct StrbufStatics sStrbufStatics;
 
 
 
@@ -581,9 +311,9 @@ extern char g_020A7E8C[];
  * `sub r0, r1, #0xfe00`
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
  */
-void sub_0204335C(u32 keep)
+void sub_0204335C(u32 keepBanks)
 {
-    func_0208068C((keep ^ 0xffff) & 0x1ff);
+    func_0208068C((keepBanks ^ 0xffff) & 0x1ff);
 
     func_02082AC0(0, (void *)0x06800000, 0xa4000);
     func_02080B98();
@@ -641,7 +371,7 @@ static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
  * spelling (locals a/b, volatile struct) capped at 6 (r3/ip pair in the
  * DISPCNT tail, docs/notes/func_020433E0.c.txt).
  */
-void func_020433E0(const struct DispVram *c)
+void func_020433E0(const struct DispVram *banks)
 {
     func_020808F4();
     func_0208091C();
@@ -653,18 +383,18 @@ void func_020433E0(const struct DispVram *c)
     func_020809F0();
     func_02080964();
     func_02080978();
-    func_0207FDCC(c->main_bg);
-    func_02080100(c->main_bg_expltt);
-    func_020806B0(c->sub_bg);
-    func_020807BC(c->sub_bg_expltt);
-    func_0207FFD0(c->main_obj);
-    func_020801F8(c->main_obj_expltt);
-    func_0208074C(c->sub_obj);
-    func_0208083C(c->sub_obj_expltt);
-    func_02080294(c->teximage);
-    func_0208040C(c->texpltt);
-    GX_SetOBJVRamModeChar(c->main_mapping);
-    GXS_SetOBJVRamModeChar(c->sub_mapping);
+    func_0207FDCC(banks->main_bg);
+    func_02080100(banks->main_bg_expltt);
+    func_020806B0(banks->sub_bg);
+    func_020807BC(banks->sub_bg_expltt);
+    func_0207FFD0(banks->main_obj);
+    func_020801F8(banks->main_obj_expltt);
+    func_0208074C(banks->sub_obj);
+    func_0208083C(banks->sub_obj_expltt);
+    func_02080294(banks->teximage);
+    func_0208040C(banks->texpltt);
+    GX_SetOBJVRamModeChar(banks->main_mapping);
+    GXS_SetOBJVRamModeChar(banks->sub_mapping);
 }
 
 
@@ -683,13 +413,13 @@ void func_020433E0(const struct DispVram *c)
  */
 void sub_0204349C(void)
 {
-    g_02146A48.unk_04 = g_02146A48.unk_04 & 0x10;
+    gVisiblePlanes[1] &= 0x10;
 }
 
 
 void sub_020434B4(void)
 {
-    g_02146A48.unk_04 = g_02146A48.unk_04 & 0xf;
+    gVisiblePlanes[1] &= 0xf;
 }
 
 
@@ -703,7 +433,7 @@ void sub_020434CC(void)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * The engine-A visible-plane trio, against gVisiblePlane[1] and DISPCNT at
+ * The engine-A visible-plane trio, against gVisiblePlanes[1] and DISPCNT at
  * 0x04000000: toggle one plane only if the requested state differs, replace
  * the whole set, and reset to the one plane in bit 4.  The register address
  * is a rotated ARM immediate here (`mov r2, #0x4000000`), where the
@@ -716,22 +446,22 @@ void sub_020434CC(void)
 void sub_020434DC(u32 mask, u32 enable)
 {
     if (enable == 1) {
-        if (gVisiblePlane[1] & mask) {
+        if (gVisiblePlanes[1] & mask) {
             return;
         }
-    } else if (!(gVisiblePlane[1] & mask)) {
+    } else if (!(gVisiblePlanes[1] & mask)) {
         return;
     }
 
-    gVisiblePlane[1] ^= mask;
+    gVisiblePlanes[1] ^= mask;
     *(volatile u32 *)0x04000000 =
-        (*(volatile u32 *)0x04000000 & ~0x1f00) | (gVisiblePlane[1] << 8);
+        (*(volatile u32 *)0x04000000 & ~0x1f00) | (gVisiblePlanes[1] << 8);
 }
 
 
 void sub_02043534(u32 planes)
 {
-    gVisiblePlane[1] = planes;
+    gVisiblePlanes[1] = planes;
     *(volatile u32 *)0x04000000 =
         (*(volatile u32 *)0x04000000 & ~0x1f00) | (planes << 8);
 }
@@ -739,7 +469,7 @@ void sub_02043534(u32 planes)
 
 void sub_02043558(void)
 {
-    gVisiblePlane[0] &= 0x10;
+    gVisiblePlanes[0] &= 0x10;
 }
 
 
@@ -747,7 +477,7 @@ void sub_02043558(void)
  * Two of the engine-B visible-plane mask writers, 0x02043570-0x02043598.
  *
  *   0x02043570  keep only the four background bits of the software copy
- *               gVisiblePlane[0] (mask 0xF)
+ *               gVisiblePlanes[0] (mask 0xF)
  *   0x02043588  the pair call: run the sibling at 0x02043558, which keeps
  *               only bit 4 (the OBJ plane), then the one above, so the two
  *               together clear the software copy outright
@@ -768,13 +498,13 @@ void sub_02043558(void)
  */
 void func_02043570(void)
 {
-    gVisiblePlane[0] &= 0xF;
+    gVisiblePlanes[0] &= 0xF;
 }
 
 
 void func_02043588(void)
 {
-    func_02043558();
+    sub_02043558();
     func_02043570();
 }
 
@@ -782,28 +512,28 @@ void func_02043588(void)
 /*
  * The engine-B half of the visible-plane toggle: if the requested state
  * already holds, return; otherwise flip the bit in the software copy at
- * gVisiblePlane[0] and rewrite bits 8..12 of GXS_DISPCNT (0x04001000) from
+ * gVisiblePlanes[0] and rewrite bits 8..12 of GXS_DISPCNT (0x04001000) from
  * it.  The engine-A twin at 0x020434DC is the same code against
- * gVisiblePlane[1] and 0x04000000; that one is materialised with a `mov`
+ * gVisiblePlanes[1] and 0x04000000; that one is materialised with a `mov`
  * because 0x04000000 is an ARM rotated immediate while 0x04001000 is not
  * and costs a pool word.
  *
  * The register address is a cast constant, not a relocation, so this file's
- * only attestable site is gVisiblePlane.
+ * only attestable site is gVisiblePlanes.
  */
 void sub_02043598(u32 mask, u32 enable)
 {
     if (enable == 1) {
-        if (gVisiblePlane[0] & mask) {
+        if (gVisiblePlanes[0] & mask) {
             return;
         }
-    } else if (!(gVisiblePlane[0] & mask)) {
+    } else if (!(gVisiblePlanes[0] & mask)) {
         return;
     }
 
-    gVisiblePlane[0] ^= mask;
+    gVisiblePlanes[0] ^= mask;
     *(volatile u32 *)0x04001000 =
-        (*(volatile u32 *)0x04001000 & ~0x1f00) | (gVisiblePlane[0] << 8);
+        (*(volatile u32 *)0x04001000 & ~0x1f00) | (gVisiblePlanes[0] << 8);
 }
 
 
@@ -813,7 +543,7 @@ void sub_02043598(u32 mask, u32 enable)
  */
 void sub_020435F4(u32 planes)
 {
-    gVisiblePlane[0] = planes;
+    gVisiblePlanes[0] = planes;
     *(volatile u32 *)0x04001000 =
         (*(volatile u32 *)0x04001000 & ~0x1f00) | (planes << 8);
 }
@@ -831,7 +561,7 @@ void sub_020435F4(u32 planes)
  *               narrowing says this is arithmetic on the register word, not
  *               a one-bit bitfield (which would carry an `lsr #16` shifter
  *               operand, see the bitfield-cast idiom)
- *   0x02043658  read back gVisiblePlane[1], the engine-B software copy
+ *   0x02043658  read back gVisiblePlanes[1], the main-engine software copy
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204361C.c \
@@ -853,13 +583,13 @@ void func_0204363C(u32 swap)
 
 u32 func_02043658(void)
 {
-    return gVisiblePlane[1];
+    return gVisiblePlanes[1];
 }
 
 
 /*
- * Read back gVisiblePlane[0], the engine-A software copy of the visible
- * plane set that sub_02043534 writes.  Twin of the third leaf in
+ * Read back gVisiblePlanes[0], the sub-engine software copy of the visible
+ * plane set that sub_020435F4 writes.  Twin of the third leaf in
  * src/matched/unit_0204361C.c, which reads element 1.  Saves no lr, so
  * disasm.py does not label it.
  *
@@ -869,7 +599,7 @@ u32 func_02043658(void)
  */
 u32 func_02043668(void)
 {
-    return gVisiblePlane[0];
+    return gVisiblePlanes[0];
 }
 
 
@@ -880,7 +610,7 @@ u32 func_02043668(void)
  *
  * Allocate a bitmap descriptor and its pixel buffer on the same heap.  The
  * width and height reach the descriptor multiplied by 8 (they arrive in
- * tiles), the buffer is width * height * depth bytes, and the descriptor is
+ * tiles), the buffer is widthTiles * heightTiles * tileBytes bytes, and the descriptor is
  * allocated uncleared while the buffer is cleared.  The `__FILE__` pointer
  * is reloaded into r3 for the second call rather than kept, because r3 is
  * an argument register.
@@ -889,19 +619,19 @@ u32 func_02043668(void)
  *   python tools/match.py one --src src/matched/func_02043678.c \
  *       --func func_02043678 --addr 0x02043678 --cc 1.1p1 --arm
  */
-struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap)
+struct Bmp *func_02043678(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId)
 {
     struct Bmp *bmp;
 
-    bmp = func_02030734(heap, sizeof(struct Bmp), 0, bmp_File, 97);
+    bmp = func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 97);
 
-    bmp->width  = width * 8;
-    bmp->height = height * 8;
-    bmp->depth  = depth;
+    bmp->width  = widthTiles * 8;
+    bmp->height = heightTiles * 8;
+    bmp->tileBytes  = tileBytes;
 
-    bmp->pixels = func_02030734(heap, depth * (width * height), 1,
+    bmp->pixels = func_02030734(heapId, tileBytes * (widthTiles * heightTiles), 1,
                                 bmp_File, 103);
-    bmp->kind = 0;
+    bmp->storage = BMP_STORAGE_OWNED;
 
     return bmp;
 }
@@ -913,24 +643,24 @@ struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap)
  *
  * Wrap a pixel buffer the caller already owns in a fresh descriptor: same
  * 0xc-byte descriptor func_02043678 builds, but nothing is allocated for
- * the pixels and the kind byte at +0x0a is 1.  The heap id is the fifth
+ * the pixels and the storage halfword at +0x0a is BMP_STORAGE_BORROWED.  The heap id is the fifth
  * argument and arrives on the stack as a halfword.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020436FC.c  *       --func func_020436FC --addr 0x020436FC --cc 1.1p1 --arm
  */
-struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth,
-                            u16 heap)
+struct Bmp *func_020436FC(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes,
+                            u16 heapId)
 {
     struct Bmp *bmp;
 
-    bmp = func_02030734(heap, sizeof(struct Bmp), 0, bmp_File, 123);
+    bmp = func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 123);
 
-    bmp->width  = width * 8;
-    bmp->height = height * 8;
+    bmp->width  = widthTiles * 8;
+    bmp->height = heightTiles * 8;
     bmp->pixels = pixels;
-    bmp->depth  = depth;
-    bmp->kind   = 1;
+    bmp->tileBytes  = tileBytes;
+    bmp->storage   = BMP_STORAGE_BORROWED;
 
     return bmp;
 }
@@ -942,24 +672,24 @@ struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth,
  *
  * Wrap a pixel buffer the caller already owns in a fresh descriptor: same
  * 0xc-byte descriptor func_02043678 builds, but nothing is allocated for
- * the pixels and the kind byte at +0x0a is 2.  The heap id is the fifth
+ * the pixels and the storage halfword at +0x0a is BMP_STORAGE_VRAM.  The heap id is the fifth
  * argument and arrives on the stack as a halfword.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02043754.c  *       --func func_02043754 --addr 0x02043754 --cc 1.1p1 --arm
  */
-struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth,
-                            u16 heap)
+struct Bmp *func_02043754(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes,
+                            u16 heapId)
 {
     struct Bmp *bmp;
 
-    bmp = func_02030734(heap, sizeof(struct Bmp), 0, bmp_File, 148);
+    bmp = func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 148);
 
-    bmp->width  = width * 8;
-    bmp->height = height * 8;
+    bmp->width  = widthTiles * 8;
+    bmp->height = heightTiles * 8;
     bmp->pixels = pixels;
-    bmp->depth  = depth;
-    bmp->kind   = 2;
+    bmp->tileBytes  = tileBytes;
+    bmp->storage   = BMP_STORAGE_VRAM;
 
     return bmp;
 }
@@ -970,18 +700,18 @@ struct Bmp *func_02043754(void *pixels, u32 width, u32 height, u32 depth,
  * Destructor: release the owned buffer at +0x00 first, but only when the
  * halfword count at +0x0a is zero, then release the object itself.  The
  * guard is inverted in the original (`bne` over the first release), which
- * is the source order of a plain `if (p->unk0a == 0)` with no else.
+ * is the source order of a plain `if (bmp->storage == BMP_STORAGE_OWNED)` with no else.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020437AC.c \
  *       --func func_020437AC --addr 0x020437AC --cc 1.1p1 --arm
  */
-void func_020437AC(struct Obj020437AC *p)
+void func_020437AC(struct Bmp *bmp)
 {
-    if (p->unk0a == 0)
-        func_020307B0(p->buffer);
+    if (bmp->storage == BMP_STORAGE_OWNED)
+        func_020307B0(bmp->pixels);
 
-    func_020307B0(p);
+    func_020307B0(bmp);
 }
 
 
@@ -1035,7 +765,7 @@ u16 func_020437E4(const struct Bmp *bmp)
 
 
 /*
- * TU: bmp.c.  Byte size of a bitmap's pixel buffer: depth * ((width / 8) * height / 8). The first division is an `lsr` because the width comes out of a u16 field and is known non-negative; the second is a signed `asr` triple because it divides an int product.
+ * TU: bmp.c.  Byte size of a bitmap's pixel buffer: tileBytes * ((width / 8) * height / 8). The first division is an `lsr` because the width comes out of a u16 field and is known non-negative; the second is a signed `asr` triple because it divides an int product.
  * Saves no lr, so disasm.py leaves it unlabelled and it prints inside a run
  * of `.word`s; it is kept as its own file rather than folded into a unit so
  * that its callers have a `matched` witness.
@@ -1045,7 +775,7 @@ u16 func_020437E4(const struct Bmp *bmp)
  */
 u32 func_020437EC(const struct Bmp *bmp)
 {
-    return bmp->depth * ((bmp->width / 8) * bmp->height / 8);
+    return bmp->tileBytes * ((bmp->width / 8) * bmp->height / 8);
 }
 
 
@@ -1060,18 +790,18 @@ u32 func_020437EC(const struct Bmp *bmp)
  *   python tools/match.py one --src src/matched/func_02043814.c \
  *       --func func_02043814 --addr 0x02043814 --cc 1.1p1 --arm
  */
-void func_02043814(struct Bmp *dst, const struct Bmp *src)
+void func_02043814(const struct Bmp *src, struct Bmp *dst)
 {
-    u32 size;
-    u32 other;
+    u32 copySize;
+    u32 dstSize;
 
-    size = func_020437EC(dst);
-    other = func_020437EC(src);
+    copySize = func_020437EC(src);
+    dstSize = func_020437EC(dst);
 
-    if (other < size)
-        size = other;
+    if (dstSize < copySize)
+        copySize = dstSize;
 
-    func_02082A90(dst->pixels, src->pixels, size);
+    MIi_CpuCopy32(src->pixels, dst->pixels, copySize);
 }
 
 
@@ -1109,21 +839,21 @@ void func_02043814(struct Bmp *dst, const struct Bmp *src)
  *   python tools/match.py tu --src src/matched/unit_0204384C.c \
  *       --addr 0x0204384C --cc 1.1p1 --arm
  */
-struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap)
+struct Bmp *func_0204384C(u32 arcId, u32 memberId, u32 compressed, u32 heapId)
 {
-    struct Bmp *b;
-    void       *handle;
-    void       *info;
+    struct Bmp *bmp;
+    void       *resource;
+    struct CharData *charData;
 
-    b = (struct Bmp *)func_02030734(heap, 0xC, 0, func_0204384C_File, 266);
-    handle = (void *)func_0204A1BC((u32)arc, (u32)member, (u32)heap2, (u16)((heap & 0x7FFF) | 0x8000));
-    if (func_02062A4C(handle, &info) == 0) {
+    bmp = (struct Bmp *)func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 266);
+    resource = (void *)func_0204A1BC(arcId, memberId, compressed, (u16)((heapId & 0x7FFF) | 0x8000));
+    if (func_02062A4C(resource, &charData) == 0) {
         OS_Terminate();
         return 0;
     }
-    func_02043900(b, info, heap);
-    func_020307B0(handle);
-    return b;
+    func_02043900(bmp, charData, heapId);
+    func_020307B0(resource);
+    return bmp;
 }
 
 
@@ -1160,21 +890,21 @@ struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap)
  *   python tools/match.py tu --src src/matched/unit_02043900.c \
  *       --addr 0x02043900 --cc 1.1p1 --arm
  */
-void func_02043900(struct Bmp *b, struct BmpInfo *info, u32 heap)
+void func_02043900(struct Bmp *bmp, struct CharData *charData, u32 heapId)
 {
-    b->width = info->cellsY * 8;
-    b->height = info->cellsX * 8;
-    b->pixels = func_02030734(heap, info->size, 0, func_02043900_File, 321);
-    b->kind = 0;
-    switch (info->format) {
+    bmp->width = charData->widthTiles * 8;
+    bmp->height = charData->heightTiles * 8;
+    bmp->pixels = func_02030734(heapId, charData->size, 0, bmp_File, 321);
+    bmp->storage = BMP_STORAGE_OWNED;
+    switch (charData->pixelFormat) {
     case 3:
-        b->depth = 0x20;
+        bmp->tileBytes = BMP_TILE_BYTES_4BPP;
         break;
     case 4:
-        b->depth = 0x40;
+        bmp->tileBytes = BMP_TILE_BYTES_8BPP;
         break;
     }
-    MIi_CpuCopy32(info->src, b->pixels, info->size);
+    MIi_CpuCopy32(charData->rawData, bmp->pixels, charData->size);
 }
 
 
@@ -1193,9 +923,9 @@ void func_02043900(struct Bmp *b, struct BmpInfo *info, u32 heap)
  *   python tools/match.py one --src src/matched/sub_02043994.c \
  *       --func func_02043994 --addr 0x02043994 --cc 1.1p1 --arm
  */
-u8 func_02043994(struct Bmp *b)
+u8 func_02043994(struct Bmp *bmp)
 {
-    return b->depth;
+    return bmp->tileBytes;
 }
 
 
@@ -1203,8 +933,8 @@ u8 func_02043994(struct Bmp *b)
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
- * bmp.c's nine-argument blit dispatcher.  Source and destination must agree
- * on the halfword at +8; after that the halfword at +0xA of the source picks
+ * bmp.c's nine-argument blit dispatcher.  Source and destination bitmaps must agree
+ * on the halfword at +8; after that the halfword at +0xA of the destination picks
  * one of two families and the +8 value picks between the 0x20 member of that
  * family and the general one.
  *
@@ -1234,23 +964,23 @@ u8 func_02043994(struct Bmp *b)
  *   python tools/match.py one --src src/matched/sub_020439A0.c \
  *       --func func_020439A0 --addr 0x020439A0 --cc 1.1p1 --arm
  */
-void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
-                   int sx, int sy, u32 w, u32 h, u16 key)
+void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY,
+                   int dstX, int dstY, u32 w, u32 h, u16 colorKey)
 {
-    if (dst->depth != src->depth) {
+    if (src->tileBytes != dst->tileBytes) {
         return;
     }
-    if (src->kind != 2) {
-        if (dst->depth == 0x20) {
-            func_02043B98(dst, src, x, y, sx, sy, w, h, key);
+    if (dst->storage != BMP_STORAGE_VRAM) {
+        if (src->tileBytes == BMP_TILE_BYTES_4BPP) {
+            func_02043B98(src, dst, srcX, srcY, dstX, dstY, w, h, colorKey);
         } else {
-            func_02043F4C(dst, src, x, y, sx, sy, w, h, key);
+            func_02043F4C(src, dst, srcX, srcY, dstX, dstY, w, h, colorKey);
         }
     } else {
-        if (dst->depth == 0x20) {
-            func_020445F4(dst, src, x, y, sx, sy, w, h, key);
+        if (src->tileBytes == BMP_TILE_BYTES_4BPP) {
+            func_020445F4(src, dst, srcX, srcY, dstX, dstY, w, h, colorKey);
         } else {
-            func_02044954(dst, src, x, y, sx, sy, w, h, key);
+            func_02044954(src, dst, srcX, srcY, dstX, dstY, w, h, colorKey);
         }
     }
 }
@@ -1282,10 +1012,11 @@ void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
  *   python tools/match.py one --src src/pending/sub_02043AAC.c \
  *       --func func_02043AAC --addr 0x02043AAC --cc 1.1p1 --arm
  */
-void func_02043AAC(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
-                   u32 a7, u32 a8, u16 a9, u16 a10)
+void func_02043AAC(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY,
+                   u32 dstX, u32 dstY, u32 w, u32 h, u16 colorKey,
+                   u16 paletteBase)
 {
-    func_0204427C((struct Bmp *)dst, (struct Bmp *)a2, a3, a4, a5, a6, a7, a8, a9, a10);
+    func_0204427C(src, dst, srcX, srcY, dstX, dstY, w, h, colorKey, paletteBase);
 }
 
 
@@ -1321,19 +1052,19 @@ void func_02043AAC(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
  *   python tools/match.py one --src src/pending/sub_02043AF4.c \
  *       --func func_02043AF4 --addr 0x02043AF4 --cc 1.1p1 --arm
  */
-void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u16 a5, u8 a6)
+void func_02043AF4(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value)
 {
-    if (b->kind != 2) {
-        if (b->depth == 0x20) {
-            func_02044BF0(b, a2, a3, a4, a5, a6);
+    if (bmp->storage != BMP_STORAGE_VRAM) {
+        if (bmp->tileBytes == BMP_TILE_BYTES_4BPP) {
+            func_02044BF0(bmp, x, y, w, h, value);
         } else {
-            func_02044CE0(b, a2, a3, a4, a5, a6);
+            func_02044CE0(bmp, x, y, w, h, value);
         }
     } else {
-        if (b->depth == 0x20) {
-            func_02044D88(b, a2, a3, a4, a5, a6);
+        if (bmp->tileBytes == BMP_TILE_BYTES_4BPP) {
+            func_02044D88(bmp, x, y, w, h, value);
         } else {
-            func_02044EBC(b, a2, a3, a4, a5, a6);
+            func_02044EBC(bmp, x, y, w, h, value);
         }
     }
 }
@@ -1346,47 +1077,47 @@ void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u16 a5, u8 a6)
  * the fill value is a nibble, so it is replicated into both halves of the
  * byte before the fill.
  */
-void sub_02043B5C(struct CharBuf *buf, u8 value)
+void sub_02043B5C(struct Bmp *bmp, u8 value)
 {
-    u32 size = ((u32)buf->width >> 3) * ((u32)buf->height >> 3) * buf->tileSize;
+    u32 size = ((u32)bmp->width >> 3) * ((u32)bmp->height >> 3) * bmp->tileBytes;
 
-    if (buf->tileSize == 0x20) {
+    if (bmp->tileBytes == BMP_TILE_BYTES_4BPP) {
         value = (value & 0xf) | ((value & 0xf) << 4);
     }
 
-    MI_CpuFill8(buf->pixels, value, size);
+    MI_CpuFill8(bmp->pixels, value, size);
 }
 
 
-static inline s32 ClipRect(struct Bmp *src, const struct Bmp *dst, s32 *x, s32 *y,
-                           s32 *dx, s32 *dy, u32 *w, u32 *h)
+static inline s32 ClipBlitRect(struct Bmp *src, const struct Bmp *dst, s32 *srcX, s32 *srcY,
+                           s32 *dstX, s32 *dstY, u32 *w, u32 *h)
 {
-    u32 ch = *h;
-    u32 cw = *w;
-    if (cw > src->width)
-        cw = src->width;
-    if (*dx >= dst->width || *dx <= -(s32)cw)
+    u32 clippedH = *h;
+    u32 clippedW = *w;
+    if (clippedW > src->width)
+        clippedW = src->width;
+    if (*dstX >= dst->width || *dstX <= -(s32)clippedW)
         return 0;
-    if (ch > src->height)
-        ch = src->height;
-    if (*dy >= dst->height || *dy <= -(s32)ch)
+    if (clippedH > src->height)
+        clippedH = src->height;
+    if (*dstY >= dst->height || *dstY <= -(s32)clippedH)
         return 0;
-    if (*dx < 0) {
-        cw += *dx;
-        *x -= *dx;
-        *dx = 0;
-    } else if (*dx + cw > dst->width) {
-        cw -= *dx + cw - dst->width;
+    if (*dstX < 0) {
+        clippedW += *dstX;
+        *srcX -= *dstX;
+        *dstX = 0;
+    } else if (*dstX + clippedW > dst->width) {
+        clippedW -= *dstX + clippedW - dst->width;
     }
-    if (*dy < 0) {
-        ch += *dy;
-        *y -= *dy;
-        *dy = 0;
-    } else if (*dy + ch > dst->height) {
-        ch -= *dy + ch - dst->height;
+    if (*dstY < 0) {
+        clippedH += *dstY;
+        *srcY -= *dstY;
+        *dstY = 0;
+    } else if (*dstY + clippedH > dst->height) {
+        clippedH -= *dstY + clippedH - dst->height;
     }
-    *w = cw;
-    *h = ch;
+    *w = clippedW;
+    *h = clippedH;
     return 1;
 }
 
@@ -1407,49 +1138,49 @@ static inline s32 ClipRect(struct Bmp *src, const struct Bmp *dst, s32 *x, s32 *
  *     the preheader then computes the source row and product first, as the
  *     image does (100 out otherwise).
  */
-void func_02043B98(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 dy,
-                   u32 w, u32 h, u16 key)
+void func_02043B98(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY,
+                   u32 w, u32 h, u16 colorKey)
 {
-    s32 srow, drow;
-    u32 i, j;
-    s32 dxx, xx;
-    s32 sTileY, dTileY, kTileY, lTileY;
-    u32 v, sh;
-    u8 *p;
-    u8 *q;
+    s32 srcRowTiles, dstRowTiles;
+    u32 row, col;
+    s32 curDstX, curSrcX;
+    s32 srcTileY, dstTileY, srcKeyedTileY, dstKeyedTileY;
+    u32 pixel, shift;
+    u8 *dstPtr;
+    u8 *srcPtr;
 
-    if (!ClipRect(src, dst, &x, &y, &dx, &dy, &w, &h))
+    if (!ClipBlitRect(src, dst, &srcX, &srcY, &dstX, &dstY, &w, &h))
         return;
-    srow = (src->width + (src->width & 7)) >> 3;
-    drow = (dst->width + (dst->width & 7)) >> 3;
-    if (key == 0xffff) {
-        for (i = 0; i < h; i++, y++, dy++)
-            for (j = 0, dxx = dx, xx = x; j < w; j++, dxx++, xx++) {
-                sTileY = (y * 4) & 0x3fe0;
-                q = (u8 *)((u32)src->pixels + ((xx >> 1) & 3) + ((xx * 4) & 0x3fe0)
-                           + sTileY * srow + ((y * 4) & 0x1c));
-                dTileY = (dy * 4) & 0x3fe0;
-                p = (u8 *)((u32)dst->pixels + ((dxx >> 1) & 3) + ((dxx * 4) & 0x3fe0)
-                           + dTileY * drow);
-                p += (dy * 4) & 0x1c;
-                sh = (u32)(dxx << 31) >> 29;
-                v = (*q >> ((u32)(xx << 31) >> 29)) & 0xf;
-                *p = (v << sh) | (*p & (0xf0 >> sh));
+    srcRowTiles = (src->width + (src->width & 7)) >> 3;
+    dstRowTiles = (dst->width + (dst->width & 7)) >> 3;
+    if (colorKey == 0xffff) {
+        for (row = 0; row < h; row++, srcY++, dstY++)
+            for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curDstX++, curSrcX++) {
+                srcTileY = (srcY * 4) & 0x3fe0;
+                srcPtr = (u8 *)((u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
+                           + srcTileY * srcRowTiles + ((srcY * 4) & 0x1c));
+                dstTileY = (dstY * 4) & 0x3fe0;
+                dstPtr = (u8 *)((u32)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0)
+                           + dstTileY * dstRowTiles);
+                dstPtr += (dstY * 4) & 0x1c;
+                shift = (u32)(curDstX << 31) >> 29;
+                pixel = (*srcPtr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
+                *dstPtr = (pixel << shift) | (*dstPtr & (0xf0 >> shift));
             }
     } else {
-        for (i = 0; i < h; i++, y++, dy++)
-            for (j = 0, dxx = dx, xx = x; j < w; j++, xx++, dxx++) {
-                kTileY = (y * 4) & 0x3fe0;
-                q = (u8 *)((u32)src->pixels + ((xx >> 1) & 3) + ((xx * 4) & 0x3fe0)
-                           + kTileY * srow + ((y * 4) & 0x1c));
-                lTileY = (dy * 4) & 0x3fe0;
-                p = (u8 *)((u32)dst->pixels + ((dxx >> 1) & 3) + ((dxx * 4) & 0x3fe0)
-                           + lTileY * drow);
-                p += (dy * 4) & 0x1c;
-                v = (*q >> ((u32)(xx << 31) >> 29)) & 0xf;
-                if (v != key) {
-                    sh = (u32)(dxx << 31) >> 29;
-                    *p = (v << sh) | (*p & (0xf0 >> sh));
+        for (row = 0; row < h; row++, srcY++, dstY++)
+            for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curSrcX++, curDstX++) {
+                srcKeyedTileY = (srcY * 4) & 0x3fe0;
+                srcPtr = (u8 *)((u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
+                           + srcKeyedTileY * srcRowTiles + ((srcY * 4) & 0x1c));
+                dstKeyedTileY = (dstY * 4) & 0x3fe0;
+                dstPtr = (u8 *)((u32)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0)
+                           + dstKeyedTileY * dstRowTiles);
+                dstPtr += (dstY * 4) & 0x1c;
+                pixel = (*srcPtr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
+                if (pixel != colorKey) {
+                    shift = (u32)(curDstX << 31) >> 29;
+                    *dstPtr = (pixel << shift) | (*dstPtr & (0xf0 >> shift));
                 }
             }
     }
@@ -1459,7 +1190,7 @@ void func_02043B98(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 d
 /*
  * bmp.c blit worker, 8bpp tiled source onto an 8bpp tiled destination,
  * byte stores, optional colour key (0xFFFF = none).  Reached from the blit
- * dispatcher func_020439A0's first arm (kind != 2), which passes all nine
+ * dispatcher func_020439A0's first arm (destination not in VRAM), which passes all nine
  * arguments wide; the key is ldrh'd off the stack here, so it is u16 on
  * this side.
  *
@@ -1484,43 +1215,43 @@ void func_02043B98(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 d
  *   - the address arithmetic is the family's single integer sum over
  *     (u32)pixels (func_02044CE0) with one tile-row local per address.
  */
-void func_02043F4C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 dy,
-                   u32 w, u32 h, u16 key)
+void func_02043F4C(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY,
+                   u32 w, u32 h, u16 colorKey)
 {
-    s32 srow, drow;
-    u32 i, j;
-    s32 dxx, xx;
-    s32 sTileY, dTileY, kTileY, lTileY;
-    u8 c;
-    u8 *p;
-    u8 *q;
+    s32 srcRowTiles, dstRowTiles;
+    u32 row, col;
+    s32 curDstX, curSrcX;
+    s32 srcTileY, dstTileY, srcKeyedTileY, dstKeyedTileY;
+    u8 pixel;
+    u8 *dstPtr;
+    u8 *srcPtr;
 
-    if (!ClipRect(src, dst, &x, &y, &dx, &dy, &w, &h))
+    if (!ClipBlitRect(src, dst, &srcX, &srcY, &dstX, &dstY, &w, &h))
         return;
-    srow = (src->width + (src->width & 7)) >> 3;
-    drow = (dst->width + (dst->width & 7)) >> 3;
-    if (key == 0xffff) {
-        for (i = 0; i < h; i++, y++, dy++)
-            for (j = 0, dxx = dx, xx = x; j < w; j++, dxx++, xx++) {
-                sTileY = (y * 8) & 0x7fc0;
-                c = *(u8 *)((u32)src->pixels + (xx & 7) + ((xx * 8) & 0x7fc0)
-                            + sTileY * srow + ((y * 8) & 0x38));
-                dTileY = (dy * 8) & 0x7fc0;
-                *(u8 *)((u32)dst->pixels + (dxx & 7) + ((dxx * 8) & 0x7fc0)
-                        + dTileY * drow + ((dy * 8) & 0x38)) = c;
+    srcRowTiles = (src->width + (src->width & 7)) >> 3;
+    dstRowTiles = (dst->width + (dst->width & 7)) >> 3;
+    if (colorKey == 0xffff) {
+        for (row = 0; row < h; row++, srcY++, dstY++)
+            for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curDstX++, curSrcX++) {
+                srcTileY = (srcY * 8) & 0x7fc0;
+                pixel = *(u8 *)((u32)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0)
+                            + srcTileY * srcRowTiles + ((srcY * 8) & 0x38));
+                dstTileY = (dstY * 8) & 0x7fc0;
+                *(u8 *)((u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
+                        + dstTileY * dstRowTiles + ((dstY * 8) & 0x38)) = pixel;
             }
     } else {
-        for (i = 0; i < h; i++, y++, dy++)
-            for (j = 0, dxx = dx, xx = x; j < w; j++, xx++, dxx++) {
-                kTileY = (y * 8) & 0x7fc0;
-                q = (u8 *)((u32)src->pixels + (xx & 7) + ((xx * 8) & 0x7fc0)
-                           + kTileY * srow + ((y * 8) & 0x38));
-                lTileY = (dy * 8) & 0x7fc0;
-                p = (u8 *)((u32)dst->pixels + (dxx & 7) + ((dxx * 8) & 0x7fc0)
-                           + lTileY * drow);
-                p += (dy * 8) & 0x38;
-                if (*q != key)
-                    *p = *q;
+        for (row = 0; row < h; row++, srcY++, dstY++)
+            for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curSrcX++, curDstX++) {
+                srcKeyedTileY = (srcY * 8) & 0x7fc0;
+                srcPtr = (u8 *)((u32)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0)
+                           + srcKeyedTileY * srcRowTiles + ((srcY * 8) & 0x38));
+                dstKeyedTileY = (dstY * 8) & 0x7fc0;
+                dstPtr = (u8 *)((u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
+                           + dstKeyedTileY * dstRowTiles);
+                dstPtr += (dstY * 8) & 0x38;
+                if (*srcPtr != colorKey)
+                    *dstPtr = *srcPtr;
             }
     }
 }
@@ -1551,52 +1282,52 @@ void func_02043F4C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 d
  *   python tools/match.py one --src src/matched/func_0204427C.c \
  *       --func func_0204427C --addr 0x0204427C --cc 1.1p1 --arm
  */
-void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 dy,
-                   u32 w, u32 h, u16 key, u8 pal)
+void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY,
+                   u32 w, u32 h, u16 colorKey, u8 paletteBase)
 {
-    s32 srow, drow;
-    u32 i, j;
-    s32 dxx, xx;
-    s32 sTileY, dTileY, kTileY, lTileY;
-    u32 v;
-    u8 *p;
-    u8 *q;
-    s32 xx4;
+    s32 srcRowTiles, dstRowTiles;
+    u32 row, col;
+    s32 curDstX, curSrcX;
+    s32 srcTileY, dstTileY, srcKeyedTileY, dstKeyedTileY;
+    u32 pixel;
+    u8 *dstPtr;
+    u8 *srcPtr;
+    s32 srcX4;
 
-    if (!ClipRect(src, dst, &x, &y, &dx, &dy, &w, &h))
+    if (!ClipBlitRect(src, dst, &srcX, &srcY, &dstX, &dstY, &w, &h))
         return;
-    srow = (src->width + (src->width & 7)) >> 3;
-    drow = (dst->width + (dst->width & 7)) >> 3;
-    if (key == 0xffff) {
-        for (i = 0; i < h; i++, y++, dy++)
-            for (j = 0, dxx = dx, xx = x; j < w; j++, dxx++, xx++) {
-                sTileY = (y * 4) & 0x3fe0;
-                q = (u8 *)((u32)src->pixels + ((xx >> 1) & 3) + ((xx * 4) & 0x3fe0)
-                           + sTileY * srow + ((y * 4) & 0x1c));
-                dTileY = (dy * 8) & 0x7fc0;
-                p = (u8 *)((u32)dst->pixels + (dxx & 7) + ((dxx * 8) & 0x7fc0)
-                           + dTileY * drow);
-                p += (dy * 8) & 0x38;
-                v = (*q >> ((u32)(xx << 31) >> 29)) & 0xf;
-                if (v != 0)
-                    v += pal;
-                *p = v;
+    srcRowTiles = (src->width + (src->width & 7)) >> 3;
+    dstRowTiles = (dst->width + (dst->width & 7)) >> 3;
+    if (colorKey == 0xffff) {
+        for (row = 0; row < h; row++, srcY++, dstY++)
+            for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curDstX++, curSrcX++) {
+                srcTileY = (srcY * 4) & 0x3fe0;
+                srcPtr = (u8 *)((u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
+                           + srcTileY * srcRowTiles + ((srcY * 4) & 0x1c));
+                dstTileY = (dstY * 8) & 0x7fc0;
+                dstPtr = (u8 *)((u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
+                           + dstTileY * dstRowTiles);
+                dstPtr += (dstY * 8) & 0x38;
+                pixel = (*srcPtr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
+                if (pixel != 0)
+                    pixel += paletteBase;
+                *dstPtr = pixel;
             }
     } else {
-        for (i = 0; i < h; i++, y++, dy++)
-            for (j = 0, dxx = dx, xx = x; j < w; j++, xx++, dxx++) {
-                kTileY = (y * 4) & 0x3fe0;
-                lTileY = (dy * 8) & 0x7fc0;
-                xx4 = xx * 4;
-                q = src->pixels + ((xx >> 1) & 3) + (xx4 & 0x3fe0) + kTileY * srow
-                    + ((y * 4) & 0x1c);
-                p = (u8 *)((u32)dst->pixels + (dxx & 7) + ((dxx * 8) & 0x7fc0)
-                           + lTileY * drow);
-                p += (dy * 8) & 0x38;
-                v = (*q >> ((u32)(xx << 31) >> 29)) & 0xf;
-                if (v != 0) {
-                    v += pal;
-                    *p = v;
+        for (row = 0; row < h; row++, srcY++, dstY++)
+            for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curSrcX++, curDstX++) {
+                srcKeyedTileY = (srcY * 4) & 0x3fe0;
+                dstKeyedTileY = (dstY * 8) & 0x7fc0;
+                srcX4 = curSrcX * 4;
+                srcPtr = src->pixels + ((curSrcX >> 1) & 3) + (srcX4 & 0x3fe0) + srcKeyedTileY * srcRowTiles
+                    + ((srcY * 4) & 0x1c);
+                dstPtr = (u8 *)((u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
+                           + dstKeyedTileY * dstRowTiles);
+                dstPtr += (dstY * 8) & 0x38;
+                pixel = (*srcPtr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
+                if (pixel != 0) {
+                    pixel += paletteBase;
+                    *dstPtr = pixel;
                 }
             }
     }
@@ -1608,7 +1339,7 @@ void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 d
  * bmp.c blit worker, 4bpp tiled source onto a 4bpp tiled destination that
  * is written a HALFWORD at a time (func_02044D88's read-modify-write
  * store), with an optional colour key (0xFFFF = none).  Reached from the
- * blit dispatcher func_020439A0's kind == 2 arm, whose shift pairs give
+ * blit dispatcher func_020439A0's VRAM-destination arm, whose shift pairs give
  * the narrow parameter types (x, y, w, h u16; dx, dy s16); the key is
  * loaded with ldrh here, so it is u16 on this side.  The plain and keyed
  * loops are written out in full, each with its OWN pair of tile-row
@@ -1621,79 +1352,79 @@ void func_0204427C(struct Bmp *src, struct Bmp *dst, s32 x, s32 y, s32 dx, s32 d
  * (add fp, r5, r2) where the image has add fp, r2, r5; that was the
  * last 4 bytes.
  */
-void func_020445F4(struct Bmp *src, struct Bmp *dst, u16 x, u16 y, s16_p07 dx, s16_p07 dy, u16 w, u16 h, u16 key)
+void func_020445F4(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey)
 {
-    s32 xend, yend, srow, drow;
-    s32 i, j, di, dj;
-    s32 sTileY, dTileY, kTileY, lTileY;
-    u32 s, d;
-    s32 odd;
-    u32 c;
-    u16 hi, lo;
-    s32 t, u;
-    u32 v, sh;
-    t = dst->width - dx;
-    if (t < w)
-        xend = x + t;
+    s32 srcXEnd, srcYEnd, srcRowTiles, dstRowTiles;
+    s32 curSrcY, curSrcX, curDstY, curDstX;
+    s32 srcTileY, dstTileY, srcKeyedTileY, dstKeyedTileY;
+    u32 srcAddr, dstAddr;
+    s32 dstOdd;
+    u32 word;
+    u16 highByte, lowByte;
+    s32 dstRoom;
+    u32 pixel, shift;
+    dstRoom = dst->width - dstX;
+    if (dstRoom < w)
+        srcXEnd = srcX + dstRoom;
     else
-        xend = w + x;
-    t = dst->height - dy;
-    if (t < h)
-        yend = y + t;
+        srcXEnd = w + srcX;
+    dstRoom = dst->height - dstY;
+    if (dstRoom < h)
+        srcYEnd = srcY + dstRoom;
     else
-        yend = h + y;
-    srow = (src->width + (src->width & 7)) >> 3;
-    drow = (dst->width + (dst->width & 7)) >> 3;
-    if (key == 0xffff) {
-        for (i = y, di = dy; i < yend; i++, di++)
-            for (j = x, dj = dx; j < xend; j++, dj++)
-                if (dj >= 0 && di >= 0) {
-                    sTileY = (i * 4) & 0x3fe0;
-                    s = (u32)src->pixels + ((j >> 1) & 3) + ((j * 4) & 0x3fe0) + sTileY * srow;
-                    s += (i * 4) & 0x1c;
-                    dTileY = (di * 4) & 0x3fe0;
-                    d = (u32)dst->pixels + ((dj >> 1) & 3) + ((dj * 4) & 0x3fe0) + dTileY * drow;
-                    d += (di * 4) & 0x1c;
-                    if (d & 1) {
-                        d -= 1;
-                        odd = 1;
+        srcYEnd = h + srcY;
+    srcRowTiles = (src->width + (src->width & 7)) >> 3;
+    dstRowTiles = (dst->width + (dst->width & 7)) >> 3;
+    if (colorKey == 0xffff) {
+        for (curSrcY = srcY, curDstY = dstY; curSrcY < srcYEnd; curSrcY++, curDstY++)
+            for (curSrcX = srcX, curDstX = dstX; curSrcX < srcXEnd; curSrcX++, curDstX++)
+                if (curDstX >= 0 && curDstY >= 0) {
+                    srcTileY = (curSrcY * 4) & 0x3fe0;
+                    srcAddr = (u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0) + srcTileY * srcRowTiles;
+                    srcAddr += (curSrcY * 4) & 0x1c;
+                    dstTileY = (curDstY * 4) & 0x3fe0;
+                    dstAddr = (u32)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0) + dstTileY * dstRowTiles;
+                    dstAddr += (curDstY * 4) & 0x1c;
+                    if (dstAddr & 1) {
+                        dstAddr -= 1;
+                        dstOdd = 1;
                     } else
-                        odd = 0;
-                    c = ((struct Obj04758 *)d)->f0;
-                    hi = c >> 8;
-                    lo = c & 0xff;
-                    v = (((struct Obj11411 *)s)->f0 >> ((u32)(j << 31) >> 29)) & 0xf;
-                    sh = (u32)(dj << 31) >> 29;
-                    if (odd == 0)
-                        ((struct Obj04758 *)d)->f0 = (((0xf0 >> sh) & lo) | (v << sh)) | (hi << 8);
+                        dstOdd = 0;
+                    word = *(u16 *)dstAddr;
+                    highByte = word >> 8;
+                    lowByte = word & 0xff;
+                    pixel = (*(u8 *)srcAddr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
+                    shift = (u32)(curDstX << 31) >> 29;
+                    if (dstOdd == 0)
+                        *(u16 *)dstAddr = (((0xf0 >> shift) & lowByte) | (pixel << shift)) | (highByte << 8);
                     else
-                        ((struct Obj04758 *)d)->f0 = (((hi & (0xf0 >> sh)) | (v << sh)) << 8) | lo;
+                        *(u16 *)dstAddr = (((highByte & (0xf0 >> shift)) | (pixel << shift)) << 8) | lowByte;
                 }
     } else {
-        for (i = y, di = dy; i < yend; i++, di++)
-            for (j = x, dj = dx; j < xend; j++, dj++)
-                if (dj >= 0 && di >= 0) {
-                    kTileY = (i * 4) & 0x3fe0;
-                    s = (u32)src->pixels + ((j >> 1) & 3) + ((j * 4) & 0x3fe0) + kTileY * srow;
-                    s += (i * 4) & 0x1c;
-                    lTileY = (di * 4) & 0x3fe0;
-                    d = (u32)dst->pixels + ((dj >> 1) & 3) + ((dj * 4) & 0x3fe0) + lTileY * drow;
-                    d += (di * 4) & 0x1c;
-                    if (d & 1) {
-                        d -= 1;
-                        odd = 1;
+        for (curSrcY = srcY, curDstY = dstY; curSrcY < srcYEnd; curSrcY++, curDstY++)
+            for (curSrcX = srcX, curDstX = dstX; curSrcX < srcXEnd; curSrcX++, curDstX++)
+                if (curDstX >= 0 && curDstY >= 0) {
+                    srcKeyedTileY = (curSrcY * 4) & 0x3fe0;
+                    srcAddr = (u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0) + srcKeyedTileY * srcRowTiles;
+                    srcAddr += (curSrcY * 4) & 0x1c;
+                    dstKeyedTileY = (curDstY * 4) & 0x3fe0;
+                    dstAddr = (u32)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0) + dstKeyedTileY * dstRowTiles;
+                    dstAddr += (curDstY * 4) & 0x1c;
+                    if (dstAddr & 1) {
+                        dstAddr -= 1;
+                        dstOdd = 1;
                     } else
-                        odd = 0;
-                    c = ((struct Obj04758 *)d)->f0;
-                    hi = c >> 8;
-                    lo = c & 0xff;
-                    v = (((struct Obj11411 *)s)->f0 >> ((u32)(j << 31) >> 29)) & 0xf;
-                    if (v != key) {
-                        sh = (u32)(dj << 31) >> 29;
-                        if (odd == 0)
-                            ((struct Obj04758 *)d)->f0 = (((0xf0 >> sh) & lo) | (v << sh)) | (hi << 8);
+                        dstOdd = 0;
+                    word = *(u16 *)dstAddr;
+                    highByte = word >> 8;
+                    lowByte = word & 0xff;
+                    pixel = (*(u8 *)srcAddr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
+                    if (pixel != colorKey) {
+                        shift = (u32)(curDstX << 31) >> 29;
+                        if (dstOdd == 0)
+                            *(u16 *)dstAddr = (((0xf0 >> shift) & lowByte) | (pixel << shift)) | (highByte << 8);
                         else
-                            ((struct Obj04758 *)d)->f0 = (((hi & (0xf0 >> sh)) | (v << sh)) << 8) | lo;
+                            *(u16 *)dstAddr = (((highByte & (0xf0 >> shift)) | (pixel << shift)) << 8) | lowByte;
                     }
                 }
     }
@@ -1707,7 +1438,7 @@ void func_020445F4(struct Bmp *src, struct Bmp *dst, u16 x, u16 y, s16_p07 dx, s
  * store covers it and the byte before, both taken from the source pair
  * ending at the source pixel; otherwise the source pair starting at it.
  * Optional colour key (0xFFFF = none), compared against the source byte.
- * Reached from func_020439A0's kind == 2 arm (x, y, w, h u16; dx, dy s16;
+ * Reached from func_020439A0's VRAM-destination arm (x, y, w, h u16; dx, dy s16;
  * the key is ldrh'd, so u16 here).
  *
  * The same four levers as func_020445F4, all measured:
@@ -1721,62 +1452,62 @@ void func_020445F4(struct Bmp *src, struct Bmp *dst, u16 x, u16 y, s16_p07 dx, s
  *     xend/yend flips the operands of the conditional add (4 out), and
  *     a fresh t with s32 x/y reshuffles the allocation (167 out).
  */
-void func_02044954(struct Bmp *src, struct Bmp *dst, u16 x, u16 y, s16_p07 dx, s16_p07 dy, u16 w, u16 h, u16 key)
+void func_02044954(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey)
 {
-    s32 xend, yend, srow, drow;
-    s32 i, j, di, dj;
-    s32 sTileY, dTileY, kTileY, lTileY;
-    u32 s, d;
-    u16 c;
-    s32 t;
-    t = dst->width - dx;
-    if (t < w)
-        xend = x + t;
+    s32 srcXEnd, srcYEnd, srcRowTiles, dstRowTiles;
+    s32 curSrcY, curSrcX, curDstY, curDstX;
+    s32 srcTileY, dstTileY, srcKeyedTileY, dstKeyedTileY;
+    u32 srcAddr, dstAddr;
+    u16 word;
+    s32 dstRoom;
+    dstRoom = dst->width - dstX;
+    if (dstRoom < w)
+        srcXEnd = srcX + dstRoom;
     else
-        xend = w + x;
-    t = dst->height - dy;
-    if (t < h)
-        yend = y + t;
+        srcXEnd = w + srcX;
+    dstRoom = dst->height - dstY;
+    if (dstRoom < h)
+        srcYEnd = srcY + dstRoom;
     else
-        yend = h + y;
-    srow = (src->width + (src->width & 7)) >> 3;
-    drow = (dst->width + (dst->width & 7)) >> 3;
-    if (key == 0xffff) {
-        for (i = y, di = dy; i < yend; i++, di++)
-            for (j = x, dj = dx; j < xend; j++, dj++)
-                if (dj >= 0 && di >= 0) {
-                    sTileY = (i * 8) & 0x7fc0;
-                    s = (u32)src->pixels + (j & 7) + ((j * 8) & 0x7fc0) + sTileY * srow;
-                    s += (i * 8) & 0x38;
-                    dTileY = (di * 8) & 0x7fc0;
-                    d = (u32)dst->pixels + (dj & 7) + ((dj * 8) & 0x7fc0) + dTileY * drow;
-                    d += (di * 8) & 0x38;
-                    if (d & 1) {
-                        d -= 1;
-                        c = (((u8 *)s)[0] << 8) | ((u8 *)s)[-1];
+        srcYEnd = h + srcY;
+    srcRowTiles = (src->width + (src->width & 7)) >> 3;
+    dstRowTiles = (dst->width + (dst->width & 7)) >> 3;
+    if (colorKey == 0xffff) {
+        for (curSrcY = srcY, curDstY = dstY; curSrcY < srcYEnd; curSrcY++, curDstY++)
+            for (curSrcX = srcX, curDstX = dstX; curSrcX < srcXEnd; curSrcX++, curDstX++)
+                if (curDstX >= 0 && curDstY >= 0) {
+                    srcTileY = (curSrcY * 8) & 0x7fc0;
+                    srcAddr = (u32)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0) + srcTileY * srcRowTiles;
+                    srcAddr += (curSrcY * 8) & 0x38;
+                    dstTileY = (curDstY * 8) & 0x7fc0;
+                    dstAddr = (u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0) + dstTileY * dstRowTiles;
+                    dstAddr += (curDstY * 8) & 0x38;
+                    if (dstAddr & 1) {
+                        dstAddr -= 1;
+                        word = (((u8 *)srcAddr)[0] << 8) | ((u8 *)srcAddr)[-1];
                     } else {
-                        c = ((u8 *)s)[0] | (((u8 *)s)[1] << 8);
+                        word = ((u8 *)srcAddr)[0] | (((u8 *)srcAddr)[1] << 8);
                     }
-                    ((struct Obj11412 *)d)->f0 = c;
+                    *(u16 *)dstAddr = word;
                 }
     } else {
-        for (i = y, di = dy; i < yend; i++, di++)
-            for (j = x, dj = dx; j < xend; j++, dj++)
-                if (dj >= 0 && di >= 0) {
-                    kTileY = (i * 8) & 0x7fc0;
-                    s = (u32)src->pixels + (j & 7) + ((j * 8) & 0x7fc0) + kTileY * srow;
-                    s += (i * 8) & 0x38;
-                    lTileY = (di * 8) & 0x7fc0;
-                    d = (u32)dst->pixels + (dj & 7) + ((dj * 8) & 0x7fc0) + lTileY * drow;
-                    d += (di * 8) & 0x38;
-                    if (d & 1) {
-                        d -= 1;
-                        c = (((u8 *)s)[0] << 8) | ((u8 *)s)[-1];
+        for (curSrcY = srcY, curDstY = dstY; curSrcY < srcYEnd; curSrcY++, curDstY++)
+            for (curSrcX = srcX, curDstX = dstX; curSrcX < srcXEnd; curSrcX++, curDstX++)
+                if (curDstX >= 0 && curDstY >= 0) {
+                    srcKeyedTileY = (curSrcY * 8) & 0x7fc0;
+                    srcAddr = (u32)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0) + srcKeyedTileY * srcRowTiles;
+                    srcAddr += (curSrcY * 8) & 0x38;
+                    dstKeyedTileY = (curDstY * 8) & 0x7fc0;
+                    dstAddr = (u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0) + dstKeyedTileY * dstRowTiles;
+                    dstAddr += (curDstY * 8) & 0x38;
+                    if (dstAddr & 1) {
+                        dstAddr -= 1;
+                        word = (((u8 *)srcAddr)[0] << 8) | ((u8 *)srcAddr)[-1];
                     } else {
-                        c = ((u8 *)s)[0] | (((u8 *)s)[1] << 8);
+                        word = ((u8 *)srcAddr)[0] | (((u8 *)srcAddr)[1] << 8);
                     }
-                    if (((struct Obj03010 *)s)->f0 != key)
-                        ((struct Obj11412 *)d)->f0 = c;
+                    if (*(u8 *)srcAddr != colorKey)
+                        *(u16 *)dstAddr = word;
                 }
     }
 }
@@ -1804,35 +1535,35 @@ void func_02044954(struct Bmp *src, struct Bmp *dst, u16 x, u16 y, s16_p07 dx, s
  *     bytes with hi computed once before the loops);
  *   - the even arm's `(u8)(*p & 0xf0)` is the unfolded `and #0xff`.
  */
-void func_02044BF0(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u32 value)
+void func_02044BF0(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u32 value)
 {
-    s32 i;
-    s32 j;
+    s32 row;
+    s32 col;
     s32 right = x + w;
     s32 bottom = y + h;
     s32 tilesWide;
-    s32 tileY;
-    u8 *p;
-    u32 hi;
+    s32 tileRowOffset;
+    u8 *pixelPtr;
+    u32 highNibble;
 
-    if (right > s->width)
-        right = s->width;
-    if (bottom > s->height)
-        bottom = s->height;
-    tilesWide = (s->width + (s->width & 7)) >> 3;
+    if (right > bmp->width)
+        right = bmp->width;
+    if (bottom > bmp->height)
+        bottom = bmp->height;
+    tilesWide = (bmp->width + (bmp->width & 7)) >> 3;
 
-    for (i = y; i < bottom; i++)
-        for (j = x; j < right; j++)
-            if (j >= 0 && i >= 0) {
-                hi = value << 4;
-                tileY = (i * 4) & 0x3fe0;
-                p = (u8 *)((u32)s->pixels + ((j >> 1) & 3) + ((j * 4) & 0x3fe0)
-                           + tileY * tilesWide);
-                p += (i * 4) & 0x1c;
-                if (j & 1)
-                    *p = (*p & 0x0f) | (u8)hi;
+    for (row = y; row < bottom; row++)
+        for (col = x; col < right; col++)
+            if (col >= 0 && row >= 0) {
+                highNibble = value << 4;
+                tileRowOffset = (row * 4) & 0x3fe0;
+                pixelPtr = (u8 *)((u32)bmp->pixels + ((col >> 1) & 3) + ((col * 4) & 0x3fe0)
+                           + tileRowOffset * tilesWide);
+                pixelPtr += (row * 4) & 0x1c;
+                if (col & 1)
+                    *pixelPtr = (*pixelPtr & 0x0f) | (u8)highNibble;
                 else
-                    *p = (u8)(*p & 0xf0) | value;
+                    *pixelPtr = (u8)(*pixelPtr & 0xf0) | value;
             }
 }
 
@@ -1855,27 +1586,27 @@ void func_02044BF0(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u32 value)
  * (u8 *) with the same terms stays at 17 out; the per-row locals of the
  * older best source at 81.
  */
-void func_02044CE0(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value)
+void func_02044CE0(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
 {
-    s32 i;
-    s32 j;
+    s32 row;
+    s32 col;
     s32 right = x + w;
     s32 bottom = y + h;
     s32 tilesWide;
-    s32 tileY;
+    s32 tileRowOffset;
 
-    if (right > s->width)
-        right = s->width;
-    if (bottom > s->height)
-        bottom = s->height;
-    tilesWide = (s->width + (s->width & 7)) >> 3;
+    if (right > bmp->width)
+        right = bmp->width;
+    if (bottom > bmp->height)
+        bottom = bmp->height;
+    tilesWide = (bmp->width + (bmp->width & 7)) >> 3;
 
-    for (i = y; i < bottom; i++)
-        for (j = x; j < right; j++)
-            if (j >= 0 && i >= 0) {
-                tileY = (i * 8) & 0x7fc0;
-                *(u8 *)((u32)s->pixels + (j & 7) + ((j * 8) & 0x7fc0)
-                        + tileY * tilesWide + ((i * 8) & 0x38)) = value;
+    for (row = y; row < bottom; row++)
+        for (col = x; col < right; col++)
+            if (col >= 0 && row >= 0) {
+                tileRowOffset = (row * 8) & 0x7fc0;
+                *(u8 *)((u32)bmp->pixels + (col & 7) + ((col * 8) & 0x7fc0)
+                        + tileRowOffset * tilesWide + ((row * 8) & 0x38)) = value;
             }
 }
 
@@ -1900,74 +1631,74 @@ void func_02044CE0(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value)
  *     in its spill slot from its first store, and initialising both up
  *     front adds a reload (312 bytes).
  */
-void func_02044D88(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value)
+void func_02044D88(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
 {
-    s32 i;
-    s32 j;
+    s32 row;
+    s32 col;
     s32 right;
     s32 bottom;
     s32 tilesWide;
-    s32 tileY;
-    u32 a;
-    s32 odd;
-    u32 c;
-    u16 hi, lo;
-    u32 sh;
+    s32 tileRowOffset;
+    u32 addr;
+    s32 addrOdd;
+    u32 word;
+    u16 highByte, lowByte;
+    u32 shift;
 
     right = x + w;
-    if (right > s->width)
-        right = s->width;
+    if (right > bmp->width)
+        right = bmp->width;
     bottom = y + h;
-    if (bottom > s->height)
-        bottom = s->height;
-    tilesWide = (s->width + (s->width & 7)) >> 3;
+    if (bottom > bmp->height)
+        bottom = bmp->height;
+    tilesWide = (bmp->width + (bmp->width & 7)) >> 3;
 
-    for (i = y; i < bottom; i++)
-        for (j = x; j < right; j++)
-            if (j >= 0 && i >= 0) {
-                tileY = (i * 4) & 0x3fe0;
-                a = (u32)s->pixels + ((j >> 1) & 3) + ((j * 4) & 0x3fe0)
-                    + tileY * tilesWide;
-                a += (i * 4) & 0x1c;
-                if (a & 1) {
-                    a -= 1;
-                    odd = 1;
+    for (row = y; row < bottom; row++)
+        for (col = x; col < right; col++)
+            if (col >= 0 && row >= 0) {
+                tileRowOffset = (row * 4) & 0x3fe0;
+                addr = (u32)bmp->pixels + ((col >> 1) & 3) + ((col * 4) & 0x3fe0)
+                    + tileRowOffset * tilesWide;
+                addr += (row * 4) & 0x1c;
+                if (addr & 1) {
+                    addr -= 1;
+                    addrOdd = 1;
                 } else
-                    odd = 0;
-                c = ((struct Obj08850 *)a)->f0;
-                hi = c >> 8;
-                lo = c & 0xff;
-                sh = (u32)(j << 31) >> 29;
-                if (odd == 0)
-                    ((struct Obj08850 *)a)->f0 = (((0xf0 >> sh) & lo) | (value << sh)) | (hi << 8);
+                    addrOdd = 0;
+                word = *(u16 *)addr;
+                highByte = word >> 8;
+                lowByte = word & 0xff;
+                shift = (u32)(col << 31) >> 29;
+                if (addrOdd == 0)
+                    *(u16 *)addr = (((0xf0 >> shift) & lowByte) | (value << shift)) | (highByte << 8);
                 else
-                    ((struct Obj08850 *)a)->f0 = (((hi & (0xf0 >> sh)) | (value << sh)) << 8) | lo;
+                    *(u16 *)addr = (((highByte & (0xf0 >> shift)) | (value << shift)) << 8) | lowByte;
             }
 }
 
 
 
-void func_02044EBC(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value)
+void func_02044EBC(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
 {
-    s32 i;
-    s32 j;
+    s32 row;
+    s32 col;
     s32 right = x + w;
     s32 bottom = y + h;
     s32 tilesWide;
-    s32 tileY;
+    s32 tileRowOffset;
 
-    if (right > s->width)
-        right = s->width;
-    if (bottom > s->height)
-        bottom = s->height;
-    tilesWide = (s->width + (s->width & 7)) >> 3;
+    if (right > bmp->width)
+        right = bmp->width;
+    if (bottom > bmp->height)
+        bottom = bmp->height;
+    tilesWide = (bmp->width + (bmp->width & 7)) >> 3;
 
-    for (i = y; i < bottom; i++)
-        for (j = x; j < right; j++)
-            if (j >= 0 && i >= 0) {
-                tileY = (i * 8) & 0x7fc0;
-                *(u8 *)((u32)s->pixels + (j & 7) + ((j * 8) & 0x7fc0)
-                        + tileY * tilesWide + ((i * 8) & 0x38)) = value;
+    for (row = y; row < bottom; row++)
+        for (col = x; col < right; col++)
+            if (col >= 0 && row >= 0) {
+                tileRowOffset = (row * 8) & 0x7fc0;
+                *(u8 *)((u32)bmp->pixels + (col & 7) + ((col * 8) & 0x7fc0)
+                        + tileRowOffset * tilesWide + ((row * 8) & 0x38)) = value;
             }
 }
 
@@ -1975,8 +1706,8 @@ void func_02044EBC(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value)
 
 /*
  * bmp.c de-tile entry point: builds a new descriptor of the same extent
- * and depth, copies the 8x8-tiled pixels of src into it in linear order,
- * and either returns it or (keep == 0) copies it back over src, frees it
+ * and tile size, copies the 8x8-tiled pixels of src into it in linear order,
+ * and either returns it or (keepCopy == 0) copies it back over src, frees it
  * and returns NULL.
  *
  * WHAT CLOSED IT (wave 12, 2026-09-23), after three passes stuck at 6
@@ -1987,35 +1718,35 @@ void func_02044EBC(struct Bmp *s, s32 x, s32 y, s32 w, u16 h, u8 value)
  * and assigning them in the order h, w, dep, d (height before width) is
  * what gives the image's colouring; declaration order is inert.
  */
-struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap)
+struct Bmp *func_02044F64(struct Bmp *bmp, u32 keepCopy, u16 heapId)
 {
-    struct Bmp *dst;
-    s32 i, n;
-    u16 w;
-    u16 h;
-    u16 d;
-    u16 dep;
+    struct Bmp *linear;
+    s32 index, byteCount;
+    u16 widthTiles;
+    u16 heightTiles;
+    u16 tileRowBytes;
+    u16 tileBytes;
 
-    h = src->height / 8;
-    w = src->width / 8;
-    dep = src->depth;
-    d = dep / 8;
-    dst = func_02043678(w, h, dep, heap);
-    n = w * h * dep;
-    for (i = 0; i < n; i++) {
-        s32 q, r, x, y;
-        q = i / (w * d);
-        r = i % (w * d);
-        y = r % d;
-        x = r / d;
-        dst->pixels[i] = src->pixels[(q % 8) * d + y + (q / 8 * w + x) * dep];
+    heightTiles = bmp->height / 8;
+    widthTiles = bmp->width / 8;
+    tileBytes = bmp->tileBytes;
+    tileRowBytes = tileBytes / 8;
+    linear = func_02043678(widthTiles, heightTiles, tileBytes, heapId);
+    byteCount = widthTiles * heightTiles * tileBytes;
+    for (index = 0; index < byteCount; index++) {
+        s32 pixelRow, rowOffset, tileColumn, byteInTileRow;
+        pixelRow = index / (widthTiles * tileRowBytes);
+        rowOffset = index % (widthTiles * tileRowBytes);
+        byteInTileRow = rowOffset % tileRowBytes;
+        tileColumn = rowOffset / tileRowBytes;
+        linear->pixels[index] = bmp->pixels[(pixelRow % 8) * tileRowBytes + byteInTileRow + (pixelRow / 8 * widthTiles + tileColumn) * tileBytes];
     }
-    if (keep == 0) {
-        func_02043814(dst, src);
-        func_020437AC((struct Obj020437AC *)dst);
-        dst = 0;
+    if (keepCopy == 0) {
+        func_02043814(linear, bmp);
+        func_020437AC(linear);
+        linear = 0;
     }
-    return dst;
+    return linear;
 }
 
 
@@ -2026,7 +1757,7 @@ struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap)
  * global at 0x02146A50, and the heap id itself is written back into the
  * first halfword of the block.  Every later allocation in this family reads
  * that halfword back out (see src/matched/sub_02045374.c, which spells it
- * (*g_02146A50 & 0x7fff) | 0x8000), so the block is the subsystem's record
+ * (*sBmpWinHeapRecord & 0x7fff) | 0x8000), so the block is the subsystem's record
  * of which heap it owns.
  *
  * The allocator's fourth and fifth arguments are the same debug site string
@@ -2038,10 +1769,10 @@ struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap)
  */
 void sub_02045088(u16 heapId)
 {
-    u16 *p = func_02030734(heapId, 4, 0, str_020A7E70, 0x4f);
+    u16 *heapRecord = func_02030734(heapId, 4, 0, bmpWin_File, 0x4f);
 
-    g_02146A50 = p;
-    *p = heapId;
+    sBmpWinHeapRecord = heapRecord;
+    *heapRecord = heapId;
 }
 
 
@@ -2059,11 +1790,11 @@ void sub_02045088(u16 heapId)
  */
 void sub_020450C8(void)
 {
-    if (g_02146A50 == 0)
+    if (sBmpWinHeapRecord == 0)
         return;
 
-    func_020307B0(g_02146A50);
-    g_02146A50 = 0;
+    func_020307B0(sBmpWinHeapRecord);
+    sBmpWinHeapRecord = 0;
 }
 
 
@@ -2086,25 +1817,25 @@ void sub_020450C8(void)
  *   python tools/match.py one --src src/matched/sub_020450F0.c \
  *       --func sub_020450F0 --addr 0x020450F0 --cc 1.1p1 --arm
  */
-u32 sub_020450F0(u32 layer, u32 a, u32 b, u8 tiles, u8 c, u8 d, u8 slot)
+struct BmpWin *sub_020450F0(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir)
 {
     u8 is8bpp;
-    u32 units;
+    u32 charCount;
     s32 offset;
 
-    if (func_0204169C(layer) == 0) {
+    if (func_0204169C(bgLayer) == 0) {
         is8bpp = 0;
-        units = tiles * c;
+        charCount = width * height;
     } else {
         is8bpp = 1;
-        units = tiles * c * 2;
+        charCount = width * height * 2;
     }
 
-    offset = func_0203FA08(layer, units * 32, slot);
+    offset = func_0203FA08(bgLayer, charCount * 32, allocDir);
     if (offset == -1)
         return 0;
 
-    return (u32)sub_02045210(layer, a, b, tiles, c, d, offset, is8bpp);
+    return sub_02045210(bgLayer, posX, posY, width, height, palette, offset, is8bpp);
 }
 
 
@@ -2135,23 +1866,23 @@ u32 sub_020450F0(u32 layer, u32 a, u32 b, u8 tiles, u8 c, u8 d, u8 slot)
  *   python tools/match.py one --src src/matched/sub_02045180.c \
  *       --func sub_02045180 --addr 0x02045180 --cc 1.1p1 --arm
  */
-u32 sub_02045180(u32 layer, u32 a, u32 b, u8 tiles, u8 c, u8 d, u32 offset)
+struct BmpWin *sub_02045180(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset)
 {
     u8 is8bpp;
-    u32 units;
+    u32 charCount;
 
-    if (func_0204169C(layer) == 0) {
+    if (func_0204169C(bgLayer) == 0) {
         is8bpp = 0;
-        units = tiles * c;
+        charCount = width * height;
     } else {
         is8bpp = 1;
-        units = tiles * c * 2;
+        charCount = width * height * 2;
     }
 
-    if (func_0203FAF0(layer, offset, units) == 0)
+    if (func_0203FAF0(bgLayer, charOffset, charCount) == 0)
         return 0;
 
-    return (u32)sub_02045210(layer, a, b, tiles, c, d, offset, is8bpp);
+    return sub_02045210(bgLayer, posX, posY, width, height, palette, charOffset, is8bpp);
 }
 
 
@@ -2194,29 +1925,29 @@ u32 sub_02045180(u32 layer, u32 a, u32 b, u8 tiles, u8 c, u8 d, u32 offset)
  *   python tools/match.py one --src src/matched/sub_02045210.c \
  *       --func sub_02045210 --addr 0x02045210 --cc 1.1p1 --arm
  */
-struct BgLayer *sub_02045210(u32 layer, u32 screenBase, u32 charBase,
+struct BmpWin *sub_02045210(u32 bgLayer, u32 posX, u32 posY,
                              u8 width, u8 height, u8 palette, u32 charOffset,
                              u8 is8bpp)
 {
-    struct BgLayer *o;
-    u32 tileSize = is8bpp == 0 ? 0x20 : 0x40;
+    struct BmpWin *win;
+    u32 tileBytes = is8bpp == 0 ? BMP_TILE_BYTES_4BPP : BMP_TILE_BYTES_8BPP;
 
-    o = func_02030734(*g_02146A50, 0x10, 0, str_020A7E70, 0xd5);
+    win = func_02030734(*sBmpWinHeapRecord, 0x10, 0, bmpWin_File, 0xd5);
 
-    o->tag = 0x7fb2;
-    o->layer = layer;
-    o->screenBase = screenBase;
-    o->charBase = charBase;
-    o->width = width;
-    o->height = height;
-    o->width2 = width;
-    o->height2 = height;
-    o->palette = palette;
-    o->charOffset = charOffset;
-    o->is8bpp = is8bpp;
+    win->magic = BMP_WIN_MAGIC;
+    win->bgLayer = bgLayer;
+    win->posX = posX;
+    win->posY = posY;
+    win->width = width;
+    win->height = height;
+    win->dispWidth = width;
+    win->dispHeight = height;
+    win->palette = palette;
+    win->charOffset = charOffset;
+    win->is8bpp = is8bpp;
 
-    o->tiles = func_02043678(width, height, tileSize, *g_02146A50);
-    return o;
+    win->bmp = func_02043678(width, height, tileBytes, *sBmpWinHeapRecord);
+    return win;
 }
 
 
@@ -2227,11 +1958,11 @@ struct BgLayer *sub_02045210(u32 layer, u32 screenBase, u32 charBase,
  * the descriptor itself with the generic free at 0x020307B0 (the same
  * free sub_02045808 tail-calls).
  *
- * The payload size is (d->unk5 * d->unk6) * 32, doubled when the top bit
+ * The payload size is (win->width * win->height) * 32, doubled when the top bit
  * of the halfword at +0 is set. That bit is a 1-wide bitfield, not a
  * mask: `ldrh` followed by `lsl #16` / `lsrs #31` is the bitfield extract
  * shape (shift the field to the top, then all the way down by 32 minus
- * its width), and a plain `d->unk0 & 0x8000` test folds to a single
+ * its width), and a plain `win->is8bpp` mask test folds to a single
  * `tst`. Declaring the halfword as a 15-bit field plus a 1-bit field is
  * what reproduces it.
  *
@@ -2255,18 +1986,18 @@ struct BgLayer *sub_02045210(u32 layer, u32 screenBase, u32 charBase,
  *   python tools/match.py one --src src/matched/sub_020452E8.c \
  *       --func sub_020452E8 --addr 0x020452E8 --cc 1.1p1 --arm
  */
-u32 sub_020452E8(struct Descriptor *d)
+u32 sub_020452E8(struct BmpWin *win)
 {
-    u32 size;
+    u32 charCount;
 
-    if (d->unk0_15 == 0) {
-        size = d->unk5 * d->unk6;
+    if (win->is8bpp == 0) {
+        charCount = win->width * win->height;
     } else {
-        size = (d->unk5 * d->unk6) * 2;
+        charCount = (win->width * win->height) * 2;
     }
-    sub_0203FB44(d->unk2, d->unkA, size * 32);
-    sub_020437AC(d->heap);
-    return sub_020307B0(d);
+    sub_0203FB44(win->bgLayer, win->charOffset, charCount * 32);
+    func_020437AC(win->bmp);
+    return func_020307B0(win);
 }
 
 
@@ -2276,10 +2007,10 @@ u32 sub_020452E8(struct Descriptor *d)
  * sub_020452E8 immediately before it). It sizes the descriptor's payload
  * as
  *
- *   sub_020416B8(d->unk2) * (d->unk5 * d->unk6)
+ *   sub_020416B8(win->bgLayer) * (win->width * win->height)
  *
  * and passes that, the heap handle obtained from d->heap via
- * sub_020437D4, and d->unkA on to sub_02040B1C.
+ * sub_020437D4, and win->charOffset on to sub_02040B1C.
  *
  * The u8 * u8 product compiles to `smulbb`, not `mul`: the compiler knows
  * both operands came from `ldrb` and fit in sixteen bits, so it uses the
@@ -2291,7 +2022,7 @@ u32 sub_020452E8(struct Descriptor *d)
  * push {r4, lr} into push {r3, r4, r5, lr}: r5 holds the descriptor
  * pointer across all three calls and r3 is the alignment filler.
  *
- * d->unk2 is loaded twice, once for each call that takes it, rather than
+ * win->bgLayer is loaded twice, once for each call that takes it, rather than
  * kept in a register: re-reading the field is cheaper than spending a
  * third callee-saved register on it.
  *
@@ -2299,12 +2030,12 @@ u32 sub_020452E8(struct Descriptor *d)
  *   python tools/match.py one --src src/matched/sub_02045334.c \
  *       --func sub_02045334 --addr 0x02045334 --cc 1.1p1 --arm
  */
-void sub_02045334(struct Descriptor_02045334 *d)
+void sub_02045334(struct BmpWin *win)
 {
-    u32 size;
+    u32 byteCount;
 
-    size = (d->unk5 * d->unk6) * sub_020416B8(d->unk2);
-    sub_02040B1C(d->unk2, sub_020437D4(d->heap), size, d->unkA);
+    byteCount = (win->width * win->height) * sub_020416B8(win->bgLayer);
+    sub_02040B1C(win->bgLayer, func_020437D4(win->bmp), byteCount, win->charOffset);
 }
 
 
@@ -2329,36 +2060,36 @@ void sub_02045334(struct Descriptor_02045334 *d)
  * instruction, one pool word and shifts every later pc-relative offset.
  * Eleven source lines apart matches the two arms of one if/else.
  */
-void sub_02045374(struct Cfg *cfg)
+void sub_02045374(struct BmpWin *win)
 {
-    u16 count = cfg->unk_05 * cfg->unk_06;
-    u32 palette = (cfg->unk_09 & 0xf) << 12;
-    u16 tile = cfg->unk_0a;
+    u16 charCount = win->width * win->height;
+    u32 paletteBits = (win->palette & 0xf) << 12;
+    u16 tile = win->charOffset;
     void *cells;
-    s32 i;
+    s32 index;
 
-    if (func_02041680(cfg->unk_02) != 1) {
-        u16 *p = func_02030734((u16)((*g_02146A50 & 0x7fff) | 0x8000),
-                               count * 2, 0, str_020A7E70, 0x133);
+    if (func_02041680(win->bgLayer) != 1) {
+        u16 *chars = func_02030734((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
+                               charCount * 2, 0, bmpWin_File, 0x133);
 
-        cells = p;
-        for (i = 0; i < count; i++) {
-            p[i] = tile | palette;
+        cells = chars;
+        for (index = 0; index < charCount; index++) {
+            chars[index] = tile | paletteBits;
             tile = tile + 1;
         }
     } else {
-        u8 *p = func_02030734((u16)((*g_02146A50 & 0x7fff) | 0x8000),
-                              count, 0, str_020A7E70, 0x13e);
+        u8 *chars = func_02030734((u16)((*sBmpWinHeapRecord & 0x7fff) | 0x8000),
+                              charCount, 0, bmpWin_File, 0x13e);
 
-        cells = p;
-        for (i = 0; i < count; i++) {
-            p[i] = (u8)tile;
+        cells = chars;
+        for (index = 0; index < charCount; index++) {
+            chars[index] = (u8)tile;
             tile = tile + 1;
         }
     }
 
-    func_020410D0(cfg->unk_02, cfg->unk_03, cfg->unk_04, cfg->unk_07,
-                  cfg->unk_08, (u32)cells, 0, 0, cfg->unk_05, cfg->unk_06);
+    func_020410D0(win->bgLayer, win->posX, win->posY, win->dispWidth,
+                  win->dispHeight, (u32)cells, 0, 0, win->width, win->height);
     func_020307B0(cells);
 }
 
@@ -2381,35 +2112,35 @@ void sub_02045374(struct Cfg *cfg)
  * the 2-byte tie.  Found by tools/permuter.py hill (type:p base u32->u16)
  * from the in-place source.
  */
-void func_020454E0(struct Cfg *cfg, u16 base, u32 pal)
+void func_020454E0(struct BmpWin *win, u16 baseTile, u32 palette)
 {
-    if (func_02041680(cfg->unk_02) != 1) {
-        pal &= 0xf;
-        pal <<= 12;
+    if (func_02041680(win->bgLayer) != 1) {
+        palette &= 0xf;
+        palette <<= 12;
     } else {
-        pal = 0;
+        palette = 0;
     }
 
-    func_02041300(cfg->unk_02, (u16)(pal | base), (u8)(cfg->unk_03 - 1),
-                  (u8)(cfg->unk_04 - 1), 1, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 1)), cfg->unk_03,
-                  (u8)(cfg->unk_04 - 1), cfg->unk_07, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 2)),
-                  (u8)(cfg->unk_03 + cfg->unk_07), (u8)(cfg->unk_04 - 1),
+    func_02041300(win->bgLayer, (u16)(palette | baseTile), (u8)(win->posX - 1),
+                  (u8)(win->posY - 1), 1, 1, 0x11);
+    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 1)), win->posX,
+                  (u8)(win->posY - 1), win->dispWidth, 1, 0x11);
+    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 2)),
+                  (u8)(win->posX + win->dispWidth), (u8)(win->posY - 1),
                   1, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 3)),
-                  (u8)(cfg->unk_03 - 1), cfg->unk_04, 1, cfg->unk_08, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 4)),
-                  (u8)(cfg->unk_03 + cfg->unk_07), cfg->unk_04,
-                  1, cfg->unk_08, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 5)),
-                  (u8)(cfg->unk_03 - 1), (u8)(cfg->unk_04 + cfg->unk_08),
+    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 3)),
+                  (u8)(win->posX - 1), win->posY, 1, win->dispHeight, 0x11);
+    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 4)),
+                  (u8)(win->posX + win->dispWidth), win->posY,
+                  1, win->dispHeight, 0x11);
+    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 5)),
+                  (u8)(win->posX - 1), (u8)(win->posY + win->dispHeight),
                   1, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 6)), cfg->unk_03,
-                  (u8)(cfg->unk_04 + cfg->unk_08), cfg->unk_07, 1, 0x11);
-    func_02041300(cfg->unk_02, (u16)(pal | (base + 7)),
-                  (u8)(cfg->unk_03 + cfg->unk_07),
-                  (u8)(cfg->unk_04 + cfg->unk_08), 1, 1, 0x11);
+    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 6)), win->posX,
+                  (u8)(win->posY + win->dispHeight), win->dispWidth, 1, 0x11);
+    func_02041300(win->bgLayer, (u16)(palette | (baseTile + 7)),
+                  (u8)(win->posX + win->dispWidth),
+                  (u8)(win->posY + win->dispHeight), 1, 1, 0x11);
 }
 
 
@@ -2420,12 +2151,12 @@ void func_020454E0(struct Cfg *cfg, u16 base, u32 pal)
  * and a constant zero out of the descriptor and hands them to
  * sub_02041300, which is where the actual work happens.
  *
- *   sub_02041300(d->unk2, 0, d->unk3, d->unk4, d->unk5, d->unk6, 0)
+ *   func_02041300(win->bgLayer, 0, win->posX, win->posY, win->width, win->height, 0)
  *
  * Register arguments are r0..r3, and the remaining three ride the 12-byte
  * stack frame the prologue carves out with `sub sp, sp, #0xc`. The
  * compiler spots that the last two stack slots are adjacent and writes
- * d->unk5 (already in r0) and the zero (already in r1) with a single
+ * win->width (already in r0) and the zero (already in r1) with a single
  * `stmib sp, {r0, r1}` rather than two stores, which is what makes the
  * second and third stack argument order legible: had the zero been
  * anywhere but last, the store pair would not have fused.
@@ -2439,9 +2170,9 @@ void func_020454E0(struct Cfg *cfg, u16 base, u32 pal)
  *   python tools/match.py one --src src/matched/sub_020456F8.c \
  *       --func sub_020456F8 --addr 0x020456F8 --cc 1.1p1 --arm
  */
-void sub_020456F8(struct Descriptor_02045334 *d)
+void sub_020456F8(struct BmpWin *win)
 {
-    sub_02041300(d->unk2, 0, d->unk3, d->unk4, d->unk5, d->unk6, 0);
+    func_02041300(win->bgLayer, 0, win->posX, win->posY, win->width, win->height, 0);
 }
 
 
@@ -2498,87 +2229,87 @@ void sub_020456F8(struct Descriptor_02045334 *d)
  *   python tools/match.py tu --src src/matched/unit_02045730.c \
  *       --addr 0x02045730 --arm --cc 1.1p1
  */
-u8 sub_02045730(struct Descriptor_02045730 *p)
+u8 sub_02045730(struct BmpWin *win)
 {
-    return p->unk2;
+    return win->bgLayer;
 }
 
 
-u8 sub_02045738(struct Descriptor_02045730 *p)
+u8 sub_02045738(struct BmpWin *win)
 {
-    return p->unk5;
+    return win->width;
 }
 
 
-u8 sub_02045740(struct Descriptor_02045730 *p)
+u8 sub_02045740(struct BmpWin *win)
 {
-    return p->unk6;
+    return win->height;
 }
 
 
-u8 sub_02045748(struct Descriptor_02045730 *p)
+u8 sub_02045748(struct BmpWin *win)
 {
-    return p->unk7;
+    return win->dispWidth;
 }
 
 
-u8 sub_02045750(struct Descriptor_02045730 *p)
+u8 sub_02045750(struct BmpWin *win)
 {
-    return p->unk8;
+    return win->dispHeight;
 }
 
 
-u8 sub_02045758(struct Descriptor_02045730 *p)
+u8 sub_02045758(struct BmpWin *win)
 {
-    return p->unk3;
+    return win->posX;
 }
 
 
-u8 sub_02045760(struct Descriptor_02045730 *p)
+u8 sub_02045760(struct BmpWin *win)
 {
-    return p->unk4;
+    return win->posY;
 }
 
 
-u16 sub_02045768(struct Descriptor_02045730 *p)
+u16 sub_02045768(struct BmpWin *win)
 {
-    return p->unkA;
+    return win->charOffset;
 }
 
 
-void *sub_02045770(struct Descriptor_02045730 *p)
+struct Bmp *sub_02045770(struct BmpWin *win)
 {
-    return p->heap;
+    return win->bmp;
 }
 
 
-u8 sub_02045778(struct Descriptor_02045730 *p)
+u8 sub_02045778(struct BmpWin *win)
 {
-    return p->unk9;
+    return win->palette;
 }
 
 
-void sub_02045780(struct Descriptor_02045730 *p, u8 v)
+void sub_02045780(struct BmpWin *win, u8 posX)
 {
-    p->unk3 = v;
+    win->posX = posX;
 }
 
 
-void sub_02045788(struct Descriptor_02045730 *p, u8 v)
+void sub_02045788(struct BmpWin *win, u8 posY)
 {
-    p->unk4 = v;
+    win->posY = posY;
 }
 
 
-void sub_02045790(struct Descriptor_02045730 *p, u8 v)
+void sub_02045790(struct BmpWin *win, u8 dispHeight)
 {
-    p->unk8 = v;
+    win->dispHeight = dispHeight;
 }
 
 
-void sub_02045798(struct Descriptor_02045730 *p, u8 v)
+void sub_02045798(struct BmpWin *win, u8 palette)
 {
-    p->unk9 = v;
+    win->palette = palette;
 }
 
 
@@ -2602,9 +2333,9 @@ void sub_02045798(struct Descriptor_02045730 *p, u8 v)
  *   python tools/match.py one --src src/matched/sub_020457A0.c \
  *       --func sub_020457A0 --addr 0x020457A0 --cc 1.1p1 --arm
  */
-void sub_020457A0(u16 stamp)
+void sub_020457A0(u16 eosChar)
 {
-    g_020A7E7C.value = stamp;
+    sStrbufStatics.eosChar = eosChar;
 }
 
 
@@ -2613,7 +2344,7 @@ void sub_020457A0(u16 stamp)
  * The constructor of the u16-array object, and a clean specimen of the
  * debug-allocator calling convention this whole family is built on:
  *
- *   sub_02030734(heapId, size, clear, site, tag)
+ *   func_02030734(heapId, size, clear, site, tag)
  *
  * The fifth argument is a u16 passed on the stack, which the callee reads
  * back with a halfword load at [sp, #0x18]; here it is 100. It looks like
@@ -2644,17 +2375,17 @@ void sub_020457A0(u16 stamp)
  *   python tools/match.py one --src src/matched/sub_020457B0.c \
  *       --func sub_020457B0 --addr 0x020457B0 --cc 1.1p1 --arm
  */
-struct U16Vec *sub_020457B0(u32 capacity, u32 heapId)
+struct Strbuf *sub_020457B0(u32 capacity, u32 heapId)
 {
-    struct U16Vec *vec;
+    struct Strbuf *strbuf;
 
-    vec = (struct U16Vec *)sub_02030734(heapId, capacity * 2 + 0xa, 0,
-                                        g_020A7E7C.site, 100);
-    vec->magic = 0xB6F8D2ECu;
-    vec->capacity = (u16)capacity;
-    vec->used = 0;
-    vec->slots[0] = g_020A7E7C.value;
-    return vec;
+    strbuf = (struct Strbuf *)func_02030734(heapId, capacity * 2 + 0xa, 0,
+                                        sStrbufStatics.file, 100);
+    strbuf->magic = STRBUF_MAGIC;
+    strbuf->capacity = (u16)capacity;
+    strbuf->length = 0;
+    strbuf->chars[0] = sStrbufStatics.eosChar;
+    return strbuf;
 }
 
 
@@ -2683,10 +2414,10 @@ struct U16Vec *sub_020457B0(u32 capacity, u32 heapId)
  *   python tools/match.py one --src src/matched/sub_02045808.c \
  *       --func sub_02045808 --addr 0x02045808 --cc 1.1p1 --arm
  */
-void sub_02045808(struct U16Vec *vec)
+void sub_02045808(struct Strbuf *strbuf)
 {
-    vec->magic = 0;
-    sub_020307B0(vec);
+    strbuf->magic = 0;
+    func_020307B0(strbuf);
 }
 
 
@@ -2714,10 +2445,10 @@ void sub_02045808(struct U16Vec *vec)
  *   python tools/match.py one --src src/matched/sub_0204581C.c \
  *       --func sub_0204581C --addr 0x0204581C --cc 1.1p1 --arm
  */
-void sub_0204581C(struct U16Vec *vec)
+void sub_0204581C(struct Strbuf *strbuf)
 {
-    vec->used = 0;
-    vec->slots[0] = g_020A7E7C.value;
+    strbuf->length = 0;
+    strbuf->chars[0] = sStrbufStatics.eosChar;
 }
 
 
@@ -2741,16 +2472,16 @@ void sub_0204581C(struct U16Vec *vec)
  *   python tools/match.py one --src src/matched/sub_02045838.c \
  *       --func sub_02045838 --addr 0x02045838 --cc 1.1p1 --arm
  */
-void sub_02045838(struct U16Vec *dst, struct U16Vec *src)
+void sub_02045838(struct Strbuf *dst, struct Strbuf *src)
 {
-    u16 used;
+    u16 length;
 
-    used = src->used;
-    if (dst->capacity <= used) {
+    length = src->length;
+    if (dst->capacity <= length) {
         return;
     }
-    MI_CpuCopy8(&src->slots[0], &dst->slots[0], (used + 1) * 2);
-    dst->used = src->used;
+    MI_CpuCopy8(&src->chars[0], &dst->chars[0], (length + 1) * 2);
+    dst->length = src->length;
 }
 
 
@@ -2778,13 +2509,13 @@ void sub_02045838(struct U16Vec *dst, struct U16Vec *src)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02045874.c  *       --func sub_02045874 --addr 0x02045874 --cc 1.1p1 --arm
  */
-struct U16Vec *sub_02045874(struct U16Vec *src, u32 heapId)
+struct Strbuf *sub_02045874(struct Strbuf *src, u32 heapId)
 {
-    struct U16Vec *dst;
+    struct Strbuf *clone;
 
-    dst = sub_020457B0(src->used + 1, heapId);
-    sub_02045838(dst, src);
-    return dst;
+    clone = sub_020457B0(src->length + 1, heapId);
+    sub_02045838(clone, src);
+    return clone;
 }
 
 
@@ -2814,17 +2545,17 @@ struct U16Vec *sub_02045874(struct U16Vec *src, u32 heapId)
  *   python tools/match.py one --src src/matched/func_0204589C.c \
  *       --func func_0204589C --addr 0x0204589C --cc 1.1p1 --arm
  */
-int func_0204589C(struct Buf *a, struct Buf *b)
+int func_0204589C(struct Strbuf *lhs, struct Strbuf *rhs)
 {
-    int i = 0;
+    int index = 0;
 
-    if (a->w[0] == b->w[0]) {
+    if (lhs->chars[0] == rhs->chars[0]) {
         do {
-            if (a->w[i] == sStrbufEnd) {
+            if (lhs->chars[index] == sStrbufStatics.eosChar) {
                 return 1;
             }
-            i++;
-        } while (a->w[i] == b->w[i]);
+            index++;
+        } while (lhs->chars[index] == rhs->chars[index]);
     }
 
     return 0;
@@ -2840,9 +2571,9 @@ int func_0204589C(struct Buf *a, struct Buf *b)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020458F8.c  *       --func sub_020458F8 --addr 0x020458F8 --cc 1.1p1 --arm
  */
-u16 sub_020458F8(struct U16Vec *vec)
+u16 sub_020458F8(struct Strbuf *strbuf)
 {
-    return vec->used;
+    return strbuf->length;
 }
 
 
@@ -2861,11 +2592,11 @@ u16 sub_020458F8(struct U16Vec *vec)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02045900.c  *       --func sub_02045900 --addr 0x02045900 --cc 1.1p1 --arm
  */
-void sub_02045900(struct U16Vec *vec, u32 index)
+void sub_02045900(struct Strbuf *strbuf, u32 newLength)
 {
-    if (index < vec->used) {
-        vec->slots[index] = g_020A7E7C.value;
-        vec->used = index;
+    if (newLength < strbuf->length) {
+        strbuf->chars[newLength] = sStrbufStatics.eosChar;
+        strbuf->length = newLength;
     }
 }
 
@@ -2885,16 +2616,16 @@ void sub_02045900(struct U16Vec *vec, u32 index)
  *   python tools/match.py one --src src/matched/func_02045924.c \
  *       --func func_02045924 --addr 0x02045924 --cc 1.1p1 --arm
  */
-void func_02045924(struct Strbuf *o, const u16 *src)
+void func_02045924(struct Strbuf *strbuf, const u16 *srcChars)
 {
-    o->n = 0;
-    while (*src != sStrbufEnd) {
-        if (o->n >= o->cap - 1)
+    strbuf->length = 0;
+    while (*srcChars != sStrbufStatics.eosChar) {
+        if (strbuf->length >= strbuf->capacity - 1)
             break;
-        o->buf[o->n++] = *src;
-        src++;
+        strbuf->chars[strbuf->length++] = *srcChars;
+        srcChars++;
     }
-    o->buf[o->n] = sStrbufEnd;
+    strbuf->chars[strbuf->length] = sStrbufStatics.eosChar;
 }
 
 
@@ -2913,22 +2644,22 @@ void func_02045924(struct Strbuf *o, const u16 *src)
  *   python tools/match.py one --src src/matched/func_02045994.c \
  *       --func func_02045994 --addr 0x02045994 --cc 1.1p1 --arm
  */
-void func_02045994(struct Strbuf *o, const u16 *src, u32 len)
+void func_02045994(struct Strbuf *strbuf, const u16 *srcChars, u32 charCount)
 {
-    u32 i;
+    u32 index;
 
-    if (len > o->cap)
+    if (charCount > strbuf->capacity)
         return;
 
-    for (i = 0; i < len - 1; i++) {
-        o->buf[i] = src[i];
-        if (o->buf[i] == sStrbufEnd)
+    for (index = 0; index < charCount - 1; index++) {
+        strbuf->chars[index] = srcChars[index];
+        if (strbuf->chars[index] == sStrbufStatics.eosChar)
             break;
     }
 
-    o->n = i;
-    if (i == len - 1)
-        o->buf[len - 1] = sStrbufEnd;
+    strbuf->length = index;
+    if (index == charCount - 1)
+        strbuf->chars[charCount - 1] = sStrbufStatics.eosChar;
 }
 
 
@@ -2948,15 +2679,15 @@ void func_02045994(struct Strbuf *o, const u16 *src, u32 len)
  *   python tools/match.py one --src src/matched/func_02045A00.c \
  *       --func func_02045A00 --addr 0x02045A00 --cc 1.1p1 --arm
  */
-void func_02045A00(struct Buf_p12 *buf, const void *src, u32 n)
+void func_02045A00(struct Strbuf *strbuf, const void *srcChars, u32 charCount)
 {
-    if (n == 0)
+    if (charCount == 0)
         return;
-    if (n > buf->len)
+    if (charCount > strbuf->capacity)
         return;
 
-    MI_CpuCopy8(src, buf->data, n * 2);
-    buf->count = n - 1;
+    MI_CpuCopy8(srcChars, strbuf->chars, charCount * 2);
+    strbuf->length = charCount - 1;
 }
 
 
@@ -2994,20 +2725,20 @@ void func_02045A00(struct Buf_p12 *buf, const void *src, u32 n)
  *   python tools/match.py one --src src/matched/sub_02045A38.c \
  *       --func sub_02045A38 --addr 0x02045A38 --cc 1.1p1 --arm
  */
-void sub_02045A38(struct U16Vec *vec, u16 *out, u32 n)
+void sub_02045A38(struct Strbuf *strbuf, u16 *out, u32 maxChars)
 {
-    u32 i;
-    u16 v;
+    u32 index;
+    u16 ch;
 
-    for (i = 0; i < n; i++) {
-        v = vec->slots[i];
-        out[i] = v;
-        if (g_020A7E7C.value == v) {
+    for (index = 0; index < maxChars; index++) {
+        ch = strbuf->chars[index];
+        out[index] = ch;
+        if (sStrbufStatics.eosChar == ch) {
             break;
         }
     }
-    if (i == n) {
-        *(out + n - 1) = g_020A7E7C.value;
+    if (index == maxChars) {
+        *(out + maxChars - 1) = sStrbufStatics.eosChar;
     }
 }
 
@@ -3021,9 +2752,9 @@ void sub_02045A38(struct U16Vec *vec, u16 *out, u32 n)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02045A90.c  *       --func sub_02045A90 --addr 0x02045A90 --cc 1.1p1 --arm
  */
-u16 *sub_02045A90(struct U16Vec *vec)
+u16 *sub_02045A90(struct Strbuf *strbuf)
 {
-    return vec->slots;
+    return strbuf->chars;
 }
 
 
@@ -3039,7 +2770,7 @@ u16 *sub_02045A90(struct U16Vec *vec)
  */
 u16 func_02045A98(void)
 {
-    return d_020A7E7C;
+    return sStrbufStatics.eosChar;
 }
 
 
@@ -3059,542 +2790,23 @@ u16 func_02045A98(void)
  *   python tools/match.py tu --src src/matched/unit_02045AA8.c \
  *       --addr 0x02045AA8 --arm
  */
-void sub_02045AA8(struct U16Vec *dst, struct U16Vec *src)
+void sub_02045AA8(struct Strbuf *dst, struct Strbuf *src)
 {
-    u16 count = src->used;
+    u16 count = src->length;
 
-    if (dst->used + count + 1 > dst->capacity)
+    if (dst->length + count + 1 > dst->capacity)
         return;
 
-    MI_CpuCopy8(&src->slots[0], &dst->slots[dst->used], (count + 1) * 2);
-    dst->used = dst->used + src->used;
+    MI_CpuCopy8(&src->chars[0], &dst->chars[dst->length], (count + 1) * 2);
+    dst->length = dst->length + src->length;
 }
 
 
-void sub_02045AFC(struct U16Vec *vec, u16 value)
+void sub_02045AFC(struct Strbuf *strbuf, u16 ch)
 {
-    if (vec->used + 1 >= vec->capacity)
+    if (strbuf->length + 1 >= strbuf->capacity)
         return;
 
-    vec->slots[vec->used++] = value;
-    vec->slots[vec->used] = g_020A7E7C.value;
-}
-
-
-
-/*
- * The archive-backed constructor for the message bank whose object layout is
- * pinned by src/matched/unit_02045C44.c, and the reason that object carries
- * both a `stream` handle and a `resident` flag.  func_02045C44 builds a bank
- * over a file the caller already has; this one opens the archive, seeks the
- * member, reads its header and then decides: a resident bank allocates the
- * whole payload up front and calls func_02046110 to index it, a streamed bank
- * leaves `base` null and reads entries on demand in func_02045CAC.
- *
- * The allocation tags are 0x68 for the bank and 0x7b for the payload, both
- * passed as the fifth argument on the stack, with the same BSS provenance
- * object at 0x020A7E8C in the fourth (not a __FILE__ string; see the note in
- * unit_02045C44.c).  The provenance pointer and the constant zero are each
- * loaded once into a callee-saved register and reused at both call sites,
- * which is what pins them as plain literals at the calls rather than named
- * locals.
- *
- * The file offset returned by func_02049578 is bound to a local: the original
- * spends `mov r1, r0` on it before the store to +0x10, four bytes that vanish
- * if the store's value is re-read from the field for the func_02046084 call
- * (docs/idioms/cmp-operand-order-names-the-temporary.md, same tell).  The
- * stream handle and the file pointer are not: both are read back from the
- * field and the compiler forwards the store it just made.
- *
- * The resident arm is the fall-through, so the guard is spelled `!= 0` and the
- * one-store arm is left to be if-converted into `streq`
- * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045B38.c \
- *       --func sub_02045B38 --addr 0x02045B38 --cc 1.1p1 --arm
- */
-struct MsgBank_22 *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId)
-{
-    struct MsgBank_22 *bank;
-    u32 origin;
-
-    bank = (struct MsgBank_22 *)sub_02030734(heapId, 0x1c, 0, g_020A7E8C, 0x68);
-    bank->heapId = (u16)heapId;
-    bank->stream = func_020490F4(arcId, heapId);
-    origin = func_02049578(bank->stream, fileId);
-    bank->origin = origin;
-    bank->resident = (u8)resident;
-    bank->file = func_02046084(bank->stream, origin, bank->heapId);
-    bank->langIndex = func_020461B8((struct Header *)bank->file);
-
-    if (bank->resident != 0) {
-        bank->base = sub_02030734(bank->heapId, bank->file->size, 0,
-                                  g_020A7E8C, 0x7b);
-        func_02046110((struct MsgDataVol *)bank);
-    } else {
-        bank->base = 0;
-    }
-    return bank;
-}
-
-
-
-/*
- * Tear down the record: when the +0x14 handle is live, release the two
- * buffers it owns (the second only if non-NULL) and close the handle, then
- * free the record itself either way.
- *
- * The +0x14 guard reads the field once and the close reads it again, which
- * is why the original has two `ldr r0, [r4, #0x14]` around the calls: the
- * intervening frees may alias it, so no `const` local is involved.  The
- * second buffer's guard needs no register move, the guarded call consuming
- * the value the `cmp` already loaded.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02045C04.c \
- *       --func func_02045C04 --addr 0x02045C04 --cc 1.1p1 --arm
- */
-u32 func_02045C04(struct Rec *rec)
-{
-    if (rec->unk_14 != 0) {
-        func_020307B0(rec->unk_00);
-        if (rec->unk_04 != 0) {
-            func_020307B0(rec->unk_04);
-        }
-        func_02049238(rec->unk_14);
-    }
-    return func_020307B0(rec);
-}
-
-
-
-/*
- * The whole of pkt_02045C44, 448 bytes with both literal pools: the message
- * bank's constructor and its one reader.  Both functions are EXACT
- * individually as well (src/matched/func_02045C44.c and
- * src/matched/func_02045CAC.c); this unit is the consolidated shape.
- *
- * The object is 0x1c bytes and its layout is pinned by the pair:
- *
- *   +0x00  const MsgFile *file   the mapped message file header
- *   +0x04  void          *base   entry table plus payload, when resident
- *   +0x08  MsgEntry       cache  one streamed descriptor
- *   +0x10  u32            origin file offset of the bank inside the archive
- *   +0x14  void          *stream archive handle
- *   +0x18  u16            heapId
- *   +0x1a  u8             langIndex
- *   +0x1b  u8             resident
- *
- * func_02045CAC has two residency modes.  Resident: the entry descriptor is
- * &((MsgEntry *)(base + 4))[index] and the payload is base + e->off, handed
- * straight to func_02045A00.  Streamed: the descriptor is an 8-byte archive
- * read into the cache at +0x8, then a scratch buffer of 2 * e->len bytes is
- * allocated, filled by a second read, consumed and freed.  The allocator
- * heap id for that scratch buffer is (u16)((heapId & 0x7fff) | 0x8000), the
- * "allocate from the far end" form.
- *
- * Both file offsets are origin + file->langOff[langIndex] plus the entry's
- * own displacement, so langOff[] at +0xc of the file header is a
- * per-language section table and the entry table starts four bytes into its
- * section.
- *
- * Shape note that cost the last eleven bytes of func_02045CAC: both guards
- * test bank->resident, but the source spells them `== 0`, not `!= 0`.  That
- * puts the streamed arm on the fall-through and leaves the short arm to be
- * if-converted (ldrne/addne), per
- * docs/idioms/the-fall-through-arm-is-the-source-order.md.  The other
- * polarity emits exactly the same instructions but transposes
- * `ldr r3, [sb, #0x10]` and `lsl r0, r8, #3` in the seek block: the arm
- * linearisation order is what breaks the scheduler's tie between the two
- * ready gap fillers.
- *
- * The fourth argument of sub_02030734 is the BSS provenance object at
- * 0x020A7E8C, not a __FILE__ string: it sits above the arm9 static image
- * end and has 41 pool references image-wide.  In func_02045C44 the
- * allocator's third argument (clear) shares one `mov r5, #0` with the two
- * zero field stores, so it is written as a plain literal at the call rather
- * than bound to a named local (the shape of src/matched/sub_020457B0.c).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02045C44.c \
- *       --addr 0x02045C44 --arm
- */
-struct MsgBank_23 *func_02045C44(const void *file, u32 heapId)
-{
-    struct MsgBank_23 *bank;
-
-    bank = (struct MsgBank_23 *)sub_02030734(heapId, 0x1c, 0, g_020A7E8C, 0xa6);
-    bank->heapId = (u16)heapId;
-    bank->stream = 0;
-    bank->origin = 0;
-    bank->resident = 1;
-    bank->file = (const struct MsgFile_p14 *)file;
-    bank->langIndex = func_020461B8((struct Header *)file);
-    func_02046110((struct MsgDataVol *)bank);
-    return bank;
-}
-
-
-
-void func_02045CAC(struct MsgBank_23 *bank, u32 index, void *dest)
-{
-    u32 size;
-    struct MsgEntry *e;
-
-    if (index >= bank->file->count) {
-        func_0204581C(dest);
-        return;
-    }
-
-    func_02046180((struct Obj *)bank);
-
-    if (bank->resident == 0) {
-        u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
-
-        func_0204960C(bank->stream, pos + (index * 8 + 4));
-        func_020495F4(bank->stream, 8, &bank->cache);
-        e = &bank->cache;
-    } else {
-        e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
-    }
-
-    if (bank->resident == 0) {
-        void *buf;
-
-        size = e->len * 2;
-        buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000), size,
-                           0, g_020A7E8C, 0xd6);
-        if (buf != 0) {
-            func_0204960C(bank->stream,
-                          e->off + (bank->origin
-                              + bank->file->langOff[bank->langIndex]));
-            func_020495F4(bank->stream, size, buf);
-            func_02045A00(dest, buf, e->len);
-            func_020307B0(buf);
-        }
-    } else {
-        func_02045A00(dest, (u8 *)bank->base + e->off, e->len);
-    }
-
-    func_02045E04(dest, index);
-}
-
-
-
-/*
- * Advance the object by one: read its current index (sub_020458F8), ask
- * sub_02045E3C for the entry one past it in the list sub_02045A90 returns,
- * and install the answer with sub_02045900.
- *
- * Three of the four calls need the object pointer, so it is pinned in r6
- * for the whole body; the incoming second argument survives in r5 across
- * two calls before reaching sub_02045E3C's r2.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045E04.c \
- *       --func sub_02045E04 --addr 0x02045E04 --cc 1.1p1 --arm
- */
-void sub_02045E04(struct Obj_02045E04 *o, u32 mode)
-{
-    s32 index = sub_020458F8((struct U16Vec *)o);
-
-    sub_02045900((struct U16Vec *)o, sub_02045E3C(sub_02045A90((struct U16Vec *)o), index + 1, mode));
-}
-
-
-
-/*
- * The message-bank string cipher, decrypting a raw UTF-16-code-unit run in
- * place. This is the routine the asset lane's tools/assets/text.py was
- * reverse-engineering; the code states the scheme exactly:
- *
- *   key = (u16)((msgIndex + 3) * 0x2983)
- *   for each code unit: unit ^= key, then key = rotate_left_16(key, 3)
- *
- * The seed is derived forward from the entry's own descriptor index in the
- * message file, so no brute force or terminator-anchored back-solve is
- * needed. Decryption stops at the first unit that equals the global
- * end-of-string code func_02045A98() returns (0xFFFF in this build), and the
- * function returns the index of that unit, i.e. the decoded length; if no
- * terminator is found inside count units it returns count.
- *
- * Note for the asset side: there is no compression layer on top of this
- * cipher. Decoded streams are plain code units plus in-band control codes
- * (0xFFFF terminator, 0xFFFE line break, 0xF000 escape introducer followed
- * by a kind word, an argument count and that many argument words).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02045E3C.c \
- *       --func func_02045E3C --addr 0x02045E3C --cc 1.1p1
- */
-u32 func_02045E3C(u16 *str, u32 count, u32 msgIndex)
-{
-    u16 eos = func_02045A98();
-    u16 key = (u16)((msgIndex + 3) * 0x2983);
-    u32 i;
-
-    for (i = 0; i < count; i++) {
-        *str ^= key;
-        if (*str == eos) {
-            return i;
-        }
-        str++;
-        key = (u16)(((key & 0xE000) >> 13) | (u16)(key << 3));
-    }
-
-    return count;
-}
-
-
-
-/*
- * Message bank string allocator and loader: given a bank and an entry index,
- * reads the entry descriptor (from the resident array or stream), allocates
- * a buffer sized for the string length, decodes the string into it via
- * sub_02045CAC, and returns the allocated buffer.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045EC0.c \
- *       --func sub_02045EC0 --addr 0x02045EC0 --cc 1.1p1 --arm
- */
-void *sub_02045EC0(struct MsgBank_23 *bank, u32 index)
-{
-    struct MsgEntry *e;
-    void *buf;
-
-    sub_02046180((struct Obj *)bank);
-
-    if (bank->resident == 0) {
-        u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
-
-        sub_0204960C(bank->stream, pos + (index * 8 + 4));
-        sub_020495F4(bank->stream, 8, &bank->cache);
-        e = &bank->cache;
-    } else {
-        e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
-    }
-
-    buf = sub_020457B0(e->len, bank->heapId);
-    sub_02045CAC(bank, index, buf);
-    return buf;
-}
-
-
-
-/*
- * A three-instruction accessor: follow the pointer at +0 of the object and
- * return the halfword at +2 of what it points at.  It saves nothing, so
- * disasm.py never labelled it and it only shows up by sweeping the packet
- * by address (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
- *
- * `ldrh` with no sign extension fixes the field as u16; an s16 would have
- * needed a register-offset `ldrsh`
- * (docs/idioms/ldrsh-register-offset-is-signedness.md).
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02045F50.c \
- *       --func sub_02045F50 --addr 0x02045F50 --cc 1.1p1 --arm
- */
-u16 sub_02045F50(const struct Obj_02045F50 *o)
-{
-    return o->head->unk_02;
-}
-
-
-
-/*
- * msgdata.c: read string msgIndex into str (at most maxLen characters),
- * either from the resident bank (mode != 0) or by seeking the archive file,
- * then decode it in place (func_02045E3C) and terminate it with the EOM
- * code (func_02045A98).
- *
- * The 11-byte scheduling residue of docs/notes/pkt_02045F5C.c.txt was the
- * first test's polarity: written `mode == 0` with the file arm first, the
- * compiler predicates the else arm (ldrne/addne/addne/bne) and schedules
- * the file arm's loads in the image's order.
- */
-void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
-{
-    const struct MsgEntry_p15 *entry;
-    u32 count;
-    u32 len;
-
-    func_02046180((struct Obj *)msg);
-
-    if (msg->mode == 0) {
-        u32 bankOffset = msg->archive->bankOffset[msg->bankIndex];
-        func_0204960C(msg->file, (msg->baseOffset + bankOffset) + (msgIndex * 8 + 4));
-        func_020495F4(msg->file, 8, &msg->entry);
-        entry = &msg->entry;
-    } else {
-        entry = (const struct MsgEntry_p15 *)((u8 *)msg->bank + 4 + msgIndex * 8);
-    }
-
-    count = entry->count;
-    if (count > maxLen) {
-        count = maxLen;
-    }
-
-    if (msg->mode == 0) {
-        u32 readBytes = count * 2;
-        if (readBytes > maxLen * 2) {
-            readBytes = maxLen * 2;
-        }
-        {
-            u32 bankOffset = msg->archive->bankOffset[msg->bankIndex];
-            func_0204960C(msg->file, (msg->baseOffset + bankOffset) + entry->offset);
-            func_020495F4(msg->file, readBytes, str);
-        }
-    } else {
-        const u16 *src = (const u16 *)((u8 *)msg->bank + entry->offset);
-        u32 i;
-        for (i = 0; i < count; i++) {
-            str[i] = src[i];
-        }
-    }
-
-    len = func_02045E3C(str, count, msgIndex);
-    str[len] = func_02045A98();
-}
-
-
-
-/*
- * Read a message file's header out of the archive and keep it.  The fixed
- * twelve-byte part is read onto the stack first because its language count is
- * what sizes the real allocation, 0xc + 4 * langCount; the stack copy is then
- * moved into the front of that block and the language offset table is read
- * straight in behind it.  This is the only caller of sub_02030734 with tag
- * 0x1f3.
- *
- * The header is twelve bytes here but sixteen in the MsgFile view used by
- * src/matched/unit_02045C44.c, which declares langOff[1] inline, so the fixed
- * part gets its own struct.  The scratch is declared as a raw twelve-byte
- * buffer and cast, not as that struct: `ldrh r1, [r6]` reads the language
- * count back through the pointer the reader was handed, and a declared struct
- * local folds to `ldrh r1, [sp, #4]` instead, two bytes and the only
- * difference in the function
- * (docs/idioms/a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md).
- *
- * The shared 0xc is a single `mov r5, #0xc` feeding both the read length and
- * the copy length, and the `add r1, r1, #0xc` of the allocation size is a
- * separate literal, so the size argument is written as the literal at each
- * call and not bound to a named local.
- *
- * func_02082D44 takes source first and destination second (the MI_CpuCopy8
- * order), which is why the stack buffer is in r0 and the freshly allocated
- * block in r1.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/func_02046084.c \
- *       --func func_02046084 --addr 0x02046084 --cc 1.1p1 --arm
- */
-struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId)
-{
-    u8 hdr[12];
-    struct MsgFileHdr *hp;
-    struct MsgFile *file;
-
-    func_0204960C(stream, origin);
-    hp = (struct MsgFileHdr *)hdr;
-    func_020495F4(stream, sizeof(struct MsgFileHdr), hp);
-
-    file = (struct MsgFile *)sub_02030734(heapId, hp->langCount * 4 + 0xc, 0,
-                                          g_020A7E8C, 0x1f3);
-    func_02082D44(hp, file, sizeof(struct MsgFileHdr));
-    func_020495F4(stream, file->langCount * 4, file->langOff);
-    return file;
-}
-
-
-/*
- * msgdata.c: point the MsgData object at the selected language bank.  The
- * archive header holds one u32 bank offset per language at +0x0C; with no
- * file handle the bank is resident and the object records archive +
- * offset, otherwise it seeks, reads the leading u32 size, seeks back and
- * reads the whole bank.
- *
- * The four bytes the earlier notes could not reach (docs/notes/
- * func_02046110.c.txt, pkt_02046110.c.txt) are the `ldreq r0, [r4]`
- * reload of the archive pointer in the resident arm.  Every plain spelling
- * CSEs it into the load already made for the offset table; declaring the
- * member `volatile` keeps both loads and leaves every other instruction,
- * the predication included, unchanged.
- */
-void func_02046110(struct MsgDataVol *msg)
-{
-    u32 size;
-    u32 offset = msg->archive->bankOffset[msg->bankIndex];
-
-    if (msg->file == 0) {
-        msg->bank = (u8 *)msg->archive + offset;
-    } else {
-        func_0204960C(msg->file, msg->baseOffset + offset);
-        func_020495F4(msg->file, 4, &size);
-        func_0204960C(msg->file, msg->baseOffset + offset);
-        func_020495F4(msg->file, size, msg->bank);
-    }
-}
-
-
-/*
- * Re-read the clamped index for the header at +0 and, if it moved, record
- * it at +0x1a and redraw through sub_02046110 when the enable byte at +0x1b
- * says so.
- *
- * The two guards do not share an exit: the first `popeq` returns from the
- * comparison itself and the second `popne` from the enable test, which is
- * what a plain chain of early returns compiles to.  The enable byte is read
- * one instruction before the store to +0x1a: both are separate fields of
- * the same struct, so the compiler is free to schedule the load first and
- * does.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_02046180.c \
- *       --func sub_02046180 --addr 0x02046180 --cc 1.1p1 --arm
- */
-void sub_02046180(struct Obj *o)
-{
-    s32 index = sub_020461B8(o->header);
-
-    if (o->index == index) {
-        return;
-    }
-    if (o->enabled != 1) {
-        o->index = (u8)index;
-        return;
-    }
-    o->index = (u8)index;
-    sub_02046110((struct MsgData *)o);
-}
-
-
-/*
- * Clamp sub_020461E4's answer to the count the header keeps at +0: past the
- * end wraps back to entry zero.  The comparison is signed (`movge`), so the
- * count is read as a halfword but compared as an int.
- *
- * The verdict is EXACT*, not EXACT: the next function, the one-byte global
- * setter at 0x020461D4, saves nothing, so disasm.py folds it into this
- * function's extent and the inferred range runs sixteen bytes long.  It is
- * decompiled separately in src/matched/sub_020461D4.c and wants seeding
- * into layout/function_starts.txt, which is the integrator's file.
- *
- * `movge r0, #0` in place of a branch is the whole `if` body: one
- * conditional instruction, no shared exit block to reason about, because
- * both arms fall into the same `pop`.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/sub_020461B8.c \
- *       --func sub_020461B8 --addr 0x020461B8 --cc 1.1p1 --arm
- */
-s32 sub_020461B8(struct Header *h)
-{
-    s32 index = sub_020461E4(h);
-
-    if (index >= h->count) {
-        index = 0;
-    }
-    return index;
+    strbuf->chars[strbuf->length++] = ch;
+    strbuf->chars[strbuf->length] = sStrbufStatics.eosChar;
 }

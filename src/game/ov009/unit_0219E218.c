@@ -10,10 +10,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * Halfword at +4.
+ * Public query port of a server, as stored (network byte order).
  */
 
-unsigned short func_0219E218(const unsigned short *p)
+#include "unit_0219E1EC_types.h"
+
+unsigned short func_0219E218(const SBServer *server)
 {
-    return p[2];
+    return server->publicport;
 }

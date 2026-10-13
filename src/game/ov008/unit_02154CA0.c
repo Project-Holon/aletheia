@@ -63,55 +63,55 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 typedef struct {
-    int w0;
+    int trainerId;
     char pad4[0xA - 4];
     u8 name[6];
-} Rec;
+} BattlePlayerSlot;
 
 typedef struct {
-    Rec rec[4];
-    int w40;
-    int w44;
-} B;
+    BattlePlayerSlot slot[4];
+    int formatId;
+    int modeId;
+} BattleSlotTable;
 
 typedef struct {
     char pad0[0x21];
-    u8 b21;
-    u8 b22;
+    u8 playerIndex;
+    u8 isMulti;
     char pad23[0x8C - 0x23];
-    int w8C;
+    int battleType;
     char pad90[0x91 - 0x90];
-    u8 b91;
+    u8 recordVersion;
     char pad92[0x94 - 0x92];
-    int w94;
+    int hasRecord;
     char pad98[0xC8 - 0x98];
     u8 names[4][6];
-} A;
+} BattleInfo;
 
 typedef struct {
-    int w00;
-    A *p4;
-    B *p8;
-    int w0C;
-    int w10;
-    int w14;
-    int w18;
-    int w1C;
-    int w20;
-    int w24;
-    int w28;
-    int w2C;
-} Obj;
+    int gameSystem;
+    BattleInfo *info;
+    BattleSlotTable *slots;
+    int flag;
+    int extraFlag;
+    int pad14;
+    int resultGameSystem;
+    int recordSupported;
+    int isCommBattle;
+    int saveEnabled;
+    int resultFlag;
+    int resultExtraFlag;
+} BattleRecordWork;
 
 typedef struct {
-    int w00;
-    int w04;
-    int w08;
-    int w0C;
-    int w10;
-    int w14;
-    int w18;
-} Ctx;
+    int procsys;
+    int playerIdFirst;
+    int playerIdSecond;
+    int swapped;
+    int overlayLoaded;
+    int cmdTableAdded;
+    int recordWorkAllocated;
+} BattleRecordCtx;
 
 typedef signed int     s32;
 
@@ -140,12 +140,12 @@ extern u32 func_0200BA38(u32 v);
 extern void func_021EEE78(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021550DC(int u, int *st, int *o);
-int func_02154CA0(void *ctx);
-int func_02154CC8(void *a0, int a1, char *a2, int *a3);
-u32 func_02154CF8(void *task, int *mode, Obj *obj, Ctx *ctx);
-void *func_021550A0(void *a, const int *p);
-void *func_021550B0(void *a0, int a1, int a2, int a3);
+extern int func_021550DC(int unused, int *stage, int *work);
+int func_02154CA0(void *procsysOwner);
+int func_02154CC8(void *procWork, int unused, char *taskWork, int *procsys);
+u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx);
+void *func_021550A0(void *gameSystem, const int *args);
+void *func_021550B0(void *gameSystem, int info, int slots, int flag);
 extern char ov093_id[];
 extern char ov097_id[];
 extern char ov213_id[];
@@ -157,25 +157,25 @@ extern char d_021EFDAC[];
 extern char d_021BB474[];
 
 
-int func_02154CA0(void *ctx)
+int func_02154CA0(void *procsysOwner)
 {
-    u8 *p;
+    u8 *procWork;
 
     func_0203064C(1, 0x76, 0x4000);
-    p = func_0203159C(ctx, 0x1c, 0x76);
-    ((struct Obj18644 *)p)->f0 = (unsigned int)func_02031324(0x76);
+    procWork = func_0203159C(procsysOwner, 0x1c, 0x76);
+    ((struct Obj18644 *)procWork)->f0 = (unsigned int)func_02031324(0x76);
     return 1;
 }
 
 
-int func_02154CC8(void *a0, int a1, char *a2, int *a3)
+int func_02154CC8(void *procWork, int unused, char *taskWork, int *procsys)
 {
-    if (((struct Obj18645 *)a2)->f14 == 1) {
+    if (((struct Obj18645 *)taskWork)->f14 == 1) {
         if (func_0200FB24() != 0)
             func_0200FB38();
     }
-    func_0203133C((struct S020314B8 *)*a3);
-    func_020315D4(a0);
+    func_0203133C((struct S020314B8 *)*procsys);
+    func_020315D4(procWork);
     func_020306F0(0x76);
     return 1;
 }
@@ -183,197 +183,197 @@ int func_02154CC8(void *a0, int a1, char *a2, int *a3)
 
 /*
  * 2026-10-05 wave P16 lane E10: stage 15 truth value is built after the call
- * (c = f(b91); k = 1; if (c == 0) k = 0; zero arm for w94 == 0 shares the
+ * (versionOk = f(recordVersion); nameRow = 1; if (versionOk == 0) nameRow = 0; zero arm for hasRecord == 0 shares the
  * same zero). Closes the 121-byte DIFF; the mid-function pool island follows.
  * BA38 returns u32.
  *
- * 18-stage task on *mode.  func_02031348's second/third arguments are an
+ * 18-stage task on *stage.  func_02031348's second/third arguments are an
  * overlay id and an address in that overlay (0xD5/ov213, 0x61/ov097,
  * 0xD6/ov214; the -1 one points into ov093, which stage 6 loads by id 0x5D
  * and stage 12 unloads).
  */
-u32 func_02154CF8(void *task, int *mode, Obj *obj, Ctx *ctx)
+u32 func_02154CF8(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx)
 {
-    int r = func_02031330((void *)ctx->w00);
-    int n, lo, hi, i, j, odd, k;
-    u32 c;
+    int procsysBusy = func_02031330((void *)ctx->procsys);
+    int lastPlayer, firstTeamBase, secondTeamBase, i, j, playerIndexBit, nameRow;
+    u32 versionOk;
 
-    if (r != 1 && func_0200FB24() != 0 && *mode >= 0 && *mode < 13) {
-        if (ctx->w14 == 1)
+    if (procsysBusy != 1 && func_0200FB24() != 0 && *stage >= 0 && *stage < 13) {
+        if (ctx->cmdTableAdded == 1)
             func_0203A5E4(0x100);
-        if (ctx->w10 == 1)
+        if (ctx->overlayLoaded == 1)
             func_02034A5C((u32)ov093_id);
-        if (ctx->w18 == 1)
+        if (ctx->recordWorkAllocated == 1)
             func_0200B424();
         return 1;
     }
 
-    switch (*mode) {
+    switch (*stage) {
     case 0:
-        if (obj->p4->b22 == 0)
-            obj->p8->w44 = 1;
+        if (work->info->isMulti == 0)
+            work->slots->modeId = 1;
         else
-            obj->p8->w44 = 3;
-        func_02031348(ctx->w00, (u32)ov213_id, d_021BB0B0, obj->p8);
-        *mode = 1;
+            work->slots->modeId = 3;
+        func_02031348(ctx->procsys, (u32)ov213_id, d_021BB0B0, work->slots);
+        *stage = 1;
         break;
     case 1:
-        if (r == 1)
+        if (procsysBusy == 1)
             break;
-        if (obj->p4->b22 == 0)
-            *mode = 6;
+        if (work->info->isMulti == 0)
+            *stage = 6;
         else
-            *mode = 2;
+            *stage = 2;
         break;
     case 2:
         func_0203D594((int)func_020399A8(), 0xC9);
-        *mode = 3;
+        *stage = 3;
         break;
     case 3:
         if (func_0203D5A0((int)func_020399A8(), 0xC9) == 0)
             break;
-        *mode = 4;
+        *stage = 4;
         break;
     case 4:
-        if (obj->p4->b21 <= 1) {
-            ctx->w0C = 0;
-            ctx->w04 = obj->p8->rec[0].w0;
-            ctx->w08 = obj->p8->rec[1].w0;
+        if (work->info->playerIndex <= 1) {
+            ctx->swapped = 0;
+            ctx->playerIdFirst = work->slots->slot[0].trainerId;
+            ctx->playerIdSecond = work->slots->slot[1].trainerId;
         } else {
-            ctx->w0C = 1;
-            ctx->w04 = obj->p8->rec[1].w0;
-            ctx->w08 = obj->p8->rec[0].w0;
+            ctx->swapped = 1;
+            ctx->playerIdFirst = work->slots->slot[1].trainerId;
+            ctx->playerIdSecond = work->slots->slot[0].trainerId;
         }
-        func_02031348(ctx->w00, (u32)ov097_id, d_021F75EC, &ctx->w04);
-        *mode = 5;
+        func_02031348(ctx->procsys, (u32)ov097_id, d_021F75EC, &ctx->playerIdFirst);
+        *stage = 5;
         break;
     case 5:
-        if (r == 1)
+        if (procsysBusy == 1)
             break;
-        *mode = 6;
+        *stage = 6;
         break;
     case 6:
-        ctx->w10 = 1;
+        ctx->overlayLoaded = 1;
         func_02034AC4((u32)ov093_id);
-        ctx->w14 = 1;
+        ctx->cmdTableAdded = 1;
         func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
         func_0203D594((int)func_020399A8(), 0xC8);
-        *mode = 7;
+        *stage = 7;
         break;
     case 7:
         if (func_0203D5A0((int)func_020399A8(), 0xC8) == 0)
             break;
-        *mode = 8;
+        *stage = 8;
         break;
     case 8:
-        ctx->w18 = 1;
+        ctx->recordWorkAllocated = 1;
         func_0200B400(0x76);
-        func_02031348(ctx->w00, -1, d_021EFDAC, obj->p4);
-        *mode = 9;
+        func_02031348(ctx->procsys, -1, d_021EFDAC, work->info);
+        *stage = 9;
         break;
     case 9:
-        if (r == 1)
+        if (procsysBusy == 1)
             break;
-        *mode = 10;
+        *stage = 10;
         break;
     case 10:
-        *mode = 11;
+        *stage = 11;
         break;
     case 11:
         func_0203D594((int)func_020399A8(), 0xCA);
-        *mode = 12;
+        *stage = 12;
         break;
     case 12:
         if (func_0203D5A0((int)func_020399A8(), 0xCA) == 0)
             break;
         func_0203A5E4(0x100);
-        ctx->w14 = 0;
+        ctx->cmdTableAdded = 0;
         func_02034A5C((u32)ov093_id);
-        ctx->w10 = 0;
+        ctx->overlayLoaded = 0;
         func_0200BA58();
-        func_021EEE78(obj->p4);
+        func_021EEE78(work->info);
         func_0200BA68();
-        *mode = 13;
+        *stage = 13;
         break;
     case 13:
-        if (obj->p4->b22 == 0)
-            obj->p8->w44 = 2;
+        if (work->info->isMulti == 0)
+            work->slots->modeId = 2;
         else
-            obj->p8->w44 = 4;
-        switch (obj->p4->w8C) {
+            work->slots->modeId = 4;
+        switch (work->info->battleType) {
         case 1:
         case 4:
-            obj->p8->w40 = 0;
+            work->slots->formatId = 0;
             break;
         case 0:
         case 3:
-            obj->p8->w40 = 1;
+            work->slots->formatId = 1;
             break;
         case 2:
-            obj->p8->w40 = 2;
+            work->slots->formatId = 2;
             break;
         case 6:
             break;
         default:
-            obj->p8->w40 = 2;
+            work->slots->formatId = 2;
             break;
         }
-        if (obj->p4->b22 == 0) {
-            n = 1;
-            lo = 0;
-            hi = 1;
+        if (work->info->isMulti == 0) {
+            lastPlayer = 1;
+            firstTeamBase = 0;
+            secondTeamBase = 1;
         } else {
-            n = 3;
-            lo = 0;
-            hi = 2;
+            lastPlayer = 3;
+            firstTeamBase = 0;
+            secondTeamBase = 2;
         }
-        odd = obj->p4->b21;
-        for (i = 0; i <= n; i++) {
-            if ((i & 1) == (odd & 1)) {
-                if (odd & 1)
-                    k = (i & 2) + 1;
+        playerIndexBit = work->info->playerIndex;
+        for (i = 0; i <= lastPlayer; i++) {
+            if ((i & 1) == (playerIndexBit & 1)) {
+                if (playerIndexBit & 1)
+                    nameRow = (i & 2) + 1;
                 else
-                    k = i & 2;
+                    nameRow = i & 2;
                 for (j = 0; j < 6; j++)
-                    obj->p8->rec[lo + (i >> 1)].name[j] = obj->p4->names[k][j];
+                    work->slots->slot[firstTeamBase + (i >> 1)].name[j] = work->info->names[nameRow][j];
             } else {
-                if (odd & 1)
-                    k = i & 2;
+                if (playerIndexBit & 1)
+                    nameRow = i & 2;
                 else
-                    k = (i & 2) + 1;
+                    nameRow = (i & 2) + 1;
                 for (j = 0; j < 6; j++)
-                    obj->p8->rec[hi + (i >> 1)].name[j] = obj->p4->names[k][j];
+                    work->slots->slot[secondTeamBase + (i >> 1)].name[j] = work->info->names[nameRow][j];
             }
         }
-        if (obj->p4->w8C == 6) {
-            *mode = 16;
+        if (work->info->battleType == 6) {
+            *stage = 16;
             break;
         }
-        func_02031348(ctx->w00, (u32)ov213_id, d_021BB0B0, obj->p8);
-        *mode = 14;
+        func_02031348(ctx->procsys, (u32)ov213_id, d_021BB0B0, work->slots);
+        *stage = 14;
         break;
     case 14:
-        if (r == 1)
+        if (procsysBusy == 1)
             break;
-        *mode = 15;
+        *stage = 15;
         break;
     case 15:
-        if (obj->p4->w94 == 0) k = 0; else { c = func_0200BA38(obj->p4->b91); k = 1; if (c == 0) k = 0; }
-        obj->w1C = k;
-        obj->w18 = obj->w00;
-        obj->w20 = 1;
-        obj->w24 = 1;
-        obj->w28 = obj->w0C;
-        obj->w2C = obj->w10;
-        func_02031348(ctx->w00, (u32)ov214_id, d_021BB474, &obj->w18);
-        *mode = 16;
+        if (work->info->hasRecord == 0) nameRow = 0; else { versionOk = func_0200BA38(work->info->recordVersion); nameRow = 1; if (versionOk == 0) nameRow = 0; }
+        work->recordSupported = nameRow;
+        work->resultGameSystem = work->gameSystem;
+        work->isCommBattle = 1;
+        work->saveEnabled = 1;
+        work->resultFlag = work->flag;
+        work->resultExtraFlag = work->extraFlag;
+        func_02031348(ctx->procsys, (u32)ov214_id, d_021BB474, &work->resultGameSystem);
+        *stage = 16;
         break;
     case 16:
-        if (r == 1)
+        if (procsysBusy == 1)
             break;
         func_0200B424();
-        ctx->w18 = 0;
-        *mode = 17;
+        ctx->recordWorkAllocated = 0;
+        *stage = 17;
         break;
     case 17:
         return 1;
@@ -381,20 +381,20 @@ u32 func_02154CF8(void *task, int *mode, Obj *obj, Ctx *ctx)
     return 0;
 }
 
-void *func_021550A0(void *a, const int *p)
+void *func_021550A0(void *gameSystem, const int *args)
 {
-    return func_021550B0(a, p[0], p[1], p[2]);
+    return func_021550B0(gameSystem, args[0], args[1], args[2]);
 }
 
 
-void *func_021550B0(void *a0, int a1, int a2, int a3)
+void *func_021550B0(void *gameSystem, int info, int slots, int flag)
 {
-    void *r = func_020122C0(a0, 0, (void *)((int)func_021550DC), 0x40);
-    u32 *p = func_020124E8(r);
+    void *event = func_020122C0(gameSystem, 0, (void *)((int)func_021550DC), 0x40);
+    u32 *work = func_020124E8(event);
 
-    p[0] = (u32)a0;
-    p[1] = a1;
-    p[2] = a2;
-    p[3] = a3;
-    return r;
+    work[0] = (u32)gameSystem;
+    work[1] = info;
+    work[2] = slots;
+    work[3] = flag;
+    return event;
 }

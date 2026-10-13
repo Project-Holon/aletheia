@@ -1,7 +1,7 @@
 /*
  * file:     compatible_irc_sys.c
  * unit:     yes
- * function: func_021B6100, func_021B6148, func_021B6150, func_021B61E8, func_021B6254, func_021B62AC, func_021B62FC, func_021B630C, func_021B63BC, func_021B63C4, func_021B63CC, func_021B63D0, func_021B6424, func_021B6480, func_021B6494, func_021B64B8, func_021B64F0, func_021B6508, func_021B6518, func_021B652C, func_021B6540, func_021B6554, func_021B6568, func_021B657C, func_021B658C, func_021B6634, func_021B6670, func_021B667C, func_021B66A4, func_021B66B8, func_021B66E0, func_021B6760, func_021B678C, func_021B67B0, func_021B67C4, func_021B67E4, func_021B67F8, func_021B685C, func_021B6874, func_021B68A0, func_021B68C0, func_021B68E0, func_021B6920, func_021B6938, func_021B69C4, func_021B69F8, func_021B6A3C, func_021B6A44, func_021B6A4C, func_021B6A60, func_021B6A7C, func_021B6AD8, func_021B6BA8, func_021B6BE4, func_021B6BFC, func_021B6C08, func_021B6C20, func_021B6CA0, func_021B6D04, func_021B6D5C, func_021B6D90, func_021B6DAC, func_021B6E84, func_021B6E8C, func_021B6EBC, func_021B6ECC, func_021B6F9C, func_021B7090, func_021B70A8
+ * function: func_021B6100, func_021B6148, func_021B6150, func_021B61E8, func_021B6254, func_021B62AC, func_021B62FC, func_021B630C, func_021B63BC, func_021B63C4, func_021B63CC, func_021B63D0, func_021B6424, func_021B6480, func_021B6494, func_021B64B8, func_021B64F0, func_021B6508, func_021B6518, func_021B652C, func_021B6540, func_021B6554, func_021B6568, func_021B657C, func_021B658C, func_021B6634, func_021B6670, func_021B667C, func_021B66A4, func_021B66B8, func_021B66E0, func_021B6760, func_021B678C, func_021B67B0, func_021B67C4, func_021B67E4, func_021B67F8, func_021B685C, func_021B6874, func_021B68A0, func_021B68C0, func_021B68E0, func_021B6920
  * address:  0x021B6100
  * region:   ov101
  * compiler: dsi/1.1p1
@@ -11,6 +11,7 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Split from compatible_irc_sys.c at 0x021B6938 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
  *   func_02030734 0x02030734 arm
@@ -45,31 +46,6 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02012950 0x02012950 thumb
  *   func_02008468 0x02008468 thumb
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
- *   func_02005DE4 0x02005DE4 thumb
- *   func_02005E64 0x02005E64 thumb
- *   d_021B753C 0x021B753C data a1
- *   func_02005E9C 0x02005E9C thumb
- *   func_020315D4 0x020315D4 arm
- *   func_020306F0 0x020306F0 arm
- *   func_02005E50 0x02005E50 thumb
- *   func_02031324 0x02031324 arm
- *   func_0203133C 0x0203133C arm
- *   d_021B74B8 0x021B74B8 data a4
- *   func_02031348 0x02031348 arm
- *   func_02012EBC 0x02012EBC thumb
- *   func_0200A8A0 0x0200A8A0 thumb
- *   func_02008530 0x02008530 thumb
- *   func_0200A9D4 0x0200A9D4 thumb
- *   _u32_div_f 0x0209C2B0 arm
- *   func_020084F4 0x020084F4 thumb
- *   _ffltu 0x0209BE04 arm
- *   _fadd 0x0209C95C arm
- *   _fsub 0x0209CB8C arm
- *   _ffix 0x0209C494 arm
- *   func_02045A98 0x02045A98 arm
- *   func_0200AA00 0x0200AA00 thumb
  */
 #include "../../matched/include/Obj06362.h"
 #include "../../matched/include/Obj22090.h"
@@ -85,31 +61,6 @@
 #include "../../matched/include/Obj22107.h"
 #include "../../matched/include/Obj22108.h"
 #include "../../matched/include/Obj13716.h"
-#include "../../matched/include/Obj04421.h"
-#include "../../matched/include/Obj13717.h"
-#include "../../matched/include/Obj13718.h"
-#include "../../matched/include/Obj22109.h"
-#include "../../matched/include/Obj22111.h"
-#include "../../matched/include/Obj02808.h"
-#include "../../matched/include/Obj22112.h"
-#include "../../matched/include/Obj22113.h"
-#include "../../matched/include/Obj22114.h"
-#include "../../matched/include/Obj05268.h"
-#include "../../matched/include/Obj22115.h"
-#include "../../matched/include/Obj22116.h"
-#include "../../matched/include/Obj07969.h"
-#include "../../matched/include/Obj07970.h"
-#include "../../matched/include/Obj10226.h"
-#include "../../matched/include/Obj10227.h"
-#include "../../matched/include/Obj10228.h"
-#include "../../matched/include/Obj10229.h"
-#include "../../matched/include/Obj10230.h"
-#include "../../matched/include/Obj10231.h"
-#include "../../matched/include/Obj01387.h"
-#include "../../matched/include/Obj07971.h"
-#include "../../matched/include/Obj22124.h"
-#include "../../matched/include/Obj22125.h"
-#include "../../matched/include/Obj22127.h"
 
 struct Req;
 struct Entry;
@@ -121,23 +72,11 @@ struct Ctx;
 struct Data;
 struct Rec44;
 struct Sub24;
-struct Obj0203159C;
-struct S020315D4;
-struct S020314B8;
-struct Big;
-struct T0200A9A4;
-struct Sub0200852CObj;
 typedef unsigned int u32;
 
 typedef unsigned short u16;
 
 typedef unsigned char u8;
-
-typedef short s16;
-
-typedef signed char s8;
-
-typedef int s32;
 
 struct Config { int words[26]; int context; int tail; };
 
@@ -163,10 +102,6 @@ typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; unsigned cha
 typedef struct Config_021B652C { u8 bytes[0x54]; } Config_021B652C;
 
 typedef struct Four { int a,b,c,d; } Four;
-
-typedef struct Row { int a,b; int (*create)(int,int); void (*destroy)(int,int); } Row;
-
-struct Date { unsigned a,b,c,d; };
 
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32);
@@ -198,25 +133,6 @@ extern void func_02082D44(void *,const void *,unsigned);
 extern unsigned short func_02039338(void);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_02008468(void);
-extern void func_0203064C(u32,u32,u32);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_02005DE4(void *p);
-extern int func_02005E64(void);
-extern int func_02005E9C(void);
-extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(u32 heap);
-extern int func_02005E50(void);
-extern void *func_02031324(int);
-extern unsigned int func_02031330(void *);
-extern void func_0203133C(struct S020314B8 *p);
-extern void func_02031348(int,int,int,int);
-extern void *func_02012EBC(struct Big *p);
-extern void *func_0200A8A0(void *);
-extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern int func_0200A9D4(struct T0200A9A4 *o, u32 v);
-extern u16 *func_020084F4(void *);
-extern u16 func_02045A98(void);
-extern unsigned char func_0200AA00(unsigned,unsigned,struct Date *);
 void *func_021B6100(int a,int b,int c,int d);
 void func_021B6148(void *a0);
 int func_021B6150(struct Obj_021B6150 *p);
@@ -265,38 +181,8 @@ void func_021B68A0(u32 a,int b,int c,u8 *d,void *e);
 void func_021B68C0(u32 a,int b,int c,u8 *d,void *e);
 void func_021B68E0(u32 a, int b, int c, int *d, u32 e);
 u32 func_021B6920(u32 a,u8 *p);
-int func_021B6938(struct Obj0203159C *a,int b,int c);
-int func_021B69C4(int a,int b,int c,u8 *d);
-int func_021B69F8(void *task, u32 *state, void *unused, u8 *p);
-void func_021B6A3C(u8 *p, u32 v);
-void func_021B6A44(u8 *p);
-void func_021B6A4C(u8 *p,u16 *state);
-void func_021B6A60(u8 *p,u16 *state);
-void func_021B6A7C(u8 *p,u16 *state);
-void func_021B6AD8(u8 *p,u16 *state);
-void func_021B6BA8(u8 *p,u16 *state);
-void func_021B6BE4(u8 *p,int heap);
-unsigned int func_021B6BFC(u8 *p);
-void func_021B6C08(u8 *p);
-int func_021B6C20(int *p,int index,int heap,int arg);
-int func_021B6CA0(unsigned a,int *p);
-void func_021B6CF8(int p,int q);
-int func_021B6D04(unsigned a,int p);
-void func_021B6D3C(int p,int q);
-int func_021B6D5C(unsigned a,int p);
-void func_021B6D90(int p,int q);
-void *func_021B6DAC(u32 heap,char *p);
-void func_021B6E84(void *p);
-void *func_021B6E8C(u32 heap,u8 *p);
-void func_021B6EBC(void *q,u8 *p);
-int func_021B6ECC(u32 a, u32 b, int c, int d, char *x, char *y, int flag, u32 id, int a8);
-u32 func_021B6F9C(u16 *p, u16 *q);
-unsigned func_021B7090(unsigned bits, unsigned n);
-unsigned char func_021B70A8(unsigned char *p,unsigned x);
 extern const char d_021B7524[];
 extern const struct Config d_021B743C;
-extern const char d_021B753C[];
-extern const Row d_021B74B8[];
 
 
 
@@ -1011,477 +897,3 @@ u32 func_021B6920(u32 a,u8 *p) {
  if(a==func_02039338()) return ((struct Obj13716 *)p)->f2C;
  return ((struct Obj13716 *)p)->f30;
 }
-
-
-
-
-
-
-
-
-
-int func_021B6938(struct Obj0203159C *a,int b,int c)
-{
-    u8 *p;
-    int handle;
-    func_0203064C(1,58,0x8000);
-    p=func_0203159C(a,64,58);
-    func_02082BCC(p, 0, 64);
-    handle=0;
-    ((struct Obj04421 *)p)->f10=c;
-    ((struct Obj04421 *)p)->f3C=func_02030734(58,44,0,d_021B753C,0x119);
-    func_02082BCC((void *)(((struct Obj04421 *)p)->f3C), 0, 44);
-    func_021B6BE4(p+4,58);
-    if(*(int *)((struct Obj04421 *)p)->f10) handle=(int)func_020120F4((const struct Ctx *)(*(int *)((struct Obj04421 *)p)->f10));
-    ((struct Obj04421 *)p)->f0=func_021B6100(-1,handle,58,0);
-    ((struct Obj04421 *)p)->f34=1;
-    func_021B6A3C(p,(u32)func_021B6A4C);
-    func_02005DE4((void *)1);
-    func_02005E64();
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_021B69C4(int a,int b,int c,u8 *d) {
- func_02005E9C(); func_02005DE4(0); func_021B6148(((struct Obj13717 *)d)->f0); func_021B6C08(d+4); func_020307B0(((struct Obj13717 *)d)->f3C); func_020315D4((void *)a); func_020306F0(58); return 1;
-}
-
-
-
-
-
-
-
-
-
-int func_021B69F8(void *task, u32 *state, void *unused, u8 *p) {
-    switch (*state) {
-    case 0:
-        if (!func_02005E50()) *state += 1;
-        break;
-    case 1:
-        if (func_021B6BFC(p + 4) == 0)
-            (*(void (**)(u8 *, u8 *))(p + 20))(p, p + 24);
-        if (*(u32 *)(p + 28)) return 1;
-        break;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-void func_021B6A3C(u8 *p, u32 v) { ((struct Obj13718 *)p)->f14 = v; ((struct Obj13718 *)p)->f18 = 0; }
-
-
-
-
-
-
-
-
-
-
-void func_021B6A44(u8 *p) { ((struct Obj22109 *)p)->f1C = 1; }
-
-
-
-
-
-
-
-
-
-void func_021B6A4C(u8 *p,u16 *state) { if(*state==0) func_021B6A3C(p,(u32)func_021B6A7C); }
-
-
-
-
-
-
-
-
-
-void func_021B6A60(u8 *p,u16 *state) { switch(*state) { case 0: *state=1; break; case 1: func_021B6A44(p); break; } }
-
-
-
-
-
-
-
-
-
-void func_021B6A7C(u8 *p,u16 *state)
-{
-    switch(*state) {
-    case 0:
-        if(func_021B6C20((int *)(p+4),0,58,(int)p)) *state=1;
-        break;
-    case 1:
-        switch(((struct Obj22111 *)p)->f20) {
-        case 0: func_021B6A3C(p,(u32)func_021B6AD8); break;
-        case 1: func_021B6A3C(p,(u32)func_021B6BA8); break;
-        case 2: func_021B6A3C(p,(u32)func_021B6A60); break;
-        }
-        break;
-    }
-}
-
-
-
-
-
-
-
-
-void func_021B6AD8(u8 *p,u16 *state)
-{
-    switch(*state) {
-    case 0:
-        p[0x2e]=0;
-        p[0x2c]=0;
-        *state=1;
-        break;
-    case 1:
-        if(func_021B6C20((int *)(p+4),2,0x3a,(int)p)) *state=2;
-        break;
-    case 2:
-        if(((struct Obj02808 *)p)->f28==0) *state=3;
-        else if(((struct Obj02808 *)p)->f28==2) {
-            p[0x2e]=0;
-            p[0x2c]=0;
-            *state=5;
-        } else *state=6;
-        break;
-    case 3:
-        if(func_021B6C20((int *)(p+4),1,0x3a,(int)p)) *state=4;
-        break;
-    case 4:
-        if(((struct Obj02808 *)p)->f24==0) *state=5;
-        else if(((struct Obj02808 *)p)->f24==2) {
-            p[0x2e]=0;
-            p[0x2c]=0;
-            *state=5;
-        } else *state=6;
-        break;
-    case 5:
-        if(func_021B6C20((int *)(p+4),3,0x3a,(int)p)) *state=6;
-        break;
-    case 6:
-        func_021B6A3C(p,(u32)func_021B6A7C);
-        break;
-    }
-}
-
-
-
-
-
-
-
-
-void func_021B6BA8(u8 *p,u16 *state) { switch(*state) { case 0: *state=1; break; case 1: if(func_021B6C20((int *)(p+4),4,58,(int)p)) *state=2; break; case 2: func_021B6A3C(p,(u32)func_021B6A7C); break; } }
-
-
-
-
-
-
-
-
-void func_021B6BE4(u8 *p,int heap) { func_02082BCC(p, 0, 12); ((struct Obj22112 *)p)->f0=func_02031324(heap); }
-
-
-
-
-
-
-
-
-unsigned int func_021B6BFC(u8 *p) { return func_02031330((void *)((struct Obj22113 *)p)->f0); }
-
-
-
-
-
-
-
-void func_021B6C08(u8 *p) { func_0203133C(((struct Obj22114 *)p)->f0); func_02082BCC(p, 0, 12); }
-
-
-
-
-
-
-
-int func_021B6C20(int *p,int index,int heap,int arg)
-{
-    int result;
-    switch(p[1]) {
-    case 0:
-        if(d_021B74B8[index].create) result=d_021B74B8[index].create(heap,arg);
-        else result=0;
-        p[2]=result;
-        p[1]=1;
-        break;
-    case 1:
-        func_02031348(p[0],d_021B74B8[index].a,d_021B74B8[index].b,p[2]);
-        p[1]=2;
-        break;
-    case 2:
-        if(d_021B74B8[index].destroy) d_021B74B8[index].destroy(p[2],arg);
-        p[1]=3;
-        break;
-    case 3:
-        p[1]=0;
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-/*
- * func_02030734 0x02030734 arm
- * func_020307B0 0x020307B0 arm
- * func_02082BCC 0x02082BCC arm
- * d_021B753C 0x021B753C data a1
- */
-int func_021B6CA0(unsigned a,int *p) {
- int q;
- q=(int)func_02030734(a,0x14,0,d_021B753C,0x36e);
- func_02082BCC((void *)q,0,0x14);
- ((struct Obj05268 *)q)->f0=*(int *)p[4];
- ((struct Obj05268 *)q)->f4=p[0];
- ((struct Obj05268 *)q)->f10=p[15];
- if(p[13]==1) {
-  ((struct Obj05268 *)q)->f8=0;
-  p[13]=0;
- } else {
-  if(p[14]!=0) {
-   p[14]=0;
-   ((struct Obj05268 *)q)->f8=2;
-  } else ((struct Obj05268 *)q)->f8=1;
- }
- return q;
-}
-
-
-
-
-
-
-void func_021B6CF8(int p,int q) {
- ((struct Obj22116 *)q)->f20=((struct Obj22115 *)p)->fC;
- func_020307B0((void *)p);
-}
-
-
-
-
-
-
-int func_021B6D04(unsigned a,int p) {
- int q;
- q=(int)func_02030734(a,0x14,0,d_021B753C,0x3af);
- func_02082BCC((void *)q,0,0x14);
- ((struct Obj10227 *)q)->f0=**(int * *)&((struct Obj10226 *)p)->f10;
- ((struct Obj10227 *)q)->f4=((struct Obj10226 *)p)->f0;
- ((struct Obj10227 *)q)->f8=((struct Obj10226 *)p)->f3C;
- return q;
-}
-
-
-
-
-
-
-void func_021B6D3C(int p,int q) {
- ((struct Obj07970 *)q)->f24=((struct Obj07969 *)p)->fC;
- ((struct Obj07970 *)q)->f2E=((struct Obj07969 *)p)->f10;
- ((struct Obj07970 *)q)->f2F=((struct Obj07969 *)p)->f11;
- ((struct Obj07970 *)q)->f30=((struct Obj07969 *)p)->f12;
- func_020307B0((void *)p);
-}
-
-
-
-
-int func_021B6D5C(unsigned a,int p) {
- int q;
- q=(int)func_02030734(a,0x18,0,d_021B753C,0x3e4);
- func_02082BCC((void *)q,0,0x18);
- ((struct Obj10229 *)q)->f0=**(int * *)&((struct Obj10228 *)p)->f10;
- ((struct Obj10229 *)q)->f4=((struct Obj10228 *)p)->f0;
- ((struct Obj10229 *)q)->f8=((struct Obj10228 *)p)->f3C;
- return q;
-}
-
-
-
-
-void func_021B6D90(int p,int q) {
- ((struct Obj10231 *)q)->f28=((struct Obj10230 *)p)->fC;
- ((struct Obj10231 *)q)->f2C=((struct Obj10230 *)p)->f10;
- ((struct Obj10231 *)q)->f2D=((struct Obj10230 *)p)->f14;
- func_020307B0((void *)p);
-}
-
-
-/*
- * lever: reversed flag/both declarations preserve saved-register allocation.
- * trailing: 6E84..6E8C is Thumb free veneer; odd callback at 74F4 is code-start proof.
- * prototype: 6ECC reads eight arguments, but original caller explicitly supplies ninth 58; preserve it.
- * func_02030734 0x02030734 arm
- * func_020307B0 0x020307B0 arm
- * func_02082BCC 0x02082BCC arm
- * func_020120F4 0x020120F4 thumb
- * func_02012EBC 0x02012EBC thumb
- * func_0200A8A0 0x0200A8A0 thumb
- * func_02008530 0x02008530 thumb
- * func_0200A9D4 0x0200A9D4 thumb
- * func_021B658C 0x021B658C thumb ov101
- * func_0203D378 0x0203D378 arm
- * func_021B6ECC 0x021B6ECC thumb ov101
- * d_021B753C 0x021B753C data a1
- */
-void *func_021B6DAC(u32 heap,char *p)
-{
-    Data data;
-    void *token;
-    char *out,*name;
-    int both,flag=0;
-    u32 id;
-    out=func_02030734(heap,16,0,d_021B753C,0x418);
-    func_02082BCC(out,0,16);
-    ((struct Obj07971 *)out)->f0=**(u32 * *)&((struct Obj01387 *)p)->f10;
-    ((struct Obj07971 *)out)->f4=((struct Obj01387 *)p)->f0;
-    ((struct Obj07971 *)out)->f8=*(u32 *)&((struct Obj01387 *)p)->f3C;
-    if(((struct Obj01387 *)p)->f2C && ((struct Obj01387 *)p)->f2E) {
-        name=*(char * *)&((struct Obj01387 *)p)->f3C+12;
-        func_020120F4(**(void ** *)&((struct Obj01387 *)p)->f10);
-        token=func_0200A8A0(func_02012EBC(func_020120F4(**(void ** *)&((struct Obj01387 *)p)->f10)));
-        if(func_0200A9D4(token,func_02008530((const struct Sub0200852CObj *)name))==0) flag=1;
-        both=0;
-        if(((struct Obj01387 *)p)->f30 && flag) both=1;
-        func_021B658C(**(void ** *)&((struct Obj01387 *)p)->f10,&data);
-        if(func_0203D378()) id=data.f00;
-        else id=**(u32 * *)&((struct Obj01387 *)p)->f3C;
-        ((struct Obj07971 *)out)->fC=func_021B6ECC(((struct Obj01387 *)p)->f2C,((struct Obj01387 *)p)->f2E,((struct Obj01387 *)p)->f2D,((struct Obj01387 *)p)->f2F,(char *)(&data),((struct Obj01387 *)p)->f3C,both,id,58);
-    }
-    return out;
-}
-
-
-void func_021B6E84(void *p)
-{
-    func_020307B0(p);
-}
-
-
-
-void *func_021B6E8C(u32 heap,u8 *p) { void *q; q=func_02030734(heap,4,0,d_021B753C,0x49b); func_02082BCC(q,0,4); ((struct Obj22125 *)q)->f0=**(u32 * *)&((struct Obj22124 *)p)->f10; return q; }
-
-
-
-void func_021B6EBC(void *q,u8 *p) { func_020307B0(q); ((struct Obj22127 *)p)->f38=1; }
-
-
-
-int func_021B6ECC(u32 a, u32 b, int c, int d, char *x, char *y, int flag, u32 id, int a8)
-{
-    int base, rate, result;
-    u32 sim;
-    u16 *first;
-    float f;
-    base = ((((u32)func_021B70A8((unsigned char *)x, id) + (u32)func_021B70A8((unsigned char *)y, id)) >> 1) * 10) / 100;
-    a = a * 50 / 100;
-    b = b * 40 / 100;
-    base += a + b;
-    first = func_020084F4(x + 12);
-    sim = func_021B6F9C(first, func_020084F4(y + 12));
-    if (sim) f = 0.5f + (float)(sim << 12);
-    else f = (float)(sim << 12) - 0.5f;
-    rate = (int)f / 150;
-    if (flag) rate = 0xccd;
-    else {
-        if (rate > 0x1000) rate = 0x1000;
-        else if (rate < 0x800) rate = 0x800;
-    }
-    result = base + (((100 - base) * rate) >> 12) - (d + c);
-    if (result > 100) return 100;
-    if (result < 0) result = 0;
-    return result;
-}
-
-
-
-/*
- * lever: equal declared before count fixes the two spilled counter slots; literal double assignments reproduce the lower-bound stores.
- * note 2026-10-05 (wave D9r lane 131): removed the 2 dead first assignments
- * (`lower1 = 0x30f4;` before `lower1 = 0x30a1;`; `lower2 = 0x30f4;` before
- * `lower2 = 0x30a1;`). Game code has no line table, so these were stand-ins.
- * The plain single assignment gives EXACT in --lang c99 and --lang c: the
- * output bytes do not change. Older text in this header that asks for the
- * double assignment is superseded.
- */
-u32 func_021B6F9C(u16 *p, u16 *q)
-{
-    u32 a, b, bits1, bits2;
-    u32 equal, count, lower1, lower2;
-    a = *p;
-    b = *q;
-    if (a >= 0x30a1 && a <= 0x30f4) a -= 0x60;
-    if (b >= 0x30a1 && b <= 0x30f4) b -= 0x60;
-    bits1 = func_021B7090(a, 8);
-    bits2 = func_021B7090(b, 8);
-    count = 0;
-    equal = 0;
-    lower1 = 0x30a1;
-    lower2 = 0x30a1;
-    for (;;) {
-        if (bits1 == 0) {
-            a = *++p;
-            if (a == func_02045A98()) break;
-            if (a >= lower1 && a <= 0x30f4) a -= 0x60;
-            bits1 = func_021B7090(a, 8);
-        }
-        if (bits2 == 0) {
-            b = *++q;
-            if (b == func_02045A98()) break;
-            if (b >= lower2 && b <= 0x30f4) b -= 0x60;
-            bits2 = func_021B7090(b, 8);
-        }
-        if (bits1 == 0 || bits2 == 0) continue;
-        if (((a >> bits1) & 1) == ((b >> bits2) & 1)) ++equal;
-        ++count;
-        --bits1;
-        --bits2;
-    }
-    return equal * 100 / count;
-}
-
-
-
-unsigned func_021B7090(unsigned bits, unsigned n) { unsigned i = n - 1; while (i) { if ((bits >> i) & 1) break; i--; } return i; }
-
-
-
-unsigned char func_021B70A8(unsigned char *p,unsigned x) { struct Date d; d.a=(unsigned char)(x>>24); d.b=(unsigned char)(x>>16); d.c=(unsigned char)(x>>8); d.d=(unsigned char)x; return func_0200AA00(p[4],p[5],&d); }

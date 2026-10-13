@@ -32,41 +32,41 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int BOOL;
 typedef struct {
-    u32 b0_4  : 5;
-    u32 b5    : 1;
-    u32 b6_7  : 2;
-    u32 b8    : 1;
-    u32 b9_14 : 6;
-    u32 b15   : 1;
-    u32 b16   : 1;
-    u32 rest  : 15;
-} Access;
-typedef struct { u8 pad[0x1b4]; Access access; } Hdr;
+    u32 keyAndSlotAccess    : 5;
+    u32 gameCardPowerOn     : 1;
+    u32 sharedFileAccess    : 2;
+    u32 gameCardNitroMode   : 1;
+    u32 sdAndPhotoAccess    : 6;
+    u32 backupAccess        : 1;
+    u32 romAccess           : 1;
+    u32 reserved            : 15;
+} TwlAccessControl;
+typedef struct { u8 pad00[0x1b4]; TwlAccessControl access; } TwlRomHeader;
 extern int OS_GetBootType(void);
 extern BOOL OS_IsRunOnTwl(void);
-extern Hdr *func_02075E04(void);
+extern TwlRomHeader *func_02075E04(void);
 u32 func_02075FCC(void)
 {
-    u32 result = 0;
-    Hdr *hdr;
-    BOOL enable;
+    u32 accessLevel = 0;
+    TwlRomHeader *romHeader;
+    BOOL accessGranted;
     if (OS_GetBootType() == 1) {
-        result = 7;
+        accessLevel = 7;
     } else if (!OS_IsRunOnTwl()) {
-        result = 7;
+        accessLevel = 7;
     } else {
-        hdr = func_02075E04();
-        enable = 0;
-        if (hdr->access.b8) {
-            result |= 4;
-            enable = 1;
-        } else if (hdr->access.b5) {
-            enable = 1;
+        romHeader = func_02075E04();
+        accessGranted = 0;
+        if (romHeader->access.gameCardNitroMode) {
+            accessLevel |= 4;
+            accessGranted = 1;
+        } else if (romHeader->access.gameCardPowerOn) {
+            accessGranted = 1;
         }
-        if (enable) {
-            if (hdr->access.b15) result |= 1;
-            if (hdr->access.b16) result |= 2;
+        if (accessGranted) {
+            if (romHeader->access.backupAccess) accessLevel |= 1;
+            if (romHeader->access.romAccess) accessLevel |= 2;
         }
     }
-    return result;
+    return accessLevel;
 }

@@ -30,9 +30,12 @@
  *   func_02013B10  0x02013B10  thumb
  *   d_0209DFC0     0x0209DFC0  data  a4
  *   d_0209DFEC     0x0209DFEC  data  a4
+ *   d_0209DFB8     0x0209DFB8  data
+ *   d_0209DFD2     0x0209DFD2  data
+ *   d_0209DFDC     0x0209DFDC  data
  *   sub_02013D74  0x02013D74  thumb
  *   func_02013B44  0x02013B44  thumb
- *   g_sub02013AD0Obj2  0x02146264  data
+ *   g_sub02013AD0Obj  0x02146264  data
  *   sub_0209DFC8_Map  0x0209DFC8  data
  *   func_02020E08  0x02020E08  thumb
  *   sub_020307B0  0x020307B0  arm
@@ -61,327 +64,229 @@
  *   g_021BED00      0x021BED00  data
  *   g_021DC800      0x021DC800  data
  */
-#include "../../matched/include/Obj00193.h"
-#include "../../matched/include/Obj15653.h"
-#include "../../matched/include/Obj05792.h"
-#include "../../matched/include/Obj06860.h"
-#include "../../matched/include/Obj06862.h"
-#include "../../matched/include/Obj08750.h"
-
-struct ArcFile;
-struct t_020141E0;
-struct BigObj;
-struct Ctx;
-struct Sys;
-struct IcaAnime;
-struct Desc;
-struct Obj;
-struct Evt;
 typedef unsigned char  u8;
-
 typedef unsigned short u16;
-
 typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
 
+struct ArcHandle;
+struct GameSystem;
+struct GameEvent;
+struct GameData;
+struct FieldMap;
+struct FieldSoundSystem;
+
+typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
+
+typedef struct {
+    s32 x;
+    s32 y;
+    s32 z;
+} VecFx32;
+
+/* One 0x30 byte zone header: sub-file 0 of a/0/1/2, 427 records. */
+struct ZoneHeader {
+    u8  mapType;                    /* 0x00 */
+    u8  mapSubType;                 /* 0x01 */
+    u16 areaId;                     /* 0x02, index into the area data table */
+    u16 matrixId;                   /* 0x04 */
+    u16 scriptArcId;                /* 0x06 */
+    u16 initScriptArcId;            /* 0x08 */
+    u16 msgArcId;                   /* 0x0a */
+    u16 bgm[4];                     /* 0x0c, one per season */
+    u16 encountId;                  /* 0x14 */
+    u16 eventDataId;                /* 0x16 */
+    u16 parentZoneId;               /* 0x18 */
+    u16 placeNameId : 10;           /* 0x1a */
+    u16 placeNameWindow : 6;
+    u16 weatherId : 6;              /* 0x1c */
+    u16 mapChangeType : 3;
+    u16 cameraId : 7;
+    u16 expObjSetId : 5;            /* 0x1e */
+    u16 fieldEffectSetId : 5;
+    u16 bikeEnabled : 1;
+    u16 dashEnabled : 1;
+    u16 weatherEnabled : 1;
+    u16 flyEnabled : 1;
+    u16 ringtoneEnabled : 1;
+    u16 palaceEnabled : 1;
+    u16 cameraAreaId;               /* 0x20 */
+    u16 pad22;
+    s32 posX;                       /* 0x24, start position (rail maps: rail location) */
+    s32 posY;                       /* 0x28 */
+    s32 posZ;                       /* 0x2c */
+};
+
+/* { zone id, value } entry of the three per-zone side tables. */
+struct ZoneValuePair {
+    u16 zoneId;
+    u16 value;
+};
+
+/* { zone id, kind } entry of the two packed zone lookup tables. */
+struct ZoneKindEntry {
+    unsigned short zoneId : 11;
+    unsigned short kind : 5;
+};
+
+/* { from, to } entry of the zone id change table at 0x020A72A8. */
+struct ZoneChangeEntry {
+    u16 fromZoneId;
+    u16 toZoneId;
+};
+
+/* The zone data manager (0x4c bytes at *0x02146264). */
 struct ZoneDataMgr {
-    void *archive;
-    u8    record[0x34 - 0x04];
-    u16   cached_id;
-    u16   pad36;
-    void *table38;
-    void *table3c;
-    u16   count40;
-    u8    count42;
-    u8    count43;
-    void *table44;
-    u8    subst_on[0x4c - 0x48];
+    struct ArcHandle *arcHandle;            /* 0x00, a/0/1/2 */
+    struct ZoneHeader header;               /* 0x04, cached record */
+    u16 cachedZoneId;                       /* 0x34 */
+    u16 pad36;
+    struct ZoneValuePair *fogTable;   /* 0x38, a/0/8/1 sub-file 13 */
+    struct ZoneValuePair *lightTable; /* 0x3c, a/0/8/2 sub-file 1 */
+    u16 fogCount;                           /* 0x40 */
+    u8  lightCount;                         /* 0x42 */
+    u8  mapEffectCount;                     /* 0x43 */
+    struct ZoneValuePair *mapEffectTable; /* 0x44, a/1/4/9 sub-file 0 */
+    u8  changeEnabled[4];                   /* 0x48, one per change table entry */
 };
 
-typedef int             s32_02013AD0;
-
-struct Sub02013AD0Rec_02013AD0 {
-    u8  unk00;
-    u16 unk02;
-    u16 unk04;
-    u16 unk06;
-    u8  pad08[0x0a - 0x08];
-    u16 unk0a;
-    u8  pad0c[0x24 - 0x0c];
-    u32 unk24;
-    u32 unk28;
-    u32 unk2c;
+/* One 10 byte area data record (archive 13, 282 records). */
+struct AreaData {
+    u16 modelSetId;     /* 0x00 */
+    u16 texSetId;       /* 0x02 */
+    u8  itaAnimeId;     /* 0x04, 0xff: none */
+    u8  itpAnimeId;     /* 0x05, 0xff: none */
+    u8  innerOuter;     /* 0x06 */
+    u8  lightType;      /* 0x07 */
+    u8  edgeMarkType;   /* 0x08 */
+    u8  billboardColor; /* 0x09 */
 };
 
-struct Sub02013AD0Rec_02013BA8 {
-    u8 pad00[0x1c];
-    struct {
-        u16 lo6 : 6;
-        u16 mid3 : 3;
-        u16 hi7 : 7;
-    } unk1c;
-    u16 unk1e;
-    u16 unk20;
+/* Rail position, the second form of Location.pos. */
+struct RailLocation {
+    u16 railIndex;  /* 0x00 */
+    u8  type;       /* 0x02 */
+    u8  key;        /* 0x03 */
+    s16 widthGrid;  /* 0x04 */
+    u16 lineGrid;   /* 0x06 */
+    u8  pad08[4];
 };
 
-struct ZoneRec {
-    u8  pad00[0x0c - 0x00];
-    u16 conn0c;
-    u16 conn0e;
-    u16 conn10;
-    u16 conn12;
+/* A warp destination (0x1c bytes). */
+struct Location {
+    u32 type;           /* 0x00: 0 exit, 1 direct */
+    u16 zoneId;         /* 0x04 */
+    s16 exitId;         /* 0x06 */
+    u16 dir;            /* 0x08 */
+    u16 exitOffset;     /* 0x0a */
+    u32 posType;        /* 0x0c: 0 vector, 1 rail */
+    union {
+        VecFx32 vec;
+        struct RailLocation rail;
+    } pos;              /* 0x10 */
 };
 
-struct Sub02013AD0Rec_02013C10 {
-    u8 pad00[0x1c];
-    struct {
-        u16 lo6 : 6;
-        u16 mid3 : 3;
-        u16 hi7 : 7;
-    } unk1c;
-    struct {
-        u16 pad0 : 10;
-        u16 flag10 : 1;
-        u16 pad11 : 1;
-        u16 flag12 : 1;
-        u16 flag13 : 1;
-        u16 flag14 : 1;
-        u16 flag15 : 1;
-    } unk1e;
+/* Event flags and work values (0x3ea bytes). */
+struct EventWork {
+    u16 work[0x13e];        /* 0x000, work ids 0x4000.. */
+    u8  flags[0x16c];       /* 0x27c, flag ids 1..0x3fff */
+    u8  timeFlagsCleared;   /* 0x3e8 */
+    u8  pad3E9;
 };
 
-typedef signed short s16_020139B0;
-
-typedef signed char s8;
-
-typedef signed int     s32_02013C70;
-
-struct Ent0209E026 {
-    unsigned short code : 11;
-    unsigned short kind : 5;
-};
-
-typedef signed int     s32_02013C9C;
-
-struct Sub02013AD0Rec_02013DF0 {
-    u8 pad00[4];
-    u16 unk04;
-    u8 pad06[0x14 - 6];
-    u16 unk14;
-    u16 unk16;
-    u16 unk18;
-    struct {
-        u16 lo10 : 10;
-        u16 hi6 : 6;
-    } unk1a;
-};
-
-struct Sub02013AD0Rec_02013EC0 {
-    u8 pad00[0x14];
-    u16 unk14;
-    u16 unk16;
-};
-
-typedef int             s32_02013DF0;
-
-/* the record sub_02013AD0() returns; only the two 5 bit fields at 0x1e
- * that this file reads. */
-struct Sub02013AD0Rec_02013ED8 {
-    u8  pad00[0x1e];
-    u16 lo5 : 5;
-    u16 mid5 : 5;
-    u16 hi6 : 6;
-};
-
-struct Sub02013ED8Pair {
-    u16 key;
-    u16 val;
-};
-
-struct Sub02013ED8Obj {
-    u8                        pad00[0x38];
-    const struct Sub02013ED8Pair *arr1;    /* 0x38 */
-    const struct Sub02013ED8Pair *arr2;    /* 0x3c */
-    u16                        count1;      /* 0x40 */
-    u8                         count2;      /* 0x42 */
-    u8                         count3;      /* 0x43 */
-    const struct Sub02013ED8Pair *arr3;    /* 0x44 */
-};
-
-struct Ent0209DFC8 {
-    unsigned short code : 11;
-    unsigned short kind : 5;
-};
-
-struct Sub020140BCObj {
-    u16 f00;
-    u16 f02;
-    u8  f04;
-    u8  f05;
-    u8  f06;
-    u8  f07;
-    u8  f08;
-    u8  f09;
-};
-
-typedef struct {
-    u32 x00;
-    u16 x04, x06, x08, x0A;
-    u32 x0C, x10, x14, x18;
-} Rect14110;
-
-typedef signed short s16_02014134;
-
-typedef signed int s32;
-
-typedef struct {
-    u32 live;
-    u16 id;
-    s16_02014134 slot;
-    s16_02014134 count;
-    u16 pad;
-    u32 zero;
-    u32 a;
-    u32 b;
-    u32 c;
-} Rec1C;
-
-typedef short s16_020141A8;
-
-struct t_020139B0 {
-    u32 a;      /* 0x00 */
-    u16 b;      /* 0x04 */
-    s16_020141A8 c;      /* 0x06 */
-    u16 d;      /* 0x08 */
-    u16 e;      /* 0x0a */
-    u32 f;      /* 0x0c */
-    u16 g;      /* 0x10 */
-    u8  on;     /* 0x12 */
-    u8  kind;   /* 0x13 */
-    s16_020141A8 h;      /* 0x14 */
-    u16 i;      /* 0x16 */
-};
-
-typedef struct Rec020141DC {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-} Rec020141DC;
-
-typedef struct Vec020141E0 {
-    int x;
-    int y;
-    int z;
-} Vec020141E0;
-
-typedef struct Rec020141E0 {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-    Vec020141E0 v;
-} Rec020141E0;
-
-typedef struct Vec020141F0 {
-    int x;
-    int y;
-    int z;
-} Vec020141F0;
-
-typedef struct Rec020141F0 {
-    int f0;
-    int f4;
-    int f8;
-    int fC;
-    Vec020141F0 v;
-} Rec020141F0;
-
-typedef short s16_020141E0;
-
-struct t_020141E0 {
-    u32 a;      /* 0x00 */
-    u16 b;      /* 0x04 */
-    s16_020141E0 c;      /* 0x06 */
-    u16 d;      /* 0x08 */
-    u16 e;      /* 0x0a */
-    u32 f;      /* 0x0c */
-    u16 g;      /* 0x10 */
-    u8  pad[2];
-    u16 h;      /* 0x14 */
-    u16 i;      /* 0x16 */
-};
-
-struct v3 { u32 x, y, z; };
-
-struct Sub02014444Obj {
-    u32 f00;
-    u8  f04;
-    u8  f05;
-    u8  f06;
-    u16 f08;
+/* Field status (0x14 bytes). */
+struct FieldStatus {
+    u32 mapMode;            /* 0x00 */
+    u8  fieldInitFlag;      /* 0x04 */
+    u8  continueFlag;       /* 0x05 */
+    u8  flashActive;        /* 0x06 */
+    u8  pad07;
+    u16 mapEffectMask;      /* 0x08 */
     u8  pad0A[7];
-    u8  f11;
-    u16 f12;
+    u8  seasonDispFlag;     /* 0x11 */
+    u16 procAction;         /* 0x12 */
 };
 
-typedef struct {
-    int   f00;
-    int   f04;
-    int   f08;
-    int   f0c;
-    int   f10;
-    void (*f14)(void *);
-    void *f18;
-} S;
+/* Work of the close-field and open-field events. */
+struct FieldCloseWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct FieldMap *fieldMap;      /* 0x04 */
+    struct GameData *gameData;      /* 0x08 */
+    int notifyClose;                /* 0x0c */
+};
 
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
-extern u32 func_020307B0(void *p);
-extern void func_02049238(void *handle);
-extern u16 sub_02013A94(u32 key);
-extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
-extern u32 func_02013B10(u32 id, const u16 *table, s32_02013C70 count);
-extern u32 func_02013D9C(u32 id);
-extern int sub_02013D74(u32 key);
-extern u32 func_02013B44(u32 id);
-extern void *func_02020E08(u32 archive_id, u32 heap, u32 offset, u32 size);
-extern u32 sub_020307B0(void *p);
-extern u32  func_02014274(u32 a);
-extern u32 sub_02082BCC(u32 a, u32 b, u32 c);
-extern void sub_02014368(char *a0, int a1, int a2);
-extern void ENV_SetResourceSet(u32 a, u32 b, u32 c);
-extern u32 sub_02012A30(const struct BigObj *p);
-extern u32 sub_020120F0(const struct Ctx *p);
-extern u32 sub_020289B8(struct Sys *s);
-extern void func_0215FA44(void);
-extern void func_02188BD8(u8 *obj);
-extern unsigned int func_02012A30(const struct BigObj *v);
-extern u32 func_020120F0(const struct Ctx *p);
-extern void func_020120C0(struct IcaAnime *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int  func_02188BE8(void *v);
-extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
+struct FieldOpenWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    u32 unused04;
+    struct GameData *gameData;      /* 0x08 */
+    u32 unused0C;
+};
+
+/* Work of the sub-process events. */
+struct SubProcWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct FieldMap *fieldMap;      /* 0x04 */
+    u32 overlayId;                  /* 0x08 */
+    void *procData;                 /* 0x0c */
+    void *procWork;                 /* 0x10 */
+};
+
+struct SubProcCallbackWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    struct FieldMap *fieldMap;      /* 0x04 */
+    u32 overlayId;                  /* 0x08 */
+    void *procData;                 /* 0x0c */
+    void *procWork;                 /* 0x10 */
+    void (*callback)(void *);       /* 0x14 */
+    void *callbackWork;             /* 0x18, freed after the callback */
+};
+
+/* Work of func_02014878: two process calls on one parameter block. */
+struct ProcPairWork {
+    struct GameSystem *gameSystem;  /* 0x00 */
+    u32 unused04;
+    u8 *firstParam;                 /* 0x08 */
+    u8 *secondParam;                /* 0x0c */
+};
+
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
+extern struct ArcHandle *sub_020490F4(u32 arcId, u32 heapId);
+extern void *func_0204A298(u32 arcId, u32 member, int compressed, u32 heapId, u32 *size);
+extern void func_020307B0(void *p);
+extern void func_02049238(struct ArcHandle *handle);
+extern void func_0204944C(struct ArcHandle *handle, u32 member, u32 offset, u32 size, void *dst);
+extern void *func_02020E08(u32 arcId, u32 heapId, u32 offset, u32 size);
+extern u32 func_02082BCC(void *dst, u32 value, u32 size);
+extern struct FieldSoundSystem *func_02012A30(struct GameData *gameData);
+extern u32 func_020120F0(struct GameSystem *gameSystem);
+extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
+extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *procWork);
+extern void func_020120C0(struct GameSystem *gameSystem);
+extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
+extern struct GameEvent *sub_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
+extern void *sub_020124E8(struct GameEvent *event);
+extern void func_02012374(struct GameEvent *event, struct GameEvent *child);
+extern u32 func_020289B8(struct FieldSoundSystem *fieldSound);
 extern void func_0215FA34(void);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
+extern void func_0215FA44(void);
+extern void func_02188BD8(struct FieldMap *fieldMap);
+extern int func_02188BE8(struct FieldMap *fieldMap);
+extern struct GameEvent *func_021BE8D4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait);
+extern struct GameEvent *func_021BE92C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait, int a4, u8 a5, u8 a6);
 void func_020139B0(u32 heap);
 void func_02013A48(void);
 void sub_02013A80(u32 index, u8 on);
 u16 func_02013A94(u32 key);
-void *sub_02013AD0(u32 id);
-u32 sub_02013B10(u32 id, const u16 *table, s32_02013AD0 count);
+struct ZoneHeader *sub_02013AD0(u32 id);
+u32 sub_02013B10(u32 id, const u16 *table, int count);
 u32 sub_02013B38(u32 id);
 u32 sub_02013B44(u32 id);
 u32 sub_02013B50(u32 id);
 u32 sub_02013B5C(u32 id);
 u32 sub_02013B68(u32 id);
-void sub_02013B74(u32 id, u32 *out);
-void sub_02013B90(u32 id, u32 *out);
+void sub_02013B74(u32 id, VecFx32 *out);
+void sub_02013B90(u32 id, VecFx32 *out);
 u8 sub_02013BA8(u32 id);
 u8 sub_02013BBC(u32 id);
 u32 sub_02013BD0(u32 id);
@@ -392,7 +297,7 @@ u32 sub_02013C30(u32 id);
 u32 sub_02013C40(u32 id);
 u32 sub_02013C50(u32 id);
 u32 sub_02013C60(u32 id);
-int func_02013C70(u32 a);
+int func_02013C70(u32 zoneId);
 int func_02013C80(int a0);
 int func_02013C9C(u16 key);
 u32 sub_02013CC8(u32 id);
@@ -430,88 +335,89 @@ u32 sub_02014034(u32 id);
 u32 sub_02014044(u32 id);
 u8 sub_0201405C(u32 id);
 u32 sub_02014068(u32 id);
-void *sub_0201407C(u32 heap, u16 index, u32 delta);
-u32 sub_020140B4(void *a);
-u16 sub_020140BC(struct Sub020140BCObj *p);
-u32 sub_020140C0(struct Sub020140BCObj *p);
-u32 sub_020140CC(struct Sub020140BCObj *p);
-u8 sub_020140D8(struct Sub020140BCObj *p);
-u8 sub_020140DC(struct Sub020140BCObj *p);
-u8 sub_020140E0(struct Sub020140BCObj *p);
-u8 sub_020140E4(struct Sub020140BCObj *p);
-u32 sub_020140E8(u32 x);
-void func_020140F8(Rect14110 *p);
-void func_02014110(Rect14110 *p, u16 a, u16 b, u16 c, u16 d, u32 e, u32 f, u32 g);
-void func_02014134(u8 *p, u16 b, int c, u16 d, u16 e, u16 f, u16 g, s16_02014134 h);
-void func_0201416C(Rect14110 *p, u16 a, u16 b, u16 c);
-void func_02014184(Rec1C *r, u16 id, s16_02014134 count, u32 a, u32 b, u32 c);
-void func_020141A8(struct t_020139B0 *p, int b, int d, u16 g, u16 i, s16_020141A8 h);
-int func_020141DC(const Rec020141DC *p);
-void func_020141E0(const Rec020141E0 *p, Vec020141E0 *out);
-void func_020141F0(Rec020141F0 *p, const Vec020141F0 *v);
-void func_02014204(struct t_020141E0 *p, int id);
-void sub_02014264(void *p);
-u32 sub_02014274(u32 idx);
-u32 sub_020142A4(u32 idx);
+void *sub_0201407C(u32 heapId, u16 areaId, u32 season);
+u32 sub_020140B4(struct AreaData *areaData);
+u16 sub_020140BC(const struct AreaData *areaData);
+u32 sub_020140C0(const struct AreaData *areaData);
+u32 sub_020140CC(const struct AreaData *areaData);
+u8 sub_020140D8(const struct AreaData *areaData);
+u8 sub_020140DC(const struct AreaData *areaData);
+u8 sub_020140E0(const struct AreaData *areaData);
+u8 sub_020140E4(const struct AreaData *areaData);
+u32 sub_020140E8(u32 areaId);
+void func_020140F8(struct Location *loc);
+void func_02014110(struct Location *loc, u16 zoneId, u16 exitId, u16 dir, u16 exitOffset, u32 x, u32 y, u32 z);
+void func_02014134(struct Location *loc, u16 zoneId, int exitId, u16 dir, u16 exitOffset, u16 railIndex, u16 lineGrid, s16 widthGrid);
+void func_0201416C(struct Location *loc, u16 zoneId, u16 exitId, u16 exitOffset);
+void func_02014184(struct Location *loc, u16 zoneId, s16 dir, u32 x, u32 y, u32 z);
+void func_020141A8(struct Location *loc, int zoneId, int dir, u16 railIndex, u16 lineGrid, s16 widthGrid);
+int func_020141DC(const struct Location *loc);
+void func_020141E0(const struct Location *loc, VecFx32 *out);
+void func_020141F0(struct Location *loc, const VecFx32 *vec);
+void func_02014204(struct Location *loc, int zoneId);
+void sub_02014264(struct Location *loc);
+u32 sub_02014274(u32 exitDir);
+u32 sub_020142A4(u32 dir);
 u32 sub_020142D0(void);
-u32 sub_020142D8(u32 a);
-u32 func_020142E8(void *bitmap, s32 id);
-void func_02014314(char *a0, int a1);
-void func_0201433C(char *a0, int a1);
-void func_02014368(char *a0, int a1, int a2);
-char *func_02014388(char *a0, u32 a1);
-u32 sub_020143CC(u32 a, u32 b);
-void sub_020143D8(u32 a, u32 y, u32 z);
-void sub_020143F0(u8 *a);
-u8 sub_0201440C(u8 *a);
-u8 func_0201441C(int i);
-void func_02014428(u32 heap);
-void sub_02014444(u32 a, u32 b, u32 c);
-u32 sub_0201444C(struct Sub02014444Obj *o);
-void sub_02014450(struct Sub02014444Obj *o, u32 v);
-void sub_02014454(struct Sub02014444Obj *o, u8 v);
-u8 sub_02014458(struct Sub02014444Obj *o);
-void sub_0201445C(struct Sub02014444Obj *o, u8 v);
-u8 sub_02014460(struct Sub02014444Obj *o);
-void sub_02014464(struct Sub02014444Obj *o, u8 v);
-u8 sub_02014468(struct Sub02014444Obj *o);
-void sub_0201446C(struct Sub02014444Obj *o, u16 v);
-u16 sub_02014470(struct Sub02014444Obj *o);
-void sub_02014474(struct Sub02014444Obj *o, u16 v);
-u16 sub_02014478(struct Sub02014444Obj *o);
-u8 sub_0201447C(struct Sub02014444Obj *o, u8 v);
-u8 sub_02014484(struct Sub02014444Obj *o);
-int sub_02014488(void *a0, u32 *a1, u8 *a2);
-void *func_020144DC(void *a0, int a1);
-int func_0201450C(int a0, int *a1, int *a2);
-void *func_02014554(void *a0, int a1);
-int func_02014584(int a0, int *a1, int *a2);
-void *func_020145CC(void *a0);
-void *func_020145FC(void *a0);
-u32 func_02014628(void *obj, u32 *mode, u32 *p);
-u32 func_02014698(void *obj, u32 *mode, u32 *args);
-void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
-void *func_02014728(char *a0, int a1, int a2, int a3, int a4);
-int func_02014758(int a0, int *a1, S *a2);
-int func_020147B0(int a0, int *a1, S *a2);
-void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
-void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
-u32 func_02014878(u32 a0, u32 *mode, u32 *p);
+u32 sub_020142D8(struct EventWork *ev);
+u32 func_020142E8(struct EventWork *ev, s32 flagId);
+void func_02014314(struct EventWork *ev, int flagId);
+void func_0201433C(struct EventWork *ev, int flagId);
+void func_02014368(struct EventWork *ev, int firstFlagId, int lastFlagId);
+u8 *func_02014388(struct EventWork *ev, u32 flagId);
+u16 *sub_020143CC(struct EventWork *ev, u32 workId);
+void sub_020143D8(struct EventWork *ev, u32 firstWorkId, u32 endWorkId);
+void sub_020143F0(struct EventWork *ev);
+u8 sub_0201440C(struct EventWork *ev);
+u8 func_0201441C(int dir);
+void func_02014428(u32 heapId);
+void sub_02014444(struct FieldStatus *fs);
+u32 sub_0201444C(struct FieldStatus *fs);
+void sub_02014450(struct FieldStatus *fs, u32 mapMode);
+void sub_02014454(struct FieldStatus *fs, u8 fieldInitFlag);
+u8 sub_02014458(struct FieldStatus *fs);
+void sub_0201445C(struct FieldStatus *fs, u8 continueFlag);
+u8 sub_02014460(struct FieldStatus *fs);
+void sub_02014464(struct FieldStatus *fs, u8 flashActive);
+u8 sub_02014468(struct FieldStatus *fs);
+void sub_0201446C(struct FieldStatus *fs, u16 mapEffectMask);
+u16 sub_02014470(struct FieldStatus *fs);
+void sub_02014474(struct FieldStatus *fs, u16 procAction);
+u16 sub_02014478(struct FieldStatus *fs);
+u8 sub_0201447C(struct FieldStatus *fs, u8 seasonDispFlag);
+u8 sub_02014484(struct FieldStatus *fs);
+int sub_02014488(struct GameEvent *event, u32 *seq, void *work);
+struct GameEvent *func_020144DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+int func_0201450C(struct GameEvent *event, u32 *seq, void *work);
+struct GameEvent *func_02014554(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+int func_02014584(struct GameEvent *event, u32 *seq, void *work);
+struct GameEvent *func_020145CC(struct GameSystem *gameSystem);
+struct GameEvent *func_020145FC(struct GameSystem *gameSystem);
+int func_02014628(struct GameEvent *event, u32 *seq, void *work);
+int func_02014698(struct GameEvent *event, u32 *seq, void *work);
+struct GameEvent *func_020146F8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
+struct GameEvent *func_02014728(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
+int func_02014758(struct GameEvent *event, u32 *seq, void *work);
+int func_020147B0(struct GameEvent *event, u32 *seq, void *work);
+struct GameEvent *func_02014808(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
+struct GameEvent *func_02014840(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
+int func_02014878(struct GameEvent *event, u32 *seq, void *work);
 extern struct ZoneDataMgr *g_sub02013AD0Obj;
 extern const char sZonedataFile[];
-extern u16 sub_020A72A8_Key[];
-extern u16 sub_020A72AA_Val[];
-extern u8   tbl_0209E010[];
-extern struct Ent0209E026 sub_0209E026_Map[];
-extern const int d_0209DFC0[];
-extern const int d_0209DFEC[];
-extern struct Sub02013ED8Obj *g_sub02013AD0Obj2;
-extern struct Ent0209DFC8 sub_0209DFC8_Map[];
-extern char sub_02146268_Sys[];
-extern u8 sub_0209E050_Map[];
-extern u8    sBtlSetupFile;
-extern u8   ov091_id[];
-extern u8   ov131_id[];
+extern const struct ZoneChangeEntry sub_020A72A8_Key[];
+extern const u16 tbl_0209E010[];
+extern const struct ZoneKindEntry sub_0209E026_Map[];
+extern const u16 d_0209DFB8[];
+extern const u16 d_0209DFC0[];
+extern const struct ZoneKindEntry sub_0209DFC8_Map[];
+extern const u16 d_0209DFD2[];
+extern const u16 d_0209DFDC[];
+extern const u16 d_0209DFEC[];
+extern u8 sub_02146268_Sys[];
+extern const u8 sub_0209E050_Map[];
+extern const char sBtlSetupFile[];
+extern u8 ov091_id[];
+extern u8 ov131_id[];
 
 
 
@@ -539,7 +445,7 @@ extern u8   ov131_id[];
  *
  * Three things this function pins down about the on-disk zone data.
  *
- * +0x00 is a persistent archive handle opened by func_020490F4(0x0c, heap).
+ * +0x00 is a persistent archive handle opened by sub_020490F4(0x0c, heap).
  * func_02048DDC, which func_020490F4 calls to bind the handle, indexes a 235
  * entry char* table at 0x020A6C58 (installed by func_02048CEC from
  * 0x020055FA with count 0xeb) by that same id, and entry 0x0c of that table
@@ -581,18 +487,18 @@ void func_020139B0(u32 heap)
         return;
 
     g_sub02013AD0Obj = func_02030734(heap, 0x4c, 1, sZonedataFile, 0x60);
-    g_sub02013AD0Obj->archive = func_020490F4(0x0c, heap);
+    g_sub02013AD0Obj->arcHandle = sub_020490F4(0x0c, heap);
 
-    g_sub02013AD0Obj->table38 = (void *)func_0204A298(0x51, 13, 0, heap, &size);
-    g_sub02013AD0Obj->count40 = size >> 2;
+    g_sub02013AD0Obj->fogTable = func_0204A298(0x51, 13, 0, heap, &size);
+    g_sub02013AD0Obj->fogCount = size >> 2;
 
-    g_sub02013AD0Obj->table3c = (void *)func_0204A298(0x52, 1, 0, heap, &size);
-    g_sub02013AD0Obj->count42 = size >> 2;
+    g_sub02013AD0Obj->lightTable = func_0204A298(0x52, 1, 0, heap, &size);
+    g_sub02013AD0Obj->lightCount = size >> 2;
 
-    g_sub02013AD0Obj->table44 = (void *)func_0204A298(0x95, 0, 0, heap, &size2);
-    g_sub02013AD0Obj->count43 = size2 >> 2;
+    g_sub02013AD0Obj->mapEffectTable = func_0204A298(0x95, 0, 0, heap, &size2);
+    g_sub02013AD0Obj->mapEffectCount = size2 >> 2;
 
-    g_sub02013AD0Obj->cached_id = 0x1ab;
+    g_sub02013AD0Obj->cachedZoneId = 0x1ab;
 }
 
 
@@ -639,10 +545,10 @@ void func_02013A48(void)
     if (g_sub02013AD0Obj == 0)
         return;
 
-    func_020307B0(g_sub02013AD0Obj->table44);
-    func_020307B0(g_sub02013AD0Obj->table3c);
-    func_020307B0(g_sub02013AD0Obj->table38);
-    func_02049238(g_sub02013AD0Obj->archive);
+    func_020307B0(g_sub02013AD0Obj->mapEffectTable);
+    func_020307B0(g_sub02013AD0Obj->lightTable);
+    func_020307B0(g_sub02013AD0Obj->fogTable);
+    func_02049238(g_sub02013AD0Obj->arcHandle);
     func_020307B0(g_sub02013AD0Obj);
     g_sub02013AD0Obj = 0;
 }
@@ -658,7 +564,7 @@ void func_02013A48(void)
 void sub_02013A80(u32 index, u8 on)
 {
     if (g_sub02013AD0Obj != 0)
-        g_sub02013AD0Obj->subst_on[index] = on;
+        g_sub02013AD0Obj->changeEnabled[index] = on;
 }
 
 
@@ -672,11 +578,11 @@ void sub_02013A80(u32 index, u8 on)
 u16 func_02013A94(u32 key)
 {
     int i;
-    char *p = *(char **)0x02146264;
+    struct ZoneDataMgr *mgr = g_sub02013AD0Obj;
 
     for (i = 0; i < 2; i++) {
-        if (*(u8 *)(p + 0x48 + i) != 0 && key == sub_020A72A8_Key[i * 2])
-            return sub_020A72AA_Val[i * 2];
+        if (mgr->changeEnabled[i] != 0 && key == sub_020A72A8_Key[i].fromZoneId)
+            return sub_020A72A8_Key[i].toZoneId;
     }
 }
 
@@ -735,21 +641,21 @@ u16 func_02013A94(u32 key)
  *   python tools/match.py tu --src src/matched/unit_02013AD0.c \
  *       --addr 0x02013AD0 --thumb
  */
-void *sub_02013AD0(u32 id)
+struct ZoneHeader *sub_02013AD0(u32 id)
 {
     u32 rid;
 
     if (g_sub02013AD0Obj == 0)
         return 0;
 
-    rid = sub_02013A94(id);
-    if (rid == g_sub02013AD0Obj->cached_id)
-        return &g_sub02013AD0Obj->record;
+    rid = func_02013A94(id);
+    if (rid == g_sub02013AD0Obj->cachedZoneId)
+        return &g_sub02013AD0Obj->header;
 
-    sub_0204944C(g_sub02013AD0Obj->archive, 0, rid * 0x30, 0x30,
-                 &g_sub02013AD0Obj->record);
-    g_sub02013AD0Obj->cached_id = rid;
-    return &g_sub02013AD0Obj->record;
+    func_0204944C(g_sub02013AD0Obj->arcHandle, 0, rid * 0x30, 0x30,
+                 &g_sub02013AD0Obj->header);
+    g_sub02013AD0Obj->cachedZoneId = rid;
+    return &g_sub02013AD0Obj->header;
 }
 
 
@@ -761,10 +667,10 @@ void *sub_02013AD0(u32 id)
 
 
 
-u32 sub_02013B10(u32 id, const u16 *table, s32_02013AD0 count)
+u32 sub_02013B10(u32 id, const u16 *table, int count)
 {
-    u32 rid = sub_02013A94(id);
-    s32_02013AD0 i;
+    u32 rid = func_02013A94(id);
+    int i;
 
     for (i = 0; i < count; i++) {
         if (rid == table[i])
@@ -784,8 +690,8 @@ u32 sub_02013B10(u32 id, const u16 *table, s32_02013AD0 count)
 
 u32 sub_02013B38(u32 id)
 {
-    struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
-    return r->unk02;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->areaId;
 }
 
 
@@ -799,8 +705,8 @@ u32 sub_02013B38(u32 id)
 
 u32 sub_02013B44(u32 id)
 {
-    struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
-    return r->unk04;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->matrixId;
 }
 
 
@@ -814,8 +720,8 @@ u32 sub_02013B44(u32 id)
 
 u32 sub_02013B50(u32 id)
 {
-    struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
-    return r->unk00;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->mapType;
 }
 
 
@@ -829,8 +735,8 @@ u32 sub_02013B50(u32 id)
 
 u32 sub_02013B5C(u32 id)
 {
-    struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
-    return r->unk06;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->scriptArcId;
 }
 
 
@@ -844,8 +750,8 @@ u32 sub_02013B5C(u32 id)
 
 u32 sub_02013B68(u32 id)
 {
-    struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
-    return r->unk0a;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->msgArcId;
 }
 
 
@@ -857,13 +763,13 @@ u32 sub_02013B68(u32 id)
 
 
 
-void sub_02013B74(u32 id, u32 *out)
+void sub_02013B74(u32 id, VecFx32 *out)
 {
-    struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
+    const struct ZoneHeader *r = sub_02013AD0(id);
 
-    out[0] = r->unk24 << 0x10;
-    out[1] = r->unk28 << 0x10;
-    out[2] = r->unk2c << 0x10;
+    out->x = r->posX << 0x10;
+    out->y = r->posY << 0x10;
+    out->z = r->posZ << 0x10;
 }
 
 
@@ -875,13 +781,13 @@ void sub_02013B74(u32 id, u32 *out)
 
 
 
-void sub_02013B90(u32 id, u32 *out)
+void sub_02013B90(u32 id, VecFx32 *out)
 {
-    struct Sub02013AD0Rec_02013AD0 *r = sub_02013AD0(id);
+    const struct ZoneHeader *r = sub_02013AD0(id);
 
-    out[0] = r->unk24;
-    out[1] = r->unk28;
-    out[2] = r->unk2c;
+    out->x = r->posX;
+    out->y = r->posY;
+    out->z = r->posZ;
 }
 
 
@@ -909,8 +815,8 @@ void sub_02013B90(u32 id, u32 *out)
  */
 u8 sub_02013BA8(u32 id)
 {
-    struct Sub02013AD0Rec_02013BA8 *r = sub_02013AD0(id);
-    return r->unk1c.mid3;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->mapChangeType;
 }
 
 
@@ -924,8 +830,8 @@ u8 sub_02013BA8(u32 id)
 
 u8 sub_02013BBC(u32 id)
 {
-    struct Sub02013AD0Rec_02013BA8 *r = sub_02013AD0(id);
-    return r->unk1c.hi7;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->cameraId;
 }
 
 
@@ -939,8 +845,8 @@ u8 sub_02013BBC(u32 id)
 
 u32 sub_02013BD0(u32 id)
 {
-    struct Sub02013AD0Rec_02013BA8 *r = sub_02013AD0(id);
-    return r->unk20;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->cameraAreaId;
 }
 
 
@@ -979,20 +885,20 @@ u32 sub_02013BD0(u32 id)
 u32 func_02013BDC(u32 id, u32 which)
 {
     u16 v = 0;
-    struct ZoneRec *r = sub_02013AD0(id);
+    const struct ZoneHeader *r = sub_02013AD0(id);
 
     switch (which) {
     case 0:
-        v = r->conn0c;
+        v = r->bgm[0];
         break;
     case 1:
-        v = r->conn0e;
+        v = r->bgm[1];
         break;
     case 2:
-        v = r->conn10;
+        v = r->bgm[2];
         break;
     case 3:
-        v = r->conn12;
+        v = r->bgm[3];
         break;
     }
     return v;
@@ -1045,8 +951,8 @@ u32 func_02013BDC(u32 id, u32 which)
  */
 u32 sub_02013C10(u32 id)
 {
-    struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
-    return r->unk1c.lo6;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->weatherId;
 }
 
 
@@ -1060,8 +966,8 @@ u32 sub_02013C10(u32 id)
 
 u32 sub_02013C20(u32 id)
 {
-    struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
-    return r->unk1e.flag10;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->bikeEnabled;
 }
 
 
@@ -1075,8 +981,8 @@ u32 sub_02013C20(u32 id)
 
 u32 sub_02013C30(u32 id)
 {
-    struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
-    return r->unk1e.flag14;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->ringtoneEnabled;
 }
 
 
@@ -1090,8 +996,8 @@ u32 sub_02013C30(u32 id)
 
 u32 sub_02013C40(u32 id)
 {
-    struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
-    return r->unk1e.flag13;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->flyEnabled;
 }
 
 
@@ -1105,8 +1011,8 @@ u32 sub_02013C40(u32 id)
 
 u32 sub_02013C50(u32 id)
 {
-    struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
-    return r->unk1e.flag12;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->weatherEnabled;
 }
 
 
@@ -1120,8 +1026,8 @@ u32 sub_02013C50(u32 id)
 
 u32 sub_02013C60(u32 id)
 {
-    struct Sub02013AD0Rec_02013C10 *r = sub_02013AD0(id);
-    return r->unk1e.flag15;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->palaceEnabled;
 }
 
 
@@ -1142,9 +1048,9 @@ u32 sub_02013C60(u32 id)
  *   python tools/match.py one --src src/pending/func_02013C70.c \
  *       --func func_02013C70 --addr 0x02013C70 --cc 1.1p1 --thumb
  */
-int func_02013C70(u32 a)
+int func_02013C70(u32 zoneId)
 {
-    return func_02013B10(a, (const u16 *)tbl_0209E010, 0xb);
+    return sub_02013B10(zoneId, tbl_0209E010, 0xb);
 }
 
 
@@ -1180,7 +1086,7 @@ int func_02013C9C(u16 key)
     u32 i;
 
     for (i = 0; i < 0x14; i++) {
-        if (r == sub_0209E026_Map[i].code)
+        if (r == sub_0209E026_Map[i].zoneId)
             return sub_0209E026_Map[i].kind;
     }
     return -1;
@@ -1202,7 +1108,7 @@ int func_02013C9C(u16 key)
  *           sub_02013D34, sub_02013D5C
  *
  * alias: a run of id-classification predicates on the remapped id
- * sub_02013A94() returns, plus sub_02013D34, which is a plain disjunction
+ * func_02013A94() returns, plus sub_02013D34, which is a plain disjunction
  * of three of them.  sub_02013C70/C80/C9C, immediately before this file,
  * and sub_02013D74, immediately after it, are documented near misses and
  * are not in this file; see unit_02013C10.c and unit_02013D9C.c.
@@ -1230,7 +1136,7 @@ int func_02013C9C(u16 key)
  */
 u32 sub_02013CC8(u32 id)
 {
-    return sub_02013A94(id) == 0x1a6;
+    return func_02013A94(id) == 0x1a6;
 }
 
 
@@ -1245,7 +1151,7 @@ u32 sub_02013CC8(u32 id)
 
 u32 sub_02013CE0(u32 id)
 {
-    return (u16)(sub_02013A94(id) + 0xff6a) <= 1;
+    return (u16)(func_02013A94(id) + 0xff6a) <= 1;
 }
 
 
@@ -1260,7 +1166,7 @@ u32 sub_02013CE0(u32 id)
 
 u32 sub_02013D00(u32 id)
 {
-    return (u16)(sub_02013A94(id) + 0xffb5) <= 1;
+    return (u16)(func_02013A94(id) + 0xffb5) <= 1;
 }
 
 
@@ -1275,7 +1181,7 @@ u32 sub_02013D00(u32 id)
 
 u32 sub_02013D20(u32 id)
 {
-    return sub_02013A94(id) == 0x34;
+    return func_02013A94(id) == 0x34;
 }
 
 
@@ -1305,7 +1211,7 @@ u32 sub_02013D34(u32 id)
 
 u32 sub_02013D5C(u32 id)
 {
-    return sub_02013A94(id) == 0x117;
+    return func_02013A94(id) == 0x117;
 }
 
 
@@ -1328,7 +1234,7 @@ int func_02013D74(u32 key)
 {
     u32 v = func_02013A94(key);
 
-    if ((v >= 0x121 && v <= 0x13c) || func_02013D9C(v) == 1)
+    if ((v >= 0x121 && v <= 0x13c) || sub_02013D9C(v) == 1)
         return 1;
     return 0;
 }
@@ -1370,7 +1276,7 @@ int func_02013D74(u32 key)
  */
 u32 sub_02013D9C(u32 id)
 {
-    u32 v = sub_02013A94(id);
+    u32 v = func_02013A94(id);
 
     return v >= 0x118 && v <= 0x120;
 }
@@ -1407,7 +1313,7 @@ u32 sub_02013DB8(u32 id)
  */
 int func_02013DD0(int a0)
 {
-    return func_02013B10(a0, (const u16 *)d_0209DFC0, 4);
+    return sub_02013B10(a0, d_0209DFC0, 4);
 }
 
 
@@ -1427,7 +1333,7 @@ int func_02013DD0(int a0)
  */
 int func_02013DE0(u16 a0)
 {
-    return func_02013B10(a0, (const u16 *)d_0209DFEC, 9);
+    return sub_02013B10(a0, d_0209DFEC, 9);
 }
 
 
@@ -1485,7 +1391,7 @@ int func_02013DE0(u16 a0)
  */
 u32 sub_02013DF0(u32 id)
 {
-    return sub_02013A94(id) == 0x4e;
+    return func_02013A94(id) == 0x4e;
 }
 
 
@@ -1500,7 +1406,7 @@ u32 sub_02013DF0(u32 id)
 u32 sub_02013E04(u32 id)
 {
     if (sub_02013CC8(id) || sub_02013CE0(id) || sub_02013D00(id) ||
-        sub_02013D5C(id) || sub_02013D74(id))
+        sub_02013D5C(id) || func_02013D74(id))
         return 0;
     return 1;
 }
@@ -1516,8 +1422,8 @@ u32 sub_02013E04(u32 id)
 
 u32 sub_02013E40(u32 id)
 {
-    struct Sub02013AD0Rec_02013DF0 *r = sub_02013AD0(id);
-    return r->unk18;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->parentZoneId;
 }
 
 
@@ -1531,8 +1437,8 @@ u32 sub_02013E40(u32 id)
 
 u32 sub_02013E4C(u32 id)
 {
-    struct Sub02013AD0Rec_02013DF0 *r = sub_02013AD0(id);
-    u32 v = r->unk1a.lo10;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    u32 v = r->placeNameId;
 
     if ((u16)(v + 0xff90) <= 1)
         v = 0x70;
@@ -1550,8 +1456,8 @@ u32 sub_02013E4C(u32 id)
 
 u32 sub_02013E6C(u32 id)
 {
-    struct Sub02013AD0Rec_02013DF0 *r = sub_02013AD0(id);
-    return r->unk1a.hi6;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->placeNameWindow;
 }
 
 
@@ -1565,8 +1471,8 @@ u32 sub_02013E6C(u32 id)
 
 u32 sub_02013E7C(u32 id)
 {
-    struct Sub02013AD0Rec_02013DF0 *r = sub_02013AD0(id);
-    return r->unk04 == 0;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->matrixId == 0;
 }
 
 
@@ -1602,8 +1508,8 @@ u32 sub_02013E7C(u32 id)
  */
 u32 func_02013E90(u32 a, u32 b)
 {
-    u32 ga = func_02013B44(a);
-    u32 gb = func_02013B44(b);
+    u32 ga = sub_02013B44(a);
+    u32 gb = sub_02013B44(b);
 
     if (ga == gb)
         return 1;
@@ -1634,8 +1540,8 @@ u32 func_02013E90(u32 a, u32 b)
  */
 u32 sub_02013EC0(u32 id)
 {
-    struct Sub02013AD0Rec_02013EC0 *r = sub_02013AD0(id);
-    return r->unk14;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->encountId;
 }
 
 
@@ -1649,8 +1555,8 @@ u32 sub_02013EC0(u32 id)
 
 u32 sub_02013ECC(u32 id)
 {
-    struct Sub02013AD0Rec_02013EC0 *r = sub_02013AD0(id);
-    return r->unk16;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->eventDataId;
 }
 
 
@@ -1668,7 +1574,7 @@ u32 sub_02013ECC(u32 id)
  * alias: continues the record-cache family of unit_02013AD0.c and
  * unit_02013BA8.c: every accessor here that calls sub_02013AD0() reads
  * through the same cached record, at offsets not used by those two files.
- * g_sub02013AD0Obj2 is the same cache object (0x02146264) as
+ * g_sub02013AD0Obj is the same cache object (0x02146264) as
  * unit_02013AD0.c's g_sub02013AD0Obj, redeclared here with only the extra
  * fields (0x38..0x43, two of its three small lookup tables and their
  * counts) this file touches; nothing about the two declarations needs to
@@ -1696,8 +1602,8 @@ u32 sub_02013ECC(u32 id)
  */
 u8 sub_02013ED8(u32 id)
 {
-    struct Sub02013AD0Rec_02013ED8 *r = sub_02013AD0(id);
-    return r->mid5;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->fieldEffectSetId;
 }
 
 
@@ -1713,12 +1619,12 @@ u32 sub_02013EEC(u32 id)
 {
     u32 result = 0x0FFFFFFFu;
     u32 rid;
-    s32_02013DF0 i;
+    int i;
 
-    rid = sub_02013A94(id);
-    for (i = 0; i < g_sub02013AD0Obj2->count1; i++) {
-        if (rid == g_sub02013AD0Obj2->arr1[i].key) {
-            result = g_sub02013AD0Obj2->arr1[i].val;
+    rid = func_02013A94(id);
+    for (i = 0; i < g_sub02013AD0Obj->fogCount; i++) {
+        if (rid == g_sub02013AD0Obj->fogTable[i].zoneId) {
+            result = g_sub02013AD0Obj->fogTable[i].value;
             break;
         }
     }
@@ -1738,12 +1644,12 @@ u32 sub_02013F2C(u32 id)
 {
     u32 result = 0x0FFFFFFFu;
     u32 rid;
-    s32_02013DF0 i;
+    int i;
 
-    rid = sub_02013A94(id);
-    for (i = 0; i < g_sub02013AD0Obj2->count2; i++) {
-        if (rid == g_sub02013AD0Obj2->arr2[i].key) {
-            result = g_sub02013AD0Obj2->arr2[i].val;
+    rid = func_02013A94(id);
+    for (i = 0; i < g_sub02013AD0Obj->lightCount; i++) {
+        if (rid == g_sub02013AD0Obj->lightTable[i].zoneId) {
+            result = g_sub02013AD0Obj->lightTable[i].value;
             break;
         }
     }
@@ -1763,12 +1669,12 @@ u32 sub_02013F6C(u32 id)
 {
     u32 result = 0;
     u32 rid;
-    s32_02013DF0 i;
+    int i;
 
-    rid = sub_02013A94(id);
-    for (i = 0; i < g_sub02013AD0Obj2->count3; i++) {
-        if (rid == g_sub02013AD0Obj2->arr3[i].key) {
-            result = g_sub02013AD0Obj2->arr3[i].val;
+    rid = func_02013A94(id);
+    for (i = 0; i < g_sub02013AD0Obj->mapEffectCount; i++) {
+        if (rid == g_sub02013AD0Obj->mapEffectTable[i].zoneId) {
+            result = g_sub02013AD0Obj->mapEffectTable[i].value;
             break;
         }
     }
@@ -1790,7 +1696,7 @@ int func_02013FA8(u16 key)
     u32 i;
 
     for (i = 0; i < 5; i++) {
-        if (v == sub_0209DFC8_Map[i].code)
+        if (v == sub_0209DFC8_Map[i].zoneId)
             return sub_0209DFC8_Map[i].kind;
     }
     return 0xffff;
@@ -1839,9 +1745,8 @@ int func_02013FA8(u16 key)
  */
 u8 sub_02013FD8(u32 id)
 {
-    struct { u8 pad[0x1e]; u16 lo5 : 5; u16 mid5 : 5; u16 hi6 : 6; } *r =
-        sub_02013AD0(id);
-    return r->lo5;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->expObjSetId;
 }
 
 
@@ -1855,7 +1760,7 @@ u8 sub_02013FD8(u32 id)
 
 u32 sub_02013FEC(u32 id)
 {
-    return sub_02013B10(id, (const u16 *)0x0209DFDC, 8);
+    return sub_02013B10(id, d_0209DFDC, 8);
 }
 
 
@@ -1869,7 +1774,7 @@ u32 sub_02013FEC(u32 id)
 
 u32 sub_02013FFC(u32 id)
 {
-    return sub_02013B10(id, (const u16 *)0x0209DFB8, 4);
+    return sub_02013B10(id, d_0209DFB8, 4);
 }
 
 
@@ -1911,7 +1816,7 @@ u32 sub_02014018(u32 id)
 
 u32 sub_02014024(u32 id)
 {
-    return sub_02013B10(id, (const u16 *)0x0209DFD2, 5);
+    return sub_02013B10(id, d_0209DFD2, 5);
 }
 
 
@@ -1953,8 +1858,8 @@ u32 sub_02014044(u32 id)
 
 u8 sub_0201405C(u32 id)
 {
-    struct { u8 unk00; u8 unk01; } *r = sub_02013AD0(id);
-    return r->unk01;
+    const struct ZoneHeader *r = sub_02013AD0(id);
+    return r->mapSubType;
 }
 
 
@@ -2016,17 +1921,17 @@ u32 sub_02014068(u32 id)
  *   python tools/match.py one --src src/matched/sub_0201407C.c \
  *       --func sub_0201407C --addr 0x0201407C --cc 1.1p1 --thumb
  */
-void *sub_0201407C(u32 heap, u16 index, u32 delta)
+void *sub_0201407C(u32 heapId, u16 areaId, u32 season)
 {
-    u16 record = index;
+    u16 record = areaId;
 
-    if (sub_020140E8(index) != 0) {
-        record = (u16)(index + (u16)delta);
+    if (sub_020140E8(areaId) != 0) {
+        record = (u16)(areaId + (u16)season);
     }
     if (record >= 282) {
         record = 0;
     }
-    return func_02020E08(13, heap, record * 10, 10);
+    return func_02020E08(13, heapId, record * 10, 10);
 }
 
 
@@ -2061,9 +1966,9 @@ void *sub_0201407C(u32 heap, u16 index, u32 delta)
  *   python tools/match.py tu --src src/matched/unit_020140B4.c \
  *       --addr 0x020140B4 --thumb
  */
-u32 sub_020140B4(void *a)
+u32 sub_020140B4(struct AreaData *areaData)
 {
-    return sub_020307B0(a);
+    func_020307B0(areaData);
 }
 
 
@@ -2074,9 +1979,9 @@ u32 sub_020140B4(void *a)
 
 
 
-u16 sub_020140BC(struct Sub020140BCObj *p)
+u16 sub_020140BC(const struct AreaData *areaData)
 {
-    return p->f02;
+    return areaData->texSetId;
 }
 
 
@@ -2086,11 +1991,11 @@ u16 sub_020140BC(struct Sub020140BCObj *p)
 
 
 
-u32 sub_020140C0(struct Sub020140BCObj *p)
+u32 sub_020140C0(const struct AreaData *areaData)
 {
-    if (p->f04 == 0xFF)
+    if (areaData->itaAnimeId == 0xFF)
         return (u32)-1;
-    return p->f04;
+    return areaData->itaAnimeId;
 }
 
 
@@ -2100,11 +2005,11 @@ u32 sub_020140C0(struct Sub020140BCObj *p)
 
 
 
-u32 sub_020140CC(struct Sub020140BCObj *p)
+u32 sub_020140CC(const struct AreaData *areaData)
 {
-    if (p->f05 == 0xFF)
+    if (areaData->itpAnimeId == 0xFF)
         return (u32)-1;
-    return p->f05;
+    return areaData->itpAnimeId;
 }
 
 
@@ -2114,9 +2019,9 @@ u32 sub_020140CC(struct Sub020140BCObj *p)
 
 
 
-u8 sub_020140D8(struct Sub020140BCObj *p)
+u8 sub_020140D8(const struct AreaData *areaData)
 {
-    return p->f06;
+    return areaData->innerOuter;
 }
 
 
@@ -2126,9 +2031,9 @@ u8 sub_020140D8(struct Sub020140BCObj *p)
 
 
 
-u8 sub_020140DC(struct Sub020140BCObj *p)
+u8 sub_020140DC(const struct AreaData *areaData)
 {
-    return p->f07;
+    return areaData->lightType;
 }
 
 
@@ -2138,9 +2043,9 @@ u8 sub_020140DC(struct Sub020140BCObj *p)
 
 
 
-u8 sub_020140E0(struct Sub020140BCObj *p)
+u8 sub_020140E0(const struct AreaData *areaData)
 {
-    return p->f08;
+    return areaData->edgeMarkType;
 }
 
 
@@ -2150,9 +2055,9 @@ u8 sub_020140E0(struct Sub020140BCObj *p)
 
 
 
-u8 sub_020140E4(struct Sub020140BCObj *p)
+u8 sub_020140E4(const struct AreaData *areaData)
 {
-    return p->f09;
+    return areaData->billboardColor;
 }
 
 
@@ -2172,9 +2077,9 @@ u8 sub_020140E4(struct Sub020140BCObj *p)
  *   python tools/match.py one --src src/matched/sub_020140E8.c \
  *       --func sub_020140E8 --addr 0x020140E8 --cc 1.1p1 --thumb
  */
-u32 sub_020140E8(u32 x)
+u32 sub_020140E8(u32 areaId)
 {
-    return x >= 2 && x < 0xD2;
+    return areaId >= 2 && areaId < 0xD2;
 }
 
 
@@ -2185,17 +2090,17 @@ u32 sub_020140E8(u32 x)
 
 
 
-void func_020140F8(Rect14110 *p)
+void func_020140F8(struct Location *loc)
 {
-    p->x00 = 0;
-    p->x04 = 0;
-    p->x06 = 0;
-    p->x08 = 0;
-    p->x0A = 0;
-    p->x0C = 0;
-    p->x10 = 0;
-    p->x14 = 0;
-    p->x18 = 0;
+    loc->type = 0;
+    loc->zoneId = 0;
+    loc->exitId = 0;
+    loc->dir = 0;
+    loc->exitOffset = 0;
+    loc->posType = 0;
+    loc->pos.vec.x = 0;
+    loc->pos.vec.y = 0;
+    loc->pos.vec.z = 0;
 }
 
 
@@ -2211,17 +2116,17 @@ void func_020140F8(Rect14110 *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_02014110(Rect14110 *p, u16 a, u16 b, u16 c, u16 d, u32 e, u32 f, u32 g)
+void func_02014110(struct Location *loc, u16 zoneId, u16 exitId, u16 dir, u16 exitOffset, u32 x, u32 y, u32 z)
 {
-    p->x00 = 0;
-    p->x04 = a;
-    p->x06 = b;
-    p->x08 = c;
-    p->x0A = d;
-    p->x0C = 0;
-    p->x10 = e;
-    p->x14 = f;
-    p->x18 = g;
+    loc->type = 0;
+    loc->zoneId = zoneId;
+    loc->exitId = exitId;
+    loc->dir = dir;
+    loc->exitOffset = exitOffset;
+    loc->posType = 0;
+    loc->pos.vec.x = x;
+    loc->pos.vec.y = y;
+    loc->pos.vec.z = z;
 }
 
 
@@ -2237,19 +2142,19 @@ void func_02014110(Rect14110 *p, u16 a, u16 b, u16 c, u16 d, u32 e, u32 f, u32 g
  *   python tools/match.py one --src src/matched/func_02014134.c \
  *       --func func_02014134 --addr 0x02014134 --cc 1.1p1 --thumb
  */
-void func_02014134(u8 *p, u16 b, int c, u16 d, u16 e, u16 f, u16 g, s16_02014134 h)
+void func_02014134(struct Location *loc, u16 zoneId, int exitId, u16 dir, u16 exitOffset, u16 railIndex, u16 lineGrid, s16 widthGrid)
 {
-    ((struct Obj00193 *)p)->f0 = 0;
-    ((struct Obj00193 *)p)->f4 = b;
-    ((struct Obj00193 *)p)->f6 = c;
-    ((struct Obj00193 *)p)->f8 = d;
-    ((struct Obj00193 *)p)->fA = e;
-    ((struct Obj00193 *)p)->fC = 1;
-    *(u8 *)(p + 0x12) = 1;
-    *(u16 *)&((struct Obj00193 *)p)->f10 = f;
-    *(u16 *)(p + 0x16) = g;
-    *(u16 *)&((struct Obj00193 *)p)->f14 = h;
-    *(u8 *)(p + 0x13) = func_0201441C(func_02014274(d));
+    loc->type = 0;
+    loc->zoneId = zoneId;
+    loc->exitId = exitId;
+    loc->dir = dir;
+    loc->exitOffset = exitOffset;
+    loc->posType = 1;
+    loc->pos.rail.type = 1;
+    loc->pos.rail.railIndex = railIndex;
+    loc->pos.rail.lineGrid = lineGrid;
+    loc->pos.rail.widthGrid = widthGrid;
+    loc->pos.rail.key = func_0201441C(sub_02014274(dir));
 }
 
 
@@ -2260,12 +2165,12 @@ void func_02014134(u8 *p, u16 b, int c, u16 d, u16 e, u16 f, u16 g, s16_02014134
 
 
 
-void func_0201416C(Rect14110 *p, u16 a, u16 b, u16 c)
+void func_0201416C(struct Location *loc, u16 zoneId, u16 exitId, u16 exitOffset)
 {
-    func_020140F8(p);
-    p->x04 = a;
-    p->x06 = b;
-    p->x0A = c;
+    func_020140F8(loc);
+    loc->zoneId = zoneId;
+    loc->exitId = exitId;
+    loc->exitOffset = exitOffset;
 }
 
 
@@ -2281,17 +2186,17 @@ void func_0201416C(Rect14110 *p, u16 a, u16 b, u16 c)
  * from the live flag's 1 (`subs r1, r4, #2`); a u16 field loads 0xFFFF from
  * the pool.
  */
-void func_02014184(Rec1C *r, u16 id, s16_02014134 count, u32 a, u32 b, u32 c)
+void func_02014184(struct Location *loc, u16 zoneId, s16 dir, u32 x, u32 y, u32 z)
 {
-    r->live = 1;
-    r->id = id;
-    r->slot = -1;
-    r->count = count;
-    r->pad = 0;
-    r->zero = 0;
-    r->a = a;
-    r->b = b;
-    r->c = c;
+    loc->type = 1;
+    loc->zoneId = zoneId;
+    loc->exitId = -1;
+    loc->dir = dir;
+    loc->exitOffset = 0;
+    loc->posType = 0;
+    loc->pos.vec.x = x;
+    loc->pos.vec.y = y;
+    loc->pos.vec.z = z;
 }
 
 
@@ -2317,19 +2222,19 @@ void func_02014184(Rec1C *r, u16 id, s16_02014134 count, u32 a, u32 b, u32 c)
  *   python tools/match.py one --src src/matched/func_020141A8.c \
  *       --func func_020141A8 --addr 0x020141A8 --cc 1.1p1 --thumb
  */
-void func_020141A8(struct t_020139B0 *p, int b, int d, u16 g, u16 i, s16_020141A8 h)
+void func_020141A8(struct Location *loc, int zoneId, int dir, u16 railIndex, u16 lineGrid, s16 widthGrid)
 {
-    p->a = 1;
-    p->b = b;
-    p->c = -1;
-    p->d = d;
-    p->e = 0;
-    p->f = 1;
-    p->on = 1;
-    p->g = g;
-    p->i = i;
-    p->h = h;
-    p->kind = func_0201441C(func_02014274(d));
+    loc->type = 1;
+    loc->zoneId = zoneId;
+    loc->exitId = -1;
+    loc->dir = dir;
+    loc->exitOffset = 0;
+    loc->posType = 1;
+    loc->pos.rail.type = 1;
+    loc->pos.rail.railIndex = railIndex;
+    loc->pos.rail.lineGrid = lineGrid;
+    loc->pos.rail.widthGrid = widthGrid;
+    loc->pos.rail.key = func_0201441C(sub_02014274(dir));
 }
 
 
@@ -2342,9 +2247,9 @@ void func_020141A8(struct t_020139B0 *p, int b, int d, u16 g, u16 i, s16_020141A
 /*
  * note:     wave 17 lane untried_small: a getter of the +0xC word; listing extent runs over the unlabelled neighbours 0x020141E0 and 0x020141F0.
  */
-int func_020141DC(const Rec020141DC *p)
+int func_020141DC(const struct Location *loc)
 {
-    return p->fC;
+    return loc->posType;
 }
 
 
@@ -2359,11 +2264,11 @@ int func_020141DC(const Rec020141DC *p)
 /*
  * note:     wave 18 lane ties_b: unlabelled follower of func_020141DC; copies the three words at +0x10 out, read into locals last-to-first.
  */
-void func_020141E0(const Rec020141E0 *p, Vec020141E0 *out)
+void func_020141E0(const struct Location *loc, VecFx32 *out)
 {
-    int z = p->v.z;
-    int y = p->v.y;
-    int x = p->v.x;
+    int z = loc->pos.vec.z;
+    int y = loc->pos.vec.y;
+    int x = loc->pos.vec.x;
 
     out->x = x;
     out->y = y;
@@ -2382,10 +2287,10 @@ void func_020141E0(const Rec020141E0 *p, Vec020141E0 *out)
 /*
  * note:     wave 18 lane ties_b: unlabelled follower; clears the +0xC word and struct-assigns the three words at +0x10.
  */
-void func_020141F0(Rec020141F0 *p, const Vec020141F0 *v)
+void func_020141F0(struct Location *loc, const VecFx32 *vec)
 {
-    p->fC = 0;
-    p->v = *v;
+    loc->posType = 0;
+    loc->pos.vec = *vec;
 }
 
 
@@ -2404,27 +2309,27 @@ void func_020141F0(Rec020141F0 *p, const Vec020141F0 *v)
  *           concrete byte here is correct; --suggest-split reports no
  *           viable cut.
  */
-void func_02014204(struct t_020141E0 *p, int id)
+void func_02014204(struct Location *loc, int zoneId)
 {
-    struct v3 v;
+    VecFx32 pos;
 
-    func_020140F8((Rect14110 *)p);
-    p->a = 1;
-    p->b = id;
-    p->c = -1;
-    p->d = 2;
-    p->e = 0;
-    if (func_02013C70(id) != 0) {
-        sub_02013B90(id, (u32 *)(&v));
-        p->f = 1;
-        *((u8 *)p + 0x12) = 1;
-        p->g = v.x;
-        p->i = v.y;
-        p->h = v.z;
+    func_020140F8(loc);
+    loc->type = 1;
+    loc->zoneId = zoneId;
+    loc->exitId = -1;
+    loc->dir = 2;
+    loc->exitOffset = 0;
+    if (func_02013C70(zoneId) != 0) {
+        sub_02013B90(zoneId, &pos);
+        loc->posType = 1;
+        loc->pos.rail.type = 1;
+        loc->pos.rail.railIndex = pos.x;
+        loc->pos.rail.lineGrid = pos.y;
+        loc->pos.rail.widthGrid = pos.z;
     } else {
-        sub_02013B74(id, (u32 *)(&v));
-        p->f = 0;
-        *(struct v3 *)((u8 *)p + 0x10) = v;
+        sub_02013B74(zoneId, &pos);
+        loc->posType = 0;
+        loc->pos.vec = pos;
     }
 }
 
@@ -2452,9 +2357,9 @@ void func_02014204(struct t_020141E0 *p, int id)
  *   python tools/match.py one --src src/matched/sub_02014264.c \
  *       --func sub_02014264 --addr 0x02014264 --cc 1.1p1 --thumb
  */
-void sub_02014264(void *p)
+void sub_02014264(struct Location *loc)
 {
-    func_02014204(p, 0x187);
+    func_02014204(loc, 0x187);
 }
 
 
@@ -2486,9 +2391,9 @@ void sub_02014264(void *p)
  *   python tools/match.py tu --src src/matched/unit_02014274.c \
  *       --addr 0x02014274 --thumb
  */
-u32 sub_02014274(u32 idx)
+u32 sub_02014274(u32 exitDir)
 {
-    switch (idx) {
+    switch (exitDir) {
     case 1: return 0;
     case 2: return 1;
     case 3: return 2;
@@ -2506,9 +2411,9 @@ u32 sub_02014274(u32 idx)
 
 
 
-u32 sub_020142A4(u32 idx)
+u32 sub_020142A4(u32 dir)
 {
-    switch (idx) {
+    switch (dir) {
     case 0: return 1;
     case 1: return 2;
     case 2: return 3;
@@ -2540,9 +2445,9 @@ u32 sub_020142D0(void)
 
 
 
-u32 sub_020142D8(u32 a)
+u32 sub_020142D8(struct EventWork *ev)
 {
-    return sub_02082BCC(a, 0, 0x3EA);
+    return func_02082BCC(ev, 0, 0x3EA);
 }
 
 
@@ -2579,12 +2484,12 @@ u32 sub_020142D8(u32 a)
  *   python tools/match.py one --src src/matched/func_020142E8.c \
  *       --func func_020142E8 --addr 0x020142E8 --cc 1.1p1 --thumb
  */
-u32 func_020142E8(void *bitmap, s32 id)
+u32 func_020142E8(struct EventWork *ev, s32 flagId)
 {
-    u8 *byte = (u8 *)func_02014388((char *)bitmap, id);
+    u8 *byte = func_02014388(ev, flagId);
 
     if (byte != 0) {
-        if ((*byte & (1 << (id % 8))) != 0) {
+        if ((*byte & (1 << (flagId % 8))) != 0) {
             return 1;
         }
     }
@@ -2600,12 +2505,12 @@ u32 func_020142E8(void *bitmap, s32 id)
 
 
 
-void func_02014314(char *a0, int a1)
+void func_02014314(struct EventWork *ev, int flagId)
 {
-    unsigned char *p = (u8 *)func_02014388((char *)a0, a1);
+    u8 *byte = func_02014388(ev, flagId);
 
-    if (p != 0)
-        *p |= 1 << (a1 % 8);
+    if (byte != 0)
+        *byte |= 1 << (flagId % 8);
 }
 
 
@@ -2617,12 +2522,12 @@ void func_02014314(char *a0, int a1)
 
 
 
-void func_0201433C(char *a0, int a1)
+void func_0201433C(struct EventWork *ev, int flagId)
 {
-    unsigned char *p = (unsigned char *)func_02014388(a0, a1);
+    u8 *byte = func_02014388(ev, flagId);
 
-    if (p != 0)
-        *p &= 0xff ^ (1 << (a1 % 8));
+    if (byte != 0)
+        *byte &= 0xff ^ (1 << (flagId % 8));
 }
 
 
@@ -2634,12 +2539,12 @@ void func_0201433C(char *a0, int a1)
 
 
 
-void func_02014368(char *a0, int a1, int a2)
+void func_02014368(struct EventWork *ev, int firstFlagId, int lastFlagId)
 {
-    int i;
+    int flagId;
 
-    for (i = a1; i <= a2; i++)
-        func_0201433C(a0, (u16)i);
+    for (flagId = firstFlagId; flagId <= lastFlagId; flagId++)
+        func_0201433C(ev, (u16)flagId);
 }
 
 
@@ -2650,22 +2555,22 @@ void func_02014368(char *a0, int a1, int a2)
 
 
 
-char *func_02014388(char *a0, u32 a1)
+u8 *func_02014388(struct EventWork *ev, u32 flagId)
 {
-    int i;
+    int index;
 
-    if (a1 == 0)
+    if (flagId == 0)
         return 0;
-    if (a1 < 0x4000) {
-        i = a1 >> 3;
-        if (i >= 0x16c)
+    if (flagId < 0x4000) {
+        index = flagId >> 3;
+        if (index >= 0x16c)
             return 0;
-        return a0 + 0x27c + i;
+        return &ev->flags[index];
     }
-    i = (int)(a1 - 0x4000) / 8;
-    if (i >= 8)
+    index = (int)(flagId - 0x4000) / 8;
+    if (index >= 8)
         return 0;
-    return sub_02146268_Sys + i;
+    return &sub_02146268_Sys[index];
 }
 
 
@@ -2696,9 +2601,9 @@ char *func_02014388(char *a0, u32 a1)
  *   python tools/match.py tu --src src/matched/unit_020143CC.c \
  *       --addr 0x020143CC --thumb
  */
-u32 sub_020143CC(u32 a, u32 b)
+u16 *sub_020143CC(struct EventWork *ev, u32 workId)
 {
-    return a + ((b - 0x4000) << 1);
+    return &ev->work[workId - 0x4000];
 }
 
 
@@ -2709,10 +2614,11 @@ u32 sub_020143CC(u32 a, u32 b)
 
 
 
-void sub_020143D8(u32 a, u32 y, u32 z)
+void sub_020143D8(struct EventWork *ev, u32 firstWorkId, u32 endWorkId)
 {
-    u32 base = sub_020143CC(a, y);
-    sub_02082BCC(base, 0, (z - y) << 1);
+    u16 *first = sub_020143CC(ev, firstWorkId);
+
+    func_02082BCC(first, 0, (endWorkId - firstWorkId) << 1);
 }
 
 
@@ -2723,10 +2629,10 @@ void sub_020143D8(u32 a, u32 y, u32 z)
 
 
 
-void sub_020143F0(u8 *a)
+void sub_020143F0(struct EventWork *ev)
 {
-    sub_02014368((char *)((u32)a), 0xAA0, 0xB5F);
-    a[0x3E8] = 1;
+    func_02014368(ev, 0xAA0, 0xB5F);
+    ev->timeFlagsCleared = 1;
 }
 
 
@@ -2737,11 +2643,12 @@ void sub_020143F0(u8 *a)
 
 
 
-u8 sub_0201440C(u8 *a)
+u8 sub_0201440C(struct EventWork *ev)
 {
-    u8 v = a[0x3E8];
-    a[0x3E8] = 0;
-    return v;
+    u8 cleared = ev->timeFlagsCleared;
+
+    ev->timeFlagsCleared = 0;
+    return cleared;
 }
 
 
@@ -2751,9 +2658,9 @@ u8 sub_0201440C(u8 *a)
 
 
 
-u8 func_0201441C(int i)
+u8 func_0201441C(int dir)
 {
-    return sub_0209E050_Map[i];
+    return sub_0209E050_Map[dir];
 }
 
 
@@ -2771,11 +2678,11 @@ u8 func_0201441C(int i)
  * bc 72 0a 02 at 0x02014440, and the one "differing byte" was bit 5 of that
  * address, not a register choice.
  */
-void func_02014428(u32 heap)
+void func_02014428(u32 heapId)
 {
-    u8 *p = func_02030734(heap, 0x14, 1, (const char *)&sBtlSetupFile, 0x33);
+    struct FieldStatus *fs = func_02030734(heapId, 0x14, 1, sBtlSetupFile, 0x33);
 
-    ((struct Obj15653 *)p)->f12 = 0;
+    fs->procAction = 0;
 }
 
 
@@ -2813,9 +2720,9 @@ void func_02014428(u32 heap)
  *   python tools/match.py tu --src src/matched/unit_02014444.c \
  *       --addr 0x02014444 --thumb
  */
-void sub_02014444(u32 a, u32 b, u32 c)
+void sub_02014444(struct FieldStatus *fs)
 {
-    ENV_SetResourceSet(a, b, c);
+    func_020307B0(fs);
 }
 
 
@@ -2825,9 +2732,9 @@ void sub_02014444(u32 a, u32 b, u32 c)
 
 
 
-u32 sub_0201444C(struct Sub02014444Obj *o)
+u32 sub_0201444C(struct FieldStatus *fs)
 {
-    return o->f00;
+    return fs->mapMode;
 }
 
 
@@ -2836,9 +2743,9 @@ u32 sub_0201444C(struct Sub02014444Obj *o)
 
 
 
-void sub_02014450(struct Sub02014444Obj *o, u32 v)
+void sub_02014450(struct FieldStatus *fs, u32 mapMode)
 {
-    o->f00 = v;
+    fs->mapMode = mapMode;
 }
 
 
@@ -2847,9 +2754,9 @@ void sub_02014450(struct Sub02014444Obj *o, u32 v)
 
 
 
-void sub_02014454(struct Sub02014444Obj *o, u8 v)
+void sub_02014454(struct FieldStatus *fs, u8 fieldInitFlag)
 {
-    o->f04 = v;
+    fs->fieldInitFlag = fieldInitFlag;
 }
 
 
@@ -2858,9 +2765,9 @@ void sub_02014454(struct Sub02014444Obj *o, u8 v)
 
 
 
-u8 sub_02014458(struct Sub02014444Obj *o)
+u8 sub_02014458(struct FieldStatus *fs)
 {
-    return o->f04;
+    return fs->fieldInitFlag;
 }
 
 
@@ -2869,9 +2776,9 @@ u8 sub_02014458(struct Sub02014444Obj *o)
 
 
 
-void sub_0201445C(struct Sub02014444Obj *o, u8 v)
+void sub_0201445C(struct FieldStatus *fs, u8 continueFlag)
 {
-    o->f05 = v;
+    fs->continueFlag = continueFlag;
 }
 
 
@@ -2880,9 +2787,9 @@ void sub_0201445C(struct Sub02014444Obj *o, u8 v)
 
 
 
-u8 sub_02014460(struct Sub02014444Obj *o)
+u8 sub_02014460(struct FieldStatus *fs)
 {
-    return o->f05;
+    return fs->continueFlag;
 }
 
 
@@ -2891,9 +2798,9 @@ u8 sub_02014460(struct Sub02014444Obj *o)
 
 
 
-void sub_02014464(struct Sub02014444Obj *o, u8 v)
+void sub_02014464(struct FieldStatus *fs, u8 flashActive)
 {
-    o->f06 = v;
+    fs->flashActive = flashActive;
 }
 
 
@@ -2902,9 +2809,9 @@ void sub_02014464(struct Sub02014444Obj *o, u8 v)
 
 
 
-u8 sub_02014468(struct Sub02014444Obj *o)
+u8 sub_02014468(struct FieldStatus *fs)
 {
-    return o->f06;
+    return fs->flashActive;
 }
 
 
@@ -2913,9 +2820,9 @@ u8 sub_02014468(struct Sub02014444Obj *o)
 
 
 
-void sub_0201446C(struct Sub02014444Obj *o, u16 v)
+void sub_0201446C(struct FieldStatus *fs, u16 mapEffectMask)
 {
-    o->f08 = v;
+    fs->mapEffectMask = mapEffectMask;
 }
 
 
@@ -2924,9 +2831,9 @@ void sub_0201446C(struct Sub02014444Obj *o, u16 v)
 
 
 
-u16 sub_02014470(struct Sub02014444Obj *o)
+u16 sub_02014470(struct FieldStatus *fs)
 {
-    return o->f08;
+    return fs->mapEffectMask;
 }
 
 
@@ -2935,9 +2842,9 @@ u16 sub_02014470(struct Sub02014444Obj *o)
 
 
 
-void sub_02014474(struct Sub02014444Obj *o, u16 v)
+void sub_02014474(struct FieldStatus *fs, u16 procAction)
 {
-    o->f12 = v;
+    fs->procAction = procAction;
 }
 
 
@@ -2946,9 +2853,9 @@ void sub_02014474(struct Sub02014444Obj *o, u16 v)
 
 
 
-u16 sub_02014478(struct Sub02014444Obj *o)
+u16 sub_02014478(struct FieldStatus *fs)
 {
-    return o->f12;
+    return fs->procAction;
 }
 
 
@@ -2957,10 +2864,11 @@ u16 sub_02014478(struct Sub02014444Obj *o)
 
 
 
-u8 sub_0201447C(struct Sub02014444Obj *o, u8 v)
+u8 sub_0201447C(struct FieldStatus *fs, u8 seasonDispFlag)
 {
-    u8 old = o->f11;
-    o->f11 = v;
+    u8 old = fs->seasonDispFlag;
+
+    fs->seasonDispFlag = seasonDispFlag;
     return old;
 }
 
@@ -2970,9 +2878,9 @@ u8 sub_0201447C(struct Sub02014444Obj *o, u8 v)
 
 
 
-u8 sub_02014484(struct Sub02014444Obj *o)
+u8 sub_02014484(struct FieldStatus *fs)
 {
-    return o->f11;
+    return fs->seasonDispFlag;
 }
 
 
@@ -3006,27 +2914,28 @@ u8 sub_02014484(struct Sub02014444Obj *o)
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
-int sub_02014488(void *a0, u32 *a1, u8 *a2)
+int sub_02014488(struct GameEvent *event, u32 *seq, void *work)
 {
-    void *v = (void *)((struct Obj05792 *)a2)->f8;
-    void *w = (void *)((struct Obj05792 *)a2)->f0;
-    void *x = (void *)((struct Obj05792 *)a2)->f4;
-    void *y;
+    struct FieldCloseWork *wk = work;
+    struct GameData *gameData = wk->gameData;
+    struct GameSystem *gameSystem = wk->gameSystem;
+    struct FieldMap *fieldMap = wk->fieldMap;
+    struct FieldSoundSystem *fieldSound;
 
-    y = (void *)sub_02012A30(v);
-    switch (*a1) {
+    fieldSound = func_02012A30(gameData);
+    switch (*seq) {
     case 0:
-        func_02188BD8(x);
-        *a1 = *a1 + 1;
+        func_02188BD8(fieldMap);
+        *seq = *seq + 1;
         break;
     case 1:
-        if (sub_020120F0(w) != 0) {
+        if (func_020120F0(gameSystem) != 0) {
             break;
         }
-        if (sub_020289B8(y) == 1) {
+        if (func_020289B8(fieldSound) == 1) {
             break;
         }
-        if (((struct Obj05792 *)a2)->fC != 0) {
+        if (wk->notifyClose != 0) {
             func_0215FA44();
         }
         return 1;
@@ -3040,16 +2949,16 @@ int sub_02014488(void *a0, u32 *a1, u8 *a2)
 
 
 
-void *func_020144DC(void *a0, int a1)
+struct GameEvent *func_020144DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap)
 {
-    void *r7 = func_020122C0(a0, 0, (void *)sub_02014488, 0x10);
-    int *r4 = func_020124E8(r7);
+    struct GameEvent *event = sub_020122C0(gameSystem, 0, sub_02014488, 0x10);
+    struct FieldCloseWork *wk = sub_020124E8(event);
 
-    r4[0] = (int)a0;
-    r4[1] = a1;
-    r4[2] = (int)func_020120F4(a0);
-    r4[3] = 1;
-    return r7;
+    wk->gameSystem = gameSystem;
+    wk->fieldMap = fieldMap;
+    wk->gameData = func_020120F4(gameSystem);
+    wk->notifyClose = 1;
+    return event;
 }
 
 
@@ -3088,20 +2997,21 @@ void *func_020144DC(void *a0, int a1)
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
-int func_0201450C(int a0, int *a1, int *a2)
+int func_0201450C(struct GameEvent *event, u32 *seq, void *work)
 {
-    int v7 = a2[0];
-    int v6 = a2[1];
+    struct FieldCloseWork *wk = work;
+    struct GameSystem *gameSystem = wk->gameSystem;
+    struct FieldMap *fieldMap = wk->fieldMap;
 
-    func_02012A30((const struct BigObj *)a2[2]);
-    switch (*a1) {
+    func_02012A30(wk->gameData);
+    switch (*seq) {
     case 0:
-        func_02188BD8((u8 *)v6);
-        *a1 = *a1 + 1;
+        func_02188BD8(fieldMap);
+        *seq = *seq + 1;
         break;
     case 1:
-        if (func_020120F0((const struct Ctx *)v7) == 0) {
-            if (a2[3] != 0) {
+        if (func_020120F0(gameSystem) == 0) {
+            if (wk->notifyClose != 0) {
                 func_0215FA44();
             }
             return 1;
@@ -3117,16 +3027,16 @@ int func_0201450C(int a0, int *a1, int *a2)
 
 
 
-void *func_02014554(void *a0, int a1)
+struct GameEvent *func_02014554(struct GameSystem *gameSystem, struct FieldMap *fieldMap)
 {
-    void *r7 = func_020122C0(a0, 0, (void *)func_0201450C, 0x10);
-    int *r4 = func_020124E8(r7);
+    struct GameEvent *event = sub_020122C0(gameSystem, 0, func_0201450C, 0x10);
+    struct FieldCloseWork *wk = sub_020124E8(event);
 
-    r4[0] = (int)a0;
-    r4[1] = a1;
-    r4[2] = (int)func_020120F4(a0);
-    r4[3] = 0;
-    return r7;
+    wk->gameSystem = gameSystem;
+    wk->fieldMap = fieldMap;
+    wk->gameData = func_020120F4(gameSystem);
+    wk->notifyClose = 0;
+    return event;
 }
 
 
@@ -3160,20 +3070,21 @@ void *func_02014554(void *a0, int a1)
  *   python tools/match.py one --src src/pending/func_02014584.c \
  *       --func func_02014584 --addr 0x02014584 --cc 1.1p1 --thumb
  */
-int func_02014584(int a0, int *a1, int *a2)
+int func_02014584(struct GameEvent *event, u32 *seq, void *work)
 {
-    int v = *a2;
+    struct FieldOpenWork *wk = work;
+    struct GameSystem *gameSystem = wk->gameSystem;
 
-    switch (*a1) {
+    switch (*seq) {
     case 0:
-        if (func_020120F0((const struct Ctx *)v) == 0) {
-            func_020120C0((struct IcaAnime *)v);
-            *a1 = *a1 + 1;
+        if (func_020120F0(gameSystem) == 0) {
+            func_020120C0(gameSystem);
+            *seq = *seq + 1;
         }
         break;
     case 1:
-        if (func_02188BE8(func_0201210C((void *)v)) != 0) {
-            *a1 = *a1 + 1;
+        if (func_02188BE8(func_0201210C(gameSystem)) != 0) {
+            *seq = *seq + 1;
         }
         break;
     case 2:
@@ -3199,30 +3110,30 @@ int func_02014584(int a0, int *a1, int *a2)
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
-void *func_020145CC(void *a0)
+struct GameEvent *func_020145CC(struct GameSystem *gameSystem)
 {
-    void *r6 = func_020122C0(a0, 0, (void *)func_02014584, 0x10);
-    u32 *r4 = func_020124E8(r6);
+    struct GameEvent *event = sub_020122C0(gameSystem, 0, func_02014584, 0x10);
+    struct FieldOpenWork *wk = sub_020124E8(event);
 
-    r4[0] = (u32)a0;
-    r4[1] = 0;
-    r4[2] = (u32)func_020120F4(a0);
+    wk->gameSystem = gameSystem;
+    wk->unused04 = 0;
+    wk->gameData = func_020120F4(gameSystem);
     func_0215FA34();
-    return r6;
+    return event;
 }
 
 
 
 
-void *func_020145FC(void *a0)
+struct GameEvent *func_020145FC(struct GameSystem *gameSystem)
 {
-    void *r7 = func_020122C0(a0, 0, (void *)func_02014584, 0x10);
-    int *r4 = func_020124E8(r7);
+    struct GameEvent *event = sub_020122C0(gameSystem, 0, func_02014584, 0x10);
+    struct FieldOpenWork *wk = sub_020124E8(event);
 
-    r4[0] = (int)a0;
-    r4[1] = 0;
-    r4[2] = (int)func_020120F4(a0);
-    return r7;
+    wk->gameSystem = gameSystem;
+    wk->unused04 = 0;
+    wk->gameData = func_020120F4(gameSystem);
+    return event;
 }
 
 
@@ -3236,28 +3147,29 @@ void *func_020145FC(void *a0)
  * 0x02014692.  `u32 a0 = p[0];` before the switch is load-bearing: without it
  * each arm reloads p[0] and the whole dispatch shifts.
  */
-u32 func_02014628(void *obj, u32 *mode, u32 *p)
+int func_02014628(struct GameEvent *event, u32 *seq, void *work)
 {
-    u32 a0 = p[0];
-    void *r;
+    struct SubProcWork *wk = work;
+    struct GameSystem *gameSystem = wk->gameSystem;
+    struct GameEvent *child;
 
-    switch (*mode) {
+    switch (*seq) {
     case 0:
-        r = (void *)func_021BE8D4((void *)a0, p[1], 0, 0);
-    tail:
-        func_02012374(obj, r);
-        (*mode)++;
-        goto ret0;
+        child = func_021BE8D4(gameSystem, wk->fieldMap, 0, 0);
+    call:
+        func_02012374(event, child);
+        (*seq)++;
+        goto wait;
     case 1:
-        r = (void *)func_02014728((char *)a0, p[1], p[2], p[3], p[4]);
-        goto tail;
+        child = func_02014728(gameSystem, wk->fieldMap, wk->overlayId, wk->procData, wk->procWork);
+        goto call;
     case 2:
-        r = (void *)func_021BE92C((void *)a0, p[1], 0, 0, 1, 0, 0);
-        goto tail;
+        child = func_021BE92C(gameSystem, wk->fieldMap, 0, 0, 1, 0, 0);
+        goto call;
     case 3:
         return 1;
     default:
-    ret0:
+    wait:
         return 0;
     }
 }
@@ -3273,27 +3185,28 @@ u32 func_02014628(void *obj, u32 *mode, u32 *p)
  * the repeated increments itself, and that leaves case 2's tail jump on
  * case 1's `b inc` block exactly as the image has it.
  */
-u32 func_02014698(void *obj, u32 *mode, u32 *args)
+int func_02014698(struct GameEvent *event, u32 *seq, void *work)
 {
-    u32 a0 = args[0];
+    struct SubProcWork *wk = work;
+    struct GameSystem *gameSystem = wk->gameSystem;
 
-    switch (*mode) {
+    switch (*seq) {
     case 0:
-        func_02012374(obj, func_020144DC((void *)a0, args[1]));
-        (*mode)++;
+        func_02012374(event, func_020144DC(gameSystem, wk->fieldMap));
+        (*seq)++;
         break;
     case 1:
-        func_020120B4((struct IcaAnime *)a0, args[2], (void *)args[3], (void *)args[4]);
-        (*mode)++;
+        func_020120B4(gameSystem, wk->overlayId, wk->procData, wk->procWork);
+        (*seq)++;
         break;
     case 2:
-        if (func_020120F0((const struct Ctx *)a0) == 0) {
-            (*mode)++;
+        if (func_020120F0(gameSystem) == 0) {
+            (*seq)++;
         }
         break;
     case 3:
-        func_02012374(obj, func_020145CC((void *)a0));
-        (*mode)++;
+        func_02012374(event, func_020145CC(gameSystem));
+        (*seq)++;
         break;
     case 4:
         return 1;
@@ -3303,32 +3216,32 @@ u32 func_02014698(void *obj, u32 *mode, u32 *args)
 
 
 
-void *func_020146F8(char *a0, int a1, int a2, int a3, int a4)
+struct GameEvent *func_020146F8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork)
 {
-    void *r = func_020122C0(a0, 0, (void *)((int)func_02014628), 0x14);
-    u32 *p = func_020124E8(r);
+    struct GameEvent *event = sub_020122C0(gameSystem, 0, func_02014628, 0x14);
+    struct SubProcWork *wk = sub_020124E8(event);
 
-    p[0] = (u32)a0;
-    p[1] = a1;
-    p[2] = a2;
-    p[3] = a3;
-    p[4] = a4;
-    return r;
+    wk->gameSystem = gameSystem;
+    wk->fieldMap = fieldMap;
+    wk->overlayId = overlayId;
+    wk->procData = procData;
+    wk->procWork = procWork;
+    return event;
 }
 
 
 
-void *func_02014728(char *a0, int a1, int a2, int a3, int a4)
+struct GameEvent *func_02014728(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork)
 {
-    void *r = func_020122C0(a0, 0, (void *)((int)func_02014698), 0x14);
-    u32 *p = func_020124E8(r);
+    struct GameEvent *event = sub_020122C0(gameSystem, 0, func_02014698, 0x14);
+    struct SubProcWork *wk = sub_020124E8(event);
 
-    p[0] = (u32)a0;
-    p[1] = a1;
-    p[2] = a2;
-    p[3] = a3;
-    p[4] = a4;
-    return r;
+    wk->gameSystem = gameSystem;
+    wk->fieldMap = fieldMap;
+    wk->overlayId = overlayId;
+    wk->procData = procData;
+    wk->procWork = procWork;
+    return event;
 }
 
 
@@ -3351,23 +3264,25 @@ void *func_02014728(char *a0, int a1, int a2, int a3, int a4)
  *   python tools/match.py one --src src/matched/func_02014758.c \
  *       --func func_02014758 --addr 0x02014758 --cc 1.1p1 --thumb
  */
-int func_02014758(int a0, int *a1, S *a2)
+int func_02014758(struct GameEvent *event, u32 *seq, void *work)
 {
-    switch (*a1) {
+    struct SubProcCallbackWork *wk = work;
+
+    switch (*seq) {
     case 0:
-        func_02012374((struct Evt *)a0, func_020146F8((char *)a2->f00, a2->f04, a2->f08, a2->f0c,
-                                        a2->f10));
-        *a1 = *a1 + 1;
+        func_02012374(event, func_020146F8(wk->gameSystem, wk->fieldMap, wk->overlayId, wk->procData,
+                                        wk->procWork));
+        *seq = *seq + 1;
         break;
     case 1:
-        if (a2->f14 != 0) {
-            a2->f14(a2->f18);
+        if (wk->callback != 0) {
+            wk->callback(wk->callbackWork);
         }
-        *a1 = *a1 + 1;
+        *seq = *seq + 1;
         break;
     case 2:
-        if (a2->f18 != 0) {
-            func_020307B0(a2->f18);
+        if (wk->callbackWork != 0) {
+            func_020307B0(wk->callbackWork);
         }
         return 1;
     }
@@ -3389,23 +3304,25 @@ int func_02014758(int a0, int *a1, S *a2)
  *   python tools/match.py one --src src/matched/func_020147B0.c \
  *       --func func_020147B0 --addr 0x020147B0 --cc 1.1p1 --thumb
  */
-int func_020147B0(int a0, int *a1, S *a2)
+int func_020147B0(struct GameEvent *event, u32 *seq, void *work)
 {
-    switch (*a1) {
+    struct SubProcCallbackWork *wk = work;
+
+    switch (*seq) {
     case 0:
-        func_02012374((struct Evt *)a0, func_02014728((char *)a2->f00, a2->f04, a2->f08, a2->f0c,
-                                        a2->f10));
-        *a1 = *a1 + 1;
+        func_02012374(event, func_02014728(wk->gameSystem, wk->fieldMap, wk->overlayId, wk->procData,
+                                        wk->procWork));
+        *seq = *seq + 1;
         break;
     case 1:
-        if (a2->f14 != 0) {
-            a2->f14(a2->f18);
+        if (wk->callback != 0) {
+            wk->callback(wk->callbackWork);
         }
-        *a1 = *a1 + 1;
+        *seq = *seq + 1;
         break;
     case 2:
-        if (a2->f18 != 0) {
-            func_020307B0(a2->f18);
+        if (wk->callbackWork != 0) {
+            func_020307B0(wk->callbackWork);
         }
         return 1;
     }
@@ -3418,36 +3335,36 @@ int func_020147B0(int a0, int *a1, S *a2)
  * promoted: from src/pending on 2026-09-19, no C change: its blocker is filed,
  *           every relocation site resolves and match.py one reports EXACT.
  */
-void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6)
+struct GameEvent *func_02014808(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork)
 {
-    void *r = func_020122C0(a0, 0, (void *)((int)func_02014758), 0x1c);
-    u32 *p = func_020124E8(r);
+    struct GameEvent *event = sub_020122C0(gameSystem, 0, func_02014758, 0x1c);
+    struct SubProcCallbackWork *wk = sub_020124E8(event);
 
-    p[0] = (u32)a0;
-    p[1] = a1;
-    p[2] = a2;
-    p[3] = a3;
-    p[4] = a4;
-    p[5] = a5;
-    p[6] = a6;
-    return r;
+    wk->gameSystem = gameSystem;
+    wk->fieldMap = fieldMap;
+    wk->overlayId = overlayId;
+    wk->procData = procData;
+    wk->procWork = procWork;
+    wk->callback = callback;
+    wk->callbackWork = callbackWork;
+    return event;
 }
 
 
 
-void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6)
+struct GameEvent *func_02014840(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork)
 {
-    void *r = func_020122C0(a0, 0, (void *)((int)func_020147B0), 0x1c);
-    u32 *p = func_020124E8(r);
+    struct GameEvent *event = sub_020122C0(gameSystem, 0, func_020147B0, 0x1c);
+    struct SubProcCallbackWork *wk = sub_020124E8(event);
 
-    p[0] = (u32)a0;
-    p[1] = a1;
-    p[2] = a2;
-    p[3] = a3;
-    p[4] = a4;
-    p[5] = a5;
-    p[6] = a6;
-    return r;
+    wk->gameSystem = gameSystem;
+    wk->fieldMap = fieldMap;
+    wk->overlayId = overlayId;
+    wk->procData = procData;
+    wk->procWork = procWork;
+    wk->callback = callback;
+    wk->callbackWork = callbackWork;
+    return event;
 }
 
 
@@ -3485,41 +3402,45 @@ void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6)
  *   python tools/match.py one --src src/matched/func_02014878.c \
  *       --func func_02014878 --addr 0x02014878 --cc 1.1p1 --thumb
  */
-u32 func_02014878(u32 a0, u32 *mode, u32 *p)
+int func_02014878(struct GameEvent *event, u32 *seq, void *work)
 {
-    u32 v = p[0];
+    struct ProcPairWork *wk = work;
+    struct GameSystem *gameSystem = wk->gameSystem;
 
-    switch (*mode) {
+    /* stand-in: the two process data blocks (0x021BED00 in ov091, 0x021DC800 in
+     * ov131) are written as raw addresses; named externs for them leave the pool
+     * words unattested (MATCH, not EXACT), since the overlays are not linked here. */
+    switch (*seq) {
     case 0:
-        func_020120B4((struct IcaAnime *)v, (u32)ov091_id, (void *)0x021BED00, (void *)p[2]);
-        *mode = 1;
+        func_020120B4(gameSystem, (u32)ov091_id, (void *)0x021BED00, wk->firstParam);
+        *seq = 1;
         break;
     case 1:
-        if (func_020120F0((const struct Ctx *)v) != 0)
+        if (func_020120F0(gameSystem) != 0)
             break;
-        *mode = 2;
+        *seq = 2;
         break;
     case 2:
-        if (*(u32 *)(p[2] + 0x40) == 0) {
-            *mode = 5;
+        if (*(u32 *)(wk->firstParam + 0x40) == 0) {
+            *seq = 5;
             break;
         }
-        if (*(u32 *)(p[2] + 0x40) == 1) {
-            *(u8 *)(p[3] + 0xf) = (u8)*(u32 *)(p[2] + 0x3c);
-            *mode = 3;
+        if (*(u32 *)(wk->firstParam + 0x40) == 1) {
+            wk->secondParam[0xf] = (u8)*(u32 *)(wk->firstParam + 0x3c);
+            *seq = 3;
             break;
         }
-        *mode = 5;
+        *seq = 5;
         break;
     case 3:
-        func_020120B4((struct IcaAnime *)v, (u32)ov131_id, (void *)0x021DC800, (void *)p[3]);
-        *mode = 4;
+        func_020120B4(gameSystem, (u32)ov131_id, (void *)0x021DC800, wk->secondParam);
+        *seq = 4;
         break;
     case 4:
-        if (func_020120F0((const struct Ctx *)v) != 0)
+        if (func_020120F0(gameSystem) != 0)
             break;
-        *(u32 *)(p[2] + 0x3c) = *(u8 *)(p[3] + 0xf);
-        *mode = 0;
+        *(u32 *)(wk->firstParam + 0x3c) = wk->secondParam[0xf];
+        *seq = 0;
         break;
     case 5:
         return 1;

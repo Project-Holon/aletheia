@@ -34,131 +34,16 @@
  *   FX_SinCosTable_    0x020A1B38  data
  *   gBillboardQuad     0x020A1514  data
  */
-#include "../../matched/include/Obj11449.h"
-#include "../../matched/include/Obj16146.h"
-#include "../../matched/include/Obj08866.h"
-#include "../../matched/include/Obj16149.h"
+#include "billboard_types.h"
 
 struct Camera;
-struct Lights;
 struct LightSlot;
-struct Rgb555;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-struct Rec_0204F720 {
-    u16 lo : 9;
-    u16 b9 : 1;
-    u16 hi : 6;
-};
-
-struct Ent_0204F748 {
-    u8  pad_00[0x18];
-    u16 pad_b0 : 10;     /* +0x18 bits 0..9  */
-    u16 f10 : 1;         /* +0x18 bit 10     */
-    u16 pad_b11 : 5;     /* +0x18 bits 11..15 */
-    u8  pad_1a[2];
-};
-
-struct Rec_0204F764 {
-    u16 lo  : 10;
-    u16 b10 : 1;
-    u16 hi  : 5;
-};
-
-struct Rec_0204F794 {
-    u16 lo  : 11;
-    u16 b11 : 1;
-    u16 hi  : 4;
-};
-
-struct Ent_0204F7C4 {
-    u8  pad_00[0x16];
-    u16 f16;
-    u8  pad_18[4];
-};
-
-typedef signed short   s16;
-
-typedef signed int     s32;
-
-typedef s32 fx32;
-
-typedef s16 fx16;
 
 typedef int BOOL;
-
-typedef struct { fx32 x, y, z; } VecFx32;
-
-typedef struct { fx16 x, y, z; } VecFx16;
 
 typedef struct { fx32 m[3][3]; } MtxFx33;
 
 typedef struct { fx32 m[4][3]; } MtxFx43;
-
-struct Slot {
-    u32 f00;
-    u16 f04;
-    u16 f06;
-    u8  f08;
-    u8  f09;
-    u8  f0a;
-    u8  f0b;
-    u32 vramAddr;   /* 0x0c */
-    u32 plttAddr;   /* 0x10 */
-    u32 fmt;        /* 0x14 */
-    u32 sizeS;      /* 0x18 */
-    u32 sizeT;      /* 0x1c */
-    u32 f20;
-    u32 f24;
-};
-
-struct Elem {
-    u16 id   : 14;
-    u16 mode : 2;
-    u16 f02;
-    VecFx32 pos;    /* 0x04 */
-    u16 cell;       /* 0x10 */
-    s16 scaleX;     /* 0x12 */
-    s16 scaleY;     /* 0x14 */
-    u16 rot;        /* 0x16 */
-    u16 alpha : 5;  /* 0x18 */
-    u16 polyId : 4;
-    u16 visible : 1;
-    u16 flipS : 1;
-    u16 flipT : 1;
-    u16 light : 4;
-    u16 f1a;
-};
-
-struct Board {
-    u16 id;
-    u16 pad02;
-    struct Slot *ptr0;
-    struct Elem *ptr1;
-    u16 count0;
-    u16 count1;
-    fx32 scale;     /* 0x10 */
-    u32 f14;
-    u32 f18;
-    u16 diffuse;    /* 0x1c */
-    u16 ambient;    /* 0x1e */
-    u16 specular;   /* 0x20 */
-    u16 emission;   /* 0x22 */
-    u8  polyIdBase; /* 0x24 */
-    u8  quadShape;  /* 0x25 */
-    u16 pad26;
-    u32 lookAtMode; /* 0x28 */
-    u32 useLight;   /* 0x2c */
-    fx16 lightX;    /* 0x30 */
-    fx16 lightY;    /* 0x32 */
-    fx16 lightZ;    /* 0x34 */
-    s16 offS;       /* 0x36 */
-    s16 offT;       /* 0x38 */
-};
 
 struct Quad { fx16 y0, y1, x0, x1; };
 
@@ -177,13 +62,13 @@ extern void G3_RotZ(fx32 s, fx32 c);
 extern void func_02048AE8(struct Camera *cam, VecFx32 *out);
 extern void func_02048B0C(struct Camera *cam, VecFx32 *out);
 extern void func_02048B30(struct Camera *cam, VecFx32 *out);
-extern void func_02048C80(struct LightSlot *slots, u8 i, struct Rgb555 *out);
-extern void func_02048CCC(struct LightSlot *slots, u8 i, u16 *out);
-void func_0204F720(void *p, u32 idx, u32 *flag);
-u32 func_0204F748(u8 *a0, int i);
-void func_0204F764(void *p, u32 idx, u32 *val);
-void func_0204F794(void *p, u32 idx, u32 *val);
-void func_0204F7C4(u8 *a0, int i, u16 *src);
+extern void func_02048C80(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
+extern void func_02048CCC(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
+void func_0204F720(struct BbBoard *board, u32 elemIndex, u32 *visible);
+u32 func_0204F748(struct BbBoard *board, int elemIndex);
+void func_0204F764(struct BbBoard *board, u32 elemIndex, u32 *flipS);
+void func_0204F794(struct BbBoard *board, u32 elemIndex, u32 *flipT);
+void func_0204F7C4(struct BbBoard *board, int elemIndex, u16 *rotZ);
 extern const fx16 FX_SinCosTable_[];
 extern const struct Quad gBillboardQuad[];
 
@@ -195,14 +80,14 @@ extern const struct Quad gBillboardQuad[];
  * than a read-modify-write of the whole halfword, and the address is written
  * inside each arm so the condition is evaluated first.
  */
-void func_0204F720(void *p, u32 idx, u32 *flag)
+void func_0204F720(struct BbBoard *board, u32 elemIndex, u32 *visible)
 {
-    if (*flag == 1) {
-        struct Rec_0204F720 *r = (struct Rec_0204F720 *)(*(u8 * *)&((struct Obj11449 *)p)->f8 + idx * 0x1c + 0x18);
-        r->b9 = 1;
+    if (*visible == 1) {
+        struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
+        elem->visible = 1;
     } else {
-        struct Rec_0204F720 *r = (struct Rec_0204F720 *)(*(u8 * *)&((struct Obj11449 *)p)->f8 + idx * 0x1c + 0x18);
-        r->b9 = 0;
+        struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
+        elem->visible = 0;
     }
 }
 
@@ -222,11 +107,11 @@ void func_0204F720(void *p, u32 idx, u32 *flag)
  * bit 10.  The entry type is declared with its sizeof at 0x1c, so the encoder
  * emits the image's `mov r0, #0x1c` plus `mla`.
  */
-u32 func_0204F748(u8 *a0, int i)
+u32 func_0204F748(struct BbBoard *board, int elemIndex)
 {
-    struct Ent_0204F748 *e = &((struct Ent_0204F748 *)((struct Obj16146 *)a0)->f8)[i];
+    struct BbElem *elem = &board->elems[elemIndex];
 
-    return e->f10;
+    return elem->flipS;
 }
 
 
@@ -236,22 +121,22 @@ u32 func_0204F748(u8 *a0, int i)
  * lsl #31 / lsr #21 pair from the bit write, which is why the C has to keep
  * the narrowing visible: the bit is a 1-bit bitfield assigned a u16 value.
  */
-void func_0204F764(void *p, u32 idx, u32 *val)
+void func_0204F764(struct BbBoard *board, u32 elemIndex, u32 *flipS)
 {
-    struct Rec_0204F764 *r = (struct Rec_0204F764 *)(*(u8 * *)&((struct Obj08866 *)p)->f8 + idx * 0x1c + 0x18);
+    struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
 
-    r->b10 = (u16)*val;
+    elem->flipS = (u16)*flipS;
 }
 
 
 /*
  * Same as func_0204F764 one bit up: the caller's word goes into bit 11.
  */
-void func_0204F794(void *p, u32 idx, u32 *val)
+void func_0204F794(struct BbBoard *board, u32 elemIndex, u32 *flipT)
 {
-    struct Rec_0204F794 *r = (struct Rec_0204F794 *)(*(u8 * *)&((struct Obj08866 *)p)->f8 + idx * 0x1c + 0x18);
+    struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
 
-    r->b11 = (u16)*val;
+    elem->flipT = (u16)*flipT;
 }
 
 
@@ -265,11 +150,11 @@ void func_0204F794(void *p, u32 idx, u32 *val)
  * 0x0204F7C4 in layout/function_starts.txt turns that EXACT* into EXACT; that
  * file is the integrator's, not this packet's.
  */
-void func_0204F7C4(u8 *a0, int i, u16 *src)
+void func_0204F7C4(struct BbBoard *board, int elemIndex, u16 *rotZ)
 {
-    struct Ent_0204F7C4 *e = &((struct Ent_0204F7C4 *)((struct Obj16149 *)a0)->f8)[i];
+    struct BbElem *elem = &board->elems[elemIndex];
 
-    e->f16 = *src;
+    elem->rotZ = *rotZ;
 }
 
 
@@ -415,145 +300,145 @@ static inline void MTX_RotY33(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal) { MTX_Rot
  * scale, s1/s0/t1/t0, i, j, nx/ny/nz fixes the remaining spill slots.
  * func_02048C80/CCC take a u8 index here (`and r1, r8, #0xff`).
  */
-void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights)
+void func_0204F7DC(struct BbBoard *board, struct Camera *camera, struct LightSlot *lights)
 {
-    MtxFx33 rot[4];
-    VecFx32 camPos;
-    VecFx32 camUp;
-    VecFx32 target;
-    VecFx32 dir;
-    MtxFx43 view;
-    MtxFx43 inv;
-    VecFx32 flat;
-    VecFx32 trans;
-    VecFx16 lvec;
-    u16 lcol;
+    MtxFx33 facing[4];
+    VecFx32 cameraPos;
+    VecFx32 cameraUp;
+    VecFx32 cameraTarget;
+    VecFx32 viewDir;
+    MtxFx43 viewMtx;
+    MtxFx43 invViewMtx;
+    VecFx32 flatDir;
+    VecFx32 localPos;
+    VecFx16 lightVec;
+    u16 lightColor;
     fx32 scale;
-    fx32 s1, s0, t1, t0;
+    fx32 sLeft, sRight, tTop, tBottom;
     int i;
-    int j;
-    fx16 nx, ny, nz;
-    fx16 qy0, qy1, qx0, qx1;
+    int lightIndex;
+    fx16 normalX, normalY, normalZ;
+    fx16 quadY0, quadY1, quadX0, quadX1;
 
     G3X_Reset();
-    b->lookAtMode = 0;
-    func_02048AE8(cam, &camPos);
-    func_02048B0C(cam, &camUp);
-    func_02048B30(cam, &target);
-    if (b->lookAtMode == 0) {
-        G3i_LookAt_(&camPos, &camUp, &target, 1, &view);
+    board->lookAtMode = 0;
+    func_02048AE8(camera, &cameraPos);
+    func_02048B0C(camera, &cameraUp);
+    func_02048B30(camera, &cameraTarget);
+    if (board->lookAtMode == 0) {
+        G3i_LookAt_(&cameraPos, &cameraUp, &cameraTarget, 1, &viewMtx);
     } else {
-        MTX_LookAt(&camPos, &camUp, &target, &view);
+        MTX_LookAt(&cameraPos, &cameraUp, &cameraTarget, &viewMtx);
     }
-    MTX_Inverse43(&view, &inv);
-    MTX_Copy43To33(&inv, &rot[0]);
+    MTX_Inverse43(&viewMtx, &invViewMtx);
+    MTX_Copy43To33(&invViewMtx, &facing[0]);
 
-    VEC_Subtract(&camPos, &target, &flat);
-    flat.y = 0;
-    VEC_Normalize(&flat, &flat);
-    MTX_Identity33(&rot[1]);
-    MTX_RotY33(&rot[1], flat.x, flat.z);
-    MTX_RotY33(&rot[3], flat.x, flat.z);
-    MTX_Identity33(&rot[2]);
+    VEC_Subtract(&cameraPos, &cameraTarget, &flatDir);
+    flatDir.y = 0;
+    VEC_Normalize(&flatDir, &flatDir);
+    MTX_Identity33(&facing[1]);
+    MTX_RotY33(&facing[1], flatDir.x, flatDir.z);
+    MTX_RotY33(&facing[3], flatDir.x, flatDir.z);
+    MTX_Identity33(&facing[2]);
 
-    VEC_Subtract(&camPos, &target, &dir);
-    VEC_Normalize(&dir, &dir);
+    VEC_Subtract(&cameraPos, &cameraTarget, &viewDir);
+    VEC_Normalize(&viewDir, &viewDir);
 
-    if (b->useLight == 1) {
-        nx = b->lightX;
-        ny = b->lightY;
-        nz = b->lightZ;
+    if (board->useFixedNormal == 1) {
+        normalX = board->normalX;
+        normalY = board->normalY;
+        normalZ = board->normalZ;
     } else {
-        nx = dir.x;
-        ny = dir.y;
-        nz = dir.z;
+        normalX = viewDir.x;
+        normalY = viewDir.y;
+        normalZ = viewDir.z;
     }
 
     if (lights != 0) {
-        for (j = 0; j < 4; j++) {
-            func_02048C80((struct LightSlot *)lights, j, (struct Rgb555 *)(&lvec));
-            func_02048CCC((struct LightSlot *)lights, j, &lcol);
-            G3_LightVector(j, lvec.x, lvec.y, lvec.z);
-            G3_LightColor(j, lcol);
+        for (lightIndex = 0; lightIndex < 4; lightIndex++) {
+            func_02048C80(lights, lightIndex, &lightVec);
+            func_02048CCC(lights, lightIndex, &lightColor);
+            G3_LightVector(lightIndex, lightVec.x, lightVec.y, lightVec.z);
+            G3_LightColor(lightIndex, lightColor);
         }
     }
 
     G3_MtxMode(1);
-    scale = b->scale;
+    scale = board->scale;
     G3_Scale(scale, scale, scale);
 
-    for (i = 0; i < b->count1; i++) {
-        struct Slot *s;
-        struct Elem *e = &b->ptr1[i];
+    for (i = 0; i < board->elemCount; i++) {
+        struct BbImage *image;
+        struct BbElem *elem = &board->elems[i];
 
-        if (e->id == 0x3FFF) {
+        if (elem->imageIndex == BB_ELEM_FREE) {
             continue;
         }
-        if (!e->visible) {
+        if (!elem->visible) {
             continue;
         }
-        s = &b->ptr0[e->id];
+        image = &board->images[elem->imageIndex];
 
-        if (e->flipS) {
-            s0 = (e->cell % s->f0a) * s->f08 << 12;
-            s0 += b->offS;
-            s1 = s0 + (s->f08 << 12);
+        if (elem->flipS) {
+            sRight = (elem->cell % image->cellColumns) * image->cellWidth << 12;
+            sRight += board->offsetS;
+            sLeft = sRight + (image->cellWidth << 12);
         } else {
-            s1 = (e->cell % s->f0a) * s->f08 << 12;
-            s0 = s1 + (s->f08 << 12);
+            sLeft = (elem->cell % image->cellColumns) * image->cellWidth << 12;
+            sRight = sLeft + (image->cellWidth << 12);
         }
-        if (e->flipT) {
-            t0 = (e->cell / s->f0a) * s->f09 << 12;
-            t0 += b->offT;
-            t1 = t0 + (s->f09 << 12);
+        if (elem->flipT) {
+            tBottom = (elem->cell / image->cellColumns) * image->cellHeight << 12;
+            tBottom += board->offsetT;
+            tTop = tBottom + (image->cellHeight << 12);
         } else {
-            t1 = (e->cell / s->f0a) * s->f09 << 12;
-            t0 = t1 + (s->f09 << 12);
+            tTop = (elem->cell / image->cellColumns) * image->cellHeight << 12;
+            tBottom = tTop + (image->cellHeight << 12);
         }
         G3_PushMtx();
-        trans.x = FX_Div(e->pos.x, scale);
-        trans.y = FX_Div(e->pos.y, scale);
-        trans.z = FX_Div(e->pos.z, scale);
-        G3_MultTransMtx33(&rot[e->mode], &trans);
-        G3_RotZ(-FX_SinIdx(e->rot), FX_CosIdx(e->rot));
-        if (e->mode == 3) {
-            G3_Scale(e->scaleX, 0x1000, e->scaleY);
+        localPos.x = FX_Div(elem->pos.x, scale);
+        localPos.y = FX_Div(elem->pos.y, scale);
+        localPos.z = FX_Div(elem->pos.z, scale);
+        G3_MultTransMtx33(&facing[elem->facingMode], &localPos);
+        G3_RotZ(-FX_SinIdx(elem->rotZ), FX_CosIdx(elem->rotZ));
+        if (elem->facingMode == 3) {
+            G3_Scale(elem->scaleX, 0x1000, elem->scaleY);
         } else {
-            G3_Scale(e->scaleX, e->scaleY, 0x1000);
+            G3_Scale(elem->scaleX, elem->scaleY, 0x1000);
         }
-        G3_TexImageParam(s->fmt, 1, s->sizeS, s->sizeT, 0, 0, 1, s->vramAddr);
-        G3_TexPlttBase(s->plttAddr, s->fmt);
-        G3_MaterialColorDiffAmb(b->diffuse, b->ambient, 1);
-        G3_MaterialColorSpecEmi(b->specular, b->emission, 0);
-        G3_PolygonAttr(e->light, 0, 3, b->polyIdBase + e->polyId, e->alpha, 0x8000);
-        qy0 = gBillboardQuad[b->quadShape].y0;
-        qy1 = gBillboardQuad[b->quadShape].y1;
-        qx0 = gBillboardQuad[b->quadShape].x0;
-        qx1 = gBillboardQuad[b->quadShape].x1;
+        G3_TexImageParam(image->texFmt, 1, image->sizeS, image->sizeT, 0, 0, 1, image->vramAddr);
+        G3_TexPlttBase(image->plttAddr, image->texFmt);
+        G3_MaterialColorDiffAmb(board->diffuse, board->ambient, 1);
+        G3_MaterialColorSpecEmi(board->specular, board->emission, 0);
+        G3_PolygonAttr(elem->light, 0, 3, board->polyIdBase + elem->polyId, elem->alpha, 0x8000);
+        quadY0 = gBillboardQuad[board->quadShape].y0;
+        quadY1 = gBillboardQuad[board->quadShape].y1;
+        quadX0 = gBillboardQuad[board->quadShape].x0;
+        quadX1 = gBillboardQuad[board->quadShape].x1;
         G3_Begin(1);
-        if (e->light) {
-            G3_Normal(nx, ny, nz);
+        if (elem->light) {
+            G3_Normal(normalX, normalY, normalZ);
         } else {
             G3_Color(0x7FFF);
         }
-        if (e->mode == 3) {
-            G3_TexCoord(s1, t1);
-            G3_Vtx(qx0, 0, qy0);
-            G3_TexCoord(s1, t0);
-            G3_Vtx(qx0, 0, qy1);
-            G3_TexCoord(s0, t0);
-            G3_Vtx(qx1, 0, qy1);
-            G3_TexCoord(s0, t1);
-            G3_Vtx(qx1, 0, qy0);
+        if (elem->facingMode == 3) {
+            G3_TexCoord(sLeft, tTop);
+            G3_Vtx(quadX0, 0, quadY0);
+            G3_TexCoord(sLeft, tBottom);
+            G3_Vtx(quadX0, 0, quadY1);
+            G3_TexCoord(sRight, tBottom);
+            G3_Vtx(quadX1, 0, quadY1);
+            G3_TexCoord(sRight, tTop);
+            G3_Vtx(quadX1, 0, quadY0);
         } else {
-            G3_TexCoord(s1, t1);
-            G3_Vtx(qx0, qy0, 0);
-            G3_TexCoord(s1, t0);
-            G3_Vtx(qx0, qy1, 0);
-            G3_TexCoord(s0, t0);
-            G3_Vtx(qx1, qy1, 0);
-            G3_TexCoord(s0, t1);
-            G3_Vtx(qx1, qy0, 0);
+            G3_TexCoord(sLeft, tTop);
+            G3_Vtx(quadX0, quadY0, 0);
+            G3_TexCoord(sLeft, tBottom);
+            G3_Vtx(quadX0, quadY1, 0);
+            G3_TexCoord(sRight, tBottom);
+            G3_Vtx(quadX1, quadY1, 0);
+            G3_TexCoord(sRight, tTop);
+            G3_Vtx(quadX1, quadY0, 0);
         }
         G3_End();
         G3_PopMtx(1);

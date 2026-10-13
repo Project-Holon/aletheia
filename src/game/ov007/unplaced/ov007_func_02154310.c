@@ -31,62 +31,62 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-struct Ctx;
-struct Evt;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32   func_02012138(const struct Ctx *a0);
+struct GameSystem;
+struct GameEvent;
+struct ProcHandle;
+extern void *func_0201210C(const struct GameSystem *gameSystem);
+extern u32   func_02012138(const struct GameSystem *gameSystem);
 typedef unsigned char  u8;
-struct IcaAnime;
-extern u32 func_02026454(void *obj);
-extern int func_020144DC(int a0, int a1);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
-extern void *func_020145CC(void *a0);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern u32 func_02026454(void *gameComm);
+extern int func_020144DC(int gameSystem, int fieldMap);
+extern void func_02012374(struct GameEvent *event, struct GameEvent **callee);
+extern void func_020120B4(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
+extern u32 func_020120F0(const struct GameSystem *gameSystem);
+extern void *func_020145CC(void *gameSystem);
+extern int func_021BE8D4(void *gameSystem, int fieldMap, int sel, int d);
+extern int func_021BE92C(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 
 extern char ov116_id[];
 extern char d_021D83A4[];
 
-u32 func_02154310(void *obj, u32 *mode, u32 *args)
+u32 func_02154310(void *event, u32 *stage, u32 *work)
 {
-    u32 h = args[1];
-    void *x = func_0201210C((void *)h);
+    u32 gameSystem = work[1];
+    void *fieldMap = func_0201210C((void *)gameSystem);
 
-    switch (*mode) {
+    switch (*stage) {
     case 0:
-        if (func_02026454((void *)((int)func_02012138((const struct Ctx *)h))) == 0)
-            (*mode)++;
+        if (func_02026454((void *)((int)func_02012138((const struct GameSystem *)gameSystem))) == 0)
+            (*stage)++;
         break;
     case 1:
-        func_02012374(obj, (struct Evt **)func_021BE8D4((void *)h, (int)x, 0, 0));
-        (*mode)++;
+        func_02012374(event, (struct GameEvent **)func_021BE8D4((void *)gameSystem, (int)fieldMap, 0, 0));
+        (*stage)++;
         break;
     case 2:
-        func_02012374(obj, (struct Evt **)func_020144DC(h, (int)x));
-        (*mode)++;
+        func_02012374(event, (struct GameEvent **)func_020144DC(gameSystem, (int)fieldMap));
+        (*stage)++;
         break;
     case 3:
-        func_020120B4((struct IcaAnime *)h, (u32)ov116_id, d_021D83A4, args);
-        (*mode)++;
+        func_020120B4((struct ProcHandle *)gameSystem, (u32)ov116_id, d_021D83A4, work);
+        (*stage)++;
         break;
     case 4:
-        if (func_020120F0((const struct Ctx *)h) == 0) {
-            if (args[2] == 0)
-                *(u16 *)args[3] = 1;
+        if (func_020120F0((const struct GameSystem *)gameSystem) == 0) {
+            if (work[2] == 0)
+                *(u16 *)work[3] = 1;
             else
-                *(u16 *)args[3] = 0;
-            (*mode)++;
+                *(u16 *)work[3] = 0;
+            (*stage)++;
         }
         break;
     case 5:
-        func_02012374(obj, func_020145CC((void *)h));
-        (*mode)++;
+        func_02012374(event, func_020145CC((void *)gameSystem));
+        (*stage)++;
         break;
     case 6:
-        func_02012374(obj, (struct Evt **)func_021BE92C((void *)h, (int)x, 0, 0, 1, 0, 0));
-        (*mode)++;
+        func_02012374(event, (struct GameEvent **)func_021BE92C((void *)gameSystem, (int)fieldMap, 0, 0, 1, 0, 0));
+        (*stage)++;
         break;
     case 7:
         return 1;

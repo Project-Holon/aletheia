@@ -29,71 +29,84 @@
  *   func_02026400  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
  */
-struct Ctx;
-struct IcaAnime;
-struct Evt;
-struct Desc;
-struct Obj;
-struct Comm;
+struct GameSystem;
+struct GameEvent;
+struct GameData;
+struct GameComm;
 typedef unsigned int u32;
 
 typedef unsigned short u16;
 
 typedef unsigned char  u8;
 
-extern u32   func_02012138(const struct Ctx *a0);
-extern u32 func_02026454(void *obj);
+/* Parameter block read by the arm9 menu proc this event launches. */
+typedef struct MenuProcParam {
+    struct GameData *gameData;
+    u32 procKind;
+} MenuProcParam;
+
+/* Work of the menu proc launch event (0x1C bytes). */
+typedef struct MenuProcEventWork {
+    u32 savedBgmNo;
+    struct GameSystem *gameSystem;
+    int fieldMap;
+    MenuProcParam param;
+    u32 procKind;
+} MenuProcEventWork;
+
+extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
+extern u32 func_02026454(void *gameComm);
 extern u16 func_02005C44(void);
-extern void func_02005E30(u32 a);
-extern int func_020144DC(int a0, int a1);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_020120F4(const struct Ctx *p);
-extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
-extern u32 func_020120F0(const struct Ctx *p);
-extern void  func_02005D90(u32 a0, u32 a1);
-extern void func_02005DF8(u32 a);
-extern void *func_020145CC(void *a0);
-struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-void func_02026400(struct Comm *p);
-void *func_020124E8(struct Obj *p);
-u32 func_021542C0(void *obj, u32 *mode, u32 *args);
-void *func_0215437C(void *p, int a, int b);
+extern void func_02005E30(u32 frames);
+extern int func_020144DC(int gameSystem, int fieldMap);
+extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
+extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern void func_020120B4(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern u32 func_020120F0(const struct GameSystem *gameSystem);
+extern void  func_02005D90(u32 bgmNo, u32 fadeTarget);
+extern void func_02005DF8(u32 frames);
+extern void *func_020145CC(void *gameSystem);
+void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
+void func_02026400(struct GameComm *gameComm);
+void *func_020124E8(struct GameEvent *event);
+u32 func_021542C0(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
+void *func_0215437C(void *gameSystem, int fieldMap, int procKind);
 
 
-u32 func_021542C0(void *obj, u32 *mode, u32 *args)
+u32 func_021542C0(struct GameEvent *event, u32 *seq, MenuProcEventWork *work)
 {
-    u32 a0 = args[1];
+    struct GameSystem *gameSystem = work->gameSystem;
 
-    switch (*mode) {
+    switch (*seq) {
     case 0:
-        if (func_02026454((void *)func_02012138((const struct Ctx *)a0)) == 0) {
-            args[0] = func_02005C44();
+        if (func_02026454(func_02012138(gameSystem)) == 0) {
+            work->savedBgmNo = func_02005C44();
             func_02005E30(6);
-            (*mode)++;
+            (*seq)++;
         }
         break;
     case 1:
-        func_02012374(obj, (struct Evt **)func_020144DC(a0, args[2]));
-        *mode = 2;
+        func_02012374(event, (struct GameEvent **)func_020144DC((int)gameSystem, work->fieldMap));
+        *seq = 2;
         break;
     case 2:
-        args[3] = (u32)func_020120F4((const struct Ctx *)a0);
-        args[4] = args[5];
-        func_020120B4((struct IcaAnime *)a0, (u32)-1, (void *)0x0209DEFC, &args[3]);
-        (*mode)++;
+        work->param.gameData = func_020120F4(gameSystem);
+        work->param.procKind = work->procKind;
+        func_020120B4(gameSystem, (u32)-1, (void *)0x0209DEFC, &work->param);
+        (*seq)++;
         break;
     case 3:
-        if (func_020120F0((const struct Ctx *)a0) == 0)
-            (*mode)++;
+        if (func_020120F0(gameSystem) == 0)
+            (*seq)++;
         break;
     case 4:
-        (*mode)++;
+        (*seq)++;
         break;
     case 5:
-        func_02005D90(args[0], 0xFFFF);
+        func_02005D90(work->savedBgmNo, 0xFFFF);
         func_02005DF8(0x3C);
-        func_02012374(obj, func_020145CC((void *)a0));
-        (*mode)++;
+        func_02012374(event, func_020145CC(gameSystem));
+        (*seq)++;
         break;
     case 6:
         return 1;
@@ -105,16 +118,16 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
 /*
  * Allocator + guard + three-field link setup.
  */
-void *func_0215437C(void *p, int a, int b)
+void *func_0215437C(void *gameSystem, int fieldMap, int procKind)
 {
-    void *r7 = func_020122C0(p, 0, func_021542C0, 0x1C);
-    int *obj;
+    void *event = func_020122C0(gameSystem, 0, func_021542C0, 0x1C);
+    MenuProcEventWork *work;
 
-    if (func_02026454((void *)func_02012138(p)))
-        func_02026400((struct Comm *)func_02012138(p));
-    obj = func_020124E8(r7);
-    obj[1] = (int)p;
-    obj[2] = a;
-    obj[5] = b;
-    return r7;
+    if (func_02026454(func_02012138(gameSystem)))
+        func_02026400(func_02012138(gameSystem));
+    work = func_020124E8(event);
+    work->gameSystem = gameSystem;
+    work->fieldMap = fieldMap;
+    work->procKind = procKind;
+    return event;
 }

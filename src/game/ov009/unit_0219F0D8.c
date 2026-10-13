@@ -10,10 +10,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * Word at +0x704.
+ * Public address of this console, as the list server reported it.
  */
 
-int func_0219F0D8(const int *p)
+#include "unit_0219E1EC_types.h"
+
+unsigned int func_0219F0D8(const ServerBrowser *browser)
 {
-    return p[0x1c1];
+    return browser->list.mypublicip;
 }

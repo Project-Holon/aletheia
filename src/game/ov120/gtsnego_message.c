@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_0204B878 0x0204B878 arm
- *   data_021D8B73 0x021D8B73 data
+ *   d_021D8B70 0x021D8B70 data a1
  *   func_0204B898 0x0204B898 arm
  *   func_0204B98C 0x0204B98C arm
  *   func_0204B294 0x0204B294 arm
@@ -432,7 +432,7 @@ int func_021D8664(u8 *p);
 void func_021D8684(char *p,int unused,u32 n);
 void func_021D8784(char *p, void *n);
 void func_021D880C(char *p,void *q,u32 n);
-extern const u8 data_021D8B73[];
+extern const u8 d_021D8B70[][4];
 extern const Triple d_021D892C,d_021D8924,d_021D893C,d_021D8934;
 extern const Table d_021D8AB0;
 extern const char s_021D8BEC[];
@@ -443,7 +443,7 @@ extern const u16 d_021D8BD8[];
 extern const Pair d_021D8B20;
 extern const int d_021D8AF0[];
 
-int func_021D6A9C(struct GtsnegoMsgCtx *p,u32 n){void *obj=p->f134;if(!obj)return 0;func_0204B878(obj,*(const u8 *)((u32)data_021D8B73+n*4));return 1;}
+int func_021D6A9C(struct GtsnegoMsgCtx *p,u32 n){void *obj=p->f134;if(!obj)return 0;func_0204B878(obj,d_021D8B70[n][3]);return 1;}
 
 int func_021D6AC0(struct GtsnegoMsgCtx *p){if(!p->f134)return 0;if((u32)func_0204B898(p->f134)>=29){if(func_0204B98C(p->f134)==0)return 1;return 0;}return 0;}
 

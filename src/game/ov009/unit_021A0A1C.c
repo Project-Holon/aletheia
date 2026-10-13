@@ -10,10 +10,12 @@
  * isa:      arm
  * status:   EXACT
  *
- * Stores a word at +0x6b0.
+ * Sets the last error text of a server list.
  */
 
-void func_021A0A1C(int *p, int v)
+#include "unit_0219E1EC_types.h"
+
+void func_021A0A1C(SBServerList *slist, char *lastError)
 {
-    p[0x1ac] = v;
+    slist->lasterror = lastError;
 }

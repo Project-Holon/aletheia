@@ -13,253 +13,194 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   sub_0202FF98   0x0202FF98  arm
- *   sub_02030524   0x02030524  arm
- *   OS_Terminate   0x02088234  arm
- *   sub_02030098    0x02030098  arm
- *   MIi_CpuClear32  0x02082A7C  arm
- *   sub_02030164  0x02030164  arm
- *   func_02030238 0x02030238 arm
- *   func_02088234 0x02088234 arm
- *   sub_020302A4    0x020302A4  arm
- *   sub_02030344    0x02030344  arm
- *   sub_020304CC    0x020304CC  arm
- *   sub_020304C0    0x020304C0  arm
- *   sub_02030428    0x02030428  arm
- *   sub_02030B50    0x02030B50  arm
- *   sub_02060E6C    0x02060E6C  arm
- *   sub_02060E94    0x02060E94  arm
- *   sub_0203046C    0x0203046C  arm
- *   sub_020304B8    0x020304B8  arm
- *   sub_02060F90    0x02060F90  arm
- *   g_020A7820      0x020A7820  data
- *   g_02146970      0x02146970  data
- *   g_0214697C      0x0214697C  data
- *   str_system_name 0x020A7824  data
- *   func_020304C0   0x020304C0  arm
- *   func_02060F90   0x02060F90  arm
- *   func_020308B8   0x020308B8  arm
- *   func_0203F004   0x0203F004  arm
- *   MI_CpuCopy8     0x02082D44  arm
- *   func_020303D8   0x020303D8  arm
- *   func_02030344   0x02030344  arm
- *   func_0203038C   0x0203038C  arm
- *   func_0203046C   0x0203046C  arm
- *   func_02030428   0x02030428  arm
- *   func_0209128C   0x0209128C  arm
- *   func_02060F50   0x02060F50  arm
- *   func_02030534 0x02030534 arm
- *   func_020305C4  0x020305C4  arm
- *   sub_020305E4  0x020305E4  arm
- *   sub_02030C68   0x02030C68  arm
- *   sub_0203101C_File  0x020A7834  data
- *   ENV_SetResourceSet  0x020307B0  arm
- *   sub_02030F04       0x02030F04  arm
- *   sub_020311B8_File  0x020A7834  data
+ *   sub_0202FF98           0x0202FF98 arm
+ *   func_02030524          0x02030524 arm
+ *   OS_Terminate           0x02088234 arm
+ *   sub_02030098           0x02030098 arm
+ *   MIi_CpuClear32         0x02082A7C arm
+ *   func_02030164          0x02030164 arm
+ *   func_02030238          0x02030238 arm
+ *   sub_020302A4           0x020302A4 arm
+ *   sub_02030344           0x02030344 arm
+ *   sub_020304CC           0x020304CC arm
+ *   sub_020304C0           0x020304C0 arm
+ *   sub_02030428           0x02030428 arm
+ *   func_02060E6C          0x02060E6C arm
+ *   func_02060E94          0x02060E94 arm
+ *   sub_020304B8           0x020304B8 arm
+ *   sub_0203046C           0x0203046C arm
+ *   func_02060F90          0x02060F90 arm
+ *   func_0203F004          0x0203F004 arm
+ *   MI_CpuCopy8            0x02082D44 arm
+ *   sub_020303D8           0x020303D8 arm
+ *   sub_0203038C           0x0203038C arm
+ *   func_0209128C          0x0209128C arm
+ *   func_02060F50          0x02060F50 arm
+ *   func_02030534          0x02030534 arm
+ *   func_020305C4          0x020305C4 arm
+ *   sub_020305E4           0x020305E4 arm
+ *   gWatchedHeapId         0x020A7820 data
+ *   gHeapBlockReport       0x02146970 data
+ *   gHeapBlockReportName   0x0214697C data
+ *   kSystemAllocName       0x020A7824 data
+ *   tcbl_File              0x020A7834 data
  */
-#include "../../matched/include/Obj15863.h"
-
 struct Heap;
-struct Ctx;
-struct Frame02030C68;
-struct Node;
-struct Ctx02030C68;
-struct Tcbl;
-struct TcblNode;
+struct TcbSystem;
+struct TcbTask;
+struct TcblSystem;
+struct TcblTask;
 typedef unsigned int u32;
-
-struct Node {
-    struct Ctx  *owner;   /* +0x00 */
-    struct Node *prev;    /* +0x04 */
-    struct Node *next;    /* +0x08 */
-    u32          key;     /* +0x0c */
-    void        *arg;     /* +0x10 */
-    void       (*fn)(struct Node *, void *); /* +0x14 */
-    u32          fired;   /* +0x18 */
-};
-
-struct Ctx {
-    u32           capacity;   /* +0x00 */
-    u32           top;        /* +0x04 */
-    struct Node   head;       /* +0x08 */
-    struct Node **freeList;   /* +0x24 */
-    struct Node  *pool;       /* +0x28 */
-    u32           busy;       /* +0x2c */
-    struct Node  *cursor;     /* +0x30 */
-    struct Node  *walk;       /* +0x34 */
-    struct Node  *slots[1];   /* +0x38 */
-};
-
 typedef unsigned short u16;
-
 typedef signed int     s32;
+typedef unsigned char u8;
 
+/* Task list (priority-sorted, fixed pool of tasks, one callback per task). */
+typedef void (*TcbFunc)(struct TcbTask *task, void *work);
+
+struct TcbTask {
+    struct TcbSystem *owner;     /* +0x00 */
+    struct TcbTask   *prev;      /* +0x04 */
+    struct TcbTask   *next;      /* +0x08 */
+    u32               priority;  /* +0x0c, ascending order of the list */
+    void             *work;      /* +0x10 */
+    TcbFunc           func;      /* +0x14 */
+    u32               skipOnce;  /* +0x18, set on a task added during a pass that would run in it */
+};
+
+struct TcbSystem {
+    u32                capacity;       /* +0x00 */
+    u32                usedCount;      /* +0x04, tasks taken from the free stack */
+    struct TcbTask     sentinel;       /* +0x08 */
+    struct TcbTask   **freeStack;      /* +0x24 */
+    struct TcbTask    *taskPool;       /* +0x28 */
+    u32                isAdding;       /* +0x2c */
+    struct TcbTask    *current;        /* +0x30 */
+    struct TcbTask    *nextTask;       /* +0x34, successor read before the callback runs */
+    struct TcbTask    *freeStackStorage[1]; /* +0x38 */
+};
+
+/* Header of a heap block: the allocation site stored at header+4. */
 struct HeapBlockSite {
     char name[0x12];
     u16  tag;
 };
 
-typedef unsigned char u8;
-
-struct AllocInfo {
-    u16 unk_00;
+/* Report on the last block visited by the heap walk. */
+struct HeapBlockReport {
+    u16 tag;
     u16 pad_02;
-    void *unk_04;
-    void *unk_08;
+    void *payload;
+    u32 blockSize;
     char name[0x13];
 };
 
-struct Ctx02030C68 {
-    u32 unk00;
-    u32 depth;
-    u8  buf[0x1c];
-    struct Frame02030C68 **stack;
+/* Callback of the heap block walker. */
+typedef void (*HeapVisitFunc)(void *block, int *heap, u32 userParam);
+
+/* Task list with a work area per task (the "tcbl" system proper). */
+typedef void (*TcblFunc)(struct TcblTask *task, void *work);
+
+struct TcblTask {
+    struct TcblSystem *owner;
+    struct TcblTask   *prev;
+    struct TcblTask   *next;
+    u32                priority;
+    void              *work;
+    TcblFunc           func;
 };
 
-struct Frame02030C68 {
-    struct Ctx02030C68 *ctx;
-    u8 *cur;
-    u8 *end;
-    u32 unk0C;
-    u32 unk10;
-    u32 unk14;
+struct TcblSystem {
+    u32                taskCount;
+    u32                workSize;
+    u16                workHeapId;
+    u16                pad_0a;
+    u32                reserved0C;
+    u32                deletePending;   /* set when the running task asks to be deleted */
+    void              *taskTable;
+    struct TcblTask    sentinel;
+    struct TcblTask   *current;
+    struct TcblTask   *freeList;
 };
 
-
-
-
-
-
-
-
-
-typedef void (*TcblFunc)(struct TcblNode *node, void *work);
-
-struct TcblNode {
-    struct Tcbl     *owner;
-    struct TcblNode *prev;
-    struct TcblNode *next;
-    u32              key;
-    void            *work;
-    TcblFunc         func;
-};
-
-struct Tcbl {
-    u32              count;
-    u32              workSize;
-    u16              heapId;
-    u16              pad_0a;
-    u32              unk_0c;
-    u32              destroyed;
-    void            *table;
-    struct TcblNode  sentinel;
-    struct TcblNode *cursor;
-    struct TcblNode *freeHead;
-};
-
-
-struct S02031140 {
-    char  pad[0x14];
-    void *field14;
-};
-
-extern u32  sub_0202FF98(u32 heap);
-extern u16 sub_02030524(void);
+extern u32  sub_0202FF98(u32 heapId);
+extern u16  func_02030524(void);
 extern void OS_Terminate(void);
 extern void *sub_02030098(u32 heapId, u32 size);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern u32 sub_02030164(void *p);
+extern u32 func_02030164(void *p);
 extern u32 func_02030238(void *p, u32 heapId, s32 size);
-extern void func_02088234(void);
 extern u32 sub_020302A4(void *p, u32 size);
 extern void *sub_02030344(u32 heapId);
 extern u32 sub_020304CC(u32 heapId);
 extern void *sub_020304C0(void *p);
 extern void *sub_02030428(u32 heapId);
-extern void sub_02030B50(void *p);
-extern int sub_02060E6C(int *p);
-extern s32 sub_02060E94(struct Heap *heap, s32 x);
+extern int func_02060E6C(int *p);
+extern s32 func_02060E94(struct Heap *heap, s32 x);
 extern u16 sub_020304B8(void *p);
 extern u16 sub_0203046C(u32 heapId);
-extern int sub_02060F90(char *p);
-extern void *func_020304C0(void *p);
 extern int func_02060F90(char *p);
-extern int func_020308B8(u8 *dst, const char *src);
 extern u32 func_0203F004(const u8 *s);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern u32 func_020303D8(u32 heapId);
-extern void *func_02030344(u32 heapId);
-extern void *func_0203038C(u32 heapId);
-extern u16 func_0203046C(u32 heapId);
-extern void *func_02030428(u32 heapId);
+extern u32 sub_020303D8(u32 heapId);
+extern void *sub_0203038C(u32 heapId);
 extern void func_0209128C(int x);
-extern void func_02060F50(int *p, void (*fn)(void *, void *, int), int ctx);
+extern void func_02060F50(int *heap, HeapVisitFunc visitor, u32 userParam);
 extern signed int func_02030534(u32 size);
 extern void *func_020305C4(u32 size);
 extern int sub_020305E4(u32 idx);
-extern u32 sub_02030C68(struct Ctx02030C68 *ctx, struct Frame02030C68 *frame);
-extern void ENV_SetResourceSet(void *p);
-extern struct TcblNode *sub_02030F04(struct Tcbl *list);
-void func_020306F0(u32 heap);
+void func_020306F0(u32 heapId);
 void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-u32 sub_020307B0(void *p);
-void func_020307C8(void *p, u32 heapId, s32 size);
-void sub_020307E0(void *p, u32 size);
+u32 sub_020307B0(void *block);
+void func_020307C8(void *block, u32 heapId, s32 newSize);
+void sub_020307E0(void *block, u32 size);
 void *sub_02030830(u32 heapId);
 void *sub_0203084C(u32 heapId);
-void sub_02030880(void *p, const char *site, u16 tag);
-int sub_020308B8(u8 *dst, const char *src);
+void sub_02030880(void *payload, const char *site, u16 tag);
+int sub_020308B8(u8 *nameBuf, const char *blockName);
 void sub_02030958(u32 heapId, u32 size, const char *site, int tag);
-void sub_02030984(void *p, u32 size);
-void sub_020309B8(void *p);
-void sub_02030A00(u32 heapId, void *p, u32 size);
-void sub_02030A2C(void *p);
+void sub_02030984(void *payload, u32 size);
+void sub_020309B8(void *payload);
+void sub_02030A00(u32 heapId, void *payload, u32 size);
+void sub_02030A2C(void *payload);
 void sub_02030A5C(u32 heapId);
-void func_02030A7C(void *heap);
-void func_02030B50(void *p);
+void func_02030A7C(void *block, int *heap, u32 userParam);
+void func_02030B50(u32 heapId);
 void func_02030BA4(u32 size);
-void *sub_02030BBC(u32 a0);
+void *sub_02030BBC(u32 size);
 int sub_02030BC8(u32 idx);
-void sub_02030BD4(struct Ctx *c);
-struct Node *sub_02030C44(struct Ctx *c);
-u32 func_02030C68(struct Ctx02030C68 *ctx, struct Frame02030C68 *frame);
+void sub_02030BD4(struct TcbSystem *sys);
+struct TcbTask *sub_02030C44(struct TcbSystem *sys);
+u32 func_02030C68(struct TcbSystem *sys, struct TcbTask *task);
 u32 sub_02030CB0(u32 idx);
-struct Ctx *sub_02030CBC(u32 capacity, struct Ctx *c);
-void sub_02030CF4(struct Ctx *c);
-void func_02030D28(struct Ctx *c);
+struct TcbSystem *sub_02030CBC(u32 capacity, struct TcbSystem *sys);
+void sub_02030CF4(struct TcbSystem *sys);
+void func_02030D28(struct TcbSystem *sys);
 void func_02030DA4(void);
-struct Node *sub_02030DA8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key);
-struct Node *sub_02030DC8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key);
-void sub_02030EAC(struct TcblNode *n);
-u32 sub_02030EE8(struct Tcbl *p);
-u32 sub_02030EF0(struct Tcbl *p, u32 idx);
-struct TcblNode *func_02030F04(struct Tcbl *list);
-void sub_02030F34(struct Tcbl *p, struct TcblNode *node);
-void sub_02030F50(struct Tcbl *p, struct TcblNode *n);
-void sub_02030F70(struct TcblNode *n);
-void *sub_02030FB4(struct TcblNode *p);
-void sub_02030FC8(struct Tcbl *p);
-struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-void sub_020310C4(struct Tcbl *p);
-void sub_02031140(struct S02031140 *p);
-void sub_0203115C(struct Tcbl *p);
-void sub_02031194(struct TcblNode *n);
-struct TcblNode *sub_020311B8(struct Tcbl *p, TcblFunc func, u32 workSize, u32 key);
-void func_02031288(int *p, int v);
-void *sub_02031290(struct TcblNode *p);
-extern s32 g_020A7820;
-extern struct AllocInfo g_02146970;
-extern char g_0214697C[0x13];
-extern const char str_system_name[];
-extern const char sub_0203101C_File[];
-extern const char sub_020311B8_File[];
-
-
-
-
-
-
-
+struct TcbTask *sub_02030DA8(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
+struct TcbTask *sub_02030DC8(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
+void sub_02030EAC(struct TcbTask *task);
+u32 sub_02030EE8(struct TcblSystem *tcbl);
+struct TcblTask *sub_02030EF0(struct TcblSystem *tcbl, u32 index);
+struct TcblTask *func_02030F04(struct TcblSystem *tcbl);
+void sub_02030F34(struct TcblSystem *tcbl, struct TcblTask *task);
+void sub_02030F50(struct TcblSystem *tcbl, struct TcblTask *task);
+void sub_02030F70(struct TcblTask *task);
+void *sub_02030FB4(struct TcblTask *task);
+void sub_02030FC8(struct TcblSystem *tcbl);
+struct TcblSystem *sub_0203101C(u16 heapId, u16 workHeapId, u32 taskCount, u32 workSize);
+void sub_020310C4(struct TcblSystem *tcbl);
+void sub_02031140(struct TcblSystem *tcbl);
+void sub_0203115C(struct TcblSystem *tcbl);
+void sub_02031194(struct TcblTask *task);
+struct TcblTask *sub_020311B8(struct TcblSystem *tcbl, TcblFunc func, u32 workSize, u32 priority);
+void func_02031288(struct TcblTask *task, TcblFunc func);
+void *sub_02031290(struct TcblTask *task);
+extern s32 gWatchedHeapId;
+extern struct HeapBlockReport gHeapBlockReport;
+extern char gHeapBlockReportName[0x13];
+extern const char kSystemAllocName[];
+extern const char tcbl_File[];
 
 
 /*
@@ -289,14 +230,14 @@ extern const char sub_020311B8_File[];
  *   python tools/match.py one --src src/matched/func_020306F0.c \
  *       --func func_020306F0 --addr 0x020306F0 --cc 1.1p1 --arm
  */
-void func_020306F0(u32 heap)
+void func_020306F0(u32 heapId)
 {
-    sub_02030A5C(heap);
+    sub_02030A5C(heapId);
 
-    if (sub_0202FF98(heap) == 0) {
-        u32 state = sub_02030524();
+    if (sub_0202FF98(heapId) == 0) {
+        u32 errorPolicy = func_02030524();
 
-        switch (state) {
+        switch (errorPolicy) {
         case 1:
             OS_Terminate();
             break;
@@ -379,21 +320,21 @@ void func_020306F0(u32 heap)
  */
 void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag)
 {
-    void *p;
+    void *block;
 
-    p = sub_02030098(heapId, size);
-    if (p == 0) {
-        sub_02030524();
+    block = sub_02030098(heapId, size);
+    if (block == 0) {
+        func_02030524();
         sub_02030958(heapId, size, site, tag);
         OS_Terminate();
     } else {
-        sub_02030880(p, site, tag);
-        sub_02030A00(heapId, p, size);
+        sub_02030880(block, site, tag);
+        sub_02030A00(heapId, block, size);
         if (clear != 0) {
-            MIi_CpuClear32(0, p, size);
+            MIi_CpuClear32(0, block, size);
         }
     }
-    return p;
+    return block;
 }
 
 
@@ -425,10 +366,10 @@ void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag)
  *   python tools/match.py one --src src/matched/sub_020307B0.c \
  *       --func sub_020307B0 --addr 0x020307B0 --cc 1.1p1 --arm
  */
-u32 sub_020307B0(void *p)
+u32 sub_020307B0(void *block)
 {
-    sub_02030A2C(p);
-    return sub_02030164(p);
+    sub_02030A2C(block);
+    return func_02030164(block);
 }
 
 
@@ -439,10 +380,10 @@ u32 sub_020307B0(void *p)
 
 
 
-void func_020307C8(void *p, u32 heapId, s32 size)
+void func_020307C8(void *block, u32 heapId, s32 newSize)
 {
-    if (func_02030238(p, heapId, size) == 0) {
-        func_02088234();
+    if (func_02030238(block, heapId, newSize) == 0) {
+        OS_Terminate();
     }
 }
 
@@ -487,12 +428,12 @@ void func_020307C8(void *p, u32 heapId, s32 size)
  *   python tools/match.py one --src src/pending/sub_020307E0.c \
  *       --func sub_020307E0 --addr 0x020307E0 --cc 1.1p1 --arm
  */
-void sub_020307E0(void *p, u32 size)
+void sub_020307E0(void *block, u32 size)
 {
-    if (sub_020302A4(p, size) != 0) {
+    if (sub_020302A4(block, size) != 0) {
         return;
     }
-    switch (sub_02030524()) {
+    switch (func_02030524()) {
     case 0:
         break;
     case 1:
@@ -536,13 +477,13 @@ void sub_020307E0(void *p, u32 size)
  */
 void *sub_02030830(u32 heapId)
 {
-    void *p;
+    void *heapHead;
 
-    p = sub_02030344(heapId);
-    if (p == 0) {
+    heapHead = sub_02030344(heapId);
+    if (heapHead == 0) {
         OS_Terminate();
     }
-    return p;
+    return heapHead;
 }
 
 
@@ -579,17 +520,17 @@ void *sub_02030830(u32 heapId)
  */
 void *sub_0203084C(u32 heapId)
 {
-    void *p;
-    u32 state;
+    void *heapHead;
+    u32 errorPolicy;
 
-    p = (void *)sub_020304CC(heapId);
-    if (p == 0) {
-        state = sub_02030524();
-        if (state != 1 && state != 2 && state == 3) {
+    heapHead = (void *)sub_020304CC(heapId);
+    if (heapHead == 0) {
+        errorPolicy = func_02030524();
+        if (errorPolicy != 1 && errorPolicy != 2 && errorPolicy == 3) {
             OS_Terminate();
         }
     }
-    return p;
+    return heapHead;
 }
 
 
@@ -623,20 +564,20 @@ void *sub_0203084C(u32 heapId)
  *   python tools/match.py one --src src/matched/sub_02030880.c \
  *       --func sub_02030880 --addr 0x02030880 --cc 1.1p1 --arm
  */
-void sub_02030880(void *p, const char *site, u16 tag)
+void sub_02030880(void *payload, const char *site, u16 tag)
 {
-    struct HeapBlockSite *rec;
+    struct HeapBlockSite *record;
     int i;
 
-    rec = (struct HeapBlockSite *)sub_020304C0(p);
+    record = (struct HeapBlockSite *)sub_020304C0(payload);
     for (i = 0; i < 0x12; i++) {
         char c = site[i];
-        rec->name[i] = c;
+        record->name[i] = c;
         if (c == 0) {
             break;
         }
     }
-    rec->tag = tag;
+    record->tag = tag;
 }
 
 
@@ -678,31 +619,31 @@ void sub_02030880(void *p, const char *site, u16 tag)
  *   python tools/match.py one --src src/matched/sub_020308B8.c \
  *       --func sub_020308B8 --addr 0x020308B8 --cc 1.1p1 --arm
  */
-int sub_020308B8(u8 *dst, const char *src)
+int sub_020308B8(u8 *nameBuf, const char *blockName)
 {
     int len;
     int i;
 
     for (len = 0; len < 0x12; len++) {
-        char c = src[len];
+        char c = blockName[len];
         if (c == 0) {
             break;
         }
-        dst[len] = c;
+        nameBuf[len] = c;
     }
-    dst[len] = 0;
+    nameBuf[len] = 0;
     if (len == 0) {
         return 0;
     }
     for (i = 0; i < len; i++) {
-        u8 c = dst[i];
+        u8 c = nameBuf[i];
         if (c < 0x20 || c > 0x7e) {
             return 0;
         }
     }
     if (len < 0x12) {
         for (i = 0; i < len; i++) {
-            if (dst[i] == '.') {
+            if (nameBuf[i] == '.') {
                 break;
             }
         }
@@ -752,9 +693,9 @@ void sub_02030958(u32 heapId, u32 size, const char *site, int tag)
     void *arena;
 
     arena = sub_02030428(heapId);
-    sub_02060E6C(arena);
-    sub_02060E94(arena, 4);
-    sub_02030B50((void *)heapId);
+    func_02060E6C(arena);
+    func_02060E94(arena, 4);
+    func_02030B50(heapId);
 }
 
 
@@ -795,14 +736,14 @@ void sub_02030958(u32 heapId, u32 size, const char *site, int tag)
  *   python tools/match.py one --src src/matched/sub_02030984.c \
  *       --func sub_02030984 --addr 0x02030984 --cc 1.1p1 --arm
  */
-void sub_02030984(void *p, u32 size)
+void sub_02030984(void *payload, u32 size)
 {
-    u8 buf[0x13];
-    void *rec;
+    u8 nameBuf[0x13];
+    void *siteRecord;
 
-    rec = sub_020304C0(p);
-    sub_0203046C(sub_020304B8(p));
-    sub_020308B8(buf, (const char *)rec);
+    siteRecord = sub_020304C0(payload);
+    sub_0203046C(sub_020304B8(payload));
+    sub_020308B8(nameBuf, (const char *)siteRecord);
 }
 
 
@@ -834,17 +775,17 @@ void sub_02030984(void *p, u32 size)
  *   python tools/match.py one --src src/matched/sub_020309B8.c \
  *       --func sub_020309B8 --addr 0x020309B8 --cc 1.1p1 --arm
  */
-void sub_020309B8(void *p)
+void sub_020309B8(void *payload)
 {
-    u8 buf[0x13];
-    void *rec;
+    u8 nameBuf[0x13];
+    void *siteRecord;
     u32 heapId;
 
-    rec = sub_020304C0(p);
-    heapId = sub_020304B8(p);
+    siteRecord = sub_020304C0(payload);
+    heapId = sub_020304B8(payload);
     sub_0203046C(heapId);
-    sub_020308B8(buf, (const char *)rec);
-    sub_02060F90((char *)p - 0x1c);
+    sub_020308B8(nameBuf, (const char *)siteRecord);
+    func_02060F90((char *)payload - 0x1c);
     sub_02030344(heapId);
 }
 
@@ -876,10 +817,10 @@ void sub_020309B8(void *p)
  *   python tools/match.py one --src src/matched/sub_02030A00.c \
  *       --func sub_02030A00 --addr 0x02030A00 --cc 1.1p1 --arm
  */
-void sub_02030A00(u32 heapId, void *p, u32 size)
+void sub_02030A00(u32 heapId, void *payload, u32 size)
 {
-    if (g_020A7820 >= 0 && heapId == (u32)g_020A7820) {
-        sub_02030984(p, size);
+    if (gWatchedHeapId >= 0 && heapId == (u32)gWatchedHeapId) {
+        sub_02030984(payload, size);
     }
 }
 
@@ -909,13 +850,13 @@ void sub_02030A00(u32 heapId, void *p, u32 size)
  *   python tools/match.py one --src src/matched/sub_02030A2C.c \
  *       --func sub_02030A2C --addr 0x02030A2C --cc 1.1p1 --arm
  */
-void sub_02030A2C(void *p)
+void sub_02030A2C(void *payload)
 {
     u32 heapId;
 
-    heapId = sub_020304B8(p);
-    if (g_020A7820 >= 0 && heapId == (u32)g_020A7820) {
-        sub_020309B8(p);
+    heapId = sub_020304B8(payload);
+    if (gWatchedHeapId >= 0 && heapId == (u32)gWatchedHeapId) {
+        sub_020309B8(payload);
     }
 }
 
@@ -947,7 +888,7 @@ void sub_02030A2C(void *p)
 void sub_02030A5C(u32 heapId)
 {
     if (sub_0203046C(heapId) != 0) {
-        sub_02030B50((void *)heapId);
+        func_02030B50(heapId);
     }
 }
 
@@ -1005,36 +946,36 @@ void sub_02030A5C(u32 heapId)
  *   python tools/match.py one --src src/pending/func_02030A7C.c \
  *       --func func_02030A7C --addr 0x02030A7C --cc 1.1p1 --arm
  */
-void func_02030A7C(void *heap)
+void func_02030A7C(void *block, int *heap, u32 userParam)
 {
-    u8 buf[0x14];
-    u8 *p = (u8 *)heap + 0x1c;
-    void *h = func_020304C0(p);
-    u16 v;
-    s32 n;
-    s32 k;
+    u8 nameBuf[0x14];
+    u8 *payload = (u8 *)block + 0x1c;
+    void *siteRecord = sub_020304C0(payload);
+    u16 siteTag;
+    s32 nameLen;
+    s32 padCount;
     s32 i;
 
-    g_02146970.unk_08 = (void *)func_02060F90(heap);
-    g_02146970.unk_04 = p;
-    if (func_020308B8(buf, h) != 0) {
-        v = ((struct Obj15863 *)h)->f12;
+    gHeapBlockReport.blockSize = func_02060F90(block);
+    gHeapBlockReport.payload = payload;
+    if (sub_020308B8(nameBuf, siteRecord) != 0) {
+        siteTag = ((struct HeapBlockSite *)siteRecord)->tag;
     } else {
-        MI_CpuCopy8(str_system_name, buf, 0xd);
-        v = 0;
+        MI_CpuCopy8(kSystemAllocName, nameBuf, 0xd);
+        siteTag = 0;
     }
-    n = func_0203F004(buf);
-    MI_CpuCopy8(buf, g_0214697C, n + 1);
-    g_02146970.unk_00 = v;
-    k = 0x12 - func_0203F004(buf);
+    nameLen = func_0203F004(nameBuf);
+    MI_CpuCopy8(nameBuf, gHeapBlockReportName, nameLen + 1);
+    gHeapBlockReport.tag = siteTag;
+    padCount = 0x12 - func_0203F004(nameBuf);
     i = 0;
-    if (k > 0) {
+    if (padCount > 0) {
         do {
-            buf[i] = ' ';
+            nameBuf[i] = ' ';
             i++;
-        } while (i < k);
+        } while (i < padCount);
     }
-    buf[i] = 0;
+    nameBuf[i] = 0;
 }
 
 
@@ -1084,14 +1025,14 @@ void func_02030A7C(void *heap)
  *   python tools/match.py one --src src/pending/func_02030B50.c \
  *       --func func_02030B50 --addr 0x02030B50 --cc 1.1p1 --arm
  */
-void func_02030B50(void *p)
+void func_02030B50(u32 heapId)
 {
-    func_020303D8((u32)p);
-    func_02030344((u32)p);
-    func_0203038C((u32)p);
-    func_0203046C((u32)p);
+    sub_020303D8(heapId);
+    sub_02030344(heapId);
+    sub_0203038C(heapId);
+    sub_0203046C(heapId);
     func_0209128C(1);
-    func_02060F50(func_02030428((u32)p), (void (*)(void *, void *, int))func_02030A7C, 0);
+    func_02060F50(sub_02030428(heapId), func_02030A7C, 0);
     func_0209128C(0);
 }
 
@@ -1105,7 +1046,7 @@ void func_02030B50(void *p)
 void func_02030BA4(u32 size)
 {
     if (func_02030534(size) == 0) {
-        func_02088234();
+        OS_Terminate();
     }
 }
 
@@ -1137,9 +1078,9 @@ void func_02030BA4(u32 size)
  *   python tools/match.py one --src src/matched/sub_02030BBC.c \
  *       --func sub_02030BBC --addr 0x02030BBC --cc 1.1p1 --arm
  */
-void *sub_02030BBC(u32 a0)
+void *sub_02030BBC(u32 size)
 {
-    return func_020305C4(a0);
+    return func_020305C4(size);
 }
 
 
@@ -1176,8 +1117,8 @@ int sub_02030BC8(u32 idx)
  * The allocator in src/matched/unit_02030C44.c reads that stack from the top.
  *
  * The node stride is 0x1c, so the pool index is a real `mul` against a hoisted
- * 0x1c, not a shift.  `&c->pool[i]` is recomputed from the field for the
- * free-stack store, and the loop bound re-reads c->capacity, because the
+ * 0x1c, not a shift.  `&sys->taskPool[i]` is recomputed from the field for the
+ * free-stack store, and the loop bound re-reads sys->capacity, because the
  * writes through the cursor may alias either pointer.
  *
  * This function is kept in its own file rather than folded into
@@ -1189,22 +1130,22 @@ int sub_02030BC8(u32 idx)
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02030BD4.c  *       --func sub_02030BD4 --addr 0x02030BD4 --cc 1.1p1 --arm
  */
-void sub_02030BD4(struct Ctx *c)
+void sub_02030BD4(struct TcbSystem *sys)
 {
-    struct Node *n;
+    struct TcbTask *task;
     u32 i;
 
-    for (i = 0; i < c->capacity; i++) {
-        n = &c->pool[i];
-        n->owner = c;
-        n->next = &c->head;
-        n->prev = &c->head;
-        n->key = 0;
-        n->arg = 0;
-        n->fn = 0;
-        c->freeList[i] = &c->pool[i];
+    for (i = 0; i < sys->capacity; i++) {
+        task = &sys->taskPool[i];
+        task->owner = sys;
+        task->next = &sys->sentinel;
+        task->prev = &sys->sentinel;
+        task->priority = 0;
+        task->work = 0;
+        task->func = 0;
+        sys->freeStack[i] = &sys->taskPool[i];
     }
-    c->top = 0;
+    sys->usedCount = 0;
 }
 
 
@@ -1214,8 +1155,8 @@ void sub_02030BD4(struct Ctx *c)
 
 
 /*
- * Allocate a timer node.  Free nodes live in a stack of pointers at
- * c->freeList with c->top the live index: this function hands back the entry
+ * Allocate a task from the TCB pool.  Free tasks live in a stack of pointers at
+ * sys->freeStack with sys->usedCount the live index: this function hands back the entry
  * at the top and steps up, and 0x02030C68 (src/matched/unit_02030C68.c) steps
  * back down and stores the node there.  It calls nothing, so the unit holds
  * no relocations at all and needs no outside evidence; that is what unblocks
@@ -1230,28 +1171,28 @@ void sub_02030BD4(struct Ctx *c)
  * out the same 72 bytes and only one of them could own the address
  * (docs/idioms/a-unit-attests-only-its-own-start-address.md).
  *
- * In 0x02030C44 the popped entry is bound to a local before c->top is stepped:
+ * In 0x02030C44 the popped entry is bound to a local before sys->usedCount is stepped:
  * that is the `movne r0, r2` at the end, four bytes that disappear if the
  * subscript is returned directly.  `cmp r3, r1` puts the live top on the
- * left, so the guard is written with c->top first
+ * left, so the guard is written with sys->usedCount first
  * (docs/idioms/cmp-operand-order-names-the-temporary.md).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02030C44.c \
  *       --addr 0x02030C44 --cc 1.1p1 --arm
  */
-struct Node *sub_02030C44(struct Ctx *c)
+struct TcbTask *sub_02030C44(struct TcbSystem *sys)
 {
-    struct Node *n;
-    u32 top;
+    struct TcbTask *task;
+    u32 used;
 
-    top = c->top;
-    if (top == c->capacity) {
+    used = sys->usedCount;
+    if (used == sys->capacity) {
         return 0;
     }
-    n = c->freeList[top];
-    c->top = top + 1;
-    return n;
+    task = sys->freeStack[used];
+    sys->usedCount = used + 1;
+    return task;
 }
 
 
@@ -1284,21 +1225,19 @@ struct Node *sub_02030C44(struct Ctx *c)
  *   python tools/match.py tu --src src/matched/unit_02030C68.c \
  *       --addr 0x02030C68 --cc 1.1p1 --arm
  */
-u32 func_02030C68(struct Ctx02030C68 *ctx, struct Frame02030C68 *frame)
+u32 func_02030C68(struct TcbSystem *sys, struct TcbTask *task)
 {
-    if (ctx->depth == 0) {
+    if (sys->usedCount == 0) {
         return 0;
     }
-
-    frame->end = ctx->buf;
-    frame->ctx = ctx;
-    frame->cur = ctx->buf;
-    frame->unk0C = 0;
-    frame->unk10 = 0;
-    frame->unk14 = 0;
-
-    ctx->depth--;
-    ctx->stack[ctx->depth] = frame;
+    task->next = &sys->sentinel;
+    task->owner = sys;
+    task->prev = &sys->sentinel;
+    task->priority = 0;
+    task->work = 0;
+    task->func = 0;
+    sys->usedCount--;
+    sys->freeStack[sys->usedCount] = task;
     return 1;
 }
 
@@ -1328,7 +1267,7 @@ u32 sub_02030CB0(u32 idx)
 
 
 /*
- * Lay a timer context out over caller-supplied storage and return it.  The
+ * Lay a TCB system out over caller-supplied storage and return it.  The
  * two arrays live in the tail of the block: the free stack of `capacity`
  * node pointers starts at +0x38 and the node pool starts immediately after
  * it, which is what `add r3, r4, #0x38` and `add r2, r3, r0, lsl #2` are.
@@ -1338,15 +1277,15 @@ u32 sub_02030CB0(u32 idx)
  *   python tools/match.py one --src src/matched/sub_02030CBC.c \
  *       --func sub_02030CBC --addr 0x02030CBC --cc 1.1p1 --arm
  */
-struct Ctx *sub_02030CBC(u32 capacity, struct Ctx *c)
+struct TcbSystem *sub_02030CBC(u32 capacity, struct TcbSystem *sys)
 {
-    c->capacity = capacity;
-    c->freeList = c->slots;
-    c->pool = (struct Node *)(c->freeList + capacity);
-    c->top = 0;
-    c->busy = 0;
-    sub_02030CF4(c);
-    return c;
+    sys->capacity = capacity;
+    sys->freeStack = sys->freeStackStorage;
+    sys->taskPool = (struct TcbTask *)(sys->freeStack + capacity);
+    sys->usedCount = 0;
+    sys->isAdding = 0;
+    sub_02030CF4(sys);
+    return sys;
 }
 
 
@@ -1365,17 +1304,16 @@ struct Ctx *sub_02030CBC(u32 capacity, struct Ctx *c)
  *   python tools/match.py one --src src/matched/sub_02030CF4.c \
  *       --func sub_02030CF4 --addr 0x02030CF4 --cc 1.1p1 --arm
  */
-void sub_02030CF4(struct Ctx *c)
+void sub_02030CF4(struct TcbSystem *sys)
 {
-    sub_02030BD4(c);
-
-    c->head.owner = c;
-    c->head.next = &c->head;
-    c->head.prev = &c->head;
-    c->head.key = 0;
-    c->head.arg = 0;
-    c->head.fn = 0;
-    c->cursor = &c->head;
+    sub_02030BD4(sys);
+    sys->sentinel.owner = sys;
+    sys->sentinel.next = &sys->sentinel;
+    sys->sentinel.prev = &sys->sentinel;
+    sys->sentinel.priority = 0;
+    sys->sentinel.work = 0;
+    sys->sentinel.func = 0;
+    sys->current = &sys->sentinel;
 }
 
 
@@ -1404,29 +1342,24 @@ void sub_02030CF4(struct Ctx *c)
  *   python tools/match.py one --src src/matched/func_02030D28.c \
  *       --func func_02030D28 --addr 0x02030D28 --cc 1.1p1 --arm
  */
-void func_02030D28(struct Ctx *c)
+void func_02030D28(struct TcbSystem *sys)
 {
-    if (c->busy != 0) {
+    if (sys->isAdding != 0) {
         return;
     }
-
-    c->cursor = c->head.next;
-
-    while (c->cursor != &c->head) {
-        c->walk = c->cursor->next;
-
-        if (c->cursor->fired == 0) {
-            if (c->cursor->fn != 0) {
-                c->cursor->fn(c->cursor, c->cursor->arg);
+    sys->current = sys->sentinel.next;
+    while (sys->current != &sys->sentinel) {
+        sys->nextTask = sys->current->next;
+        if (sys->current->skipOnce == 0) {
+            if (sys->current->func != 0) {
+                sys->current->func(sys->current, sys->current->work);
             }
         } else {
-            c->cursor->fired = 0;
+            sys->current->skipOnce = 0;
         }
-
-        c->cursor = c->walk;
+        sys->current = sys->nextTask;
     }
-
-    c->cursor->fn = 0;
+    sys->current->func = 0;
 }
 
 
@@ -1465,7 +1398,7 @@ void func_02030DA4(void){ }
  * declared, r1 is free on both sides and the compiler uses it twice.
  *
  * The list is doubly linked through +0x04 (prev) and +0x08 (next) with the
- * sentinel embedded in the context at +0x08, which is why `c->head.unk_04`
+ * sentinel embedded in the context at +0x08, which is why `sys->sentinel.prev`
  * is the same word as the context's +0x0C and the loop bound is the address
  * of the sentinel itself.
  *
@@ -1473,65 +1406,61 @@ void func_02030DA4(void){ }
  *   python tools/match.py tu --src src/matched/unit_02030DA8.c \
  *       --addr 0x02030DA8 --arm
  */
-struct Node *sub_02030DA8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key)
+struct TcbTask *sub_02030DA8(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority)
 {
-    struct Node *n;
+    struct TcbTask *task;
 
-    c->busy = 1;
-    n = sub_02030DC8(c, a, b, key);
-    c->busy = 0;
-    return n;
+    sys->isAdding = 1;
+    task = sub_02030DC8(sys, func, work, priority);
+    sys->isAdding = 0;
+    return task;
 }
 
 
 
 
 
-struct Node *sub_02030DC8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key)
+struct TcbTask *sub_02030DC8(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority)
 {
-    struct Node *n;
-    struct Node *p;
+    struct TcbTask *task;
+    struct TcbTask *other;
 
-    n = sub_02030C44(c);
-    if (n == 0) {
+    task = sub_02030C44(sys);
+    if (task == 0) {
         return 0;
     }
-
-    n->key = key;
-    n->arg = b;
-    n->fn = a;
-
-    if (c->cursor->fn != 0) {
-        if (c->cursor->key <= key) {
-            n->fired = 1;
+    task->priority = priority;
+    task->work = work;
+    task->func = func;
+    if (sys->current->func != 0) {
+        if (sys->current->priority <= priority) {
+            task->skipOnce = 1;
         } else {
-            n->fired = 0;
+            task->skipOnce = 0;
         }
     } else {
-        n->fired = 0;
+        task->skipOnce = 0;
     }
-
-    for (p = c->head.next; p != &c->head; p = p->next) {
-        if (p->key > n->key) {
-            n->prev = p->prev;
-            n->next = p;
-            p->prev->next = n;
-            p->prev = n;
-            if (p == c->walk) {
-                c->walk = n;
+    for (other = sys->sentinel.next; other != &sys->sentinel; other = other->next) {
+        if (other->priority > task->priority) {
+            task->prev = other->prev;
+            task->next = other;
+            other->prev->next = task;
+            other->prev = task;
+            if (other == sys->nextTask) {
+                sys->nextTask = task;
             }
-            return n;
+            return task;
         }
     }
-
-    if (c->walk == &c->head) {
-        c->walk = n;
+    if (sys->nextTask == &sys->sentinel) {
+        sys->nextTask = task;
     }
-    n->prev = c->head.prev;
-    n->next = &c->head;
-    c->head.prev->next = n;
-    c->head.prev = n;
-    return n;
+    task->prev = sys->sentinel.prev;
+    task->next = &sys->sentinel;
+    sys->sentinel.prev->next = task;
+    sys->sentinel.prev = task;
+    return task;
 }
 
 
@@ -1568,16 +1497,16 @@ struct Node *sub_02030DC8(struct Ctx *c, void (*a)(struct Node *, void *), void 
  *   python tools/match.py one --src src/matched/sub_02030EAC.c \
  *       --func sub_02030EAC --addr 0x02030EAC --cc 1.1p1 --arm
  */
-void sub_02030EAC(struct TcblNode *n)
+void sub_02030EAC(struct TcbTask *task)
 {
-    struct Tcbl *o = n->owner;
+    struct TcbSystem *sys = task->owner;
 
-    if (o->freeHead == n) {
-        o->freeHead = n->next;
+    if (sys->nextTask == task) {
+        sys->nextTask = task->next;
     }
-    n->prev->next = n->next;
-    n->next->prev = n->prev;
-    sub_02030C68((struct Ctx02030C68 *)n->owner, (struct Frame02030C68 *)n);
+    task->prev->next = task->next;
+    task->next->prev = task->prev;
+    func_02030C68(task->owner, task);
 }
 
 
@@ -1592,9 +1521,9 @@ void sub_02030EAC(struct TcblNode *n)
  *   python tools/match.py one --src src/matched/sub_02030EE8.c \
  *       --func sub_02030EE8 --addr 0x02030EE8 --cc 1.1p1
  */
-u32 sub_02030EE8(struct Tcbl *p)
+u32 sub_02030EE8(struct TcblSystem *tcbl)
 {
-    return p->destroyed;
+    return tcbl->deletePending;
 }
 
 
@@ -1603,17 +1532,17 @@ u32 sub_02030EE8(struct Tcbl *p)
 
 
 /*
- * Row address of a stride-`field4 + 0x18` table: `idx * (p->field4 + 0x18)
- * + p->field14`, the `mla` idiom for an index times a runtime stride plus a
+ * Row address of a stride-`workSize + 0x18` table: `index * (tcbl->workSize + 0x18)
+ * + tcbl->taskTable`, the `mla` idiom for an index times a runtime stride plus a
  * base. No relocations.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02030EF0.c \
  *       --func sub_02030EF0 --addr 0x02030EF0 --cc 1.1p1
  */
-u32 sub_02030EF0(struct Tcbl *p, u32 idx)
+struct TcblTask *sub_02030EF0(struct TcblSystem *tcbl, u32 index)
 {
-    return idx * (p->workSize + 0x18) + (u32)p->table;
+    return (struct TcblTask *)(index * (tcbl->workSize + 0x18) + (u32)tcbl->taskTable);
 }
 
 
@@ -1621,17 +1550,18 @@ u32 sub_02030EF0(struct Tcbl *p, u32 idx)
 
 
 
-struct TcblNode *func_02030F04(struct Tcbl *list)
+struct TcblTask *func_02030F04(struct TcblSystem *tcbl)
 {
-    struct TcblNode *head = list->freeHead;
-    if (head == 0) {
+    struct TcblTask *task = tcbl->freeList;
+
+    if (task == 0) {
         return 0;
     }
-    list->freeHead = head->next;
-    if (head->next != 0) {
-        head->next->prev = 0;
+    tcbl->freeList = task->next;
+    if (task->next != 0) {
+        task->next->prev = 0;
     }
-    return head;
+    return task;
 }
 
 
@@ -1648,15 +1578,16 @@ struct TcblNode *func_02030F04(struct Tcbl *list)
  *   python tools/match.py one --src src/matched/sub_02030F34.c \
  *       --func sub_02030F34 --addr 0x02030F34 --cc 1.1p1
  */
-void sub_02030F34(struct Tcbl *p, struct TcblNode *node)
+void sub_02030F34(struct TcblSystem *tcbl, struct TcblTask *task)
 {
-    struct TcblNode *old = p->freeHead;
-    node->prev = 0;
-    node->next = old;
-    if (old != 0) {
-        old->prev = node;
+    struct TcblTask *oldHead = tcbl->freeList;
+
+    task->prev = 0;
+    task->next = oldHead;
+    if (oldHead != 0) {
+        oldHead->prev = task;
     }
-    p->freeHead = node;
+    tcbl->freeList = task;
 }
 
 
@@ -1669,7 +1600,7 @@ void sub_02030F34(struct Tcbl *p, struct TcblNode *node)
  * Reset one task-callback node to the "not in the live list" state: owner
  * back-pointer, both links parked on the manager's sentinel at +0x18, and
  * the three payload words cleared.  It is the shape sub_02030C68 has for the
- * timer pool in src/matched/unit_02030C44.c, one layer up.
+ * TCB task pool in src/matched/unit_02030C44.c, one layer up.
  *
  * A leaf: no lr is saved, so disasm.py gives it no label of its own and the
  * function is only visible by address
@@ -1684,14 +1615,14 @@ void sub_02030F34(struct Tcbl *p, struct TcblNode *node)
  *   python tools/match.py one --src src/matched/sub_02030F50.c \
  *       --func sub_02030F50 --addr 0x02030F50 --cc 1.1p1 --arm
  */
-void sub_02030F50(struct Tcbl *p, struct TcblNode *n)
+void sub_02030F50(struct TcblSystem *tcbl, struct TcblTask *task)
 {
-    n->owner = p;
-    n->prev = &p->sentinel;
-    n->next = &p->sentinel;
-    n->key = 0;
-    n->work = 0;
-    n->func = 0;
+    task->owner = tcbl;
+    task->prev = &tcbl->sentinel;
+    task->next = &tcbl->sentinel;
+    task->priority = 0;
+    task->work = 0;
+    task->func = 0;
 }
 
 
@@ -1721,15 +1652,15 @@ void sub_02030F50(struct Tcbl *p, struct TcblNode *n)
  *   python tools/match.py one --src src/matched/sub_02030F70.c \
  *       --func sub_02030F70 --addr 0x02030F70 --cc 1.1p1 --arm
  */
-void sub_02030F70(struct TcblNode *n)
+void sub_02030F70(struct TcblTask *task)
 {
-    n->func = 0;
-    if (n->work != 0) {
-        sub_020307B0(n->work);
+    task->func = 0;
+    if (task->work != 0) {
+        sub_020307B0(task->work);
     }
-    n->prev->next = n->next;
-    n->next->prev = n->prev;
-    sub_02030F34(n->owner, n);
+    task->prev->next = task->next;
+    task->next->prev = task->prev;
+    sub_02030F34(task->owner, task);
 }
 
 
@@ -1746,13 +1677,14 @@ void sub_02030F70(struct TcblNode *n)
  *   python tools/match.py one --src src/matched/sub_02030FB4.c \
  *       --func sub_02030FB4 --addr 0x02030FB4 --cc 1.1p1
  */
-void *sub_02030FB4(struct TcblNode *p)
+void *sub_02030FB4(struct TcblTask *task)
 {
-    void *v = p->work;
-    if (v == 0) {
-        v = p + 1;
+    void *work = task->work;
+
+    if (work == 0) {
+        work = task + 1;
     }
-    return v;
+    return work;
 }
 
 
@@ -1761,7 +1693,7 @@ void *sub_02030FB4(struct TcblNode *p)
  * Build the free list of the task-control-block pool: walk every row of the
  * stride table, self-link it (sub_02030F50) and push it on the free list
  * (sub_02030F34).  The row address comes from sub_02030EF0, already matched
- * as `idx * (p->field4 + 0x18) + p->field14`.
+ * as `index * (tcbl->workSize + 0x18) + tcbl->taskTable`.
  *
  * The count is re-read from +0x00 at the bottom of the loop, which is what
  * a plain field read in the loop condition compiles to; a cached local
@@ -1771,14 +1703,14 @@ void *sub_02030FB4(struct TcblNode *p)
  *   python tools/match.py one --src src/matched/sub_02030FC8.c \
  *       --func sub_02030FC8 --addr 0x02030FC8 --cc 1.1p1 --arm
  */
-void sub_02030FC8(struct Tcbl *p)
+void sub_02030FC8(struct TcblSystem *tcbl)
 {
     u32 i;
 
-    for (i = 0; i < p->count; i++) {
-        void *node = (void *)sub_02030EF0(p, i);
-        sub_02030F50(p, node);
-        sub_02030F34(p, node);
+    for (i = 0; i < tcbl->taskCount; i++) {
+        struct TcblTask *task = sub_02030EF0(tcbl, i);
+        sub_02030F50(tcbl, task);
+        sub_02030F34(tcbl, task);
     }
 }
 
@@ -1809,23 +1741,23 @@ void sub_02030FC8(struct Tcbl *p)
  *   python tools/match.py one --src src/matched/sub_0203101C.c \
  *       --func sub_0203101C --addr 0x0203101C --cc 1.1p1 --arm
  */
-struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize)
+struct TcblSystem *sub_0203101C(u16 heapId, u16 workHeapId, u32 taskCount, u32 workSize)
 {
-    struct Tcbl *p;
+    struct TcblSystem *tcbl;
 
-    p = sub_02030734(heap, sizeof(struct Tcbl), 0, sub_0203101C_File, 199);
-    p->count = count;
-    p->workSize = workSize;
-    p->heapId = tag;
-    p->unk_0c = 0;
-    p->destroyed = 0;
-    p->table = sub_02030734(heap, (((workSize + 3) & ~3) + 0x18) * count, 0,
-                            sub_0203101C_File, 207);
-    p->freeHead = 0;
-    sub_02030FC8(p);
-    sub_02030F50(p, &p->sentinel);
-    p->cursor = 0;
-    return p;
+    tcbl = sub_02030734(heapId, sizeof(struct TcblSystem), 0, tcbl_File, 199);
+    tcbl->taskCount = taskCount;
+    tcbl->workSize = workSize;
+    tcbl->workHeapId = workHeapId;
+    tcbl->reserved0C = 0;
+    tcbl->deletePending = 0;
+    tcbl->taskTable = sub_02030734(heapId, (((workSize + 3) & ~3) + 0x18) * taskCount, 0,
+                                   tcbl_File, 207);
+    tcbl->freeList = 0;
+    sub_02030FC8(tcbl);
+    sub_02030F50(tcbl, &tcbl->sentinel);
+    tcbl->current = 0;
+    return tcbl;
 }
 
 
@@ -1856,48 +1788,48 @@ struct Tcbl *sub_0203101C(u16 heap, u16 tag, u32 count, u32 workSize)
  *   python tools/match.py one --src src/matched/sub_020310C4.c \
  *       --func sub_020310C4 --addr 0x020310C4 --cc 1.1p1 --arm
  */
-void sub_020310C4(struct Tcbl *p)
+void sub_020310C4(struct TcblSystem *tcbl)
 {
-    struct TcblNode *s = &p->sentinel;
-    struct TcblNode *cur;
+    struct TcblTask *sentinel = &tcbl->sentinel;
+    struct TcblTask *cur;
 
-    cur = s->next;
-    p->cursor = cur;
-    while (cur != s) {
-        struct TcblNode *n = p->cursor;
-        p->destroyed = 0;
-        n->func(n, sub_02030FB4(n));
-        if (p->destroyed == 0) {
-            p->cursor = p->cursor->next;
+    cur = sentinel->next;
+    tcbl->current = cur;
+    while (cur != sentinel) {
+        struct TcblTask *task = tcbl->current;
+
+        tcbl->deletePending = 0;
+        task->func(task, sub_02030FB4(task));
+        if (tcbl->deletePending == 0) {
+            tcbl->current = tcbl->current->next;
         } else {
-            struct TcblNode *next = p->cursor->next;
-            sub_02030F70(p->cursor);
-            p->cursor = next;
+            struct TcblTask *next = tcbl->current->next;
+            sub_02030F70(tcbl->current);
+            tcbl->current = next;
         }
-        cur = p->cursor;
+        cur = tcbl->current;
     }
-    p->cursor = 0;
+    tcbl->current = 0;
 }
 
 
 
 
 /*
- * Two calls into the TwlSDK environment/resource module: first with a
- * pointer stashed at +0x14 of the argument, then with the argument itself.
- * ENV_SetResourceSet is the recovered SDK symbol at 0x020307B0
- * (TwlSDK/libenv.TWL.HYB.a(env_system.o)); this whole packet's accessors
- * (sub_0202FBAC and neighbours) read the resource-set table that
- * ENV_SetResourceSet installs.
+ * Destructor of the task-callback manager: free the task table at +0x14,
+ * then the manager block itself, both through the heap free
+ * sub_020307B0.  (layout/symbols_sdk.json offers the name
+ * ENV_SetResourceSet for 0x020307B0; it is a signature-matcher guess and the
+ * role here is the heap free, so the call goes to the local definition.)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02031140.c \
  *       --func sub_02031140 --addr 0x02031140 --cc 1.1p1
  */
-void sub_02031140(struct S02031140 *p)
+void sub_02031140(struct TcblSystem *tcbl)
 {
-    ENV_SetResourceSet(p->field14);
-    ENV_SetResourceSet(p);
+    sub_020307B0(tcbl->taskTable);
+    sub_020307B0(tcbl);
 }
 
 
@@ -1920,20 +1852,20 @@ void sub_02031140(struct S02031140 *p)
  *   python tools/match.py one --src src/matched/sub_0203115C.c \
  *       --func sub_0203115C --addr 0x0203115C --cc 1.1p1 --arm
  */
-void sub_0203115C(struct Tcbl *p)
+void sub_0203115C(struct TcblSystem *tcbl)
 {
-    struct TcblNode *s;
-    struct TcblNode *cur;
-    struct TcblNode *next;
+    struct TcblTask *sentinel;
+    struct TcblTask *cur;
+    struct TcblTask *next;
 
-    s = &p->sentinel;
-    cur = s->next;
-    p->cursor = cur;
-    while (cur != s) {
+    sentinel = &tcbl->sentinel;
+    cur = sentinel->next;
+    tcbl->current = cur;
+    while (cur != sentinel) {
         next = cur->next;
         sub_02030F70(cur);
         cur = next;
-        p->cursor = next;
+        tcbl->current = next;
     }
 }
 
@@ -1956,16 +1888,16 @@ void sub_0203115C(struct Tcbl *p)
  *   python tools/match.py one --src src/matched/sub_02031194.c \
  *       --func sub_02031194 --addr 0x02031194 --cc 1.1p1 --arm
  */
-void sub_02031194(struct TcblNode *n)
+void sub_02031194(struct TcblTask *task)
 {
-    struct Tcbl *p;
+    struct TcblSystem *tcbl;
 
-    p = n->owner;
-    if (p->cursor == n) {
-        p->destroyed = 1;
+    tcbl = task->owner;
+    if (tcbl->current == task) {
+        tcbl->deletePending = 1;
         return;
     }
-    sub_02030F70(n);
+    sub_02030F70(task);
 }
 
 
@@ -1996,48 +1928,44 @@ void sub_02031194(struct TcblNode *n)
  *   python tools/match.py one --src src/matched/sub_020311B8.c \
  *       --func sub_020311B8 --addr 0x020311B8 --cc 1.1p1 --arm
  */
-struct TcblNode *sub_020311B8(struct Tcbl *p, TcblFunc func, u32 workSize,
-                              u32 key)
+struct TcblTask *sub_020311B8(struct TcblSystem *tcbl, TcblFunc func, u32 workSize,
+                              u32 priority)
 {
-    struct TcblNode *n;
-    struct TcblNode *cur;
-    struct TcblNode *s;
+    struct TcblTask *task;
+    struct TcblTask *cur;
+    struct TcblTask *sentinel;
 
-    s = &p->sentinel;
-    n = sub_02030F04(p);
-    if (n == 0) {
+    sentinel = &tcbl->sentinel;
+    task = func_02030F04(tcbl);
+    if (task == 0) {
         return 0;
     }
-
-    n->key = key;
-    n->func = func;
-
-    if (workSize > p->workSize) {
-        n->work = sub_02030734(p->heapId, workSize, 0, sub_020311B8_File, 325);
+    task->priority = priority;
+    task->func = func;
+    if (workSize > tcbl->workSize) {
+        task->work = sub_02030734(tcbl->workHeapId, workSize, 0, tcbl_File, 325);
     } else {
-        n->work = 0;
+        task->work = 0;
     }
-
-    for (cur = s->next; cur != s; cur = cur->next) {
-        if (cur->key > n->key) {
-            n->prev = cur->prev;
-            n->next = cur;
-            cur->prev->next = n;
-            cur->prev = n;
-            return n;
+    for (cur = sentinel->next; cur != sentinel; cur = cur->next) {
+        if (cur->priority > task->priority) {
+            task->prev = cur->prev;
+            task->next = cur;
+            cur->prev->next = task;
+            cur->prev = task;
+            return task;
         }
     }
-
-    n->prev = p->sentinel.prev;
-    n->next = &p->sentinel;
-    p->sentinel.prev->next = n;
-    p->sentinel.prev = n;
-    return n;
+    task->prev = tcbl->sentinel.prev;
+    task->next = &tcbl->sentinel;
+    tcbl->sentinel.prev->next = task;
+    tcbl->sentinel.prev = task;
+    return task;
 }
 
 
 
-void func_02031288(int *p, int v){ p[5] = v; }
+void func_02031288(struct TcblTask *task, TcblFunc func){ task->func = func; }
 
 
 
@@ -2052,7 +1980,7 @@ void func_02031288(int *p, int v){ p[5] = v; }
  *   python tools/match.py one --src src/matched/sub_02031290.c \
  *       --func sub_02031290 --addr 0x02031290 --cc 1.1p1
  */
-void *sub_02031290(struct TcblNode *p)
+void *sub_02031290(struct TcblTask *task)
 {
-    return sub_02030FB4(p);
+    return sub_02030FB4(task);
 }

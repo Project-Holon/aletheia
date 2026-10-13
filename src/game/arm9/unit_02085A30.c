@@ -12,7 +12,7 @@
  */
 #include "../../matched/include/Obj01024.h"
 
-void *func_02085A30(char *p)
+void *func_02085A30(char *thread)
 {
-    return ((struct Obj01024 *)p)->f70;
+    return ((struct Obj01024 *)thread)->f70;
 }

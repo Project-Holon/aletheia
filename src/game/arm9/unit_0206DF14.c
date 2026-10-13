@@ -20,6 +20,11 @@ typedef unsigned int u32;
 extern void func_0207D988(void);
 extern void func_0206A700(void);
 
+/*
+ * NNS_G3dInit shape: initialise the geometry engine, reset the NNS_G3dGlb
+ * block, then set the geometry FIFO interrupt condition (GXSTAT bits 30..31)
+ * to 2, "FIFO empty".
+ */
 void func_0206DF14(void)
 {
     func_0207D988();

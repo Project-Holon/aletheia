@@ -29,52 +29,55 @@
  *   g_020A1482  0x020A1482  data
  */
 struct Bmp;
-struct Obj020437AC;
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
+/* Work record of the debug text printer: one rendered 8x8 glyph (4bpp, 0x20
+ * bytes), its advance width, and the print cursor. */
 typedef struct {
-    u8  pixels[0x20];
-    u8  width;
-    u8  pad21;
-    u16 x;
-    u16 y;
-} TextCtx;
+    u8  glyphPixels[0x20];
+    u8  glyphWidth;
+    u8  padding21;
+    u16 cursorX;
+    u16 cursorY;
+} TextPrintWork;
 
+/* Same object as struct DebugConsole in gf_overlay.c (bytes 0..0xB; the
+ * flags byte at 0xB is not read here). */
 typedef struct {
-    void *bmp;
-    u16 x;
-    u16 y;
-    u8  letterSpace;
-    u8  lineSpace;
-    u8  fg : 4;
-    u8  bg : 4;
+    struct Bmp *charBitmap;
+    u16 cursorX;
+    u16 cursorY;
+    u8  advanceX;
+    u8  advanceY;
+    u8  fgColor : 4;
+    u8  bgColor : 4;
 } TextParam;
 
-extern int func_020463C0(void);
-extern int func_020463D8(void);
-extern void  func_020463E0(u32 fg, u32 bg);
-extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern u16   func_02045A98(void);
-extern void func_02046300(int idx, u8 *out);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_020437AC(struct Obj020437AC *p);
-extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020307B0(void *p);
-void func_0204E130(u32 a);
-extern void func_020461F4(u32 a);
-void func_0204E180(const u16 *str, TextParam *pp);
-void func_0204E328(u32 a0, u32 a1);
-void func_0204E388(char *p, u16 *out, int max);
-u16 func_0204E410(u8 c);
-u16 func_0204E4C0(u16 c);
-extern TextCtx *g_02146A78;
+extern int func_020463C0(void);  /* glyph height */
+extern int func_020463D8(void);  /* full-width space width */
+extern void  func_020463E0(u32 fgColor, u32 bgColor);
+extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
+extern u16   func_02045A98(void);  /* string terminator code */
+extern void func_02046300(int glyphIndex, u8 *glyphOut);
+extern void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
+extern void func_020437AC(struct Bmp *bmp);
+extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
+extern u32 func_020307B0(void *block);
+void func_0204E130(u32 fontId);
+extern void func_020461F4(u32 fontId);
+void func_0204E180(const u16 *codes, TextParam *console);
+void func_0204E328(char *text, TextParam *console);
+void func_0204E388(char *text, u16 *out, int maxCodes);
+u16 func_0204E410(u8 asciiChar);
+u16 func_0204E4C0(u16 sjisChar);
+extern TextPrintWork *g_02146A78;  /* the printer singleton */
 extern const char s_textprint_c[];
-extern u8 g_020A1480[];
-extern u16 g_020A1482[];
+extern u8 g_020A1480[];    /* symbol key table: 16 records, key byte */
+extern u16 g_020A1482[];   /* symbol key table: same records, glyph code at +2 */
 
 
 
@@ -109,10 +112,10 @@ extern u16 g_020A1482[];
  *   python tools/match.py one --src src/pending/func_0204E130.c \
  *       --func func_0204E130 --addr 0x0204E130 --cc 1.1p1 --arm
  */
-void func_0204E130(u32 a)
+void func_0204E130(u32 fontId)
 {
     if (g_02146A78 == 0) {
-        func_020461F4(a);
+        func_020461F4(fontId);
         g_02146A78 = func_02030734(0, 0x26, 0, s_textprint_c, 51);
     }
 }
@@ -120,56 +123,57 @@ void func_0204E130(u32 a)
 
 /*
  * textprint.c: draw a u16 string with the fixed 8x8 debug font into
- * pp->bmp at pp->x/pp->y.  Control codes: 1 newline (x back to pp->x, y
- * down by font height + line space), 2 a full-width space (7), 3 a half
- * space; every other code c renders glyph c - 4 into the 0x26-byte context
- * at g_02146A78 and blits it.  The cursor is written back to pp at the end.
+ * console->charBitmap at the console cursor.  Control codes: 1 newline (x
+ * back to the console's start column, y down by font height + advanceY),
+ * 2 a full-width space (7), 3 a half space; every other code renders glyph
+ * code - 4 into the 0x26-byte work record at g_02146A78 and blits it.  The
+ * cursor is written back to the console at the end.
  *
- * Shape facts: case 2 is `x = x + width` (the compound form truncates
- * width to u16 first); the loop test is `eom != *str` (cmp operand order);
- * locals declared eom, glyph, width, height so the callee-saved registers
+ * Shape facts: case 2 is `x = x + spaceWidth` (the compound form
+ * truncates it to u16 first); the loop test is `endCode != *codes` (cmp
+ * operand order); locals declared endCode, glyphBmp, spaceWidth, glyphHeight so the callee-saved registers
  * land as in the image.
  */
-void func_0204E180(const u16 *str, TextParam *pp)
+void func_0204E180(const u16 *codes, TextParam *console)
 {
-    u16 eom;
-    void *glyph;
-    u32 width;
-    u32 height;
-    u16 c;
+    u16 endCode;
+    struct Bmp *glyphBmp;
+    u32 spaceWidth;
+    u32 glyphHeight;
+    u16 code;
 
-    height = func_020463C0();
-    width = func_020463D8();
-    g_02146A78->x = pp->x;
-    g_02146A78->y = pp->y;
-    func_020463E0(pp->fg, pp->bg);
-    glyph = func_020436FC(g_02146A78, 1, 1, 0x20, 0);
-    eom = func_02045A98();
-    while (eom != *str) {
-        c = *str;
-        str++;
-        switch (c) {
+    glyphHeight = func_020463C0();
+    spaceWidth = func_020463D8();
+    g_02146A78->cursorX = console->cursorX;
+    g_02146A78->cursorY = console->cursorY;
+    func_020463E0(console->fgColor, console->bgColor);
+    glyphBmp = func_020436FC(g_02146A78, 1, 1, 0x20, 0);
+    endCode = func_02045A98();
+    while (endCode != *codes) {
+        code = *codes;
+        codes++;
+        switch (code) {
         case 1:
-            g_02146A78->x = pp->x;
-            g_02146A78->y += (u16)(height + pp->lineSpace);
+            g_02146A78->cursorX = console->cursorX;
+            g_02146A78->cursorY += (u16)(glyphHeight + console->advanceY);
             break;
         case 2:
-            g_02146A78->x = g_02146A78->x + width;
+            g_02146A78->cursorX = g_02146A78->cursorX + spaceWidth;
             break;
         case 3:
-            g_02146A78->x += (u16)(width / 2);
+            g_02146A78->cursorX += (u16)(spaceWidth / 2);
             break;
         default:
-            func_02046300((u16)(c - 4), (u8 *)g_02146A78);
-            func_020439A0(glyph, pp->bmp, 0, 0, g_02146A78->x, g_02146A78->y,
-                          g_02146A78->width, height, 0);
-            g_02146A78->x += (u16)(g_02146A78->width + pp->letterSpace);
+            func_02046300((u16)(code - 4), (u8 *)g_02146A78);
+            func_020439A0(glyphBmp, console->charBitmap, 0, 0, g_02146A78->cursorX, g_02146A78->cursorY,
+                          g_02146A78->glyphWidth, glyphHeight, 0);
+            g_02146A78->cursorX += (u16)(g_02146A78->glyphWidth + console->advanceX);
             break;
         }
     }
-    pp->x = g_02146A78->x;
-    pp->y = g_02146A78->y;
-    func_020437AC(glyph);
+    console->cursorX = g_02146A78->cursorX;
+    console->cursorY = g_02146A78->cursorY;
+    func_020437AC(glyphBmp);
 }
 
 
@@ -194,13 +198,13 @@ void func_0204E180(const u16 *str, TextParam *pp)
  *   python tools/match.py one --src src/pending/func_0204E328.c \
  *       --func func_0204E328 --addr 0x0204E328 --cc 1.1p1 --arm
  */
-void func_0204E328(u32 a0, u32 a1)
+void func_0204E328(char *text, TextParam *console)
 {
-    void *buf = func_02030734(0, 0x200, 0, s_textprint_c, 0xae);
+    void *codeBuf = func_02030734(0, 0x200, 0, s_textprint_c, 0xae);
 
-    func_0204E388((char *)a0, buf, 0x100);
-    func_0204E180((const u16 *)buf, (TextParam *)a1);
-    func_020307B0(buf);
+    func_0204E388(text, codeBuf, 0x100);
+    func_0204E180((const u16 *)codeBuf, console);
+    func_020307B0(codeBuf);
 }
 
 
@@ -223,22 +227,22 @@ void func_0204E328(u32 a0, u32 a1)
  * and a compare, and the two-byte value is spelled `(ch << 8) + *p`, not
  * `|`: the original shows `add r0,r1,r0,lsl #8` (one byte at +0x40).
  */
-void func_0204E388(char *p, u16 *out, int max)
+void func_0204E388(char *text, u16 *out, int maxCodes)
 {
-    int n = 0;
-    u16 c;
+    int count = 0;
+    u16 glyphCode;
 
-    while (*p != 0 && n < max - 1) {
-        u8 ch = *p;
+    while (*text != 0 && count < maxCodes - 1) {
+        u8 ch = *text;
 
-        p++;
+        text++;
         if ((ch >= 0x81 && ch <= 0x9f) || ch >= 0xe0)
-            c = func_0204E4C0((u16)((ch << 8) + (u8)*p++));
+            glyphCode = func_0204E4C0((u16)((ch << 8) + (u8)*text++));
         else
-            c = func_0204E410(ch);
-        if (c != 0xfffe) {
-            *out++ = c;
-            n++;
+            glyphCode = func_0204E410(ch);
+        if (glyphCode != 0xfffe) {
+            *out++ = glyphCode;
+            count++;
         }
     }
     *out = func_02045A98();
@@ -276,23 +280,23 @@ void func_0204E388(char *p, u16 *out, int max)
  * `lsl r3, ip, #2` above the compare, exactly as the image has it.  That
  * took the residue from 25 bytes to 0.
  */
-u16 func_0204E410(u8 c)
+u16 func_0204E410(u8 asciiChar)
 {
-    u32 i;
+    u32 slot;
 
-    if (c >= 0x61 && c <= 0x7a)
-        return (u16)(c + 0x79);
-    if (c >= 0x41 && c <= 0x5a)
-        return (u16)(c + 0x7f);
-    if (c >= 0x30 && c <= 0x39)
-        return (u16)(c + 0x86);
-    if (c >= 0x21 && c <= 0x2f)
-        return (u16)(c + 0xd3);
-    for (i = 0; i < 0x10; i++) {
-        u32 off = i << 2;
+    if (asciiChar >= 0x61 && asciiChar <= 0x7a)
+        return (u16)(asciiChar + 0x79);
+    if (asciiChar >= 0x41 && asciiChar <= 0x5a)
+        return (u16)(asciiChar + 0x7f);
+    if (asciiChar >= 0x30 && asciiChar <= 0x39)
+        return (u16)(asciiChar + 0x86);
+    if (asciiChar >= 0x21 && asciiChar <= 0x2f)
+        return (u16)(asciiChar + 0xd3);
+    for (slot = 0; slot < 0x10; slot++) {
+        u32 byteOffset = slot << 2;
 
-        if (c == g_020A1480[i * 4])
-            return *(u16 *)((u8 *)g_020A1482 + off);
+        if (asciiChar == g_020A1480[slot * 4])
+            return *(u16 *)((u8 *)g_020A1482 + byteOffset);
     }
     return 0x101;
 }
@@ -321,25 +325,25 @@ u16 func_0204E410(u8 c)
  *   python tools/match.py one --src src/matched/func_0204E4C0.c \
  *       --func func_0204E4C0 --addr 0x0204E4C0 --cc 1.1p1 --arm
  */
-u16 func_0204E4C0(u16 c)
+u16 func_0204E4C0(u16 sjisChar)
 {
-    if (c >= 0x829F && c <= 0x829F + 0x52)
-        return c + (4 - 0x829F);
-    if (c >= 0x8340 && c <= 0x8340 + 0x53)
-        return c + (0x57 - 0x8340);
-    if (c >= 0x8281 && c <= 0x8281 + 0x19)
-        return c + (0xDA - 0x8281);
-    if (c >= 0x8260 && c <= 0x8260 + 0x19)
-        return c + (0x8260 - 0x10400);
-    if (c >= 0x824F && c <= 0x824F + 9)
-        return c + (0xAC - 0x824F);
-    if (c == 0x8189)
+    if (sjisChar >= 0x829F && sjisChar <= 0x829F + 0x52)
+        return sjisChar + (4 - 0x829F);
+    if (sjisChar >= 0x8340 && sjisChar <= 0x8340 + 0x53)
+        return sjisChar + (0x57 - 0x8340);
+    if (sjisChar >= 0x8281 && sjisChar <= 0x8281 + 0x19)
+        return sjisChar + (0xDA - 0x8281);
+    if (sjisChar >= 0x8260 && sjisChar <= 0x8260 + 0x19)
+        return sjisChar + (0x8260 - 0x10400);
+    if (sjisChar >= 0x824F && sjisChar <= 0x824F + 9)
+        return sjisChar + (0xAC - 0x824F);
+    if (sjisChar == 0x8189)
         return 0xCC;
-    if (c == 0x8189 + 1)
+    if (sjisChar == 0x8189 + 1)
         return 0xC5;
-    if (c == 0x8189 - 0x49)
+    if (sjisChar == 0x8189 - 0x49)
         return 2;
-    if (c == 0x8189 - 0x2E)
+    if (sjisChar == 0x8189 - 0x2E)
         return 0x51;
     return 0x0101;
 }

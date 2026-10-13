@@ -15,11 +15,13 @@
  * symbols:
  *   func_02198020  0x02198020  arm
  */
-extern void func_02198020(int *p, int v);
-extern int func_0219569C(void *connection, void *callbacks);
+#include "unit_02195B20_types.h"
+
+extern void func_02198020(GTI2Socket *socket, void *connectAttemptCallback);
+extern int func_0219569C(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks);
 extern void func_021956F8(void);
-void func_02195B20(int *p, int v);
-int func_02195B2C(void *connection, void *callbacks);
+void func_02195B20(GTI2Socket *socket, void *connectAttemptCallback);
+int func_02195B2C(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks);
 void func_02195B38(void);
 
 
@@ -33,9 +35,9 @@ void func_02195B38(void);
  * via `matched`.  Packet renamed from pkt_02155168 so this promotion does
  * not rewrite that packet's shard.
  */
-void func_02195B20(int *p, int v)
+void func_02195B20(GTI2Socket *socket, void *connectAttemptCallback)
 {
-    func_02198020(p, v);
+    func_02198020(socket, connectAttemptCallback);
 }
 
 
@@ -44,7 +46,7 @@ void func_02195B20(int *p, int v)
  * target`, which this compiler emits for a tail call to a callee whose
  * address has to come from a pool.
  */
-int func_02195B2C(void *connection, void *callbacks)
+int func_02195B2C(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks)
 {
     return func_0219569C(connection, callbacks);
 }
